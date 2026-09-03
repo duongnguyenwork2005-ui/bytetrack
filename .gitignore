@@ -1,0 +1,24 @@
+# --- Du lieu goc / da giai nen: qua lon (~10GB) va la dataset co ban quyen,
+#     KHONG redistribute. Xem README.md muc "Tai bo anh train" de tai lai. ---
+data/raw/
+data/extracted/
+
+# --- File trung gian nang, tai tao duoc bang script (xem README) ---
+data/interim/*.parquet
+
+# --- Trong so model (.pt) - tu dong tai lai boi ultralytics / src/baseline_track.py ---
+models/*.pt
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# --- Ultralytics tao ra khi train/predict (khong dung o project nay nhung de phong) ---
+runs/
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/

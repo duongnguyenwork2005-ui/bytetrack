@@ -1,0 +1,16 @@
+# --- Giai doan 1: data pipeline ---
+gdown>=5.1.0          # tai file lon tu Google Drive (tu dong xu ly virus-scan confirm token)
+pandas>=2.0.0         # DataFrame chuan hoa annotation
+numpy>=1.24.0
+scipy>=1.10.0         # Savitzky-Golay smoothing khi tinh curvature
+tqdm>=4.65.0          # progress bar
+lxml>=4.9.0           # parse XML nhanh (fallback ve ElementTree neu thieu)
+pyarrow>=12.0.0       # luu DataFrame dang .parquet
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# --- Giai doan 2: baseline YOLOv8 + ByteTrack + TrackEval ---
+torch>=2.0.0          # backend cho YOLOv8 (cai ban co CUDA rieng neu co GPU)
+ultralytics>=8.3.0    # YOLOv8 detector + ByteTrack tich hop san (mode="track")
+opencv-python>=4.8.0  # doc anh, ve minh hoa
+trackeval>=1.3.0      # JonathonLuiten/TrackEval (ban dong goi tren PyPI) - tinh MOTA/IDF1/HOTA
