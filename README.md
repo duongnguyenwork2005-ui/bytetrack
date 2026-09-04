@@ -12,7 +12,7 @@ vào hiệu năng khi xe **bị che khuất** và **di chuyển phi tuyến** (r
 |---|---|---|
 | 1 | Tải dữ liệu & data pipeline | ✅ Xong |
 | 2 | Baseline YOLOv8 + ByteTrack + TrackEval | ✅ Xong — **baseline đã khoá** |
-| 3 | EKF + CTRV | ⏳ Chưa bắt đầu |
+| 3 | EKF + CTRV | ✅ Xong — chờ review |
 | 4 | UKF + CTRV | ⏳ Chưa bắt đầu |
 | 5 | Thực nghiệm đầy đủ & phân tích | ⏳ Chưa bắt đầu |
 
@@ -42,8 +42,13 @@ UA-DETRAC test/
 │   ├── to_motchallenge.py     # Xuất format MOTChallenge cho TrackEval
 │   ├── occlusion_segments.py  # Phát hiện đoạn che khuất, phân nhóm độ dài
 │   ├── curvature.py           # Tính độ cong quỹ đạo, phân nhóm thẳng/cong
-│   ├── baseline_track.py      # Baseline: YOLOv8 (pretrained) + ByteTrack
-│   └── run_trackeval.py       # Chạy TrackEval -> MOTA / IDF1 / HOTA
+│   ├── baseline_track.py      # Chạy YOLOv8 + ByteTrack (chọn motion model)
+│   ├── run_trackeval.py       # Chạy TrackEval -> MOTA / IDF1 / HOTA
+│   ├── ekf_ctrv.py            # EKF + mô hình CTRV (phần toán cốt lõi)
+│   ├── tracker_ctrv.py        # Ghép bộ lọc CTRV vào ByteTrack
+│   ├── test_ekf_ctrv.py       # Unit test cho EKF (14 phép kiểm tra)
+│   └── compare_extrapolation.py  # So sánh ngoại suy CV vs CTRV (mô phỏng)
+├── configs/                   # File cấu hình tracker (.yaml)
 ├── models/                    # Trọng số YOLOv8 (.pt) tải về
 ├── data/
 │   ├── raw/                   # File .zip tải về
@@ -347,6 +352,93 @@ sẵn ở Giai đoạn 1 (`to_motchallenge.py --split-name DETRAC-sample`) khớ
   nhạy cảm với ID switch hơn MOTA → phù hợp để đo riêng ảnh hưởng của occlusion
   lên khả năng giữ đúng ID của motion model (câu hỏi trọng tâm của đề tài).
 
+### `src/ekf_ctrv.py` — phần toán cốt lõi của Giai đoạn 3
+Extended Kalman Filter với mô hình **CTRV** (Constant Turn Rate and Velocity),
+viết để **thay thế trực tiếp** `KalmanFilterXYAH` của ultralytics (cùng tên
+phương thức, cùng ý nghĩa tham số).
+
+**Vector trạng thái 9 chiều:**
+```
+x = [ cx, cy, v, theta, omega, a, h, va, vh ]
+      0   1   2    3      4    5  6   7   8
+```
+Chia làm 2 khối có chủ đích:
+- `(cx, cy, v, theta, omega)` — CTRV, **phi tuyến**, đây là thứ *duy nhất* khác baseline
+- `(a, h, va, vh)` — vẫn Constant Velocity tuyến tính, **giữ nguyên 100%** giống
+  baseline kể cả các hệ số nhiễu `1/20`, `1/160`, `1e-2`, `1e-5`
+
+Mục đích: cô lập đúng **một** biến nghiên cứu. Nếu đổi luôn cả động học kích
+thước bbox thì khi kết quả thay đổi sẽ không biết do CTRV hay do thứ kia.
+
+**Hàm chuyển trạng thái** (dt = 1 frame), với `s0=sin(θ)`, `c0=cos(θ)`,
+`s1=sin(θ+ω·dt)`, `c1=cos(θ+ω·dt)`:
+
+```
+|omega| > eps  (xe đang quay — quỹ đạo là cung tròn bán kính R = v/omega):
+    cx' = cx + (v/omega)·(s1 − s0)
+    cy' = cy + (v/omega)·(c0 − c1)
+    theta' = theta + omega·dt ,  v' = v ,  omega' = omega
+
+|omega| <= eps  (giới hạn khi omega → 0, tránh chia cho 0):
+    cx' = cx + v·c0·dt
+    cy' = cy + v·s0·dt
+```
+
+**Jacobian tại `omega ≈ 0` — chỗ dễ sai nhất.** Hai đạo hàm theo `omega` **không
+bằng 0**, mà lấy từ số hạng bậc 1 của khai triển Taylor:
+```
+d(cx')/d(omega) = −0.5·v·dt²·s0
+d(cy')/d(omega) = +0.5·v·dt²·c0
+```
+Nếu đặt bằng 0 (lỗi thường gặp), bộ lọc sẽ **không bao giờ học được `omega`** khi
+xe đang đi thẳng → không phát hiện được lúc xe bắt đầu rẽ. Unit test 5b bắt đúng lỗi này.
+
+**Mô hình đo tuyến tính:** `z = [cx, cy, a, h]` — *giống hệt* baseline. Hệ quả
+quan trọng: bước `update` của EKF trùng khít với KF chuẩn (không có xấp xỉ nào),
+nên **toàn bộ tính phi tuyến nằm gọn trong bước `predict`** — đúng thứ đề tài muốn
+đo. Ngoài ra vì không gian đo y hệt baseline, ByteTrack vẫn ghép cặp bằng IoU trên
+cùng loại bbox → **data association hoàn toàn không bị ảnh hưởng**.
+
+**Khởi tạo 2 khung hình — bắt buộc với CTRV.** Khi track mới sinh ta chỉ có 1 quan
+sát, không biết hướng. Nếu đặt `v=0, theta=0` như cách baseline đặt `vx=vy=0` thì
+CTRV **bị kẹt cứng**: mọi phần tử Jacobian liên quan `theta` đều tỉ lệ với `v`
+(`d(cx')/d(theta) = −v·s0·dt`), nên `v=0` làm chúng bằng 0 → `theta` không bao giờ
+nhận được thông tin. Một xe đi thẳng đứng theo trục y sẽ **không bao giờ** học được
+`v` lẫn `theta`. Baseline KF không gặp lỗi này vì CV tuyến tính, `vx`/`vy` độc lập.
+Cách xử lý (chuẩn trong tài liệu CTRV/CTRA): ước lượng `v`, `theta` từ **hai quan
+sát đầu tiên**. Đây không phải "ưu ái" cho EKF mà là sửa khiếm khuyết của cách tham
+số hoá toạ độ cực — unit test 9c đo được: khởi tạo naive sai **12.9 px**, khởi tạo
+2 khung hình sai **0.0 px**.
+
+### `src/tracker_ctrv.py`
+Ghép bộ lọc CTRV vào ByteTrack. Sau khi đọc mã nguồn `byte_tracker.py`, xác định
+trong toàn bộ file chỉ có **đúng 3 vị trí** chạm vào bố cục vector trạng thái:
+
+| Dòng | Nội dung | Xử lý |
+|---|---|---|
+| 82 | `mean_state[7] = 0` trong `predict` | Đổi chỉ số 7 → 8 (`vh` ở vị trí mới) |
+| 94 | `multi_mean[i][7] = 0` trong `multi_predict` | Đổi chỉ số + dùng `shared_kalman` của lớp mới |
+| 167 | `ret = self.mean[:4]` trong property `tlwh` | Đọc chỉ số `[0,1,5,6]` thay vì `[:4]` |
+
+`matching.py` (phần ghép cặp) **không hề đọc** `mean`/`covariance` — chỉ dùng IoU
+trên bbox `tlwh`. Đây là bằng chứng thay motion model không ảnh hưởng association.
+
+**Cố ý KHÔNG xoá `omega` khi track bị mất** (chỉ xoá `vh` giống baseline): khi xe
+bị che khuất giữa khúc cua, việc tiếp tục quay theo `omega` đã học được **chính là**
+ưu thế mà đề tài muốn đo. Xoá `omega` sẽ làm CTRV thoái hoá thành CV.
+
+### `src/test_ekf_ctrv.py`
+14 phép kiểm tra, chạy `python src/test_ekf_ctrv.py` để xem báo cáo chi tiết:
+đối chiếu với ví dụ **tính tay**, **Jacobian giải tích vs sai phân số**, kiểm tra
+liên tục tại `omega → 0`, đi hết 1 vòng tròn phải về đúng chỗ cũ, `P` luôn đối
+xứng và xác định dương sau 200 vòng lặp, và bằng chứng cho khởi tạo 2 khung hình.
+
+### `src/compare_extrapolation.py`
+Thí nghiệm **mô phỏng** cô lập đúng cơ chế mà đề tài giả thiết: cho xe chạy theo
+quỹ đạo CTRV đã biết trước, cho cả 2 bộ lọc quan sát 25 frame, rồi **cắt detection**
+và bắt chúng chỉ dự đoán (đúng như lúc bị che khuất hoàn toàn). Bộ lọc CV dùng
+đúng lớp `KalmanFilterXYAH` của ultralytics nên so sánh là tuyệt đối công bằng.
+
 ---
 
 ## Kết quả Giai đoạn 1
@@ -504,6 +596,100 @@ association giữ nguyên để đảm bảo cả 3 phương pháp nhận cùng 
 
 ---
 
+## Kết quả Giai đoạn 3 — EKF + CTRV
+
+### Chạy pipeline
+
+```bash
+python src/test_ekf_ctrv.py                       # unit test (chạy TRƯỚC khi tích hợp)
+python src/compare_extrapolation.py --plot        # thí nghiệm mô phỏng CV vs CTRV
+python src/baseline_track.py --motion-model ekf_ctrv
+python src/run_trackeval.py --split-name DETRAC-sample --tracker yolov8n-ekf-ctrv
+```
+
+### 1. Unit test: 14/14 PASS
+Đáng chú ý nhất:
+
+| Phép kiểm tra | Kết quả |
+|---|---|
+| Quỹ đạo cong `omega=90°/frame` vs tính tay | khớp tới 9 chữ số thập phân |
+| Jacobian giải tích vs sai phân số (cong) | sai lệch `1.3e-08` |
+| Jacobian tại `omega ≈ 0` (công thức giới hạn) | sai lệch `1.2e-06` |
+| Đi hết 1 vòng tròn 36 bước | về đúng chỗ cũ, lệch `3.6e-13` px |
+| `P` đối xứng + xác định dương sau 200 vòng | trị riêng nhỏ nhất `2e-10 > 0` |
+
+### 2. Kiểm chứng công bằng trước khi so sánh
+Chạy cả 2 bộ lọc trên cùng video, đo sai số giữa vận tốc bộ lọc ước lượng và
+dịch chuyển **thực tế** của tâm bbox:
+
+| Bộ lọc | v thực | v ước lượng | Tỉ lệ | Sai số tương đối |
+|---|---|---|---|---|
+| KF + CV (baseline) | 2.406 | 2.079 | 0.86 | 32.6% |
+| EKF + CTRV | 2.432 | 2.102 | **0.86** | **32.6%** |
+
+Hai bộ lọc trễ **y hệt nhau** → cách đặt nhiễu quá trình của EKF không thiên lệch.
+(Việc ước lượng thiếu ~14% là đặc tính trễ vốn có của Kalman filter, cả hai đều bị.)
+
+### 3. Thí nghiệm mô phỏng: cơ chế của giả thuyết có hoạt động không?
+
+Sai số ngoại suy vị trí (px) khi bị che khuất — bảng đầy đủ ở
+`results/extrapolation_cv_vs_ctrv.csv`, hình ở `results/extrapolation_cv_vs_ctrv.png`:
+
+| Đoạn che | Turn rate | CV (baseline) | CTRV (EKF) | Chênh lệch |
+|---|---|---|---|---|
+| 0.2s | 0°/f (thẳng) | **1.76** | 2.10 | ngang nhau |
+| 0.2s | 3°/f (rẽ) | 13.22 | **2.15** | CTRV tốt hơn 6× |
+| 0.8s | 0°/f | **2.88** | 5.11 | CV tốt hơn |
+| 0.8s | 3°/f | 60.97 | **5.24** | CTRV tốt hơn 12× |
+| 2.0s | 0°/f | **5.18** | 15.71 | CV tốt hơn 3× |
+| 2.0s | 3°/f | 217.41 | **14.51** | CTRV tốt hơn **15×** |
+
+**Kết luận:** cơ chế mà khoá luận giả thiết là **có thật và rất mạnh**. Sai số của
+CTRV gần như **phẳng** bất kể xe rẽ gấp bao nhiêu, còn sai số CV **tăng tuyến tính**
+theo turn rate. Đổi lại, khi xe đi **thẳng tuyệt đối** thì CTRV kém hơn vì nó ước
+lượng nhầm một `omega` nhỏ từ nhiễu đo rồi tích luỹ thành đường cong sai.
+
+> **Một lỗi tôi đã mắc và sửa** (nên ghi vào luận văn vì đây là bẫy phổ biến):
+> ban đầu tôi đặt nhiễu quá trình `CTRV_STD_OMEGA = 0.05 rad/frame²`, lấy từ *độ
+> lớn* `omega` đo được ở Giai đoạn 1. **Sai về khái niệm:** nhiễu quá trình phải là
+> *mức thay đổi của omega mỗi frame*, không phải độ lớn của chính omega. Xe tăng
+> turn rate từ 0 lên 3°/frame trong ~1 giây ⇒ `d(omega)/dt ≈ 0.002 rad/frame²`,
+> nhỏ hơn 25 lần. Đặt sai làm `omega` "lang thang" theo nhiễu: sai số ngoại suy
+> trung bình có trọng số **23.2 px**; sau khi sửa còn **7.2 px** (CV: 33.5 px).
+> Vùng tối ưu khá phẳng (`theta` 0.005–0.02, `omega` 0.002–0.01 đều cho 7.2–8.1 px)
+> nên kết quả không nhạy cảm với lựa chọn chính xác.
+
+### 4. Kết quả trên video thật (5 video mẫu)
+
+| Motion model | HOTA | DetA | AssA | MOTA | IDF1 | FP | FN | IDSW |
+|---|---|---|---|---|---|---|---|---|
+| KF + CV (baseline) | **0.6367** | **0.6099** | **0.6668** | **0.7175** | **0.8300** | 2.616 | **12.324** | **129** |
+| EKF + CTRV | 0.6346 | 0.6090 | 0.6633 | 0.7161 | 0.8253 | **2.608** | 12.386 | 154 |
+| Chênh lệch | −0.33% | −0.14% | −0.52% | −0.21% | −0.56% | −8 | +62 | +25 |
+
+**EKF + CTRV thấp hơn baseline một chút trên tập mẫu này.** Đây là kết quả thật,
+không phải lỗi cài đặt — đã loại trừ bằng 3 lớp kiểm chứng ở trên.
+
+**Vì sao mô phỏng thắng đậm mà video thật lại thua?**
+1. **Ưu thế của CTRV chỉ phát huy khi KHÔNG có detection.** Với detector khá tốt,
+   phần lớn track có detection gần như mọi frame; lúc đó motion model chỉ dùng để
+   dự đoán **1 frame** cho việc ghép cặp IoU — ở khoảng đó CV và CTRV gần như
+   ngang nhau (1.76 vs 2.10 px khi đi thẳng).
+2. **Chuyển động trong UA-DETRAC chủ yếu gần thẳng trong hệ toạ độ ảnh.** Từ bảng
+   mô phỏng, CTRV chỉ thắng khi turn rate ≥ 0.5°/frame; phần lớn track không đạt mức đó.
+3. **Đoạn che khuất chủ yếu ngắn.** Giai đoạn 1 đo được: 63.4% đoạn che ≥90% là
+   `short` (<0.5s) — đúng vùng CV vẫn còn tốt.
+4. CTRV có **5 trạng thái** cho chuyển động tâm so với 4 của CV → nhiều tham số
+   phải ước lượng hơn từ cùng lượng dữ liệu → phương sai cao hơn, trả giá nhẹ ở
+   mọi nơi (thể hiện ở IDSW +25).
+
+**Điều này KHÔNG bác bỏ giả thuyết của khoá luận** — nó cho thấy chỉ số **tổng hợp
+che lấp hiệu ứng**, và đó chính xác là lý do đề cương yêu cầu **phân tích phân tầng**
+theo độ dài che khuất và độ cong ở Giai đoạn 5. Thí nghiệm mô phỏng đã chứng minh
+cơ chế tồn tại; việc còn lại là đo nó trên đúng nhóm dữ liệu mà nó phát huy.
+
+---
+
 ## Tải bộ ảnh train (thủ công)
 
 Annotation XML đã tải xong (13.1 MB, 60 video). Còn thiếu **bộ ảnh train**.
@@ -600,4 +786,6 @@ Kết quả mong đợi: `60 video, status = OK`, tổng ảnh **83.791**, frame
 | `data/interim/baseline_track_summary_yolov8n-bytetrack.csv` | Thời gian chạy, số bbox/track theo video |
 | `results/curvature_examples.png` | Minh hoạ quỹ đạo theo nhóm độ cong |
 | `results/baseline_example_MVI_40204_frame300.png` | Minh hoạ trực quan GT vs baseline tracker |
-| `results/trackeval/DETRAC-sample/yolov8n-bytetrack/*.csv` | Kết quả HOTA/MOTA/IDF1 chi tiết + tổng hợp |
+| `results/trackeval/DETRAC-sample/<tracker>/*.csv` | Kết quả HOTA/MOTA/IDF1 chi tiết + tổng hợp |
+| `results/comparison_DETRAC-sample.csv` | Bảng so sánh trực tiếp các motion model |
+| `results/extrapolation_cv_vs_ctrv.csv/.png` | Thí nghiệm mô phỏng ngoại suy CV vs CTRV |

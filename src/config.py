@@ -223,3 +223,79 @@ BYTETRACK_CFG = "bytetrack.yaml"    # file cau hinh mac dinh di kem ultralytics
 # vao detector - giong mau padding mac dinh cua YOLO (114,114,114) nen khong tao
 # ra canh gia (artifact) lam detector chu y nham.
 IGNORE_MASK_COLOR_BGR = (114, 114, 114)
+
+
+# ---------------------------------------------------------------------------
+# 8. GIAI DOAN 3-4 - MO HINH CHUYEN DONG CTRV (dung cho EKF va UKF)
+# ---------------------------------------------------------------------------
+# Don vi thoi gian cua bo loc la 1 FRAME (dt = 1), giong het baseline cua
+# ultralytics. Do do:
+#   v     [px / frame]
+#   omega [rad / frame]
+CTRV_DT = 1.0
+
+# Nguong coi omega ~ 0 -> chuyen sang cong thuc gioi han (di thang deu),
+# tranh chia cho 0 trong (v/omega). Chon 1e-4 rad/frame = 0.0025 rad/s:
+# nho hon rat nhieu so voi turn rate thuc te do duoc o Giai doan 1
+# (median |omega| ~ 0.6-1.3 rad/s), nen khong bao gio "nuot" mat chuyen dong cong that.
+CTRV_OMEGA_EPS = 1e-4
+
+# --- Nhieu qua trinh Q (process noise) ---
+# Cac thanh phan cx, cy, a, h, va, vh DUNG Y HET baseline (ti le theo chieu cao h,
+# voi _std_weight_position = 1/20 va _std_weight_velocity = 1/160 cua ultralytics)
+# de dam bao CHI mo hinh chuyen dong tam bbox thay doi.
+#
+# Rieng theta va omega khong co doi ung trong baseline. LUU Y QUAN TRONG ve
+# y nghia cua chung (day la cho rat de dat sai):
+#
+#   Nhieu qua trinh KHONG PHAI la do lon cua omega, ma la MUC THAY DOI cua
+#   omega sau moi frame. Hai dai luong nay khac nhau ca chuc lan.
+#
+#   Xe may bay tu 0 len 3 do/frame trong khoang 1 giay (25 frame)
+#     => d(omega)/dt ~ 3/25 = 0.12 do/frame^2 ~ 0.002 rad/frame^2
+#
+#   (Neu lay thang p90 |omega| ~ 0.05 rad/frame do duoc o Giai doan 1 lam
+#    nhieu qua trinh thi omega se "lang thang" theo nhieu do; khi xe di THANG
+#    bo loc uoc luong nham mot omega nho roi tich luy thanh duong cong sai.
+#    Da kiem chung: dat 0.05 cho sai so ngoai suy 23.2 px, dat 0.005 chi con
+#    7.2 px - xem src/compare_extrapolation.py va results/extrapolation_*.csv)
+#
+# Gia tri duoi day chon tu phep quet do nhay tren benchmark mo phong, co trong
+# so theo ty le turn rate thuc te cua UA-DETRAC. Vung toi uu KHA PHANG
+# (0.005-0.02 cho theta, 0.002-0.01 cho omega deu cho ~7.2-8.1 px) nen ket qua
+# khong nhay cam voi lua chon chinh xac.
+CTRV_STD_THETA = 0.010   # [rad/frame]   nhieu huong (ngoai phan omega giai thich)
+CTRV_STD_OMEGA = 0.005   # [rad/frame^2] muc thay doi cua turn rate moi frame
+
+# --- Hiep phuong sai khoi tao ---
+# theta va v luc moi sinh track deu CHUA BIET (chi co 1 quan sat duy nhat,
+# khong the suy ra huong). Xem docstring ekf_ctrv.py muc "KHOI TAO 2 KHUNG HINH".
+CTRV_INIT_STD_OMEGA = 0.10   # [rad/frame]
+CTRV_INIT_STD_THETA = 1.50   # [rad] ~ 86 do: rat khong chac chan
+# Sau khi da uoc luong duoc huong tu 2 quan sat dau tien thi thu hep lai:
+CTRV_HEADING_STD_AFTER_INIT = 0.30   # [rad] ~ 17 do
+# Duoi nguong dich chuyen nay (px/frame) thi coi nhu xe dung yen, khong the
+# suy ra huong dang tin cay -> chua khoi tao theta voi.
+CTRV_MIN_SPEED_FOR_HEADING = 0.5     # [px/frame]
+
+
+# ---------------------------------------------------------------------------
+# 9. CAC MOTION MODEL DEM SO SANH
+# ---------------------------------------------------------------------------
+CONFIGS_DIR = PROJECT_ROOT / "configs"
+
+# key -> file cau hinh tracker + hau to dat ten thu muc ket qua.
+# Ten thu muc ket qua cuoi cung = "<ten model YOLO>-<suffix>",
+# vi du: "yolov8n-bytetrack" (baseline) va "yolov8n-ekf-ctrv".
+MOTION_MODELS = {
+    "cv": {
+        "cfg": BYTETRACK_CFG,                                  # bytetrack.yaml mac dinh
+        "suffix": "bytetrack",
+        "desc": "Baseline: Kalman Filter tuyen tinh, mo hinh Constant Velocity",
+    },
+    "ekf_ctrv": {
+        "cfg": str(CONFIGS_DIR / "bytetrack_ekf_ctrv.yaml"),
+        "suffix": "ekf-ctrv",
+        "desc": "Extended Kalman Filter, mo hinh Constant Turn Rate and Velocity",
+    },
+}

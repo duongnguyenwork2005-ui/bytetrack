@@ -151,7 +151,11 @@ def main() -> int:
     ap.add_argument("--split-name", default="DETRAC-sample",
                     help="Ten split GT tuong ung (phai da chay to_motchallenge.py cho split nay)")
     ap.add_argument("--model", default=config.YOLO_DEFAULT_MODEL, help="Trong so YOLOv8 (.pt)")
-    ap.add_argument("--tracker-cfg", default=config.BYTETRACK_CFG, help="File cau hinh ByteTrack (.yaml)")
+    ap.add_argument("--motion-model", choices=list(config.MOTION_MODELS), default="cv",
+                    help="Motion model: 'cv' = baseline KF/Constant Velocity, "
+                         "'ekf_ctrv' = EKF voi mo hinh CTRV")
+    ap.add_argument("--tracker-cfg", default=None,
+                    help="Ghi de truc tiep file cau hinh tracker (.yaml), bo qua --motion-model")
     ap.add_argument("--conf", type=float, default=config.YOLO_DEFAULT_CONF, help="Nguong tin cay YOLO")
     ap.add_argument("--tracker-name", default=None,
                     help="Ten thu muc tracker trong data/processed/trackers/ (mac dinh tu suy tu model+tracker)")
@@ -164,12 +168,22 @@ def main() -> int:
         print("[ERROR] Khong tim thay thu muc anh. Chay src/extract_verify.py truoc.")
         return 1
 
-    tracker_short = Path(args.tracker_cfg).stem  # "bytetrack.yaml" -> "bytetrack"
-    tracker_name = args.tracker_name or f"{Path(args.model).stem}-{tracker_short}"
+    # --- Chon motion model ---
+    spec = config.MOTION_MODELS[args.motion_model]
+    tracker_cfg = args.tracker_cfg or spec["cfg"]
+    if args.motion_model != "cv":
+        # Cac tracker CTRV la lop tu viet, phai dang ky vao TRACKER_MAP cua
+        # ultralytics TRUOC khi goi model.track(), neu khong se bao loi
+        # "Only [...] are supported for now".
+        import tracker_ctrv
+        tracker_ctrv.register()
+
+    tracker_name = args.tracker_name or f"{Path(args.model).stem}-{spec['suffix']}"
     out_dir = config.PROCESSED_DIR / "trackers" / args.split_name / tracker_name / "data"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"[baseline] model={args.model}  tracker={args.tracker_cfg}  conf={args.conf}  device={args.device}")
+    print(f"[baseline] model={args.model}  motion_model={args.motion_model} ({spec['desc']})")
+    print(f"[baseline] tracker_cfg={tracker_cfg}  conf={args.conf}  device={args.device}")
     print(f"[baseline] {len(videos)} video -> {out_dir}")
 
     device = args.device
@@ -188,7 +202,7 @@ def main() -> int:
 
         regions = load_ignored_regions(video, args.split_name)
         t0 = time.time()
-        df = track_one_video(video, img_root, regions, args.model, args.tracker_cfg, args.conf, device)
+        df = track_one_video(video, img_root, regions, args.model, tracker_cfg, args.conf, device)
         dt = time.time() - t0
 
         out_file = out_dir / f"{video}.txt"
