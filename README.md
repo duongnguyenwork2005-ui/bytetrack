@@ -14,7 +14,7 @@ vào hiệu năng khi xe **bị che khuất** và **di chuyển phi tuyến** (r
 | 2 | Baseline YOLOv8 + ByteTrack + TrackEval | ✅ Xong — **baseline đã khoá** |
 | 3 | EKF + CTRV | ✅ Xong — chờ review |
 | 4 | UKF + CTRV | ✅ Xong — chờ review |
-| 5 | Thực nghiệm đầy đủ & phân tích | ⏳ Chưa bắt đầu |
+| 5 | Thực nghiệm đầy đủ & phân tích | ✅ Xong — chờ review |
 
 ---
 
@@ -42,6 +42,10 @@ cong quỹ đạo — không chỉ báo cáo chỉ số tổng hợp. Lý do: m�
 video thật chỉ số tổng hợp lại cho EKF/UKF thấp hơn baseline một chút — vì chỉ
 số tổng hợp che lấp hiệu ứng (63.4% đoạn che khuất trong UA-DETRAC là ngắn
 <0.5s, nơi các motion model gần như tương đương).
+✅ **Đã làm xong** — xem "Kết quả Giai đoạn 5". Kết luận ngắn gọn: phân tầng cho
+thấy đúng hướng giả thuyết (EKF giữ ID gần gấp đôi baseline ở tầng che nặng độ
+dài trung bình) nhưng **chưa đạt ý nghĩa thống kê** (p = 0.44), và nguyên nhân
+gốc đã truy được là `track_buffer = 30 frame` chặn cứng mọi đoạn che dài hơn 1.2s.
 
 **Phong cách code:** docstring/comment tiếng Việt không dấu, giải thích rõ
 công thức toán (người dùng cần trình bày lại trong luận văn và trả lời hội
@@ -61,10 +65,32 @@ link đã kiểm chứng trong mục đó.
 ## Cài đặt
 
 ```bash
-python -m pip install -r requirements.txt
+conda create -n khoaluan-mot python=3.11.9 -y
+conda activate khoaluan-mot
+
+# torch ban CUDA phai cai TRUOC va cai rieng - ban tren PyPI la CPU-only
+pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
+
+pip install -r requirements.txt
 ```
 
-Đã kiểm tra với Python 3.11.9 trên Windows.
+Đã kiểm tra với Python 3.11.9 trên Windows, GPU NVIDIA GTX 1650 (CUDA 12.4).
+
+**Vì sao phải cài `torch` riêng trước?** `requirements.txt` chỉ ghi `torch>=2.0.0`; nếu
+để `pip` tự giải, nó lấy bản trên PyPI vốn là **CPU-only** → toàn bộ pipeline chạy trên
+CPU, chậm hàng chục lần. Cài bản `+cu124` trước thì ràng buộc `torch>=2.0.0` đã thoả,
+`pip` sẽ không đụng vào nữa.
+
+Kiểm tra nhanh GPU có hoạt động không:
+
+```bash
+python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"
+```
+
+`requirements.txt` để bound mở nên lần resolve mới có thể kéo về **pandas 3.x**,
+**numpy 2.4.x**, **opencv 5.x**, **ultralytics 8.4.x**. Đã kiểm chứng thực tế: toàn bộ
+pipeline Giai đoạn 1 tái tạo **byte-identical** với bản đã commit, và 3 điểm vá
+ultralytics trong `src/tracker_ctrv.py` vẫn đúng nguyên trên 8.4.x.
 
 ---
 
@@ -89,7 +115,9 @@ UA-DETRAC test/
 │   ├── tracker_ctrv.py        # Ghép bộ lọc CTRV (EKF/UKF) vào ByteTrack
 │   ├── test_ekf_ctrv.py       # Unit test cho EKF (14 phép kiểm tra)
 │   ├── test_ukf_ctrv.py       # Unit test cho UKF (12 phép kiểm tra)
-│   └── compare_extrapolation.py  # So sánh ngoại suy CV vs CTRV (mô phỏng)
+│   ├── compare_extrapolation.py  # So sánh ngoại suy CV vs CTRV (mô phỏng)
+│   ├── stratified_analysis.py # Giai đoạn 5: phân tầng + kiểm định McNemar
+│   └── compare_models.py      # Giai đoạn 5: gộp bảng so sánh 3 motion model
 ├── configs/                   # File cấu hình tracker (.yaml)
 ├── models/                    # Trọng số YOLOv8 (.pt) tải về
 ├── data/
@@ -871,7 +899,161 @@ tải GPU, nên chỉ nên xem là ước lượng tương đối.)
 
 ---
 
+## Kết quả Giai đoạn 5 — Thực nghiệm đầy đủ & phân tích phân tầng
+
+### Chạy pipeline
+
+```bash
+# 1) Tracking toan bo 60 video train, cho ca 3 motion model (~3 gio tren GTX 1650)
+python src/baseline_track.py --all-train --split-name DETRAC-all --motion-model cv       --skip-existing
+python src/baseline_track.py --all-train --split-name DETRAC-all --motion-model ekf_ctrv --skip-existing
+python src/baseline_track.py --all-train --split-name DETRAC-all --motion-model ukf_ctrv --skip-existing
+
+# 2) TrackEval cho tung motion model
+python src/run_trackeval.py --split-name DETRAC-all --tracker yolov8n-bytetrack
+python src/run_trackeval.py --split-name DETRAC-all --tracker yolov8n-ekf-ctrv
+python src/run_trackeval.py --split-name DETRAC-all --tracker yolov8n-ukf-ctrv
+
+# 3) Bang so sanh + phan tich phan tang
+python src/compare_models.py --split-name DETRAC-all
+python src/stratified_analysis.py --split-name DETRAC-all --plot
+```
+
+Quy mô: **60 video, 83.791 ảnh × 3 motion model = 251.373 lượt xử lý frame.**
+
+### 1. Chỉ số tổng hợp trên toàn bộ 60 video
+
+| Motion model | HOTA | DetA | AssA | MOTA | IDF1 | FP | FN | IDSW |
+|---|---|---|---|---|---|---|---|---|
+| KF + CV (baseline) | **0.6104** | **0.5735** | **0.6541** | **0.6615** | **0.7783** | 53.332 | **146.919** | **2.251** |
+| EKF + CTRV | 0.6101 | 0.5733 | 0.6536 | 0.6613 | 0.7782 | **53.309** | 147.066 | 2.290 |
+| UKF + CTRV | 0.6095 | 0.5732 | 0.6524 | 0.6611 | 0.7770 | 53.396 | 147.072 | 2.302 |
+| Δ EKF vs baseline | −0.054% | −0.025% | −0.078% | −0.041% | −0.016% | −23 | +147 | +39 |
+| Δ UKF vs baseline | −0.151% | −0.046% | −0.251% | −0.068% | −0.163% | +64 | +153 | +51 |
+
+**Khoảng cách thu hẹp ~6 lần so với tập 5 video mẫu** (EKF: −0.054% so với −0.33% ở
+Giai đoạn 3). Trên toàn tập, ba motion model **gần như không phân biệt được** ở mức
+tổng hợp — chênh lệch dưới 0.2% ở mọi chỉ số.
+
+> Lưu ý: chỉ số tuyệt đối thấp hơn tập 5 video mẫu (HOTA 0.610 vs 0.637) vì 5 video
+> mẫu tình cờ là tập "dễ" hơn mặt bằng chung 60 video. Đây là lý do phải chạy đủ tập
+> mới kết luận được.
+
+### 2. Phép đo phân tầng: giữ được ID xuyên qua đoạn che khuất
+
+Chỉ số tổng hợp trung bình hoá trên mọi frame nên che lấp hiệu ứng. `src/stratified_analysis.py`
+đo trực tiếp cơ chế mà khoá luận giả thiết: **với mỗi đoạn che khuất, tracker có giữ
+được cùng một ID trước và sau đoạn đó không?**
+
+Ghép GT ↔ tracker theo từng frame bằng Hungarian trên ma trận IoU (ngưỡng 0.5), vì
+file tracker dùng id riêng của ByteTrack. Chỉ so sánh trên **tập đoạn chung** — đoạn
+nào cả 3 model đều xác định được `id_before` — để mẫu số giống hệt nhau:
+**1.544 / 3.349 đoạn** (1.805 đoạn bị loại vì tracker chưa từng bắt được xe trước lúc bị che).
+
+**Che khuất ≥ 0.90 (xe gần như vô hình — kịch bản then chốt):**
+
+| Độ dài đoạn | n | KF + CV | EKF + CTRV | UKF + CTRV |
+|---|---|---|---|---|
+| `short` (<0.5s) | 180 | 0.2333 | 0.2333 | 0.2333 |
+| `medium` (0.5–1.5s) | 78 | 0.0641 | **0.1154** | 0.0769 |
+| `long` (>1.5s) | 18 | 0.0000 | 0.0000 | 0.0000 |
+
+Tách thêm theo độ cong, ở nhóm `medium`:
+
+| | n | KF + CV | EKF + CTRV | UKF + CTRV |
+|---|---|---|---|---|
+| `curved` | 23 | 0.0870 | **0.1304** | 0.0870 |
+| `straight` | 51 | 0.0588 | **0.1176** | 0.0784 |
+
+**EKF + CTRV giữ được ID trên gần gấp đôi số đoạn so với baseline** ở nhóm che nặng
+độ dài trung bình (11.5% vs 6.4%) — đúng hướng mà mô phỏng Giai đoạn 3 dự đoán.
+
+**Che khuất ≥ 0.10 (một phần):** khác biệt rất nhỏ và phần lớn nghiêng nhẹ về baseline
+(ví dụ `long`: CV 0.1814, EKF 0.1685, UKF 0.1749). Hợp lý — khi xe chỉ bị che một phần,
+detector vẫn ra detection nên motion model hầu như không được dùng để ngoại suy.
+
+### 3. Kiểm định ý nghĩa thống kê (McNemar ghép cặp)
+
+Ba model chạy trên **cùng một tập đoạn** nên đây là dữ liệu ghép cặp — phải dùng
+McNemar, không dùng chi-square/t-test 2 mẫu độc lập (xem docstring
+`src/stratified_analysis.py`). Kết quả ở tầng có chênh lệch lớn nhất:
+
+| Tầng | n | baseline thắng | EKF thắng | Δ | p |
+|---|---|---|---|---|---|
+| `full` × `medium` | 78 | 1 | 5 | **+4** | 0.4375 |
+| `full` × `medium` × `straight` | 51 | 1 | 4 | +3 | 0.75 |
+| `partial` × `long` | 463 | 7 | 1 | −6 | 0.1406 |
+
+> **KHÔNG tầng nào đạt p < 0.05.** Hướng chênh lệch đúng như giả thuyết (EKF thắng ở
+> đúng tầng được dự đoán), nhưng số cặp bất đồng quá nhỏ (chỉ 6 cặp ở tầng tốt nhất)
+> nên **chưa đủ bằng chứng thống kê để kết luận**. Đây là kết quả trung thực và cần
+> nêu đúng như vậy trong luận văn.
+
+### 4. Phát hiện quan trọng nhất: `track_buffer` là trần cứng, không phải motion model
+
+Ở nhóm `long` (>1.5s), **cả 3 model đều bằng 0%**. Truy nguyên nhân:
+
+`bytetrack.yaml` đặt `track_buffer: 30`, và ultralytics dùng
+`max_frames_lost = track_buffer = 30 frame`. UA-DETRAC quay 25 fps ⇒ **1.2 giây**.
+Quá ngưỡng này ByteTrack **xoá hẳn track**, không còn gì để ngoại suy nữa.
+
+Đối chiếu trực tiếp trên dữ liệu (đoạn che ≥0.90):
+
+| Độ dài đoạn | n | Giữ được ID |
+|---|---|---|
+| ≤ 30 frame (**trong** buffer) | 257 | 52 (**20.2%**) |
+| > 30 frame (**vượt** buffer) | 21 | 0 (**0.0%**) |
+
+100% đoạn `long` đều dài hơn 30 frame (min = 38, median = 48), và **không một đoạn nào
+giữ được ID** — với cả 3 motion model.
+
+> **Đây là lời giải cho nghịch lý mô phỏng vs thực tế.** Thí nghiệm mô phỏng ở Giai đoạn 3
+> cho CTRV ngoại suy 2.0s (50 frame) và thắng CV tới 15×. Nhưng trong ByteTrack thật,
+> track đã bị xoá từ frame thứ 30 — **ưu thế 15× đó không bao giờ có cơ hội xuất hiện.**
+> Chất lượng motion model chỉ có ý nghĩa **bên trong cửa sổ `track_buffer`**; ngoài cửa sổ
+> đó thì mọi motion model đều như nhau vì đều bằng 0.
+
+Hệ quả cho luận văn: muốn CTRV phát huy đúng tiềm năng đo được trong mô phỏng thì phải
+**nới `track_buffer`** — nhưng đó là thay đổi cấu hình data association, nằm ngoài
+baseline đã khoá, nên không thực hiện ở giai đoạn này. Đây là hướng đề xuất cho công
+việc tiếp theo.
+
+### 5. Kết luận Giai đoạn 5
+
+1. **Ở mức tổng hợp, 3 motion model không phân biệt được** trên toàn bộ 60 video
+   (chênh lệch < 0.2% mọi chỉ số). Kết quả này ổn định hơn và đáng tin hơn con số
+   trên 5 video mẫu.
+2. **Phân tầng cho thấy đúng hướng giả thuyết:** EKF + CTRV giữ ID tốt gần gấp đôi
+   baseline ở tầng che nặng độ dài trung bình — đúng vùng mà mô phỏng dự đoán.
+3. **Nhưng chưa đủ ý nghĩa thống kê** (p = 0.44, chỉ 6 cặp bất đồng). Không được
+   tuyên bố CTRV tốt hơn dựa trên dữ liệu này.
+4. **Nguyên nhân gốc đã truy được:** `track_buffer = 30 frame` chặn cứng mọi đoạn che
+   dài hơn 1.2s. UA-DETRAC lại chỉ có 21 đoạn che nặng vượt ngưỡng đó và 78 đoạn nằm
+   trong vùng tranh chấp — **cỡ mẫu tự nhiên của bộ dữ liệu quá nhỏ** cho câu hỏi này.
+5. **UKF không cải thiện gì so với EKF** trên video thật (thấp hơn ở mọi chỉ số tổng
+   hợp), nhất quán với hiệu ứng dây cung đã phân tích ở Giai đoạn 4.
+
+Hình minh hoạ: `results/stratified/id_retention_DETRAC-all.png`.
+
+---
+
 ## Tải bộ ảnh train (thủ công)
+
+> **Vị trí dữ liệu sau khi tải.** Script mong đợi đúng bố cục sau (`config.py`):
+>
+> ```
+> data/raw/ua-detrac-orig.zip                    <- file zip tai ve
+> data/extracted/DETRAC-Images/MVI_*/            <- anh, MOI CAP mot
+> data/extracted/DETRAC-Train-Annotations-XML/*.xml
+> ```
+>
+> Bản zip gốc **lồng thư mục 2 cấp** (`DETRAC-Images/DETRAC-Images/MVI_*`). Phải đưa
+> thư mục bên trong lên một cấp, vì `config.list_train_videos()` đọc thẳng
+> `data/extracted/DETRAC-Train-Annotations-XML/*.xml` — để lồng 2 cấp thì glob ra rỗng
+> và script báo "không có video train". (`find_images_root()` thì tự dò được nên không kén.)
+>
+> Cả `data/raw/` và `data/extracted/` đều nằm trong `.gitignore` → máy mới clone về sẽ
+> **trống**, phải tải lại theo hướng dẫn dưới đây.
 
 Annotation XML đã tải xong (13.1 MB, 60 video). Còn thiếu **bộ ảnh train**.
 
@@ -970,3 +1152,13 @@ Kết quả mong đợi: `60 video, status = OK`, tổng ảnh **83.791**, frame
 | `results/trackeval/DETRAC-sample/<tracker>/*.csv` | Kết quả HOTA/MOTA/IDF1 chi tiết + tổng hợp |
 | `results/comparison_DETRAC-sample.csv` | Bảng so sánh trực tiếp các motion model |
 | `results/extrapolation_cv_vs_ctrv.csv/.png` | Thí nghiệm mô phỏng ngoại suy KF/CV vs EKF/CTRV vs UKF/CTRV |
+| `data/processed/trackers/DETRAC-all/<tracker>/data/*.txt` | **Giai đoạn 5** — kết quả tracking 60 video × 3 motion model |
+| `data/interim/baseline_track_summary_DETRAC-all_*.csv` | Thời gian chạy / số bbox theo video, 60 video |
+| `results/trackeval/DETRAC-all/<tracker>/*.csv` | HOTA/MOTA/IDF1 trên toàn bộ 60 video |
+| `results/comparison_DETRAC-all.csv` | Bảng so sánh 3 motion model + cột chênh lệch (%) |
+| `results/comparison_per_video_DETRAC-all.csv` | Chỉ số theo từng video, cả 3 motion model |
+| `results/stratified/segment_outcomes_DETRAC-all.csv` | 1 dòng = 1 đoạn che khuất × 1 motion model (preserved/switched/lost) |
+| `results/stratified/track_recall_DETRAC-all.csv` | Recall + số tracker id theo từng track GT |
+| `results/stratified/by_bucket*_DETRAC-all.csv` | Tỉ lệ giữ ID theo tầng (độ dài che × độ cong) |
+| `results/stratified/mcnemar_*_DETRAC-all.csv` | Kiểm định McNemar ghép cặp so với baseline |
+| `results/stratified/id_retention_DETRAC-all.png` | Hình: giữ ID theo độ dài che, tách nhóm thẳng/cong |

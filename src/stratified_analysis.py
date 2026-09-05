@@ -465,29 +465,74 @@ def main() -> int:
 
 
 def make_plots(tables: dict, out_dir: Path, split_name: str) -> None:
-    """Hinh: ti le giu ID theo do dai che khuat, tach rieng nhom thang / cong."""
+    """Hinh: ti le giu ID theo do dai che khuat.
+
+    Ve CA HAI muc che khuat. Muc >=0.90 moi la kich ban then chot cua de tai
+    (xe gan nhu vo hinh -> tracker buoc phai ngoai suy hoan toan); neu chi ve
+    muc >=0.10 thi 3 duong gan nhu trung nhau va hinh khong noi len dieu gi.
+    """
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    t = tables["by_bucket_curvature"]
-    t = t[(t["occlusion_level"] == "partial") &
-          (t["curvature_class"].isin(["curved", "straight"]))]
-    if not len(t):
-        return
     order = ["short", "medium", "long"]
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4.5), sharey=True)
-    for ax, cls in zip(axes, ["straight", "curved"]):
-        d = t[t["curvature_class"] == cls]
-        for mm, g in d.groupby("motion_model", observed=True):
-            g = g.set_index("bucket").reindex(order)
-            ax.plot(order, g["id_retention"], marker="o", label=mm)
-        ax.set_title(f"Quy dao {cls}")
-        ax.set_xlabel("Do dai doan che khuat")
-        ax.grid(alpha=0.3)
-    axes[0].set_ylabel("Ti le giu duoc ID")
-    axes[0].legend(fontsize=8)
-    fig.suptitle("Giai doan 5: giu ID xuyen qua che khuat, phan tang theo do cong")
+    xlab = ["short\n(<0.5s)", "medium\n(0.5-1.5s)", "long\n(>1.5s)"]
+    levels = [("full", "Che khuat >= 0.90 (xe gan nhu vo hinh)"),
+              ("partial", "Che khuat >= 0.10 (mot phan)")]
+    colors = {"KF + CV": "tab:orange", "EKF + CTRV": "tab:blue", "UKF + CTRV": "tab:green"}
+    # Marker + do rong net khac nhau: nhieu tang co 2 model TRUNG y het gia tri,
+    # neu chi khac mau thi duong ve sau che hoan toan duong ve truoc.
+    styles = {"KF + CV": dict(marker="o", lw=2.6, ms=9, alpha=0.9, zorder=2),
+              "EKF + CTRV": dict(marker="s", lw=1.8, ms=6, alpha=0.9, zorder=3),
+              "UKF + CTRV": dict(marker="^", lw=1.2, ms=5, ls="--", alpha=0.9, zorder=4)}
+
+    t_all = tables["by_bucket_curvature"]
+    t_bkt = tables["by_bucket"]
+    if not len(t_all):
+        return
+
+    fig, axes = plt.subplots(2, 3, figsize=(15, 8), sharey="row")
+    for i, (lvl, lvl_title) in enumerate(levels):
+        # Cot 0: gop chung; cot 1-2: tach theo do cong
+        panels = [("(gop chung)", t_bkt[t_bkt["occlusion_level"] == lvl], None)]
+        for cls in ["straight", "curved"]:
+            d = t_all[(t_all["occlusion_level"] == lvl) &
+                      (t_all["curvature_class"] == cls)]
+            panels.append((f"quy dao {cls}", d, cls))
+
+        for j, (title, d, _) in enumerate(panels):
+            ax = axes[i, j]
+            if len(d):
+                for mm, g in d.groupby("motion_model", observed=True):
+                    g = g.set_index("bucket").reindex(order)
+                    ax.plot(range(3), g["id_retention"], label=mm,
+                            color=colors.get(mm), **styles.get(mm, {}))
+                # Ghi co mau n ngay tren truc - nguoi doc phai thay n truoc khi tin
+                g0 = d[d["motion_model"] == "KF + CV"].set_index("bucket").reindex(order)
+                for k, n in enumerate(g0["n_segments"]):
+                    if pd.notna(n):
+                        ax.annotate(f"n={int(n)}", (k, 0), xytext=(0, 4),
+                                    textcoords="offset points", ha="center",
+                                    fontsize=7, color="gray")
+            ax.set_xticks(range(3))
+            ax.set_xticklabels(xlab, fontsize=8)
+            ax.grid(alpha=0.3)
+            ax.set_title(f"{lvl_title}\n{title}" if j == 0 else title, fontsize=9)
+
+        # Dat ylim theo GIA TRI LON NHAT CA HANG. Cac panel dung sharey nen neu
+        # de moi panel tu autoscale thi diem cao nhat cua panel khac bi cat mat
+        # (vd straight/short = 0.269 > max cua panel gop chung = 0.233).
+        rmax = max(
+            [t_bkt.loc[t_bkt["occlusion_level"] == lvl, "id_retention"].max()] +
+            [t_all.loc[(t_all["occlusion_level"] == lvl) &
+                       (t_all["curvature_class"] == c), "id_retention"].max()
+             for c in ["straight", "curved"]])
+        axes[i, 0].set_ylim(0, float(rmax) * 1.18)
+        axes[i, 0].set_ylabel("Ti le giu duoc ID")
+    axes[0, 0].legend(fontsize=8)
+
+    fig.suptitle("Giai doan 5: ti le giu duoc ID xuyen qua doan che khuat "
+                 "(phan tang theo do dai che x do cong quy dao)", fontsize=12)
     fig.tight_layout()
     p = out_dir / f"id_retention_{split_name}.png"
     fig.savefig(p, dpi=150)
