@@ -44,7 +44,7 @@ số tổng hợp che lấp hiệu ứng (63.4% đoạn che khuất trong UA-DET
 <0.5s, nơi các motion model gần như tương đương).
 ✅ **Đã làm xong** — xem "Kết quả Giai đoạn 5". Kết luận ngắn gọn: phân tầng cho
 thấy đúng hướng giả thuyết (EKF giữ ID gần gấp đôi baseline ở tầng che nặng độ
-dài trung bình) nhưng **chưa đạt ý nghĩa thống kê** (p = 0.44), và nguyên nhân
+dài trung bình) nhưng **chưa đạt ý nghĩa thống kê** (p = 0.22), và nguyên nhân
 gốc đã truy được là `track_buffer = 30 frame` chặn cứng mọi đoạn che dài hơn 1.2s.
 
 **Phong cách code:** docstring/comment tiếng Việt không dấu, giải thích rõ
@@ -980,14 +980,19 @@ McNemar, không dùng chi-square/t-test 2 mẫu độc lập (xem docstring
 
 | Tầng | n | baseline thắng | EKF thắng | Δ | p |
 |---|---|---|---|---|---|
-| `full` × `medium` | 78 | 1 | 5 | **+4** | 0.4375 |
-| `full` × `medium` × `straight` | 51 | 1 | 4 | +3 | 0.75 |
-| `partial` × `long` | 463 | 7 | 1 | −6 | 0.1406 |
+| `full` × `medium` | 78 | 1 | 5 | **+4** | 0.2188 |
+| `full` × `medium` × `straight` | 51 | 1 | 4 | +3 | 0.3750 |
+| `partial` × `long` | 463 | 7 | 1 | −6 | 0.0703 |
 
 > **KHÔNG tầng nào đạt p < 0.05.** Hướng chênh lệch đúng như giả thuyết (EKF thắng ở
 > đúng tầng được dự đoán), nhưng số cặp bất đồng quá nhỏ (chỉ 6 cặp ở tầng tốt nhất)
 > nên **chưa đủ bằng chứng thống kê để kết luận**. Đây là kết quả trung thực và cần
 > nêu đúng như vậy trong luận văn.
+>
+> *(Sửa 2026-09-06: bản tính đầu tiên nhân đôi p-value do gọi `binomtest(...).pvalue * 2`
+> — `binomtest` mặc định `alternative="two-sided"` nên giá trị trả về đã là hai phía,
+> nhân đôi lần nữa làm mọi p bị thổi phồng gấp đôi (0.4375 → đúng là 0.2188). Đã sửa
+> `src/stratified_analysis.py`, kết luận không đổi — không tầng nào đạt p<0.05.)*
 
 ### 4. Phát hiện quan trọng nhất: `track_buffer` là trần cứng, không phải motion model
 
@@ -1025,7 +1030,7 @@ việc tiếp theo.
    trên 5 video mẫu.
 2. **Phân tầng cho thấy đúng hướng giả thuyết:** EKF + CTRV giữ ID tốt gần gấp đôi
    baseline ở tầng che nặng độ dài trung bình — đúng vùng mà mô phỏng dự đoán.
-3. **Nhưng chưa đủ ý nghĩa thống kê** (p = 0.44, chỉ 6 cặp bất đồng). Không được
+3. **Nhưng chưa đủ ý nghĩa thống kê** (p = 0.22, chỉ 6 cặp bất đồng). Không được
    tuyên bố CTRV tốt hơn dựa trên dữ liệu này.
 4. **Nguyên nhân gốc đã truy được:** `track_buffer = 30 frame` chặn cứng mọi đoạn che
    dài hơn 1.2s. UA-DETRAC lại chỉ có 21 đoạn che nặng vượt ngưỡng đó và 78 đoạn nằm
@@ -1146,7 +1151,7 @@ Kết quả mong đợi: `60 video, status = OK`, tổng ảnh **83.791**, frame
 | `data/processed/DETRAC-sample/` | Ground truth format MOTChallenge (5 video mẫu, Giai đoạn 2) |
 | `data/processed/trackers/DETRAC-sample/yolov8n-bytetrack/data/*.txt` | Kết quả baseline tracker |
 | `data/interim/video_selection_stats.csv` | Thống kê mỗi video (occlusion/curvature/thời tiết) — dùng chọn video mẫu |
-| `data/interim/baseline_track_summary_yolov8n-bytetrack.csv` | Thời gian chạy, số bbox/track theo video |
+| `data/interim/baseline_track_summary_DETRAC-sample_yolov8n-bytetrack.csv` | Thời gian chạy, số bbox/track theo video (5 video mẫu) |
 | `results/curvature_examples.png` | Minh hoạ quỹ đạo theo nhóm độ cong |
 | `results/baseline_example_MVI_40204_frame300.png` | Minh hoạ trực quan GT vs baseline tracker |
 | `results/trackeval/DETRAC-sample/<tracker>/*.csv` | Kết quả HOTA/MOTA/IDF1 chi tiết + tổng hợp |

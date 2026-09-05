@@ -144,7 +144,12 @@ def eval_segments(seg: pd.DataFrame, match: pd.DataFrame,
     `gt_len` : (gt_id) -> so frame GT co mat, de tinh recall
     """
     if len(match):
-        by_track = {k: v for k, v in match.groupby("gt_id", sort=False)}
+        # sort_values("frame") la BAT BUOC: id_before/id_after lay phan tu dau/cuoi
+        # cua mang theo gia dinh no tang dan theo frame. Dieu nay dung tren du lieu
+        # hien tai (gt.txt va tracker .txt deu ghi tuan tu) nhung la gia dinh NGAM -
+        # sap xep tuong minh o day de dung dan khong phu thuoc thu tu ghi file.
+        by_track = {k: v for k, v in
+                    match.sort_values("frame").groupby("gt_id", sort=False)}
     else:
         by_track = {}
 
@@ -296,7 +301,10 @@ def mcnemar(seg: pd.DataFrame, group_cols: list[str], baseline: str) -> pd.DataF
             b = int((base_ok & ~m_ok).sum())    # baseline thang
             c = int((~base_ok & m_ok).sum())    # CTRV thang
             n = b + c
-            p = binomtest(min(b, c), n, 0.5).pvalue * 2 if n else 1.0
+            # binomtest mac dinh alternative="two-sided" -> pvalue TRA VE DA LA
+            # two-sided roi, KHONG duoc nhan doi lan nua (loi da mac phai truoc
+            # do: lam moi p-value bao cao ra gap doi gia tri dung).
+            p = binomtest(min(b, c), n, 0.5).pvalue if n else 1.0
             out.append(dict(zip(group_cols, keys)) | {
                 "model": m, "n_segments": len(g),
                 "baseline_only": b, "model_only": c,
@@ -522,11 +530,15 @@ def make_plots(tables: dict, out_dir: Path, split_name: str) -> None:
         # Dat ylim theo GIA TRI LON NHAT CA HANG. Cac panel dung sharey nen neu
         # de moi panel tu autoscale thi diem cao nhat cua panel khac bi cat mat
         # (vd straight/short = 0.269 > max cua panel gop chung = 0.233).
-        rmax = max(
-            [t_bkt.loc[t_bkt["occlusion_level"] == lvl, "id_retention"].max()] +
-            [t_all.loc[(t_all["occlusion_level"] == lvl) &
-                       (t_all["curvature_class"] == c), "id_retention"].max()
-             for c in ["straight", "curved"]])
+        # max() python thuong khong an toan voi NaN (mot tang co the rong sau khi
+        # loc theo in_common -> .max() tren Series rong tra ve NaN). Loc NaN truoc
+        # khi so sanh, neu khong set_ylim co the nhan NaN va ve sai/vo hinh ca hang.
+        candidates = [t_bkt.loc[t_bkt["occlusion_level"] == lvl, "id_retention"].max()]
+        candidates += [t_all.loc[(t_all["occlusion_level"] == lvl) &
+                                 (t_all["curvature_class"] == c), "id_retention"].max()
+                      for c in ["straight", "curved"]]
+        candidates = [v for v in candidates if pd.notna(v)]
+        rmax = max(candidates) if candidates else 1.0
         axes[i, 0].set_ylim(0, float(rmax) * 1.18)
         axes[i, 0].set_ylabel("Ti le giu duoc ID")
     axes[0, 0].legend(fontsize=8)
