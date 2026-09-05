@@ -255,6 +255,58 @@ def summarise(df: pd.DataFrame, group_cols: list[str]) -> pd.DataFrame:
     return out
 
 
+def mcnemar(seg: pd.DataFrame, group_cols: list[str], baseline: str) -> pd.DataFrame:
+    """Kiem dinh McNemar: chenh lech giu-ID giua CTRV va baseline co y nghia khong?
+
+    VI SAO McNEMAR CHU KHONG PHAI CHI-SQUARE / t-TEST?
+    Ba motion model chay tren CUNG MOT tap doan che khuat (cung video, cung xe,
+    cung khoang frame) - day la du lieu GHEP CAP, khong phai 2 mau doc lap.
+    Chi-square hay t-test 2 mau doc lap se danh gia sai vi bo qua tuong quan
+    rat manh giua cac cap (doan nao kho thi kho voi ca 3 model).
+
+    McNemar chi nhin vao cac cap BAT DONG:
+        b = so doan baseline giu duoc ID nhung CTRV thi khong
+        c = so doan CTRV giu duoc ID nhung baseline thi khong
+    Neu 2 model tuong duong thi b va c phai xap xi nhau. Dung kiem dinh nhi
+    thuc chinh xac (binomtest) thay vi xap xi chi-square, vi nhieu tang co
+    b + c rat nho (chi vai doan).
+    """
+    from scipy.stats import binomtest
+
+    out = []
+    pv = seg.pivot_table(index=["occlusion_level", "video", "track_id", "seg_id"] ,
+                         columns="motion_model", values="status",
+                         aggfunc="first", observed=True)
+    if baseline not in pv.columns:
+        return pd.DataFrame()
+    pv = pv.reset_index()
+    meta = seg.drop_duplicates(subset=["occlusion_level", "video", "track_id", "seg_id"])[
+        ["occlusion_level", "video", "track_id", "seg_id", "bucket", "curvature_class",
+         "turn_class"]]
+    pv = pv.merge(meta, on=["occlusion_level", "video", "track_id", "seg_id"], how="left")
+
+    models = [c for c in seg["motion_model"].unique() if c != baseline]
+    for keys, g in pv.groupby(group_cols, observed=True):
+        keys = keys if isinstance(keys, tuple) else (keys,)
+        base_ok = (g[baseline] == "preserved")
+        for m in models:
+            if m not in g.columns:
+                continue
+            m_ok = (g[m] == "preserved")
+            b = int((base_ok & ~m_ok).sum())    # baseline thang
+            c = int((~base_ok & m_ok).sum())    # CTRV thang
+            n = b + c
+            p = binomtest(min(b, c), n, 0.5).pvalue * 2 if n else 1.0
+            out.append(dict(zip(group_cols, keys)) | {
+                "model": m, "n_segments": len(g),
+                "baseline_only": b, "model_only": c,
+                "delta_preserved": c - b,
+                "p_value": round(min(1.0, p), 4),
+                "significant_5pct": bool(n and min(1.0, p) < 0.05),
+            })
+    return pd.DataFrame(out)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Giai doan 5: phan tich phan tang")
     ap.add_argument("--split-name", default="DETRAC-all")
@@ -349,6 +401,17 @@ def main() -> int:
         if len(t):
             t.to_csv(out_dir / f"{name}_{args.split_name}.csv", index=False)
 
+    # --- Kiem dinh y nghia thong ke (McNemar ghep cap) ---
+    base_label = "KF + CV"
+    mc = {
+        "by_bucket": mcnemar(seg_cmp, ["occlusion_level", "bucket"], base_label),
+        "by_bucket_curvature": mcnemar(
+            seg_cmp, ["occlusion_level", "bucket", "curvature_class"], base_label),
+    }
+    for name, t in mc.items():
+        if len(t):
+            t.to_csv(out_dir / f"mcnemar_{name}_{args.split_name}.csv", index=False)
+
     # --- In ra man hinh ---
     for lvl, lvl_name in [("full", "CHE KHUAT >= 0.90 (gan nhu vo hinh)"),
                           ("partial", "CHE KHUAT >= 0.10 (mot phan)")]:
@@ -378,6 +441,21 @@ def main() -> int:
                                 observed=True)
             print(p2.to_string())
             print("\n  [n_segments]"); print(n2.to_string())
+
+    # --- In ket qua kiem dinh ---
+    for name, t in mc.items():
+        if not len(t):
+            continue
+        print("\n" + "=" * 78)
+        print(f"KIEM DINH McNEMAR ({name}) -- CTRV so voi baseline {base_label}")
+        print("=" * 78)
+        print("  delta_preserved > 0 nghia la CTRV giu duoc ID tren NHIEU doan hon baseline.")
+        print("  baseline_only / model_only = so doan CHI mot ben giu duoc ID (cap bat dong).")
+        show = t[t["baseline_only"] + t["model_only"] > 0]
+        if not len(show):
+            print("  (khong co cap bat dong nao - 2 model cho ket qua y het nhau)")
+            continue
+        print(show.to_string(index=False))
 
     print(f"\n  Da luu -> {out_dir}")
 
