@@ -41,6 +41,7 @@ CACH DUNG VOI ultralytics
     import tracker_ctrv
     tracker_ctrv.register()                       # dang ky vao TRACKER_MAP
     model.track(frame, tracker="configs/bytetrack_ekf_ctrv.yaml", persist=True)
+    # hoac configs/bytetrack_ukf_ctrv.yaml cho UKF
 
 File yaml chi khac bytetrack.yaml o dong `tracker_type`, moi tham so ghep cap
 (track_high_thresh, match_thresh, track_buffer...) giu nguyen.
@@ -54,6 +55,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ekf_ctrv import EKFTrackerCTRV  # noqa: E402
+from ukf_ctrv import UKFTrackerCTRV  # noqa: E402
 
 from ultralytics.trackers.basetrack import TrackState  # noqa: E402
 from ultralytics.trackers.byte_tracker import BYTETracker, STrack  # noqa: E402
@@ -165,6 +167,17 @@ class CTRVSTrack(STrack):
         super().re_activate(new_track, frame_id, new_id)
 
 
+class UKFSTrack(CTRVSTrack):
+    """STrack dung UKF thay cho EKF.
+
+    Chi can doi 2 thuoc tinh: bo cuc trang thai, cach doc tlwh, cach xu ly
+    khoi tao 2 khung hinh... tat ca deu ke thua tu CTRVSTrack va giu nguyen.
+    """
+
+    shared_kalman = UKFTrackerCTRV()
+    filter_class = UKFTrackerCTRV
+
+
 class CTRVByteTracker(BYTETracker):
     """ByteTracker dung bo loc CTRV. Toan bo logic ghep cap giu nguyen."""
 
@@ -187,9 +200,16 @@ class CTRVByteTracker(BYTETracker):
 # ---------------------------------------------------------------------------
 # Dang ky vao ultralytics
 # ---------------------------------------------------------------------------
-#: Ten tracker_type -> lop tracker. Giai doan 4 se them "bytetrack_ukf_ctrv".
+class UKFByteTracker(CTRVByteTracker):
+    """ByteTracker dung UKF + CTRV."""
+
+    track_class = UKFSTrack
+
+
+#: Ten tracker_type -> lop tracker tuong ung (dang ky vao ultralytics).
 CTRV_TRACKERS = {
     "bytetrack_ekf_ctrv": CTRVByteTracker,
+    "bytetrack_ukf_ctrv": UKFByteTracker,
 }
 
 

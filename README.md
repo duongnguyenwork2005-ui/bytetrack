@@ -13,7 +13,7 @@ vào hiệu năng khi xe **bị che khuất** và **di chuyển phi tuyến** (r
 | 1 | Tải dữ liệu & data pipeline | ✅ Xong |
 | 2 | Baseline YOLOv8 + ByteTrack + TrackEval | ✅ Xong — **baseline đã khoá** |
 | 3 | EKF + CTRV | ✅ Xong — chờ review |
-| 4 | UKF + CTRV | ⏳ Chưa bắt đầu |
+| 4 | UKF + CTRV | ✅ Xong — chờ review |
 | 5 | Thực nghiệm đầy đủ & phân tích | ⏳ Chưa bắt đầu |
 
 ---
@@ -45,8 +45,10 @@ UA-DETRAC test/
 │   ├── baseline_track.py      # Chạy YOLOv8 + ByteTrack (chọn motion model)
 │   ├── run_trackeval.py       # Chạy TrackEval -> MOTA / IDF1 / HOTA
 │   ├── ekf_ctrv.py            # EKF + mô hình CTRV (phần toán cốt lõi)
-│   ├── tracker_ctrv.py        # Ghép bộ lọc CTRV vào ByteTrack
+│   ├── ukf_ctrv.py            # UKF + CTRV (Unscented Transform)
+│   ├── tracker_ctrv.py        # Ghép bộ lọc CTRV (EKF/UKF) vào ByteTrack
 │   ├── test_ekf_ctrv.py       # Unit test cho EKF (14 phép kiểm tra)
+│   ├── test_ukf_ctrv.py       # Unit test cho UKF (12 phép kiểm tra)
 │   └── compare_extrapolation.py  # So sánh ngoại suy CV vs CTRV (mô phỏng)
 ├── configs/                   # File cấu hình tracker (.yaml)
 ├── models/                    # Trọng số YOLOv8 (.pt) tải về
@@ -433,9 +435,29 @@ bị che khuất giữa khúc cua, việc tiếp tục quay theo `omega` đã h�
 liên tục tại `omega → 0`, đi hết 1 vòng tròn phải về đúng chỗ cũ, `P` luôn đối
 xứng và xác định dương sau 200 vòng lặp, và bằng chứng cho khởi tạo 2 khung hình.
 
+### `src/ukf_ctrv.py` — phần toán cốt lõi của Giai đoạn 4
+Unscented Kalman Filter với cùng mô hình CTRV. **Kế thừa `EKFTrackerCTRV`** nên
+dùng chung y hệt `f(x)`, `Q`, `R` và cách khởi tạo — khác biệt duy nhất là cách
+truyền hiệp phương sai.
+
+**Ý tưởng:** EKF tuyến tính hoá `f` quanh *một* điểm rồi dùng Jacobian
+(`P' = F P Fᵀ + Q`), bỏ qua mọi thành phần bậc ≥ 2. UKF không tuyến tính hoá gì:
+nó chọn `2n+1 = 19` **sigma point** mô tả đúng kỳ vọng + hiệp phương sai hiện
+tại, cho **từng điểm** đi qua hàm `f` phi tuyến **thật**, rồi tính lại kỳ vọng và
+hiệp phương sai từ đám mây điểm đã biến đổi. Chính xác tới bậc 3 (so với bậc 1
+của EKF) và **không cần tính đạo hàm** → không thể sai Jacobian.
+
+**Xử lý `omega ≈ 0`:** UKF thừa hưởng chính hàm `f()` của EKF, nên công thức giới
+hạn được áp dụng cho **từng sigma point riêng biệt**. Điều này thực ra *thuận lợi
+hơn* EKF: sigma point trải quanh `omega = 0` có cả điểm âm, điểm dương và điểm
+gần 0, mỗi điểm tự chọn nhánh công thức phù hợp (unit test 6).
+
+Chi tiết về trung bình vòng cho `theta`, chọn tham số sigma point, và phát hiện
+về hiệu ứng dây cung — xem mục "Kết quả Giai đoạn 4" bên dưới.
+
 ### `src/compare_extrapolation.py`
 Thí nghiệm **mô phỏng** cô lập đúng cơ chế mà đề tài giả thiết: cho xe chạy theo
-quỹ đạo CTRV đã biết trước, cho cả 2 bộ lọc quan sát 25 frame, rồi **cắt detection**
+quỹ đạo CTRV đã biết trước, cho cả 3 bộ lọc quan sát 25 frame, rồi **cắt detection**
 và bắt chúng chỉ dự đoán (đúng như lúc bị che khuất hoàn toàn). Bộ lọc CV dùng
 đúng lớp `KalmanFilterXYAH` của ultralytics nên so sánh là tuyệt đối công bằng.
 
@@ -690,6 +712,125 @@ cơ chế tồn tại; việc còn lại là đo nó trên đúng nhóm dữ li�
 
 ---
 
+## Kết quả Giai đoạn 4 — UKF + CTRV
+
+### Chạy pipeline
+
+```bash
+python src/test_ukf_ctrv.py                       # unit test (12 phép kiểm tra)
+python src/compare_extrapolation.py --plot        # so sánh cả 3 motion model
+python src/baseline_track.py --motion-model ukf_ctrv
+python src/run_trackeval.py --split-name DETRAC-sample --tracker yolov8n-ukf-ctrv
+```
+
+### Thiết kế: đảm bảo so sánh EKF vs UKF là công bằng tuyệt đối
+`UKFTrackerCTRV` **kế thừa** `EKFTrackerCTRV`, dùng chung y hệt hàm chuyển trạng
+thái `f(x)`, ma trận nhiễu quá trình `Q`, nhiễu đo `R` và cách khởi tạo 2 khung
+hình. **Khác biệt duy nhất là cách truyền hiệp phương sai** qua hàm phi tuyến:
+Jacobian (EKF) vs sigma point (UKF). Unit test 11 kiểm tra đúng điều này.
+
+### Chọn tham số sigma point — một cái bẫy thật
+Với `n = 9` chiều trạng thái, `lambda = alpha²·(n + kappa) − n`:
+
+| alpha | kappa | n+lambda | Wm[0] | Wi | Đánh giá |
+|---|---|---|---|---|---|
+| **1.0** | **0.0** | **9.000** | **0.000** | **0.0556** | ✅ **Chọn** — mọi trọng số không âm |
+| 1e-3 | 0.0 | 9e-06 | −999999 | 55555 | ❌ Bộ lọc phân kỳ ngay |
+| 1.0 | 3−n = −6 | 3.000 | −2.000 | 0.1667 | ⚠️ Wm[0] âm → P có thể mất tính xác định dương |
+| 0.5 | 0.0 | 2.250 | −3.000 | 0.2222 | ⚠️ Cả Wm[0] và Wc[0] đều âm |
+
+`alpha = 1e-3` là **giá trị mặc định trong sách giáo khoa**, nhưng chỉ đúng cho
+state ít chiều. Ở `n = 9` nó làm `n + lambda → 0` (chia cho 0), trọng số nổ lên
+10⁶. Code **bắt lỗi này ngay lúc khởi tạo** với thông báo rõ ràng (unit test 9)
+— và lưu ý phép kiểm tra phải đặt trên **độ lớn trọng số**, không phải trên
+`n + lambda ≈ 0`, vì `9e-06` không phải là 0.
+
+### Điểm cẩn thận nhất: theta là góc, không phải số thực
+Khi tính kỳ vọng có trọng số của các sigma point, thành phần `theta` **không**
+được lấy trung bình cộng. Hai góc `+179°` và `−179°` thực chất chỉ cách nhau 2°,
+nhưng trung bình cộng cho `0°` — lệch hẳn 180°. Phải dùng **trung bình vòng**:
+
+```
+theta_mean = atan2( Σ Wm_i·sin(theta_i) , Σ Wm_i·cos(theta_i) )
+```
+
+Tương tự, hiệu `(Y_i − x_mean)` phải gói về `[−π, π)` trước khi lập hiệp phương
+sai. Đây là lỗi kinh điển của UKF có biến góc — nguy hiểm tương đương lỗi chia
+cho 0 tại `omega ≈ 0` của EKF. Unit test 4 và 4b kiểm tra riêng.
+
+### Unit test: 12/12 PASS
+| Phép kiểm tra | Kết quả |
+|---|---|
+| Sigma point tái tạo đúng kỳ vọng + hiệp phương sai | sai lệch `2.7e-14` |
+| Hàm tuyến tính: UT cho kết quả **chính xác** (trùng EKF) | sai lệch `1.8e-15` |
+| **Update của UKF trùng khít EKF** (mô hình đo tuyến tính) | sai lệch `2.8e-14` |
+| Trung bình vòng cho theta | cộng thường `0°` ❌ vs vòng `180°` ✅ |
+| `alpha=1e-3` bị bắt lỗi rõ ràng | ✅ |
+
+Test "update trùng khít EKF" là bằng chứng cài đặt đúng, đồng thời xác nhận:
+**mọi khác biệt kết quả giữa EKF và UKF đều đến từ bước `predict`.**
+
+### Phát hiện quan trọng: UKF ngoại suy KÉM HƠN EKF
+
+Thí nghiệm mô phỏng (sai số ngoại suy, px):
+
+| Đoạn che | Turn rate | KF/CV | EKF/CTRV | UKF/CTRV |
+|---|---|---|---|---|
+| 0.2s | 3°/f | 13.22 | **2.15** | 2.17 |
+| 0.8s | 3°/f | 60.97 | **5.24** | 5.76 |
+| 2.0s | 0°/f | **5.18** | 15.71 | 24.94 |
+| 2.0s | 3°/f | 217.41 | **14.51** | 26.61 |
+
+Với đoạn che dài, UKF kém EKF ~10 px. **Nguyên nhân đã truy được** (không phải
+lỗi cài đặt):
+
+- Chênh lệch kỳ vọng UKF−EKF **tăng đơn điệu theo độ lớn `P`**:
+  0.004 px (P×0.01) → 0.35 px (P×1) → 2.55 px (P×100)
+- Kiểm chứng bằng bán kính quỹ đạo dự đoán khi che 50 frame (bán kính thật
+  `R = v/omega = 152.79 px`): **EKF dự đoán 152.79 px (lệch 0.00)**, còn
+  **UKF dự đoán 122.06 px (hụt 30.73 px)**
+
+Đây là **hiệu ứng dây cung (bất đẳng thức Jensen)**: Unscented Transform tính
+`E[f(x)]` chứ không phải `f(E[x])`. Các sigma point có `omega` khác nhau cong về
+các hướng khác nhau; lấy trung bình những điểm nằm trên một cung tròn cho ra
+điểm **nằm bên trong** cung đó → quỹ đạo bị "bóp" vào trong, và sai số tích luỹ
+theo độ dài đoạn che.
+
+> **Ý nghĩa cho luận văn:** khi bị che khuất lâu (không có phép đo), `P` phình to
+> nên hiệu ứng này mạnh lên. Kỳ vọng của UKF là ước lượng đúng của `E[vị trí]`
+> dưới bất định, nhưng cái ta cần cho tracking lại là **dự đoán điểm** bám sát
+> quỹ đạo tất định — và ở đó phép truyền tất định `x' = f(x̂)` của EKF tốt hơn.
+> Tôi đã thử thu hẹp độ trải sigma point (giảm `alpha`) nhưng **không cải thiện**,
+> vì `Wm[0]` âm dần lại gây bất ổn — hai hiệu ứng triệt tiêu nhau.
+
+### Kết quả trên video thật (5 video mẫu)
+
+| Motion model | HOTA | DetA | AssA | MOTA | IDF1 | FP | FN | IDSW |
+|---|---|---|---|---|---|---|---|---|
+| KF + CV (baseline) | **0.6367** | **0.6099** | **0.6668** | **0.7175** | **0.8300** | 2.616 | **12.324** | **129** |
+| EKF + CTRV | 0.6346 | 0.6090 | 0.6633 | 0.7161 | 0.8253 | 2.608 | 12.386 | 154 |
+| UKF + CTRV | 0.6342 | 0.6090 | 0.6625 | **0.7163** | 0.8246 | **2.607** | 12.381 | 146 |
+
+**EKF và UKF gần như không phân biệt được** trên video thật (chênh lệch mọi chỉ
+số đều < 0.1%; UKF ít ID switch hơn 8 lần nhưng IDF1 thấp hơn 0.0007). Cả hai
+vẫn thấp hơn baseline một chút, cùng lý do đã phân tích ở Giai đoạn 3.
+
+Điều này **nhất quán** với thí nghiệm mô phỏng: khác biệt EKF/UKF chỉ đáng kể khi
+`P` lớn (che khuất dài), mà 63.4% đoạn che khuất trong UA-DETRAC là ngắn (<0.5s).
+
+### Tốc độ
+| Motion model | FPS |
+|---|---|
+| KF + CV | 54.6 |
+| EKF + CTRV | 80.8 |
+| UKF + CTRV | 46.3 |
+
+UKF chậm hơn EKF ~1.7× do phải truyền 19 sigma point qua `f()` mỗi bước thay vì
+1 lần tính Jacobian. (Chênh lệch FPS giữa các lần chạy còn chịu ảnh hưởng của
+tải GPU, nên chỉ nên xem là ước lượng tương đối.)
+
+---
+
 ## Tải bộ ảnh train (thủ công)
 
 Annotation XML đã tải xong (13.1 MB, 60 video). Còn thiếu **bộ ảnh train**.
@@ -788,4 +929,4 @@ Kết quả mong đợi: `60 video, status = OK`, tổng ảnh **83.791**, frame
 | `results/baseline_example_MVI_40204_frame300.png` | Minh hoạ trực quan GT vs baseline tracker |
 | `results/trackeval/DETRAC-sample/<tracker>/*.csv` | Kết quả HOTA/MOTA/IDF1 chi tiết + tổng hợp |
 | `results/comparison_DETRAC-sample.csv` | Bảng so sánh trực tiếp các motion model |
-| `results/extrapolation_cv_vs_ctrv.csv/.png` | Thí nghiệm mô phỏng ngoại suy CV vs CTRV |
+| `results/extrapolation_cv_vs_ctrv.csv/.png` | Thí nghiệm mô phỏng ngoại suy KF/CV vs EKF/CTRV vs UKF/CTRV |

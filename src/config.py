@@ -279,6 +279,29 @@ CTRV_HEADING_STD_AFTER_INIT = 0.30   # [rad] ~ 17 do
 CTRV_MIN_SPEED_FOR_HEADING = 0.5     # [px/frame]
 
 
+# --- Tham so sigma point cua UKF (Giai doan 4) ---
+# Unscented Transform sinh 2n+1 = 19 sigma point (n = 9 chieu trang thai),
+# voi he so ti le lambda = alpha^2 * (n + kappa) - n.
+#
+# CHON alpha = 1.0, kappa = 0.0 (=> lambda = 0). Ly do (da tinh thu, xem README):
+#
+#   alpha   kappa   lambda    n+lambda   Wm[0]        Wc[0]     Wi
+#   1.0     0.0       0.000      9.000      0.000      2.000   0.0556   <- CHON
+#   1e-3    0.0      -9.000      0.000  -999999    -999996     55555    <- HONG
+#   1.0     3-n=-6   -6.000      3.000     -2.000      0.000   0.1667
+#   0.5     0.0      -6.750      2.250     -3.000     -0.250   0.2222
+#
+# alpha = 1e-3 la gia tri "mac dinh sach giao khoa" nhung chi dung cho state
+# it chieu. Voi n = 9 no lam n + lambda -> 0 => chia cho 0, trong so no len
+# co 10^6 => bo loc phan ky ngay lap tuc.
+# Quy tac kappa = 3 - n cung cho Wm[0] AM (-2), de sinh ra hiep phuong sai
+# khong xac dinh duong.
+# Voi alpha = 1, kappa = 0: MOI trong so deu khong am => P luon xac dinh duong.
+UKF_ALPHA = 1.0
+UKF_BETA = 2.0      # = 2 la toi uu khi phan bo hau nghiem la Gaussian
+UKF_KAPPA = 0.0
+
+
 # ---------------------------------------------------------------------------
 # 9. CAC MOTION MODEL DEM SO SANH
 # ---------------------------------------------------------------------------
@@ -297,5 +320,10 @@ MOTION_MODELS = {
         "cfg": str(CONFIGS_DIR / "bytetrack_ekf_ctrv.yaml"),
         "suffix": "ekf-ctrv",
         "desc": "Extended Kalman Filter, mo hinh Constant Turn Rate and Velocity",
+    },
+    "ukf_ctrv": {
+        "cfg": str(CONFIGS_DIR / "bytetrack_ukf_ctrv.yaml"),
+        "suffix": "ukf-ctrv",
+        "desc": "Unscented Kalman Filter (sigma point), mo hinh CTRV",
     },
 }

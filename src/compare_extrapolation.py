@@ -1,6 +1,6 @@
 """
-compare_extrapolation.py -- So sanh kha nang NGOAI SUY cua CV va CTRV khi bi
-che khuat, tren du lieu MO PHONG (biet truoc su that tuyet doi).
+compare_extrapolation.py -- So sanh kha nang NGOAI SUY cua 3 motion model
+(KF/CV, EKF/CTRV, UKF/CTRV) khi bi che khuat, tren du lieu MO PHONG.
 
 VI SAO CAN THI NGHIEM NAY?
 --------------------------
@@ -39,6 +39,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
 from ekf_ctrv import EKFTrackerCTRV  # noqa: E402
+from ukf_ctrv import UKFTrackerCTRV  # noqa: E402
 
 from ultralytics.trackers.utils.kalman_filter import KalmanFilterXYAH  # noqa: E402
 
@@ -83,7 +84,7 @@ def run_filter(kind: str, obs: np.ndarray, n_gap: int, rng) -> np.ndarray:
             preds.append([mean[0], mean[1]])
         return np.asarray(preds)
 
-    kf = EKFTrackerCTRV()
+    kf = EKFTrackerCTRV() if kind == "ctrv" else UKFTrackerCTRV()
     mean, cov = kf.initiate(obs[0])
     # Khoi tao 2 khung hinh (xem ekf_ctrv.py muc 5)
     mean, cov = kf.initiate_from_motion(mean, cov, obs[1])
@@ -102,11 +103,11 @@ def experiment(omega_deg: float, v: float, n_obs: int, n_gap: int,
     """Chay nhieu lan cho 1 kich ban, tra ve sai so trung binh cua tung bo loc."""
     rng = np.random.default_rng(seed)
     truth = make_trajectory(n_obs + n_gap, v, omega_deg)
-    err = {"cv": [], "ctrv": []}
+    err = {"cv": [], "ctrv": [], "ukf": []}
     for _ in range(n_trials):
         noisy = truth[:n_obs].copy()
         noisy[:, :2] += rng.normal(0, noise_std, (n_obs, 2))   # nhieu do vi tri
-        for kind in ("cv", "ctrv"):
+        for kind in ("cv", "ctrv", "ukf"):
             pred = run_filter(kind, noisy, n_gap, rng)
             d = np.hypot(pred[:, 0] - truth[n_obs:, 0], pred[:, 1] - truth[n_obs:, 1])
             err[kind].append(d)
@@ -139,16 +140,20 @@ def main() -> int:
     rows = []
     for gap_name, n_gap in gaps.items():
         print(f"--- Doan che {gap_name} = {n_gap} frame ---")
-        print(f"  {'turn rate':>12} {'CV (px)':>10} {'CTRV (px)':>11} {'chenh lech':>12} {'ket luan':>14}")
+        print(f"  {'turn rate':>12} {'KF/CV':>9} {'EKF/CTRV':>10} {'UKF/CTRV':>10} "
+              f"{'CV-EKF':>9} {'EKF-UKF':>9}")
         for om in omegas:
             e = experiment(om, args.speed, args.n_obs, n_gap, args.noise_std, args.n_trials)
-            cv_err, ctrv_err = float(np.mean(e["cv"])), float(np.mean(e["ctrv"]))
-            diff = cv_err - ctrv_err
-            verdict = "CTRV tot hon" if diff > 0.5 else ("CV tot hon" if diff < -0.5 else "ngang nhau")
-            print(f"  {om:>10.1f}d/f {cv_err:>10.2f} {ctrv_err:>11.2f} {diff:>+12.2f} {verdict:>14}")
+            cv_err = float(np.mean(e["cv"]))
+            ekf_err = float(np.mean(e["ctrv"]))
+            ukf_err = float(np.mean(e["ukf"]))
+            print(f"  {om:>10.1f}d/f {cv_err:>9.2f} {ekf_err:>10.2f} {ukf_err:>10.2f} "
+                  f"{cv_err-ekf_err:>+9.2f} {ekf_err-ukf_err:>+9.3f}")
             rows.append({"gap_name": gap_name, "n_gap": n_gap, "omega_deg_per_frame": om,
-                         "err_cv_px": round(cv_err, 3), "err_ctrv_px": round(ctrv_err, 3),
-                         "improvement_px": round(diff, 3)})
+                         "err_cv_px": round(cv_err, 3), "err_ekf_ctrv_px": round(ekf_err, 3),
+                         "err_ukf_ctrv_px": round(ukf_err, 3),
+                         "cv_minus_ekf_px": round(cv_err - ekf_err, 3),
+                         "ekf_minus_ukf_px": round(ekf_err - ukf_err, 4)})
         print()
 
     df = pd.DataFrame(rows)
@@ -164,14 +169,15 @@ def main() -> int:
         fig, axes = plt.subplots(1, len(gaps), figsize=(5.2 * len(gaps), 4.2), sharey=False)
         for ax, (gap_name, n_gap) in zip(np.atleast_1d(axes), gaps.items()):
             sub = df[df["gap_name"] == gap_name]
-            ax.plot(sub["omega_deg_per_frame"], sub["err_cv_px"], "o-", label="CV (baseline KF)")
-            ax.plot(sub["omega_deg_per_frame"], sub["err_ctrv_px"], "s-", label="CTRV (EKF)")
+            ax.plot(sub["omega_deg_per_frame"], sub["err_cv_px"], "o-", label="KF + CV (baseline)")
+            ax.plot(sub["omega_deg_per_frame"], sub["err_ekf_ctrv_px"], "s-", label="EKF + CTRV")
+            ax.plot(sub["omega_deg_per_frame"], sub["err_ukf_ctrv_px"], "^--", label="UKF + CTRV")
             ax.set_title(f"Doan che {gap_name}")
             ax.set_xlabel("turn rate that (do/frame)")
             ax.set_ylabel("sai so vi tri trung binh (px)")
             ax.grid(alpha=0.3)
             ax.legend()
-        fig.suptitle("Sai so ngoai suy khi bi che khuat: CV vs CTRV (mo phong)")
+        fig.suptitle("Sai so ngoai suy khi bi che khuat: KF/CV vs EKF/CTRV vs UKF/CTRV (mo phong)")
         fig.tight_layout()
         png = config.RESULTS_DIR / "extrapolation_cv_vs_ctrv.png"
         fig.savefig(png, dpi=130)

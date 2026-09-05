@@ -428,24 +428,27 @@ class EKFTrackerCTRV:
             out_mean[i], out_cov[i] = self.predict(mean[i], covariance[i])
         return out_mean, out_cov
 
-    def project(self, mean: np.ndarray, covariance: np.ndarray, confidence: float | None = None):
-        """Chieu trang thai xuong khong gian do (cx, cy, a, h).
+    def _measurement_noise(self, h: float, confidence: float | None = None) -> np.ndarray:
+        """Ma tran nhieu do R (4x4) cho quan sat (cx, cy, a, h).
 
-        Nhieu do R lay Y HET baseline KalmanFilterXYAH.project().
-        `confidence` (NSA-Kalman) cung xu ly giong baseline de khong tao ra
-        khac biet ngoai motion model.
+        Lay Y HET baseline KalmanFilterXYAH.project() de khong tao ra khac biet
+        nao ngoai motion model. `confidence` la co che NSA-Kalman cua baseline:
+        detection cang chac chan thi nhieu do cang nho.
         """
-        h = mean[self.H]
         std = [
             self._std_weight_position * h,
             self._std_weight_position * h,
             1e-1,
             self._std_weight_position * h,
         ]
-        innovation_cov = np.diag(np.square(std))
+        R = np.diag(np.square(std))
         if confidence is not None:
-            innovation_cov *= max(1.0 - float(confidence), 0.05)
+            R *= max(1.0 - float(confidence), 0.05)
+        return R
 
+    def project(self, mean: np.ndarray, covariance: np.ndarray, confidence: float | None = None):
+        """Chieu trang thai xuong khong gian do (cx, cy, a, h)."""
+        innovation_cov = self._measurement_noise(mean[self.H], confidence)
         H = self._update_mat
         proj_mean = H @ mean
         proj_cov = H @ covariance @ H.T
