@@ -18,6 +18,46 @@ vào hiệu năng khi xe **bị che khuất** và **di chuyển phi tuyến** (r
 
 ---
 
+## Quy ước làm việc (đọc trước khi tiếp tục, kể cả trên máy mới)
+
+**Quy trình bắt buộc:** làm theo **5 giai đoạn** (data pipeline → baseline →
+EKF → UKF → thực nghiệm đầy đủ + phân tích). **Dừng lại sau mỗi giai đoạn để
+người dùng review**, không tự động chạy tiếp giai đoạn sau khi chưa có xác
+nhận. Trạng thái hiện tại: xem bảng ngay dưới đây.
+
+**Auto commit + push:** sau mỗi lần chạy xong một phần việc có ý nghĩa, tự
+động `git add` + `commit` + `push` lên `origin/main` — **không cần hỏi lại**
+mỗi lần (người dùng đã uỷ quyền thường trực). Tôn trọng `.gitignore` hiện có
+(xem mục "Dữ liệu KHÔNG có trong repo" bên dưới). Nếu push thất bại, báo cho
+người dùng thay vì âm thầm bỏ qua.
+
+**Baseline đã khoá** (xem "Kết quả Giai đoạn 2"): `yolov8n.pt`, `conf=0.25`,
+ByteTrack mặc định. Từ Giai đoạn 3 trở đi **chỉ motion model được đổi**, mọi
+thứ khác giữ nguyên để phép so sánh công bằng. Không đổi cấu hình này trừ khi
+có lý do rõ ràng và được người dùng đồng ý.
+
+**Giai đoạn 5 bắt buộc có phân tích phân tầng** theo độ dài che khuất và độ
+cong quỹ đạo — không chỉ báo cáo chỉ số tổng hợp. Lý do: mô phỏng ở Giai đoạn
+3–4 cho thấy CTRV tốt hơn CV tới 15× khi xe rẽ trong lúc bị che, nhưng trên
+video thật chỉ số tổng hợp lại cho EKF/UKF thấp hơn baseline một chút — vì chỉ
+số tổng hợp che lấp hiệu ứng (63.4% đoạn che khuất trong UA-DETRAC là ngắn
+<0.5s, nơi các motion model gần như tương đương).
+
+**Phong cách code:** docstring/comment tiếng Việt không dấu, giải thích rõ
+công thức toán (người dùng cần trình bày lại trong luận văn và trả lời hội
+đồng). Ưu tiên rõ ràng/dễ debug hơn tối ưu tốc độ. README.md dùng tiếng Việt
+có dấu.
+
+### ⚠️ Dữ liệu KHÔNG có trong repo (phải tải lại trên máy mới)
+`.gitignore` loại trừ: `data/raw/`, `data/extracted/` (~10GB ảnh UA-DETRAC,
+dataset có bản quyền), `models/*.pt` (trọng số YOLOv8), `data/interim/*.parquet`
+(tái tạo được bằng script). **Sau khi clone, các thư mục này sẽ trống hoặc
+thiếu.** Xem mục "Tải bộ ảnh train (thủ công)" bên dưới để tải lại — annotation
+XML thì tự tải được qua `src/download_data.py`, còn ảnh phải tải thủ công theo
+link đã kiểm chứng trong mục đó.
+
+---
+
 ## Cài đặt
 
 ```bash
