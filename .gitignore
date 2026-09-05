@@ -6,6 +6,12 @@ data/extracted/
 # --- File trung gian nang, tai tao duoc bang script (xem README) ---
 data/interim/*.parquet
 
+# --- Ket qua tracking THO cua 60 video (Giai doan 5): 146 MB, 180 file .txt.
+#     Tai tao duoc bang src/baseline_track.py (~3 gio GPU). Moi ket qua DA PHAN
+#     TICH (TrackEval, phan tang, McNemar, hinh) van duoc commit trong results/.
+#     Ket qua cua DETRAC-sample (5 video, nhe) van giu lai de doi chung. ---
+data/processed/trackers/DETRAC-all/
+
 # --- Trong so model (.pt) - tu dong tai lai boi ultralytics / src/baseline_track.py ---
 models/*.pt
 
