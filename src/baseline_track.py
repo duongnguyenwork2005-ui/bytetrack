@@ -160,9 +160,23 @@ def main() -> int:
     ap.add_argument("--tracker-name", default=None,
                     help="Ten thu muc tracker trong data/processed/trackers/ (mac dinh tu suy tu model+tracker)")
     ap.add_argument("--device", default="0", help="'0' = GPU dau tien, 'cpu' = chay tren CPU")
+    ap.add_argument("--all-train", action="store_true",
+                    help="Chay tat ca 60 video train (lay tu config.list_train_videos()), "
+                         "thay vi 5 video mau. Dung cho Giai doan 5.")
+    ap.add_argument("--skip-existing", action="store_true",
+                    help="Bo qua video da co file ket qua (khac rong) trong thu muc tracker. "
+                         "Dung de chay tiep sau khi bi dut giua chung.")
     args = ap.parse_args()
 
-    videos = args.videos or config.SAMPLE_VIDEOS
+    if args.videos:
+        videos = args.videos
+    elif args.all_train:
+        videos = config.list_train_videos()
+        if not videos:
+            print("[ERROR] Khong liet ke duoc video train. Chay src/extract_verify.py truoc.")
+            return 1
+    else:
+        videos = config.SAMPLE_VIDEOS
     img_root = config.find_images_root()
     if img_root is None:
         print("[ERROR] Khong tim thay thu muc anh. Chay src/extract_verify.py truoc.")
@@ -194,10 +208,28 @@ def main() -> int:
             device = "cpu"
 
     summary = []
+    out_csv = config.INTERIM_DIR / f"baseline_track_summary_{tracker_name}.csv"
     for video in videos:
         n_img = len(list((img_root / video).glob("img*.jpg")))
         if n_img == 0:
             print(f"  [MISS] {video}: khong co anh trong {img_root / video}, bo qua.")
+            continue
+
+        out_file = out_dir / f"{video}.txt"
+
+        # --- Chay tiep sau khi bi dut: bo qua video da co ket qua ---
+        # Doc lai file cu de bang tom tat van du dong, chi thieu cot thoi gian
+        # (khong do lai duoc tu file da ghi).
+        if args.skip_existing and out_file.exists() and out_file.stat().st_size > 0:
+            old = pd.read_csv(out_file, header=None,
+                              names=["frame", "id", "x", "y", "w", "h", "conf"])
+            print(f"  {video:<12} {n_img:>5} anh  [SKIP] da co {len(old):,} bbox, "
+                  f"{old['id'].nunique()} track")
+            summary.append({"video": video, "n_images": n_img,
+                            "n_ignored_regions": len(load_ignored_regions(video, args.split_name)),
+                            "n_det_boxes": len(old), "n_tracks": int(old["id"].nunique()),
+                            "seconds": None, "fps": None})
+            pd.DataFrame(summary).to_csv(out_csv, index=False)
             continue
 
         regions = load_ignored_regions(video, args.split_name)
@@ -205,7 +237,6 @@ def main() -> int:
         df = track_one_video(video, img_root, regions, args.model, tracker_cfg, args.conf, device)
         dt = time.time() - t0
 
-        out_file = out_dir / f"{video}.txt"
         df.to_csv(out_file, header=False, index=False)
 
         n_tracks = df["id"].nunique() if len(df) else 0
@@ -215,8 +246,10 @@ def main() -> int:
         summary.append({"video": video, "n_images": n_img, "n_ignored_regions": len(regions),
                         "n_det_boxes": len(df), "n_tracks": n_tracks,
                         "seconds": round(dt, 1), "fps": round(fps, 1)})
+        # Ghi lai sau MOI video: neu crash o video thu 40 thi van con thong ke
+        # cua 39 video truoc do (truoc day chi ghi 1 lan o cuoi -> mat sach).
+        pd.DataFrame(summary).to_csv(out_csv, index=False)
 
-    out_csv = config.INTERIM_DIR / f"baseline_track_summary_{tracker_name}.csv"
     pd.DataFrame(summary).to_csv(out_csv, index=False)
 
     print("\n" + "=" * 78)
