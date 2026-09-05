@@ -208,7 +208,10 @@ def main() -> int:
             device = "cpu"
 
     summary = []
-    out_csv = config.INTERIM_DIR / f"baseline_track_summary_{tracker_name}.csv"
+    # Ten file PHAI kem ten split: cung mot tracker_name (vd yolov8n-bytetrack)
+    # duoc dung cho ca DETRAC-sample lan DETRAC-all, neu khong kem split thi lan
+    # chay 60 video se ghi de bang tom tat cua 5 video mau o Giai doan 2.
+    out_csv = config.INTERIM_DIR / f"baseline_track_summary_{args.split_name}_{tracker_name}.csv"
     for video in videos:
         n_img = len(list((img_root / video).glob("img*.jpg")))
         if n_img == 0:
