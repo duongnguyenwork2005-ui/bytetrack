@@ -1041,6 +1041,72 @@ Hình minh hoạ: `results/stratified/id_retention_DETRAC-all.png`.
 
 ---
 
+## Effect size + khoảng tin cậy (Stage D)
+
+### Vì sao cần, khi đã có p-value?
+
+p-value chỉ trả lời *"có đủ bằng chứng bác bỏ giả thuyết 2 model bằng nhau không"*. Nó
+**không** cho biết chênh lệch **lớn bao nhiêu** và độ không chắc chắn ra sao. Với cỡ mẫu
+nhỏ như ở đây, một p-value lớn rất dễ bị hiểu nhầm thành *"2 model như nhau"*, trong khi
+thực tế là *"không đo được"* — khoảng tin cậy nói rõ điều đó bằng cách cho thấy nó rộng
+đến mức nào.
+
+### Thiết kế bootstrap
+
+- **Giữ tính ghép cặp:** mỗi lần resample dùng **cùng một bộ chỉ số** cho cả 2 model rồi
+  mới lấy hiệu. Nếu resample độc lập cho từng model sẽ phá mất tương quan (đoạn nào khó
+  thì khó với cả 2) và làm khoảng tin cậy **rộng giả**.
+- **Hai đơn vị resample, báo cáo cả hai:**
+  - `segment`: rút lại các **đoạn**. Đơn giản, nhưng các đoạn của **cùng một xe** không
+    độc lập → khoảng tin cậy có thể **hẹp giả**.
+  - `track`: **cluster bootstrap** — rút lại các **xe**, mỗi xe lấy *tất cả* đoạn của nó.
+    Tôn trọng cấu trúc phụ thuộc → rộng hơn và trung thực hơn. **Đây là số nên trích dẫn.**
+- 5.000 lần resample, percentile bootstrap, seed cố định.
+
+### Kết quả — tầng theo độ dài che khuất
+
+Chênh lệch tỉ lệ giữ ID (điểm phần trăm), KTC 95% cluster theo track:
+
+| Tầng | n | Cặp | Effect (pp) | KTC 95% |
+|---|---|---|---|---|
+| `full` × `medium` | 78 | KF − EKF | **−5.13** | [−11.54, +1.22] |
+| `full` × `medium` | 78 | EKF − UKF | +3.85 | [0.00, +8.64] |
+| `full` × `short` | 180 | mọi cặp | 0.00 | [0.00, 0.00] |
+| **`partial` × `long`** | **463** | **KF − EKF** | **+1.30** | **[+0.21, +2.58]** ⬅ |
+| `partial` × `medium` | 499 | KF − EKF | +0.20 | [−1.41, +1.80] |
+| `partial` × `short` | 306 | KF − EKF | 0.00 | [−1.31, +1.32] |
+
+**Chỉ 1/15 cặp có KTC không chứa 0**, và nó nói điều ngược với giả thuyết: ở đoạn che
+một phần kéo dài, **KF baseline tốt hơn EKF 1.30 điểm phần trăm**. Kết quả này nhất quán
+với McNemar cùng ô (p = 0.0703 — sát ngưỡng).
+
+> ⚠️ **Cảnh báo so sánh bội.** Đã kiểm định 15 cặp ở mức 5%, kỳ vọng ngẫu nhiên là
+> 15 × 0.05 = **0.75 phát hiện giả**. Quan sát được đúng **1**. Vậy ngay cả phát hiện duy
+> nhất này cũng **hoàn toàn có thể là dương tính giả** — không nên dựa vào nó để kết luận
+> KF tốt hơn EKF.
+
+### Kết quả — tầng 2 chiều (độ dài × độ cong đoạn che)
+
+**0/27 cặp** có KTC không chứa 0. Kể cả ô trọng tâm `che ≥0.90 × medium × cong gắt`
+(n=48): effect **−4.17 pp** nghiêng về EKF nhưng KTC **[−12.50, +4.17]** — rộng gấp 4 lần
+chính effect size.
+
+Đáng chú ý: nhiều ô có KTC đúng bằng **[0.00, 0.00]** — nghĩa là trong toàn bộ 5.000 lần
+resample, ba model **không khác nhau một đoạn nào**. Đó không phải lỗi tính toán mà là
+hệ quả trực tiếp của tỉ lệ đồng thuận 97.3% đã đo ở Stage C.
+
+### Kết luận Stage D
+
+1. **Effect size ở mọi tầng đều rất nhỏ** — lớn nhất là 5.13 pp, phần lớn dưới 2 pp.
+2. **KTC rộng hơn effect size ở gần như mọi tầng** → cỡ mẫu quá nhỏ, không phải hiệu ứng
+   bằng 0 mà là **không đo được**. Đây là cách diễn đạt đúng cho luận văn: *"dữ liệu hiện
+   có không đủ để phân biệt 3 motion model"*, **không phải** *"3 motion model như nhau"*.
+3. Phát hiện duy nhất vượt ngưỡng lại **nghiêng về baseline**, và rất có thể là dương
+   tính giả do so sánh bội.
+4. Bootstrap và McNemar **cho kết luận nhất quán** — không có mâu thuẫn giữa 2 phương pháp.
+
+---
+
 ## Phân tầng theo độ cong TỪNG ĐOẠN CHE (Stage C)
 
 ### Vì sao không dùng `curvature_class` sẵn có?

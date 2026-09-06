@@ -329,6 +329,81 @@ def segment_curvature(seg_tables: dict) -> pd.DataFrame:
     return df
 
 
+def bootstrap_effect(seg: pd.DataFrame, group_cols: list[str],
+                     n_boot: int = 5000, min_n: int = 20,
+                     seed: int = 0) -> pd.DataFrame:
+    """Effect size + khoang tin cay 95% bang bootstrap (bo sung cho McNemar).
+
+    VI SAO CAN, TRONG KHI DA CO p-VALUE?
+    p-value chi tra loi "co du bang chung de bac bo gia thuyet 2 model bang nhau
+    khong". No KHONG cho biet chenh lech LON BAO NHIEU va do khong chac chan cua
+    con so do. Voi co mau nho nhu o day, mot p-value lon rat de bi hieu nham thanh
+    "2 model nhu nhau", trong khi that ra la "khong do duoc" - khoang tin cay noi
+    ro dieu do bang cach cho thay no rong den muc nao.
+
+    HAI CACH RESAMPLE (bao cao ca hai):
+      unit="segment": rut lai cac DOAN co hoan lai. Don gian, nhung cac doan cua
+                      CUNG mot xe khong doc lap (cung quy dao, cung dieu kien) nen
+                      khoang tin cay co the HEP GIA.
+      unit="track"  : cluster bootstrap - rut lai cac XE, moi xe lay TAT CA doan
+                      cua no. Ton trong cau truc phu thuoc -> khoang tin cay rong
+                      hon va trung thuc hon.
+
+    Giu TINH GHEP CAP: moi lan resample dung CUNG bo chi so cho ca 2 model roi moi
+    lay hieu. Neu resample doc lap cho tung model se lam mat tuong quan giua chung
+    (doan nao kho thi kho voi ca 2) va lam khoang tin cay rong gia.
+    """
+    rng = np.random.default_rng(seed)
+    pv = seg.pivot_table(index=["occlusion_level", "video", "track_id", "seg_id"],
+                         columns="motion_model", values="status",
+                         aggfunc="first", observed=True).reset_index()
+    key_cols = ["occlusion_level", "video", "track_id", "seg_id"]
+    meta_cols = [c for c in seg.columns
+                 if c in ("bucket", "curvature_class", "turn_class", "seg_curv_class")]
+    meta = seg.drop_duplicates(subset=key_cols)[key_cols + meta_cols]
+    pv = pv.merge(meta, on=key_cols, how="left")
+
+    models = [c for c in seg["motion_model"].unique() if c in pv.columns]
+    pairs = [(a, b) for i, a in enumerate(models) for b in models[i + 1:]]
+
+    out = []
+    for keys, g in pv.groupby(group_cols, observed=True):
+        keys = keys if isinstance(keys, tuple) else (keys,)
+        n = len(g)
+        if n < min_n:
+            continue
+        ok = {m: (g[m] == "preserved").to_numpy(dtype=float) for m in models}
+        # --- chi so resample: dung CHUNG cho moi model (giu tinh ghep cap) ---
+        idx_seg = rng.integers(0, n, size=(n_boot, n))
+        # --- cluster theo track ---
+        tracks, tcode = np.unique(g["video"].astype(str) + "#" + g["track_id"].astype(str),
+                                  return_inverse=True)
+        n_tr = len(tracks)
+        cnt_tr = np.bincount(tcode, minlength=n_tr).astype(float)
+        idx_tr = rng.integers(0, n_tr, size=(n_boot, n_tr))
+        den_tr = cnt_tr[idx_tr].sum(axis=1)
+
+        for a, b in pairs:
+            row = dict(zip(group_cols, keys))
+            row.update(model_a=a, model_b=b, n_segments=n, n_tracks=n_tr,
+                       ret_a=round(float(ok[a].mean()), 4),
+                       ret_b=round(float(ok[b].mean()), 4),
+                       effect_pp=round(float((ok[a].mean() - ok[b].mean()) * 100), 2))
+            # segment-level
+            d = ok[a][idx_seg].mean(axis=1) - ok[b][idx_seg].mean(axis=1)
+            lo, hi = np.percentile(d * 100, [2.5, 97.5])
+            row.update(seg_lo=round(float(lo), 2), seg_hi=round(float(hi), 2))
+            # track-level cluster
+            sum_a = np.bincount(tcode, weights=ok[a], minlength=n_tr)
+            sum_b = np.bincount(tcode, weights=ok[b], minlength=n_tr)
+            d2 = (sum_a[idx_tr].sum(axis=1) - sum_b[idx_tr].sum(axis=1)) / np.maximum(den_tr, 1)
+            lo2, hi2 = np.percentile(d2 * 100, [2.5, 97.5])
+            row.update(trk_lo=round(float(lo2), 2), trk_hi=round(float(hi2), 2))
+            row["CI_chua_0"] = bool(lo2 <= 0 <= hi2)
+            out.append(row)
+    return pd.DataFrame(out)
+
+
 def mcnemar(seg: pd.DataFrame, group_cols: list[str], baseline: str) -> pd.DataFrame:
     """Kiem dinh McNemar: chenh lech giu-ID giua CTRV va baseline co y nghia khong?
 
@@ -496,10 +571,36 @@ def main() -> int:
         "by_bucket": mcnemar(seg_cmp, ["occlusion_level", "bucket"], base_label),
         "by_bucket_curvature": mcnemar(
             seg_cmp, ["occlusion_level", "bucket", "curvature_class"], base_label),
+        "by_bucket_seg_curv": mcnemar(
+            seg_cmp, ["occlusion_level", "bucket", "seg_curv_class"], base_label),
     }
     for name, t in mc.items():
         if len(t):
             t.to_csv(out_dir / f"mcnemar_{name}_{args.split_name}.csv", index=False)
+
+    # --- Stage D: effect size + khoang tin cay bootstrap (BO SUNG cho McNemar) ---
+    moving = seg_cmp[seg_cmp["seg_curv_class"] != "dung yen"] \
+        if "seg_curv_class" in seg_cmp.columns else seg_cmp
+    bs = {
+        "by_bucket": bootstrap_effect(seg_cmp, ["occlusion_level", "bucket"]),
+        "by_bucket_seg_curv": bootstrap_effect(
+            moving, ["occlusion_level", "bucket", "seg_curv_class"]),
+    }
+    for name, t in bs.items():
+        if len(t):
+            t.to_csv(out_dir / f"bootstrap_{name}_{args.split_name}.csv", index=False)
+            print("\n" + "=" * 78)
+            print(f"STAGE D - EFFECT SIZE + KTC 95% BOOTSTRAP ({name})")
+            print("=" * 78)
+            print("  effect_pp = chenh lech ti le giu ID (diem phan tram), model_a - model_b")
+            print("  trk_lo/hi = KTC 95% cluster bootstrap theo TRACK (trung thuc hon segment)")
+            sig = t[~t["CI_chua_0"]]
+            print(f"\n  Cap PHAN BIET DUOC (KTC khong chua 0): {len(sig)}/{len(t)}")
+            if len(sig):
+                cols = [c for c in t.columns if c in
+                        ("occlusion_level", "bucket", "seg_curv_class", "model_a", "model_b",
+                         "n_segments", "effect_pp", "trk_lo", "trk_hi")]
+                print(sig[cols].to_string(index=False))
 
     # --- In ra man hinh ---
     for lvl, lvl_name in [("full", "CHE KHUAT >= 0.90 (gan nhu vo hinh)"),
