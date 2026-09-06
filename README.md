@@ -1041,6 +1041,95 @@ Hình minh hoạ: `results/stratified/id_retention_DETRAC-all.png`.
 
 ---
 
+## Phân tầng theo độ cong TỪNG ĐOẠN CHE (Stage C)
+
+### Vì sao không dùng `curvature_class` sẵn có?
+
+`track_curvature.csv` (Giai đoạn 1) gán nhãn cho **cả quỹ đạo** của xe. Một xe rẽ gắt
+ở đầu video rồi đi thẳng suốt đoạn bị che vẫn bị gán `curved`. Phân tầng kiểu đó không
+trả lời được câu hỏi của đề tài — *CTRV có giúp khi xe rẽ **trong lúc** bị che không*.
+
+Đã gặp đúng lỗi này ở Stage A2: một track được gán `net_turn = 139°` nhưng trong đoạn
+che thì xe gần như đứng yên, "139°" thực chất là nhiễu annotation tích luỹ.
+
+### Chọn cách đo độ cong — so sánh 3 phương án trên 2.911 đoạn
+
+| Cách đo | Xe đứng yên (<2px/f) | Xe di chuyển (≥2px/f) | Tỉ lệ thổi phồng |
+|---|---|---|---|
+| **A.** tích luỹ `Σ\|Δθ\|` / frame | 5.924 °/f | 0.853 °/f | 6.95× |
+| **B.** góc giữa hướng TB 1/3 đầu–cuối / frame | 0.379 °/f | 0.064 °/f | 5.92× |
+| **C.** độ cong hình học (khớp đường tròn 3 điểm) | 0.687 °/f | 0.095 °/f | 7.24× |
+
+Tương quan trên xe di chuyển thật: **B ↔ C = 0.899** (đo cùng một đại lượng), còn
+**A ↔ C chỉ 0.572** — cách tích luỹ bị nhiễu annotation lấn át ngay cả trên xe đang chạy.
+
+> **Kết luận về phương pháp:** *mọi* cách đo đều vô nghĩa khi xe đứng yên (thổi phồng
+> 5.9–7.2×), nên vấn đề **không phải** tìm công thức chống nhiễu tốt hơn mà là **phải
+> loại đoạn xe đứng yên**. Chọn **cách B** vì trùng khớp với phép đo hình học và cho
+> đơn vị °/frame — **so sánh trực tiếp được với `omega`**, đúng biến trạng thái của CTRV.
+
+Ngưỡng lấy từ phân vị thực tế của 2.214 đoạn có xe di chuyển:
+`thẳng < 0.05` / `cong nhẹ 0.05–0.2` / `cong gắt ≥ 0.2` °/frame (n = 965 / 612 / 637).
+
+### Ma trận 2 chiều (độ dài che × độ cong đoạn che)
+
+**Che ≥ 0.90** — chỉ **2/12 ô** đủ mẫu (n ≥ 20):
+
+| Ô | n | KF + CV | EKF + CTRV | UKF + CTRV |
+|---|---|---|---|---|
+| `medium` × `cong gắt` | 48 | 0.1042 | **0.1458** | 0.1042 |
+| `short` × `cong gắt` | 41 | 0.2439 | 0.2439 | 0.2439 |
+
+Các ô bị bỏ vì n < 20: `long`×(cong nhẹ 5, thẳng 3), `medium`×(cong nhẹ 16, thẳng 7),
+`short`×(cong nhẹ 8, thẳng 3). **Hàng `long` gần như rỗng hoàn toàn.**
+
+**Che ≥ 0.10** — 10/12 ô đủ mẫu:
+
+| Ô | n | KF + CV | EKF + CTRV | UKF + CTRV |
+|---|---|---|---|---|
+| `long` × `cong gắt` | 25 | 0.1200 | 0.1200 | 0.1200 |
+| `long` × `cong nhẹ` | 101 | 0.1485 | 0.1485 | 0.1485 |
+| `long` × `thẳng` | 202 | **0.1683** | 0.1584 | 0.1584 |
+| `medium` × `cong gắt` | 119 | 0.3445 | **0.3529** | 0.3361 |
+| `medium` × `cong nhẹ` | 122 | **0.5574** | 0.5328 | 0.5492 |
+| `medium` × `thẳng` | 95 | 0.4737 | **0.4842** | **0.4842** |
+| `short` × `cong gắt` | 95 | 0.4947 | **0.5158** | 0.5053 |
+
+**Điểm tích cực:** phân tầng theo đoạn đã **làm sắc nét** hiệu ứng — ưu thế của EKF ở
+`che ≥0.90 × medium` tập trung đúng vào nhóm xe **thực sự đang rẽ** (14.58% vs 10.42%,
+tức +40% tương đối), thay vì bị pha loãng như khi dùng độ cong cả track.
+
+### Nhưng vẫn KHÔNG có ô nào đạt ý nghĩa thống kê
+
+McNemar ghép cặp trên phân tầng mới: **0/21 ô** đạt p < 0.05. Ô tốt nhất
+(`che ≥0.90 × medium × cong gắt`, n=48) có b=1, c=3 → **p = 0.625**.
+
+### Lý do gốc: 3 model cho kết quả GIỐNG HỆT NHAU trên 97.3% số đoạn
+
+| | Số đoạn | Tỉ lệ |
+|---|---|---|
+| Cả 3 model **cùng** kết quả | 1.502 | **97.3%** |
+| Có ít nhất 1 model khác | 42 | 2.7% |
+
+Trong 42 đoạn có khác biệt: KF giữ được ID ở 24 đoạn, EKF 21, UKF 19 — **KF còn nhỉnh hơn**.
+
+Phân bố kết quả tổng thể gần như trùng khít:
+
+| Motion model | `preserved` | `switched` | `lost` |
+|---|---|---|---|
+| KF + CV | 530 | 306 | 708 |
+| EKF + CTRV | 527 | 308 | 709 |
+| UKF + CTRV | 525 | 310 | 709 |
+
+> **Kết luận Stage C.** Không phải phân tầng chưa đủ mịn, mà **motion model gần như
+> không liên quan** đến việc giữ ID xuyên qua che khuất trong pipeline này. Kết cục của
+> mỗi đoạn được quyết định bởi những yếu tố khác: detector có phát hiện lại xe sau khi
+> hết che không (**45.9% số đoạn là `lost`** — tracker không bao giờ tìm lại được xe,
+> với cả 3 model), `track_buffer` đã hết hạn chưa, và ghép cặp IoU có thành công không.
+> Motion model chỉ có tiếng nói ở 2.7% trường hợp biên.
+
+---
+
 ## Đo lại tốc độ (Stage B)
 
 ```bash

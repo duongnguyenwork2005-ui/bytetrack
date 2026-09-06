@@ -83,6 +83,18 @@ IOU_THRESHOLD = 0.5
 # do khong con phan anh chat luong ngoai suy nua.
 CONTEXT_WINDOW = 30
 
+# --- Phan tang theo DO CONG CUA TUNG DOAN CHE (Stage C) ---
+# Duoi nguong toc do nay, huong di chuyen khong xac dinh duoc: xe dung yen /
+# do xe, "goc quay" do duoc chi la nhieu annotation vai pixel moi frame.
+# Da do: tren doan xe dung yen, MOI cach do do cong deu bi thoi phong 5.9-7.2 lan.
+MIN_SEG_SPEED = 2.0          # px/frame
+
+# Nguong chia nhom do cong, don vi do/frame (nhan 25 de ra do/giay).
+# Chon tu phan vi thuc te cua 2.214 doan co xe di chuyen: 0.05 ~ phan vi 44%,
+# 0.2 ~ phan vi 72% -> ba nhom co co mau tuong doi can (965 / 612 / 637).
+SEG_CURV_BINS = [0.05, 0.20]
+SEG_CURV_LABELS = ["thang", "cong nhe", "cong gat"]
+
 GT_COLS = ["frame", "id", "x", "y", "w", "h", "conf", "cls", "vis"]
 TRK_COLS = ["frame", "id", "x", "y", "w", "h", "conf"]
 
@@ -260,6 +272,63 @@ def summarise(df: pd.DataFrame, group_cols: list[str]) -> pd.DataFrame:
     return out
 
 
+def segment_curvature(seg_tables: dict) -> pd.DataFrame:
+    """Do do cong CUA TUNG DOAN CHE (Stage C), thay vi do cong cua CA TRACK.
+
+    VI SAO KHONG DUNG `curvature_class` SAN CO?
+    `track_curvature.csv` gan nhan cho CA quy dao cua xe. Mot xe co the re gat o
+    dau video roi di thang suot doan bi che - van bi gan nhan "curved". Phan tang
+    kieu do khong tra loi duoc cau hoi cua de tai (CTRV co giup khi xe re TRONG
+    LUC bi che khong). Da gap dung loi nay o Stage A2: mot track duoc gan
+    net_turn = 139 do nhung trong doan che thi xe gan nhu dung yen.
+
+    CACH DO: goc giua huong TRUNG BINH cua 1/3 dau va 1/3 cuoi doan, chia cho so
+    frame -> don vi do/frame, so sanh truc tiep duoc voi omega cua CTRV.
+
+    VI SAO KHONG LAY TONG |d(theta)| TICH LUY?
+    Da do tren 2.911 doan: cach tich luy cho trung vi 5.92 do/frame o xe dung yen
+    so voi 0.85 o xe di chuyen - bi nhieu annotation lan at (chi tuong quan 0.49
+    voi phep khop duong tron hinh hoc). Cach lay huong trung binh dau/cuoi tuong
+    quan 0.90 voi phep khop hinh hoc -> hai cach do cung mot dai luong.
+
+    Luu y: MOI cach do deu vo nghia khi xe dung yen, nen phai loc theo
+    MIN_SEG_SPEED chu khong phai tim cong thuc chong nhieu tot hon.
+    """
+    pq = pd.read_parquet(config.INTERIM_DIR / "detrac_train_annotations.parquet")
+    g = {k: v.sort_values("frame") for k, v in pq.groupby(["video", "track_id"])}
+
+    rows = []
+    for lvl, tbl in seg_tables.items():
+        for r in tbl.itertuples(index=False):
+            t = g.get((r.video, r.track_id))
+            if t is None:
+                continue
+            occ = t[(t.frame >= r.start_frame) & (t.frame <= r.end_frame)]
+            if len(occ) < 6:
+                continue
+            p = np.c_[occ.cx.values, occ.cy.values]
+            d = np.diff(p, axis=0)
+            speed = float(np.hypot(*d.T).mean())
+            k = max(2, len(d) // 3)
+            v1, v2 = d[:k].mean(0), d[-k:].mean(0)
+            if np.hypot(*v1) < 1e-9 or np.hypot(*v2) < 1e-9:
+                turn_rate = 0.0
+            else:
+                a = np.arctan2(v1[1], v1[0])
+                b = np.arctan2(v2[1], v2[0])
+                turn_rate = abs(np.rad2deg((b - a + np.pi) % (2 * np.pi) - np.pi)) / len(d)
+            rows.append(dict(occlusion_level=lvl, video=r.video, track_id=r.track_id,
+                             seg_id=r.seg_id, seg_speed=round(speed, 3),
+                             seg_turn_rate=round(turn_rate, 4)))
+    df = pd.DataFrame(rows)
+    # Xe dung yen -> do cong khong xac dinh, danh dau rieng thay vi gan bua vao 1 nhom
+    df["seg_curv_class"] = np.where(
+        df.seg_speed < MIN_SEG_SPEED, "dung yen",
+        pd.cut(df.seg_turn_rate, [-np.inf] + SEG_CURV_BINS + [np.inf],
+               labels=SEG_CURV_LABELS).astype(str))
+    return df
+
+
 def mcnemar(seg: pd.DataFrame, group_cols: list[str], baseline: str) -> pd.DataFrame:
     """Kiem dinh McNemar: chenh lech giu-ID giua CTRV va baseline co y nghia khong?
 
@@ -285,9 +354,13 @@ def mcnemar(seg: pd.DataFrame, group_cols: list[str], baseline: str) -> pd.DataF
     if baseline not in pv.columns:
         return pd.DataFrame()
     pv = pv.reset_index()
-    meta = seg.drop_duplicates(subset=["occlusion_level", "video", "track_id", "seg_id"])[
-        ["occlusion_level", "video", "track_id", "seg_id", "bucket", "curvature_class",
-         "turn_class"]]
+    # Lay MOI cot phan tang co trong seg (bucket, curvature_class, turn_class,
+    # seg_curv_class...) thay vi liet ke cung, de goi mcnemar() voi bat ky
+    # group_cols nao ma khong phai sua lai ham.
+    key_cols = ["occlusion_level", "video", "track_id", "seg_id"]
+    meta_cols = [c for c in seg.columns
+                 if c in ("bucket", "curvature_class", "turn_class", "seg_curv_class")]
+    meta = seg.drop_duplicates(subset=key_cols)[key_cols + meta_cols]
     pv = pv.merge(meta, on=["occlusion_level", "video", "track_id", "seg_id"], how="left")
 
     models = [c for c in seg["motion_model"].unique() if c != baseline]
@@ -336,9 +409,11 @@ def main() -> int:
         "partial": pd.read_csv(config.INTERIM_DIR / "occlusion_segments.csv"),
         "full": pd.read_csv(config.INTERIM_DIR / "full_occlusion_segments.csv"),
     }
-    # --- Bang tang: do cong quy dao ---
+    # --- Bang tang: do cong CA TRACK (Giai doan 1, giu de doi chung) ---
     cur = pd.read_csv(config.INTERIM_DIR / "track_curvature.csv")[
         ["video", "track_id", "curvature_class", "turn_class"]]
+    # --- Bang tang: do cong TUNG DOAN CHE (Stage C - moi) ---
+    segcur = segment_curvature(seg_tables)
 
     videos = sorted(p.name for p in (config.PROCESSED_DIR / args.split_name).iterdir()
                     if p.is_dir())
@@ -356,6 +431,8 @@ def main() -> int:
             if len(d):
                 d = d.merge(cur, on=["video", "track_id"], how="left")
                 d["occlusion_level"] = key
+                d = d.merge(segcur, on=["occlusion_level", "video", "track_id", "seg_id"],
+                            how="left")
                 d["tracker"] = tracker
                 d["motion_model"] = label.get(tracker, tracker)
                 all_seg.append(d)
@@ -404,6 +481,10 @@ def main() -> int:
         "by_bucket_curvature": summarise(
             seg_cmp, ["occlusion_level", "bucket", "curvature_class", "motion_model"]),
         "by_turn_class": summarise(seg_cmp, ["occlusion_level", "turn_class", "motion_model"]),
+        # --- Stage C: do cong do theo TUNG DOAN CHE, khong phai ca track ---
+        "by_seg_curv": summarise(seg_cmp, ["occlusion_level", "seg_curv_class", "motion_model"]),
+        "by_bucket_seg_curv": summarise(
+            seg_cmp, ["occlusion_level", "bucket", "seg_curv_class", "motion_model"]),
     }
     for name, t in tables.items():
         if len(t):
@@ -449,6 +530,30 @@ def main() -> int:
                                 observed=True)
             print(p2.to_string())
             print("\n  [n_segments]"); print(n2.to_string())
+
+    # --- Stage C: ma tran 2 chieu (do dai che x do cong TUNG DOAN) ---
+    MIN_N = 20     # duoi nguong nay ti le % khong dang tin -> chi bao n, khong dien so
+    t = tables["by_bucket_seg_curv"]
+    for lvl, lvl_name in [("full", "CHE KHUAT >= 0.90"), ("partial", "CHE KHUAT >= 0.10")]:
+        d = t[(t["occlusion_level"] == lvl) & (t["seg_curv_class"] != "dung yen")]
+        if not len(d):
+            continue
+        print("\n" + "=" * 78)
+        print(f"STAGE C - {lvl_name}: ti le giu ID theo (do dai che x DO CONG DOAN CHE)")
+        print("=" * 78)
+        p = d.pivot_table(index=["bucket", "seg_curv_class"], columns="motion_model",
+                          values="id_retention", observed=True)
+        nn = d.pivot_table(index=["bucket", "seg_curv_class"], columns="motion_model",
+                           values="n_segments", observed=True)
+        n_col = nn.iloc[:, 0]
+        keep = n_col >= MIN_N
+        print(f"\n  [O co n >= {MIN_N}]")
+        print(p[keep].round(4).to_string() if keep.any() else "  (khong o nao du mau)")
+        print(f"\n  [n moi o]")
+        print(n_col.astype(int).to_string())
+        if (~keep).any():
+            print(f"\n  BO QUA {int((~keep).sum())} o co n < {MIN_N} (khong du mau de tin "
+                  f"ti le %): {list(n_col[~keep].index)}")
 
     # --- In ket qua kiem dinh ---
     for name, t in mc.items():
