@@ -195,12 +195,14 @@ def main() -> int:
     # --- Chon motion model ---
     spec = config.MOTION_MODELS[args.motion_model]
     tracker_cfg = args.tracker_cfg or spec["cfg"]
-    if args.motion_model != "cv":
-        # Cac tracker CTRV la lop tu viet, phai dang ky vao TRACKER_MAP cua
-        # ultralytics TRUOC khi goi model.track(), neu khong se bao loi
-        # "Only [...] are supported for now".
-        import tracker_ctrv
-        tracker_ctrv.register()
+    # Cac tracker tu viet phai duoc dang ky vao TRACKER_MAP cua ultralytics
+    # TRUOC khi goi model.track(), neu khong se bao "Only [...] are supported".
+    # Dang ky VO DIEU KIEN (ke ca motion_model='cv'): tu Giai doan B, baseline
+    # cung co mot bien the rieng (bytetrack_cv_lostassoc) de ap dung thay doi
+    # ham chi phi lien ket NHU NHAU cho ca 3 model. Dang ky them cac ten moi
+    # khong anh huong gi neu file .yaml khong tro toi chung.
+    import tracker_ctrv
+    tracker_ctrv.register()
 
     tracker_name = args.tracker_name or f"{Path(args.model).stem}-{spec['suffix']}"
     out_dir = config.PROCESSED_DIR / "trackers" / args.split_name / tracker_name / "data"

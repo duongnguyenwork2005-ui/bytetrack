@@ -57,6 +57,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ekf_ctrv import EKFTrackerCTRV  # noqa: E402
 from ukf_ctrv import UKFTrackerCTRV  # noqa: E402
 
+from lost_association import LostAwareAssociation  # noqa: E402
+
 from ultralytics.trackers.basetrack import TrackState  # noqa: E402
 from ultralytics.trackers.byte_tracker import BYTETracker, STrack  # noqa: E402
 
@@ -178,8 +180,13 @@ class UKFSTrack(CTRVSTrack):
     filter_class = UKFTrackerCTRV
 
 
-class CTRVByteTracker(BYTETracker):
-    """ByteTracker dung bo loc CTRV. Toan bo logic ghep cap giu nguyen."""
+class CTRVByteTracker(LostAwareAssociation, BYTETracker):
+    """ByteTracker dung bo loc CTRV. Toan bo logic ghep cap giu nguyen.
+
+    Ke thua them `LostAwareAssociation` (Giai doan B): ghi de ham chi phi lien
+    ket CHI cho track dang LOST, bat/tat qua file .yaml. Mac dinh TAT -> hanh vi
+    trung khit ban goc.
+    """
 
     track_class = CTRVSTrack
 
@@ -206,10 +213,23 @@ class UKFByteTracker(CTRVByteTracker):
     track_class = UKFSTrack
 
 
+class CVByteTracker(LostAwareAssociation, BYTETracker):
+    """Baseline KF + CV, CHI khac ban goc o ham chi phi lien ket cho track LOST.
+
+    BAT BUOC phai co lop nay cho Giai doan B: neu chi bat DIoU/expanded gate cho
+    EKF/UKF ma de baseline chay IoU goc thi ta da doi HAI bien cung luc (motion
+    model VA ham chi phi), pha vo nguyen tac co lap bien cua toan de tai.
+    Voi ca hai co TAT, lop nay hanh xu trung khit `BYTETracker` goc.
+    """
+
+    pass
+
+
 #: Ten tracker_type -> lop tracker tuong ung (dang ky vao ultralytics).
 CTRV_TRACKERS = {
     "bytetrack_ekf_ctrv": CTRVByteTracker,
     "bytetrack_ukf_ctrv": UKFByteTracker,
+    "bytetrack_cv_lostassoc": CVByteTracker,
 }
 
 

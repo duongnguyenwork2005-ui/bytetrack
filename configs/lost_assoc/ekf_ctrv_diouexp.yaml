@@ -1,0 +1,20 @@
+# Giai doan B: bien the ham chi phi lien ket CHO RIENG track LOST.
+# Moi tham so ghep cap khac giu NGUYEN. Xem src/lost_association.py.
+# Cau hinh ByteTrack + EKF/CTRV cho Giai doan 3.
+#
+# QUAN TRONG: moi tham so GHEP CAP (track_high_thresh, track_low_thresh,
+# new_track_thresh, track_buffer, match_thresh, fuse_score) duoc giu NGUYEN
+# Y HET bytetrack.yaml mac dinh cua ultralytics. Dong duy nhat khac la
+# `tracker_type` - tro toi CTRVByteTracker dang ky trong src/tracker_ctrv.py.
+# Nho vay phep so sanh voi baseline chi khac dung MOT bien: motion model.
+tracker_type: bytetrack_ekf_ctrv # (str) EKF + mo hinh CTRV (src/tracker_ctrv.py)
+track_high_thresh: 0.25 # (float) First-stage match threshold; raise for cleaner tracks, lower to keep more
+track_low_thresh: 0.1 # (float) Second-stage threshold for low-score matches; balances recovery vs drift
+new_track_thresh: 0.25 # (float) Start a new track if no match ≥ this; higher reduces false tracks
+track_buffer: 30 # (int) Frames to keep lost tracks alive; higher handles occlusion, increases ID switches risk
+match_thresh: 0.8 # (float) Association similarity threshold (IoU/cost); tune with detector quality
+fuse_score: True # (bool) Fuse detection score with motion/IoU for matching; stabilizes weak detections
+
+lost_cost: diou # (str) ham chi phi cho track LOST: iou (goc) | diou (DIoU chuan hoa)
+lost_expand_rate: 0.1 # (float) 0=tat. k = 1 + rate*so_frame_mat
+lost_expand_max: 3.0 # (float) tran cua he so gian no k
