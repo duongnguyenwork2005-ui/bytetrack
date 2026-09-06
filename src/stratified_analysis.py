@@ -467,8 +467,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Giai doan 5: phan tich phan tang")
     ap.add_argument("--split-name", default="DETRAC-all")
     ap.add_argument("--trackers", nargs="*", default=None,
-                    help="Mac dinh: cả 3 motion model trong config.MOTION_MODELS")
+                    help="Mac dinh: ca 3 motion model trong config.MOTION_MODELS")
     ap.add_argument("--plot", action="store_true", help="Ve hinh minh hoa")
+    ap.add_argument("--tag", default="",
+                    help="Hau to them vao ten file ket qua, de lan chay nay khong "
+                         "ghi de lan chay khac (vd --tag buf90).")
     args = ap.parse_args()
 
     # --- Danh sach tracker tuong ung 3 motion model ---
@@ -477,6 +480,12 @@ def main() -> int:
     SHORT = {"cv": "KF + CV", "ekf_ctrv": "EKF + CTRV", "ukf_ctrv": "UKF + CTRV"}
     label = {f"{stem}-{s['suffix']}": SHORT.get(k, k)
              for k, s in config.MOTION_MODELS.items()}
+    # Ten thu muc cua cac lan chay quet track_buffer: "sweep-<motion_model>-buf<N>".
+    # Map ve cung nhan ngan de mcnemar()/bootstrap_effect() tim duoc baseline
+    # "KF + CV" thay vi coi moi lan chay la mot model rieng.
+    for k in config.MOTION_MODELS:
+        for buf in (30, 60, 90, 120):
+            label[f"sweep-{k}-buf{buf}"] = SHORT.get(k, k)
     trackers = args.trackers or [f"{stem}-{s['suffix']}" for s in config.MOTION_MODELS.values()]
 
     # --- Bang tang: do dai che khuat ---
@@ -546,8 +555,9 @@ def main() -> int:
 
     out_dir = config.RESULTS_DIR / "stratified"
     out_dir.mkdir(parents=True, exist_ok=True)
-    seg.to_csv(out_dir / f"segment_outcomes_{args.split_name}.csv", index=False)
-    trk.to_csv(out_dir / f"track_recall_{args.split_name}.csv", index=False)
+    tag = f"{args.split_name}{('_' + args.tag) if args.tag else ''}"
+    seg.to_csv(out_dir / f"segment_outcomes_{tag}.csv", index=False)
+    trk.to_csv(out_dir / f"track_recall_{tag}.csv", index=False)
 
     # --- Cac bang tong hop ---
     tables = {
@@ -563,7 +573,7 @@ def main() -> int:
     }
     for name, t in tables.items():
         if len(t):
-            t.to_csv(out_dir / f"{name}_{args.split_name}.csv", index=False)
+            t.to_csv(out_dir / f"{name}_{tag}.csv", index=False)
 
     # --- Kiem dinh y nghia thong ke (McNemar ghep cap) ---
     base_label = "KF + CV"
@@ -576,7 +586,7 @@ def main() -> int:
     }
     for name, t in mc.items():
         if len(t):
-            t.to_csv(out_dir / f"mcnemar_{name}_{args.split_name}.csv", index=False)
+            t.to_csv(out_dir / f"mcnemar_{name}_{tag}.csv", index=False)
 
     # --- Stage D: effect size + khoang tin cay bootstrap (BO SUNG cho McNemar) ---
     moving = seg_cmp[seg_cmp["seg_curv_class"] != "dung yen"] \
@@ -588,7 +598,7 @@ def main() -> int:
     }
     for name, t in bs.items():
         if len(t):
-            t.to_csv(out_dir / f"bootstrap_{name}_{args.split_name}.csv", index=False)
+            t.to_csv(out_dir / f"bootstrap_{name}_{tag}.csv", index=False)
             print("\n" + "=" * 78)
             print(f"STAGE D - EFFECT SIZE + KTC 95% BOOTSTRAP ({name})")
             print("=" * 78)
@@ -674,7 +684,7 @@ def main() -> int:
     print(f"\n  Da luu -> {out_dir}")
 
     if args.plot:
-        make_plots(tables, out_dir, args.split_name)
+        make_plots(tables, out_dir, tag)
     return 0
 
 
