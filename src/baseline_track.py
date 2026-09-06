@@ -166,7 +166,17 @@ def main() -> int:
     ap.add_argument("--skip-existing", action="store_true",
                     help="Bo qua video da co file ket qua (khac rong) trong thu muc tracker. "
                          "Dung de chay tiep sau khi bi dut giua chung.")
+    ap.add_argument("--ctrv-init-std-omega", type=float, default=None,
+                    help="Ghi de config.CTRV_INIT_STD_OMEGA cho lan chay nay (thi nghiem). "
+                         "Khong doi gia tri chinh thuc trong config.py.")
     args = ap.parse_args()
+
+    if args.ctrv_init_std_omega is not None:
+        # Ghi de TRUOC khi tracker_ctrv.register() duoc goi, vi EKFTrackerCTRV.initiate()
+        # doc thang config.CTRV_INIT_STD_OMEGA moi lan tao track moi (khong cache o __init__).
+        print(f"[baseline] [THI NGHIEM] ghi de CTRV_INIT_STD_OMEGA: "
+              f"{config.CTRV_INIT_STD_OMEGA} -> {args.ctrv_init_std_omega}")
+        config.CTRV_INIT_STD_OMEGA = args.ctrv_init_std_omega
 
     if args.videos:
         videos = args.videos
