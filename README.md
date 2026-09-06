@@ -887,15 +887,14 @@ vẫn thấp hơn baseline một chút, cùng lý do đã phân tích ở Giai �
 `P` lớn (che khuất dài), mà 63.4% đoạn che khuất trong UA-DETRAC là ngắn (<0.5s).
 
 ### Tốc độ
-| Motion model | FPS |
-|---|---|
-| KF + CV | 54.6 |
-| EKF + CTRV | 80.8 |
-| UKF + CTRV | 46.3 |
 
-UKF chậm hơn EKF ~1.7× do phải truyền 19 sigma point qua `f()` mỗi bước thay vì
-1 lần tính Jacobian. (Chênh lệch FPS giữa các lần chạy còn chịu ảnh hưởng của
-tải GPU, nên chỉ nên xem là ước lượng tương đối.)
+> ⚠️ **Bảng FPS cũ ở đây đã bị gỡ bỏ vì không đáng tin.** Con số cũ
+> (KF 54.6 / EKF 80.8 / UKF 46.3) lấy từ **một lần chạy duy nhất** mỗi model, trên
+> 5 video khác nhau, không kiểm soát nhiễu tải GPU. Nó chứa một điểm vô lý: EKF
+> "nhanh hơn" KF baseline tới 48%, trong khi EKF phải làm **thêm** việc tính
+> Jacobian 9×9. Đã đo lại cẩn thận ở Stage B — xem mục dưới đây.
+
+Số đo đúng: **"Đo lại tốc độ (Stage B)"** ở cuối README.
 
 ---
 
@@ -1039,6 +1038,93 @@ việc tiếp theo.
    hợp), nhất quán với hiệu ứng dây cung đã phân tích ở Giai đoạn 4.
 
 Hình minh hoạ: `results/stratified/id_retention_DETRAC-all.png`.
+
+---
+
+## Đo lại tốc độ (Stage B)
+
+```bash
+python src/benchmark_fps.py --micro                                  # chỉ tầng 1
+python src/benchmark_fps.py --videos MVI_20011 MVI_39811 --reps 5    # cả 2 tầng
+```
+
+Đo 2 tầng vì FPS end-to-end bị nhiễu GPU lấn át hoàn toàn.
+
+### Tầng 1 — chi phí thuần tuý của motion model (không dính GPU/detector)
+
+µs mỗi lần gọi, trung bình ± độ lệch chuẩn qua 5 lần lặp × 3.000 lần gọi:
+
+| Motion model | `predict` | `update` | `multi_predict` (20 track) |
+|---|---|---|---|
+| KF + CV | 49.1 ± 7.1 | 42.0 ± 3.5 | **115.8 ± 3.1** |
+| EKF + CTRV | 28.1 ± 1.2 (0.57×) | 51.4 ± 2.4 (1.22×) | **671 ± 54 (5.8×)** |
+| UKF + CTRV | 334.5 ± 25.2 (6.8×) | 157.3 ± 15.3 (3.8×) | **6.708 ± 561 (57.9×)** |
+
+**Vì sao `predict()` đơn lẻ của EKF lại nhanh hơn KF (0.57×)?** Không phải EKF rẻ hơn
+về mặt toán học, mà vì `KalmanFilterXYAH.predict` của ultralytics dựng lại ma trận
+nhiễu mỗi lần gọi bằng `np.diag(np.square(np.r_[std_pos, std_vel]))` rồi nhân bằng
+`np.linalg.multi_dot`. Với ma trận 8×8, chi phí *overhead* của `np.r_` và `multi_dot`
+(phải phân tích thứ tự nhân tối ưu) lớn hơn hẳn bản thân phép nhân. EKF dùng
+`F @ P @ F.T` trực tiếp nên né được overhead đó.
+
+**Nhưng ByteTrack KHÔNG gọi `predict()`, nó gọi `multi_predict()`** — và ở đó thứ tự
+đảo ngược hoàn toàn: `KalmanFilterXYAH.multi_predict` **vector hoá toàn bộ N track**
+trong một phép `np.matmul` hàng loạt, còn `EKFTrackerCTRV.multi_predict` là **vòng lặp
+Python** gọi `predict()` từng track (bắt buộc, vì CTRV phi tuyến nên mỗi track có
+`F` riêng phụ thuộc `theta`/`omega`/`v` của chính nó). Kết quả: EKF chậm 5.8×,
+UKF chậm 57.9×.
+
+### Tầng 2 — end-to-end, 2 video × 5 lần lặp × 3 model
+
+**FPS end-to-end KHÔNG phân biệt được 3 model:**
+
+| Cặp so sánh | FPS | p (Welch t-test) |
+|---|---|---|
+| KF vs EKF | 33.05 vs 32.71 | 0.915 |
+| KF vs UKF | 33.05 vs 33.59 | 0.854 |
+| EKF vs UKF | 32.71 vs 33.59 | 0.682 |
+
+Lý do: nhiễu đo **quá lớn** so với chênh lệch cần đo. Cùng một model, cùng một video,
+5 lần lặp cho hệ số biến thiên tới **26.8%** và biên độ **73.9%** (KF trên MVI_20011:
+16.98 → 36.75 FPS). Riêng lần chạy đầu tiên chậm hơn các lần sau tới **−41.8%** do
+CUDA context init + cuDNN autotune.
+
+> **Đây chính là lý do con số 80.8 FPS cũ là giả.** Một lần chạy duy nhất, không lặp,
+> rơi đúng vào vùng nhiễu ±27% thì bất kỳ thứ tự nào giữa 3 model cũng có thể xuất hiện.
+
+**Thời gian riêng của motion model thì sạch và dứt khoát** (đo bằng cách bọc trực tiếp
+`multi_predict`/`update`):
+
+| Motion model | Thời gian motion | % tổng runtime | So với KF | `multi_predict` | `update` |
+|---|---|---|---|---|---|
+| KF + CV | 0.306 s | 1.14% | 1.00× | 724.5 | 2906.5 |
+| EKF + CTRV | 0.491 s | 1.82% | **1.60×** | 720.5 | 2899.5 |
+| UKF + CTRV | 2.064 s | 8.07% | **6.74×** | 720.5 | 2903.5 |
+
+### Giả thuyết "EKF nhanh hơn vì ít track nên ít phép tính" — ĐÃ BỊ BÁC BỎ
+
+Số lần gọi `multi_predict` (720–724) và `update` (2899–2906) **gần như bằng nhau** ở cả
+3 model. Kiểm chứng lại trên toàn bộ 60 video:
+
+| Motion model | Tổng track | Tổng bbox | FPS |
+|---|---|---|---|
+| KF + CV | 9.819 (100%) | 504.694 (100%) | 33.11 |
+| EKF + CTRV | 9.861 (100.4%) | 504.524 (100.0%) | 33.05 |
+| UKF + CTRV | 9.864 (100.5%) | 504.605 (100.0%) | 29.87 |
+
+Ba model tạo ra số track chênh nhau **dưới 0.5%** — không có chuyện model nào làm track
+chết sớm hơn để tiết kiệm phép tính.
+
+### Kết luận Stage B
+
+1. **EKF không hề nhanh hơn KF.** Con số cũ là nhiễu đo. Về chi phí tính toán thuần
+   tuý, EKF tốn **1.60×** và UKF tốn **6.74×** so với KF.
+2. **Nên báo cáo thời gian motion model, không nên báo cáo FPS end-to-end**, vì
+   motion model chỉ chiếm 1–8% runtime — phần còn lại là YOLO inference, hoàn toàn
+   giống nhau ở cả 3 pipeline và bị nhiễu GPU chi phối.
+3. Ước lượng end-to-end đáng tin nhất là lần chạy 60 video (trung bình trên 83.791 ảnh,
+   nhiễu bị san phẳng): **KF 33.11 / EKF 33.05 / UKF 29.87 FPS**. Mức phạt ~10% của UKF
+   khớp với tỉ trọng 8.07% thời gian motion model đo được ở tầng 2.
 
 ---
 
