@@ -1041,6 +1041,106 @@ Hình minh hoạ: `results/stratified/id_retention_DETRAC-all.png`.
 
 ---
 
+## Kiểm tra floor effect của `track_buffer` (Stage E)
+
+```bash
+python src/baseline_track.py --videos <6 video> --split-name DETRAC-all \
+    --motion-model ekf_ctrv --tracker-cfg configs/buffer_sweep/ekf_ctrv_buf90.yaml \
+    --tracker-name sweep-ekf_ctrv-buf90 --skip-existing
+python src/buffer_sweep_analysis.py
+```
+
+### Giả thuyết cần kiểm tra
+
+Ở nhóm che khuất **dài (>1.5s)**, cả 3 motion model đều giữ được **0%** ID. Có hai cách
+giải thích hoàn toàn khác nhau:
+
+1. *"3 motion model như nhau"* → kết luận về motion model
+2. **Floor effect:** `track_buffer = 30` frame (1.2s) nên ByteTrack **xoá hẳn track** trước
+   khi đoạn che kết thúc. Không còn track thì không motion model nào có cơ hội thể hiện —
+   phép đo **bị chặn trần**, không nói lên điều gì về motion model cả.
+
+### Thiết kế
+
+18 đoạn `full × long` nằm gọn trong **6 video**, độ dài 38–66 frame — tách bạch đúng
+giả thuyết cần kiểm tra. **Chỉ đổi `track_buffer`**, mọi tham số ghép cặp khác giữ nguyên
+(`configs/buffer_sweep/`), không đụng đến kiến trúc motion model đã chốt.
+
+| `track_buffer` | Số đoạn nằm trong buffer |
+|---|---|
+| 30 (hiện tại) | **0/18** |
+| 60 | 16/18 |
+| 90 | 18/18 |
+
+### Kết quả 1 — floor effect là CÓ THẬT
+
+Tỉ lệ giữ ID ở `che ≥0.90 × long` (n=18):
+
+| `track_buffer` | KF + CV | EKF + CTRV | UKF + CTRV |
+|---|---|---|---|
+| 30 | **0.0000** | **0.0000** | **0.0000** |
+| 60 | 0.1111 | 0.0556 | 0.1111 |
+| 90 | 0.1111 | 0.1111 | **0.1667** |
+
+Ở `buffer = 30`, cả 3 model cho kết cục **giống hệt nhau từng đoạn một** (0 `preserved`,
+10 `switched`, 8 `lost`). Nới buffer thì tỉ lệ giữ ID bật lên 11–17%.
+
+> **Vậy kết luận "cả 3 model đều 0% nên chúng như nhau" ở Giai đoạn 5 là SAI về mặt suy
+> luận.** Con số 0% đó do `track_buffer` áp đặt, không phải do motion model.
+
+### Kết quả 2 — bỏ trần thì CTRV hưởng lợi gấp đôi KF
+
+Gộp toàn bộ 256 đoạn của 6 video, khi nới `buffer` 30 → 90:
+
+| Motion model | `preserved` | `switched` | `lost` |
+|---|---|---|---|
+| KF + CV | 81 → 85 (**+4**) | 45 → 41 | 129 → 130 |
+| EKF + CTRV | 82 → 90 (**+8**) | 45 → 37 | 129 → 129 |
+| UKF + CTRV | 82 → 90 (**+8**) | 45 → 37 | 129 → 129 |
+
+Số `lost` gần như không đổi — toàn bộ phần tăng đến từ việc chuyển `switched` → `preserved`,
+**đúng cơ chế mà đề tài giả thiết**: track sống đủ lâu thì motion model mới có cơ hội ngoại
+suy đủ tốt để ghép lại đúng ID cũ.
+
+### Kết quả 3 — xu hướng đơn điệu theo buffer, nhưng vẫn chưa đủ ý nghĩa
+
+McNemar ghép cặp trên toàn bộ 254 đoạn:
+
+| `buffer` | Cặp | KF thắng | CTRV thắng | Δ | p |
+|---|---|---|---|---|---|
+| 30 | EKF vs KF | 1 | 1 | 0 | 1.000 |
+| 60 | EKF vs KF | 3 | 5 | +2 | 0.727 |
+| **90** | EKF vs KF | 3 | 7 | **+4** | **0.344** |
+| 30 | UKF vs KF | 1 | 1 | 0 | 1.000 |
+| 60 | UKF vs KF | 2 | 4 | +2 | 0.688 |
+| **90** | UKF vs KF | 2 | 6 | **+4** | **0.289** |
+
+**Δ tăng đơn điệu 0 → +2 → +4 và p giảm đơn điệu 1.00 → 0.73 → 0.34** khi nới buffer.
+Đây đúng là dáng dấp của một hiệu ứng thật đang dần lộ ra khi trần được gỡ bỏ.
+
+Bootstrap cluster theo track tại `buffer = 90`: effect **+1.57 pp** cho cả EKF và UKF,
+KTC 95% lần lượt **[−1.61, +4.46]** và **[−0.80, +3.92]** — **vẫn chứa 0**.
+
+### Đánh đổi khi nới buffer
+
+Không miễn phí: ở nhóm che **ngắn**, KF giảm từ 0.2692 xuống 0.2308 khi nới buffer — giữ
+track "chết" lâu hơn thì cũng tăng cơ hội ghép nhầm với một track cũ đã hết hạn.
+
+### Kết luận Stage E
+
+1. **Floor effect được chứng minh là có thật.** Ô `che ≥0.90 × long` ở `buffer = 30` bị
+   chặn cứng ở 0% — stratum đó **không chứa thông tin gì** về motion model, và không được
+   dùng làm bằng chứng "3 model như nhau".
+2. **Gỡ trần thì hướng ủng hộ giả thuyết:** CTRV được lợi gấp đôi KF (+8 vs +4 đoạn), toàn
+   bộ đến từ `switched → preserved` — đúng cơ chế đề tài giả thiết.
+3. **Nhưng vẫn chưa đạt ý nghĩa thống kê** ở bất kỳ mức buffer nào (tốt nhất p = 0.289;
+   KTC bootstrap vẫn chứa 0). Cỡ mẫu chỉ 254 đoạn trên 6 video.
+4. **Đề xuất công việc tiếp theo:** chạy lại **toàn bộ 60 video** ở `track_buffer = 90`.
+   Sẽ cho cỡ mẫu lớn gấp ~4 lần; nếu xu hướng đơn điệu ở trên là thật thì đó là điều kiện
+   đủ để nó vượt ngưỡng ý nghĩa. Đây là thí nghiệm có triển vọng nhất còn lại của đề tài.
+
+---
+
 ## Effect size + khoảng tin cậy (Stage D)
 
 ### Vì sao cần, khi đã có p-value?
