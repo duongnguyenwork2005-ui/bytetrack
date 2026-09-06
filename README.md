@@ -1041,6 +1041,53 @@ Hình minh hoạ: `results/stratified/id_retention_DETRAC-all.png`.
 
 ---
 
+## Thử hiệu chỉnh nhiễu quá trình cho omega (sau Stage A)
+
+Xuất phát từ phát hiện A3: `ω` học được chỉ đúng dấu với khúc cua thật **55.6%** số
+lần (≈ tung đồng xu) và độ lớn `|ω|` bị **thổi phồng gấp 3 lần**. Đặt câu hỏi: hiệu
+chỉnh lại nhiễu quá trình (`CTRV_STD_OMEGA`, `CTRV_INIT_STD_OMEGA` trong `config.py`)
+có sửa được không?
+
+```bash
+python src/tune_omega_noise.py                                          # quet offline
+python src/baseline_track.py --ctrv-init-std-omega 0.01 ...             # kiem chung GPU
+```
+
+### Quét offline (20 tổ hợp, chỉ tính filter trên quỹ đạo GT, không cần GPU)
+
+| | Hiện tại (0.005, 0.10) | Tốt nhất trong quét |
+|---|---|---|
+| Tỉ lệ đúng dấu | 55.6% | 55.8% (+0.2 điểm — **không đáng kể**) |
+| Độ lớn `\|ω\|` so với GT | 2.98× | có thể giảm xuống **0.84×** (gần đúng) |
+
+**Tỉ lệ đúng dấu gần như phẳng** trên toàn bộ vùng quét (53.3–55.8%), bất kể xiết
+hay nới nhiễu. Xác nhận thêm giả thuyết A3: xe đổi hướng **đúng lúc** vào/ra vùng
+che — không có tín hiệu nào trước đó để bất kỳ mức nhiễu nào "bắt" được. Đây là
+**giới hạn cấu trúc**, không phải lỗi hiệu chỉnh tham số.
+
+Nhưng độ lớn `|ω|` thì sửa được — xiết `CTRV_INIT_STD_OMEGA` giảm được độ phóng đại
+gần về 1×. Biên độ và hướng (dấu) là hai đại lượng độc lập trong sai số ước lượng `ω`.
+
+### Kiểm chứng trên pipeline thật (6 video của Stage E) — xác nhận không cải thiện
+
+| Bucket (che ≥0.90) | KF + CV | EKF `init=0.10` | EKF `init=0.01` | UKF `init=0.10` | UKF `init=0.01` |
+|---|---|---|---|---|---|
+| `long` | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% |
+| `medium` | 0.00% | 0.00% | 0.00% | 0.00% | 0.00% |
+| `short` | 26.92% | 28.57% | **28.57%** | 28.57% | **28.57%** |
+
+`init=0.01` và `init=0.10` cho tỉ lệ giữ ID **giống hệt nhau từng ô một**, trên cả
+EKF và UKF. Đúng như dự đoán từ phép quét offline: giảm độ phóng đại biên độ không
+đổi được kết cục giữ ID, vì kết cục phụ thuộc vào **dấu** của `ω` chứ không phải độ
+lớn của nó.
+
+> **Kết luận:** hiệu chỉnh nhiễu quá trình là một hướng đã thử nghiêm túc và **đóng
+> lại** — không mang lại cải thiện nào trên chỉ số quyết định. Vấn đề gốc (turn rate
+> không dự đoán được từ dữ liệu trước đó) đòi hỏi một cách tiếp cận khác về bản chất
+> (ví dụ: CTRV có điều kiện theo độ tin cậy), không phải chỉnh siêu tham số.
+
+---
+
 ## Kiểm tra floor effect của `track_buffer` (Stage E)
 
 ```bash
