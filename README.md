@@ -1136,8 +1136,78 @@ track "chết" lâu hơn thì cũng tăng cơ hội ghép nhầm với một tra
 3. **Nhưng vẫn chưa đạt ý nghĩa thống kê** ở bất kỳ mức buffer nào (tốt nhất p = 0.289;
    KTC bootstrap vẫn chứa 0). Cỡ mẫu chỉ 254 đoạn trên 6 video.
 4. **Đề xuất công việc tiếp theo:** chạy lại **toàn bộ 60 video** ở `track_buffer = 90`.
-   Sẽ cho cỡ mẫu lớn gấp ~4 lần; nếu xu hướng đơn điệu ở trên là thật thì đó là điều kiện
-   đủ để nó vượt ngưỡng ý nghĩa. Đây là thí nghiệm có triển vọng nhất còn lại của đề tài.
+   ✅ **Đã thực hiện** — xem mục ngay dưới đây.
+
+---
+
+## Thực nghiệm toàn tập ở `track_buffer = 90` (Stage E mở rộng)
+
+> ⚠️ Đây là **thí nghiệm bổ sung**, đã được người dùng đồng ý. Nó đổi hyperparameter
+> `track_buffer` của ByteTrack nên **nằm ngoài baseline đã khoá**. Kết quả `buffer = 30`
+> vẫn giữ nguyên làm kết quả chính để đối chứng, **không bị ghi đè**
+> (file kết quả có hậu tố `_buf90`).
+
+60 video × 3 motion model, `track_buffer = 90` thay vì 30. Mọi thứ khác giữ nguyên.
+
+### Chỉ số tổng hợp — **thứ tự đảo ngược**
+
+| Motion model | HOTA | AssA | IDF1 | IDSW |
+|---|---|---|---|---|
+| KF + CV — `buffer 30` | 0.6104 | 0.6541 | 0.7783 | 2.251 |
+| KF + CV — `buffer 90` | 0.6101 | 0.6533 | 0.7771 | 2.360 |
+| EKF + CTRV — `buffer 30` | 0.6101 | 0.6536 | 0.7782 | 2.290 |
+| **EKF + CTRV — `buffer 90`** | **0.6107** | **0.6552** | **0.7794** | **2.307** |
+| UKF + CTRV — `buffer 90` | 0.6096 | 0.6530 | 0.7777 | 2.353 |
+
+**Lần đầu tiên trong toàn bộ đề tài, EKF + CTRV vượt baseline** — và vượt trên **đúng
+nhóm chỉ số đo chất lượng liên kết**: HOTA (+0.10%), **AssA (+0.29%)**, IDF1 (+0.30%),
+và ít hơn 53 ID switch. Đây chính là nhóm chỉ số mà motion model được kỳ vọng tác động.
+
+### Tỉ lệ giữ ID ở ô trọng tâm — chỉ EKF hưởng lợi
+
+`che ≥0.90 × medium` (n = 78):
+
+| `track_buffer` | KF + CV | EKF + CTRV | UKF + CTRV |
+|---|---|---|---|
+| 30 | 6.41% | 11.54% | 7.69% |
+| 90 | 6.41% | **12.82%** | 7.69% |
+
+Nới buffer **chỉ EKF cải thiện** (11.54 → 12.82%); KF và UKF **đứng yên hoàn toàn**.
+EKF giờ giữ ID gấp **đúng 2 lần** baseline.
+
+McNemar cùng ô: Δ tăng **+4 → +5**, p giảm **0.2188 → 0.1250** — xu hướng đơn điệu ở
+Stage E tiếp tục đúng khi tăng cỡ mẫu.
+
+### Nhưng trên toàn bộ 1.544 đoạn thì KF và EKF HOÀ NHAU
+
+| Motion model | `preserved` (buf 30 → 90) | `switched` | `lost` |
+|---|---|---|---|
+| KF + CV | 530 → **536** (+6) | 306 → 302 | 708 → 706 |
+| EKF + CTRV | 527 → **536** (+9) | 308 → 299 | 709 → 709 |
+| UKF + CTRV | 525 → 533 (+8) | 310 → 302 | 709 → 709 |
+
+CTRV hưởng lợi nhiều hơn (+9 và +8 so với +6) — **tái lập được xu hướng ở Stage E**,
+tuy mức chênh nhỏ hơn (1.5× thay vì 2×). Nhưng vì KF xuất phát nhỉnh hơn ở `buffer = 30`
+(530 vs 527) nên kết cục là **hoà: cả hai đều 536 đoạn (34.72%)**.
+
+### Phát hiện "có ý nghĩa" duy nhất ở Stage D đã tan biến
+
+Ô `che ≥0.10 × long` (KF > EKF, từng là cặp duy nhất có KTC không chứa 0) khi chuyển sang
+`buffer = 90`: p tăng từ **0.0703 → 0.1796**. Điều này **ủng hộ cảnh báo ở Stage D** rằng
+đó nhiều khả năng là **dương tính giả do so sánh bội**, không phải ưu thế thật của KF.
+
+### Kết luận
+
+1. **`track_buffer` là biến điều tiết quan trọng hơn cả motion model.** Cùng một EKF,
+   chỉ đổi buffer 30 → 90 là chuyển từ thua baseline sang thắng baseline trên mọi chỉ số
+   liên kết. Nếu luận văn chỉ báo cáo ở `buffer = 30` thì kết luận sẽ ngược lại.
+2. **Cấu hình tốt nhất đo được trong toàn bộ đề tài: EKF + CTRV với `track_buffer = 90`.**
+3. **Vẫn chưa đạt ý nghĩa thống kê** (tốt nhất p = 0.125). Không được tuyên bố CTRV tốt hơn
+   — cách nói đúng là *"CTRV cho kết quả tốt hơn nhất quán về hướng ở cấu hình buffer lớn,
+   nhưng cỡ mẫu tự nhiên của UA-DETRAC không đủ để khẳng định"*.
+4. **UKF vẫn không có lý do để dùng:** thấp hơn EKF ở mọi chỉ số tổng hợp, và ở ô trọng
+   tâm thì hoàn toàn không hưởng lợi từ buffer lớn — nhất quán với hiệu ứng dây cung
+   đã truy được ở Stage A.
 
 ---
 
