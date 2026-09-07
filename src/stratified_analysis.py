@@ -272,7 +272,7 @@ def summarise(df: pd.DataFrame, group_cols: list[str]) -> pd.DataFrame:
     return out
 
 
-def segment_curvature(seg_tables: dict) -> pd.DataFrame:
+def segment_curvature(seg_tables: dict, part: str = "train") -> pd.DataFrame:
     """Do do cong CUA TUNG DOAN CHE (Stage C), thay vi do cong cua CA TRACK.
 
     VI SAO KHONG DUNG `curvature_class` SAN CO?
@@ -294,7 +294,7 @@ def segment_curvature(seg_tables: dict) -> pd.DataFrame:
     Luu y: MOI cach do deu vo nghia khi xe dung yen, nen phai loc theo
     MIN_SEG_SPEED chu khong phai tim cong thuc chong nhieu tot hon.
     """
-    pq = pd.read_parquet(config.INTERIM_DIR / "detrac_train_annotations.parquet")
+    pq = pd.read_parquet(config.ann_parquet(part))
     g = {k: v.sort_values("frame") for k, v in pq.groupby(["video", "track_id"])}
 
     rows = []
@@ -469,6 +469,9 @@ def main() -> int:
     ap.add_argument("--trackers", nargs="*", default=None,
                     help="Mac dinh: ca 3 motion model trong config.MOTION_MODELS")
     ap.add_argument("--plot", action="store_true", help="Ve hinh minh hoa")
+    ap.add_argument("--part", choices=["train", "test"], default="train",
+                    help="Phan dataset. --part test dung cac file phan tang cua tap "
+                         "test (hau to _test) thay vi tap train.")
     ap.add_argument("--tag", default="",
                     help="Hau to them vao ten file ket qua, de lan chay nay khong "
                          "ghi de lan chay khac (vd --tag buf90).")
@@ -490,14 +493,14 @@ def main() -> int:
 
     # --- Bang tang: do dai che khuat ---
     seg_tables = {
-        "partial": pd.read_csv(config.INTERIM_DIR / "occlusion_segments.csv"),
-        "full": pd.read_csv(config.INTERIM_DIR / "full_occlusion_segments.csv"),
+        "partial": pd.read_csv(config.part_file("occlusion_segments.csv", args.part)),
+        "full": pd.read_csv(config.part_file("full_occlusion_segments.csv", args.part)),
     }
     # --- Bang tang: do cong CA TRACK (Giai doan 1, giu de doi chung) ---
-    cur = pd.read_csv(config.INTERIM_DIR / "track_curvature.csv")[
+    cur = pd.read_csv(config.part_file("track_curvature.csv", args.part))[
         ["video", "track_id", "curvature_class", "turn_class"]]
     # --- Bang tang: do cong TUNG DOAN CHE (Stage C - moi) ---
-    segcur = segment_curvature(seg_tables)
+    segcur = segment_curvature(seg_tables, args.part)
 
     videos = sorted(p.name for p in (config.PROCESSED_DIR / args.split_name).iterdir()
                     if p.is_dir())
