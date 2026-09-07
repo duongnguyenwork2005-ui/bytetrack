@@ -298,9 +298,12 @@ def main() -> int:
     ap.add_argument("--plot", action="store_true", help="Ve hinh minh hoa vao results/")
     ap.add_argument("--no-frame-output", action="store_true",
                     help="Khong luu file frame_kinematics.parquet (tiet kiem dung luong)")
+    ap.add_argument("--part", choices=["train", "test"], default="train",
+                    help="Phan dataset can xu ly. Giai doan D dung --part test "
+                         "(tap test 40 video). File ket qua cua train GIU NGUYEN ten cu.")
     args = ap.parse_args()
 
-    pq = config.INTERIM_DIR / "detrac_train_annotations.parquet"
+    pq = config.ann_parquet(args.part)
     if not pq.exists():
         print(f"[ERROR] Chua co {pq}. Chay src/parse_detrac_xml.py truoc.")
         return 1
@@ -332,13 +335,13 @@ def main() -> int:
             frame_parts.append(part)
 
     df_track = pd.DataFrame(rows)
-    out_track = config.INTERIM_DIR / "track_curvature.csv"
+    out_track = config.part_file("track_curvature.csv", args.part)
     df_track.to_csv(out_track, index=False)
 
     df_frame = pd.DataFrame()
     if frame_parts:
         df_frame = pd.concat(frame_parts, ignore_index=True)
-        out_frame = config.INTERIM_DIR / "frame_kinematics.parquet"
+        out_frame = config.part_file("frame_kinematics.parquet", args.part)
         df_frame.to_parquet(out_frame, index=False)
 
     # ------------------------------------------------------------------
@@ -387,7 +390,7 @@ def main() -> int:
     print("  Da luu:")
     print(f"    {out_track}")
     if len(df_frame):
-        print(f"    {config.INTERIM_DIR / 'frame_kinematics.parquet'}  ({len(df_frame):,} dong)")
+        print(f"    {config.part_file('frame_kinematics.parquet', args.part)}  ({len(df_frame):,} dong)")
 
     if args.plot and len(df_frame):
         plot_examples(df_track, df_frame, config.RESULTS_DIR / "curvature_examples.png")

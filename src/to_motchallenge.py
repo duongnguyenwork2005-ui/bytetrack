@@ -208,15 +208,18 @@ def main() -> int:
                     help="Bo bbox co visibility thap hon nguong (mac dinh 0 = giu tat ca)")
     ap.add_argument("--ignore-as-distractor", action="store_true",
                     help="Ghi ignored_region thanh dong GT class 13 trong gt.txt")
+    ap.add_argument("--part", choices=["train", "test"], default="train",
+                    help="Phan dataset can xu ly. Giai doan D dung --part test "
+                         "(tap test 40 video). File ket qua cua train GIU NGUYEN ten cu.")
     args = ap.parse_args()
 
-    pq = config.INTERIM_DIR / "detrac_train_annotations.parquet"
+    pq = config.ann_parquet(args.part)
     if not pq.exists():
         print(f"[ERROR] Chua co {pq}. Chay src/parse_detrac_xml.py truoc.")
         return 1
 
     df = pd.read_parquet(pq)
-    ign_csv = config.INTERIM_DIR / "detrac_ignored_regions.csv"
+    ign_csv = config.part_file("detrac_ignored_regions.csv", args.part)
     df_ign = pd.read_csv(ign_csv) if ign_csv.exists() else pd.DataFrame(
         columns=["video", "region_idx", "left", "top", "width", "height"])
 

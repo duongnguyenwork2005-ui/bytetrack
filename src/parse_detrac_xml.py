@@ -429,9 +429,12 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Parse UA-DETRAC XML -> DataFrame")
     ap.add_argument("--videos", nargs="*", default=None, help="Chi parse cac video nay")
     ap.add_argument("--limit", type=int, default=None, help="Chi parse N video dau tien")
+    ap.add_argument("--part", choices=["train", "test"], default="train",
+                    help="Phan dataset can xu ly. Giai doan D dung --part test "
+                         "(tap test 40 video). File ket qua cua train GIU NGUYEN ten cu.")
     args = ap.parse_args()
 
-    ann_root = config.EXTRACTED_DIR / config.ANNOTATIONS_SUBDIR
+    ann_root = config.ann_dir(args.part)
     if not ann_root.is_dir():
         print(f"[ERROR] Chua co {ann_root}. Chay src/extract_verify.py truoc.")
         return 1
@@ -449,18 +452,18 @@ def main() -> int:
         print("[ERROR] Khong parse duoc dong nao.")
         return 1
 
-    out_pq = config.INTERIM_DIR / "detrac_train_annotations.parquet"
+    out_pq = config.ann_parquet(args.part)
     df.to_parquet(out_pq, index=False)
-    df.head(2000).to_csv(config.INTERIM_DIR / "detrac_train_annotations_sample.csv", index=False)
-    df_ign.to_csv(config.INTERIM_DIR / "detrac_ignored_regions.csv", index=False)
-    df_seq.to_csv(config.INTERIM_DIR / "detrac_sequence_attributes.csv", index=False)
+    df.head(2000).to_csv(config.part_file("detrac_train_annotations_sample.csv", args.part), index=False)
+    df_ign.to_csv(config.part_file("detrac_ignored_regions.csv", args.part), index=False)
+    df_seq.to_csv(config.part_file("detrac_sequence_attributes.csv", args.part), index=False)
 
     summarize(df)
     print("\n  Da luu:")
     print(f"    {out_pq}")
-    print(f"    {config.INTERIM_DIR / 'detrac_train_annotations_sample.csv'}")
-    print(f"    {config.INTERIM_DIR / 'detrac_ignored_regions.csv'}  ({len(df_ign)} vung)")
-    print(f"    {config.INTERIM_DIR / 'detrac_sequence_attributes.csv'}")
+    print(f"    {config.part_file('detrac_train_annotations_sample.csv', args.part)}")
+    print(f"    {config.part_file('detrac_ignored_regions.csv', args.part)}  ({len(df_ign)} vung)")
+    print(f"    {config.part_file('detrac_sequence_attributes.csv', args.part)}")
     return 0
 
 

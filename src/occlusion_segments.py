@@ -249,9 +249,12 @@ def main() -> int:
                     help="Gop 2 doan cach nhau <= so frame nay")
     ap.add_argument("--min-len", type=int, default=config.OCCLUSION_MIN_LEN_FRAMES,
                     help="Bo doan ngan hon so frame nay")
+    ap.add_argument("--part", choices=["train", "test"], default="train",
+                    help="Phan dataset can xu ly. Giai doan D dung --part test "
+                         "(tap test 40 video). File ket qua cua train GIU NGUYEN ten cu.")
     args = ap.parse_args()
 
-    pq = config.INTERIM_DIR / "detrac_train_annotations.parquet"
+    pq = config.ann_parquet(args.part)
     if not pq.exists():
         print(f"[ERROR] Chua co {pq}. Chay src/parse_detrac_xml.py truoc.")
         return 1
@@ -274,10 +277,10 @@ def main() -> int:
     df_gap = pd.DataFrame(all_gap)
     df_sum = pd.DataFrame(all_sum)
 
-    df_seg.to_csv(config.INTERIM_DIR / "occlusion_segments.csv", index=False)
-    df_full.to_csv(config.INTERIM_DIR / "full_occlusion_segments.csv", index=False)
-    df_gap.to_csv(config.INTERIM_DIR / "track_gaps.csv", index=False)
-    df_sum.to_csv(config.INTERIM_DIR / "track_occlusion_summary.csv", index=False)
+    df_seg.to_csv(config.part_file("occlusion_segments.csv", args.part), index=False)
+    df_full.to_csv(config.part_file("full_occlusion_segments.csv", args.part), index=False)
+    df_gap.to_csv(config.part_file("track_gaps.csv", args.part), index=False)
+    df_sum.to_csv(config.part_file("track_occlusion_summary.csv", args.part), index=False)
 
     # ------------------------------------------------------------------
     # Bao cao
@@ -350,8 +353,9 @@ def main() -> int:
                   f"({len(sel) / len(df_gap) * 100:5.1f}%)")
 
     print("\n  Da luu:")
-    for f in ["occlusion_segments.csv", "full_occlusion_segments.csv",
-              "track_gaps.csv", "track_occlusion_summary.csv"]:
+    for f in [config.part_file(x, args.part).name for x in
+              ["occlusion_segments.csv", "full_occlusion_segments.csv",
+               "track_gaps.csv", "track_occlusion_summary.csv"]]:
         print(f"    {config.INTERIM_DIR / f}")
     return 0
 

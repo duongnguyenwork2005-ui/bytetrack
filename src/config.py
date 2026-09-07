@@ -25,6 +25,43 @@ for _d in (RAW_DIR, EXTRACTED_DIR, INTERIM_DIR, PROCESSED_DIR, RESULTS_DIR):
 IMAGES_SUBDIR      = "Insight-MVT_Annotation_Train"    # <video>/img00001.jpg ...
 ANNOTATIONS_SUBDIR = "DETRAC-Train-Annotations-XML"    # <video>.xml
 
+# --- Giai doan D: mo rong sang tap TEST (40 video) ---
+# Da kiem chung: XML cua tap test co DAY DU occlusion + region_overlap, cau truc
+# giong het tap train (trai voi ghi chu cu o Giai doan 1 cho rang tap test
+# "khong co ground truth cong khai").
+ANNOTATIONS_SUBDIR_BY_PART = {
+    "train": "DETRAC-Train-Annotations-XML",
+    "test":  "DETRAC-Test-Annotations-XML",
+}
+
+
+def ann_dir(part: str = "train"):
+    """Thu muc chua file XML annotation cua mot phan dataset."""
+    return EXTRACTED_DIR / ANNOTATIONS_SUBDIR_BY_PART[part]
+
+
+def list_videos(part: str = "train"):
+    """Danh sach video cua mot phan dataset, lay tu ten file XML."""
+    d = ann_dir(part)
+    return sorted(p.stem for p in d.glob("*.xml")) if d.is_dir() else []
+
+
+def ann_parquet(part: str = "train"):
+    """Bang annotation chinh cua mot phan dataset."""
+    return INTERIM_DIR / f"detrac_{part}_annotations.parquet"
+
+
+def part_file(name: str, part: str = "train"):
+    """File interim cua mot phan dataset.
+
+    part='train' GIU NGUYEN ten file cu (khong hau to) de khong pha ket qua da
+    co cua Giai doan 1-5; part='test' them hau to '_test'.
+    """
+    if part == "train":
+        return INTERIM_DIR / name
+    stem, dot, ext = name.partition(".")
+    return INTERIM_DIR / f"{stem}_{part}{dot}{ext}"
+
 # ---------------------------------------------------------------------------
 # 2. NGUON TAI (Google Drive)
 # ---------------------------------------------------------------------------
