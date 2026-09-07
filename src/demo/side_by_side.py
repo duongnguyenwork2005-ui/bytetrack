@@ -60,6 +60,9 @@ def main() -> int:
     ap.add_argument("--end", type=int, default=None)
     ap.add_argument("--cv-tracker", default="yolov8n-bytetrack")
     ap.add_argument("--ekf-tracker", default="yolov8n-ekf-ctrv")
+    ap.add_argument("--track-id", type=int, default=None,
+                    help="Chi danh dau doan che cua DUNG track nay (khong thi lay ca video, "
+                         "co the nham voi track khac dang bi che cung luc).")
     a = ap.parse_args()
 
     img_root = config.find_images_root()
@@ -75,12 +78,19 @@ def main() -> int:
 
     cv_df, ekf_df = load(a.cv_tracker), load(a.ekf_tracker)
 
-    # Danh dau doan bi che (>=0.90) de ve vien vang, doi chieu voi annotation that.
+    # Danh dau doan bi che (>=0.10, gom ca mot phan lan gan hoan toan) de ve vien
+    # vang, doi chieu voi annotation that. LOC THEO TRACK khi biet track_id: video
+    # co the co NHIEU xe bi che cung luc (vd xe do bi vat can che gan het video),
+    # khong loc se ve vien vang sai cho toan bo doan chi vi mot xe KHAC dang bi che.
     occ_frames = set()
-    fo = config.INTERIM_DIR / "full_occlusion_segments.csv"
-    if fo.exists():
-        d = pd.read_csv(fo)
+    for f in ["full_occlusion_segments.csv", "occlusion_segments.csv"]:
+        p = config.INTERIM_DIR / f
+        if not p.exists():
+            continue
+        d = pd.read_csv(p)
         d = d[d.video == a.video]
+        if a.track_id is not None:
+            d = d[d.track_id == a.track_id]
         for r in d.itertuples():
             occ_frames.update(range(int(r.start_frame), int(r.end_frame) + 1))
 
