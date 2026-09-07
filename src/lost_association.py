@@ -165,19 +165,40 @@ class LostAwareAssociation:
                 t_tlwh = np.array([tracks[i].tlwh for i in lost], dtype=np.float64)
                 d_tlwh = np.array([d.tlwh for d in detections], dtype=np.float64)
 
+                n_lost = np.array(
+                    [max(0, self.frame_id - tracks[i].end_frame) for i in lost],
+                    dtype=np.float64)
+                k = np.minimum(1.0 + rate * n_lost, kmax) if rate > 0.0 else None
+
                 alt = None
                 if cost_mode == "diou":
                     alt = normalized_diou_cost(t_tlwh, d_tlwh)
-                if rate > 0.0:
-                    n_lost = np.array(
-                        [max(0, self.frame_id - tracks[i].end_frame) for i in lost],
-                        dtype=np.float64)
-                    k = np.minimum(1.0 + rate * n_lost, kmax)
-                    exp_cost = expanded_ioa_cost(t_tlwh, d_tlwh, k)
-                    # Ket hop 2 co: lay chi phi NHO HON (de dai hon) o moi cap.
-                    # Y nghia: mot cap duoc chap nhan neu THOA MAN it nhat mot
-                    # trong hai tieu chi (gan theo DIoU, hoac nam trong gate da gian).
-                    alt = exp_cost if alt is None else np.minimum(alt, exp_cost)
+                    if k is not None:
+                        # Gop kieu "de dai": chap nhan neu THOA MAN it nhat mot tieu chi.
+                        # DA DO VA THAY CO HAI (EKF -8 loi rong, IDSW +1532) - giu lai
+                        # de tai lap ket qua, KHONG dung nua.
+                        alt = np.minimum(alt, expanded_ioa_cost(t_tlwh, d_tlwh, k))
+
+                elif cost_mode == "gatediou":
+                    # --- BAN SUA (sau khi do thay 2 cach tren deu lam IDSW no) ---
+                    # Tach vai tro cua hai thanh phan, thay vi de ca hai vua loc vua
+                    # xep hang:
+                    #   gate gian no -> chi LOC UNG VIEN (trong hay ngoai vung tim kiem)
+                    #   DIoU chuan hoa -> XEP HANG cac ung vien con lai
+                    #
+                    # VI SAO: IoA bao hoa o 1.0 nen MOI detection nam gon trong gate deu
+                    # cho cost = 0.0, ke ca xe khac. Da kiem chung bang so: xe dung va xe
+                    # khac nho trong gate deu cost 0.000 -> Hungarian noi bua -> IDSW
+                    # tang 5-6 lan. DIoU khong bao hoa: no giam dan theo khoang cach tam
+                    # nen van phan biet duoc ung vien gan voi ung vien xa.
+                    alt = normalized_diou_cost(t_tlwh, d_tlwh)
+                    if k is not None:
+                        outside = expanded_ioa_cost(t_tlwh, d_tlwh, k) >= 1.0
+                        # Ngoai gate -> dat cost = 1.0 (> match_thresh 0.8) de bi tu choi.
+                        alt = np.where(outside, 1.0, alt)
+
+                elif rate > 0.0:
+                    alt = expanded_ioa_cost(t_tlwh, d_tlwh, k)
 
                 if alt is not None:
                     dists[np.array(lost), :] = alt

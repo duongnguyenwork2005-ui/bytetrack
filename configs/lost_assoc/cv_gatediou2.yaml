@@ -1,0 +1,18 @@
+# Giai doan B BAN SUA: gate gian no chi LOC ung vien, DIoU XEP HANG.
+# Ly do: IoA bao hoa o 1.0 nen moi detection trong gate deu cost 0 -> noi bua.
+# Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+
+# ByteTrack tracker defaults for mode="track"
+# Docs: https://docs.ultralytics.com/modes/track
+
+tracker_type: bytetrack_cv_lostassoc # (str) Tracker backend: bytetrack
+track_high_thresh: 0.25 # (float) First-stage match threshold; raise for cleaner tracks, lower to keep more
+track_low_thresh: 0.1 # (float) Second-stage threshold for low-score matches; balances recovery vs drift
+new_track_thresh: 0.25 # (float) Start a new track if no match ≥ this; higher reduces false tracks
+track_buffer: 30 # (int) Frames to keep lost tracks alive; higher handles occlusion, increases ID switches risk
+match_thresh: 0.8 # (float) Association similarity threshold (IoU/cost); tune with detector quality
+fuse_score: True # (bool) Fuse detection score with motion/IoU for matching; stabilizes weak detections
+
+lost_cost: gatediou # (str) DIoU xep hang + gate loc ung vien
+lost_expand_rate: 0.10 # (float) k = 1 + 0.10*so_frame_mat
+lost_expand_max: 2.0 # (float) tran cua he so gian no k
