@@ -105,7 +105,8 @@ def mask_ignored_regions(frame: np.ndarray, regions: list[tuple[float, float, fl
 # Chay 1 video
 # ---------------------------------------------------------------------------
 def track_one_video(video: str, img_root: Path, regions: list, model_name: str,
-                     tracker_cfg: str, conf: float, device) -> pd.DataFrame:
+                     tracker_cfg: str, conf: float, device,
+                     classes: list | None = None) -> pd.DataFrame:
     """Chay YOLOv8 + ByteTrack tren tat ca frame cua 1 video, tra ve DataFrame ket qua."""
     from ultralytics import YOLO
 
@@ -117,6 +118,13 @@ def track_one_video(video: str, img_root: Path, regions: list, model_name: str,
     # khong the nham track id / lich su giua cac video khac nhau.
     model = YOLO(model_name)
 
+    # Model COCO goc xuat 80 lop -> phai loc lay 4 lop xe. Model da fine-tune
+    # tren UA-DETRAC chi co 1 lop 'vehicle' (id 0) -> loc theo [2,3,5,7] se ra
+    # RONG tren moi frame. Tu suy ra tu chinh model de khong the dat sai.
+    if classes is None:
+        classes = (config.YOLO_VEHICLE_CLASSES if len(model.names) > 1
+                   else list(model.names.keys()))
+
     rows = []
     for frame_num, fp in enumerate(tqdm(frame_paths, desc=f"    {video}", unit="frame",
                                         leave=False, ncols=90), start=1):
@@ -127,7 +135,7 @@ def track_one_video(video: str, img_root: Path, regions: list, model_name: str,
         frame = mask_ignored_regions(frame, regions)
 
         results = model.track(frame, persist=True, tracker=tracker_cfg,
-                              classes=config.YOLO_VEHICLE_CLASSES, conf=conf,
+                              classes=classes, conf=conf,
                               device=device, verbose=False)
         r = results[0]
         if r.boxes.id is None:
@@ -166,6 +174,9 @@ def main() -> int:
     ap.add_argument("--skip-existing", action="store_true",
                     help="Bo qua video da co file ket qua (khac rong) trong thu muc tracker. "
                          "Dung de chay tiep sau khi bi dut giua chung.")
+    ap.add_argument("--classes", nargs="*", type=int, default=None,
+                    help="Danh sach class id de giu lai. Mac dinh: tu suy ra tu model "
+                         "(COCO -> [2,3,5,7]; model fine-tune 1 lop -> [0]).")
     ap.add_argument("--ctrv-init-std-omega", type=float, default=None,
                     help="Ghi de config.CTRV_INIT_STD_OMEGA cho lan chay nay (thi nghiem). "
                          "Khong doi gia tri chinh thuc trong config.py.")
@@ -249,7 +260,8 @@ def main() -> int:
 
         regions = load_ignored_regions(video, args.split_name)
         t0 = time.time()
-        df = track_one_video(video, img_root, regions, args.model, tracker_cfg, args.conf, device)
+        df = track_one_video(video, img_root, regions, args.model, tracker_cfg,
+                             args.conf, device, args.classes)
         dt = time.time() - t0
 
         df.to_csv(out_file, header=False, index=False)
