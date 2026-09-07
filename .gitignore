@@ -34,3 +34,10 @@ Thumbs.db
 
 # --- File rong do IDE tao ra, khong thuoc du an ---
 /test
+
+# --- Giai doan C: dataset YOLO xuat ra (382 MB) va trong so fine-tune (36 MB).
+#     Dataset tai tao duoc bang src/export_yolo_dataset.py (~2 phut).
+#     Trong so tai tao duoc bang huan luyen lai (~3.8 gio GPU) - giu lai file
+#     models/finetune/finetune_metrics.json va results/phaseC/ de doi chung. ---
+data/yolo_detrac/
+models/finetune/fold*/
