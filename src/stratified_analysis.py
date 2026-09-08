@@ -467,7 +467,9 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Giai doan 5: phan tich phan tang")
     ap.add_argument("--split-name", default="DETRAC-all")
     ap.add_argument("--trackers", nargs="*", default=None,
-                    help="Mac dinh: ca 3 motion model trong config.MOTION_MODELS")
+                    help="Mac dinh: 3 motion model cua thi nghiem chinh (cv, ekf_ctrv, "
+                         "ukf_ctrv). Cac bien the kiem chung them sau (vd ekf_ctrv_clamped) "
+                         "KHONG tu dong vao, phai chi ro o day - xem MAIN_MODELS.")
     ap.add_argument("--plot", action="store_true", help="Ve hinh minh hoa")
     ap.add_argument("--part", choices=["train", "test"], default="train",
                     help="Phan dataset. --part test dung cac file phan tang cua tap "
@@ -480,7 +482,8 @@ def main() -> int:
     # --- Danh sach tracker tuong ung 3 motion model ---
     stem = Path(config.YOLO_DEFAULT_MODEL).stem
     # Nhan ngan de bang ket qua doc duoc (desc trong config.py qua dai).
-    SHORT = {"cv": "KF + CV", "ekf_ctrv": "EKF + CTRV", "ukf_ctrv": "UKF + CTRV"}
+    SHORT = {"cv": "KF + CV", "ekf_ctrv": "EKF + CTRV", "ukf_ctrv": "UKF + CTRV",
+             "ekf_ctrv_clamped": "EKF + CTRV (chan w)"}
     label = {f"{stem}-{s['suffix']}": SHORT.get(k, k)
              for k, s in config.MOTION_MODELS.items()}
     # Ten thu muc cua cac lan chay quet track_buffer: "sweep-<motion_model>-buf<N>".
@@ -489,7 +492,13 @@ def main() -> int:
     for k in config.MOTION_MODELS:
         for buf in (30, 60, 90, 120):
             label[f"sweep-{k}-buf{buf}"] = SHORT.get(k, k)
-    trackers = args.trackers or [f"{stem}-{s['suffix']}" for s in config.MOTION_MODELS.values()]
+    # CHOT danh sach mac dinh vao dung 3 model cua thi nghiem chinh. Neu de
+    # `config.MOTION_MODELS.values()` thi moi bien the kiem chung them vao sau
+    # (vd ekf_ctrv_clamped) se TU DONG lot vao lan chay mac dinh va ghi de
+    # segment_outcomes_*.csv - tuc thay doi ket qua da bao cao ma khong ai goi lenh.
+    MAIN_MODELS = ["cv", "ekf_ctrv", "ukf_ctrv"]
+    trackers = args.trackers or [f"{stem}-{config.MOTION_MODELS[k]['suffix']}"
+                                 for k in MAIN_MODELS]
 
     # --- Bang tang: do dai che khuat ---
     seg_tables = {
