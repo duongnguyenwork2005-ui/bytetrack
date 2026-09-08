@@ -1,7 +1,9 @@
 # Báo cáo tổng hợp khoá luận: So sánh KF / EKF / UKF cho Multi-Object Tracking trên UA-DETRAC
 
 > Tài liệu tự chứa — đọc xong là nắm được toàn bộ tình hình, không cần bối cảnh khác.
-> **Cập nhật lần 2:** bổ sung toàn bộ Giai đoạn A–D (4 hướng cải thiện).
+> **Cập nhật lần 3:** bổ sung mục 2.3 (kết cục ghép cặp trên 1.544 đoạn),
+> mục 4.7 (Giai đoạn E — khuyết điểm `ω` không bị chặn, phát hiện khi xem video
+> minh hoạ) và mục 4.8 (quét 48 track dài).
 
 ---
 
@@ -53,12 +55,64 @@ Sai số ngoại suy vị trí (px) khi cắt detection:
 
 *(HOTA. Thứ tự đổi ở mỗi cấu hình — dấu hiệu chênh lệch nằm trong vùng nhiễu.)*
 
+### 2.3 Kết cục ghép cặp trên 1.544 đoạn che — **bằng chứng mạnh nhất của luận văn**
+
+Thay vì so tỉ lệ trung bình, ghép cặp **từng đoạn che một** giữa KF+CV và EKF+CTRV
+(60 video train, detector COCO, `buffer=30`):
+
+| Kết cục | Số đoạn | Tỉ lệ |
+|---|---|---|
+| Cả hai **mất** ID | 998 | **64,6 %** |
+| Cả hai **giữ** được ID | 511 | 33,1 % |
+| Chỉ KF + CV giữ được | 19 | 1,2 % |
+| Chỉ EKF + CTRV giữ được | 16 | 1,0 % |
+
+Hai model chỉ khác nhau ở **2,3 %** số đoạn, và trong đó KF thắng 19 lần, EKF thắng 16
+lần — không nghiêng về bên nào.
+
+> **Con số thuyết phục nhất nằm trong nhóm "cả hai cùng hỏng":**
+>
+> | | EKF: `lost` | EKF: `switched` |
+> |---|---|---|
+> | **KF: `lost`** | **708** | 0 |
+> | **KF: `switched`** | 0 | **290** |
+>
+> Đường chéo tuyệt đối. Hai model không chỉ cùng thất bại — chúng thất bại **y hệt cách
+> nhau, 998/998 lần, không một ngoại lệ**. Đây là bằng chứng trực tiếp rằng ở chế độ
+> thất bại, motion model **hoàn toàn không có tiếng nói**; thứ quyết định là detector và
+> `track_buffer`.
+
+**Yếu tố thật sự quyết định là thời gian bị che, không phải motion model:**
+
+| T_occ (frame) | n | Cả hai mất ID |
+|---|---|---|
+| 1–10 | 427 | 58,8 % |
+| 11–20 | 274 | 54,0 % |
+| 21–30 | 251 | 54,6 % |
+| 31–45 | 239 | 69,0 % |
+| 46–60 | 149 | 83,2 % |
+| 61–90 | 132 | 87,1 % |
+
+Vượt `track_buffer` = 30 frame, tỉ lệ hỏng nhảy từ **56,3 %** lên **78,0 %**.
+
+**Loại vật cản cũng có ảnh hưởng** (dùng `occ_ratio_by_background` vs
+`occ_ratio_by_vehicle` của annotation):
+
+| Nguồn che | n | Cả hai mất ID | 2 model khác nhau |
+|---|---|---|---|
+| Vật cản **nền** (cột, cây) | 678 | **69,6 %** | 1,8 % |
+| **Xe khác** | 866 | 60,7 % | 2,7 % |
+
+Không phải do xe nhỏ hay đông xe: Pearson giữa tỉ lệ hỏng và diện tích xe là **+0,060**,
+với mật độ xe là **−0,035** — cả hai ≈ 0.
+
 ---
 
-## 3. Bốn nguyên nhân khiến CTRV không thắng
+## 3. Bốn nguyên nhân khiến CTRV không thắng (và một ghi chú riêng cho UKF)
 
 ### 3.1 Motion model chỉ có "tiếng nói" ở ~3–4% trường hợp
 3 model cho kết cục **giống hệt nhau** ở 96–97% số đoạn, ở mọi cấu hình đã thử.
+Chi tiết theo cặp và theo kiểu thất bại: xem mục **2.3**.
 
 ### 3.2 `track_buffer` = trần cứng
 `track_buffer=30` frame = 1.2s. Quá ngưỡng, ByteTrack **xoá hẳn track**.
@@ -71,6 +125,8 @@ Sai số ngoại suy vị trí (px) khi cắt detection:
 ### 3.3 `ω` ước lượng được KHÔNG đáng tin — và đây là **giới hạn thông tin**
 Trên 507 đoạn: `ω` đúng dấu chỉ **55.6%** (EKF), độ lớn **gấp 3 lần** GT.
 **Giai đoạn A đã chứng minh đây là trần, không phải lỗi ước lượng** — xem mục 4.3.
+Giai đoạn E bổ sung: `ω` GT trước che so với trong che **ngược dấu** (Spearman −0,448,
+p = 0,0023) — xem mục 4.7.
 
 ### 3.4 Gần một nửa số đoạn thất bại do detector
 `lost` = 45.9% với detector COCO. **Giai đoạn C giảm còn 35.1%** — xem mục 4.5.
@@ -83,7 +139,7 @@ xác 152.79** ở mọi mức `P`; UKF hụt còn 141 → 137 → **111** khi `P
 
 ---
 
-## 4. Sáu hướng cải thiện đã thử
+## 4. Bảy hướng cải thiện đã thử, và một phép quét đối chứng
 
 ### 4.1 Nới `track_buffer` (30 → 90) — CÓ tác dụng, chưa đủ
 EKF lần đầu vượt baseline (AssA +0.29%). Ở ô trọng tâm, **chỉ EKF hưởng lợi**
@@ -195,6 +251,95 @@ Trong 73 đoạn 3 model khác nhau trên test: **KF 28 | EKF 40 | UKF 43**.
 > nhiều tầng chứ không tập trung ở tầng đã dự báo. Nếu cơ chế đúng như giả thuyết thì
 > nó **phải tập trung**.
 
+### 4.7 GIAI ĐOẠN E — Khuyết điểm `ω` không bị chặn → **có thật, nhưng không đảo ngược kết quả**
+
+**Cách phát hiện:** khi xem video minh hoạ side-by-side, box dự đoán của EKF đôi lúc
+**quay tròn tại chỗ** thay vì đi tiếp. Đây là khuyết điểm được tìm ra bằng *quan sát trực
+quan*, không phải bằng chỉ số — một lập luận đáng nêu trong luận văn.
+
+**Phân định bug hay hành vi đúng.** CTRV ngoại suy trên đường tròn bán kính `R = v/|ω|`,
+sau `T` frame quét một cung `arc = |ω|·T`. Quay tròn **tự nó là hành vi đúng** khi `ω`
+lớn. Nên câu hỏi đúng là: `ω` đó có hợp lý không?
+
+- **Phần toán không sai:** 26/26 unit test PASS, gồm so Jacobian giải tích với sai phân
+  số (cả nhánh cong và nhánh `ω→0`), kiểm tra liên tục tại `ω→0`, và kiểm tra đi hết một
+  vòng tròn về đúng chỗ cũ (sai lệch 3,6·10⁻¹³ px).
+- **Nhưng không có gì chặn `ω`.** Ngưỡng vật lý: xe rẽ ngã tư quét ~90° trong 2–4 giây =
+  18–45 °/giây = 0,013–0,031 rad/frame. Lấy rộng rãi `|ω| > 0,05 rad/frame`
+  (= 2,9 °/frame = 72 °/giây) là bất khả thi với xe hơi.
+
+Đo trên 50 đoạn che của 48 track dài, tại frame cuối trước khi mất quan sát:
+
+| Chỉ tiêu | Bản gốc | Chặn ω |
+|---|---|---|
+| Trung vị \|ω\| | 0,366 °/frame *(GT: 0,441)* | 0,258 °/frame |
+| Phân vị 90 | **19,9 °/frame** | 2,45 °/frame |
+| Lớn nhất | **111,4 °/frame** | 2,87 °/frame |
+| Vượt ngưỡng bất khả thi | **28 %** | **0 %** |
+| Bán kính `R` < 100 px *(nhỏ hơn chiếc xe)* | 26 % | 8 % |
+| Quét **> 360°** *(trọn một vòng)* | **20 %** | **0 %** |
+| Quét 180–360° | 2 % | 4 % |
+| Quét 45–180° | 10 % | 14 % |
+
+Hai nhóm giữa tăng không phải vì sinh lỗi mới — các đoạn trước kia > 360° bị kéo tụt
+xuống. Ngưỡng 0,05 rad/frame cần **126 frame** mới quét trọn vòng, mà đoạn che dài nhất
+trong dữ liệu chỉ 73 frame.
+
+**Chặn `ω` rồi chạy lại đầy đủ 60 video** (tracker riêng `yolov8n-ekf-ctrv-clamped`,
+mọi tham số ghép cặp giữ y hệt — chỉ khác đúng một biến):
+
+| Model | HOTA | AssA | IDF1 | IDSW |
+|---|---|---|---|---|
+| KF + CV (baseline) | **0,6104** | **0,6541** | 0,7783 | **2251** |
+| EKF + CTRV nguyên bản | 0,6101 | 0,6536 | 0,7782 | 2290 |
+| **EKF + CTRV chặn ω** | 0,6102 | 0,6537 | **0,7783** | 2280 |
+| UKF + CTRV | 0,6095 | 0,6524 | 0,7770 | 2302 |
+
+Mức từng đoạn (1.544 đoạn): tỉ lệ giữ ID KF **34,33 %** | EKF gốc 34,13 % | EKF chặn
+**34,20 %** | UKF 34,00 %. Chặn `ω` chỉ đổi kết cục **3/1544 đoạn (0,19 %)**.
+McNemar KF vs EKF chặn ω: 19 so 17, **p = 0,8679**. Không phân tầng nào đạt p < 0,05.
+
+> **Phát hiện ngược chiều, phải ghi lại:** chặn `ω` có thể làm **sai số TĂNG**.
+> MVI_40992 track 12 đoạn 2: FDE **556,5 → 1208,4 px**. Lý do: khi `ω` lớn, box quay
+> tít trong vòng tròn bán kính nhỏ nên **vô tình nằm gần chỗ cũ**; chặn `ω` lại cho nó
+> bay gần như thẳng ra xa. Điều này giải thích vì sao FDE **trung vị** giảm
+> (114,5 → 105,1 px) nhưng FDE **trung bình** lại tăng (236,7 → 244,5 px).
+
+**Kết luận Giai đoạn E:** chặn `ω` sửa được **triệu chứng nhìn thấy**, không sửa được
+**nguyên nhân**. Nguyên nhân là `ω` thật không dự đoán được. Đo trên 44 đoạn của các
+track dài: `ω` GT *trước* che so với `ω` GT *trong* che có **Spearman −0,448
+(p = 0,0023)**, chỉ **25 %** số lần cùng dấu — không những không dự báo được mà còn có
+xu hướng **ngược dấu**. *(Pearson ra −0,755 nhưng bị một điểm ngoại lai kéo; bỏ điểm đó
+còn −0,385, nên báo cáo Spearman.)*
+
+> **Vì sao khuyết điểm nghiêm trọng lúc đo FDE nhưng vô hại lúc tracking thật:**
+> `track_buffer` = 30 frame **xoá track trước khi** CTRV kịp ngoại suy đủ lâu để `ω` phi
+> lý gây hại. Lỗi chỉ lộ ra khi ép bộ lọc ngoại suy mù suốt 40–70 frame. Nói cách khác,
+> **trần `track_buffer` che mất khuyết điểm này** — hai kết luận của luận văn củng cố lẫn nhau.
+
+Render lại **toàn bộ 10 video minh hoạ** bằng bản chặn `ω`: trên 240 đoạn của 8 video
+demo chỉ **5 đoạn (2,1 %)** đổi FDE (3 tốt hơn, 2 tệ hơn), FDE trung bình 165,1 → 165,0 px.
+Đáng chú ý, video `2_cv_thang` (EKF sai 845 px) có `|ω| = 0,0317 rad/frame` — **vốn đã
+dưới ngưỡng chặn**, nên sai số đó **không đến từ khuyết điểm này** mà từ trần thông tin.
+
+### 4.8 Quét 48 track dài — CTRV thua trên hầu hết
+
+Để tránh cherry-picking khi chọn video minh hoạ, quét **mọi** track ≥150 frame, ≥2 đoạn
+che, có di chuyển thật (48 track), so FDE cuối mỗi đoạn che:
+
+| | Số track | Tỉ lệ |
+|---|---|---|
+| CTRV tốt hơn | 5 | 10 % |
+| **CV tốt hơn** | **32** | **67 %** |
+| Hoà | 11 | 23 % |
+
+FDE trung bình: KF **266,0 px** vs EKF **297,4 px**. Tương quan giữa **góc cua của xe**
+và lợi thế của CTRV: **−0,021** — bằng không. Ba track cua gắt nhất (132°, 148°, 151°)
+thì CTRV thua cả ba.
+
+> **Đây là phản chứng trực tiếp cho giả thuyết ban đầu.** Nếu CTRV có lợi thế do mô hình
+> hoá khúc cua, lợi thế đó phải **tăng theo góc cua**. Nó không tăng.
+
 ---
 
 ## 5. Tính chặt chẽ đã xử lý
@@ -219,6 +364,24 @@ Trong 73 đoạn 3 model khác nhau trên test: **KF 28 | EKF 40 | UKF 43**.
 10. **Sửa FPS sai:** con số "EKF 80.8 FPS nhanh hơn KF 54.6" là **nhiễu đo**. Đo lại 5
     lần lặp: FPS end-to-end **không phân biệt được** (p = 0.68–0.92, CV tới 26.8%).
     Chi phí thật: EKF **1.60×**, UKF **6.74×** so với KF.
+11. **Gộp đoạn che chồng nhau.** Bảng che-một-phần (≥0.10) và che-hoàn-toàn (≥0.90) mô
+    tả *cùng một lần bị che* ở hai mức, nên đoạn "hoàn toàn" luôn nằm **lồng trong** đoạn
+    "một phần". Không gộp thì một lần bị che bị đếm thành 2–3 đoạn và **FDE bị tính ở
+    giữa đoạn** — sai hoàn toàn ý nghĩa.
+12. **Bịt bẫy ghi đè âm thầm.** `stratified_analysis.py` và `compare_models.py` lấy danh
+    sách model mặc định từ `config.MOTION_MODELS`. Thêm biến thể kiểm chứng
+    (`ekf_ctrv_clamped`) vào config sẽ khiến **lệnh cũ không đổi tham số** lặng lẽ phân
+    tích 4 model và **ghi đè** `segment_outcomes_*.csv` / `comparison_*.csv` đã báo cáo.
+    Đã chốt cứng `MAIN_MODELS` và thêm `--tag` cho cả hai script.
+13. **Bản gốc không bị sửa khi thử biến thể.** `ekf_ctrv.py` giữ nguyên; bản chặn `ω`
+    nằm ở file riêng kế thừa lại. Kết quả mới ghi vào thư mục/hậu tố riêng, đã kiểm chứng
+    bằng `git show --stat` rằng không commit nào chạm vào file kết quả cũ.
+14. **Chọn video minh hoạ bằng quét toàn bộ, không chọn tay.** Sau khi bị chất vấn "vài
+    ca lẻ tẻ thì thiếu thuyết phục", đã quét cả 48 track ứng viên (mục 4.8) và báo cáo
+    phân bố thắng/thua thay vì chỉ trưng ca thuận lợi.
+15. **Báo Spearman kèm Pearson khi có ngoại lai.** Tương quan `ω` trước/trong đoạn che:
+    Pearson −0,755 nhưng bỏ **một** điểm còn −0,385; Spearman −0,448 (p = 0,0023) mới là
+    con số bền vững.
 
 ---
 
@@ -226,11 +389,18 @@ Trong 73 đoạn 3 model khác nhau trên test: **KF 28 | EKF 40 | UKF 43**.
 
 **Chưa chứng minh được CTRV cải thiện việc giữ ID, nhưng cũng KHÔNG bác bỏ được.**
 
-Sau 4 giai đoạn cải thiện có hệ thống:
+Sau 5 giai đoạn cải thiện có hệ thống:
 - **A đóng** — giới hạn là **thông tin**, không phải ước lượng (trần 58.2%)
 - **B đóng** — nới cửa liên kết lợi bất cập hại trên dữ liệu đông xe
 - **C thành công lớn về tracking** nhưng **xoá luôn ưu thế biểu kiến của EKF**
 - **D đưa p về 0.0627** nhưng **hai tập độc lập không đồng thuận**
+- **E đóng** — sửa được khuyết điểm cài đặt (`ω` không chặn) nhưng chỉ đổi 0,19 % số
+  đoạn; đồng thời phát hiện `ω` trước/trong đoạn che **ngược dấu** (Spearman −0,448)
+
+**Bằng chứng bất lợi nhất cho giả thuyết ban đầu**, cần nêu thẳng:
+- Trên 998 đoạn cả hai model cùng hỏng, chúng hỏng **y hệt cách nhau 998/998 lần** (2.3)
+- Trên 48 track dài, CV tốt hơn **32 track**, CTRV chỉ **5** (4.8)
+- Tương quan giữa **góc cua** và lợi thế CTRV là **−0,021** — đúng cái lẽ ra phải dương (4.8)
 
 **Cách phát biểu đúng:** *"Dữ liệu hiện có không đủ để phân biệt 3 motion model"* —
 **không phải** *"3 motion model như nhau"*. Đây là kết quả **underpowered**, khác hẳn
@@ -254,11 +424,21 @@ mâu thuẫn → (4) **đóng góp phương pháp luận**: phép đo phân tầ
 mỗi hướng đều truy được cơ chế → (7) **ba trần chồng lên nhau**: `track_buffer`,
 detector, và **giới hạn thông tin** → (8) kết luận về phương pháp đánh giá.
 
-**Điểm mạnh:** ba phát hiện **có giá trị độc lập** với việc giả thuyết ban đầu đúng hay sai:
+**Điểm mạnh:** năm phát hiện **có giá trị độc lập** với việc giả thuyết ban đầu đúng hay sai:
 - **Trần thông tin** (Giai đoạn A): chứng minh định lượng rằng `ω` không dự báo được
 - **Trần detector** (Giai đoạn C): detector là nút thắt chính, và cải thiện nó *xoá* ưu
   thế biểu kiến của CTRV
 - **Hiệu ứng dây cung** (UKF): lý thuyết cao cấp hơn không đảm bảo thực nghiệm tốt hơn
+- **Thất bại đồng nhất 998/998** (mục 2.3): ở chế độ thất bại, motion model không có
+  tiếng nói nào — một cách đo "mức trần" trực tiếp, không cần kiểm định thống kê
+- **Ngoại suy đẹp mắt ≠ ngoại suy đúng** (Giai đoạn E): chặn `ω` xoá hết hiện tượng quay
+  vòng nhưng làm sai số **tăng** ở ca tệ nhất (556 → 1208 px), vì vòng tròn nhỏ vô tình
+  giữ dự đoán gần chỗ cũ
+
+**Một mạch phụ đáng kể cho phần phương pháp:** khuyết điểm `ω` không bị chặn được phát
+hiện bằng **quan sát video**, sau khi mọi chỉ số tổng hợp đã "sạch". Điều này minh hoạ
+đúng luận điểm trung tâm của luận văn — chỉ số tổng hợp che giấu cơ chế — và cho thấy
+kiểm tra trực quan là một phần bắt buộc của quy trình đánh giá, không phải trang trí.
 
 ---
 
@@ -279,6 +459,13 @@ detector, và **giới hạn thông tin** → (8) kết luận về phương ph�
 | `src/export_yolo_dataset.py` | **GĐ C** — xuất YOLO, 3-fold chia theo video |
 | `src/eval_detector.py` | **GĐ C** — chấm AP trước/sau, tự viết vì lệch số lớp |
 | `src/phaseD_confirm.py` | **GĐ D** — kiểm định xác nhận, chống optional stopping |
+| `src/ekf_ctrv_clamped.py` | **GĐ E** — EKF+CTRV chặn `\|ω\| ≤ 0,05` rad/frame (kế thừa, không sửa bản gốc) |
+| `src/diagnose_ekf_circle.py` | **GĐ E** — chẩn đoán hiện tượng box quay vòng: `ω`, `R = v/ω`, cung quét |
+| `src/omega_clamp_experiment.py` | **GĐ E** — so KF / EKF gốc / EKF chặn `ω` trên cùng tập đoạn |
+| `src/demo/gt_omega.py` / `case_ab.py` | Demo — tính `ω` từ GT, phân loại Case A/B |
+| `src/demo/render_videos.py` | Demo — 4 video minh hoạ, chọn đoạn bằng tiêu chí tự động |
+| `src/demo/side_by_side.py` | Demo — 2 panel trên **kết quả tracker thật**, đánh dấu đoạn 2 model khác nhau |
+| `src/demo/long_compare.py` | Demo — video dài, theo 1 xe qua nhiều lần che, 2 panel |
 
 ---
 
@@ -292,3 +479,9 @@ detector, và **giới hạn thông tin** → (8) kết luận về phương ph�
 4. Ba "trần" (thông tin / `track_buffer` / detector) nên trình bày như phát hiện chính
    hay như giải thích cho kết quả âm tính?
 5. Cách trình bày "hiệu ứng dây cung của UKF" sao cho hội đồng dễ hiểu nhất?
+6. Mục 2.3 (thất bại đồng nhất 998/998) và mục 4.8 (CV thắng 32/48 track) là bằng chứng
+   **bất lợi** cho giả thuyết ban đầu. Nên đặt chúng ở **đầu** phần kết quả như một phát
+   hiện, hay ở **cuối** như phần thảo luận giới hạn?
+7. Giai đoạn E cho thấy tôi tự tìm ra khuyết điểm trong code của chính mình, đo tác động,
+   rồi kết luận nó không đảo ngược kết quả. Có nên đưa hẳn vào luận văn không, hay hội
+   đồng sẽ đọc thành "code có lỗi"?
