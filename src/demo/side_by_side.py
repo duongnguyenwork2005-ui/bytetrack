@@ -85,14 +85,20 @@ def main() -> int:
     # --- Cac doan ma 2 model cho ket cuc KHAC NHAU (de danh dau tren video dai) ---
     diff_spans = []
     if a.diff_segments:
-        so = config.RESULTS_DIR / "stratified" / "segment_outcomes_DETRAC-all.csv"
+        # Panel phai la model nao thi phai doc bang ket cuc CUA MODEL DO. Dung
+        # bang cua ban goc de danh dau video ban chan omega se chi sai cho.
+        clamped = a.ekf_tracker.endswith("clamped")
+        so = (config.RESULTS_DIR / "stratified" /
+              ("segment_outcomes_DETRAC-all_clamped.csv" if clamped
+               else "segment_outcomes_DETRAC-all.csv"))
+        col_ekf = "EKF + CTRV (chan w)" if clamped else "EKF + CTRV"
         if so.exists():
             s = pd.read_csv(so)
             s = s[(s.in_common) & (s.video == a.video)]
             pv = s.pivot_table(index=["video", "track_id", "seg_id", "occlusion_level"],
                                columns="motion_model", values="status",
                                aggfunc="first").reset_index()
-            pv = pv[pv["KF + CV"] != pv["EKF + CTRV"]]
+            pv = pv[pv["KF + CV"] != pv[col_ekf]]
             locs = []
             for lvl, f in [("full", "full_occlusion_segments.csv"),
                            ("partial", "occlusion_segments.csv")]:
@@ -108,7 +114,7 @@ def main() -> int:
                 if pd.isna(rec.get("start_frame")):
                     continue
                 diff_spans.append((int(rec["start_frame"]), int(rec["end_frame"]),
-                                   int(rec["track_id"]), rec["KF + CV"], rec["EKF + CTRV"]))
+                                   int(rec["track_id"]), rec["KF + CV"], rec[col_ekf]))
             diff_spans.sort()
             print(f"[side_by_side] {len(diff_spans)} doan 2 model cho ket cuc KHAC NHAU:")
             for s0, e0, tid, kf, ekf in diff_spans:
@@ -142,7 +148,10 @@ def main() -> int:
     first = cv2.imread(str(vdir / f"img{a.start:05d}.jpg"))
     H, W = first.shape[:2]
     out_w = W * 2 + PANEL_GAP
-    out_path = config.RESULTS_DIR / "demo" / f"sbs_{a.video}_{a.start}_{end}.mp4"
+    # Them hau to khi panel phai KHONG phai tracker EKF mac dinh, de ban chan
+    # omega khong ghi de len video da render truoc do.
+    sfx = "" if a.ekf_tracker == "yolov8n-ekf-ctrv" else "_" + a.ekf_tracker.split("-")[-1]
+    out_path = config.RESULTS_DIR / "demo" / f"sbs_{a.video}_{a.start}_{end}{sfx}.mp4"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     vw = cv2.VideoWriter(str(out_path), cv2.VideoWriter_fourcc(*"mp4v"), FPS_OUT, (out_w, H))
 
@@ -157,7 +166,8 @@ def main() -> int:
             continue
         in_occ = fr in occ_frames
         left = draw_panel(im, fr, cv_by_f.get(fr, cv_df.iloc[:0]), "KF + CV", in_occ)
-        right = draw_panel(im, fr, ekf_by_f.get(fr, ekf_df.iloc[:0]), "EKF + CTRV", in_occ)
+        right = draw_panel(im, fr, ekf_by_f.get(fr, ekf_df.iloc[:0]),
+                           "EKF + CTRV (chan w)" if sfx else "EKF + CTRV", in_occ)
         gap = np.full((H, PANEL_GAP, 3), 255, dtype=np.uint8)
         combo = np.hstack([left, gap, right])
 

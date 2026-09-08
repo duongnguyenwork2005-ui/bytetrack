@@ -26,6 +26,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import config  # noqa: E402
 from ekf_ctrv import EKFTrackerCTRV  # noqa: E402
+from ekf_ctrv_clamped import EKFTrackerCTRVClamped  # noqa: E402
 from ultralytics.trackers.utils.kalman_filter import KalmanFilterXYAH  # noqa: E402
 
 THR_DEG = 0.25          # nguong phan loai dung de chon doan (xem case_ab.py)
@@ -45,6 +46,11 @@ def xyah(r):
     return np.array([r.cx, r.cy, w / max(h, 1e-6), h], float)
 
 
+#: Lop EKF dung khi render. Doi sang EKFTrackerCTRVClamped bang co --clamped
+#: de xem chan omega co dep bo duoc hien tuong box quay vong tron khong.
+EKF_CLASS = EKFTrackerCTRV
+
+
 def run_filters(pre: pd.DataFrame, n_pred: int):
     """Nap GT truoc doan che roi CHI predict n_pred buoc. Tra ve quy dao (cx,cy,w,h)."""
     out = {}
@@ -52,7 +58,7 @@ def run_filters(pre: pd.DataFrame, n_pred: int):
         if name == "KF":
             f = KalmanFilterXYAH(); get = lambda m: (m[0], m[1], m[2], m[3]); ctrv = False
         else:
-            f = EKFTrackerCTRV(); get = lambda m, f=f: (m[f.CX], m[f.CY], m[f.A], m[f.H]); ctrv = True
+            f = EKF_CLASS(); get = lambda m, f=f: (m[f.CX], m[f.CY], m[f.A], m[f.H]); ctrv = True
         rows = list(pre.itertuples())
         m, c = f.initiate(xyah(rows[0])); ini = False
         for r in rows[1:]:
@@ -178,6 +184,18 @@ def render(sel: dict, g: dict, img_root: Path, out_path: Path) -> None:
 
 
 def main() -> int:
+    import argparse
+    ap = argparse.ArgumentParser(description="DEMO Phan 3: xuat 4 video minh hoa")
+    ap.add_argument("--clamped", action="store_true",
+                    help="Dung ban EKF CO CHAN omega (ekf_ctrv_clamped.py). File ket qua "
+                         "co hau to _clamped nen KHONG ghi de 4 video demo goc.")
+    a = ap.parse_args()
+    global EKF_CLASS
+    if a.clamped:
+        EKF_CLASS = EKFTrackerCTRVClamped
+    suffix = "_clamped" if a.clamped else ""
+    print(f"[render] lop EKF = {EKF_CLASS.__name__}")
+
     out = config.RESULTS_DIR / "demo"
     vids = out / "videos"; vids.mkdir(parents=True, exist_ok=True)
     df = pd.read_csv(out / "segments_classified.csv")
@@ -188,7 +206,7 @@ def main() -> int:
 
     print("Tinh FDE cho tung doan (chi predict qua doan che)...")
     fde = compute_fde(df, g)
-    fde.to_csv(out / "segments_fde.csv", index=False)
+    fde.to_csv(out / f"segments_fde{suffix}.csv", index=False)
     print(f"  tinh duoc cho {len(fde)}/{len(df)} doan\n")
 
     # --- Doan `lost` voi ca 3 model (cho Video 4) ---
@@ -234,14 +252,14 @@ def main() -> int:
               f"frame {int(sel['frame_start'])}-{int(sel['frame_end'])} (T_occ={int(sel['T_occ'])})")
         print(f"    |w_before|={abs(sel['ob_deg']):.3f}  |w_during|={abs(sel['od_deg']):.3f} deg/f"
               f"   FDE: KF={sel['fde_kf']:.1f}px  EKF={sel['fde_ekf']:.1f}px")
-        p = vids / f"{fname}.mp4"
+        p = vids / f"{fname}{suffix}.mp4"
         render(sel, g, img_root, p)
         print(f"    -> {p.name}")
-        rows.append(dict(video_file=f"{fname}.mp4", loai=label, n_ung_vien=npool,
+        rows.append(dict(video_file=f"{fname}{suffix}.mp4", loai=label, n_ung_vien=npool,
                          **{k: sel[k] for k in ["video", "track_id", "seg_id", "case",
                                                 "frame_start", "frame_end", "T_occ",
                                                 "ob_deg", "od_deg", "fde_kf", "fde_ekf"]}))
-    pd.DataFrame(rows).to_csv(out / "selected_segments.csv", index=False)
+    pd.DataFrame(rows).to_csv(out / f"selected_segments{suffix}.csv", index=False)
     print(f"\n  Da luu -> {vids}")
     return 0
 
