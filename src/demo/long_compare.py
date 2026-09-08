@@ -90,6 +90,7 @@ def run_track(t: pd.DataFrame, occ_frames: set[int], model: str) -> np.ndarray:
     rows = list(t.itertuples())
     m, c = f.initiate(xyah(rows[0]))
     seeded = False
+    last_obs = int(rows[0].frame)
     traj = [(*get(m)[:2], get(m)[2] * get(m)[3], get(m)[3])]
 
     for r in rows[1:]:
@@ -97,11 +98,18 @@ def run_track(t: pd.DataFrame, occ_frames: set[int], model: str) -> np.ndarray:
         # CTRV can 2 quan sat dau tien de suy ra van toc v va huong theta;
         # chi lam duoc khi con nhin thay xe.
         if is_ctrv and not seeded and visible:
-            m, c = f.initiate_from_motion(m, c, xyah(r), n_frames=1.0)
+            # KHOANG CACH THAT giua hai quan sat, khong phai 1. Bo loc nay chay XUYEN QUA
+            # cac doan che, nen quan sat dau tien sau mot doan che co the cach quan sat
+            # truoc do hang chuc frame. `initiate_from_motion` chia dich chuyen cho
+            # n_frames de ra van toc; truyen 1.0 se thoi phong van toc dung bang so frame
+            # da bi che (do duoc: 294 px/frame thay vi 10,9 px/frame - gap 27 lan).
+            m, c = f.initiate_from_motion(
+                m, c, xyah(r), n_frames=max(1, int(r.frame) - last_obs))
             seeded = True
         m, c = f.predict(m, c)
         if visible:
             m, c = f.update(m, c, xyah(r))
+            last_obs = int(r.frame)
         cx, cy, a, h = get(m)
         traj.append((cx, cy, a * h, h))
     return np.array(traj)

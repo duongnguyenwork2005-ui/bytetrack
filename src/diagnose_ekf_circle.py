@@ -107,17 +107,25 @@ def main() -> int:
         m, c = f.initiate(np.array([r0.cx, r0.cy, r0.bb_width / max(r0.bb_height, 1e-6),
                                     r0.bb_height], float))
         seeded = False
+        last_obs = int(r0.frame)
         st[int(r0.frame)] = m.copy()
         for i in range(1, len(g)):
             r = g.iloc[i]
             z = np.array([r.cx, r.cy, r.bb_width / max(r.bb_height, 1e-6), r.bb_height], float)
             visible = int(r.frame) not in occ_frames
             if not seeded and visible:
-                m, c = f.initiate_from_motion(m, c, z, n_frames=1.0)
+                # KHOANG CACH THAT giua hai quan sat, khong phai 1. Bo loc nay chay XUYEN QUA
+                # cac doan che, nen quan sat dau tien sau mot doan che co the cach quan sat
+                # truoc do hang chuc frame. `initiate_from_motion` chia dich chuyen cho
+                # n_frames de ra van toc; truyen 1.0 se thoi phong van toc dung bang so frame
+                # da bi che (do duoc: 294 px/frame thay vi 10,9 px/frame - gap 27 lan).
+                m, c = f.initiate_from_motion(
+                    m, c, z, n_frames=max(1, int(r.frame) - last_obs))
                 seeded = True
             m, c = f.predict(m, c)
             if visible:
                 m, c = f.update(m, c, z)
+                last_obs = int(r.frame)
             st[int(r.frame)] = m.copy()
 
         for s, e in spans:

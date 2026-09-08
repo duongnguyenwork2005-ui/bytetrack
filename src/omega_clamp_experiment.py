@@ -57,15 +57,23 @@ def run(g: pd.DataFrame, occ_frames: set[int], kind: str) -> np.ndarray:
     rows = [g.iloc[i] for i in range(len(g))]
     m, c = f.initiate(xyah(rows[0]))
     seeded = False
+    last_obs = int(rows[0].frame)
     out = [pos(m)]
     for r in rows[1:]:
         vis = int(r.frame) not in occ_frames
         if ctrv and not seeded and vis:
-            m, c = f.initiate_from_motion(m, c, xyah(r), n_frames=1.0)
+            # KHOANG CACH THAT giua hai quan sat, khong phai 1. Bo loc nay chay XUYEN QUA
+            # cac doan che, nen quan sat dau tien sau mot doan che co the cach quan sat
+            # truoc do hang chuc frame. `initiate_from_motion` chia dich chuyen cho
+            # n_frames de ra van toc; truyen 1.0 se thoi phong van toc dung bang so frame
+            # da bi che (do duoc: 294 px/frame thay vi 10,9 px/frame - gap 27 lan).
+            m, c = f.initiate_from_motion(
+                m, c, xyah(r), n_frames=max(1, int(r.frame) - last_obs))
             seeded = True
         m, c = f.predict(m, c)
         if vis:
             m, c = f.update(m, c, xyah(r))
+            last_obs = int(r.frame)
         out.append(pos(m))
     return np.array(out)
 
