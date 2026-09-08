@@ -41,6 +41,7 @@ from scipy.stats import spearmanr
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
 from ekf_ctrv import EKFTrackerCTRV  # noqa: E402
+from ekf_ctrv_clamped import EKFTrackerCTRVClamped  # noqa: E402
 
 MIN_SPEED = 1.5              # px/frame, giong gt_omega.py
 OMEGA_IMPOSSIBLE = 0.05      # rad/frame, xem docstring
@@ -73,6 +74,16 @@ def merge_spans(o: pd.DataFrame) -> list[tuple[int, int]]:
 
 
 def main() -> int:
+    import argparse
+    ap = argparse.ArgumentParser(description="Chan doan hien tuong box EKF quay vong tron")
+    ap.add_argument("--clamped", action="store_true",
+                    help="Do tren ban CO CHAN omega (ekf_ctrv_clamped.py) thay vi ban goc, "
+                         "de biet chan omega co dep bo duoc hien tuong quay vong khong.")
+    a = ap.parse_args()
+    Filter = EKFTrackerCTRVClamped if a.clamped else EKFTrackerCTRV
+    tag = "_clamped" if a.clamped else ""
+    print(f"[bo loc] {Filter.__name__}\n")
+
     gt = pd.read_parquet(config.INTERIM_DIR / "detrac_train_annotations.parquet")
     occ_all = pd.concat([pd.read_csv(config.INTERIM_DIR / f)
                          for f in ("full_occlusion_segments.csv", "occlusion_segments.csv")],
@@ -90,7 +101,7 @@ def main() -> int:
         occ_frames = {f for s, e in spans for f in range(s, e + 1)}
 
         # Chay EKF suot doi track, chi update khi khong bi che (giong long_compare.py)
-        f = EKFTrackerCTRV()
+        f = Filter()
         st = {}
         r0 = g.iloc[0]
         m, c = f.initiate(np.array([r0.cx, r0.cy, r0.bb_width / max(r0.bb_height, 1e-6),
@@ -127,7 +138,7 @@ def main() -> int:
                 omega_gt_during=omega_gt(during.cx.values, during.cy.values)))
 
     d = pd.DataFrame(rows).dropna(subset=["omega_gt_before"])
-    out = config.RESULTS_DIR / "demo" / "ekf_circle_diagnosis.csv"
+    out = config.RESULTS_DIR / "demo" / f"ekf_circle_diagnosis{tag}.csv"
     d.to_csv(out, index=False)
 
     ab_f = d.omega_ekf.abs()

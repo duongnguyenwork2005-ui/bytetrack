@@ -48,6 +48,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import config  # noqa: E402
 from ekf_ctrv import EKFTrackerCTRV  # noqa: E402
+from ekf_ctrv_clamped import EKFTrackerCTRVClamped  # noqa: E402
 from ultralytics.trackers.utils.kalman_filter import KalmanFilterXYAH  # noqa: E402
 
 FPS = 10
@@ -82,7 +83,7 @@ def run_track(t: pd.DataFrame, occ_frames: set[int], model: str) -> np.ndarray:
         get = lambda m: (m[0], m[1], m[2], m[3])
         is_ctrv = False
     else:
-        f = EKFTrackerCTRV()
+        f = EKFTrackerCTRVClamped() if model == "EKFC" else EKFTrackerCTRV()
         get = lambda m, f=f: (m[f.CX], m[f.CY], m[f.A], m[f.H])
         is_ctrv = True
 
@@ -147,6 +148,9 @@ def main() -> int:
     ap.add_argument("--video", default="MVI_40991")
     ap.add_argument("--track", type=int, default=13)
     ap.add_argument("--fps", type=int, default=FPS)
+    ap.add_argument("--clamped", action="store_true",
+                    help="Panel phai dung ban CO CHAN omega (ekf_ctrv_clamped.py). "
+                         "Dung de xem chan omega co dep bo duoc hien tuong quay vong khong.")
     a = ap.parse_args()
 
     gt = pd.read_parquet(config.INTERIM_DIR / "detrac_train_annotations.parquet")
@@ -179,14 +183,16 @@ def main() -> int:
     for i, (s, e) in enumerate(spans, 1):
         print(f"    doan {i}: frame {s}-{e}  ({e - s + 1} frame)")
 
-    tr = {m: run_track(t, occ_frames, m) for m in ("KF", "EKF")}
+    right_model = "EKFC" if a.clamped else "EKF"
+    right_title = "EKF + CTRV (chan w)" if a.clamped else "EKF + CTRV"
+    tr = {m: run_track(t, occ_frames, m) for m in ("KF", right_model)}
 
     img_root = config.find_images_root()
     first = cv2.imread(str(img_root / a.video / f"img{frames[0]:05d}.jpg"))
     H, W = first.shape[:2]
     out = config.RESULTS_DIR / "demo" / "videos"
     out.mkdir(parents=True, exist_ok=True)
-    out_path = out / f"long_{a.video}_t{a.track}.mp4"
+    out_path = out / f"long_{a.video}_t{a.track}{'_clamped' if a.clamped else ''}.mp4"
     vw = cv2.VideoWriter(str(out_path), cv2.VideoWriter_fourcc(*"mp4v"),
                          a.fps, (W * 2 + PANEL_GAP, H + 34))
 
@@ -204,7 +210,7 @@ def main() -> int:
             continue
         r = gt_rows[k]
         in_occ = fr in occ_frames
-        pk, pe = tr["KF"][k], tr["EKF"][k]
+        pk, pe = tr["KF"][k], tr[right_model][k]
         ek = float(np.hypot(pk[0] - r.cx, pk[1] - r.cy))
         ee = float(np.hypot(pe[0] - r.cx, pe[1] - r.cy))
 
@@ -219,7 +225,7 @@ def main() -> int:
         done_e = "   ".join(f"doan {i}: {x:.0f}px" for i, _, x in fde)
 
         left = draw_panel(im, "KF + CV", r, pk, tg, tk, in_occ, ek if in_occ else None, done)
-        right = draw_panel(im, "EKF + CTRV", r, pe, tg, te, in_occ, ee if in_occ else None, done_e)
+        right = draw_panel(im, right_title, r, pe, tg, te, in_occ, ee if in_occ else None, done_e)
         gap = np.full((H, PANEL_GAP, 3), 255, np.uint8)
         combo = np.vstack([np.hstack([left, gap, right]),
                            np.full((34, W * 2 + PANEL_GAP, 3), 25, np.uint8)])
@@ -239,7 +245,7 @@ def main() -> int:
     vw.release()
 
     print(f"\n[long_compare] FDE tai cuoi tung doan che (thap hon = tot hon):")
-    print(f"    {'doan':<8}{'KF + CV':>12}{'EKF + CTRV':>14}{'chenh lech':>14}")
+    print(f"    {'doan':<8}{'KF + CV':>12}{right_title:>20}{'chenh lech':>14}")
     print("    " + "-" * 46)
     for i, x, y in fde:
         print(f"    {i:<8}{x:>11.1f}px{y:>13.1f}px{x - y:>+13.1f}px")
