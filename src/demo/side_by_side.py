@@ -63,6 +63,10 @@ def main() -> int:
     ap.add_argument("--track-id", type=int, default=None,
                     help="Chi danh dau doan che cua DUNG track nay (khong thi lay ca video, "
                          "co the nham voi track khac dang bi che cung luc).")
+    ap.add_argument("--diff-segments", action="store_true",
+                    help="Danh dau cac doan ma KF va EKF cho KET CUC KHAC NHAU (doc tu "
+                         "results/stratified/segment_outcomes_DETRAC-all.csv). Dung cho video "
+                         "dai: bao nguoi xem biet CHO NAO dang co khac biet de nhin vao.")
     a = ap.parse_args()
 
     img_root = config.find_images_root()
@@ -78,10 +82,51 @@ def main() -> int:
 
     cv_df, ekf_df = load(a.cv_tracker), load(a.ekf_tracker)
 
+    # --- Cac doan ma 2 model cho ket cuc KHAC NHAU (de danh dau tren video dai) ---
+    diff_spans = []
+    if a.diff_segments:
+        so = config.RESULTS_DIR / "stratified" / "segment_outcomes_DETRAC-all.csv"
+        if so.exists():
+            s = pd.read_csv(so)
+            s = s[(s.in_common) & (s.video == a.video)]
+            pv = s.pivot_table(index=["video", "track_id", "seg_id", "occlusion_level"],
+                               columns="motion_model", values="status",
+                               aggfunc="first").reset_index()
+            pv = pv[pv["KF + CV"] != pv["EKF + CTRV"]]
+            locs = []
+            for lvl, f in [("full", "full_occlusion_segments.csv"),
+                           ("partial", "occlusion_segments.csv")]:
+                t = pd.read_csv(config.INTERIM_DIR / f)
+                t["occlusion_level"] = lvl
+                locs.append(t[["video", "track_id", "seg_id", "occlusion_level",
+                               "start_frame", "end_frame"]])
+            pv = pv.merge(pd.concat(locs, ignore_index=True),
+                          on=["video", "track_id", "seg_id", "occlusion_level"], how="left")
+            # Ten cot "KF + CV" co dau cach va dau + -> itertuples doi ten thanh _N.
+            # Dung to_dict("records") de truy cap bang ten that, khong phu thuoc vi tri.
+            for rec in pv.to_dict("records"):
+                if pd.isna(rec.get("start_frame")):
+                    continue
+                diff_spans.append((int(rec["start_frame"]), int(rec["end_frame"]),
+                                   int(rec["track_id"]), rec["KF + CV"], rec["EKF + CTRV"]))
+            diff_spans.sort()
+            print(f"[side_by_side] {len(diff_spans)} doan 2 model cho ket cuc KHAC NHAU:")
+            for s0, e0, tid, kf, ekf in diff_spans:
+                print(f"    track {tid}: frame {s0}-{e0}   KF={kf}  EKF={ekf}")
+
     # Danh dau doan bi che (>=0.10, gom ca mot phan lan gan hoan toan) de ve vien
-    # vang, doi chieu voi annotation that. LOC THEO TRACK khi biet track_id: video
-    # co the co NHIEU xe bi che cung luc (vd xe do bi vat can che gan het video),
-    # khong loc se ve vien vang sai cho toan bo doan chi vi mot xe KHAC dang bi che.
+    # vang, doi chieu voi annotation that.
+    #
+    # PHAI LOC THEO TRACK. Video dong xe thi gan nhu LUC NAO cung co MOT xe nao do
+    # dang bi che: do khong loc, MVI_40992 bi to vang 1718/2160 frame (80%) -> vien
+    # vang mat het y nghia. Uu tien: --track-id neu co, neu khong thi lay dung cac
+    # track xuat hien trong diff_spans, cuoi cung moi lay ca video.
+    if a.track_id is not None:
+        keep_tracks = {a.track_id}
+    elif diff_spans:
+        keep_tracks = {t for _, _, t, _, _ in diff_spans}
+    else:
+        keep_tracks = None
     occ_frames = set()
     for f in ["full_occlusion_segments.csv", "occlusion_segments.csv"]:
         p = config.INTERIM_DIR / f
@@ -89,8 +134,8 @@ def main() -> int:
             continue
         d = pd.read_csv(p)
         d = d[d.video == a.video]
-        if a.track_id is not None:
-            d = d[d.track_id == a.track_id]
+        if keep_tracks is not None:
+            d = d[d.track_id.isin(keep_tracks)]
         for r in d.itertuples():
             occ_frames.update(range(int(r.start_frame), int(r.end_frame) + 1))
 
@@ -115,12 +160,41 @@ def main() -> int:
         right = draw_panel(im, fr, ekf_by_f.get(fr, ekf_df.iloc[:0]), "EKF + CTRV", in_occ)
         gap = np.full((H, PANEL_GAP, 3), 255, dtype=np.uint8)
         combo = np.hstack([left, gap, right])
+
+        # Bao cho nguoi xem biet CHO NAO dang co khac biet giua 2 model
+        for s0, e0, tid, kf_st, ekf_st in diff_spans:
+            if s0 <= fr <= e0:
+                cv2.rectangle(combo, (0, 0), (combo.shape[1] - 1, combo.shape[0] - 1),
+                              (0, 0, 255), 8)
+                msg = f"KHAC BIET  track {tid}:  KF={kf_st}  vs  EKF={ekf_st}"
+                (tw, th), _ = cv2.getTextSize(msg, cv2.FONT_HERSHEY_SIMPLEX, 0.8, 2)
+                x0 = (combo.shape[1] - tw) // 2
+                cv2.rectangle(combo, (x0 - 12, H - 52), (x0 + tw + 12, H - 14), (0, 0, 255), -1)
+                cv2.putText(combo, msg, (x0, H - 24), cv2.FONT_HERSHEY_SIMPLEX,
+                            0.8, (255, 255, 255), 2, cv2.LINE_AA)
+                break
+
+        # Thanh tien trinh duoi day: vach do = cac diem co khac biet, vach trang =
+        # vi tri hien tai. Video 3 phut ma khong co cai nay thi nguoi xem khong biet
+        # con phai cho bao lau moi toi doan dang xem.
+        if diff_spans:
+            W_out, y0 = combo.shape[1], H - 10
+            cv2.rectangle(combo, (0, y0), (W_out, H), (40, 40, 40), -1)
+            span = max(1, end - a.start)
+            for s0, e0, _t, _k, _e in diff_spans:
+                xa = int((s0 - a.start) / span * (W_out - 1))
+                xb = int((e0 - a.start) / span * (W_out - 1))
+                cv2.rectangle(combo, (max(0, xa - 2), y0), (xb + 2, H), (0, 0, 255), -1)
+            xc = int((fr - a.start) / span * (W_out - 1))
+            cv2.rectangle(combo, (xc - 1, y0), (xc + 1, H), (255, 255, 255), -1)
         vw.write(combo)
         n_written += 1
     vw.release()
     print(f"[side_by_side] da ghi {n_written} frame -> {out_path}")
+    scope = ("track %d" % a.track_id) if a.track_id is not None else (
+        "cac track co khac biet" if diff_spans else "toan bo video")
     print(f"[side_by_side] {len(occ_frames & set(range(a.start, end + 1)))} frame "
-          f"nam trong doan che khuat >=90% (vien vang)")
+          f"co che khuat (vien vang, pham vi: {scope})")
     return 0
 
 
