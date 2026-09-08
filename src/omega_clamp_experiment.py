@@ -33,30 +33,13 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
 from ekf_ctrv import EKFTrackerCTRV  # noqa: E402
+# Dung DUNG lop ma tracker su dung, khong dinh nghia lai: neu nguong hay cach
+# chan thay doi thi thi nghiem nay va ket qua tracking that phai khop nhau.
+from ekf_ctrv_clamped import OMEGA_CLAMP as CLAMP  # noqa: E402
+from ekf_ctrv_clamped import EKFTrackerCTRVClamped as EKFClamped  # noqa: E402
 from ultralytics.trackers.utils.kalman_filter import KalmanFilterXYAH  # noqa: E402
 
-# 0,05 rad/frame = 2,9 do/frame = 72 do/giay o 25 fps. Xe hoi re nga tu quet
-# khoang 90 do trong 2-4 giay, tuc 18-45 do/giay, nen nguong nay da rat rong rai.
-CLAMP = 0.05
 TIE = 0.5   # px - chenh lech duoi muc nay coi nhu hoa
-
-
-class EKFClamped(EKFTrackerCTRV):
-    """EKF+CTRV chan toc do quay ve nguong kha thi voi xe hoi.
-
-    Chan o CA HAI cho: sau `update` (khong de omega phi ly di vao trang thai)
-    va truoc `predict` (khong de ngoai suy tren omega phi ly du no den tu dau).
-    """
-
-    def predict(self, mean, cov):
-        m = mean.copy()
-        m[self.OMEGA] = float(np.clip(m[self.OMEGA], -CLAMP, CLAMP))
-        return super().predict(m, cov)
-
-    def update(self, mean, cov, measurement, confidence=None):
-        m, c = super().update(mean, cov, measurement, confidence)
-        m[self.OMEGA] = float(np.clip(m[self.OMEGA], -CLAMP, CLAMP))
-        return m, c
 
 
 def xyah(r) -> np.ndarray:

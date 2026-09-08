@@ -363,4 +363,11 @@ MOTION_MODELS = {
         "suffix": "ukf-ctrv",
         "desc": "Unscented Kalman Filter (sigma point), mo hinh CTRV",
     },
+    # Bien the THEM VAO de kiem chung khuyet diem "omega khong bi chan"
+    # (xem src/diagnose_ekf_circle.py). Khong thay the ekf_ctrv.
+    "ekf_ctrv_clamped": {
+        "cfg": str(CONFIGS_DIR / "bytetrack_ekf_ctrv_clamped.yaml"),
+        "suffix": "ekf-ctrv-clamped",
+        "desc": "EKF + CTRV co chan |omega| <= 0,05 rad/frame (= 72 do/giay)",
+    },
 }

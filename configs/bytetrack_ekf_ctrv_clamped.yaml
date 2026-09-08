@@ -1,0 +1,16 @@
+# Cau hinh ByteTrack + EKF/CTRV CO CHAN omega (|omega| <= 0,05 rad/frame).
+#
+# Muc dich: kiem chung xem khuyet diem "omega khong bi chan" (do duoc trong
+# src/diagnose_ekf_circle.py: 28% doan ngoai suy voi omega phi vat ly, 20% doan
+# box du doan di het mot vong tron) co lam thay doi ket qua da bao cao khong.
+#
+# QUAN TRONG: moi tham so GHEP CAP giu NGUYEN Y HET bytetrack_ekf_ctrv.yaml.
+# Dong duy nhat khac la `tracker_type`. Nhu vay so voi ban EKF+CTRV goc, phep
+# so sanh nay chi khac DUNG MOT thu: co chan omega hay khong.
+tracker_type: bytetrack_ekf_ctrv_clamped # (str) EKF + CTRV chan omega (src/tracker_ctrv.py)
+track_high_thresh: 0.25 # (float) First-stage match threshold; raise for cleaner tracks, lower to keep more
+track_low_thresh: 0.1 # (float) Second-stage threshold for low-score matches; balances recovery vs drift
+new_track_thresh: 0.25 # (float) Start a new track if no match ≥ this; higher reduces false tracks
+track_buffer: 30 # (int) Frames to keep lost tracks alive; higher handles occlusion, increases ID switches risk
+match_thresh: 0.8 # (float) Association similarity threshold (IoU/cost); tune with detector quality
+fuse_score: True # (bool) Fuse detection score with motion/IoU for matching; stabilizes weak detections

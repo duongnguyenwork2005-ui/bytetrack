@@ -55,6 +55,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from ekf_ctrv import EKFTrackerCTRV  # noqa: E402
+from ekf_ctrv_clamped import EKFTrackerCTRVClamped  # noqa: E402
 from ukf_ctrv import UKFTrackerCTRV  # noqa: E402
 
 from lost_association import LostAwareAssociation  # noqa: E402
@@ -169,6 +170,17 @@ class CTRVSTrack(STrack):
         super().re_activate(new_track, frame_id, new_id)
 
 
+class ClampedSTrack(CTRVSTrack):
+    """STrack dung EKF+CTRV co chan omega (xem ekf_ctrv_clamped.py).
+
+    Them vao de KIEM CHUNG xem khuyet diem "omega khong bi chan" co phai la
+    nguyen nhan khien CTRV thua CV khong. Ban goc CTRVSTrack giu nguyen.
+    """
+
+    shared_kalman = EKFTrackerCTRVClamped()
+    filter_class = EKFTrackerCTRVClamped
+
+
 class UKFSTrack(CTRVSTrack):
     """STrack dung UKF thay cho EKF.
 
@@ -225,11 +237,18 @@ class CVByteTracker(LostAwareAssociation, BYTETracker):
     pass
 
 
+class ClampedByteTracker(CTRVByteTracker):
+    """ByteTracker dung EKF + CTRV co chan omega."""
+
+    track_class = ClampedSTrack
+
+
 #: Ten tracker_type -> lop tracker tuong ung (dang ky vao ultralytics).
 CTRV_TRACKERS = {
     "bytetrack_ekf_ctrv": CTRVByteTracker,
     "bytetrack_ukf_ctrv": UKFByteTracker,
     "bytetrack_cv_lostassoc": CVByteTracker,
+    "bytetrack_ekf_ctrv_clamped": ClampedByteTracker,
 }
 
 
