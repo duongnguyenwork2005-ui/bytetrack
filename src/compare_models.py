@@ -23,22 +23,35 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
 
-SHORT = {"cv": "KF + CV (baseline)", "ekf_ctrv": "EKF + CTRV", "ukf_ctrv": "UKF + CTRV"}
+SHORT = {"cv": "KF + CV (baseline)", "ekf_ctrv": "EKF + CTRV", "ukf_ctrv": "UKF + CTRV",
+         "ekf_ctrv_clamped": "EKF + CTRV (chan omega)"}
 METRICS = ["HOTA", "DetA", "AssA", "MOTA", "IDF1", "IDP", "IDR"]
 COUNTS = ["FP", "FN", "IDSW"]
+
+#: Ba model cua thi nghiem CHINH. Chot cung thay vi duyet config.MOTION_MODELS:
+#: moi bien the kiem chung them vao sau (vd ekf_ctrv_clamped) se tu dong lot vao
+#: lan chay mac dinh va GHI DE comparison_<split>.csv da bao cao.
+MAIN_MODELS = ["cv", "ekf_ctrv", "ukf_ctrv"]
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Gop ket qua TrackEval cua cac motion model")
     ap.add_argument("--split-name", default="DETRAC-all")
+    ap.add_argument("--models", nargs="*", default=None,
+                    help=f"Mac dinh: {MAIN_MODELS}. Chi ro de them bien the kiem "
+                         "chung (vd --models cv ekf_ctrv ekf_ctrv_clamped).")
+    ap.add_argument("--tag", default="",
+                    help="Hau to them vao ten file ket qua, de lan chay nay khong "
+                         "ghi de bang so sanh cu (vd --tag clamped).")
     args = ap.parse_args()
+    models = args.models or MAIN_MODELS
 
     stem = Path(config.YOLO_DEFAULT_MODEL).stem
     root = config.RESULTS_DIR / "trackeval" / args.split_name
 
     rows, per_video = [], []
-    for key, spec in config.MOTION_MODELS.items():
-        tracker = f"{stem}-{spec['suffix']}"
+    for key in models:
+        tracker = f"{stem}-{config.MOTION_MODELS[key]['suffix']}"
         f = root / tracker / "combined_metrics.csv"
         if not f.exists():
             print(f"  [MISS] chua co {f}")
@@ -73,7 +86,7 @@ def main() -> int:
             if c in df.columns:
                 df[f"d_{c}"] = (df[c] - b[c]).astype(int)
 
-    out = config.RESULTS_DIR / f"comparison_{args.split_name}.csv"
+    out = config.RESULTS_DIR / f"comparison_{args.split_name}{args.tag and '_' + args.tag}.csv"
     df.to_csv(out, index=False)
 
     print("=" * 78)
@@ -90,7 +103,7 @@ def main() -> int:
 
     if per_video:
         pv = pd.concat(per_video, ignore_index=True)
-        out_pv = config.RESULTS_DIR / f"comparison_per_video_{args.split_name}.csv"
+        out_pv = config.RESULTS_DIR / f"comparison_per_video_{args.split_name}{args.tag and '_' + args.tag}.csv"
         pv.to_csv(out_pv, index=False)
         print(f"  Theo tung video -> {out_pv}")
     return 0
