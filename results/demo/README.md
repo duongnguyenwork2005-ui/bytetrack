@@ -5,6 +5,10 @@
 > **không ghi đè bất cứ kết quả cũ nào**.
 >
 > Tái lập: `python src/demo/gt_omega.py` → `case_ab.py` → `render_videos.py`
+>
+> **Bổ sung mục 5 (Giai đoạn E):** khi xem video minh hoạ đã phát hiện một khuyết điểm
+> thật trong cài đặt EKF — `ω` không bị chặn. Đã đo, đã sửa, đã chạy lại 60 video:
+> **không đảo ngược kết quả**. Số liệu mục 1–4 giữ nguyên.
 
 ---
 
@@ -110,9 +114,11 @@ cách đo độ cong đều bị thổi phồng **5.9–7.2 lần**. Bỏ bướ
 |---|---|---|
 | **Dự đoán bay ra ngoài khung hình thì không nhìn thấy** | Video 2: EKF sai 845px → box biến mất, người xem tưởng lỗi render | Vẽ mũi tên ở mép khung chỉ hướng + khoảng cách |
 | **Kích thước box trôi khi ngoại suy dài** | Box phình to bất thường (thấy rõ ở Video 2) | Khoá `w/h` về giá trị lúc bắt đầu che, hoặc ghi chú rõ |
-| FDE tính từ **quỹ đạo GT**, không phải trạng thái thật của tracker | Đây là **cận trên lạc quan** — tracker thật có thể đã mất track từ trước | Lấy trạng thái thật từ tracker (cần sửa `baseline_track.py` để log) |
-| Chỉ vẽ KF và EKF, **không có UKF** | Đúng đặc tả nhưng thiếu 1/3 bức tranh | Thêm màu thứ 4 |
-| Chưa có thanh tiến trình / đánh dấu thời điểm phân kỳ | Khó thấy chính xác lúc nào 2 model tách nhau | Thêm timeline dưới đáy |
+| FDE tính từ **quỹ đạo GT**, không phải trạng thái thật của tracker | Đây là **cận trên lạc quan** — tracker thật có thể đã mất track từ trước | ✅ **ĐÃ LÀM** — `src/demo/side_by_side.py` vẽ thẳng box+ID mà ByteTrack thực sự xuất ra |
+| Chỉ vẽ KF và EKF, **không có UKF** | Đúng đặc tả nhưng thiếu 1/3 bức tranh | Chưa làm. Mức ưu tiên thấp: mục 5.2 cho thấy UKF thua cả hai ở mọi chỉ số |
+| Chưa có thanh tiến trình / đánh dấu thời điểm phân kỳ | Khó thấy chính xác lúc nào 2 model tách nhau | ✅ **ĐÃ LÀM** — `side_by_side.py --diff-segments` viền đỏ + nhãn ở đúng đoạn 2 model khác kết cục; `long_compare.py` có timeline dưới đáy |
+| Hai model vẽ **chồng lên nhau** trên cùng khung → box đè nhau, khó đọc | Thấy rõ khi 2 dự đoán gần nhau | ✅ **ĐÃ LÀM** — `long_compare.py` tách 2 panel cạnh nhau, mỗi panel 1 model + GT |
+| Video chỉ ~3 giây, chỉ 1 đoạn che | Không thấy được hành vi lặp lại | ✅ **ĐÃ LÀM** — `long_compare.py` chạy suốt đời track qua nhiều lần che (16–24 giây) |
 
 ---
 
@@ -139,3 +145,89 @@ cách đo độ cong đều bị thổi phồng **5.9–7.2 lần**. Bỏ bướ
 
 **Đề xuất:** nếu chỉ cần hình minh hoạ cho luận văn thì **bỏ mục cuối** (dùng quỹ đạo GT
 là chấp nhận được nếu ghi chú rõ) → còn **~4 giờ + 25 phút máy**.
+
+---
+
+## 5. CẬP NHẬT — Giai đoạn E: khuyết điểm `ω` không bị chặn
+
+> Phần này thêm sau, khi xem video minh hoạ phát hiện box dự đoán của EKF **quay
+> vòng tròn tại chỗ**. Toàn bộ số liệu mục 1–4 ở trên **không đổi**.
+
+### 5.1 Chuyện gì xảy ra
+
+CTRV ngoại suy trên đường tròn bán kính `R = v/|ω|`, sau `T` frame quét một cung
+`arc = |ω|·T`. Quay tròn **tự nó là hành vi đúng** khi `ω` lớn — nên câu hỏi đúng
+không phải "code có sai không" mà "`ω` đó có hợp lý không".
+
+- **Toán không sai:** 26/26 unit test PASS, gồm so Jacobian giải tích với sai phân số
+  và kiểm tra đi hết một vòng tròn về đúng chỗ cũ (sai lệch 3,6·10⁻¹³ px).
+- **Nhưng không có gì chặn `ω`.** Ngưỡng vật lý: xe rẽ ngã tư quét ~90° trong 2–4 giây
+  = 0,013–0,031 rad/frame. Lấy rộng rãi `|ω| > 0,05 rad/frame` (72 °/giây) là bất khả thi.
+
+| Chỉ tiêu (50 đoạn che, 48 track dài) | Bản gốc | Chặn ω |
+|---|---|---|
+| Trung vị \|ω\| | 0,366 °/frame *(GT: 0,441)* | 0,258 °/frame |
+| Phân vị 90 | **19,9 °/frame** | 2,45 °/frame |
+| Lớn nhất | **111,4 °/frame** | 2,87 °/frame |
+| Vượt ngưỡng bất khả thi | **28 %** | **0 %** |
+| `R` < 100 px *(nhỏ hơn chiếc xe)* | 26 % | 8 % |
+| Quét **> 360°** *(trọn một vòng)* | **20 %** | **0 %** |
+
+### 5.2 Sửa rồi thì sao — chạy lại đủ 60 video
+
+| Model | HOTA | AssA | IDF1 | IDSW |
+|---|---|---|---|---|
+| KF + CV (baseline) | **0,6104** | **0,6541** | 0,7783 | **2251** |
+| EKF + CTRV nguyên bản | 0,6101 | 0,6536 | 0,7782 | 2290 |
+| **EKF + CTRV chặn ω** | 0,6102 | 0,6537 | **0,7783** | 2280 |
+
+Mức từng đoạn (1.544 đoạn): chặn `ω` chỉ đổi kết cục **3 đoạn (0,19 %)**.
+McNemar KF vs EKF chặn ω: 19 so 17, **p = 0,8679**. **Không đảo ngược kết quả.**
+
+> **Phát hiện ngược chiều:** chặn `ω` có thể làm sai số **TĂNG**. MVI_40992 t12 đoạn 2:
+> FDE **556,5 → 1208,4 px**. Vì khi `ω` lớn, box quay tít trong vòng tròn nhỏ nên **vô
+> tình nằm gần chỗ cũ**; chặn `ω` lại cho nó bay gần như thẳng ra xa. Đây là lý do FDE
+> **trung vị** giảm (114,5 → 105,1 px) nhưng FDE **trung bình** lại tăng (236,7 → 244,5 px).
+
+### 5.3 Ảnh hưởng tới chính bản demo này — gần như không
+
+Render lại toàn bộ bằng bản chặn `ω`. Trên **240 đoạn** của 8 video demo, chỉ **5 đoạn
+(2,1 %)** đổi FDE (3 tốt hơn, 2 tệ hơn); FDE trung bình 165,1 → 165,0 px.
+**4 video ở mục 2 không đổi một pixel nào:**
+
+| Video | FDE KF | EKF gốc | EKF chặn ω |
+|---|---|---|---|
+| `1_ctrv_thang` | 53,1 px | 31,6 px | 31,6 px |
+| `2_cv_thang` | 247,6 px | 845,3 px | 845,3 px |
+| `3_tran_thong_tin` | 63,4 px | 67,4 px | 67,4 px |
+| `4_tran_detector` | 141,2 px | 134,4 px | 134,4 px |
+
+Đáng chú ý: `2_cv_thang` (EKF sai 845 px) có `|ω| = 0,0317 rad/frame` — **vốn đã dưới
+ngưỡng chặn**. Sai số đó **không đến từ khuyết điểm này** mà từ trần thông tin: xe cua
+trước khi bị che rồi đi thẳng suốt 66 frame.
+
+### 5.4 Quét 48 track dài — chống cherry-picking
+
+Quét **mọi** track ≥150 frame, ≥2 đoạn che, có di chuyển thật:
+
+| | Số track | Tỉ lệ |
+|---|---|---|
+| CTRV tốt hơn | 5 | 10 % |
+| **CV tốt hơn** | **32** | **67 %** |
+| Hoà | 11 | 23 % |
+
+FDE trung bình KF **266,0 px** vs EKF **297,4 px**. Tương quan giữa **góc cua của xe**
+và lợi thế CTRV: **−0,021** — bằng không. Ba track cua gắt nhất (132°, 148°, 151°) thì
+CTRV thua cả ba.
+
+### 5.5 File sinh ra
+
+| Script | Sản phẩm |
+|---|---|
+| `src/diagnose_ekf_circle.py` *(`--clamped`)* | `ekf_circle_diagnosis[_clamped].csv` |
+| `src/omega_clamp_experiment.py` | `clamp_test.csv` |
+| `src/demo/long_compare.py` *(`--clamped`)* | `videos/long_<video>_t<id>[_clamped].mp4` |
+| `src/demo/render_videos.py` *(`--clamped`)* | `videos/<n>_*[_clamped].mp4`, `selected_segments[_clamped].csv` |
+| `src/demo/side_by_side.py` *(`--ekf-tracker`)* | `sbs_<video>_<a>_<b>[_clamped].mp4` |
+
+Video `long_*` và `sbs_*` đã gitignore vì nặng 10–121 MB; tái tạo bằng script ở trên.
