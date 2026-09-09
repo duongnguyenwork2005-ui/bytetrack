@@ -449,3 +449,81 @@ python src/compare_models.py --split-name DETRAC-all \
 > `compare_models.py` hiện suy tên thư mục tracker từ `config.MOTION_MODELS`
 > (`yolov8n-<suffix>`), nên với tên `runA-*` cần thêm mục vào `MOTION_MODELS`
 > hoặc đổi tên thư mục cho khớp. Chưa làm vì việc đó đụng cấu hình baseline.
+
+---
+
+## 13. CẬP NHẬT — Lượt A đã chạy xong (60/60 video × 3 model)
+
+**Đã chạy đầy đủ**, không phải smoke test. Toàn bộ 3 model, 60 video train,
+`conf=0.25`, code đã sửa (lỗi 1–2), ghi vào `runA-{cv,ekf_ctrv,ukf_ctrv}`.
+
+### 13.1 Kiểm tra không có file rỗng/thiếu
+
+```
+runA-cv:       0 file rỗng, 60/60 video, 49 MB
+runA-ekf_ctrv: 0 file rỗng, 60/60 video, 49 MB
+runA-ukf_ctrv: 0 file rỗng, 60/60 video, 49 MB
+```
+
+### 13.2 HOTA/AssA/IDSW: trước và sau khi sửa lỗi bộ lọc
+
+| Model | HOTA cũ | HOTA mới (runA) | ΔHOTA | ΔAssA | ΔIDSW |
+|---|---|---|---|---|---|
+| KF + CV | 0,610429 | 0,610429 | **+0,0000** | +0,0000 | **+0** |
+| EKF + CTRV | 0,610102 | 0,610045 | −0,0001 | −0,0002 | −1 |
+| UKF + CTRV | 0,609505 | 0,608956 | −0,0005 | −0,0012 | +2 |
+
+**KF + CV giống hệt tuyệt đối** — đúng như kỳ vọng, vì bản sửa lỗi 1–2 chỉ chạm
+`ekf_ctrv.py`/`tracker_ctrv.py`, không đụng `KalmanFilterXYAH` gốc của
+ultralytics. EKF/UKF lệch ở bậc 10⁻⁴, nằm trong nhiễu đo (so với chênh lệch giữa
+các model vốn đã ~5·10⁻⁴). **Bản sửa lỗi 1–2 không đảo ngược bất kỳ kết luận
+tổng thể nào** đã có trong `main` — không có bằng chứng EKF/UKF vượt KF trước
+và sau khi sửa.
+
+Lý do biên độ nhỏ: lỗi 1–2 chỉ lộ rõ ở các ca hiếm (track sinh ra ngay lúc bị
+che nên `initiate_from_motion` phải nhảy nhiều frame, hoặc xe đứng yên rồi mới
+chạy) — không phải hành vi phổ biến trên 598.281 bbox của 60 video.
+
+### 13.3 Chấm bằng phép đánh giá đã sửa (occlusion_eval.py) trên runA
+
+| Tracker | `id_match` | `id_continuous` |
+|---|---|---|
+| `runA-cv` | 48,26 % | 30,21 % |
+| `runA-ekf_ctrv` | 47,46 % | 30,01 % |
+| `runA-ukf_ctrv` | 47,56 % | 30,01 % |
+
+Bootstrap theo video, chênh lệch so với `runA-cv`:
+
+| Tracker | Chênh `id_match` | KTC 95 % |
+|---|---|---|
+| `runA-ekf_ctrv` | −0,80 % | [−1,83 %, +0,19 %] |
+| `runA-ukf_ctrv` | −0,70 % | [−1,62 %, +0,10 %] |
+
+**Trùng khớp gần như tuyệt đối** với bảng chấm lại tracking cũ ở mục 6
+(48,26 % / 47,46 % / 47,56 % — giống hệt). Củng cố thêm kết luận: bản sửa lỗi 1–2
+không đổi bức tranh tổng thể.
+
+### 13.4 Lệnh đã chạy
+
+```bash
+for MM in cv ekf_ctrv ukf_ctrv; do
+  python src/baseline_track.py --all-train --split-name DETRAC-all \
+    --motion-model $MM --conf 0.25 --tracker-name "runA-$MM" --skip-existing
+done
+for MM in cv ekf_ctrv ukf_ctrv; do
+  python src/run_trackeval.py --split-name DETRAC-all --tracker "runA-$MM"
+done
+python src/occlusion_eval.py --split-name DETRAC-all \
+  --trackers runA-cv runA-ekf_ctrv runA-ukf_ctrv --out-dir results/runA
+```
+
+Kết quả: `results/trackeval/DETRAC-all/runA-*/`, `results/runA/`.
+Chưa ghi đè `results/comparison_DETRAC-all.csv` hay bất kỳ file cũ nào.
+
+### 13.5 Còn thiếu
+
+- **Lượt B (`conf=0.1`) chưa chạy** — lệnh đã có ở mục 12, ước tính nặng hơn
+  lượt A do nhiều detection hơn (đo ở mục 7: dải điểm thấp thêm ~90 % số
+  detection).
+- Chưa chạy lại trên 40 video test.
+- Chưa chạy lại detector fine-tune (Giai đoạn C).
