@@ -28,6 +28,12 @@ Bốn lỗi đầu đều **tái hiện được bằng ví dụ cụ thể** tr
 
 > **Chưa có bằng chứng nào cho thấy EKF/UKF vượt KF**, và pipeline **chưa** được
 > chứng minh là đã đúng hoàn toàn. Báo cáo này chỉ nói về các lỗi đã xác nhận.
+>
+> **Cập nhật:** Lượt A và Lượt B (mục 13, 14) đã chạy xong đầy đủ trên 60 video
+> train. Bản sửa lỗi 1–2 không đổi kết luận so sánh 3 model. Lượt B (conf=0,10)
+> cho HOTA/AssA cao hơn và IDSW thấp hơn ~12% ở cả 3 model so với lượt A — bằng
+> chứng ban đầu ủng hộ nới ngưỡng detector, nhưng CHƯA đủ để đổi baseline
+> (xem 14.4 về giới hạn).
 
 ---
 
@@ -527,3 +533,115 @@ Chưa ghi đè `results/comparison_DETRAC-all.csv` hay bất kỳ file cũ nào.
   detection).
 - Chưa chạy lại trên 40 video test.
 - Chưa chạy lại detector fine-tune (Giai đoạn C).
+
+---
+
+## 14. CẬP NHẬT — Lượt B đã chạy xong (60/60 video × 3 model, `conf=0.10`)
+
+**Đã chạy đầy đủ**, cùng code đã sửa, chỉ đổi `conf: 0.25 → 0.10`. Mọi ngưỡng
+tracker khác giữ y hệt lượt A. Kiểm tra: 0 file rỗng, 60/60 video mỗi model.
+
+### 14.1 HOTA/AssA/IDSW: Lượt A (conf=0,25) vs Lượt B (conf=0,10)
+
+| Model | Lượt | HOTA | AssA | IDSW | FP | FN |
+|---|---|---|---|---|---|---|
+| CV | A | 0,610429 | 0,654065 | 2.251 | 53.332 | 146.919 |
+| CV | **B** | **0,614274** | **0,659982** | **1.982** | 70.469 | 133.530 |
+| EKF+CTRV | A | 0,610045 | 0,653398 | 2.289 | 53.246 | 147.086 |
+| EKF+CTRV | **B** | **0,613842** | **0,659537** | **1.988** | 70.739 | 133.684 |
+| UKF+CTRV | A | 0,608956 | 0,651257 | 2.304 | 53.338 | 147.122 |
+| UKF+CTRV | **B** | **0,613521** | **0,658919** | **2.007** | 70.808 | 133.624 |
+
+**Ở cả 3 model, lượt B cho HOTA cao hơn lượt A** (+0,0038 đến +0,0046), AssA cao
+hơn, và **IDSW thấp hơn rõ** (giảm ~270–320 lần chuyển ID, tức khoảng −12 %).
+Đổi lại: FP tăng mạnh (+17.000), FN giảm mạnh (−13.400) — đúng dự đoán khi hạ
+ngưỡng detector: nhiều detection hơn thì bắt được nhiều xe hơn (giảm FN) nhưng
+cũng lẫn nhiều nhiễu hơn (tăng FP). MOTA vì vậy **giảm nhẹ** (0,6615→0,6557 ở
+CV) dù HOTA tăng — hai chỉ số này cân đối FP/FN khác nhau.
+
+### 14.2 Bằng chứng cơ chế: số ID track duy nhất giảm
+
+Không cần chạy lại đo vòng association — số liệu này đã có sẵn trong file tóm
+tắt (`baseline_track_summary_*`, cột `n_tracks` = số ID track **duy nhất**
+xuất hiện trên 60 video, độc lập với `occlusion_eval.py`):
+
+| Model | Số ID (A, conf=0,25) | Số ID (B, conf=0,10) | Chênh | Tổng bbox (A) | Tổng bbox (B) |
+|---|---|---|---|---|---|
+| CV | 9.819 | **9.549** | **−270** | 504.694 | 535.220 |
+| EKF+CTRV | 9.873 | **9.597** | **−276** | 504.441 | 535.336 |
+| UKF+CTRV | 9.870 | **9.585** | **−285** | 504.497 | 535.465 |
+
+**Nhất quán ở cả 3 model:** conf=0,10 tạo **ít ID track hơn** dù xử lý **nhiều
+bbox hơn ~30.500**. Ít ID hơn với nhiều detection hơn nghĩa là ByteTrack đang
+**tái sử dụng track cũ thay vì sinh ID mới** thường xuyên hơn — đúng cơ chế của
+vòng association thứ hai (mục 7): có detection điểm thấp để ghép lại với track
+đang chờ, thay vì để track đó chết rồi một detection khác (không có gì để so)
+buộc phải sinh ID mới.
+
+> **Lưu ý về con số ở mục 7.** Phép đo bằng `probe_conf_bands.py` (mẫu 3 video ×
+> 50 frame, đo trực tiếp phân bố điểm của detector) cho thấy dải `(0,10; 0,25)`
+> bằng 89,6 % so với dải `≥0,25`. Con số đó là phân bố điểm tin cậy **thô** của
+> detector trên một mẫu nhỏ, khác với tổng bbox tracker xuất ra trên cả 60 video
+> (tăng khiêm tốn hơn, ~6 %) — vì tracker output đã qua NMS, lọc lớp xe, và phụ
+> thuộc động lực theo dõi theo thời gian chứ không phải one-shot theo frame. Hai
+> con số đo hai thứ khác nhau, không mâu thuẫn nhau, nhưng không nên gộp lẫn.
+
+### 14.3 Chấm bằng phép đánh giá đã sửa (occlusion_eval.py) trên runB
+
+| Tracker | `id_match` | `id_continuous` |
+|---|---|---|
+| `runB-cv` | 51,15 % | **37,79 %** |
+| `runB-ekf_ctrv` | 50,75 % | 37,79 % |
+| `runB-ukf_ctrv` | 50,55 % | 37,79 % |
+
+So với lượt A: `id_match` 48,26 % → **51,15 %** (CV), `id_continuous`
+30,21 % → **37,79 %** — tăng rõ rệt và nhất quán ở cả 3 model, đồng hướng với
+giảm ID phân mảnh ở mục 14.2.
+
+Bootstrap theo video, chênh lệch so với `runB-cv` (chưa đổi kết luận so sánh
+giữa 3 motion model — vẫn không phân biệt được):
+
+| Tracker | Chênh `id_match` | KTC 95 % |
+|---|---|---|
+| `runB-ekf_ctrv` | −0,40 % | [−1,49 %, +0,71 %] |
+| `runB-ukf_ctrv` | −0,60 % | [−1,76 %, +0,52 %] |
+
+### 14.4 Kết luận về `conf=0,1` — có bằng chứng nhưng chưa dứt khoát
+
+**Ủng hộ `conf=0,1`:** HOTA/AssA cao hơn, IDSW thấp hơn ~12 %, `id_continuous`
+tăng từ 30,0 % lên 37,8 %, ít ID phân mảnh hơn — nhất quán ở cả 3 model.
+
+**Chưa đủ để khẳng định chắc chắn:**
+- FP tăng ~33 % — chưa đo ảnh hưởng tới các ứng dụng hạ nguồn nhạy với false
+  positive (đếm xe, ước lượng mật độ).
+- Chỉ chạy trên 60 video train, `yolov8n` gốc (chưa fine-tune) — chưa biết có
+  giữ nguyên xu hướng trên tập test hay với detector khác không.
+- MOTA giảm nhẹ dù HOTA tăng — hai độ đo phản ánh trọng số FP/FN khác nhau,
+  cần biết ứng dụng ưu tiên độ đo nào.
+- **Đây vẫn không phải quyết định thay đổi baseline** — chỉ là bằng chứng ban
+  đầu để cân nhắc, đúng phạm vi lượt B đã đề ra.
+
+### 14.5 Lệnh đã chạy
+
+```bash
+for MM in cv ekf_ctrv ukf_ctrv; do
+  python src/baseline_track.py --all-train --split-name DETRAC-all \
+    --motion-model $MM --conf 0.10 --tracker-name "runB-$MM" --skip-existing
+done
+for MM in cv ekf_ctrv ukf_ctrv; do
+  python src/run_trackeval.py --split-name DETRAC-all --tracker "runB-$MM"
+done
+python src/occlusion_eval.py --split-name DETRAC-all \
+  --trackers runB-cv runB-ekf_ctrv runB-ukf_ctrv --out-dir results/runB
+```
+
+Kết quả: `results/trackeval/DETRAC-all/runB-*/`, `results/runB/`. Thời gian
+thực đo: CV ~1780 giây, EKF ~1811 giây (gấp ~2,5× lượt A do nhiều detection hơn).
+
+### 14.6 Còn thiếu
+
+- Chưa chạy trên 40 video test.
+- Chưa chạy với detector fine-tune.
+- Chưa đo ảnh hưởng FP tăng lên các ứng dụng hạ nguồn cụ thể.
+- Chưa thử các mức `conf` trung gian (0,15; 0,20) để biết xu hướng có tuyến
+  tính hay không.
