@@ -213,12 +213,24 @@ def set_marginal_variance(cov: np.ndarray, idx: int, new_var: float) -> np.ndarr
         P[v, cx] = 498.76 lam tri rieng nho nhat tu +2.7e-9 xuong -2.2e-1.
 
     CACH LAM DUNG. Ta muon doi sigma_idx -> sigma_idx' ma GIU NGUYEN moi he so
-    tuong quan. Tuong duong voi phep bien doi DONG DANG (congruence)
+    tuong quan. Tuong duong voi phep bien doi TUONG HOP (congruence)
             P' = S P S^T ,  S = diag(1, ..., s, ..., 1),  s = sigma'/sigma
-    tuc nhan hang idx va cot idx voi cung he so s. Dinh ly quan tinh Sylvester
-    bao dam phep dong dang voi S kha nghich GIU NGUYEN dau cua moi tri rieng,
-    nen P' ban xac dinh duong khi va chi khi P ban xac dinh duong. Day la
-    su that toan hoc, khong phai chinh sua so hoc de che loi.
+    tuc nhan hang idx va cot idx voi cung he so s. Dinh luat QUAN TINH Sylvester
+    bao dam phep bien doi tuong hop voi S kha nghich (o day s > 0) BAO TOAN QUAN
+    TINH cua ma tran, tuc giu nguyen SO LUONG tri rieng duong, am va bang 0. Do
+    do P' ban xac dinh duong khi va chi khi P ban xac dinh duong. Day la su that
+    toan hoc, khong phai chinh sua so hoc de che loi.
+
+    TUONG HOP KHAC DONG DANG. Dong dang (similarity) la P' = S P S^-1, bao toan
+    TOAN BO pho tri rieng. Tuong hop (congruence) la P' = S P S^T, noi chung
+    KHONG bao toan tri rieng ma chi bao toan quan tinh. Dinh luat quan tinh
+    Sylvester phat bieu cho TUONG HOP. O day S la ma tran duong cheo duong nen
+    S^T = S khac S^-1 (tru khi s = 1), tuc dung la tuong hop.
+
+    PHAM VI CUA DINH LUAT - noi cho dung. Dinh luat CHI bao toan SO LUONG tri
+    rieng theo dau. No KHONG bao toan GIA TRI cua tung tri rieng, va cung khong
+    thiet lap phep ghep cap nao giua tri rieng truoc va sau phep bien doi. Phep
+    bien doi tuong hop noi chung LAM THAY DOI gia tri cac tri rieng.
 
     Args:
         cov: ma tran hiep phuong sai (bi sua TAI CHO)
@@ -453,7 +465,7 @@ class EKFTrackerCTRV:
         mean[self.THETA] = normalize_angle(np.arctan2(dy, dx))
 
         # Da co thong tin -> thu hep do bat dinh cua v va theta.
-        # Dung set_marginal_variance (phep dong dang) thay vi ghi de thang phan tu
+        # Dung set_marginal_variance (phep bien doi tuong hop) thay vi ghi de thang phan tu
         # duong cheo: ghi de thang lam P mat tinh ban xac dinh duong - xem docstring
         # cua set_marginal_variance va src/repro_init_covariance.py.
         set_marginal_variance(covariance, self.THETA,

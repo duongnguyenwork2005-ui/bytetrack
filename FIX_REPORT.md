@@ -1,8 +1,18 @@
 # FIX_REPORT — Sửa lỗi khởi tạo bộ lọc và phép đánh giá che khuất
 
 **Nhánh:** `fix/tracker-evaluation-correctness` (tách từ `main` tại `568ba2a`)
-**Chưa push, chưa merge.** Không ghi đè bất kỳ kết quả thí nghiệm cũ nào —
-kết quả mới nằm trong `results/eval_fixed/`.
+
+**Trạng thái Git — chính xác tại thời điểm viết:**
+
+| | |
+|---|---|
+| Nhánh trên remote (`origin`) | mới đến commit **`1149ab2`** |
+| Commit sau nghiệm thu **`b20ca98`** | **chỉ có ở local — CHƯA push** |
+| Merge vào `main` | **CHƯA** |
+
+Nói cách khác: 4 commit đầu đã có trên GitHub; commit thứ 5 (`b20ca98`, mục 15)
+còn nằm ở máy. Không ghi đè bất kỳ kết quả thí nghiệm cũ nào — kết quả mới nằm
+trong `results/eval_fixed/`, `results/runA/`, `results/runB/`.
 
 **Môi trường:** Python 3.11.9 · numpy 2.4.6 · scipy 1.17.1 · pandas 2.3.3 ·
 ultralytics 8.4.141 · torch 2.6.0+cu124 · GPU GTX 1650 · conda env `khoaluan-mot`
@@ -34,6 +44,10 @@ Bốn lỗi đầu đều **tái hiện được bằng ví dụ cụ thể** tr
 > cho HOTA/AssA cao hơn và IDSW thấp hơn ~12% ở cả 3 model so với lượt A — bằng
 > chứng ban đầu ủng hộ nới ngưỡng detector, nhưng CHƯA đủ để đổi baseline
 > (xem 14.4 về giới hạn).
+>
+> **Sau nghiệm thu độc lập (PASS WITH LIMITATIONS):** đã sửa diễn giải định luật
+> Sylvester, sửa số liệu thời gian sai ở 14.5, thêm test vòng đời tracker, và hạ
+> mức các khẳng định nhân quả — chi tiết ở **mục 15**. Tổng test: 56 → **77**.
 
 ---
 
@@ -72,22 +86,40 @@ giữ nguyên.
 ### Cách sửa và lý do
 
 Thêm `set_marginal_variance()` trong [src/ekf_ctrv.py](src/ekf_ctrv.py) — đặt lại
-phương sai biên duyên bằng **phép biến đổi đồng dạng**:
+phương sai biên duyên bằng **phép biến đổi tương hợp (congruence)**:
 
 ```
 P' = S P Sᵀ ,  S = diag(1, …, s, …, 1) ,  s = σ'/σ
 ```
 
-tức nhân **cả hàng và cột** với cùng hệ số. **Định lý quán tính Sylvester** bảo
-đảm phép đồng dạng với `S` khả nghịch giữ nguyên **dấu** của mọi trị riêng, nên
-`P'` bán xác định dương khi và chỉ khi `P` bán xác định dương. Mọi hệ số tương
-quan được giữ nguyên.
+tức nhân **cả hàng và cột** với cùng hệ số. **Định luật quán tính Sylvester** bảo
+đảm phép biến đổi tương hợp với `S` khả nghịch (ở đây `s > 0`) **bảo toàn quán
+tính** của ma trận — tức giữ nguyên **số lượng** trị riêng dương, âm và bằng 0.
+Do đó `P'` bán xác định dương khi và chỉ khi `P` bán xác định dương. Mọi hệ số
+tương quan cũng được giữ nguyên.
+
+> **Tương hợp (congruence) KHÁC đồng dạng (similarity).** Đồng dạng là
+> `P' = S P S⁻¹` — bảo toàn *toàn bộ phổ* trị riêng. Tương hợp là `P' = S P Sᵀ`
+> — nói chung **không** bảo toàn trị riêng, chỉ bảo toàn quán tính. Định luật
+> quán tính Sylvester phát biểu cho **tương hợp**. Ở đây `S` là ma trận đường
+> chéo dương nên `Sᵀ = S ≠ S⁻¹` (trừ khi `s = 1`), tức đây đúng là tương hợp
+> chứ không phải đồng dạng.
+
+> **Phạm vi của định luật — nói cho đúng.** Định luật quán tính Sylvester **chỉ**
+> bảo toàn *số lượng* trị riêng theo dấu. Nó **không** bảo toàn *giá trị* của
+> từng trị riêng, và cũng không thiết lập một phép ghép cặp nào giữa trị riêng
+> trước và sau phép biến đổi. Phép tương hợp nói chung **làm thay đổi** giá trị
+> các trị riêng.
 
 Đây là **sự thật toán học**, không phải cắt trị riêng âm hay thêm jitter để che
-lỗi gốc. Test `1b` kiểm tra trực tiếp tính chất này trên 20 ma trận ngẫu nhiên.
+lỗi gốc. Test `1b` kiểm tra trực tiếp tính chất bảo toàn quán tính này trên 20 ma
+trận ngẫu nhiên.
 
-**Sau khi sửa:** 0/8 trường hợp hỏng. Trị riêng sau khởi tạo **bằng đúng** trị
-riêng trước khởi tạo (2,700·10⁻⁹ → 2,700·10⁻⁹), đúng như định lý dự báo.
+**Sau khi sửa:** 0/8 trường hợp hỏng — không còn trị riêng âm nào, đúng như định
+luật bảo đảm. Trong bộ ca thử này, trị riêng nhỏ nhất quan sát được gần như không
+đổi (2,700·10⁻⁹ → 2,700·10⁻⁹); đó là **kết quả thực nghiệm của riêng các ca thử
+cụ thể** (ma trận hiệp phương sai gần suy biến, hệ số `s` áp lên đúng hai chiều
+`V`/`THETA`), **không phải hệ quả tổng quát** của định luật.
 
 ---
 
@@ -362,13 +394,16 @@ python src/smoke_three_models.py --videos MVI_20011 MVI_40171 --n-frames 100 --c
 
 ## 10. Phần CHƯA kiểm chứng
 
-| Việc | Thiếu gì |
+> **Mục này viết khi lượt A và B chưa chạy. Giữ lại để thấy tiến trình; trạng
+> thái cập nhật ở cột bên phải.** Danh sách còn thiếu *thật sự* ở mục **14.6**.
+
+| Việc | Trạng thái hiện tại |
 |---|---|
-| Ảnh hưởng của bản sửa bộ lọc lên HOTA/IDF1/IDSW | Phải chạy lại tracking 60 video (~1 giờ GPU/model) |
-| Ảnh hưởng lên tập test 40 video | Như trên |
-| `conf=0.1` có tốt hơn không | Phải chạy lượt B rồi đo |
-| Lỗi 1–2 ảnh hưởng bao nhiêu tới các kết luận đã báo cáo | Cần lượt A xong mới so được |
-| Detector fine-tune (Giai đoạn C) | Chưa chạy lại với bản sửa |
+| Ảnh hưởng của bản sửa bộ lọc lên HOTA/IDF1/IDSW | ✅ **Đã đo — mục 13.2.** ΔHOTA ≤ 5·10⁻⁴ |
+| `conf=0.1` có tốt hơn không | ✅ **Đã chạy lượt B — mục 14.** Có bằng chứng ban đầu, chưa dứt khoát |
+| Lỗi 1–2 ảnh hưởng bao nhiêu tới các kết luận đã báo cáo | ✅ **Đã so — mục 13.2.** Không đảo ngược kết luận nào |
+| Ảnh hưởng lên tập test 40 video | ⬜ Chưa chạy |
+| Detector fine-tune (Giai đoạn C) | ⬜ Chưa chạy lại với bản sửa |
 
 Smoke test chỉ 2 video × 100 frame — **quá nhỏ để so sánh hiệu năng**, mục đích
 chỉ là xác minh runtime và tính đúng đắn.
@@ -526,11 +561,9 @@ python src/occlusion_eval.py --split-name DETRAC-all \
 Kết quả: `results/trackeval/DETRAC-all/runA-*/`, `results/runA/`.
 Chưa ghi đè `results/comparison_DETRAC-all.csv` hay bất kỳ file cũ nào.
 
-### 13.5 Còn thiếu
+### 13.5 Còn thiếu *(tại thời điểm viết mục 13 — nay đã cập nhật)*
 
-- **Lượt B (`conf=0.1`) chưa chạy** — lệnh đã có ở mục 12, ước tính nặng hơn
-  lượt A do nhiều detection hơn (đo ở mục 7: dải điểm thấp thêm ~90 % số
-  detection).
+- ~~**Lượt B (`conf=0.1`) chưa chạy**~~ → ✅ **đã chạy xong, xem mục 14.**
 - Chưa chạy lại trên 40 video test.
 - Chưa chạy lại detector fine-tune (Giai đoạn C).
 
@@ -572,11 +605,19 @@ xuất hiện trên 60 video, độc lập với `occlusion_eval.py`):
 | UKF+CTRV | 9.870 | **9.585** | **−285** | 504.497 | 535.465 |
 
 **Nhất quán ở cả 3 model:** conf=0,10 tạo **ít ID track hơn** dù xử lý **nhiều
-bbox hơn ~30.500**. Ít ID hơn với nhiều detection hơn nghĩa là ByteTrack đang
-**tái sử dụng track cũ thay vì sinh ID mới** thường xuyên hơn — đúng cơ chế của
-vòng association thứ hai (mục 7): có detection điểm thấp để ghép lại với track
-đang chờ, thay vì để track đó chết rồi một detection khác (không có gì để so)
-buộc phải sinh ID mới.
+bbox hơn ~30.500**. Kết quả này **phù hợp với giả thuyết** rằng vòng association
+thứ hai (mục 7) giúp ByteTrack tái sử dụng track cũ thay vì sinh ID mới: có
+detection điểm thấp để ghép lại với track đang chờ, thay vì để track đó chết rồi
+một detection khác buộc phải sinh ID mới.
+
+> **Không coi đây là bằng chứng nhân quả trực tiếp.** Tổng số ID là một chỉ số
+> **gộp** ở đầu ra; nó tương thích với giả thuyết trên nhưng cũng tương thích với
+> các cơ chế khác (ví dụ detection dày hơn làm track ít bị đứt ngay từ vòng một,
+> hoặc `new_track_thresh` lọc khác đi). Phép đo **trực tiếp** vòng association
+> hiện mới chỉ là **smoke test 2 video × 100 frame** (mục 7) — quá nhỏ để khái
+> quát. Muốn khẳng định trên cả 60 video thì phải log `n_low_dets`,
+> `n_cand_tracks` và `n_matched` **xuyên suốt toàn bộ lượt chạy**;
+> `src/assoc_stats.py` đã có sẵn cơ chế đếm ba con số đó, chỉ cần bật khi chạy.
 
 > **Lưu ý về con số ở mục 7.** Phép đo bằng `probe_conf_bands.py` (mẫu 3 video ×
 > 50 frame, đo trực tiếp phân bố điểm của detector) cho thấy dải `(0,10; 0,25)`
@@ -635,13 +676,180 @@ python src/occlusion_eval.py --split-name DETRAC-all \
   --trackers runB-cv runB-ekf_ctrv runB-ukf_ctrv --out-dir results/runB
 ```
 
-Kết quả: `results/trackeval/DETRAC-all/runB-*/`, `results/runB/`. Thời gian
-thực đo: CV ~1780 giây, EKF ~1811 giây (gấp ~2,5× lượt A do nhiều detection hơn).
+Kết quả: `results/trackeval/DETRAC-all/runB-*/`, `results/runB/`.
 
-### 14.6 Còn thiếu
+**Thời gian chạy — tính lại bằng tổng cột `seconds` của 6 file
+`data/interim/baseline_track_summary_DETRAC-all_run{A,B}-*.csv`:**
 
-- Chưa chạy trên 40 video test.
-- Chưa chạy với detector fine-tune.
-- Chưa đo ảnh hưởng FP tăng lên các ứng dụng hạ nguồn cụ thể.
-- Chưa thử các mức `conf` trung gian (0,15; 0,20) để biết xu hướng có tuyến
-  tính hay không.
+| Model | Lượt A (`conf=0,25`) | Lượt B (`conf=0,10`) | Chênh |
+|---|---|---|---|
+| CV | 2014,5 s | 1780,5 s | B ít hơn 234,0 s |
+| EKF + CTRV | 2124,6 s | 1811,4 s | B ít hơn 313,2 s |
+| UKF + CTRV | 2296,7 s | 2211,7 s | B ít hơn 85,0 s |
+
+> **Không kết luận `conf=0,10` làm chương trình chạy nhanh hơn.** Hai lượt chạy
+> ở hai thời điểm khác nhau, **không kiểm soát tải máy** (tiến trình nền, nhiệt
+> độ GPU, trạng thái bộ nhớ đệm ổ đĩa đều khác nhau). Về mặt tính toán, `conf`
+> thấp hơn tạo **nhiều** detection hơn nên đáng lẽ phải **tốn** thời gian hơn —
+> kết quả đo ngược lại chính là dấu hiệu cho thấy **nhiễu môi trường lấn át**
+> hiệu ứng của tham số. Vì vậy các số này chỉ có **giá trị mô tả**, ghi lại cho
+> đầy đủ, **chưa phải benchmark có kiểm soát**. Muốn so tốc độ thật thì phải
+> chạy xen kẽ nhiều lần, cố định tần số GPU và đo trên máy nhàn rỗi.
+>
+> *(Bản báo cáo trước ghi lượt B "gấp ~2,5× lượt A" — sai cả về hướng lẫn độ
+> lớn. Đã sửa theo đúng số trong CSV; **không** sửa CSV cho khớp báo cáo.)*
+
+### 14.6 Còn thiếu — danh sách CUỐI CÙNG
+
+Đây là danh sách đầy đủ những việc **thực sự chưa làm** (các mục 10 và 13.5 ở
+trên là ảnh chụp trạng thái cũ, giữ lại cho có lịch sử):
+
+| # | Việc chưa làm | Cần gì |
+|---|---|---|
+| 1 | Chạy trên **tập test 40 video** | ~3 giờ GPU |
+| 2 | Chạy lại với **detector fine-tune** (Giai đoạn C) | ~3 giờ GPU |
+| 3 | Thử các mức **`conf` trung gian** (0,15; 0,20) để biết xu hướng có đơn điệu không | ~3 giờ GPU mỗi mức |
+| 4 | **Benchmark thời gian trong điều kiện kiểm soát** — chạy xen kẽ nhiều lần, cố định tần số GPU, máy nhàn rỗi (số ở 14.5 chỉ mô tả) | Máy nhàn rỗi |
+| 5 | Đo **ảnh hưởng FP tăng** tới ứng dụng hạ nguồn (đếm xe, ước lượng mật độ) | Định nghĩa bài toán hạ nguồn |
+| 6 | Log `n_low_dets` / `n_cand_tracks` / `n_matched` **trên cả 60 video** để khẳng định cơ chế vòng association (nay mới có smoke test 2 video) | ~3 giờ GPU |
+
+---
+
+## 15. Sửa sau nghiệm thu
+
+Nghiệm thu độc lập cho kết quả **PASS WITH LIMITATIONS**. Mục này ghi lại các
+điểm đã sửa sau đó. **Không** chạy lại tracking, **không** sửa file kết quả A/B.
+
+### 15.1 Diễn giải định luật quán tính Sylvester — đã sửa
+
+**Sai ở đâu.** Báo cáo cũ viết phép biến đổi `P' = S P Sᵀ` làm trị riêng sau
+khởi tạo *"bằng đúng"* trị riêng trước khởi tạo, và gọi đó là *"đúng như định lý
+dự báo"*. Sai: định luật quán tính Sylvester **chỉ** bảo toàn **số lượng** trị
+riêng dương, âm và bằng 0 — **không** bảo toàn *giá trị* từng trị riêng, và cũng
+không thiết lập phép ghép cặp nào giữa trị riêng trước/sau.
+
+**Đã sửa.**
+
+| Chỗ | Sửa thành |
+|---|---|
+| `FIX_REPORT.md` mục 2 | Phát biểu đúng về **bảo toàn quán tính**; thêm hộp "Phạm vi của định luật"; trị riêng nhỏ nhất gần như không đổi nay ghi là **quan sát thực nghiệm của riêng ca thử**, không phải hệ quả tổng quát |
+| `src/ekf_ctrv.py` — docstring `set_marginal_variance()` | Như trên, thêm đoạn "PHAM VI CUA DINH LUAT - noi cho dung" |
+| `src/test_init_regression.py` | Đổi tên `test_congruence_preserves_eigen_sign` → `test_congruence_preserves_inertia`; thêm hàm `_inertia()` đếm tường minh `(n₊, n₋, n₀)` |
+
+**Cách sửa covariance giữ nguyên** — chỉ lời giải thích sai, bản thân phép đồng
+dạng vẫn đúng và vẫn là cách xử lý có cơ sở.
+
+Thêm **test 1c** khẳng định chiều ngược lại — rằng phép tương hợp **có** làm
+thay đổi *giá trị* trị riêng — để chặn việc hiểu nhầm trở lại. Số phép kiểm tra
+trong file này: 16 → **17**.
+
+### 15.2 Số liệu thời gian lượt A/B — đã sửa
+
+Tính lại tổng cột `seconds` từ 6 file
+`data/interim/baseline_track_summary_DETRAC-all_run{A,B}-*.csv`:
+
+| Model | Lượt A (`conf=0,25`) | Lượt B (`conf=0,10`) |
+|---|---|---|
+| CV | 2014,5 s | 1780,5 s |
+| EKF + CTRV | 2124,6 s | 1811,4 s |
+| UKF + CTRV | 2296,7 s | 2211,7 s |
+
+Câu cũ ở mục 14.5 — *"gấp ~2,5× lượt A do nhiều detection hơn"* — **sai cả về
+hướng lẫn độ lớn**: lượt B thực tế tốn **ít** thời gian hơn ở cả 3 model. Đã
+thay bằng bảng trên, kèm cảnh báo rằng hai lượt chạy **không kiểm soát tải máy**
+nên số liệu chỉ có **giá trị mô tả**, chưa phải benchmark. **Không sửa CSV** —
+báo cáo phải khớp CSV, không phải ngược lại.
+
+### 15.3 Test vòng đời tracker — file mới
+
+`src/test_tracker_lifecycle.py`, **20 phép kiểm tra**, chạy cho **cả**
+`CTRVSTrack` (EKF) và `UKFSTrack` (UKF). *(Ghi chú: lớp EKF tên là `CTRVSTrack`,
+không phải `EKFSTrack`.)*
+
+Đi **thật** qua đường chạy của tracker, không gọi tắt bộ lọc:
+
+```
+activate(frame 1) → update(frame 2, dịch 0,1 px) → mark_lost()
+    → predict() × gap → re_activate(frame 2+gap, dịch 3·gap, 4·gap)
+```
+
+| # | Kiểm tra |
+|---|---|
+| 1 | Sau `activate`: `_motion_initialized is False` |
+| 2 | Dịch chuyển quá nhỏ (0,1 px < ngưỡng 0,5) → **vẫn** `False` |
+| 3 | `_last_obs_xy` bám theo vị trí **quan sát**, không phải vị trí đã predict |
+| 4 | Sau `re_activate`: `_motion_initialized is True`, `state = Tracked`, `frame_id` đúng |
+| 5 | **Seed chính xác**: `n_frames == gap`, `ref_pos ==` vị trí quan sát, `v == 5,0` |
+| 6 | Vận tốc sau update **bất biến theo `gap`** |
+| 7 | Học đúng hướng có thành phần **dọc** (θ ≈ 53,13°) |
+| 8 | `mean`/`P` hữu hạn, `P` đối xứng, không trị riêng âm — ở **mọi** mốc |
+| 9 | Đứng yên suốt → **không bịa ra hướng** |
+
+**Điểm 5 dùng spy.** Bọc `try_initiate_from_motion` của *chính instance* bộ lọc
+bằng wrapper ghi lại rồi uỷ quyền cho hàm thật. Tracker vẫn chạy y nguyên qua
+`re_activate()`, nhưng quan sát được giá trị **ngay tại thời điểm seed** — trước
+khi bước KF update của `super().re_activate()` làm nhiễu. Nhờ vậy khẳng định
+được đẳng thức chính xác thay vì phải nới lỏng ngưỡng.
+
+**Một quan sát ghi lại, không phải lỗi.** Sau `re_activate`, `mean[V]` ≈ 10,8
+chứ không phải 5,0 (giá trị seed). Nguyên nhân: `super().re_activate()` chạy một
+bước KF update với innovation rất lớn (vị trí dự đoán sau các bước predict mù
+cách quan sát ~50 px), kéo mạnh vị trí và qua hiệp phương sai chéo đẩy `v` lên
+khoảng 2×. Đây là **hành vi đúng của KF khi innovation lớn**. Vì vậy điểm 6
+**không** ràng buộc giá trị tuyệt đối, chỉ kiểm **bất biến theo `gap`** (chênh
+0,11 px/frame giữa `gap=10` và `gap=20`) và **cách xa giá trị sai**.
+
+**Đã kiểm test không rỗng (mutation test).** Tạm tái lập lỗi cũ
+(`n_frames=1.0` thay vì khoảng cách thật) → test **FAIL** đúng chỗ với
+`v seed = 50,000` thay vì 5,0. Khôi phục → 20/20 PASS trở lại.
+
+**Dung sai theo float32.** `STrack` của ultralytics lưu `_tlwh` ở float32 nên
+`100.1` được lưu thành `100.0999984741211`. Ngưỡng dùng `atol=1e-4` cho vị trí
+và `1e-5` cho vận tốc — đúng độ chính xác của kiểu dữ liệu, và vẫn chặt hơn
+nhiều bậc so với lỗi cần bắt (sai lệch `50` vs `5`, không phải ở chữ số thứ 7).
+
+### 15.4 Hạ mức khẳng định nhân quả — mục 14.2
+
+Câu *"Ít ID hơn với nhiều detection hơn **nghĩa là** ByteTrack đang tái sử dụng
+track cũ…"* → *"Kết quả này **phù hợp với giả thuyết**…"*, kèm hộp ghi rõ:
+
+- Tổng số ID là **chỉ số gộp ở đầu ra**, tương thích với giả thuyết trên nhưng
+  cũng tương thích với cơ chế khác — **không phải bằng chứng nhân quả trực tiếp**.
+- Phép đo **trực tiếp** vòng association hiện mới là **smoke test 2 video ×
+  100 frame**, quá nhỏ để khái quát.
+- Muốn khẳng định trên cả 60 video phải log `n_low_dets`, `n_cand_tracks`,
+  `n_matched` xuyên suốt lượt chạy — `src/assoc_stats.py` đã có sẵn cơ chế.
+
+### 15.5 Lệnh và kết quả test thực tế
+
+`pytest` **chưa cài** trong env `khoaluan-mot`, nên chạy trực tiếp bằng `python`.
+Các file test vẫn viết tương thích pytest (hàm `test_*`, dùng `assert`).
+
+```bash
+conda activate khoaluan-mot && cd /d/LABOTARY/bytetrack
+python src/test_ekf_ctrv.py           # 14/14 PASS
+python src/test_ukf_ctrv.py           # 12/12 PASS
+python src/test_init_regression.py    # 17/17 PASS  (16 -> 17, thêm test 1c)
+python src/test_occlusion_eval.py     # 14/14 PASS
+python src/test_tracker_lifecycle.py  # 20/20 PASS  (MỚI)
+```
+
+**Tổng: 77/77 phép kiểm tra PASS** (trước khi sửa: 56/56).
+
+Xác nhận không làm hỏng kết quả cũ. `git status --short` **ngay trước khi
+commit `b20ca98`** chỉ có 4 file:
+
+```
+ M FIX_REPORT.md
+ M src/ekf_ctrv.py
+ M src/test_init_regression.py
+?? src/test_tracker_lifecycle.py
+```
+
+**Sau khi commit `b20ca98`, working tree sạch** (`git status --short` không ra
+dòng nào).
+
+**Không** file nào trong `results/runA/`, `results/runB/`,
+`results/trackeval/DETRAC-all/run*/` hay `data/interim/baseline_track_summary_*`
+bị thay đổi. Mọi số HOTA / AssA / IDSW / FP / FN / `id_match` / `id_continuous`
+giữ nguyên — mục 15 chỉ sửa lời văn, số liệu thời gian, và thêm test.

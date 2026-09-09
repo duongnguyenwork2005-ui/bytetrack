@@ -15,10 +15,16 @@ Bao ve hai loi da tung xay ra (xem src/repro_init_covariance.py va FIX_REPORT.md
 
 CAC KICH BAN KIEM TRA
    1. Nhieu buoc predict truoc khi co quan sat du de khoi tao (N = 1, 5, 10, 26)
+   1b. Phep bien doi tuong hop BAO TOAN QUAN TINH (so tri rieng duong/am/bang 0)
+   1c. ...nhung KHONG bao toan GIA TRI tung tri rieng
    2. Xe dung yen roi chay theo phuong DOC va phuong NGANG
-   3. Mat track roi tai kich hoat (re_activate)
+   3. Mat track roi tai kich hoat (re_activate) o muc BO LOC
    4. mean/covariance huu han, P doi xung, khong co tri rieng am vuot dung sai
    5. UKF tao duoc sigma point tu covariance sau khoi tao
+
+Test o day goi TRUC TIEP cac ham cua bo loc. Vong doi THAT cua tracker
+(activate -> update -> mark_lost -> predict -> re_activate) duoc kiem tra rieng
+trong src/test_tracker_lifecycle.py.
 
     python src/test_init_regression.py       # in bao cao tung phep kiem tra
     pytest src/test_init_regression.py -q    # neu co pytest
@@ -105,24 +111,44 @@ def test_predict_then_init_keeps_psd():
                worst >= -EIG_TOL, "\n".join(lines))
 
 
-def test_congruence_preserves_eigen_sign():
-    """set_marginal_variance la phep dong dang -> KHONG doi dau tri rieng nao.
+def _inertia(P: np.ndarray, tol: float = 1e-12) -> tuple[int, int, int]:
+    """Quan tinh cua ma tran doi xung: (so tri rieng duong, am, bang 0)."""
+    w = np.linalg.eigvalsh(0.5 * (P + P.T))
+    return int((w > tol).sum()), int((w < -tol).sum()), int((np.abs(w) <= tol).sum())
 
-    Kiem tra truc tiep tinh chat toan hoc duoc dua ra lam co so cho cach sua,
-    thay vi chi kiem tra ket qua cuoi.
+
+def test_congruence_preserves_inertia():
+    """set_marginal_variance la phep bien doi tuong hop -> BAO TOAN QUAN TINH.
+
+    Dinh luat quan tinh Sylvester CHI bao toan SO LUONG tri rieng duong, am va
+    bang 0. No KHONG bao toan GIA TRI tung tri rieng. Test nay kiem tra dung
+    phat bieu do:
+      (a) quan tinh (n+, n-, n0) khong doi  -> tinh chat duoc dua ra lam co so
+      (b) gia tri tri rieng CO thay doi     -> chong hieu nham theo chieu nguoc lai
     """
     rng = np.random.default_rng(0)
-    bad = []
+    bad_inertia = []
+    max_rel_change = 0.0
     for trial in range(20):
         A = rng.normal(size=(9, 9))
         P = A @ A.T + 1e-6 * np.eye(9)          # doi xung, xac dinh duong
-        sign_before = np.sign(np.linalg.eigvalsh(P))
+        w_before = np.linalg.eigvalsh(P)
+        inertia_before = _inertia(P)
         Q = set_marginal_variance(P.copy(), idx=3, new_var=0.09)
-        sign_after = np.sign(np.linalg.eigvalsh(Q))
-        if not np.array_equal(sign_before, sign_after):
-            bad.append(trial)
-    _check("1b. set_marginal_variance giu nguyen dau moi tri rieng (Sylvester)",
-           not bad, f"20 ma tran ngau nhien 9x9, so lan doi dau: {len(bad)}")
+        w_after = np.linalg.eigvalsh(Q)
+        if _inertia(Q) != inertia_before:
+            bad_inertia.append(trial)
+        denom = np.maximum(np.abs(w_before), 1e-30)
+        max_rel_change = max(max_rel_change,
+                             float(np.abs(w_after - w_before).max() / denom.max()))
+    _check("1b. set_marginal_variance BAO TOAN QUAN TINH (Sylvester)",
+           not bad_inertia,
+           f"20 ma tran ngau nhien 9x9, so lan quan tinh (n+, n-, n0) bi doi: "
+           f"{len(bad_inertia)}")
+    _check("1c. ...nhung KHONG bao toan gia tri tung tri rieng",
+           max_rel_change > 1e-6,
+           f"thay doi tuong doi lon nhat cua tri rieng: {max_rel_change:.3e}\n"
+           f"(khac 0 -> dung: phep tuong hop lam doi GIA TRI, chi giu SO LUONG theo dau)")
 
 
 # ---------------------------------------------------------------------------
@@ -320,7 +346,7 @@ def main() -> int:
     print("REGRESSION TEST -- khoi tao chuyen dong va covariance")
     print("=" * 78)
     for fn in (test_predict_then_init_keeps_psd,
-               test_congruence_preserves_eigen_sign,
+               test_congruence_preserves_inertia,
                test_stationary_then_move,
                test_never_initialized_when_always_static,
                test_reactivate_after_gap,
