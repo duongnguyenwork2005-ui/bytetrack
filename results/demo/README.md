@@ -166,12 +166,16 @@ không phải "code có sai không" mà "`ω` đó có hợp lý không".
 
 | Chỉ tiêu (50 đoạn che, 48 track dài) | Bản gốc | Chặn ω |
 |---|---|---|
-| Trung vị \|ω\| | 0,366 °/frame *(GT: 0,441)* | 0,258 °/frame |
-| Phân vị 90 | **19,9 °/frame** | 2,45 °/frame |
-| Lớn nhất | **111,4 °/frame** | 2,87 °/frame |
-| Vượt ngưỡng bất khả thi | **28 %** | **0 %** |
-| `R` < 100 px *(nhỏ hơn chiếc xe)* | 26 % | 8 % |
-| Quét **> 360°** *(trọn một vòng)* | **20 %** | **0 %** |
+| Trung vị \|ω\| | 0,257 °/frame *(GT: 0,441)* | 0,258 °/frame |
+| Phân vị 90 | **193,5 °/frame** | 2,45 °/frame |
+| Lớn nhất | **1077,1 °/frame** | 2,87 °/frame |
+| Vượt ngưỡng bất khả thi | **20 %** | **0 %** |
+| `R` < 100 px *(nhỏ hơn chiếc xe)* | 22 % | 8 % |
+| Quét **> 360°** *(trọn một vòng)* | **16 %** | **0 %** |
+
+> Số liệu trên là **sau khi sửa lỗi `n_frames`** — xem mục 5.6. Trước khi sửa, cột "Bản
+> gốc" từng ghi trung vị 0,366°/f, phân vị 90 = 19,9°/f, lớn nhất 111,4°/f, 28% vượt
+> ngưỡng, 26% `R`<100px, 20% quét >360°.
 
 ### 5.2 Sửa rồi thì sao — chạy lại đủ 60 video
 
@@ -184,10 +188,12 @@ không phải "code có sai không" mà "`ω` đó có hợp lý không".
 Mức từng đoạn (1.544 đoạn): chặn `ω` chỉ đổi kết cục **3 đoạn (0,19 %)**.
 McNemar KF vs EKF chặn ω: 19 so 17, **p = 0,8679**. **Không đảo ngược kết quả.**
 
-> **Phát hiện ngược chiều:** chặn `ω` có thể làm sai số **TĂNG**. MVI_40992 t12 đoạn 2:
-> FDE **556,5 → 1208,4 px**. Vì khi `ω` lớn, box quay tít trong vòng tròn nhỏ nên **vô
-> tình nằm gần chỗ cũ**; chặn `ω` lại cho nó bay gần như thẳng ra xa. Đây là lý do FDE
-> **trung vị** giảm (114,5 → 105,1 px) nhưng FDE **trung bình** lại tăng (236,7 → 244,5 px).
+> **Phát hiện ngược chiều, vẫn giữ lại sau khi sửa lỗi n_frames:** chặn `ω` có thể làm
+> sai số **TĂNG** — dù biên độ nhỏ hơn số từng báo trước đây nhiều. MVI_40992 t12 đoạn 2:
+> FDE **267,1 → 349,8 px** *(trước khi sửa lỗi n_frames đo được 556,5 → 1208,4 px — con
+> số bị phóng đại do lỗi, nhưng hướng thay đổi thì đúng cả hai lần đo)*. Vì khi `ω` lớn,
+> box quay tít trong vòng tròn nhỏ nên **vô tình nằm gần chỗ cũ**; chặn `ω` lại cho nó
+> bay thẳng ra xa hơn.
 
 ### 5.3 Ảnh hưởng tới chính bản demo này — gần như không
 
@@ -208,17 +214,20 @@ trước khi bị che rồi đi thẳng suốt 66 frame.
 
 ### 5.4 Quét 48 track dài — chống cherry-picking
 
-Quét **mọi** track ≥150 frame, ≥2 đoạn che, có di chuyển thật:
+Quét **mọi** track ≥150 frame, ≥2 đoạn che, có di chuyển thật *(số liệu sau khi sửa lỗi
+`n_frames` — script quét này dùng lại hàm chạy bộ lọc của `long_compare.py` nên cũng
+dính lỗi, xem mục 5.6)*:
 
 | | Số track | Tỉ lệ |
 |---|---|---|
-| CTRV tốt hơn | 5 | 10 % |
-| **CV tốt hơn** | **32** | **67 %** |
+| CTRV tốt hơn | 7 | 15 % |
+| **CV tốt hơn** | **30** | **62 %** |
 | Hoà | 11 | 23 % |
 
-FDE trung bình KF **266,0 px** vs EKF **297,4 px**. Tương quan giữa **góc cua của xe**
-và lợi thế CTRV: **−0,021** — bằng không. Ba track cua gắt nhất (132°, 148°, 151°) thì
-CTRV thua cả ba.
+FDE trung bình KF **266,0 px** vs EKF **292,1 px**. Tương quan giữa **góc cua của xe**
+và lợi thế CTRV: **+0,080** — về bản chất vẫn bằng không (trước khi sửa lỗi đo được
+−0,021; đổi dấu chỉ là nhiễu thống kê với n=48, cả hai đều xấp xỉ 0). Ba track cua gắt
+nhất (150,7° / 148,4° / 140,8°) thì CTRV thua cả ba.
 
 ### 5.5 File sinh ra
 
@@ -231,3 +240,34 @@ CTRV thua cả ba.
 | `src/demo/side_by_side.py` *(`--ekf-tracker`)* | `sbs_<video>_<a>_<b>[_clamped].mp4` |
 
 Video `long_*` và `sbs_*` đã gitignore vì nặng 10–121 MB; tái tạo bằng script ở trên.
+
+### 5.6 Lỗi thứ hai tự phát hiện — `n_frames=1.0` cứng, đã sửa
+
+Khi xem lại video minh hoạ theo yêu cầu tường trình chi tiết, một đoạn cho sai số
+1208 px trông bất thường so với 2 đoạn còn lại của *cùng* một track. Điều tra theo quy
+trình loại trừ (ghép cặp GT↔tracker → khoảng trống frame trong GT → dữ liệu GT bất
+thường) xác định đây là **lỗi code**, không phải hiện tượng của motion model.
+
+**Lỗi.** `initiate_from_motion(m, c, z, n_frames)` chia độ dịch chuyển cho `n_frames`
+để suy ra vận tốc. Bốn script chạy bộ lọc **xuyên qua nhiều đoạn che liên tiếp**
+(`long_compare.py`, `diagnose_ekf_circle.py`, `omega_clamp_experiment.py`, script quét
+48 track, và script chẩn đoán mới) đều truyền cứng `n_frames=1.0`, trong khi khoảng
+cách thật giữa hai quan sát có thể là hàng chục frame khi track vừa sinh đã bị che ngay.
+
+Đo được trên MVI_40992 track 12: track sinh ở frame 491, bị che ngay từ 492, quan sát
+tiếp theo là 518 → khoảng cách thật **27 frame**. Vận tốc bị gán **294 px/frame** thay
+vì đúng **10,9 px/frame** — thổi phồng 27 lần.
+
+**Phạm vi ảnh hưởng.** Pipeline tracking thật (`src/tracker_ctrv.py`) **không dính lỗi
+này** — nó đã tính đúng `n_frames = max(1, frame_id - self.frame_id)` từ đầu. Các script
+phân tích khác dùng cửa sổ liền mạch ngay trước đoạn che (`render_videos.py`,
+`omega_smoother.py`, `tune_omega_noise.py`, `diagnose_ukf.py`, `phaseB_iou_diagnosis.py`)
+cũng không dính, vì với chúng khoảng cách luôn đúng bằng 1. **Mọi số HOTA/IDSW và bảng
+1.544 đoạn trong `BAO_CAO_KHOA_LUAN.md` không đổi.**
+
+**Đã sửa và chạy lại.** Toàn bộ số trong mục 5.1–5.4 ở trên đã là số sau khi sửa. Trong
+5 video `long_*` minh hoạ theo track, chỉ **MVI_40992 t12** bị ảnh hưởng (vì track này
+bị che ngay từ lúc sinh); 4 track còn lại không đổi một pixel nào. Trên đúng đoạn phát
+hiện ra lỗi: FDE giảm từ 556,5 xuống 267,1 px (bản gốc) và từ 1208,4 xuống 349,8 px
+(bản chặn ω) — kết luận định tính không đổi, nhưng biên độ nhỏ hơn nhiều so với số đã
+báo trước đây.

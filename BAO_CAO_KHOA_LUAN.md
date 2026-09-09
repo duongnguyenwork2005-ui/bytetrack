@@ -272,21 +272,39 @@ lớn. Nên câu hỏi đúng là: `ω` đó có hợp lý không?
 
 | Chỉ tiêu | Bản gốc | Chặn ω |
 |---|---|---|
-| Trung vị \|ω\| | 0,366 °/frame *(GT: 0,441)* | 0,258 °/frame |
-| Phân vị 90 | **19,9 °/frame** | 2,45 °/frame |
-| Lớn nhất | **111,4 °/frame** | 2,87 °/frame |
-| Vượt ngưỡng bất khả thi | **28 %** | **0 %** |
-| Bán kính `R` < 100 px *(nhỏ hơn chiếc xe)* | 26 % | 8 % |
-| Quét **> 360°** *(trọn một vòng)* | **20 %** | **0 %** |
-| Quét 180–360° | 2 % | 4 % |
-| Quét 45–180° | 10 % | 14 % |
+| Trung vị \|ω\| | 0,257 °/frame *(GT: 0,441)* | 0,258 °/frame |
+| Phân vị 90 | **193,5 °/frame** | 2,45 °/frame |
+| Lớn nhất | **1077,1 °/frame** | 2,87 °/frame |
+| Vượt ngưỡng bất khả thi | **20 %** | **0 %** |
+| Bán kính `R` < 100 px *(nhỏ hơn chiếc xe)* | 22 % | 8 % |
+| Quét **> 360°** *(trọn một vòng)* | **16 %** | **0 %** |
+| Quét 180–360° | 4 % | 4 % |
+| Quét 45–180° | 4 % | 14 % |
 
-Hai nhóm giữa tăng không phải vì sinh lỗi mới — các đoạn trước kia > 360° bị kéo tụt
-xuống. Ngưỡng 0,05 rad/frame cần **126 frame** mới quét trọn vòng, mà đoạn che dài nhất
-trong dữ liệu chỉ 73 frame.
+Ngưỡng 0,05 rad/frame cần **126 frame** mới quét trọn vòng, mà đoạn che dài nhất trong
+dữ liệu chỉ 73 frame — đó là lý do cột chặn không còn đoạn nào vượt 360°.
+
+> **Lỗi thứ hai tự phát hiện trong lúc đo Giai đoạn E — đã sửa, số liệu ở đây là SAU khi
+> sửa.** Khi xem lại video minh hoạ, một đoạn cho sai số 1208 px trông bất thường so với
+> 2 đoạn còn lại của *cùng* track. Điều tra theo quy trình loại trừ (ghép cặp GT↔tracker
+> → khoảng trống frame trong GT → dữ liệu GT bất thường) xác định: 4 script chạy bộ lọc
+> **xuyên qua nhiều đoạn che liên tiếp** (`long_compare.py`, `diagnose_ekf_circle.py`,
+> `omega_clamp_experiment.py`, script quét 48 track, và script chẩn đoán
+> `diagnose_seg2.py`) đều gọi `initiate_from_motion(..., n_frames=1.0)` — hằng số cứng —
+> trong khi khoảng cách thật giữa hai quan sát có thể là hàng chục frame khi track vừa
+> sinh đã bị che ngay. Đo được trên MVI_40992 track 12: khoảng cách thật 27 frame, vận
+> tốc bị gán **294 px/frame** thay vì đúng **10,9 px/frame** — thổi phồng 27 lần.
+> **Pipeline tracking thật (`tracker_ctrv.py`) không dính lỗi này** — nó đã tính đúng
+> `n_frames = max(1, frame_id - self.frame_id)` từ đầu; các script phân tích khác dùng
+> cửa sổ liền mạch trước đoạn che cũng không dính. Nên **mọi số HOTA/IDSW và bảng 1.544
+> đoạn không đổi**, nhưng số định lượng của Giai đoạn E (bảng trên, các bảng dưới, và
+> mục 4.8) đều đã tính lại sau khi sửa. Trên đúng đoạn phát hiện ra lỗi, FDE giảm từ
+> 556,5 xuống 267,1 px (bản gốc) và từ 1208,4 xuống 349,8 px (bản chặn ω). Kết luận định
+> tính không đổi: `ω` vẫn sai ở đuôi phân bố, EKF vẫn thua KF trên phần lớn số cặp.
 
 **Chặn `ω` rồi chạy lại đầy đủ 60 video** (tracker riêng `yolov8n-ekf-ctrv-clamped`,
-mọi tham số ghép cặp giữ y hệt — chỉ khác đúng một biến):
+mọi tham số ghép cặp giữ y hệt — chỉ khác đúng một biến). Lần chạy 60 video này không đi
+qua 4 script có lỗi n_frames nên số dưới đây không cần tính lại:
 
 | Model | HOTA | AssA | IDF1 | IDSW |
 |---|---|---|---|---|
@@ -299,43 +317,62 @@ Mức từng đoạn (1.544 đoạn): tỉ lệ giữ ID KF **34,33 %** | EKF g�
 **34,20 %** | UKF 34,00 %. Chặn `ω` chỉ đổi kết cục **3/1544 đoạn (0,19 %)**.
 McNemar KF vs EKF chặn ω: 19 so 17, **p = 0,8679**. Không phân tầng nào đạt p < 0,05.
 
-> **Phát hiện ngược chiều, phải ghi lại:** chặn `ω` có thể làm **sai số TĂNG**.
-> MVI_40992 track 12 đoạn 2: FDE **556,5 → 1208,4 px**. Lý do: khi `ω` lớn, box quay
-> tít trong vòng tròn bán kính nhỏ nên **vô tình nằm gần chỗ cũ**; chặn `ω` lại cho nó
-> bay gần như thẳng ra xa. Điều này giải thích vì sao FDE **trung vị** giảm
-> (114,5 → 105,1 px) nhưng FDE **trung bình** lại tăng (236,7 → 244,5 px).
+Trên 48 track dài (83 đoạn, sau khi sửa lỗi n_frames):
+
+| Cấu hình | FDE trung bình | FDE trung vị |
+|---|---|---|
+| KF + CV | 202,3 px | 106,6 px |
+| EKF + CTRV nguyên bản | 226,8 px | 115,2 px |
+| EKF + CTRV chặn ω | 226,8 px | **105,1 px** |
+
+So từng cặp: chặn `ω` **thắng KF** 10 đoạn, **thua KF** 34 đoạn, hoà 39. So với bản
+nguyên bản: chặn `ω` tốt hơn 7 đoạn, tệ hơn 8 đoạn, không đổi 68.
+
+> **Phát hiện ngược chiều, vẫn giữ lại sau khi sửa lỗi n_frames:** chặn `ω` có thể làm
+> **sai số TĂNG**, dù biên độ nhỏ hơn số đã báo cáo trước đây nhiều. MVI_40992 track 12
+> đoạn 2: FDE **267,1 → 349,8 px** (trước khi sửa lỗi n_frames, cùng hiện tượng này đo
+> được 556,5 → 1208,4 px — phóng đại do lỗi, nhưng hướng thì đúng cả hai lần đo). Cơ chế
+> không đổi: khi `ω` lớn, box quay tít trong vòng tròn bán kính nhỏ nên **vô tình nằm
+> gần chỗ cũ**; chặn `ω` lại cho nó bay thẳng ra xa hơn.
 
 **Kết luận Giai đoạn E:** chặn `ω` sửa được **triệu chứng nhìn thấy**, không sửa được
 **nguyên nhân**. Nguyên nhân là `ω` thật không dự đoán được. Đo trên 44 đoạn của các
 track dài: `ω` GT *trước* che so với `ω` GT *trong* che có **Spearman −0,448
 (p = 0,0023)**, chỉ **25 %** số lần cùng dấu — không những không dự báo được mà còn có
 xu hướng **ngược dấu**. *(Pearson ra −0,755 nhưng bị một điểm ngoại lai kéo; bỏ điểm đó
-còn −0,385, nên báo cáo Spearman.)*
+còn −0,385, nên báo cáo Spearman. Hai con số này không bị ảnh hưởng bởi lỗi n_frames vì
+chỉ dùng `ω` đo trực tiếp từ GT, không qua bộ lọc.)*
 
 > **Vì sao khuyết điểm nghiêm trọng lúc đo FDE nhưng vô hại lúc tracking thật:**
 > `track_buffer` = 30 frame **xoá track trước khi** CTRV kịp ngoại suy đủ lâu để `ω` phi
 > lý gây hại. Lỗi chỉ lộ ra khi ép bộ lọc ngoại suy mù suốt 40–70 frame. Nói cách khác,
 > **trần `track_buffer` che mất khuyết điểm này** — hai kết luận của luận văn củng cố lẫn nhau.
 
-Render lại **toàn bộ 10 video minh hoạ** bằng bản chặn `ω`: trên 240 đoạn của 8 video
-demo chỉ **5 đoạn (2,1 %)** đổi FDE (3 tốt hơn, 2 tệ hơn), FDE trung bình 165,1 → 165,0 px.
+Render lại **toàn bộ 10 video minh hoạ** bằng bản chặn `ω` (và render lại lần nữa sau khi
+sửa lỗi n_frames): trên 240 đoạn của 8 video demo gốc (không đi qua 4 script có lỗi
+n_frames) chỉ **5 đoạn (2,1 %)** đổi FDE khi chặn `ω`, FDE trung bình 165,1 → 165,0 px.
 Đáng chú ý, video `2_cv_thang` (EKF sai 845 px) có `|ω| = 0,0317 rad/frame` — **vốn đã
 dưới ngưỡng chặn**, nên sai số đó **không đến từ khuyết điểm này** mà từ trần thông tin.
+Trong 5 video `long_*` minh hoạ theo track, chỉ **MVI_40992 t12** dính lỗi n_frames (vì
+track này bị che ngay từ lúc sinh); 4 track còn lại không đổi một pixel nào trước/sau
+khi sửa.
 
 ### 4.8 Quét 48 track dài — CTRV thua trên hầu hết
 
 Để tránh cherry-picking khi chọn video minh hoạ, quét **mọi** track ≥150 frame, ≥2 đoạn
-che, có di chuyển thật (48 track), so FDE cuối mỗi đoạn che:
+che, có di chuyển thật (48 track), so FDE cuối mỗi đoạn che *(số liệu sau khi sửa lỗi
+n_frames ở mục 4.7 — script quét này dùng lại cùng hàm chạy bộ lọc nên cũng dính lỗi)*:
 
 | | Số track | Tỉ lệ |
 |---|---|---|
-| CTRV tốt hơn | 5 | 10 % |
-| **CV tốt hơn** | **32** | **67 %** |
+| CTRV tốt hơn | 7 | 15 % |
+| **CV tốt hơn** | **30** | **62 %** |
 | Hoà | 11 | 23 % |
 
-FDE trung bình: KF **266,0 px** vs EKF **297,4 px**. Tương quan giữa **góc cua của xe**
-và lợi thế của CTRV: **−0,021** — bằng không. Ba track cua gắt nhất (132°, 148°, 151°)
-thì CTRV thua cả ba.
+FDE trung bình: KF **266,0 px** vs EKF **292,1 px**. Tương quan giữa **góc cua của xe**
+và lợi thế của CTRV: **+0,080** — về bản chất vẫn là không (trước khi sửa lỗi đo được
+−0,021; cả hai đều xấp xỉ 0, không đáng kể với n = 48, việc đổi dấu chỉ phản ánh nhiễu
+thống kê). Ba track cua gắt nhất (150,7° / 148,4° / 140,8°) thì CTRV thua cả ba.
 
 > **Đây là phản chứng trực tiếp cho giả thuyết ban đầu.** Nếu CTRV có lợi thế do mô hình
 > hoá khúc cua, lợi thế đó phải **tăng theo góc cua**. Nó không tăng.
@@ -399,8 +436,9 @@ Sau 5 giai đoạn cải thiện có hệ thống:
 
 **Bằng chứng bất lợi nhất cho giả thuyết ban đầu**, cần nêu thẳng:
 - Trên 998 đoạn cả hai model cùng hỏng, chúng hỏng **y hệt cách nhau 998/998 lần** (2.3)
-- Trên 48 track dài, CV tốt hơn **32 track**, CTRV chỉ **5** (4.8)
-- Tương quan giữa **góc cua** và lợi thế CTRV là **−0,021** — đúng cái lẽ ra phải dương (4.8)
+- Trên 48 track dài, CV tốt hơn **30 track**, CTRV chỉ **7** (4.8)
+- Tương quan giữa **góc cua** và lợi thế CTRV xấp xỉ **0** (+0,080) — đúng cái lẽ ra
+  phải dương và có biên độ đáng kể nếu giả thuyết CTRV đúng (4.8)
 
 **Cách phát biểu đúng:** *"Dữ liệu hiện có không đủ để phân biệt 3 motion model"* —
 **không phải** *"3 motion model như nhau"*. Đây là kết quả **underpowered**, khác hẳn
@@ -432,7 +470,7 @@ detector, và **giới hạn thông tin** → (8) kết luận về phương ph�
 - **Thất bại đồng nhất 998/998** (mục 2.3): ở chế độ thất bại, motion model không có
   tiếng nói nào — một cách đo "mức trần" trực tiếp, không cần kiểm định thống kê
 - **Ngoại suy đẹp mắt ≠ ngoại suy đúng** (Giai đoạn E): chặn `ω` xoá hết hiện tượng quay
-  vòng nhưng làm sai số **tăng** ở ca tệ nhất (556 → 1208 px), vì vòng tròn nhỏ vô tình
+  vòng nhưng làm sai số **tăng** ở ca tệ nhất (267 → 350 px), vì vòng tròn nhỏ vô tình
   giữ dự đoán gần chỗ cũ
 
 **Một mạch phụ đáng kể cho phần phương pháp:** khuyết điểm `ω` không bị chặn được phát
