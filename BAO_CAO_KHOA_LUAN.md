@@ -1,7 +1,10 @@
 # Báo cáo tổng hợp khoá luận: So sánh KF / EKF / UKF cho Multi-Object Tracking trên UA-DETRAC
 
 > Tài liệu tự chứa — đọc xong là nắm được toàn bộ tình hình, không cần bối cảnh khác.
-> **Cập nhật lần 3:** bổ sung mục 2.3 (kết cục ghép cặp trên 1.544 đoạn),
+> **Cập nhật lần 4:** bổ sung mục 4.9 (Giai đoạn F — triệt tiêu `ω`, xác định `ω`
+> **không** phải nguyên nhân chính; tìm ra lỗi `P` mất tính xác định dương) và các mục
+> 16–19 phần tính chặt chẽ. Trước đó,
+> **cập nhật lần 3:** bổ sung mục 2.3 (kết cục ghép cặp trên 1.544 đoạn),
 > mục 4.7 (Giai đoạn E — khuyết điểm `ω` không bị chặn, phát hiện khi xem video
 > minh hoạ) và mục 4.8 (quét 48 track dài).
 
@@ -377,6 +380,92 @@ thống kê). Ba track cua gắt nhất (150,7° / 148,4° / 140,8°) thì CTRV 
 > **Đây là phản chứng trực tiếp cho giả thuyết ban đầu.** Nếu CTRV có lợi thế do mô hình
 > hoá khúc cua, lợi thế đó phải **tăng theo góc cua**. Nó không tăng.
 
+### 4.9 GIAI ĐOẠN F — Triệt tiêu `ω` hoàn toàn: `ω` **không phải** nguyên nhân chính
+
+Giai đoạn E cho thấy **kẹp** `ω` không phải fix sạch (đoạn 2 của MVI_40992 t12 tệ đi:
+267 → 350 px). Nghi vấn: kẹp tạo bước nhảy rời rạc trong state, tương tác xấu với `v/θ`.
+Giai đoạn F thử cách khác — đặt `ω = 0` **hoàn toàn** trong suốt quá trình ngoại suy mù,
+khiến CTRV suy biến về chuyển động thẳng.
+
+**Phép sanity check bắt buộc.** Về toán học, `ω = 0` làm phương trình CTRV suy biến:
+`cx' = cx + v·cos(θ)·dt`, `cy' = cy + v·sin(θ)·dt` — tức đúng dạng CV. Vậy bản triệt `ω`
+**phải** cho sai số gần bằng KF + CV. Kết quả trên MVI_40992 track 12:
+
+| Đoạn | Che | KF + CV | Triệt `ω` | Chênh |
+|---|---|---|---|---|
+| 1 | 492–517 | 283,1 px | 283,1 px | 0,0 % |
+| **2** | **524–563** | **161,4 px** | **35,0 px** | **78 %** |
+| 3 | 575–609 | 63,7 px | 68,1 px | 6,9 % |
+
+**Sanity check THẤT BẠI** — nhưng theo hướng bất ngờ: triệt `ω` cho sai số *nhỏ hơn* KF
+tới 4,6 lần chứ không phải lớn hơn. Nếu `ω` là nguyên nhân duy nhất thì con số phải
+xấp xỉ 161 px.
+
+#### Nguyên nhân thật 1 — ước lượng **vận tốc**, không phải `ω`
+
+Tại frame neo 523: KF + CV có `|v| = 11,045 px/f` (khớp GT 11,05); CTRV chỉ có
+**6,300 px/f** — thấp hơn **43 %**. Phép **đối chứng tách biến** ép `ω = 0` *và*
+`v` = vận tốc của KF:
+
+| Đoạn | KF + CV | `ω`=0, `v` ước lượng | `ω`=0, `v` đúng | Lệch với KF |
+|---|---|---|---|---|
+| 1 | 283,1 px | 283,1 px | 283,1 px | 0,0 px |
+| 2 | 161,4 px | 35,0 px | **160,0 px** | **1,4 px** |
+| 3 | 63,7 px | 63,4 px | **65,7 px** | **2,0 px** |
+
+**CTRV suy biến đúng về CV khi `ω` = 0 và vận tốc khớp** — lệch tối đa 2,0 px trên cả ba
+đoạn. Phần toán của mô hình chuyển động **không sai**; vấn đề nằm ở **ước lượng trạng thái**.
+
+> **Con số 35,0 px là ăn may, không phải ưu thế mô hình.** Xe **giảm tốc** còn
+> **6,91 px/f** trong lúc bị che (từ 11,02 px/f trước đó). Ước lượng thiếu của CTRV
+> (6,300 px/f) trùng hợp khớp với tốc độ thật trong lúc che, còn KF chốt đúng vận tốc
+> tại frame neo (11,045) nên vượt quá. Không mô hình nào trong hai cái "biết" xe sẽ chậm
+> lại — cả CV lẫn CTRV đều giả định **tốc độ không đổi**. Đây là điểm mù chung, và là
+> lý do sâu hơn cả `ω`: **thiếu biến gia tốc trong vector trạng thái**.
+
+Vì sao `v` tụt còn 6,3? Truy vết: `initiate_from_motion` gán đúng 10,89 px/f tại frame
+518, nhưng `v` tụt xuống 2,92 ở frame 520 rồi mới bò lại 6,30 ở frame 523. Nguyên nhân:
+vị trí dự đoán tại frame 518 lệch xa quan sát (bộ lọc vừa ngoại suy mù 26 frame), bước
+`update` kéo mạnh vào **vị trí** và qua Jacobian kéo luôn `v/θ` đi theo. Chỉ có **6 frame
+nhìn thấy** giữa hai đoạn che — không đủ để hội tụ.
+
+#### Nguyên nhân thật 2 — ma trận `P` mất tính xác định dương *(lỗi mới, **CHƯA SỬA**)*
+
+| Frame | Trị riêng nhỏ nhất của `P` | `Var(ω)` |
+|---|---|---|
+| 517 | +2,7·10⁻⁹ | +1,065·10⁻² |
+| **518** | **−9,7·10⁻²** | **−9,667·10⁻³** |
+| 530 | **−703** | −3,848·10⁻² |
+
+Phương sai âm là vô nghĩa vật lý. Chuyển sang âm **đúng tại frame gọi
+`initiate_from_motion`**, rồi phân kỳ trong lúc ngoại suy mù.
+
+**Nguyên nhân:** hàm đó ghi đè hai phần tử **đường chéo** `P[V,V]` và `P[THETA,THETA]`
+bằng hằng số nhưng **giữ nguyên các phần tử ngoài đường chéo** (đo được `P[V,CX] = 498,76`).
+Thu nhỏ phương sai riêng mà không thu nhỏ tương quan tương ứng phá vỡ tính nửa xác định
+dương của ma trận hiệp phương sai.
+
+> **Lưu ý phạm vi:** `P` **không** ảnh hưởng tới giá trị trung bình khi ngoại suy mù
+> (EKF truyền `x' = f(x)`, không dùng `P`), nên lỗi này **không** giải thích các con số
+> FDE ở trên. Nhưng nó **có** ảnh hưởng tới `gating_distance` và Kalman gain ở **mọi**
+> bước `update` trong pipeline thật.
+>
+> **Trạng thái: CHƯA SỬA.** Cách sửa đã kiểm chứng: thu nhỏ cả **hàng và cột** tương ứng
+> theo tỉ lệ `sqrt(phương_sai_mới / phương_sai_cũ)` thay vì chỉ ghi đè đường chéo — làm
+> vậy thì trị riêng nhỏ nhất trở lại **+2,7·10⁻⁹**. Chưa áp dụng vì việc này đụng vào
+> `ekf_ctrv.py` — code dùng cho pipeline thật — nên phải chạy lại toàn bộ 60 video để
+> biết ảnh hưởng, và cần quyết định trước khi làm.
+
+#### Ghi chú: giả thuyết "detection bị cắt xén" không đúng ở đoạn này
+
+Giả thuyết ban đầu là detection cuối bị che một phần làm `ω̂` nhiễu. Đo được:
+`occlusion_ratio` tại frame neo của đoạn 2 chỉ **0,077** — xe còn nhìn thấy **92 %**.
+Nên biến thể "triệt `ω` có điều kiện" (ngưỡng 0,5) **không kích hoạt**. Đã cài cả hai
+biến thể (có điều kiện / vô điều kiện) để sanity check không bị vô hiệu hoá.
+
+Bán kính quỹ đạo tại neo đoạn 2: `R = v/|ω| = 30 px` — **nhỏ hơn cả chiếc xe**
+(185×91 px); cung quét dự kiến **487,5°**, tức box đi hết hơn một vòng tròn.
+
 ---
 
 ## 5. Tính chặt chẽ đã xử lý
@@ -419,6 +508,21 @@ thống kê). Ba track cua gắt nhất (150,7° / 148,4° / 140,8°) thì CTRV 
 15. **Báo Spearman kèm Pearson khi có ngoại lai.** Tương quan `ω` trước/trong đoạn che:
     Pearson −0,755 nhưng bỏ **một** điểm còn −0,385; Spearman −0,448 (p = 0,0023) mới là
     con số bền vững.
+16. **Sửa lỗi `n_frames=1.0` cứng** trong 4 script chạy bộ lọc xuyên qua nhiều đoạn che
+    (mục 4.7). Vận tốc bị thổi phồng đúng bằng số frame bị che (đo được 27 lần).
+    Pipeline thật không dính; mọi số HOTA/IDSW không đổi, nhưng toàn bộ số của Giai đoạn
+    E đã tính lại.
+17. **Đối chứng TÁCH BIẾN thay vì suy luận.** Khi bản triệt `ω` cho kết quả bất thường,
+    không dừng ở "chắc do `ω`" mà ép **cả** `ω = 0` **và** `v` = vận tốc của KF để tách
+    hai biến. Kết quả (lệch tối đa 2,0 px so với KF trên 3 đoạn) chứng minh CTRV suy biến
+    đúng về CV, và loại `ω` khỏi danh sách nguyên nhân.
+18. **Bắt được lỗi trong chính script kiểm chứng.** Bản đối chứng đầu tiên can thiệp ở
+    **mọi** lần vào đoạn che (kể cả đoạn 1) làm hỏng trạng thái trước đoạn 2, cho kết quả
+    202,1 px và kết luận sai là "còn nguyên nhân thứ ba". Sau khi giới hạn can thiệp đúng
+    đoạn đang xét: 160,0 px — khớp KF. Ghi lại đây vì đó là lỗi suýt dẫn tới kết luận sai.
+19. **Kiểm tra bất biến toán học của bộ lọc, không chỉ kiểm tra đầu ra.** Theo dõi trị
+    riêng nhỏ nhất của `P` qua từng frame mới phát hiện `initiate_from_motion` phá vỡ
+    tính nửa xác định dương (mục 4.9) — thứ mà mọi chỉ số HOTA/FDE đều không lộ ra.
 
 ---
 
@@ -426,19 +530,25 @@ thống kê). Ba track cua gắt nhất (150,7° / 148,4° / 140,8°) thì CTRV 
 
 **Chưa chứng minh được CTRV cải thiện việc giữ ID, nhưng cũng KHÔNG bác bỏ được.**
 
-Sau 5 giai đoạn cải thiện có hệ thống:
+Sau 6 giai đoạn cải thiện có hệ thống:
 - **A đóng** — giới hạn là **thông tin**, không phải ước lượng (trần 58.2%)
 - **B đóng** — nới cửa liên kết lợi bất cập hại trên dữ liệu đông xe
 - **C thành công lớn về tracking** nhưng **xoá luôn ưu thế biểu kiến của EKF**
 - **D đưa p về 0.0627** nhưng **hai tập độc lập không đồng thuận**
 - **E đóng** — sửa được khuyết điểm cài đặt (`ω` không chặn) nhưng chỉ đổi 0,19 % số
   đoạn; đồng thời phát hiện `ω` trước/trong đoạn che **ngược dấu** (Spearman −0,448)
+- **F đóng** — triệt tiêu `ω` hoàn toàn chứng minh `ω` **không phải nguyên nhân chính**;
+  CTRV suy biến đúng về CV khi vận tốc khớp (lệch ≤ 2,0 px). Nguyên nhân thật là **ước
+  lượng vận tốc** và **thiếu biến gia tốc** — điểm mù chung của cả CV lẫn CTRV
 
 **Bằng chứng bất lợi nhất cho giả thuyết ban đầu**, cần nêu thẳng:
 - Trên 998 đoạn cả hai model cùng hỏng, chúng hỏng **y hệt cách nhau 998/998 lần** (2.3)
 - Trên 48 track dài, CV tốt hơn **30 track**, CTRV chỉ **7** (4.8)
 - Tương quan giữa **góc cua** và lợi thế CTRV xấp xỉ **0** (+0,080) — đúng cái lẽ ra
   phải dương và có biên độ đáng kể nếu giả thuyết CTRV đúng (4.8)
+- Ca CTRV thắng đậm nhất trong toàn bộ điều tra (35,0 px vs 161,4 px) hoá ra là **ăn
+  may** — ước lượng thiếu vận tốc trùng khớp với việc xe giảm tốc, không phải do mô hình
+  hoá khúc cua (4.9)
 
 **Cách phát biểu đúng:** *"Dữ liệu hiện có không đủ để phân biệt 3 motion model"* —
 **không phải** *"3 motion model như nhau"*. Đây là kết quả **underpowered**, khác hẳn
@@ -500,6 +610,8 @@ kiểm tra trực quan là một phần bắt buộc của quy trình đánh gi�
 | `src/ekf_ctrv_clamped.py` | **GĐ E** — EKF+CTRV chặn `\|ω\| ≤ 0,05` rad/frame (kế thừa, không sửa bản gốc) |
 | `src/diagnose_ekf_circle.py` | **GĐ E** — chẩn đoán hiện tượng box quay vòng: `ω`, `R = v/ω`, cung quét |
 | `src/omega_clamp_experiment.py` | **GĐ E** — so KF / EKF gốc / EKF chặn `ω` trên cùng tập đoạn |
+| `src/demo/diagnose_seg2.py` | **GĐ 0** — loại trừ lỗi ghép cặp / khoảng trống frame trên 1 đoạn |
+| `src/demo/omega_suppress.py` | **GĐ F** — triệt tiêu `ω`, đối chứng tách biến `ω` vs vận tốc, video 3 panel |
 | `src/demo/gt_omega.py` / `case_ab.py` | Demo — tính `ω` từ GT, phân loại Case A/B |
 | `src/demo/render_videos.py` | Demo — 4 video minh hoạ, chọn đoạn bằng tiêu chí tự động |
 | `src/demo/side_by_side.py` | Demo — 2 panel trên **kết quả tracker thật**, đánh dấu đoạn 2 model khác nhau |

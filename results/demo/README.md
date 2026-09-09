@@ -9,6 +9,11 @@
 > **Bổ sung mục 5 (Giai đoạn E):** khi xem video minh hoạ đã phát hiện một khuyết điểm
 > thật trong cài đặt EKF — `ω` không bị chặn. Đã đo, đã sửa, đã chạy lại 60 video:
 > **không đảo ngược kết quả**. Số liệu mục 1–4 giữ nguyên.
+>
+> **Bổ sung mục 6 (Giai đoạn F):** triệt tiêu `ω` hoàn toàn để kiểm chứng, và phát hiện
+> `ω` **không phải nguyên nhân chính** — nguyên nhân thật là ước lượng **vận tốc** và
+> việc cả CV lẫn CTRV đều **thiếu biến gia tốc**. Kèm một lỗi mới chưa sửa: ma trận `P`
+> mất tính xác định dương.
 
 ---
 
@@ -271,3 +276,76 @@ bị che ngay từ lúc sinh); 4 track còn lại không đổi một pixel nào
 hiện ra lỗi: FDE giảm từ 556,5 xuống 267,1 px (bản gốc) và từ 1208,4 xuống 349,8 px
 (bản chặn ω) — kết luận định tính không đổi, nhưng biên độ nhỏ hơn nhiều so với số đã
 báo trước đây.
+
+---
+
+## 6. CẬP NHẬT — Giai đoạn F: triệt tiêu `ω`, và `ω` hoá ra không phải thủ phạm
+
+> Tiếp nối mục 5. Giai đoạn E cho thấy **kẹp** `ω` không phải fix sạch. Giai đoạn F thử
+> đặt `ω = 0` **hoàn toàn** — và kết quả lật ngược chẩn đoán.
+
+### 6.1 Sanity check thất bại theo hướng bất ngờ
+
+Khi `ω = 0`, CTRV suy biến về `cx' = cx + v·cos(θ)·dt` — đúng dạng CV. Vậy bản triệt `ω`
+**phải** cho sai số gần bằng KF + CV. Trên MVI_40992 track 12:
+
+| Đoạn | Che | KF + CV | Triệt `ω` | Chênh |
+|---|---|---|---|---|
+| 1 | 492–517 | 283,1 px | 283,1 px | 0,0 % |
+| **2** | **524–563** | **161,4 px** | **35,0 px** | **78 %** |
+| 3 | 575–609 | 63,7 px | 68,1 px | 6,9 % |
+
+Lệch xa — **nhưng tốt hơn KF 4,6 lần**, không phải tệ hơn.
+
+### 6.2 Đối chứng tách biến: nguyên nhân là VẬN TỐC
+
+Tại frame neo 523: KF có `|v| = 11,045 px/f` (khớp GT 11,05); CTRV chỉ **6,300 px/f**.
+Ép `ω = 0` **và** `v` = vận tốc của KF:
+
+| Đoạn | KF + CV | `ω`=0, `v` ước lượng | `ω`=0, `v` đúng | Lệch với KF |
+|---|---|---|---|---|
+| 1 | 283,1 px | 283,1 px | 283,1 px | 0,0 px |
+| 2 | 161,4 px | 35,0 px | **160,0 px** | **1,4 px** |
+| 3 | 63,7 px | 63,4 px | **65,7 px** | **2,0 px** |
+
+**CTRV suy biến đúng về CV.** Toán không sai — vấn đề ở **ước lượng trạng thái**.
+
+> **35,0 px là ăn may.** Xe **giảm tốc** còn 6,91 px/f trong lúc bị che (từ 11,02 px/f).
+> Ước lượng thiếu của CTRV trùng hợp khớp; KF chốt đúng vận tốc tại frame neo nên vượt
+> quá. Cả hai đều giả định **tốc độ không đổi** — điểm mù chung, và là nguyên nhân sâu
+> hơn cả `ω`: **thiếu biến gia tốc trong vector trạng thái**.
+
+### 6.3 Lỗi mới: ma trận `P` mất tính xác định dương — CHƯA SỬA
+
+| Frame | Trị riêng nhỏ nhất của `P` | `Var(ω)` |
+|---|---|---|
+| 517 | +2,7·10⁻⁹ | +1,065·10⁻² |
+| **518** | **−9,7·10⁻²** | **−9,667·10⁻³** |
+| 530 | **−703** | −3,848·10⁻² |
+
+Chuyển âm đúng tại frame gọi `initiate_from_motion`. Hàm đó ghi đè hai phần tử **đường
+chéo** `P[V,V]`, `P[THETA,THETA]` bằng hằng số nhưng **giữ nguyên phần tử ngoài đường
+chéo** (`P[V,CX] = 498,76`) → phá vỡ tính nửa xác định dương.
+
+Cách sửa đã kiểm chứng: thu nhỏ cả **hàng và cột** theo `sqrt(mới/cũ)` → trị riêng nhỏ
+nhất trở lại +2,7·10⁻⁹. **Chưa áp dụng** vì đụng `ekf_ctrv.py` dùng cho pipeline thật.
+
+`P` không ảnh hưởng giá trị trung bình khi ngoại suy mù, nên **không** giải thích các số
+FDE ở trên — nhưng **có** ảnh hưởng `gating_distance` và Kalman gain ở mọi bước `update`.
+
+### 6.4 Giả thuyết "detection bị cắt xén" không đúng ở đoạn này
+
+`occlusion_ratio` tại frame neo đoạn 2 chỉ **0,077** — xe còn nhìn thấy 92 %. Biến thể
+"triệt `ω` có điều kiện" (ngưỡng 0,5) **không kích hoạt**. Đã cài cả hai biến thể để
+sanity check không bị vô hiệu.
+
+Bán kính quỹ đạo tại neo: `R = v/|ω| = 30 px` — nhỏ hơn cả chiếc xe (185×91 px); cung
+quét dự kiến **487,5°**.
+
+### 6.5 File sinh ra
+
+| Script | Sản phẩm |
+|---|---|
+| `src/demo/diagnose_seg2.py` | `diagnosis/phase0_{segments,seg2_perframe}.csv` |
+| `src/demo/omega_suppress.py` | `diagnosis/phase3_{anchors,velocity,fde,control}.csv` |
+| `src/demo/omega_suppress.py --render` | `videos/suppress3_MVI_40992_t12.mp4` (3 panel, 13,4 MB) |
