@@ -85,6 +85,9 @@ class CTRVSTrack(STrack):
         # Co danh dau da uoc luong duoc huong tu 2 quan sat dau tien chua.
         # Xem muc 5 trong docstring cua ekf_ctrv.py.
         self._motion_initialized = False
+        # Vi tri QUAN SAT gan nhat (cx, cy) - moc de tinh do dich chuyen khi
+        # khoi tao chuyen dong. Khac vi tri trong `mean` (da qua predict).
+        self._last_obs_xy: tuple[float, float] | None = None
 
     # ------------------------------------------------------------------
     # Override 1: predict - doi chi so vh tu 7 sang 8
@@ -142,32 +145,57 @@ class CTRVSTrack(STrack):
     # Hook khoi tao 2 khung hinh
     # ------------------------------------------------------------------
     def _init_motion_if_needed(self, new_track: STrack, frame_id: int) -> None:
-        """Uoc luong v va theta tu quan sat thu hai (chi chay dung 1 lan).
+        """Uoc luong v va theta tu quan sat thu hai. THU LAI cho den khi thanh cong.
 
         Khong co buoc nay, bo loc CTRV se bi ket cung khi khoi tao v = 0
         (moi phan tu Jacobian lien quan theta deu ti le voi v) - chi tiet va
         bang chung thuc nghiem xem ekf_ctrv.py muc 5 va unit test 9c.
+
+        HAI DIEM PHAI DUNG (xem src/repro_init_covariance.py):
+        1. CHI danh dau da xong khi bo loc BAO thanh cong. Ban cu luon dat co
+           `_motion_initialized = True`, ke ca khi xe dung yen nen bo loc tra ve
+           nguyen trang. Hau qua: xe dung yen luc dau roi moi chay se KHONG BAO
+           GIO duoc khoi tao huong. Do duoc: UKF ket han o v = -0,015 px/frame
+           sau 6 frame chay that (dung phai ~8), EKF hoc sai thanh v = 1,88 va
+           theta = 127,6 do (dung phai 90).
+        2. Dung VI TRI QUAN SAT truoc do lam moc, khong dung vi tri trong `mean`.
+           `mean` la vi tri DA PREDICT; khi thu lai o cac frame sau, v co the da
+           khac 0 nen predict lam dich vi tri, va `dx, dy` se thanh phan du sau
+           predict chu khong phai do dich chuyen that.
         """
         if self._motion_initialized or self.mean is None:
             return
-        n_frames = max(1, frame_id - self.frame_id)
         z = self.convert_coords(new_track.tlwh)
-        self.mean, self.covariance = self.kalman_filter.initiate_from_motion(
-            self.mean, self.covariance, z, n_frames=n_frames
+        ref = self._last_obs_xy
+        # `self.frame_id` la frame cua quan sat gan nhat truoc do, cung la frame
+        # ung voi `_last_obs_xy` -> khoang cach frame dung bang hieu hai so nay.
+        n_frames = max(1, frame_id - self.frame_id)
+        self.mean, self.covariance, ok = self.kalman_filter.try_initiate_from_motion(
+            self.mean, self.covariance, z, n_frames=n_frames, ref_pos=ref
         )
-        self._motion_initialized = True
+        self._motion_initialized = bool(ok)
+
+    def _remember_obs(self, new_track: STrack) -> None:
+        """Ghi lai vi tri QUAN SAT vua nhan, de lan khoi tao sau do moc dung."""
+        z = self.convert_coords(new_track.tlwh)
+        self._last_obs_xy = (float(z[0]), float(z[1]))
 
     def activate(self, kalman_filter, frame_id: int):
         super().activate(kalman_filter, frame_id)
         self._motion_initialized = False
+        # Quan sat dau tien cua track chinh la moc cho lan khoi tao chuyen dong
+        self._last_obs_xy = (float(self.mean[self.IDX_CX]),
+                             float(self.mean[self.IDX_CY]))
 
     def update(self, new_track: STrack, frame_id: int):
         self._init_motion_if_needed(new_track, frame_id)
         super().update(new_track, frame_id)
+        self._remember_obs(new_track)
 
     def re_activate(self, new_track: STrack, frame_id: int, new_id: bool = False):
         self._init_motion_if_needed(new_track, frame_id)
         super().re_activate(new_track, frame_id, new_id)
+        self._remember_obs(new_track)
 
 
 class ClampedSTrack(CTRVSTrack):

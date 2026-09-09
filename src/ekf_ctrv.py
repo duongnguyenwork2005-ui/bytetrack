@@ -199,6 +199,51 @@ def normalize_angle(a):
     return (np.asarray(a) + np.pi) % (2 * np.pi) - np.pi
 
 
+def set_marginal_variance(cov: np.ndarray, idx: int, new_var: float) -> np.ndarray:
+    """Dat phuong sai bien duyen cua bien `idx` thanh `new_var`, GIU tinh ban xac dinh duong.
+
+    VI SAO KHONG GHI DE THANG P[idx, idx].
+        Ma tran hiep phuong sai phan ra duoc thanh  P = D C D  voi
+        D = diag(sigma_0 ... sigma_n) va C la ma tran TUONG QUAN (ban xac dinh
+        duong, duong cheo bang 1). Neu chi doi mot phan tu duong cheo cua P ma
+        giu nguyen cac phan tu ngoai duong cheo thi tuong quan ngam
+            rho_ij = P_ij / (sigma_i * sigma_j)
+        bi keo vuot qua 1, va P khong con ban xac dinh duong. Do dac duoc:
+        thu nho P[theta, theta] tu 9.15 xuong 0.09 (100 lan) trong khi giu
+        P[v, cx] = 498.76 lam tri rieng nho nhat tu +2.7e-9 xuong -2.2e-1.
+
+    CACH LAM DUNG. Ta muon doi sigma_idx -> sigma_idx' ma GIU NGUYEN moi he so
+    tuong quan. Tuong duong voi phep bien doi DONG DANG (congruence)
+            P' = S P S^T ,  S = diag(1, ..., s, ..., 1),  s = sigma'/sigma
+    tuc nhan hang idx va cot idx voi cung he so s. Dinh ly quan tinh Sylvester
+    bao dam phep dong dang voi S kha nghich GIU NGUYEN dau cua moi tri rieng,
+    nen P' ban xac dinh duong khi va chi khi P ban xac dinh duong. Day la
+    su that toan hoc, khong phai chinh sua so hoc de che loi.
+
+    Args:
+        cov: ma tran hiep phuong sai (bi sua TAI CHO)
+        idx: chi so bien can dat lai phuong sai
+        new_var: phuong sai moi (phai > 0)
+
+    Returns:
+        Chinh `cov` da duoc sua.
+    """
+    old_var = float(cov[idx, idx])
+    if not np.isfinite(old_var) or old_var <= 0.0:
+        # P da hong tu truoc (hoac bien nay chua co phuong sai): khong the suy ra
+        # he so ti le. Dat bien nay THANH DOC LAP voi cac bien khac - van la mot
+        # ma tran hop le, va khong bia ra tuong quan khong co co so.
+        cov[idx, :] = 0.0
+        cov[:, idx] = 0.0
+        cov[idx, idx] = new_var
+        return cov
+    s = float(np.sqrt(new_var / old_var))
+    cov[idx, :] *= s
+    cov[:, idx] *= s
+    cov[idx, idx] = new_var      # dat lai chinh xac, tranh sai so lam tron cua s*s
+    return cov
+
+
 class EKFTrackerCTRV:
     """Extended Kalman Filter, mo hinh chuyen dong CTRV, thay the KalmanFilterXYAH.
 
@@ -367,40 +412,70 @@ class EKFTrackerCTRV:
 
         return mean, np.diag(np.square(std))
 
-    def initiate_from_motion(self, mean: np.ndarray, covariance: np.ndarray,
-                             measurement: np.ndarray, n_frames: float = 1.0):
-        """Uoc luong v va theta tu 2 quan sat dau tien (xem muc 5 docstring).
-
-        Goi DUY NHAT MOT LAN, ngay truoc lan `update()` dau tien cua track.
+    def try_initiate_from_motion(self, mean: np.ndarray, covariance: np.ndarray,
+                                 measurement: np.ndarray, n_frames: float = 1.0,
+                                 ref_pos: tuple[float, float] | None = None):
+        """Nhu `initiate_from_motion` nhung BAO THEM co da khoi tao thanh cong chua.
 
         Args:
-            mean, covariance: trang thai hien tai (sau `initiate`, truoc update)
-            measurement: quan sat thu hai (cx, cy, a, h)
-            n_frames: so frame da troi qua giua 2 quan sat. Thuong = 1, nhung
-                neu track bi mat dau vai frame roi moi khop lai thi phai chia
-                dung so frame do, khong se uoc luong toc do qua cao.
+            mean, covariance: trang thai hien tai
+            measurement: quan sat moi (cx, cy, a, h)
+            n_frames: so frame da troi qua ke tu `ref_pos`. Phai dung so frame
+                that, neu khong van toc bi thoi phong dung bang so frame bo qua.
+            ref_pos: vi tri QUAN SAT truoc do (cx, cy). Neu None thi lay vi tri
+                trong `mean` - nhung do la vi tri DA PREDICT, chi trung voi vi
+                tri quan sat khi v = 0. Khi goi lai nhieu lan (vi lan truoc xe
+                dung yen nen chua khoi tao duoc) thi PHAI truyen vi tri quan sat
+                that, neu khong `dx, dy` se la phan du sau predict chu khong
+                phai do dich chuyen.
 
         Returns:
-            (mean, covariance) da duoc gan v, theta va thu hep phuong sai tuong ung.
-            Neu vat the gan nhu dung yen (dich chuyen < nguong) thi GIU NGUYEN,
-            vi luc do huong khong the uoc luong dang tin cay.
+            (mean, covariance, ok) - `ok = False` nghia la vat the gan nhu dung
+            yen nen chua the suy ra huong; trang thai duoc GIU NGUYEN va nguoi
+            goi phai THU LAI o quan sat sau.
         """
         mean = mean.copy()
         covariance = covariance.copy()
 
-        dx = float(measurement[0]) - mean[self.CX]
-        dy = float(measurement[1]) - mean[self.CY]
+        if ref_pos is None:
+            ref_x, ref_y = float(mean[self.CX]), float(mean[self.CY])
+        else:
+            ref_x, ref_y = float(ref_pos[0]), float(ref_pos[1])
+
+        dx = float(measurement[0]) - ref_x
+        dy = float(measurement[1]) - ref_y
         speed = float(np.hypot(dx, dy)) / (self.dt * max(n_frames, 1.0))
 
         if speed < config.CTRV_MIN_SPEED_FOR_HEADING:
-            return mean, covariance   # dung yen -> chua the biet huong
+            return mean, covariance, False   # dung yen -> chua the biet huong
 
         mean[self.V] = speed
         mean[self.THETA] = normalize_angle(np.arctan2(dy, dx))
 
-        # Da co thong tin -> thu hep do bat dinh cua v va theta
-        covariance[self.THETA, self.THETA] = config.CTRV_HEADING_STD_AFTER_INIT ** 2
-        covariance[self.V, self.V] = (2 * self._std_weight_velocity * mean[self.H] * 10) ** 2
+        # Da co thong tin -> thu hep do bat dinh cua v va theta.
+        # Dung set_marginal_variance (phep dong dang) thay vi ghi de thang phan tu
+        # duong cheo: ghi de thang lam P mat tinh ban xac dinh duong - xem docstring
+        # cua set_marginal_variance va src/repro_init_covariance.py.
+        set_marginal_variance(covariance, self.THETA,
+                              config.CTRV_HEADING_STD_AFTER_INIT ** 2)
+        set_marginal_variance(covariance, self.V,
+                              (2 * self._std_weight_velocity * mean[self.H] * 10) ** 2)
+        # Ep doi xung lai de trieu tieu sai so lam tron tich luy
+        covariance = 0.5 * (covariance + covariance.T)
+        return mean, covariance, True
+
+    def initiate_from_motion(self, mean: np.ndarray, covariance: np.ndarray,
+                             measurement: np.ndarray, n_frames: float = 1.0,
+                             ref_pos: tuple[float, float] | None = None):
+        """Uoc luong v va theta tu 2 quan sat dau tien (xem muc 5 docstring dau file).
+
+        Giu nguyen chu ky cu (tra ve 2 gia tri) cho cac script phan tich da co.
+        Ma goi MOI nen dung `try_initiate_from_motion` de biet khoi tao co thanh
+        cong khong - neu khong biet, nguoi goi de danh dau nham la "da xong" va
+        xe dung yen luc dau se khong bao gio duoc khoi tao huong.
+        """
+        mean, covariance, _ok = self.try_initiate_from_motion(
+            mean, covariance, measurement, n_frames=n_frames, ref_pos=ref_pos)
         return mean, covariance
 
     def predict(self, mean: np.ndarray, covariance: np.ndarray):
