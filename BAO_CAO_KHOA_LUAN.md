@@ -1,8 +1,11 @@
 # Báo cáo tổng hợp khoá luận: So sánh KF / EKF / UKF cho Multi-Object Tracking trên UA-DETRAC
 
 > Tài liệu tự chứa — đọc xong là nắm được toàn bộ tình hình, không cần bối cảnh khác.
-> **Cập nhật lần 4:** bổ sung mục 4.9 (Giai đoạn F — triệt tiêu `ω`, xác định `ω`
-> **không** phải nguyên nhân chính; tìm ra lỗi `P` mất tính xác định dương) và các mục
+> **Cập nhật lần 5:** bổ sung đánh giá lại test 40 video đã kiểm chứng ở mục 2.3 và
+> thay kết luận hiện hành ở mục 6 bằng kết quả từ các CSV đã lưu. Các kết luận định lượng
+> về test trong mục 2.2 và 4.6 là tư liệu lịch sử, không dùng thay cho mục 2.3.
+> **Cập nhật lần 4:** bổ sung mục 4.9 (Giai đoạn F — triệt tiêu `ω`, phân tích lịch sử
+> về vai trò của `ω` và lỗi `P` mất tính xác định dương) và các mục
 > 16–19 phần tính chặt chẽ. Trước đó,
 > **cập nhật lần 3:** bổ sung mục 2.3 (kết cục ghép cặp trên 1.544 đoạn),
 > mục 4.7 (Giai đoạn E — khuyết điểm `ω` không bị chặn, phát hiện khi xem video
@@ -16,8 +19,10 @@
 Velocity) có giúp giữ định danh (ID) của xe tốt hơn mô hình tuyến tính CV (Constant
 Velocity) khi xe **vừa rẽ vừa bị che khuất** không?
 
-**Pipeline:** YOLOv8n (`conf=0.25`) → ByteTrack → TrackEval (HOTA / MOTA / IDF1).
-Chỉ **motion model** thay đổi; detector và data association giữ nguyên tuyệt đối.
+**Pipeline:** YOLOv8n → ByteTrack → TrackEval (HOTA / MOTA / IDF1). Đánh giá test
+cuối có hai điều kiện đã khóa trước: A dùng `conf=0.25`, B dùng `conf=0.10`. Trong mỗi
+điều kiện, chỉ **motion model** thay đổi; detector, data association và các tham số
+tracker còn lại giữ nguyên. Nguồn cấu hình: `results/test_eval/manifest.json`.
 
 | | Vector trạng thái | Ghi chú |
 |---|---|---|
@@ -54,11 +59,68 @@ Sai số ngoại suy vị trí (px) khi cắt detection:
 | 60 video, detector COCO, `buffer=30` | **0.6104** | 0.6101 | 0.6095 |
 | 60 video, detector COCO, `buffer=90` | 0.6101 | **0.6107** | 0.6096 |
 | 60 video, **detector fine-tune** | 0.6783 | 0.6780 | **0.6791** |
-| **40 video TEST, detector fine-tune** | 0.6325 | **0.6344** | 0.6334 |
+| **40 video TEST, detector fine-tune (lịch sử; thay bằng mục 2.3)** | 0.6325 | **0.6344** | 0.6334 |
 
 *(HOTA. Thứ tự đổi ở mỗi cấu hình — dấu hiệu chênh lệch nằm trong vùng nhiễu.)*
 
-### 2.3 Kết cục ghép cặp trên 1.544 đoạn che — **bằng chứng mạnh nhất của luận văn**
+### 2.3 Đánh giá test 40 video đã kiểm chứng — kết quả hiện hành
+
+Mục này thay thế các nhận định định lượng về test trước đây trong mục 2.2 và 4.6.
+Kết quả nằm trong commit đánh giá `b5bd086f8e4a625850ab35c977d1ed40776e810d`; tập test
+đã từng được sử dụng trong nghiên cứu trước, nên không mô tả là tập held-out hoàn toàn.
+
+| Lượt / model | HOTA | IDF1 | AssA | IDSW | FP | FN | `id_match` | `id_continuous` |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| A, CV (`conf=0.25`) | 58.484% | 70.225% | 64.174% | 2.500 | 72.646 | 198.712 | 48.187% | 29.683% |
+| A, EKF | 58.600% | 70.469% | 64.427% | 2.532 | 72.314 | 198.835 | 48.943% | 29.683% |
+| A, UKF | 58.490% | 70.292% | 64.206% | 2.549 | 72.421 | 198.844 | 48.716% | 29.758% |
+| B, CV (`conf=0.10`) | 58.217% | 69.407% | 63.581% | 2.082 | 99.903 | 180.571 | 48.867% | 36.631% |
+| B, EKF | 58.548% | 69.937% | 64.298% | 2.063 | 99.579 | 180.532 | 49.245% | 37.009% |
+| B, UKF | 58.399% | 69.716% | 63.971% | 2.110 | 99.731 | 180.446 | 49.773% | 37.009% |
+
+Nguồn số liệu: `results/test_eval/summary/configuration_metrics.csv`. Các tỷ lệ trong
+bảng được đổi từ tỷ lệ CSV sang phần trăm và làm tròn ba chữ số thập phân; IDSW, FP và
+FN là số đếm nguyên trong CSV.
+
+`id_match` là tỷ lệ ID ngay trước và sau sự kiện trùng nhau. `id_continuous` là tỷ lệ
+ID được duy trì liên tục theo định nghĩa của script; hai chỉ số không đồng nghĩa. Từ GT,
+2.174 sự kiện sau gộp được lập trước khi so sánh tracker, trong đó 1.324 sự kiện đủ điều
+kiện và 850 bị loại (559 thiếu GT trước, 291 thiếu GT sau). Cả sáu tracker dùng cùng
+40 video và GT; 39 video có sự kiện đủ điều kiện cho phép so sánh che khuất. Có 484 đoạn
+full nằm trong partial và đã được gộp, không đếm lặp. Nguồn:
+`results/test_eval/summary/configuration_metrics.csv`,
+`results/test_eval/summary/validation.csv` và `results/test_eval/manifest.json`.
+
+Các KTC bootstrap 95% ghép cặp theo 39 video có sự kiện đủ điều kiện (5.000 lần, seed 0)
+của `id_match` cho
+EKF−CV / UKF−CV lần lượt là A: +0,755 [−0,584; +2,035] / +0,529 [−0,519; +1,309]
+điểm phần trăm; B: +0,378 [−0,498; +1,316] / +0,906 [−0,548; +2,246]. Tất cả chứa 0,
+vì vậy chưa đủ bằng chứng về khác biệt về `id_match`; điều này không xác lập các mô hình
+tương đương và không hỗ trợ tuyên bố EKF hoặc UKF xử lý che khuất tốt hơn CV. Nguồn:
+`results/test_eval/summary/paired_contrasts_bootstrap.csv`.
+
+Ở lượt B, EKF−CV có KTC danh nghĩa dương cho HOTA (+0,331 [+0,112; +0,569]), IDF1
+(+0,531 [+0,189; +0,891]) và AssA (+0,716 [+0,244; +1,238]) điểm phần trăm. Các KTC
+này chưa hiệu chỉnh nhiều so sánh, nên chỉ là tín hiệu chỉ số riêng lẻ và không chứng minh
+EKF thắng toàn diện. Nguồn: `results/test_eval/summary/paired_contrasts_bootstrap.csv`.
+
+So với A, B giảm IDSW (CV: 2.500→2.082; EKF: 2.532→2.063; UKF: 2.549→2.110) và FN,
+đồng thời tăng FP (lần lượt +27.257, +27.265, +27.310) và `id_continuous` (+6,949,
++7,326, +7,251 điểm phần trăm). HOTA/IDF1/AssA B−A đều giảm theo điểm ước lượng trên
+test; hướng này ngược với xu hướng tăng theo điểm ước lượng trên train. Các tổng ID,
+FP, FN và association không xác định nguyên nhân cơ chế nếu không có log trực tiếp đầy
+đủ. Nguồn test: `results/test_eval/summary/configuration_metrics.csv` và
+`results/test_eval/summary/paired_contrasts_bootstrap.csv`; số train đối chiếu:
+`TEST_EVALUATION_REPORT.md`, mục 6.
+
+Thời gian của sáu lần chạy chỉ mang tính mô tả vì tải máy không được kiểm soát; không
+dùng chúng làm benchmark. Nguồn: `results/test_eval/summary/metadata.json` và
+`TEST_EVALUATION_REPORT.md`, mục 7.
+
+### 2.4 Kết cục ghép cặp trên 1.544 đoạn che — phân tích lịch sử
+
+Các số trong mục này thuộc phân tích train lịch sử, không là kết quả test cuối và không
+được dùng để suy ra quan hệ nhân quả cho các tổng chỉ số ở mục 2.3.
 
 Thay vì so tỉ lệ trung bình, ghép cặp **từng đoạn che một** giữa KF+CV và EKF+CTRV
 (60 video train, detector COCO, `buffer=30`):
@@ -111,13 +173,17 @@ với mật độ xe là **−0,035** — cả hai ≈ 0.
 
 ---
 
-## 3. Bốn nguyên nhân khiến CTRV không thắng (và một ghi chú riêng cho UKF)
+## 3. Các giả thuyết và quan sát lịch sử về CTRV
+
+Các phân tích trong mục 2.4–4.9 là chẩn đoán lịch sử trên các tập và thiết lập trước
+đánh giá test cuối. Chúng không thay thế kết luận định lượng ở mục 2.3 và không thiết
+lập quan hệ nhân quả từ các chỉ số tổng hợp.
 
 ### 3.1 Motion model chỉ có "tiếng nói" ở ~3–4% trường hợp
 3 model cho kết cục **giống hệt nhau** ở 96–97% số đoạn, ở mọi cấu hình đã thử.
-Chi tiết theo cặp và theo kiểu thất bại: xem mục **2.3**.
+Chi tiết theo cặp và theo kiểu thất bại: xem mục **2.4**.
 
-### 3.2 `track_buffer` = trần cứng
+### 3.2 `track_buffer` là giới hạn cấu hình
 `track_buffer=30` frame = 1.2s. Quá ngưỡng, ByteTrack **xoá hẳn track**.
 
 | Độ dài đoạn (che ≥0.90) | n | Giữ được ID |
@@ -125,9 +191,9 @@ Chi tiết theo cặp và theo kiểu thất bại: xem mục **2.3**.
 | ≤ 30 frame | 257 | 52 (**20.2%**) |
 | > 30 frame | 21 | 0 (**0.0%**) |
 
-### 3.3 `ω` ước lượng được KHÔNG đáng tin — và đây là **giới hạn thông tin**
+### 3.3 `ω` ước lượng được không ổn định trong phân tích lịch sử
 Trên 507 đoạn: `ω` đúng dấu chỉ **55.6%** (EKF), độ lớn **gấp 3 lần** GT.
-**Giai đoạn A đã chứng minh đây là trần, không phải lỗi ước lượng** — xem mục 4.3.
+Giai đoạn A ghi nhận giới hạn này trong thiết lập khi đó — xem mục 4.3.
 Giai đoạn E bổ sung: `ω` GT trước che so với trong che **ngược dấu** (Spearman −0,448,
 p = 0,0023) — xem mục 4.7.
 
@@ -166,12 +232,11 @@ Cả hai cách hồi cố đều **tệ hơn**. Đã tự kiểm chứng code tr
 khớp cung tròn hoàn hảo sai số 0.01% (cài đúng), nhưng đường thẳng + nhiễu 1px cho
 `ω` gấp **162 lần** GT — điểm yếu bản chất của phương pháp, không phải bug.
 
-> **PHÁT HIỆN QUAN TRỌNG NHẤT — TRẦN THÔNG TIN.** Đo bằng **GT hoàn hảo ở cả hai phía**
-> (không filter, không nhiễu, không sai số ước lượng), trên 361 đoạn:
-> **ω GT trước che → ω GT trong che: đúng dấu 58.2%, Pearson +0.0093** (≈ 0).
-> Bộ lọc hiện tại đạt 59.3% trên cùng tập — **đã chạm trần**. Không bộ ước lượng nào,
-> dù hoàn hảo, có thể vượt qua: thông tin về khúc cua sắp xảy ra **không tồn tại**
-> trong dữ liệu trước đoạn che.
+> **Quan sát lịch sử cần kiểm tra lại trên dữ liệu độc lập.** Đo bằng **GT hoàn hảo ở cả
+> hai phía** (không filter, không nhiễu, không sai số ước lượng), trên 361 đoạn:
+> **ω GT trước che → ω GT trong che: đúng dấu 58,2%, Pearson +0,0093**. Bộ lọc hiện tại
+> đạt 59,3% trên cùng tập. Quan sát này mô tả thiết lập lịch sử, không xác lập giới hạn
+> phổ quát hay cơ chế cho kết quả test ở mục 2.3.
 
 ### 4.4 GIAI ĐOẠN B — Nới cửa liên kết cho track LOST → **ĐÓNG**
 
@@ -223,7 +288,11 @@ Precision gần như không đổi → recall tăng **không đánh đổi bằn
 > Số đoạn 3 model khác nhau chỉ tăng **42 → 53** (2.7% → 3.1%) — mục tiêu "mở rộng mẫu
 > số" **đạt rất hạn chế**.
 
-### 4.6 GIAI ĐOẠN D — Mở rộng sang tập TEST 40 video → **GẦN NGƯỠNG NHẤT**
+### 4.6 GIAI ĐOẠN D — Mở rộng sang tập TEST 40 video (lịch sử; thay bằng mục 2.3)
+
+Các số và kiểm định trong mục này là bản đánh giá test lịch sử. Kết quả hiện hành dùng
+chung manifest, CSV và bootstrap ghép cặp theo video nằm ở mục 2.3; không dùng mục này
+để kết luận về test cuối.
 
 **Cỡ mẫu ở ô then chốt: 17 → 115 (6.8×)** — giải quyết đúng điểm nghẽn.
 
@@ -338,24 +407,26 @@ nguyên bản: chặn `ω` tốt hơn 7 đoạn, tệ hơn 8 đoạn, không đ�
 > không đổi: khi `ω` lớn, box quay tít trong vòng tròn bán kính nhỏ nên **vô tình nằm
 > gần chỗ cũ**; chặn `ω` lại cho nó bay thẳng ra xa hơn.
 
-**Kết luận Giai đoạn E:** chặn `ω` sửa được **triệu chứng nhìn thấy**, không sửa được
-**nguyên nhân**. Nguyên nhân là `ω` thật không dự đoán được. Đo trên 44 đoạn của các
-track dài: `ω` GT *trước* che so với `ω` GT *trong* che có **Spearman −0,448
+**Kết luận lịch sử Giai đoạn E:** chặn `ω` sửa được **triệu chứng nhìn thấy** trong các
+ca minh hoạ. Đo trên 44 đoạn của các track dài, `ω` GT *trước* che so với `ω` GT
+*trong* che có **Spearman −0,448
 (p = 0,0023)**, chỉ **25 %** số lần cùng dấu — không những không dự báo được mà còn có
-xu hướng **ngược dấu**. *(Pearson ra −0,755 nhưng bị một điểm ngoại lai kéo; bỏ điểm đó
-còn −0,385, nên báo cáo Spearman. Hai con số này không bị ảnh hưởng bởi lỗi n_frames vì
-chỉ dùng `ω` đo trực tiếp từ GT, không qua bộ lọc.)*
+xu hướng **ngược dấu**. Đây là quan sát mô tả, không suy ra nguyên nhân cho các chỉ số
+test. *(Pearson ra −0,755 nhưng bị một điểm ngoại lai kéo; bỏ điểm đó còn −0,385, nên
+báo cáo Spearman. Hai con số này không bị ảnh hưởng bởi lỗi n_frames vì chỉ dùng `ω` đo
+trực tiếp từ GT, không qua bộ lọc.)*
 
 > **Vì sao khuyết điểm nghiêm trọng lúc đo FDE nhưng vô hại lúc tracking thật:**
 > `track_buffer` = 30 frame **xoá track trước khi** CTRV kịp ngoại suy đủ lâu để `ω` phi
-> lý gây hại. Lỗi chỉ lộ ra khi ép bộ lọc ngoại suy mù suốt 40–70 frame. Nói cách khác,
-> **trần `track_buffer` che mất khuyết điểm này** — hai kết luận của luận văn củng cố lẫn nhau.
+> lý gây hại. Lỗi chỉ lộ ra khi ép bộ lọc ngoại suy mù suốt 40–70 frame. Đây là diễn
+> giải cho ca minh hoạ, không phải suy luận nhân quả từ tổng số chỉ số test.
 
 Render lại **toàn bộ 10 video minh hoạ** bằng bản chặn `ω` (và render lại lần nữa sau khi
 sửa lỗi n_frames): trên 240 đoạn của 8 video demo gốc (không đi qua 4 script có lỗi
 n_frames) chỉ **5 đoạn (2,1 %)** đổi FDE khi chặn `ω`, FDE trung bình 165,1 → 165,0 px.
 Đáng chú ý, video `2_cv_thang` (EKF sai 845 px) có `|ω| = 0,0317 rad/frame` — **vốn đã
-dưới ngưỡng chặn**, nên sai số đó **không đến từ khuyết điểm này** mà từ trần thông tin.
+dưới ngưỡng chặn**, nên ca đó không được giải thích bởi riêng ngưỡng chặn trong phân tích
+lịch sử này.
 Trong 5 video `long_*` minh hoạ theo track, chỉ **MVI_40992 t12** dính lỗi n_frames (vì
 track này bị che ngay từ lúc sinh); 4 track còn lại không đổi một pixel nào trước/sau
 khi sửa.
@@ -380,7 +451,7 @@ thống kê). Ba track cua gắt nhất (150,7° / 148,4° / 140,8°) thì CTRV 
 > **Đây là phản chứng trực tiếp cho giả thuyết ban đầu.** Nếu CTRV có lợi thế do mô hình
 > hoá khúc cua, lợi thế đó phải **tăng theo góc cua**. Nó không tăng.
 
-### 4.9 GIAI ĐOẠN F — Triệt tiêu `ω` hoàn toàn: `ω` **không phải** nguyên nhân chính
+### 4.9 GIAI ĐOẠN F — Triệt tiêu `ω` hoàn toàn: phân tích lịch sử
 
 Giai đoạn E cho thấy **kẹp** `ω` không phải fix sạch (đoạn 2 của MVI_40992 t12 tệ đi:
 267 → 350 px). Nghi vấn: kẹp tạo bước nhảy rời rạc trong state, tương tác xấu với `v/θ`.
@@ -401,7 +472,7 @@ khiến CTRV suy biến về chuyển động thẳng.
 tới 4,6 lần chứ không phải lớn hơn. Nếu `ω` là nguyên nhân duy nhất thì con số phải
 xấp xỉ 161 px.
 
-#### Nguyên nhân thật 1 — ước lượng **vận tốc**, không phải `ω`
+#### Phân tích 1 — ước lượng vận tốc trong ca minh hoạ
 
 Tại frame neo 523: KF + CV có `|v| = 11,045 px/f` (khớp GT 11,05); CTRV chỉ có
 **6,300 px/f** — thấp hơn **43 %**. Phép **đối chứng tách biến** ép `ω = 0` *và*
@@ -429,7 +500,7 @@ vị trí dự đoán tại frame 518 lệch xa quan sát (bộ lọc vừa ngo�
 `update` kéo mạnh vào **vị trí** và qua Jacobian kéo luôn `v/θ` đi theo. Chỉ có **6 frame
 nhìn thấy** giữa hai đoạn che — không đủ để hội tụ.
 
-#### Nguyên nhân thật 2 — ma trận `P` mất tính xác định dương *(lỗi mới, **CHƯA SỬA**)*
+#### Phân tích 2 — ma trận `P` mất tính xác định dương *(ghi nhận lịch sử)*
 
 | Frame | Trị riêng nhỏ nhất của `P` | `Var(ω)` |
 |---|---|---|
@@ -450,11 +521,11 @@ dương của ma trận hiệp phương sai.
 > FDE ở trên. Nhưng nó **có** ảnh hưởng tới `gating_distance` và Kalman gain ở **mọi**
 > bước `update` trong pipeline thật.
 >
-> **Trạng thái: CHƯA SỬA.** Cách sửa đã kiểm chứng: thu nhỏ cả **hàng và cột** tương ứng
-> theo tỉ lệ `sqrt(phương_sai_mới / phương_sai_cũ)` thay vì chỉ ghi đè đường chéo — làm
-> vậy thì trị riêng nhỏ nhất trở lại **+2,7·10⁻⁹**. Chưa áp dụng vì việc này đụng vào
-> `ekf_ctrv.py` — code dùng cho pipeline thật — nên phải chạy lại toàn bộ 60 video để
-> biết ảnh hưởng, và cần quyết định trước khi làm.
+> **Trạng thái lịch sử:** tại thời điểm ghi phần này, cách sửa là thu nhỏ cả **hàng và
+> cột** tương ứng theo tỉ lệ `sqrt(phương_sai_mới / phương_sai_cũ)` thay vì chỉ ghi đè
+> đường chéo — khi đó trị riêng nhỏ nhất trở lại **+2,7·10⁻⁹**. Sửa lỗi và đánh giá lại
+> được ghi trong `FIX_REPORT.md` và `TEST_EVALUATION_REPORT.md`; không dùng đoạn minh
+> hoạ này để suy luận về kết quả test hiện hành.
 
 #### Ghi chú: giả thuyết "detection bị cắt xén" không đúng ở đoạn này
 
@@ -514,8 +585,8 @@ Bán kính quỹ đạo tại neo đoạn 2: `R = v/|ω| = 30 px` — **nhỏ h�
     E đã tính lại.
 17. **Đối chứng TÁCH BIẾN thay vì suy luận.** Khi bản triệt `ω` cho kết quả bất thường,
     không dừng ở "chắc do `ω`" mà ép **cả** `ω = 0` **và** `v` = vận tốc của KF để tách
-    hai biến. Kết quả (lệch tối đa 2,0 px so với KF trên 3 đoạn) chứng minh CTRV suy biến
-    đúng về CV, và loại `ω` khỏi danh sách nguyên nhân.
+    hai biến. Kết quả (lệch tối đa 2,0 px so với KF trên 3 đoạn) hỗ trợ sanity check rằng
+    CTRV suy biến gần CV trong ca minh hoạ; không loại trừ hay xác lập cơ chế cho test.
 18. **Bắt được lỗi trong chính script kiểm chứng.** Bản đối chứng đầu tiên can thiệp ở
     **mọi** lần vào đoạn che (kể cả đoạn 1) làm hỏng trạng thái trước đoạn 2, cho kết quả
     202,1 px và kết luận sai là "còn nguyên nhân thứ ba". Sau khi giới hạn can thiệp đúng
@@ -528,35 +599,31 @@ Bán kính quỹ đạo tại neo đoạn 2: `R = v/|ω| = 30 px` — **nhỏ h�
 
 ## 6. Kết luận trung thực
 
-**Chưa chứng minh được CTRV cải thiện việc giữ ID, nhưng cũng KHÔNG bác bỏ được.**
+Kết luận hiện hành dựa trên đánh giá lại 40 video ở mục 2.3, không dựa trên bảng test
+lịch sử ở mục 4.6. Ảnh hưởng của motion model nhỏ và không ổn định giữa train/test.
+Với `id_match`, bốn KTC 95% EKF−CV và UKF−CV đều chứa 0. Dữ liệu hiện có chưa đủ bằng
+chứng về khác biệt trong phục hồi ID sau che khuất; kết quả này không cho phép gọi các
+motion model tương đương, cũng không hỗ trợ tuyên bố EKF hoặc UKF thắng CV.
 
-Sau 6 giai đoạn cải thiện có hệ thống:
-- **A đóng** — giới hạn là **thông tin**, không phải ước lượng (trần 58.2%)
-- **B đóng** — nới cửa liên kết lợi bất cập hại trên dữ liệu đông xe
-- **C thành công lớn về tracking** nhưng **xoá luôn ưu thế biểu kiến của EKF**
-- **D đưa p về 0.0627** nhưng **hai tập độc lập không đồng thuận**
-- **E đóng** — sửa được khuyết điểm cài đặt (`ω` không chặn) nhưng chỉ đổi 0,19 % số
-  đoạn; đồng thời phát hiện `ω` trước/trong đoạn che **ngược dấu** (Spearman −0,448)
-- **F đóng** — triệt tiêu `ω` hoàn toàn chứng minh `ω` **không phải nguyên nhân chính**;
-  CTRV suy biến đúng về CV khi vận tốc khớp (lệch ≤ 2,0 px). Nguyên nhân thật là **ước
-  lượng vận tốc** và **thiếu biến gia tốc** — điểm mù chung của cả CV lẫn CTRV
+Ở điều kiện B (`conf=0.10`), EKF−CV có KTC danh nghĩa dương cho HOTA, IDF1 và AssA,
+nhưng các so sánh chưa được hiệu chỉnh nhiều lần và các chỉ số khác không cùng xác lập
+một kết luận tổng thể. Vì vậy chỉ nên trình bày đó là tín hiệu cần kiểm tra thêm, không
+phải bằng chứng EKF thắng toàn diện.
 
-**Bằng chứng bất lợi nhất cho giả thuyết ban đầu**, cần nêu thẳng:
-- Trên 998 đoạn cả hai model cùng hỏng, chúng hỏng **y hệt cách nhau 998/998 lần** (2.3)
-- Trên 48 track dài, CV tốt hơn **30 track**, CTRV chỉ **7** (4.8)
-- Tương quan giữa **góc cua** và lợi thế CTRV xấp xỉ **0** (+0,080) — đúng cái lẽ ra
-  phải dương và có biên độ đáng kể nếu giả thuyết CTRV đúng (4.8)
-- Ca CTRV thắng đậm nhất trong toàn bộ điều tra (35,0 px vs 161,4 px) hoá ra là **ăn
-  may** — ước lượng thiếu vận tốc trùng khớp với việc xe giảm tốc, không phải do mô hình
-  hoá khúc cua (4.9)
+Đổi A sang B đi kèm đánh đổi có thể quan sát: IDSW và FN giảm, `id_continuous` tăng,
+nhưng FP tăng ở cả ba motion model. HOTA, IDF1 và AssA B−A đều giảm theo điểm ước lượng
+trên test, trái hướng tăng theo điểm ước lượng đã thấy trên train. `id_match` chỉ sự
+trùng ID trước/sau sự kiện; `id_continuous` yêu cầu duy trì liên tục, nên không được
+diễn giải thay thế nhau. Các tổng ID, FP, FN và association không đủ để kết luận cơ chế
+nhân quả khi không có log trực tiếp đầy đủ.
 
-**Cách phát biểu đúng:** *"Dữ liệu hiện có không đủ để phân biệt 3 motion model"* —
-**không phải** *"3 motion model như nhau"*. Đây là kết quả **underpowered**, khác hẳn
-kết quả âm tính.
-
-**Cấu hình tốt nhất đo được:** EKF hoặc UKF + CTRV với detector fine-tune, `track_buffer` lớn.
-**UKF vẫn không có lý do để dùng** trong ứng dụng thực: chậm hơn EKF **6.74×** mà không
-tốt hơn đáng kể.
+Phân tích che khuất có 2.174 sự kiện sau gộp, 1.324 sự kiện đủ điều kiện; 484 đoạn full
+nằm trong partial đã được gộp để tránh đếm lặp. Tập test từng được sử dụng trước đây nên
+đây là đánh giá xác nhận lại trên tập đã biết, không phải đánh giá held-out hoàn toàn.
+Thời gian chạy chỉ mô tả một lần chạy trên tải máy không kiểm soát, không phải benchmark.
+Nguồn cho toàn bộ số hiện hành: `results/test_eval/summary/configuration_metrics.csv`,
+`results/test_eval/summary/paired_contrasts_bootstrap.csv`,
+`results/test_eval/summary/validation.csv` và `TEST_EVALUATION_REPORT.md`.
 
 ---
 
@@ -566,22 +633,19 @@ tốt hơn đáng kể.
 phi tuyến: phân tầng, hiệu ứng trần và giới hạn dữ liệu trong theo dõi đa đối tượng
 có che khuất"*
 
-**Mạch:** (1) giả thuyết → (2) mô phỏng xác nhận cơ chế (15×) → (3) video thật có vẻ
-mâu thuẫn → (4) **đóng góp phương pháp luận**: phép đo phân tầng đúng cơ chế →
-(5) tín hiệu đúng hướng nhưng chưa đủ ý nghĩa → (6) **bốn hướng cải thiện có hệ thống**,
-mỗi hướng đều truy được cơ chế → (7) **ba trần chồng lên nhau**: `track_buffer`,
-detector, và **giới hạn thông tin** → (8) kết luận về phương pháp đánh giá.
+**Mạch:** (1) giả thuyết → (2) mô phỏng cho thấy cơ chế trong điều kiện kiểm soát →
+(3) phân tích lịch sử trên video thật → (4) đánh giá lại 40 video theo manifest đã khóa,
+TrackEval và bootstrap ghép cặp theo video → (5) kết luận có điều kiện theo từng chỉ số.
 
-**Điểm mạnh:** năm phát hiện **có giá trị độc lập** với việc giả thuyết ban đầu đúng hay sai:
-- **Trần thông tin** (Giai đoạn A): chứng minh định lượng rằng `ω` không dự báo được
-- **Trần detector** (Giai đoạn C): detector là nút thắt chính, và cải thiện nó *xoá* ưu
-  thế biểu kiến của CTRV
-- **Hiệu ứng dây cung** (UKF): lý thuyết cao cấp hơn không đảm bảo thực nghiệm tốt hơn
-- **Thất bại đồng nhất 998/998** (mục 2.3): ở chế độ thất bại, motion model không có
-  tiếng nói nào — một cách đo "mức trần" trực tiếp, không cần kiểm định thống kê
-- **Ngoại suy đẹp mắt ≠ ngoại suy đúng** (Giai đoạn E): chặn `ω` xoá hết hiện tượng quay
-  vòng nhưng làm sai số **tăng** ở ca tệ nhất (267 → 350 px), vì vòng tròn nhỏ vô tình
-  giữ dự đoán gần chỗ cũ
+**Điểm mạnh của phần thực nghiệm cuối:**
+- Sáu cấu hình A/B × CV/EKF/UKF dùng cùng 40 video và cùng GT; 240/240 file tracking
+  hợp lệ, với kiểm tra gộp sự kiện che khuất tránh đếm lặp.
+- Báo cáo tách `id_match` khỏi `id_continuous`, đồng thời đưa KTC bootstrap theo video
+  thay vì diễn giải chỉ từ dấu của chênh lệch.
+- Kết quả train và test được đặt cạnh nhau: ảnh hưởng của motion model nhỏ, không ổn
+  định giữa hai tập; đổi ngưỡng detector tạo đánh đổi IDSW/FN, FP và tính liên tục.
+- Các phân tích Giai đoạn A–F là tư liệu phương pháp và chẩn đoán lịch sử; chúng cần
+  được trình bày với phạm vi dữ liệu tương ứng, không dùng làm kết luận tổng quát.
 
 **Một mạch phụ đáng kể cho phần phương pháp:** khuyết điểm `ω` không bị chặn được phát
 hiện bằng **quan sát video**, sau khi mọi chỉ số tổng hợp đã "sạch". Điều này minh hoạ
@@ -601,7 +665,7 @@ kiểm tra trực quan là một phần bắt buộc của quy trình đánh gi�
 | `src/benchmark_fps.py` | Đo FPS 2 tầng (micro + end-to-end có lặp) |
 | `src/buffer_sweep_analysis.py` | Quét `track_buffer` |
 | `src/tune_omega_noise.py` | Quét nhiễu quá trình cho `ω` |
-| `src/omega_smoother.py` | **GĐ A** — RTS smoother + circle fit + đo trần thông tin |
+| `src/omega_smoother.py` | **GĐ A** — RTS smoother + circle fit + phân tích `ω` lịch sử |
 | `src/lost_association.py` | **GĐ B** — DIoU chuẩn hoá + expanded gate cho track LOST |
 | `src/phaseB_iou_diagnosis.py` / `src/phaseB_analysis.py` | **GĐ B** — chẩn đoán và đánh giá |
 | `src/export_yolo_dataset.py` | **GĐ C** — xuất YOLO, 3-fold chia theo video |
