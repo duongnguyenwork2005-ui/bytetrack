@@ -1,0 +1,56 @@
+{
+  "configs": {
+    "cv": {
+      "path": "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\Lib\\site-packages\\ultralytics\\cfg\\trackers\\bytetrack.yaml",
+      "values": {
+        "tracker_type": "bytetrack",
+        "track_high_thresh": 0.25,
+        "track_low_thresh": 0.1,
+        "new_track_thresh": 0.25,
+        "track_buffer": 30,
+        "match_thresh": 0.8,
+        "fuse_score": true
+      },
+      "sha256": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b"
+    },
+    "ekf_ctrv": {
+      "path": "D:\\LABOTARY\\bytetrack\\configs\\bytetrack_ekf_ctrv.yaml",
+      "values": {
+        "tracker_type": "bytetrack_ekf_ctrv",
+        "track_high_thresh": 0.25,
+        "track_low_thresh": 0.1,
+        "new_track_thresh": 0.25,
+        "track_buffer": 30,
+        "match_thresh": 0.8,
+        "fuse_score": true
+      },
+      "sha256": "2c35f2da40c56d1d85125db927dd8f0c7296d3cd4408fba3b24d945c6504ab69"
+    },
+    "ukf_ctrv": {
+      "path": "D:\\LABOTARY\\bytetrack\\configs\\bytetrack_ukf_ctrv.yaml",
+      "values": {
+        "tracker_type": "bytetrack_ukf_ctrv",
+        "track_high_thresh": 0.25,
+        "track_low_thresh": 0.1,
+        "new_track_thresh": 0.25,
+        "track_buffer": 30,
+        "match_thresh": 0.8,
+        "fuse_score": true
+      },
+      "sha256": "5d1286e41ebe8f76f94045ea36ba57571efcf73633e7039bb29ab96366b45661"
+    }
+  },
+  "gpu": "NVIDIA GeForce GTX 1650",
+  "cuda_runtime": "12.4",
+  "weights_sha256_matches_manifest": true,
+  "tracker_thresholds_identical": true,
+  "image_root": "D:\\LABOTARY\\bytetrack\\data\\extracted\\DETRAC-Images",
+  "occlusion": {
+    "iou_threshold": 0.5,
+    "context_window": 30,
+    "partial_ratio": 0.1,
+    "full_ratio": 0.9,
+    "merge_gap": 2,
+    "minimum_segment_frames": 2
+  }
+}

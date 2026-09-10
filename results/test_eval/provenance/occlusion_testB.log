@@ -1,0 +1,57 @@
+﻿[eval] 40 video, 675,774 dong GT
+[eval] doan tho: 2174 partial + 484 full = 2658
+[eval] sau khi gop thanh su kien khong dem lap: 2174 (giam 484 do dem lap)
+[eval] du dieu kien danh gia (xac dinh tu GT): 1324
+         loai   559  ly do: gt_missing_before
+         loai   291  ly do: gt_missing_after
+
+[testB-cv] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                  647    48.9%
+  switched                   350    26.4%
+  lost_after                  80     6.0%
+  no_match_before            247    18.7%
+  id_continuous              485    36.6%
+
+[testB-ekf_ctrv] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                  652    49.2%
+  switched                   345    26.1%
+  lost_after                  80     6.0%
+  no_match_before            247    18.7%
+  id_continuous              490    37.0%
+
+[testB-ukf_ctrv] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                  659    49.8%
+  switched                   338    25.5%
+  lost_after                  80     6.0%
+  no_match_before            247    18.7%
+  id_continuous              490    37.0%
+
+==============================================================================
+SO SANH TREN CUNG 1324 SU KIEN DU DIEU KIEN (39 video)
+==============================================================================
+  tracker                       id_match   id_continuous
+  ------------------------------------------------------
+  testB-cv                        48.87%          36.63%
+  testB-ekf_ctrv                  49.24%          37.01%
+  testB-ukf_ctrv                  49.77%          37.01%
+
+CHENH LECH so voi testB-cv, bootstrap THEO VIDEO (5000 lan, giu tinh ghep cap):
+  tracker                     chenh id_match                   KTC 95%
+  --------------------------------------------------------------------
+  testB-ekf_ctrv                      +0.38%   [-0.50%, +1.32%]
+  testB-ukf_ctrv                      +0.91%   [-0.55%, +2.25%]
+
+LUU Y KHI DOC:
+  - Khoang tin cay chua 0 KHONG co nghia hai mo hinh tuong duong; no chi
+    co nghia du lieu hien co chua du de phan biet (thieu luc kiem dinh).
+  - Bootstrap lay mau o cap VIDEO vi cac su kien trong cung video khong
+    doc lap. Neu dung McNemar theo tung su kien thi p-value se HEP hon
+    thuc te vi coi cac su kien la doc lap.
+
+  Da luu -> results\test_eval\B

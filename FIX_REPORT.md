@@ -1,24 +1,40 @@
+> **Cập nhật bàn giao test 10/09/2026:** Đã xong 40 video × 3 model × A/B; xem **mục 16** và [TEST_EVALUATION_REPORT.md](TEST_EVALUATION_REPORT.md). Bảng Git và các danh sách “còn thiếu” bên dưới là bản ghi trước commit bàn giao mới có parent `aa45f6c`; remote chưa nhận commit mới, chưa push/merge. Toàn bộ nội dung báo cáo có sẵn lúc tiếp quản được giữ nguyên.
+
 # FIX_REPORT — Sửa lỗi khởi tạo bộ lọc và phép đánh giá che khuất
 
 **Nhánh:** `fix/tracker-evaluation-correctness` (tách từ `main` tại `568ba2a`)
 
-**Trạng thái Git — chính xác tại thời điểm viết:**
+**Trạng thái Git — HIỆN TẠI:**
 
 | | |
 |---|---|
-| Nhánh trên remote (`origin`) | mới đến commit **`1149ab2`** |
-| Commit sau nghiệm thu **`b20ca98`** | **chỉ có ở local — CHƯA push** |
-| Merge vào `main` | **CHƯA** |
+| `HEAD` local | **`aa45f6c`** |
+| Nhánh trên remote (`origin`) | **đã đồng bộ với `HEAD`** |
+| Merge vào `main` | **CHƯA** — `main` vẫn ở `568ba2a` |
 
-Nói cách khác: 4 commit đầu đã có trên GitHub; commit thứ 5 (`b20ca98`, mục 15)
-còn nằm ở máy. Không ghi đè bất kỳ kết quả thí nghiệm cũ nào — kết quả mới nằm
-trong `results/eval_fixed/`, `results/runA/`, `results/runB/`.
+> **Ghi chép lịch sử (không phải trạng thái hiện tại).** Mục 15 được viết khi
+> commit sau nghiệm thu còn nằm ở local. Commit đó sau này được amend hai lần
+> (sửa thuật ngữ tương hợp/đồng dạng trong báo cáo rồi trong code) nên **các SHA
+> nêu trong mục 15 là SHA lịch sử, đã bị thay thế** — chỉ dùng để đọc hiểu tiến
+> trình, **không** dùng làm trạng thái hiện tại. SHA hiện hành luôn là bảng trên.
+
+Không ghi đè bất kỳ kết quả thí nghiệm cũ nào — kết quả mới nằm trong
+`results/eval_fixed/`, `results/runA/`, `results/runB/`.
 
 **Môi trường:** Python 3.11.9 · numpy 2.4.6 · scipy 1.17.1 · pandas 2.3.3 ·
 ultralytics 8.4.141 · torch 2.6.0+cu124 · GPU GTX 1650 · conda env `khoaluan-mot`
 
-**Cấu hình giữ nguyên:** `yolov8n.pt`, `conf=0.25`, mọi ngưỡng tracker như baseline.
-Không đổi dataset, detector, thuật toán, không tinh chỉnh tham số để tăng điểm.
+**Cấu hình:** `yolov8n.pt`, mọi ngưỡng tracker giữ như baseline. Không đổi
+dataset, detector, thuật toán, không tinh chỉnh tham số để tăng điểm.
+
+| Điều kiện | Ngưỡng detector |
+|---|---|
+| Baseline (đã khoá) và **Lượt A** | **`conf = 0.25`** |
+| **Lượt B** | **`conf = 0.10`** |
+
+Lượt B đổi **đúng một biến** so với lượt A: ngưỡng `conf` của detector. Mọi thứ
+khác — weights, `track_high_thresh`, `track_low_thresh`, `new_track_thresh`,
+`track_buffer`, `match_thresh`, `fuse_score` — giữ y hệt.
 
 ---
 
@@ -688,11 +704,12 @@ Kết quả: `results/trackeval/DETRAC-all/runB-*/`, `results/runB/`.
 | UKF + CTRV | 2296,7 s | 2211,7 s | B ít hơn 85,0 s |
 
 > **Không kết luận `conf=0,10` làm chương trình chạy nhanh hơn.** Hai lượt chạy
-> ở hai thời điểm khác nhau, **không kiểm soát tải máy** (tiến trình nền, nhiệt
-> độ GPU, trạng thái bộ nhớ đệm ổ đĩa đều khác nhau). Về mặt tính toán, `conf`
-> thấp hơn tạo **nhiều** detection hơn nên đáng lẽ phải **tốn** thời gian hơn —
-> kết quả đo ngược lại chính là dấu hiệu cho thấy **nhiễu môi trường lấn át**
-> hiệu ứng của tham số. Vì vậy các số này chỉ có **giá trị mô tả**, ghi lại cho
+> ở hai thời điểm khác nhau và **không kiểm soát điều kiện chạy** (tiến trình
+> nền, nhiệt độ GPU, trạng thái bộ nhớ đệm ổ đĩa đều không được ghi nhận). Về
+> mặt tính toán, `conf` thấp hơn tạo **nhiều** detection hơn nên đáng lẽ phải
+> **tốn** thời gian hơn; kết quả đo lại ngược chiều. **Chưa xác định được nguyên
+> nhân của chênh lệch này** — có thể do điều kiện chạy khác nhau, có thể do yếu
+> tố khác chưa được đo. Vì vậy các số này chỉ có **giá trị mô tả**, ghi lại cho
 > đầy đủ, **chưa phải benchmark có kiểm soát**. Muốn so tốc độ thật thì phải
 > chạy xen kẽ nhiều lần, cố định tần số GPU và đo trên máy nhàn rỗi.
 >
@@ -736,8 +753,8 @@ không thiết lập phép ghép cặp nào giữa trị riêng trước/sau.
 | `src/ekf_ctrv.py` — docstring `set_marginal_variance()` | Như trên, thêm đoạn "PHAM VI CUA DINH LUAT - noi cho dung" |
 | `src/test_init_regression.py` | Đổi tên `test_congruence_preserves_eigen_sign` → `test_congruence_preserves_inertia`; thêm hàm `_inertia()` đếm tường minh `(n₊, n₋, n₀)` |
 
-**Cách sửa covariance giữ nguyên** — chỉ lời giải thích sai, bản thân phép đồng
-dạng vẫn đúng và vẫn là cách xử lý có cơ sở.
+**Cách sửa covariance giữ nguyên** — chỉ lời giải thích sai, bản thân phép biến
+đổi tương hợp vẫn đúng và vẫn là cách xử lý có cơ sở.
 
 Thêm **test 1c** khẳng định chiều ngược lại — rằng phép tương hợp **có** làm
 thay đổi *giá trị* trị riêng — để chặn việc hiểu nhầm trở lại. Số phép kiểm tra
@@ -853,3 +870,61 @@ dòng nào).
 `results/trackeval/DETRAC-all/run*/` hay `data/interim/baseline_track_summary_*`
 bị thay đổi. Mọi số HOTA / AssA / IDSW / FP / FN / `id_match` / `id_continuous`
 giữ nguyên — mục 15 chỉ sửa lời văn, số liệu thời gian, và thêm test.
+
+
+---
+
+## 16. Bàn giao đánh giá lại test 40 video — 10/09/2026
+
+Đã hoàn tất 240/240 file tracking (6 cấu hình × 40 video), không thiếu/rỗng. Lượt B kết thúc trước khi tiếp quản lúc 04:32:37 +07; không chạy lại tracking. Chấm B bằng TrackEval và phép đánh giá che khuất đã sửa, giữ nguyên code chạy `aa45f6c`, weights và cấu hình A=0,25/B=0,10. Báo cáo đầy đủ, 40 tên video, môi trường, đường dẫn/lệnh và giới hạn: [TEST_EVALUATION_REPORT.md](TEST_EVALUATION_REPORT.md).
+
+### 16.1 Kết quả từ CSV
+
+HOTA/IDF1/AssA/DetA/LocA/MOTA thang 0–100, gộp COMBINED_SEQ:
+
+| Cấu hình | HOTA | IDF1 | AssA | DetA | LocA | MOTA | IDSW | FP | FN |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| testA-cv | 58.484 | 70.225 | 64.174 | 53.801 | 84.700 | 59.475 | 2,500 | 72,646 | 198,712 |
+| testA-ekf_ctrv | 58.600 | 70.469 | 64.427 | 53.795 | 84.700 | 59.501 | 2,532 | 72,314 | 198,835 |
+| testA-ukf_ctrv | 58.490 | 70.292 | 64.206 | 53.781 | 84.691 | 59.481 | 2,549 | 72,421 | 198,844 |
+| testB-cv | 58.217 | 69.407 | 63.581 | 53.817 | 84.327 | 58.188 | 2,082 | 99,903 | 180,571 |
+| testB-ekf_ctrv | 58.548 | 69.937 | 64.298 | 53.830 | 84.327 | 58.244 | 2,063 | 99,579 | 180,532 |
+| testB-ukf_ctrv | 58.399 | 69.716 | 63.971 | 53.817 | 84.325 | 58.228 | 2,110 | 99,731 | 180,446 |
+
+2.174 partial + 484 full; **484/484 full lồng trong partial**, gộp thành 2.174 sự kiện. Tất cả cấu hình dùng cùng **1.324 sự kiện đủ điều kiện trên 39 video**; loại 559 `gt_missing_before` + 291 `gt_missing_after` (850). Không đếm lặp full.
+
+| Cấu hình | id_match = preserved | id_continuous | switched | lost_after | no_match_before |
+| --- | --- | --- | --- | --- | --- |
+| testA-cv | 638 (48.187%) | 393 (29.683%) | 351 (26.511%) | 78 (5.891%) | 257 (19.411%) |
+| testA-ekf_ctrv | 648 (48.943%) | 393 (29.683%) | 343 (25.906%) | 77 (5.816%) | 256 (19.335%) |
+| testA-ukf_ctrv | 645 (48.716%) | 394 (29.758%) | 346 (26.133%) | 78 (5.891%) | 255 (19.260%) |
+| testB-cv | 647 (48.867%) | 485 (36.631%) | 350 (26.435%) | 80 (6.042%) | 247 (18.656%) |
+| testB-ekf_ctrv | 652 (49.245%) | 490 (37.009%) | 345 (26.057%) | 80 (6.042%) | 247 (18.656%) |
+| testB-ukf_ctrv | 659 (49.773%) | 490 (37.009%) | 338 (25.529%) | 80 (6.042%) | 247 (18.656%) |
+
+### 16.2 So sánh có KTC
+
+Hiệu và KTC 95% theo điểm phần trăm; 5.000 bootstrap, seed=0, cụm video, giữ ghép cặp:
+
+| So sánh | id_match | id_continuous |
+| --- | --- | --- |
+| testA-ekf_ctrv minus testA-cv | +0.755 [-0.584; +2.035] | +0.000 [-0.431; +0.421] |
+| testA-ukf_ctrv minus testA-cv | +0.529 [-0.519; +1.309] | +0.076 [-0.309; +0.480] |
+| testB-ekf_ctrv minus testB-cv | +0.378 [-0.498; +1.316] | +0.378 [-0.079; +0.812] |
+| testB-ukf_ctrv minus testB-cv | +0.906 [-0.548; +2.246] | +0.378 [-0.080; +0.872] |
+| testB-cv minus testA-cv | +0.680 [-0.331; +1.897] | +6.949 [+5.202; +8.703] |
+| testB-ekf_ctrv minus testA-ekf_ctrv | +0.302 [-1.447; +2.394] | +7.326 [+5.477; +9.285] |
+| testB-ukf_ctrv minus testA-ukf_ctrv | +1.057 [-0.463; +2.901] | +7.251 [+5.473; +9.150] |
+
+KTC `id_match` giữa motion model đều chứa 0: **chưa đủ bằng chứng về khác biệt**, không chứng minh tương đương hay EKF/UKF thắng về `id_match`. Riêng lượt B, hiệu EKF−CV của HOTA/IDF1/AssA có KTC danh nghĩa dương; kết quả chưa hiệu chỉnh cho nhiều so sánh và không hỗ trợ tuyên bố EKF thắng toàn diện. Train A cho EKF−CV/UKF−CV −0,798/−0,698 điểm phần trăm, test A đổi dấu +0,755/+0,529; KTC `id_match` đều chứa 0. HOTA/AssA/IDF1 B−A tăng trên train nhưng giảm theo điểm ước lượng trên test; IDSW/FN giảm, FP tăng và `id_continuous` tăng. KTC pooled HOTA/IDF1/AssA/DetA/LocA/MOTA và số đếm nằm trong mục 5 của báo cáo test và [paired_contrasts_bootstrap.csv](results/test_eval/summary/paired_contrasts_bootstrap.csv).
+
+Đây là xác nhận lại trên **test đã từng được sử dụng**, không gọi là held-out hoàn toàn chưa xem. Tổng ID không chứng minh cơ chế nhân quả; thời gian chỉ mô tả tải máy không kiểm soát. Không đổi baseline hoặc tinh chỉnh dựa trên kết quả test.
+
+### 16.3 Kiểm tra, bảo toàn và trạng thái bàn giao
+
+- 5 file test: **77/77 PASS** (14 + 12 + 17 + 14 + 20); log [tests.log](results/test_eval/provenance/tests.log). `git diff --check` và diff staged được kiểm tra trước commit.
+- SHA-256 2.258 file hiện hữu được đối chiếu trước/sau: [preservation_check.json](results/test_eval/provenance/preservation_check.json). Train A/B, ba test cũ, test A/B tracking và manifest không bị ghi đè; nguyên văn chỉnh sửa `FIX_REPORT.md` lúc tiếp quản được giữ lại.
+- Lệnh tracking cũ lọc stdout/stderr qua grep, không có pipefail; không thể chứng nhận tuyệt đối không có cảnh báo lịch sử bị lọc. Audit MOT/ảnh hiện tại không phát hiện lỗi. Log chấm B mới đầy đủ và exit code được kiểm tra.
+- Commit **mới**: `Chay danh gia tap test 40 video`, parent `aa45f6c`; không amend, không merge/force-push/push. SHA bàn giao là commit chứa mục này (`git log -1 --format=%H`).
+- Mục test “chưa chạy” ở 10/13.5/14.6 đã hoàn thành. Các nhận xét chưa biết xu hướng test ở mục 14 là lịch sử, được thay bằng kết quả mục 16. Ngưỡng trung gian trong mục 14.6 không thuộc phạm vi được phép thử trên test hiện tại.
+- Các việc ngoài phạm vi còn lại: detector fine-tune, dữ liệu độc lập, benchmark tốc độ có kiểm soát, ảnh hưởng FP lên ứng dụng, log association xuyên suốt; chỉ push/merge theo yêu cầu tiếp theo.

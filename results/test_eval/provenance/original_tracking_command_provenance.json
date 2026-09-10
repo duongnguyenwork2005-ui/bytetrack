@@ -1,0 +1,32 @@
+{
+  "source_history": "C:\\Users\\Mikuno\\.claude\\projects\\d--LABOTARY-bytetrack\\1efc3c2b-199a-47b4-b6bf-dcad80291eb7.jsonl",
+  "logs": [
+    {
+      "condition": "A",
+      "source": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\claude\\d--LABOTARY-bytetrack\\1efc3c2b-199a-47b4-b6bf-dcad80291eb7\\tasks\\b0nbkp83q.output",
+      "copy": "results/test_eval/provenance/original_tracking_testA_filtered.output",
+      "sha256": "64a2436b4949d1264a45c2107f6031decf88654051c690bcbe24d8de6c50477c",
+      "bytes": 1629,
+      "source_mtime": "2026-09-09T20:22:36.905866+00:00"
+    },
+    {
+      "condition": "B",
+      "source": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\claude\\d--LABOTARY-bytetrack\\1efc3c2b-199a-47b4-b6bf-dcad80291eb7\\tasks\\bozoovhzv.output",
+      "copy": "results/test_eval/provenance/original_tracking_testB_filtered.output",
+      "sha256": "cccfb53363397a33bb2db3d7ddcc61bc8585233a3ec9e572315c9130b28e5aa9",
+      "bytes": 1626,
+      "source_mtime": "2026-09-09T21:32:37.182962+00:00"
+    }
+  ],
+  "commands": [
+    {
+      "timestamp": "2026-09-09T19:16:54.276Z",
+      "command": "cd /d/LABOTARY/bytetrack\nP=/c/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe\nVIDS=$(cat /tmp/test_videos.txt)\nfor MM in cv ekf_ctrv ukf_ctrv; do\n  echo \"########## TEST LUOT A (conf=0.25): $MM ##########\"\n  \"$P\" src/baseline_track.py --videos $VIDS --split-name DETRAC-test \\\n    --motion-model $MM --conf 0.25 --tracker-name \"testA-$MM\" --skip-existing 2>&1 \\\n    | grep -E \"^\\[baseline\\]|TONG KET|Tong anh|Tong bbox|Tong thoi gian\"\ndone\necho \"########## LUOT A TEST XONG ##########\"; date"
+    },
+    {
+      "timestamp": "2026-09-09T20:23:08.311Z",
+      "command": "cd /d/LABOTARY/bytetrack\nP=/c/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe\nVIDS=$(cat /tmp/test_videos.txt)\nfor MM in cv ekf_ctrv ukf_ctrv; do\n  echo \"########## TEST LUOT B (conf=0.10): $MM ##########\"\n  \"$P\" src/baseline_track.py --videos $VIDS --split-name DETRAC-test \\\n    --motion-model $MM --conf 0.10 --tracker-name \"testB-$MM\" --skip-existing 2>&1 \\\n    | grep -E \"^\\[baseline\\]|TONG KET|Tong anh|Tong bbox|Tong thoi gian\"\ndone\necho \"########## LUOT B TEST XONG ##########\"; date"
+    }
+  ],
+  "limitation": "Original shell commands filtered both stdout and stderr through grep without pipefail. Exit 0 is shell status, not an independently recorded Python exit status; warnings and tracebacks could be filtered. All 240 outputs and 240 summary rows are complete and structurally valid; image decoding is checked separately."
+}

@@ -1,0 +1,28 @@
+########## TEST LUOT A (conf=0.25): cv ##########
+[baseline] model=D:\LABOTARY\bytetrack\models\yolov8n.pt  motion_model=cv (Baseline: Kalman Filter tuyen tinh, mo hinh Constant Velocity)
+[baseline] tracker_cfg=bytetrack.yaml  conf=0.25  device=0
+[baseline] 40 video -> D:\LABOTARY\bytetrack\data\processed\trackers\DETRAC-test\testA-cv\data
+TONG KET: testA-cv
+  Tong anh xu ly    : 56,340
+  Tong bbox xuat ra : 549,708
+  Tong thoi gian    : 1222.6s  (trung binh 46.1 fps)
+########## TEST LUOT A (conf=0.25): ekf_ctrv ##########
+[baseline] model=D:\LABOTARY\bytetrack\models\yolov8n.pt  motion_model=ekf_ctrv (Extended Kalman Filter, mo hinh Constant Turn Rate and Velocity)
+[baseline] tracker_cfg=D:\LABOTARY\bytetrack\configs\bytetrack_ekf_ctrv.yaml  conf=0.25  device=0
+[baseline] 40 video -> D:\LABOTARY\bytetrack\data\processed\trackers\DETRAC-test\testA-ekf_ctrv\data
+TONG KET: testA-ekf_ctrv
+  Tong anh xu ly    : 56,340
+  Tong bbox xuat ra : 549,253
+  Tong thoi gian    : 1223.9s  (trung binh 46.0 fps)
+########## TEST LUOT A (conf=0.25): ukf_ctrv ##########
+[baseline] model=D:\LABOTARY\bytetrack\models\yolov8n.pt  motion_model=ukf_ctrv (Unscented Kalman Filter (sigma point), mo hinh CTRV)
+[baseline] tracker_cfg=D:\LABOTARY\bytetrack\configs\bytetrack_ukf_ctrv.yaml  conf=0.25  device=0
+[baseline] 40 video -> D:\LABOTARY\bytetrack\data\processed\trackers\DETRAC-test\testA-ukf_ctrv\data
+TONG KET: testA-ukf_ctrv
+  Tong anh xu ly    : 56,340
+  Tong bbox xuat ra : 549,351
+  Tong thoi gian    : 1465.3s  (trung binh 38.4 fps)
+########## LUOT A TEST XONG ##########
+Thu Sep 10 03:22:36 SEAST 2026
+
+[exited with code 0]

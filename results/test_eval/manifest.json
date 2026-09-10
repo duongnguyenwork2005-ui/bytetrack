@@ -1,0 +1,115 @@
+{
+  "muc_dich": "Danh gia tren 40 video TEST UA-DETRAC, 3 motion model x 2 dieu kien conf",
+  "chot_TRUOC_khi_xem_ket_qua": true,
+  "git": {
+    "commit": "aa45f6c87484e2194039149fd79e1b723f8691bf",
+    "commit_short": "aa45f6c",
+    "branch": "fix/tracker-evaluation-correctness",
+    "tree_sach_truoc_khi_chay": false
+  },
+  "moi_truong": {
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "pandas": "2.3.3",
+    "torch": "2.6.0+cu124",
+    "ultralytics": "8.4.141",
+    "gpu": "NVIDIA GeForce GTX 1650"
+  },
+  "detector": {
+    "weights": "D:\\LABOTARY\\bytetrack\\models\\yolov8n.pt",
+    "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "bytes": 6549796,
+    "classes": [
+      2,
+      3,
+      5,
+      7
+    ]
+  },
+  "dieu_kien": {
+    "A": {
+      "conf": 0.25,
+      "ghi_chu": "giong baseline da khoa va luot A tren train"
+    },
+    "B": {
+      "conf": 0.1,
+      "ghi_chu": "doi DUNG MOT bien so voi A: nguong conf cua detector"
+    }
+  },
+  "motion_model": [
+    "cv",
+    "ekf_ctrv",
+    "ukf_ctrv"
+  ],
+  "nguong_tracker_giu_nguyen": [
+    "track_high_thresh",
+    "track_low_thresh",
+    "new_track_thresh",
+    "track_buffer",
+    "match_thresh",
+    "fuse_score"
+  ],
+  "KHONG_lam": [
+    "fine-tune detector",
+    "thu conf trung gian",
+    "tinh chinh tham so de tang diem",
+    "doi cau hinh sau khi thay ket qua test"
+  ],
+  "so_video_test": 40,
+  "danh_sach_video": [
+    "MVI_39031",
+    "MVI_39051",
+    "MVI_39211",
+    "MVI_39271",
+    "MVI_39311",
+    "MVI_39361",
+    "MVI_39371",
+    "MVI_39401",
+    "MVI_39501",
+    "MVI_39511",
+    "MVI_40701",
+    "MVI_40711",
+    "MVI_40712",
+    "MVI_40714",
+    "MVI_40742",
+    "MVI_40743",
+    "MVI_40761",
+    "MVI_40762",
+    "MVI_40763",
+    "MVI_40771",
+    "MVI_40772",
+    "MVI_40773",
+    "MVI_40774",
+    "MVI_40775",
+    "MVI_40792",
+    "MVI_40793",
+    "MVI_40851",
+    "MVI_40852",
+    "MVI_40853",
+    "MVI_40854",
+    "MVI_40855",
+    "MVI_40863",
+    "MVI_40864",
+    "MVI_40891",
+    "MVI_40892",
+    "MVI_40901",
+    "MVI_40902",
+    "MVI_40903",
+    "MVI_40904",
+    "MVI_40905"
+  ],
+  "thu_muc_ket_qua": {
+    "tracking": "data/processed/trackers/DETRAC-test/testA-<mm>, testB-<mm>",
+    "trackeval": "results/trackeval/DETRAC-test/test{A,B}-<mm>/",
+    "occlusion_eval": "results/test_eval/{A,B}/"
+  },
+  "khong_ghi_de": [
+    "yolov8n-test-bytetrack",
+    "yolov8n-test-ekf-ctrv",
+    "yolov8n-test-ukf-ctrv",
+    "results/runA",
+    "results/runB"
+  ],
+  "CANH_BAO_tinh_doc_lap_cua_tap_test": "Tap test 40 video NAY DA TUNG DUOC XEM trong qua trinh nghien cuu: Giai doan D (BAO_CAO_KHOA_LUAN.md muc 4.6) da chay tracking va bao cao HOTA/AssA/IDF1 tren chinh 40 video nay, va da dung no de tinh McNemar. Do do KHONG duoc goi day la tap kiem dinh hoan toan chua tung su dung (held-out). Ket qua o day la XAC NHAN LAI tren tap da biet, khong phai kiem dinh doc lap that su."
+}

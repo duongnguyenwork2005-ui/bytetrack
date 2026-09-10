@@ -1,0 +1,345 @@
+﻿RUN src/test_ekf_ctrv.py
+==============================================================================
+UNIT TEST: EKF + mo hinh CTRV
+==============================================================================
+  [PASS] 1. Di thang theta=0
+         tinh tay : cx=110.0, cy=200.0
+         EKF tra ve: cx=110.000000, cy=200.000000
+
+  [PASS] 2. Di thang theta=90 do
+         tinh tay : cx=100.0, cy=210.0
+         EKF tra ve: cx=100.000000, cy=210.000000
+
+  [PASS] 3. Quy dao cong omega=90 do/frame
+         tinh tay : cx=106.366197724, cy=206.366197724, theta=1.570796327
+         EKF tra ve: cx=106.366197724, cy=206.366197724, theta=1.570796327
+
+  [PASS] 4. Lien tuc tai omega -> 0 (khong chia cho 0)
+         omega=1e-03 -> lech toi da 4.588e-03 px
+         omega=1e-04 -> lech toi da 0.000e+00 px
+         omega=1e-05 -> lech toi da 0.000e+00 px
+         omega=1e-06 -> lech toi da 0.000e+00 px
+         omega=1e-08 -> lech toi da 0.000e+00 px
+         lech lon nhat khi omega <= eps: 0.000e+00 px
+
+  [PASS] 4b. Khong sinh NaN/inf khi omega = 0
+         f(x) finite = True, F finite = True
+
+  [PASS] 5a. Jacobian dung (quy dao cong, omega=0.25)
+         sai lech lon nhat giua giai tich va sai phan so: 1.299e-08
+
+  [PASS] 5b. Jacobian dung tai omega ~ 0 (cong thuc gioi han)
+         sai lech lon nhat: 1.238e-06
+         d(cx)/d(omega): giai tich=-2.540891  so=-2.540891
+         d(cy)/d(omega): giai tich=3.714010  so=3.714010
+
+  [PASS] 6. Di het 1 vong tron ve dung cho cu
+         diem dau: (500.000000, 300.000000)
+         diem cuoi: (500.000000, 300.000000)
+         sai lech: 3.595e-13 px
+
+  [PASS] 7. Update bam sat quan sat khi nhieu do -> 0
+         quan sat  : [150.   260.     0.55  42.  ]
+         hau nghiem: [150.       260.         0.549995  42.      ]
+         sai lech lon nhat: 5.000e-06
+
+  [PASS] 8. P doi xung + xac dinh duong sau 200 vong lap
+         do bat doi xung lon nhat: 0.000e+00
+         tri rieng nho nhat: 2.000e-10 (phai > 0)
+
+  [PASS] 9a. Khoi tao v, theta tu 2 quan sat
+         tinh tay : v=5.0, theta=0.927295 rad (53.13 do)
+         EKF      : v=5.000000, theta=0.927295 rad (53.13 do)
+
+  [PASS] 9b. Xe dung yen -> khong doan bua huong
+         v=0.000000 (phai = 0), theta=0.000000 (phai = 0)
+
+  [PASS] 9c. Khoi tao 2 khung hinh tot hon khoi tao naive
+         sai so du doan 1 buoc (xe di thang theo truc y):
+           khoi tao naive (v=0, theta=0): 12.944 px
+           khoi tao 2 khung hinh        : 0.000 px
+
+  [PASS] 10. Khoi kich thuoc chay dung CV (giong baseline)
+         tinh tay : a=0.52, h=41.5, va=0.02, vh=1.5
+         EKF      : a=0.520000, h=41.500000, va=0.020000, vh=1.500000
+
+==============================================================================
+KET QUA: 14/14 phep kiem tra PASS
+==============================================================================
+RUN src/test_ukf_ctrv.py
+==============================================================================
+UNIT TEST: UKF + mo hinh CTRV
+==============================================================================
+  [PASS] 1. Sinh 2n+1 = 19 sigma point, trong so hop le
+         shape = (19, 9) (phai la (19, 9))
+         sum(Wm) = 1.0000000000 (phai = 1)
+         Wm[0] = 0.00000, Wc[0] = 2.00000, Wi = 0.05556
+         moi trong so khong am: True -> P luon xac dinh duong
+
+  [PASS] 2. Sigma point tai tao dung ky vong va hiep phuong sai
+         sai lech ky vong      : 7.105e-15
+         sai lech hiep phuong sai: 2.665e-14
+
+  [PASS] 3. Ham tuyen tinh: UKF trung khit EKF (khong sai so xap xi)
+         sai lech ky vong      : 2.842e-14
+         sai lech hiep phuong sai: 1.776e-15
+
+  [PASS] 4. Trung binh vong cho theta (goc vat bien +-pi)
+         trung binh cong thong thuong:    +0.00 do  <- SAI
+         trung binh vong (dung dung) :  +180.00 do  (mong doi ~ +-180)
+
+  [PASS] 4b. Hieu goc duoc goi ve [-pi, pi)
+         hieu (do): -1.00, +1.00, +0.00  (phai la -1, +1, 0 chu khong phai -359, +359, 0)
+
+  [PASS] 5. Predict quy dao cong khop tinh tay
+         tinh tay : cx=106.366198, cy=206.366198, theta=1.570796
+         UKF      : cx=106.366198, cy=206.366198, theta=1.570796
+
+  [PASS] 6. omega = 0: khong sinh NaN/inf
+         omega cua cac sigma point trai tu -0.1325 den +0.1325
+           (co ca diem am, duong va gan 0 -> f() phai xu ly tung diem)
+         ky vong finite = True, hiep phuong sai finite = True
+
+  [PASS] 7. Update cua UKF trung khit EKF (mo hinh do tuyen tinh)
+         sai lech ky vong      : 2.842e-14
+         sai lech hiep phuong sai: 7.661e-15
+         => moi khac biet ve ket qua giua EKF va UKF deu den tu buoc PREDICT
+
+  [PASS] 8. P doi xung + xac dinh duong sau 200 vong lap
+         do bat doi xung lon nhat: 0.000e+00
+         tri rieng nho nhat: 2.000e-10 (phai > 0)
+
+  [PASS] 9. alpha=1e-3 voi n=9 bi bat loi ro rang
+         Tham so sigma point hong: trong so Wm[0] = -999999.0 qua lon (n + lambda = 9.000e-06 qua nho) - bo loc se phan ky do chi
+
+  [PASS] 10. Khoi tao 2 khung hinh giong het EKF
+         v = 5.000000 (EKF: 5.000000), theta = 53.13 do
+
+  [PASS] 11. UKF dung chung f(), Q, R voi EKF (so sanh cong bang)
+         cung ham chuyen trang thai f(x) : True
+         cung nhieu qua trinh Q          : True
+         cung nhieu do R                 : True
+
+==============================================================================
+KET QUA: 12/12 phep kiem tra PASS
+==============================================================================
+RUN src/test_init_regression.py
+==============================================================================
+REGRESSION TEST -- khoi tao chuyen dong va covariance
+==============================================================================
+
+--- test_predict_then_init_keeps_psd ---
+  [PASS] 1. Predict N buoc roi khoi tao, P van PSD [EKFTrackerCTRV]
+         N= 1: tri rieng +2.000e-10 -> +2.000e-10, ok=True, v=5.000, theta=53.13o
+         N= 5: tri rieng +6.000e-10 -> +6.000e-10, ok=True, v=5.000, theta=53.13o
+         N=10: tri rieng +1.100e-09 -> +1.100e-09, ok=True, v=5.000, theta=53.13o
+         N=26: tri rieng +2.700e-09 -> +2.700e-09, ok=True, v=5.000, theta=53.13o
+  [PASS] 1. Predict N buoc roi khoi tao, P van PSD [UKFTrackerCTRV]
+         N= 1: tri rieng +2.000e-10 -> +2.000e-10, ok=True, v=5.000, theta=53.13o
+         N= 5: tri rieng +6.000e-10 -> +6.000e-10, ok=True, v=5.000, theta=53.13o
+         N=10: tri rieng +1.100e-09 -> +1.100e-09, ok=True, v=5.000, theta=53.13o
+         N=26: tri rieng +2.700e-09 -> +2.700e-09, ok=True, v=5.000, theta=53.13o
+
+--- test_congruence_preserves_inertia ---
+  [PASS] 1b. set_marginal_variance BAO TOAN QUAN TINH (Sylvester)
+         20 ma tran ngau nhien 9x9, so lan quan tinh (n+, n-, n0) bi doi: 0
+  [PASS] 1c. ...nhung KHONG bao toan gia tri tung tri rieng
+         thay doi tuong doi lon nhat cua tri rieng: 2.480e-01
+         (khac 0 -> dung: phep tuong hop lam doi GIA TRI, chi giu SO LUONG theo dau)
+
+--- test_stationary_then_move ---
+  [PASS] 2. Dung yen roi chay theo truc y [EKFTrackerCTRV]
+         da khoi tao = True, v = 8.0001 (mong doi ~8.0), theta = 90.01o (mong doi 90o)
+         P sau kich ban: OK (tri rieng min +1.200e-09, bat doi xung 0.0e+00)
+  [PASS] 2. Dung yen roi chay theo truc x [EKFTrackerCTRV]
+         da khoi tao = True, v = 8.0016 (mong doi ~8.0), theta = 0.00o (mong doi 0o)
+         P sau kich ban: OK (tri rieng min +1.200e-09, bat doi xung 0.0e+00)
+  [PASS] 2. Dung yen roi chay theo truc y [UKFTrackerCTRV]
+         da khoi tao = True, v = 8.2796 (mong doi ~8.0), theta = 89.97o (mong doi 90o)
+         P sau kich ban: OK (tri rieng min +1.200e-09, bat doi xung 0.0e+00)
+  [PASS] 2. Dung yen roi chay theo truc x [UKFTrackerCTRV]
+         da khoi tao = True, v = 8.2780 (mong doi ~8.0), theta = 0.00o (mong doi 0o)
+         P sau kich ban: OK (tri rieng min +1.200e-09, bat doi xung 0.0e+00)
+
+--- test_never_initialized_when_always_static ---
+  [PASS] 2b. Dung yen suot -> khong bia ra huong [EKFTrackerCTRV]
+         da khoi tao = False (phai False), v = 0.0000
+         P sau 10 frame dung yen: OK (tri rieng min +1.100e-09, bat doi xung 0.0e+00)
+  [PASS] 2b. Dung yen suot -> khong bia ra huong [UKFTrackerCTRV]
+         da khoi tao = False (phai False), v = -0.0000
+         P sau 10 frame dung yen: OK (tri rieng min +1.100e-09, bat doi xung 0.0e+00)
+
+--- test_reactivate_after_gap ---
+  [PASS] 3. Tai kich hoat sau 27 frame mat dau [EKFTrackerCTRV]
+         v = 5.0000 (dung phai 5.0; neu truyen nham n_frames=1 se ra 135.0)
+         P sau tai kich hoat: OK (tri rieng min +2.800e-09, bat doi xung 0.0e+00)
+  [PASS] 3. Tai kich hoat sau 27 frame mat dau [UKFTrackerCTRV]
+         v = 5.0000 (dung phai 5.0; neu truyen nham n_frames=1 se ra 135.0)
+         P sau tai kich hoat: OK (tri rieng min +2.799e-09, bat doi xung 0.0e+00)
+
+--- test_reactivate_uses_observed_not_predicted ---
+  [PASS] 3b. Dung vi tri quan sat lam moc, khong dung vi tri predict [EKFTrackerCTRV]
+         moc = quan sat  -> v = 10.0000 (dung, dich that 10 px)
+         moc = predict   -> v = 4.0000 (sai, chi con phan du sau predict)
+  [PASS] 3b. Dung vi tri quan sat lam moc, khong dung vi tri predict [UKFTrackerCTRV]
+         moc = quan sat  -> v = 10.0000 (dung, dich that 10 px)
+         moc = predict   -> v = 4.8172 (sai, chi con phan du sau predict)
+
+--- test_ukf_sigma_points_after_init ---
+  [PASS] 5. UKF tao duoc sigma point tu P sau khoi tao
+         N= 1: P sau predict: OK (tri rieng min +3.000e-10, bat doi xung 0.0e+00) | mean huu han = True
+         N= 5: P sau predict: OK (tri rieng min +7.000e-10, bat doi xung 0.0e+00) | mean huu han = True
+         N=10: P sau predict: OK (tri rieng min +1.200e-09, bat doi xung 0.0e+00) | mean huu han = True
+         N=26: P sau predict: OK (tri rieng min +2.799e-09, bat doi xung 0.0e+00) | mean huu han = True
+
+--- test_long_run_covariance_stays_valid ---
+  [PASS] 4. Chay 120 frame qua doan che 40 frame, P luon hop le [EKFTrackerCTRV]
+         tri rieng nho nhat trong suot lan chay: +0.000e+00 (dung sai -1e-08)
+         P cuoi: OK (tri rieng min +1.204e-08, bat doi xung 0.0e+00)
+  [PASS] 4. Chay 120 frame qua doan che 40 frame, P luon hop le [UKFTrackerCTRV]
+         tri rieng nho nhat trong suot lan chay: +0.000e+00 (dung sai -1e-08)
+         P cuoi: OK (tri rieng min +1.204e-08, bat doi xung 0.0e+00)
+
+==============================================================================
+KET QUA: 17/17 phep kiem tra PASS
+==============================================================================
+RUN src/test_occlusion_eval.py
+==============================================================================
+TEST -- ghep IoU va dinh nghia su kien che khuat
+==============================================================================
+
+--- A. Ghep IoU ---
+  [PASS] A1. Vi du trong bao cao loi: giu duoc cap (1,1) IoU=0.6384
+         cach cu   -> []  (mat cap hop le)
+         cach moi  -> [(1, 1)]
+  [PASS] A2. Ma tran chu nhat (1x3 va 3x1)
+         1x3 -> [(0, 1)] (mong [(0,1)])
+         3x1 -> [(2, 0)] (mong [(2,0)])
+  [PASS] A3. Ma tran rong (0x0, 0x3, 3x0)
+         ket qua: [[], [], []]
+  [PASS] A4. Khong cap nao dat nguong -> khong ghep
+         ket qua: [] (mong [])
+  [PASS] A5. So sanh nguong dung '>=' (IoU = nguong thi hop le)
+         IoU = 0.5      -> [(0, 0)] (mong [(0,0)])
+         IoU = 0.5-1e-12 -> [] (mong [])
+  [PASS] A6. Uu tien so cap hop le truoc, roi moi toi tong IoU
+         ket qua [(0, 0), (1, 1)] (mong [(0,0),(1,1)] = 2 cap hop le, thay vi 1 cap 0.99)
+  [PASS] A7. iou_matrix dung tren truong hop kiem tay
+         [[1.       0.       0.333333]]
+
+--- B. Dinh nghia su kien ---
+  [PASS] B1. full nam long trong partial -> 1 su kien, khong phai 2
+         so su kien = 1 (mong 1), khoang = 100-160, has_full = True
+  [PASS] B2. Hai lan che cach xa nhau -> 2 su kien rieng
+         so su kien = 2 (mong 2)
+  [PASS] B3. Doan ke nhau (121 ngay sau 120) -> gop lam 1
+         so su kien = 1, khoang = 100-130
+  [PASS] B4. Dieu kien du xac dinh tu GT, phan biet dung ly do loai
+         GT ca hai phia   -> eligible=True
+         GT het sau su kien -> gt_missing_after
+         GT thieu truoc     -> gt_missing_before
+  [PASS] B5. Tracker khong ra gi -> van duoc cham la no_match_before
+         outcome = no_match_before (mong no_match_before, KHONG phai bi bo qua)
+  [PASS] B6. GT con ma mat = lost_after; GT het = loai khoi mau
+         GT con  -> outcome = lost_after
+         GT het   -> outcome = None, ly do loai = gt_missing_after
+  [PASS] B7. id_match va id_continuous la hai khai niem khac nhau
+         mat dau giua chung : outcome=preserved, id_continuous=False
+         bam lien tuc       : outcome=preserved, id_continuous=True
+
+==============================================================================
+KET QUA: 14/14 phep kiem tra PASS
+==============================================================================
+RUN src/test_tracker_lifecycle.py
+==============================================================================
+REGRESSION TEST -- vong doi THAT cua tracker (activate/update/
+                   mark_lost/predict/re_activate)
+==============================================================================
+
+--- test_activate_does_not_claim_motion_initialized ---
+  [PASS] 1. Sau activate: chua khoi tao chuyen dong [EKF/CTRVSTrack]
+         _motion_initialized = False (phai False), state = Tracked, covariance: OK
+  [PASS] 1. Sau activate: chua khoi tao chuyen dong [UKF/UKFSTrack]
+         _motion_initialized = False (phai False), state = Tracked, covariance: OK
+
+--- test_tiny_motion_does_not_mark_initialized ---
+  [PASS] 2. Update voi dich chuyen qua nho -> van chua khoi tao [EKF/CTRVSTrack]
+         dich chuyen 0.1 px < nguong 0.5 px/frame
+         _motion_initialized = False (phai False), v = 0.0207
+  [PASS] 2. Update voi dich chuyen qua nho -> van chua khoi tao [UKF/UKFSTrack]
+         dich chuyen 0.1 px < nguong 0.5 px/frame
+         _motion_initialized = False (phai False), v = 0.0207
+
+--- test_last_obs_tracks_observation_not_prediction ---
+  [PASS] 3. _last_obs_xy cap nhat dung bang vi tri quan sat [EKF/CTRVSTrack]
+         sau update dung yen : (np.float64(100.1), np.float64(200.0)) (mong (np.float64(100.1), np.float64(200.0)))
+         sau re_activate     : (np.float64(130.1), np.float64(240.0)) (mong (np.float64(130.1), np.float64(240.0)))
+  [PASS] 3. _last_obs_xy cap nhat dung bang vi tri quan sat [UKF/UKFSTrack]
+         sau update dung yen : (np.float64(100.1), np.float64(200.0)) (mong (np.float64(100.1), np.float64(200.0)))
+         sau re_activate     : (np.float64(130.1), np.float64(240.0)) (mong (np.float64(130.1), np.float64(240.0)))
+
+--- test_reactivate_initializes_motion ---
+  [PASS] 4. re_activate voi chuyen dong du lon -> da khoi tao [EKF/CTRVSTrack]
+         _motion_initialized = True (phai True), state = Tracked, frame_id = 12 (mong 12)
+  [PASS] 4. re_activate voi chuyen dong du lon -> da khoi tao [UKF/UKFSTrack]
+         _motion_initialized = True (phai True), state = Tracked, frame_id = 12 (mong 12)
+
+--- test_seed_uses_exact_frame_gap_and_observed_ref ---
+  [PASS] 5. Seed dung n_frames/ref_pos/van toc, gap=10 [EKF/CTRVSTrack]
+         so lan seed thanh cong = 1 (mong 1)
+         n_frames = 10.0 (mong 10.0; neu nham thanh 1.0 thi van toc se ra 50.0)
+         ref_pos  = (100.0999984741211, 200.0) (mong (100.1, 200.0) = vi tri QUAN SAT)
+         v seed   = 5.000000458 (mong 5.0, dung sai float32 1e-5)
+  [PASS] 5. Seed dung n_frames/ref_pos/van toc, gap=20 [EKF/CTRVSTrack]
+         so lan seed thanh cong = 1 (mong 1)
+         n_frames = 20.0 (mong 20.0; neu nham thanh 1.0 thi van toc se ra 100.0)
+         ref_pos  = (100.0999984741211, 200.0) (mong (100.1, 200.0) = vi tri QUAN SAT)
+         v seed   = 5.000000229 (mong 5.0, dung sai float32 1e-5)
+  [PASS] 5. Seed dung n_frames/ref_pos/van toc, gap=10 [UKF/UKFSTrack]
+         so lan seed thanh cong = 1 (mong 1)
+         n_frames = 10.0 (mong 10.0; neu nham thanh 1.0 thi van toc se ra 50.0)
+         ref_pos  = (100.0999984741211, 200.0) (mong (100.1, 200.0) = vi tri QUAN SAT)
+         v seed   = 5.000000458 (mong 5.0, dung sai float32 1e-5)
+  [PASS] 5. Seed dung n_frames/ref_pos/van toc, gap=20 [UKF/UKFSTrack]
+         so lan seed thanh cong = 1 (mong 1)
+         n_frames = 20.0 (mong 20.0; neu nham thanh 1.0 thi van toc se ra 100.0)
+         ref_pos  = (100.0999984741211, 200.0) (mong (100.1, 200.0) = vi tri QUAN SAT)
+         v seed   = 5.000000229 (mong 5.0, dung sai float32 1e-5)
+
+--- test_velocity_after_update_is_gap_invariant ---
+  [PASS] 6. Van toc sau update bat bien theo gap [EKF/CTRVSTrack]
+         gap=10 -> v = 10.7841   (neu chia nham n_frames=1 se ra ~50.0)
+         gap=20 -> v = 10.8955   (neu chia nham n_frames=1 se ra ~100.0)
+         chenh giua hai lan = 0.1114 px/frame (mong < 1.5)
+         Gia tri tuyet doi ~2x van toc seed la do KF update voi innovation lon -- hanh vi dung, xem docstring.
+  [PASS] 6. Van toc sau update bat bien theo gap [UKF/UKFSTrack]
+         gap=10 -> v = 10.7918   (neu chia nham n_frames=1 se ra ~50.0)
+         gap=20 -> v = 10.9030   (neu chia nham n_frames=1 se ra ~100.0)
+         chenh giua hai lan = 0.1112 px/frame (mong < 1.5)
+         Gia tri tuyet doi ~2x van toc seed la do KF update voi innovation lon -- hanh vi dung, xem docstring.
+
+--- test_heading_learned_on_vertical_component ---
+  [PASS] 7. Hoc dung huong co thanh phan doc [EKF/CTRVSTrack]
+         theta = 57.81 do (mong ~53.13 do), lech +4.68 do
+  [PASS] 7. Hoc dung huong co thanh phan doc [UKF/UKFSTrack]
+         theta = 53.83 do (mong ~53.13 do), lech +0.70 do
+
+--- test_state_valid_through_whole_lifecycle ---
+  [PASS] 8. P hop le va mean huu han o moi moc vong doi [EKF/CTRVSTrack]
+         moc bi loi: khong co
+         P sau re_activate: tri rieng min +2.200e-09, bat doi xung 0.0e+00
+  [PASS] 8. P hop le va mean huu han o moi moc vong doi [UKF/UKFSTrack]
+         moc bi loi: khong co
+         P sau re_activate: tri rieng min +2.200e-09, bat doi xung 0.0e+00
+
+--- test_never_initialized_if_always_static ---
+  [PASS] 9. Dung yen suot -> khong bia ra huong [EKF/CTRVSTrack]
+         _motion_initialized = False (phai False), v = 0.0942
+         P: tri rieng min +1.100e-09, bat doi xung 0.0e+00
+  [PASS] 9. Dung yen suot -> khong bia ra huong [UKF/UKFSTrack]
+         _motion_initialized = False (phai False), v = 0.1097
+         P: tri rieng min +1.100e-09, bat doi xung 0.0e+00
+
+==============================================================================
+KET QUA: 20/20 phep kiem tra PASS
+==============================================================================
