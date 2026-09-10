@@ -142,12 +142,12 @@ lần — không nghiêng về bên nào.
 > | **KF: `lost`** | **708** | 0 |
 > | **KF: `switched`** | 0 | **290** |
 >
-> Đường chéo tuyệt đối. Hai model không chỉ cùng thất bại — chúng thất bại **y hệt cách
-> nhau, 998/998 lần, không một ngoại lệ**. Đây là bằng chứng trực tiếp rằng ở chế độ
-> thất bại, motion model **hoàn toàn không có tiếng nói**; thứ quyết định là detector và
-> `track_buffer`.
+> Trong phân tích lịch sử này, hai model có cùng nhãn kết cục trên **998 sự kiện**. Điều
+> đó cho thấy thay motion model không làm đổi nhãn kết cục của phép đánh giá này. Nó không
+> xác định nguyên nhân thất bại, không cho thấy detector là nguyên nhân duy nhất, và không
+> loại trừ vai trò nhân quả của motion model.
 
-**Yếu tố thật sự quyết định là thời gian bị che, không phải motion model:**
+**Mối liên hệ lịch sử giữa thời gian che và nhãn kết cục:**
 
 | T_occ (frame) | n | Cả hai mất ID |
 |---|---|---|
@@ -158,9 +158,10 @@ lần — không nghiêng về bên nào.
 | 46–60 | 149 | 83,2 % |
 | 61–90 | 132 | 87,1 % |
 
-Vượt `track_buffer` = 30 frame, tỉ lệ hỏng nhảy từ **56,3 %** lên **78,0 %**.
+Trong mẫu lịch sử này, vượt `track_buffer` = 30 frame đi kèm tỉ lệ hỏng tăng từ
+**56,3 %** lên **78,0 %**; đây là mô tả theo mẫu, không xác định nguyên nhân.
 
-**Loại vật cản cũng có ảnh hưởng** (dùng `occ_ratio_by_background` vs
+**Khác biệt mô tả theo loại vật cản** (dùng `occ_ratio_by_background` vs
 `occ_ratio_by_vehicle` của annotation):
 
 | Nguồn che | n | Cả hai mất ID | 2 model khác nhau |
@@ -240,9 +241,13 @@ khớp cung tròn hoàn hảo sai số 0.01% (cài đúng), nhưng đường th�
 
 ### 4.4 GIAI ĐOẠN B — Nới cửa liên kết cho track LOST → **ĐÓNG**
 
-**Chẩn đoán xác nhận vách đứng của IoU:** ~70–74% lần liên kết lại trượt ở cổng IoU,
-một nửa ở **đúng IoU = 0**. Nhưng CTRV **không** dự đoán tốt hơn CV tại thời điểm đó
-(EKF có *nhiều* IoU=0 hơn KF: 54.3% vs 48.7%).
+**Chẩn đoán offline/proxy về IoU:** với bbox được ngoại suy rồi so với GT tại thời điểm
+được chọn, khoảng 70–74% bbox dự đoán có IoU dưới ngưỡng; một nửa có **IoU = 0**. Đây
+không phải log trực tiếp của lần association thực tế giữa track và detection, nên không
+thể kết luận ByteTrack đã từ chối 70–74% lần liên kết lại thực tế vì cổng IoU. Trong proxy
+này, EKF không cho IoU tốt hơn CV tại thời điểm được chọn (IoU = 0: 54,3% so với 48,7%).
+Muốn khẳng định cơ chế runtime cần log track, detection, candidate pair, cost và quyết
+định association tại từng frame.
 
 Đã phát hiện **2 cạm bẫy toán học** làm cả hai cách ngây thơ hỏng hoàn toàn:
 - Thay thẳng DIoU: `DIoU ≤ 0` khi không giao → `cost ≥ 1 > 0.8` → **không cứu được ca nào**
@@ -279,11 +284,13 @@ Precision gần như không đổi → recall tăng **không đánh đổi bằn
 
 **HOTA +6.8 điểm — lớn hơn toàn bộ can thiệp motion model cộng lại.**
 
-> **NHƯNG: ưu thế của EKF BIẾN MẤT.** Ô `che ≥0.90 × medium`:
+> **Nhưng chênh lệch lịch sử của EKF không duy trì trong cấu hình fine-tune.** Ô
+> `che ≥0.90 × medium`:
 > COCO cho KF 6.41% / **EKF 11.54%** / UKF 7.69% (gần gấp đôi);
 > fine-tune cho **64.91% / 65.79% / 67.54%** (bằng nhau).
-> Gợi ý ưu thế đó **không phải lợi ích thật của CTRV** mà là hiện tượng của chế độ
-> detector yếu — khi rất ít detection thì kết cục gần như ngẫu nhiên.
+> Chênh lệch giữa hai cấu hình này không xác định được nguyên nhân và không xác lập lợi
+> ích ổn định của CTRV. Cần dữ liệu hoặc log runtime bổ sung để kiểm tra vai trò của
+> detector trong thay đổi đó.
 >
 > Số đoạn 3 model khác nhau chỉ tăng **42 → 53** (2.7% → 3.1%) — mục tiêu "mở rộng mẫu
 > số" **đạt rất hạn chế**.
@@ -443,13 +450,11 @@ n_frames ở mục 4.7 — script quét này dùng lại cùng hàm chạy bộ 
 | **CV tốt hơn** | **30** | **62 %** |
 | Hoà | 11 | 23 % |
 
-FDE trung bình: KF **266,0 px** vs EKF **292,1 px**. Tương quan giữa **góc cua của xe**
-và lợi thế của CTRV: **+0,080** — về bản chất vẫn là không (trước khi sửa lỗi đo được
-−0,021; cả hai đều xấp xỉ 0, không đáng kể với n = 48, việc đổi dấu chỉ phản ánh nhiễu
-thống kê). Ba track cua gắt nhất (150,7° / 148,4° / 140,8°) thì CTRV thua cả ba.
-
-> **Đây là phản chứng trực tiếp cho giả thuyết ban đầu.** Nếu CTRV có lợi thế do mô hình
-> hoá khúc cua, lợi thế đó phải **tăng theo góc cua**. Nó không tăng.
+FDE trung bình: KF **266,0 px** vs EKF **292,1 px**. Trong quét lịch sử 48 track, tương
+quan giữa góc cua và chênh lệch FDE CV/CTRV là **+0,080** (trước khi sửa lỗi đo được
+−0,021); cả hai gần 0 và không đáng kể với n = 48. Ba track cua gắt nhất
+(150,7° / 148,4° / 140,8°) đều có CTRV FDE lớn hơn. Quan sát này không xác lập quan hệ
+giữa góc cua và ảnh hưởng của CTRV ngoài phạm vi quét đó.
 
 ### 4.9 GIAI ĐOẠN F — Triệt tiêu `ω` hoàn toàn: phân tích lịch sử
 
@@ -629,13 +634,14 @@ Nguồn cho toàn bộ số hiện hành: `results/test_eval/summary/configurati
 
 ## 7. Khung luận văn đề xuất
 
-**Tên:** *"Vì sao chỉ số tổng hợp không phát hiện được lợi thế của mô hình chuyển động
-phi tuyến: phân tầng, hiệu ứng trần và giới hạn dữ liệu trong theo dõi đa đối tượng
-có che khuất"*
+**Tên:** *"Đánh giá ảnh hưởng của mô hình chuyển động CV và CTRV trong ByteTrack đối với
+theo dõi phương tiện bị che khuất"*
 
-**Mạch:** (1) giả thuyết → (2) mô phỏng cho thấy cơ chế trong điều kiện kiểm soát →
-(3) phân tích lịch sử trên video thật → (4) đánh giá lại 40 video theo manifest đã khóa,
-TrackEval và bootstrap ghép cặp theo video → (5) kết luận có điều kiện theo từng chỉ số.
+**Mạch:** (1) câu hỏi nghiên cứu không giả định CTRV có lợi thế: CTRV có tạo khác biệt so
+với CV không? → (2) mô phỏng trong điều kiện kiểm soát → (3) phân tích lịch sử trên video
+thật → (4) đánh giá lại 40 video theo manifest đã khóa, TrackEval và bootstrap ghép cặp
+theo video → (5) kết luận có điều kiện theo từng chỉ số, kể cả khi khác biệt nhỏ hoặc
+không ổn định.
 
 **Điểm mạnh của phần thực nghiệm cuối:**
 - Sáu cấu hình A/B × CV/EKF/UKF dùng cùng 40 video và cùng GT; 240/240 file tracking
@@ -646,6 +652,8 @@ TrackEval và bootstrap ghép cặp theo video → (5) kết luận có điều 
   định giữa hai tập; đổi ngưỡng detector tạo đánh đổi IDSW/FN, FP và tính liên tục.
 - Các phân tích Giai đoạn A–F là tư liệu phương pháp và chẩn đoán lịch sử; chúng cần
   được trình bày với phạm vi dữ liệu tương ứng, không dùng làm kết luận tổng quát.
+- Đóng góp nằm ở triển khai, kiểm chứng và phân tích thực nghiệm có kiểm soát, không phụ
+  thuộc vào giả định CTRV phải có lợi thế.
 
 **Một mạch phụ đáng kể cho phần phương pháp:** khuyết điểm `ω` không bị chặn được phát
 hiện bằng **quan sát video**, sau khi mọi chỉ số tổng hợp đã "sạch". Điều này minh hoạ
