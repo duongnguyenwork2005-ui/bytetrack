@@ -13,7 +13,7 @@ Test này **đã từng được xem và dùng trong nghiên cứu trước** (G
 ## 2. Commit, môi trường và cấu hình khóa
 
 - Code chạy tracking/chấm điểm: **`aa45f6c87484e2194039149fd79e1b723f8691bf`**. Working tree lúc tiếp quản chỉ có chỉnh sửa đã biết ở `FIX_REPORT.md` và kết quả test chưa commit.
-- Commit bàn giao là commit mới mang thông điệp **`Chay danh gia tap test 40 video`**, parent `aa45f6c`; SHA cụ thể lấy bằng `git log -1 --format=%H` trên bản bàn giao. Không amend, merge hoặc push.
+- Commit kết quả đánh giá là **`b5bd086f8e4a625850ab35c977d1ed40776e810d`** với thông điệp **`Chay danh gia tap test 40 video`**, parent `aa45f6c`, đã push lên `origin/fix/tracker-evaluation-correctness`. Nhánh này chưa merge vào `main`; `main` vẫn ở `568ba2a`. SHA này là commit kết quả đánh giá, không phải nhãn `HEAD` cho các cập nhật tài liệu về sau.
 - Python `3.11.9`, env `C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe`; Windows build 26200; numpy `2.4.6`, scipy `1.17.1`, pandas `2.3.3`, torch `2.6.0+cu124`, ultralytics `8.4.141`, TrackEval `1.3.0`, OpenCV `5.0.0.93`.
 - GPU NVIDIA GeForce GTX 1650 4 GB, driver `555.97`; CUDA runtime của torch `12.4` (nvidia-smi hiển thị driver hỗ trợ CUDA `12.5`). GPU không có tiến trình lúc tiếp quản.
 - Weights `models/yolov8n.pt`, 6.549.796 byte; SHA-256 **`f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36`**, kiểm tra khớp manifest. COCO classes `[2,3,5,7]`, device `0`, mask ignored regions như pipeline hiện tại.
@@ -237,9 +237,9 @@ git diff --cached --check
 git commit -m 'Chay danh gia tap test 40 video'
 ```
 
-Kiểm tra SHA-256 trước/sau cho **2.258 file hiện hữu** (results, GT/raw tracking, interim, source/config và weights) để chứng minh không ghi đè train A/B, ba test cũ `yolov8n-test-bytetrack`, `yolov8n-test-ekf-ctrv`, `yolov8n-test-ukf-ctrv`, hoặc test A/B tracking hiện tại. Xem [preservation_check.json](results/test_eval/provenance/preservation_check.json). Toàn bộ nội dung `FIX_REPORT.md` chưa commit lúc tiếp quản được giữ nguyên nguyên văn; chỉ thêm ghi chú hiện hành và mục test mới.
+Kiểm tra SHA-256 trước/sau cho **2.258 file hiện hữu** (results, GT/raw tracking, interim, source/config và weights) để chứng minh không ghi đè train A/B, ba test cũ `yolov8n-test-bytetrack`, `yolov8n-test-ekf-ctrv`, `yolov8n-test-ukf-ctrv`, hoặc test A/B tracking hiện tại. Xem [preservation_check.json](results/test_eval/provenance/preservation_check.json). Nội dung `FIX_REPORT.md` có sẵn lúc tiếp quản được giữ nguyên nguyên văn; chỉ thêm ghi chú hiện hành và mục test mới.
 
-File đã thay đổi: `FIX_REPORT.md`. File mới: `TEST_EVALUATION_REPORT.md`, `src/summarize_test_evaluation.py`, sáu summary test, sáu thư mục TrackEval test mới A/B và `results/test_eval/` với manifest, A/B, summary, provenance. Danh sách cụ thể của commit xem `git show --stat --oneline HEAD`; không có file thuật toán/config/data gốc bị sửa.
+File đã thay đổi: `FIX_REPORT.md`. File mới: `TEST_EVALUATION_REPORT.md`, `src/summarize_test_evaluation.py`, sáu summary test, sáu thư mục TrackEval test mới A/B và `results/test_eval/` với manifest, A/B, summary, provenance. Danh sách cụ thể của commit kết quả xem `git show --stat --oneline b5bd086`; không có file thuật toán/config/data gốc bị sửa.
 
 ## 9. Giới hạn và số liệu dùng cho slide
 
@@ -253,4 +253,4 @@ File đã thay đổi: `FIX_REPORT.md`. File mới: `TEST_EVALUATION_REPORT.md`,
 
 **Có thể đưa lên slide:** quy mô 40 video/56.340 frame/675.774 bbox GT; 240/240 file hợp lệ; 2.174 sự kiện sau gộp (loại đếm lặp 484 full), 1.324 đủ điều kiện; bảng sáu cấu hình ở mục 4; hiệu kèm KTC ở mục 5; biểu hiện B giảm IDSW nhưng tăng FP và không cải thiện đồng loạt HOTA/IDF1 test; hướng train/test khác nhau. Với `id_match`, ghi “chưa đủ bằng chứng EKF/UKF khác CV” và hiển thị KTC, không ghi “EKF/UKF thắng” hoặc “tương đương”. Nếu đưa tốc độ, ghi rõ “mô tả một lần chạy, tải máy không kiểm soát”.
 
-**Việc còn lại ngoài phạm vi lần bàn giao:** chỉ push/merge khi có yêu cầu riêng; nếu cần kết luận tổng quát hơn thì thiết kế đánh giá trên dữ liệu độc lập và benchmark thời gian có kiểm soát, đo ảnh hưởng FP, log association đầy đủ. Detector fine-tune và ngưỡng conf trung gian không được thử trong lượt này; mọi nghiên cứu bổ sung phải chốt trước, không tinh chỉnh trên test đã xem.
+**Việc còn lại ngoài phạm vi lần bàn giao:** commit kết quả đã được push; merge vào `main` chỉ thực hiện khi có yêu cầu riêng. Nếu cần kết luận tổng quát hơn thì thiết kế đánh giá trên dữ liệu độc lập và benchmark thời gian có kiểm soát, đo ảnh hưởng FP, log association đầy đủ. Detector fine-tune và ngưỡng conf trung gian không được thử trong lượt này; mọi nghiên cứu bổ sung phải chốt trước, không tinh chỉnh trên test đã xem.

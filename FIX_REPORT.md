@@ -1,15 +1,15 @@
-> **Cập nhật bàn giao test 10/09/2026:** Đã xong 40 video × 3 model × A/B; xem **mục 16** và [TEST_EVALUATION_REPORT.md](TEST_EVALUATION_REPORT.md). Bảng Git và các danh sách “còn thiếu” bên dưới là bản ghi trước commit bàn giao mới có parent `aa45f6c`; remote chưa nhận commit mới, chưa push/merge. Toàn bộ nội dung báo cáo có sẵn lúc tiếp quản được giữ nguyên.
+> **Cập nhật bàn giao test 10/09/2026:** Đã xong 40 video × 3 model × A/B; xem **mục 16** và [TEST_EVALUATION_REPORT.md](TEST_EVALUATION_REPORT.md). Commit kết quả đánh giá là **`b5bd086f8e4a625850ab35c977d1ed40776e810d`**, đã push lên `origin/fix/tracker-evaluation-correctness`; parent của nó là `aa45f6c`. Nhánh riêng này chưa merge vào `main`, nơi vẫn ở `568ba2a`. Bảng Git và các danh sách “còn thiếu” bên dưới là bản ghi lịch sử trước commit kết quả; toàn bộ nội dung báo cáo có sẵn lúc tiếp quản được giữ nguyên.
 
 # FIX_REPORT — Sửa lỗi khởi tạo bộ lọc và phép đánh giá che khuất
 
 **Nhánh:** `fix/tracker-evaluation-correctness` (tách từ `main` tại `568ba2a`)
 
-**Trạng thái Git — HIỆN TẠI:**
+**Trạng thái Git tại thời điểm chạy đánh giá:**
 
 | | |
 |---|---|
-| `HEAD` local | **`aa45f6c`** |
-| Nhánh trên remote (`origin`) | **đã đồng bộ với `HEAD`** |
+| Commit code chạy tracking/chấm điểm | **`aa45f6c`** |
+| Nhánh trên remote (`origin`) tại thời điểm đó | **đã đồng bộ với `aa45f6c`** |
 | Merge vào `main` | **CHƯA** — `main` vẫn ở `568ba2a` |
 
 > **Ghi chép lịch sử (không phải trạng thái hiện tại).** Mục 15 được viết khi
@@ -925,6 +925,6 @@ KTC `id_match` giữa motion model đều chứa 0: **chưa đủ bằng chứng
 - 5 file test: **77/77 PASS** (14 + 12 + 17 + 14 + 20); log [tests.log](results/test_eval/provenance/tests.log). `git diff --check` và diff staged được kiểm tra trước commit.
 - SHA-256 2.258 file hiện hữu được đối chiếu trước/sau: [preservation_check.json](results/test_eval/provenance/preservation_check.json). Train A/B, ba test cũ, test A/B tracking và manifest không bị ghi đè; nguyên văn chỉnh sửa `FIX_REPORT.md` lúc tiếp quản được giữ lại.
 - Lệnh tracking cũ lọc stdout/stderr qua grep, không có pipefail; không thể chứng nhận tuyệt đối không có cảnh báo lịch sử bị lọc. Audit MOT/ảnh hiện tại không phát hiện lỗi. Log chấm B mới đầy đủ và exit code được kiểm tra.
-- Commit **mới**: `Chay danh gia tap test 40 video`, parent `aa45f6c`; không amend, không merge/force-push/push. SHA bàn giao là commit chứa mục này (`git log -1 --format=%H`).
+- Commit kết quả đánh giá: **`b5bd086f8e4a625850ab35c977d1ed40776e810d`** (`Chay danh gia tap test 40 video`), parent `aa45f6c`, đã push lên `origin/fix/tracker-evaluation-correctness`; chưa merge hoặc force-push vào `main` (vẫn `568ba2a`).
 - Mục test “chưa chạy” ở 10/13.5/14.6 đã hoàn thành. Các nhận xét chưa biết xu hướng test ở mục 14 là lịch sử, được thay bằng kết quả mục 16. Ngưỡng trung gian trong mục 14.6 không thuộc phạm vi được phép thử trên test hiện tại.
-- Các việc ngoài phạm vi còn lại: detector fine-tune, dữ liệu độc lập, benchmark tốc độ có kiểm soát, ảnh hưởng FP lên ứng dụng, log association xuyên suốt; chỉ push/merge theo yêu cầu tiếp theo.
+- Các việc ngoài phạm vi còn lại: detector fine-tune, dữ liệu độc lập, benchmark tốc độ có kiểm soát, ảnh hưởng FP lên ứng dụng, log association xuyên suốt; việc merge vào `main` chỉ thực hiện khi có yêu cầu riêng.
