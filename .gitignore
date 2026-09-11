@@ -54,3 +54,12 @@ results/demo/videos/long_*.mp4
 
 # --- Video 3 panel Giai doan F (13 MB, tai tao bang omega_suppress.py --render) ---
 results/demo/videos/suppress3_*.mp4
+
+# --- Video demo khoa luan (outputs/thesis_demos): video MP4, anh PNG render va
+#     cache chay lai tracker. Tai tao duoc bang src/demo/render_thesis_demo.py
+#     --no-cache (~5 phut GPU). CHI ignore video/anh/cache - KHONG ignore ca
+#     thu muc outputs/thesis_demos/, vi DEMO_REPORT.md, CSV va metadata.json
+#     van phai duoc theo doi de tai lap. ---
+outputs/thesis_demos/*.mp4
+outputs/thesis_demos/*/*.png
+outputs/thesis_demos/*/rerun/
