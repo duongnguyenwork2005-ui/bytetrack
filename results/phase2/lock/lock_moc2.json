@@ -1,0 +1,448 @@
+{
+  "created": "2026-09-16T02:33:51",
+  "git_commit": "a64cb754b7cf393b3f1f6b1ead11662f927dae73",
+  "git_branch": "phase2-mixed-traffic",
+  "git_dirty": true,
+  "selection_rule": "Tieu chi dang ky truoc (configs/phase2/PREREG_moc2.md): HOTA c25 tren dev, chi coi la cai thien khi CI 95% bootstrap (COMBINED, theo video) KHONG chua 0. Khong dung ket qua test.",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9",
+  "experiments": {
+    "expA_detrac_test": {
+      "file": "configs/phase2/experiments/expA_detrac_test.yaml",
+      "file_sha256": "45eb19e2eee79d6698b1a8ee128bc8035bdb335c94cd8be7b29b40bfd152381b",
+      "split_name": "DETRAC-test",
+      "n_videos": 40,
+      "videos": [
+        "MVI_39031",
+        "MVI_39051",
+        "MVI_39211",
+        "MVI_39271",
+        "MVI_39311",
+        "MVI_39361",
+        "MVI_39371",
+        "MVI_39401",
+        "MVI_39501",
+        "MVI_39511",
+        "MVI_40701",
+        "MVI_40711",
+        "MVI_40712",
+        "MVI_40714",
+        "MVI_40742",
+        "MVI_40743",
+        "MVI_40761",
+        "MVI_40762",
+        "MVI_40763",
+        "MVI_40771",
+        "MVI_40772",
+        "MVI_40773",
+        "MVI_40774",
+        "MVI_40775",
+        "MVI_40792",
+        "MVI_40793",
+        "MVI_40851",
+        "MVI_40852",
+        "MVI_40853",
+        "MVI_40854",
+        "MVI_40855",
+        "MVI_40863",
+        "MVI_40864",
+        "MVI_40891",
+        "MVI_40892",
+        "MVI_40901",
+        "MVI_40902",
+        "MVI_40903",
+        "MVI_40904",
+        "MVI_40905"
+      ],
+      "cache_id": "yolov8n-coco_conf0.05_all",
+      "cache_weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+      "cache_conf": 0.05,
+      "cache_max_det": 3000,
+      "cache_versions": {
+        "ultralytics": "8.4.141",
+        "torch": "2.6.0+cu124",
+        "cuda": "12.4",
+        "cudnn": 90100,
+        "gpu": "NVIDIA GeForce GTX 1650"
+      },
+      "conditions": {
+        "c25": {
+          "conf_min": 0.25
+        },
+        "c10": {
+          "conf_min": 0.1
+        }
+      },
+      "classes": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "max_det": 300,
+      "fps": 25,
+      "track_buffer_sec": 1.2,
+      "elapsed_mode": "skip",
+      "tracker_yaml_sha256": {
+        "bytetrack.yaml": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b",
+        "configs/bytetrack_ekf_ctrv.yaml": "68694ad4b076dd377ca224a16723e1fcc2497965333cb181674558eb03c0b715",
+        "configs/bytetrack_ukf_ctrv.yaml": "917fe0eaa7ce4097f5bdb045080a62bd4770d4c6a5f352890da52c7e34c7d272",
+        "configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml": "ff43d4934d6ec72744ada9bb2a87dea7b10b3d0ac8764e8c1ec5a20ef8fa880b"
+      },
+      "runs": [
+        {
+          "cond": "c25",
+          "tracker": "cv",
+          "yaml": "bytetrack.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expA_detrac_test-c25-cv"
+        },
+        {
+          "cond": "c25",
+          "tracker": "ekf",
+          "yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expA_detrac_test-c25-ekf"
+        },
+        {
+          "cond": "c25",
+          "tracker": "ukf",
+          "yaml": "configs/bytetrack_ukf_ctrv.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expA_detrac_test-c25-ukf"
+        },
+        {
+          "cond": "c25",
+          "tracker": "pf500",
+          "yaml": "configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml",
+          "set": {},
+          "seed": 0,
+          "dir": "p2-expA_detrac_test-c25-pf500-s0"
+        },
+        {
+          "cond": "c25",
+          "tracker": "pf500",
+          "yaml": "configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml",
+          "set": {},
+          "seed": 1,
+          "dir": "p2-expA_detrac_test-c25-pf500-s1"
+        },
+        {
+          "cond": "c25",
+          "tracker": "pf500",
+          "yaml": "configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml",
+          "set": {},
+          "seed": 2,
+          "dir": "p2-expA_detrac_test-c25-pf500-s2"
+        },
+        {
+          "cond": "c10",
+          "tracker": "cv",
+          "yaml": "bytetrack.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expA_detrac_test-c10-cv"
+        },
+        {
+          "cond": "c10",
+          "tracker": "ekf",
+          "yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expA_detrac_test-c10-ekf"
+        },
+        {
+          "cond": "c10",
+          "tracker": "ukf",
+          "yaml": "configs/bytetrack_ukf_ctrv.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expA_detrac_test-c10-ukf"
+        },
+        {
+          "cond": "c10",
+          "tracker": "pf500",
+          "yaml": "configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml",
+          "set": {},
+          "seed": 0,
+          "dir": "p2-expA_detrac_test-c10-pf500-s0"
+        },
+        {
+          "cond": "c10",
+          "tracker": "pf500",
+          "yaml": "configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml",
+          "set": {},
+          "seed": 1,
+          "dir": "p2-expA_detrac_test-c10-pf500-s1"
+        },
+        {
+          "cond": "c10",
+          "tracker": "pf500",
+          "yaml": "configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml",
+          "set": {},
+          "seed": 2,
+          "dir": "p2-expA_detrac_test-c10-pf500-s2"
+        }
+      ]
+    },
+    "expB_detrac_test": {
+      "file": "configs/phase2/experiments/expB_detrac_test.yaml",
+      "file_sha256": "d51594c29938919720a650cc8a338c611755767aab4f26d3e3b31de3441f6b14",
+      "split_name": "DETRAC-test",
+      "n_videos": 40,
+      "videos": [
+        "MVI_39031",
+        "MVI_39051",
+        "MVI_39211",
+        "MVI_39271",
+        "MVI_39311",
+        "MVI_39361",
+        "MVI_39371",
+        "MVI_39401",
+        "MVI_39501",
+        "MVI_39511",
+        "MVI_40701",
+        "MVI_40711",
+        "MVI_40712",
+        "MVI_40714",
+        "MVI_40742",
+        "MVI_40743",
+        "MVI_40761",
+        "MVI_40762",
+        "MVI_40763",
+        "MVI_40771",
+        "MVI_40772",
+        "MVI_40773",
+        "MVI_40774",
+        "MVI_40775",
+        "MVI_40792",
+        "MVI_40793",
+        "MVI_40851",
+        "MVI_40852",
+        "MVI_40853",
+        "MVI_40854",
+        "MVI_40855",
+        "MVI_40863",
+        "MVI_40864",
+        "MVI_40891",
+        "MVI_40892",
+        "MVI_40901",
+        "MVI_40902",
+        "MVI_40903",
+        "MVI_40904",
+        "MVI_40905"
+      ],
+      "cache_id": "yolov8n-coco_conf0.05_all",
+      "cache_weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+      "cache_conf": 0.05,
+      "cache_max_det": 3000,
+      "cache_versions": {
+        "ultralytics": "8.4.141",
+        "torch": "2.6.0+cu124",
+        "cuda": "12.4",
+        "cudnn": 90100,
+        "gpu": "NVIDIA GeForce GTX 1650"
+      },
+      "conditions": {
+        "c25": {
+          "conf_min": 0.25
+        }
+      },
+      "classes": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "max_det": 300,
+      "fps": 25,
+      "track_buffer_sec": null,
+      "elapsed_mode": "skip",
+      "tracker_yaml_sha256": {
+        "configs/bytetrack_ekf_ctrv.yaml": "68694ad4b076dd377ca224a16723e1fcc2497965333cb181674558eb03c0b715",
+        "configs/phase2/trackers/sort_cv_age30.yaml": "8d1ea5b98684561659f8b514c07372c3f62016983a361fc004192995992854b5",
+        "configs/phase2/trackers/sort_ekf_ctrv_age1.yaml": "26414b8b71dcc089554496c41150d530854edd1bb19e6bd4917fe4ac0fb4eecf",
+        "configs/phase2/trackers/sort_ekf_ctrv_age30.yaml": "e1b055b31cea5510f39477abb89ba6aa75487240861a6cce2d70e3a1be39fac4",
+        "configs/phase2/trackers/sort_orig_age1.yaml": "5a5609b81e367ad5218340bcf99ab628ca77174d805bd280b8890e3b8eac92d2",
+        "configs/phase2/trackers/sort_orig_age30.yaml": "92de033f304fb6f29002c5253dbc3f9ec8c7dd1f933f4ea029dbfd0771175b9e"
+      },
+      "runs": [
+        {
+          "cond": "c25",
+          "tracker": "sort-orig1",
+          "yaml": "configs/phase2/trackers/sort_orig_age1.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expB_detrac_test-c25-sort-orig1"
+        },
+        {
+          "cond": "c25",
+          "tracker": "sort-orig30",
+          "yaml": "configs/phase2/trackers/sort_orig_age30.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expB_detrac_test-c25-sort-orig30"
+        },
+        {
+          "cond": "c25",
+          "tracker": "sort-cv30",
+          "yaml": "configs/phase2/trackers/sort_cv_age30.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expB_detrac_test-c25-sort-cv30"
+        },
+        {
+          "cond": "c25",
+          "tracker": "sort-ekf30",
+          "yaml": "configs/phase2/trackers/sort_ekf_ctrv_age30.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expB_detrac_test-c25-sort-ekf30"
+        },
+        {
+          "cond": "c25",
+          "tracker": "sort-ekf1",
+          "yaml": "configs/phase2/trackers/sort_ekf_ctrv_age1.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expB_detrac_test-c25-sort-ekf1"
+        },
+        {
+          "cond": "c25",
+          "tracker": "bt-ekf",
+          "yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expB_detrac_test-c25-bt-ekf"
+        }
+      ]
+    },
+    "expC_detrac_test": {
+      "file": "configs/phase2/experiments/expC_detrac_test.yaml",
+      "file_sha256": "d0cbd9356bea590c774a0e168a5c06c58ceb218d587e1a409d7fb6d90bd7090d",
+      "split_name": "DETRAC-test",
+      "n_videos": 40,
+      "videos": [
+        "MVI_39031",
+        "MVI_39051",
+        "MVI_39211",
+        "MVI_39271",
+        "MVI_39311",
+        "MVI_39361",
+        "MVI_39371",
+        "MVI_39401",
+        "MVI_39501",
+        "MVI_39511",
+        "MVI_40701",
+        "MVI_40711",
+        "MVI_40712",
+        "MVI_40714",
+        "MVI_40742",
+        "MVI_40743",
+        "MVI_40761",
+        "MVI_40762",
+        "MVI_40763",
+        "MVI_40771",
+        "MVI_40772",
+        "MVI_40773",
+        "MVI_40774",
+        "MVI_40775",
+        "MVI_40792",
+        "MVI_40793",
+        "MVI_40851",
+        "MVI_40852",
+        "MVI_40853",
+        "MVI_40854",
+        "MVI_40855",
+        "MVI_40863",
+        "MVI_40864",
+        "MVI_40891",
+        "MVI_40892",
+        "MVI_40901",
+        "MVI_40902",
+        "MVI_40903",
+        "MVI_40904",
+        "MVI_40905"
+      ],
+      "cache_id": "yolov8n-coco_conf0.05_all",
+      "cache_weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+      "cache_conf": 0.05,
+      "cache_max_det": 3000,
+      "cache_versions": {
+        "ultralytics": "8.4.141",
+        "torch": "2.6.0+cu124",
+        "cuda": "12.4",
+        "cudnn": 90100,
+        "gpu": "NVIDIA GeForce GTX 1650"
+      },
+      "conditions": {
+        "c25": {
+          "conf_min": 0.25
+        }
+      },
+      "classes": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "max_det": 300,
+      "fps": 25,
+      "track_buffer_sec": 1.2,
+      "elapsed_mode": "skip",
+      "tracker_yaml_sha256": {
+        "configs/bytetrack_ekf_ctrv.yaml": "68694ad4b076dd377ca224a16723e1fcc2497965333cb181674558eb03c0b715",
+        "configs/phase2/trackers/bytetrack_cv.yaml": "9199f1e929fc210d2c0bd581a6bc7fca89de01bdacfdabd1c21507eceaee82e7"
+      },
+      "runs": [
+        {
+          "cond": "c25",
+          "tracker": "cv",
+          "yaml": "configs/phase2/trackers/bytetrack_cv.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expC_detrac_test-c25-cv"
+        },
+        {
+          "cond": "c25",
+          "tracker": "cv-maha",
+          "yaml": "configs/phase2/trackers/bytetrack_cv.yaml",
+          "set": {
+            "lost_recover": "maha",
+            "lost_recover_maha2": 5.991
+          },
+          "seed": null,
+          "dir": "p2-expC_detrac_test-c25-cv-maha"
+        },
+        {
+          "cond": "c25",
+          "tracker": "ekf",
+          "yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "set": {},
+          "seed": null,
+          "dir": "p2-expC_detrac_test-c25-ekf"
+        },
+        {
+          "cond": "c25",
+          "tracker": "ekf-maha",
+          "yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "set": {
+            "lost_recover": "maha",
+            "lost_recover_maha2": 5.991
+          },
+          "seed": null,
+          "dir": "p2-expC_detrac_test-c25-ekf-maha"
+        }
+      ]
+    }
+  },
+  "version_ultralytics": "8.4.141",
+  "version_torch": "2.6.0+cu124",
+  "version_trackeval": "1.3.0",
+  "version_numpy": "2.4.6",
+  "version_scipy": "1.17.1",
+  "version_pandas": "2.3.3"
+}
