@@ -161,7 +161,8 @@ def track_video(vd: det_cache.VideoDetections, cfg: IterableSimpleNamespace, dt_
         out = tr.update(boxes.cpu().numpy(), None, n_steps=n_steps)
         t_update = time.perf_counter() - t0
         t_pred = timer.pop()
-        timing.append((frame_idx, n_steps, len(tr.tracked_stracks), len(arr),
+        n_tracks = len(getattr(tr, "tracked_stracks", None) or getattr(tr, "tracks", []))
+        timing.append((frame_idx, n_steps, n_tracks, len(arr),
                        t_pred * 1e3, (t_update - t_pred) * 1e3, t_update * 1e3))
         if len(out) == 0:
             continue

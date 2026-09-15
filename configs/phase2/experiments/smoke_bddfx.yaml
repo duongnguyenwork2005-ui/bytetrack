@@ -1,0 +1,22 @@
+# Smoke test end-to-end tren FIXTURE BDD100K (khong anh, khong GPU): cache gt-synthetic -> 4 tracker
+# -> TrackEval crowd-ignore -> occlusion_eval (gap, 5 fps) -> aggregate. Xem src/test_smoke_phase2.py.
+name: smoke_bddfx
+dataset: bdd100k
+split_name: BDDFX-val
+part: val
+manifest: results/phase2/manifests/fixture_bdd100k_final_val.json
+cache_id: fixture_bddfx_gt
+classes: [1, 2, 3, 5, 7]
+max_det: 300
+fps: 5
+track_buffer_sec: 1.2
+elapsed_mode: steps
+conditions:
+  A: {conf_min: 0.25}
+trackers:
+  - {name: cv,     yaml: bytetrack.yaml}
+  - {name: ekf,    yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: pf50,   yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n100.yaml, set: {pf_num_particles: 50}, seeds: [0, 1]}
+  - {name: sortekf, yaml: configs/phase2/trackers/sort_ekf_ctrv_age30.yaml}
+baseline: cv
+occlusion: {tag: bddfx_val, fps: 5, context_s: 1.2, gaps: true, n_boot: 200}

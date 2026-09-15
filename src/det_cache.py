@@ -149,9 +149,11 @@ class DetectorSpec:
         self.created = time.strftime("%Y-%m-%dT%H:%M:%S")
         return self
 
-    #: cac truong PHAI trung khi dung lai cache
+    #: cac truong PHAI trung khi dung lai cache (thuoc tinh cua DETECTOR + dataset;
+    #: `part` KHONG nam trong day: mot cache co the chua ca video train lan test cua cung
+    #: dataset - part cua tung video ghi trong <video>.json)
     STRICT_FIELDS = ("backend", "weights_sha256", "imgsz", "iou", "half", "agnostic_nms",
-                     "augment", "batch", "mask_ignored_regions", "dataset", "part",
+                     "augment", "batch", "mask_ignored_regions", "dataset",
                      "gt_jitter", "gt_dropout", "gt_seed")
 
 
@@ -451,7 +453,7 @@ def main() -> int:
         else:
             gt_v = gt_all[gt_all["video"] == v]
             arrays = build_video_gt(gt_v, frames, spec, ds.orig_shape, cat2coco)
-        info = save_video(cache_dir, v, arrays, {"regions_hash": _regions_hash(regions),
+        info = save_video(cache_dir, v, arrays, {"part": args.part, "regions_hash": _regions_hash(regions),
                                                  "n_regions": len(regions), "seconds": round(time.time() - t0, 1)})
         print(f"  {v:<20} {info['n_frames']:>5} frame  {info['n_boxes']:>7} box  "
               f"unreadable={info['n_unreadable']} truncated={info['n_truncated']}  ({info['seconds']}s)")

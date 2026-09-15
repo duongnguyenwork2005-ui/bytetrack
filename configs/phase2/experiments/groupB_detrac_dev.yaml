@@ -1,0 +1,28 @@
+# Nhom B - so sanh THUAT TOAN dung chung EKF, tap DEV UA-DETRAC. Cung cache detection voi Nhom A.
+#   bt-ekf        ByteTrack + EKF-CTRV (tham chieu tu Nhom A)
+#   sort-orig1    SORT NGUYEN BAN (KF 7-D [u,v,s,r], iou 0.3, max_age 1, min_hits 3)  <- doi chung
+#   sort-orig30   SORT nguyen ban nhung max_age 30 (= track_buffer cua ByteTrack)     <- ablation bo dem
+#   sort-cv30     SORT + KalmanFilterXYAH (bo loc cua ByteTrack-CV), max_age 30      <- co lap motion model
+#   sort-ekf30    SORT + EKF-CTRV, max_age 30                                          <- "da sua bo loc"
+#   sort-ekf1     SORT + EKF-CTRV, max_age 1                                           <- doi bo loc, giu vong doi goc
+name: groupB_detrac_dev
+dataset: detrac
+split_name: DETRAC-all
+part: train
+manifest: results/phase2/manifests/detrac_dev.json
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+elapsed_mode: skip
+conditions:
+  A: {conf_min: 0.25}
+trackers:
+  - {name: bt-ekf,      yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: sort-orig1,  yaml: configs/phase2/trackers/sort_orig_age1.yaml}
+  - {name: sort-orig30, yaml: configs/phase2/trackers/sort_orig_age30.yaml}
+  - {name: sort-cv30,   yaml: configs/phase2/trackers/sort_cv_age30.yaml}
+  - {name: sort-ekf30,  yaml: configs/phase2/trackers/sort_ekf_ctrv_age30.yaml}
+  - {name: sort-ekf1,   yaml: configs/phase2/trackers/sort_ekf_ctrv_age1.yaml}
+baseline: bt-ekf
+occlusion: {part: train, context_s: 1.2, gaps: false, n_boot: 5000}

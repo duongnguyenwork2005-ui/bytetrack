@@ -1,0 +1,26 @@
+# Nhom A - so sanh BO LOC trong cung ByteTrack, tap DEV UA-DETRAC (12 video train chon theo tieu chi GT).
+# Detector, detection (cache), association, vong doi track: GIONG NHAU cho moi bo loc.
+# Dieu kien A (conf > 0.25 = cau hinh khoa Giai doan 1) va B (conf > 0.10: vong association 2 co du lieu).
+name: groupA_detrac_dev
+dataset: detrac
+split_name: DETRAC-all
+part: train
+manifest: results/phase2/manifests/detrac_dev.json
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+track_buffer_sec: 1.2          # = 30 buoc o 25 fps (Giai doan 1)
+elapsed_mode: skip             # tai lap baseline (moi frame DETRAC doc duoc)
+conditions:
+  A: {conf_min: 0.25}
+  B: {conf_min: 0.10}
+trackers:
+  - {name: cv,    yaml: bytetrack.yaml}
+  - {name: ekf,   yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: ukf,   yaml: configs/bytetrack_ukf_ctrv.yaml}
+  - {name: pf100, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n100.yaml, seeds: [0, 1, 2]}
+  - {name: pf300, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n300.yaml, seeds: [0, 1, 2]}
+  - {name: pf500, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml, seeds: [0, 1, 2]}
+baseline: cv
+occlusion: {part: train, context_s: 1.2, gaps: false, n_boot: 5000}

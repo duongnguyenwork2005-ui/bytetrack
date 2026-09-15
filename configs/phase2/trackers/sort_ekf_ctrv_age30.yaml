@@ -1,0 +1,10 @@
+# Nhom B (Giai doan 2): SORT voi bo loc ekf_ctrv, max_age = 30. Xem src/sort_tracker.py.
+# sort_orig + max_age 1 = SORT NGUYEN BAN (Bewley 2016) - doi chung. max_age 30 = cung thoi gian giu
+# track voi ByteTrack (track_buffer 30) de so sanh cong bang hon; sort_cv dung KalmanFilterXYAH
+# (bo loc cua ByteTrack-CV) de co lap motion model khi so voi sort_ekf_ctrv.
+tracker_type: sort_ekf_ctrv
+det_thresh: 0.25             # (float) loc detection dau vao (dieu kien A = 0.25; runner --conf-min cung loc)
+sort_iou_threshold: 0.3      # (float) nguyen ban 0.3
+sort_max_age: 30         # (int) so frame mat toi da truoc khi xoa track (nguyen ban 1)
+sort_min_hits: 3             # (int) so lan khop lien tiep truoc khi xuat (nguyen ban 3)
+track_buffer: 30         # (int) chi de run_tracking ghi metadata / --track-buffer-sec; SORT dung sort_max_age
