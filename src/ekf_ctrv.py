@@ -281,11 +281,19 @@ class EKFTrackerCTRV:
                  min_speed_for_heading: float | None = None):
         """Tao bo loc. Moi tham so None -> lay gia tri mac dinh trong config.py.
 
-        GIAI DOAN 2: tat ca tham so nhieu / khoi tao duoc giu TREN INSTANCE (khong
-        doc `config.*` luc goi ham nua). Ly do: tracker co the tao bo loc voi
-        tham so ghi trong file .yaml (vd `ctrv_std_theta`), va cung mot tien
-        trinh co the chay nhieu cau hinh khac nhau. Gia tri mac dinh van la
-        config.* nen duong chay cu (khong truyen gi) cho ket qua TRUNG KHIT.
+        GIAI DOAN 2: tham so co the truyen TUONG MINH (tracker doc tu file .yaml, vd
+        `ctrv_std_theta`; nhieu cau hinh chay trong cung tien trinh khong anh huong
+        nhau). Khi KHONG truyen, giu DUNG ngu nghia truoc Giai doan 2:
+            - std_theta / std_omega: gan tu config luc __init__ (nhu cu; script
+              tune_omega_noise.py van co the gan `f._std_omega = ...` sau khi tao).
+            - init_std_theta / init_std_omega / heading_std_after_init /
+              min_speed_for_heading: truoc day `initiate()` va
+              `try_initiate_from_motion()` doc `config.*` LUC GOI. Vi vay o day dung
+              LATE-BINDING: khong truyen -> moi lan goi doc lai config.* (script cu
+              ghi de config sau khi tao bo loc van co tac dung, vd tune_omega_noise.py
+              dong 64-67); truyen tuong minh -> gia tri co dinh tren instance.
+        Nho vay duong chay cu cho ket qua TRUNG KHIT, va duong chay moi (.yaml) khong
+        phu thuoc bien toan cuc.
 
         Don vi (che do "buoc", dt = 1 frame -- xem PHASE2_REPORT.md muc thoi gian):
             std_theta            [rad / buoc]    gia so random-walk cua huong
@@ -307,17 +315,13 @@ class EKFTrackerCTRV:
         self._std_theta = config.CTRV_STD_THETA if std_theta is None else float(std_theta)
         self._std_omega = config.CTRV_STD_OMEGA if std_omega is None else float(std_omega)
 
-        # Tham so khoi tao (truoc day doc config.* luc goi initiate / try_initiate_from_motion)
-        self._init_std_theta = (config.CTRV_INIT_STD_THETA if init_std_theta is None
-                                else float(init_std_theta))
-        self._init_std_omega = (config.CTRV_INIT_STD_OMEGA if init_std_omega is None
-                                else float(init_std_omega))
-        self._heading_std_after_init = (config.CTRV_HEADING_STD_AFTER_INIT
-                                        if heading_std_after_init is None
-                                        else float(heading_std_after_init))
-        self._min_speed_for_heading = (config.CTRV_MIN_SPEED_FOR_HEADING
-                                       if min_speed_for_heading is None
-                                       else float(min_speed_for_heading))
+        # Tham so khoi tao: None = late-binding (doc config.* luc goi, nhu truoc Giai doan 2)
+        self._init_std_theta_arg = None if init_std_theta is None else float(init_std_theta)
+        self._init_std_omega_arg = None if init_std_omega is None else float(init_std_omega)
+        self._heading_std_after_init_arg = (None if heading_std_after_init is None
+                                            else float(heading_std_after_init))
+        self._min_speed_for_heading_arg = (None if min_speed_for_heading is None
+                                           else float(min_speed_for_heading))
 
         # Ma tran do H (4x9): chon cx, cy, a, h. Hang so vi mo hinh do tuyen tinh.
         self._update_mat = np.zeros((4, self.NDIM))
@@ -325,6 +329,36 @@ class EKFTrackerCTRV:
         self._update_mat[1, self.CY] = 1.0
         self._update_mat[2, self.A] = 1.0
         self._update_mat[3, self.H] = 1.0
+
+    # ------------------------------------------------------------------
+    # Tham so khoi tao: late-binding (xem docstring __init__)
+    # ------------------------------------------------------------------
+    @property
+    def _init_std_theta(self) -> float:
+        return config.CTRV_INIT_STD_THETA if self._init_std_theta_arg is None else self._init_std_theta_arg
+
+    @property
+    def _init_std_omega(self) -> float:
+        return config.CTRV_INIT_STD_OMEGA if self._init_std_omega_arg is None else self._init_std_omega_arg
+
+    @property
+    def _heading_std_after_init(self) -> float:
+        return (config.CTRV_HEADING_STD_AFTER_INIT if self._heading_std_after_init_arg is None
+                else self._heading_std_after_init_arg)
+
+    @property
+    def _min_speed_for_heading(self) -> float:
+        return (config.CTRV_MIN_SPEED_FOR_HEADING if self._min_speed_for_heading_arg is None
+                else self._min_speed_for_heading_arg)
+
+    def explicit_params(self) -> dict:
+        """Tham so da truyen tuong minh (khac None) - de ghi metadata / doi chieu cau hinh."""
+        return {k: v for k, v in {"dt": self.dt, "std_theta": self._std_theta, "std_omega": self._std_omega,
+                                  "init_std_theta": self._init_std_theta_arg,
+                                  "init_std_omega": self._init_std_omega_arg,
+                                  "heading_std_after_init": self._heading_std_after_init_arg,
+                                  "min_speed_for_heading": self._min_speed_for_heading_arg}.items()
+                if v is not None}
 
     # ------------------------------------------------------------------
     # Ham chuyen trang thai f(x) va Jacobian F

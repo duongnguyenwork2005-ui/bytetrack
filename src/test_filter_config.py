@@ -188,6 +188,98 @@ def test_6_config_override_before_tracker_creation_still_works():
         config.CTRV_INIT_STD_OMEGA = saved
 
 
+def test_7_late_binding_legacy_semantics():
+    """Ngu nghia TRUOC Giai doan 2: initiate()/try_initiate_from_motion() doc config.* LUC GOI.
+
+    Script cu (tune_omega_noise.py dong 64-67) tao EKFTrackerCTRV() roi MOI ghi de
+    config.CTRV_INIT_STD_OMEGA. Bo loc khong truyen tham so tuong minh phai phan anh
+    gia tri config tai thoi diem goi; bo loc truyen tuong minh thi co dinh.
+    """
+    saved = (config.CTRV_INIT_STD_OMEGA, config.CTRV_MIN_SPEED_FOR_HEADING)
+    try:
+        f_default = EKFTrackerCTRV()                    # tao TRUOC khi doi config
+        f_pinned = EKFTrackerCTRV(init_std_omega=0.33)
+        config.CTRV_INIT_STD_OMEGA = 0.55               # doi SAU khi tao (nhu tune_omega_noise.py)
+        _, P0 = f_default.initiate(np.array([1.0, 1.0, 0.5, 40.0]))
+        _, P1 = f_pinned.initiate(np.array([1.0, 1.0, 0.5, 40.0]))
+        _check("late-binding: bo loc mac dinh doc config luc goi (0.55)", np.isclose(P0[4, 4], 0.55 ** 2))
+        _check("tham so tuong minh co dinh (0.33), khong theo config", np.isclose(P1[4, 4], 0.33 ** 2))
+        config.CTRV_MIN_SPEED_FOR_HEADING = 100.0       # ngat het: khong bo loc mac dinh nao khoi tao huong
+        m, P = f_default.initiate(np.array([10.0, 10.0, 0.5, 40.0]))
+        _, _, ok = f_default.try_initiate_from_motion(m, P, np.array([15.0, 10.0, 0.5, 40.0]), 1, (10, 10))
+        f_fast = EKFTrackerCTRV(min_speed_for_heading=0.5)
+        _, _, ok2 = f_fast.try_initiate_from_motion(m, P, np.array([15.0, 10.0, 0.5, 40.0]), 1, (10, 10))
+        _check("late-binding min_speed_for_heading (mac dinh theo config, tuong minh co dinh)", ok is False and ok2)
+        _check("explicit_params chi liet ke tham so tuong minh",
+               f_pinned.explicit_params().get("init_std_omega") == 0.33 and "init_std_omega" not in f_default.explicit_params())
+    finally:
+        config.CTRV_INIT_STD_OMEGA, config.CTRV_MIN_SPEED_FOR_HEADING = saved
+
+
+def test_8_single_predict_equals_batch_predict():
+    """Du doan don (predict tung track) == du doan nhom (multi_predict) voi cung state/cau hinh/dt.
+
+    EKF/UKF: multi_predict la vong lap predict -> bit-identical. CV (ultralytics
+    KalmanFilterXYAH) vector hoa khac duong -> allclose 1e-12.
+    """
+    from ultralytics.trackers.utils.kalman_filter import KalmanFilterXYAH
+    rng = np.random.default_rng(3)
+    cases = [("CV", KalmanFilterXYAH(), 8), ("EKF", EKFTrackerCTRV(std_theta=0.02), 9),
+             ("UKF", UKFTrackerCTRV(std_omega=0.01), 9)]
+    for name, kf, n in cases:
+        if n == 8:
+            base = np.array([300, 200, 0.5, 40, 2, -1, 0.001, 0.2])
+        else:
+            base = np.array([300, 200, 5, 0.4, 0.02, 0.5, 40, 0.001, 0.2])
+        M = np.stack([base + rng.normal(0, 0.1, n) for _ in range(6)])
+        C = np.stack([np.diag(rng.uniform(0.5, 5, n)) for _ in range(6)])
+        bm, bc = kf.multi_predict(M.copy(), C.copy())
+        ok = True
+        for i in range(6):
+            sm, sc = kf.predict(M[i].copy(), C[i].copy())
+            if n == 8:
+                ok &= np.allclose(sm, bm[i], atol=1e-12) and np.allclose(sc, bc[i], atol=1e-12)
+            else:
+                ok &= np.array_equal(sm, bm[i]) and np.array_equal(sc, bc[i])
+        _check(f"[{name}] predict tung track == multi_predict (6 track)", ok)
+
+
+def test_9_two_trackers_different_configs_same_process():
+    """Hai tracker khac cau hinh chay XEN KE trong cung tien trinh khong anh huong nhau.
+
+    Bo dem ID (BaseTrack._count) cua ultralytics la TOAN CUC -> ID cua tracker B khi
+    chay xen ke khac khi chay mot minh (han che da biet, khong lien quan bo loc). Vi
+    vay so sanh box theo frame (bo qua cot id) va hiep phuong sai theta cua track.
+    """
+    cfg_a = load_cfg("configs/bytetrack_ekf_ctrv.yaml", ctrv_std_theta=1.0)
+    cfg_b = load_cfg("configs/bytetrack_ekf_ctrv.yaml")
+    dets = [synthetic_dets(f).cpu().numpy() for f in range(1, 13)]
+
+    solo_b = CTRVByteTracker(args=cfg_b); solo_b.reset()
+    out_solo = [np.sort(solo_b.update(d, None).reshape(-1, 8)[:, :4].copy(), axis=0) for d in dets]
+
+    A = CTRVByteTracker(args=cfg_a); A.reset()
+    B = CTRVByteTracker(args=cfg_b); B.reset()
+    out_a, out_b = [], []
+    for d in dets:
+        out_a.append(A.update(d, None).copy())              # xen ke A roi B
+        out_b.append(np.sort(B.update(d, None).reshape(-1, 8)[:, :4].copy(), axis=0))
+    _check("B chay xen ke voi A == B chay mot minh (box theo frame, bo qua ID)",
+           all(np.array_equal(x, y) for x, y in zip(out_solo, out_b)))
+    ta = (A.tracked_stracks + A.lost_stracks)[0]; tb = (B.tracked_stracks + B.lost_stracks)[0]
+    _check("moi tracker giu bo loc rieng (instance khac nhau, tham so khac nhau)",
+           ta.kalman_filter is not tb.kalman_filter and ta.kalman_filter._std_theta == 1.0
+           and tb.kalman_filter._std_theta == config.CTRV_STD_THETA)
+    # frame rong -> chi predict: P[theta] cua A tang ~1.0^2, cua B tang nho
+    pa, pb = float(ta.covariance[3, 3]), float(tb.covariance[3, 3])
+    A.update(synthetic_dets(4).cpu().numpy(), None); B.update(synthetic_dets(4).cpu().numpy(), None)
+    da, db = float(ta.covariance[3, 3]) - pa, float(tb.covariance[3, 3]) - pb
+    _check("sau 1 buoc predict: dP[theta] cua A ~1.0^2, cua B << (khong ro ri cau hinh)",
+           da > 0.9 and db < 0.1, f"dA={da:.4f} dB={db:.4f}")
+    _check("khong bien toan cuc nao bi ghi de: shared_kalman va config giu nguyen",
+           CTRVSTrack.shared_kalman._std_theta == config.CTRV_STD_THETA == 0.010)
+
+
 def main() -> int:
     tracker_ctrv.register()
     tests = [test_1_default_filter_is_bit_identical_to_shared_kalman,
@@ -195,7 +287,10 @@ def main() -> int:
              test_3_yaml_override_reaches_multi_predict,
              test_4_init_params_on_instance,
              test_5_ctrv_kwargs_from_args,
-             test_6_config_override_before_tracker_creation_still_works]
+             test_6_config_override_before_tracker_creation_still_works,
+             test_7_late_binding_legacy_semantics,
+             test_8_single_predict_equals_batch_predict,
+             test_9_two_trackers_different_configs_same_process]
     failed = 0
     for t in tests:
         print(f"\n--- {t.__name__} ---")
