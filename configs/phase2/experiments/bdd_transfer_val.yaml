@@ -1,0 +1,33 @@
+# MOC 2 (muc 6) - THI NGHIEM 1 tren BDD100K-MOT: CHUYEN CAU HINH tu UA-DETRAC sang BDD100K, KHONG tuning tren BDD.
+# CHUA CHAY: chua co nhan/anh BDD100K goc tren may (xem handoff/large_inputs.md). Truoc khi chay:
+#   1. python src/check_bdd100k.py --part val            (schema fail-loud, thong ke lop/thuoc tinh, phan bo delta t)
+#   2. python src/test_timestep_integration.py           (timestep -> predict/vong doi, elapsed_mode steps)
+#   3. Q theo THOI GIAN: bo loc o don vi BUOC (dt = 1); 5 fps -> 1 buoc = 0.2 s. std_theta/std_omega theo buoc cua
+#      DETRAC (25 fps) KHONG duoc quy doi cong thuc (PHASE2_REPORT muc 3.3) -> thi nghiem 1 giu NGUYEN gia tri theo buoc
+#      (dung nghia "chuyen cau hinh") va ghi ro; thi nghiem 2 (bdd_tuned_val.yaml) moi chon lai tren train-dev.
+#   4. cache: python src/det_cache.py --dataset bdd100k --part val --manifest results/phase2/manifests/bdd100k_final_val.json
+#             --cache-id yolov8n-coco_conf0.05_all_bdd
+# Ket qua thi nghiem 1 va 2 bao cao RIENG, khong gop thanh mot ket luan "kha nang chuyen mien".
+name: bdd_transfer_val
+dataset: bdd100k
+split_name: BDD-val
+part: val
+manifest: results/phase2/manifests/bdd100k_final_val.json      # tao boi check_bdd100k.py --part val
+cache_id: yolov8n-coco_conf0.05_all_bdd
+classes: [1, 2, 3, 5, 7]          # COCO bicycle, car, motorcycle, bus, truck (rider/pedestrian: chi thong ke)
+max_det: 300
+fps: 5
+track_buffer_sec: 1.2             # = 6 buoc @ 5 fps (cung THOI GIAN giu track voi DETRAC 30 buoc @ 25 fps)
+elapsed_mode: steps               # delta t thuc tu timestamp -> n_steps
+assoc_log: true
+conditions:
+  c25: {conf_min: 0.25}
+  c10: {conf_min: 0.10}
+trackers:                         # = cau hinh KHOA tren DETRAC (configs/phase2/LOCK_moc2.md), khong doi
+  - {name: cv,    yaml: bytetrack.yaml}
+  - {name: ekf,   yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: ukf,   yaml: configs/bytetrack_ukf_ctrv.yaml}
+  - {name: pf500, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml, seeds: [0, 1, 2]}
+baseline: cv
+pairs: [[ekf, cv], [ukf, cv]]
+occlusion: {tag: bdd100k_val, fps: 5, context_s: 1.2, gaps: true, n_boot: 5000}

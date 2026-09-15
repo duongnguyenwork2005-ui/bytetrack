@@ -26,5 +26,12 @@ bash scripts/nano/02_benchmark_engine.sh yolov8n_fp16.engine                    
 ## 4. Đo end-to-end trên Nano
 Chưa có (cần vòng lặp tracker không phụ thuộc torch). Khi có: đo decode / preprocess / inference / NMS / predict / assoc / render như `src/profile_pipeline.py`, đồng bộ CUDA trước/sau inference, ghi độ phân giải, batch=1, warm-up, số frame bỏ, phiên bản JetPack/TensorRT.
 
+## 4b. Checklist khi có thiết bị (mốc 2, mục 6 — chưa thực hiện)
+1. `bash scripts/nano/00_check_stack.sh` → dán `results/phase2/profile/nano_stack.txt` vào báo cáo (JetPack, L4T, CUDA, TensorRT, RAM, swap, `nvpmodel -q`).
+2. Chép `models/export/yolo11n_640_op12.onnx` (ứng viên duy nhất qua kiểm tra op TRT 8.2, `results/phase2/export/*.json`) và `yolov8n_640_op12.onnx` (đối chứng) sang Nano; `01_build_engine.sh` FP16 từng file; ghi thời gian build và lỗi (nếu op nào không hỗ trợ → loại ứng viên đó, không thay bằng plugin trong phạm vi đề tài).
+3. `02_benchmark_engine.sh` với `--iterations 200 --warmUp 2000` ở `nvpmodel -m 0` + `jetson_clocks`; ghi `tegrastats` song song 60 s (nhiệt độ, RAM). Kết quả là **latency GPU của detector**, chưa phải toàn pipeline.
+4. Toàn pipeline (decode → preprocess → TRT → NMS → tracker) chỉ đo được sau khi có vòng lặp tracker không phụ thuộc torch (chưa làm); dùng cùng bộ đếm/đồng bộ như `src/profile_pipeline.py`, 450 frame sau 50 warm-up, video `MVI_39031`, 960×540→640, ghi JSON cùng schema `results/phase2/profile/*.json` để so với PC.
+5. Mọi con số Nano phải kèm điều kiện chạy (mode, clocks, nhiệt độ, JetPack/TRT) — **không** dùng số PC (GTX 1650) thay thế.
+
 ## 5. Không hạ độ chính xác bộ lọc
 FP16 chỉ cho detector (TensorRT). Bộ lọc (P, Q, R, Cholesky của UKF, trọng số PF) giữ float64 numpy. Mọi cấu hình tăng tốc phải chạy lại đánh giá tracking (HOTA/IDF1/IDSW + giữ ID qua che khuất) trước khi kết luận.

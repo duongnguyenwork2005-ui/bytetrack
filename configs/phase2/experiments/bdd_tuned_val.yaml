@@ -1,0 +1,31 @@
+# MOC 2 (muc 6) - THI NGHIEM 2 tren BDD100K-MOT: TUNING tren BDD train-dev (~40 video chon tu train,
+# results/phase2/manifests/bdd100k_dev_train.json do check_bdd100k.py --part train --make-manifest --n-dev 40 --seed 0)
+# roi DANH GIA tren val. CHUA CHAY (chua co du lieu). Tach biet voi bdd_transfer_val.yaml: KHONG gop hai ket qua.
+#
+# Quy trinh (ghi truoc):
+#   a. Tren train-dev: quet track_buffer_sec {0.4, 0.8, 1.2, 2.0} va C3 (std_theta/std_omega theo BUOC 0.2 s:
+#      luoi giong PREREG_moc2 C3 nhan he so {1, 2, 5} vi buoc dai hon 5 lan - day la CHON LAI bang thi nghiem,
+#      khong phai quy doi cong thuc), cung tieu chi HOTA c25 + CI nhu PREREG_moc2.md.
+#   b. Khoa lua chon (them muc vao configs/phase2/LOCK_moc2.md) TRUOC khi chay val.
+#   c. Chay file nay tren val voi gia tri da khoa (dien vao `set:` ben duoi).
+name: bdd_tuned_val
+dataset: bdd100k
+split_name: BDD-val
+part: val
+manifest: results/phase2/manifests/bdd100k_final_val.json
+cache_id: yolov8n-coco_conf0.05_all_bdd
+classes: [1, 2, 3, 5, 7]
+max_det: 300
+fps: 5
+elapsed_mode: steps
+assoc_log: true
+conditions:
+  c25: {conf_min: 0.25}
+trackers:
+  # DIEN sau khi khoa tren train-dev, vi du:
+  # - {name: cv-tuned,  yaml: configs/phase2/trackers/bytetrack_cv.yaml, track_buffer_sec: 2.0, set: {cv_std_weight_position: 0.1}}
+  # - {name: ekf-tuned, yaml: configs/bytetrack_ekf_ctrv.yaml, track_buffer_sec: 2.0, set: {ctrv_std_theta: 0.05, ctrv_std_omega: 0.025}}
+  - {name: cv,  yaml: bytetrack.yaml}
+  - {name: ekf, yaml: configs/bytetrack_ekf_ctrv.yaml}
+baseline: cv
+occlusion: {tag: bdd100k_val, fps: 5, context_s: 1.2, gaps: true, n_boot: 5000}
