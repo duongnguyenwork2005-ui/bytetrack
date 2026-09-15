@@ -1,0 +1,7 @@
+cond,tracker,yaml,set,seed,conf_min,dir,tracker_type,track_buffer_sec
+c25,cv,configs/phase2/trackers/bytetrack_cv.yaml,{},,0.25,p2-expC2_recover_dev-c25-cv,bytetrack_cv,1.2
+c25,cv-maha,configs/phase2/trackers/bytetrack_cv.yaml,"{'lost_recover': 'maha', 'lost_recover_maha2': 5.991}",,0.25,p2-expC2_recover_dev-c25-cv-maha,bytetrack_cv,1.2
+c25,cv-iou,configs/phase2/trackers/bytetrack_cv.yaml,"{'lost_recover': 'iou', 'lost_recover_iou': 0.05}",,0.25,p2-expC2_recover_dev-c25-cv-iou,bytetrack_cv,1.2
+c25,ekf,configs/bytetrack_ekf_ctrv.yaml,{},,0.25,p2-expC2_recover_dev-c25-ekf,bytetrack_ekf_ctrv,1.2
+c25,ekf-maha,configs/bytetrack_ekf_ctrv.yaml,"{'lost_recover': 'maha', 'lost_recover_maha2': 5.991}",,0.25,p2-expC2_recover_dev-c25-ekf-maha,bytetrack_ekf_ctrv,1.2
+c25,ekf-iou,configs/bytetrack_ekf_ctrv.yaml,"{'lost_recover': 'iou', 'lost_recover_iou': 0.05}",,0.25,p2-expC2_recover_dev-c25-ekf-iou,bytetrack_ekf_ctrv,1.2

@@ -1,0 +1,60 @@
+# MOC 2 - C3: TUNING THAM SO NHIEU (khong doi mo hinh nhieu) - dev UA-DETRAC, c25. Dang ky truoc: PREREG_moc2.md.
+# EKF: ctrv_std_theta x ctrv_std_omega (12); CV (bytetrack_cv, bo loc theo instance): cv_std_weight_position x
+# cv_std_weight_velocity (9). Detector/cache/association/track_buffer 1.2 s co dinh. Tieu chi: HOTA c25.
+name: expC3_noise_dev
+dataset: detrac
+split_name: DETRAC-all
+part: train
+manifest: results/phase2/manifests/detrac_dev.json
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+track_buffer_sec: 1.2
+elapsed_mode: skip
+conditions:
+  c25: {conf_min: 0.25}
+trackers:
+  - {name: ekf-th0.005-om0.0025, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.005, ctrv_std_omega: 0.0025}}
+  - {name: ekf-th0.005-om0.005, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.005, ctrv_std_omega: 0.005}}
+  - {name: ekf-th0.005-om0.01, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.005, ctrv_std_omega: 0.01}}
+  - {name: ekf-th0.01-om0.0025, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.01, ctrv_std_omega: 0.0025}}
+  - {name: ekf-th0.01-om0.005, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.01, ctrv_std_omega: 0.005}}   # hien tai
+  - {name: ekf-th0.01-om0.01, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.01, ctrv_std_omega: 0.01}}
+  - {name: ekf-th0.02-om0.0025, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.02, ctrv_std_omega: 0.0025}}
+  - {name: ekf-th0.02-om0.005, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.02, ctrv_std_omega: 0.005}}
+  - {name: ekf-th0.02-om0.01, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.02, ctrv_std_omega: 0.01}}
+  - {name: ekf-th0.05-om0.0025, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.05, ctrv_std_omega: 0.0025}}
+  - {name: ekf-th0.05-om0.005, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.05, ctrv_std_omega: 0.005}}
+  - {name: ekf-th0.05-om0.01, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.05, ctrv_std_omega: 0.01}}
+  - {name: cv-p40-v320, yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {cv_std_weight_position: 0.025, cv_std_weight_velocity: 0.003125}}
+  - {name: cv-p40-v160, yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {cv_std_weight_position: 0.025, cv_std_weight_velocity: 0.00625}}
+  - {name: cv-p40-v80, yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {cv_std_weight_position: 0.025, cv_std_weight_velocity: 0.0125}}
+  - {name: cv-p20-v320, yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {cv_std_weight_position: 0.05, cv_std_weight_velocity: 0.003125}}
+  - {name: cv-p20-v160, yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {cv_std_weight_position: 0.05, cv_std_weight_velocity: 0.00625}}   # hien tai (= bytetrack.yaml)
+  - {name: cv-p20-v80, yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {cv_std_weight_position: 0.05, cv_std_weight_velocity: 0.0125}}
+  - {name: cv-p10-v320, yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {cv_std_weight_position: 0.1, cv_std_weight_velocity: 0.003125}}
+  - {name: cv-p10-v160, yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {cv_std_weight_position: 0.1, cv_std_weight_velocity: 0.00625}}
+  - {name: cv-p10-v80, yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {cv_std_weight_position: 0.1, cv_std_weight_velocity: 0.0125}}
+baseline: cv-p20-v160
+pairs:
+  - [ekf-th0.005-om0.0025, ekf-th0.01-om0.005, "chi doi std_theta/std_omega (EKF)"]
+  - [ekf-th0.005-om0.005, ekf-th0.01-om0.005, "chi doi std_theta/std_omega (EKF)"]
+  - [ekf-th0.005-om0.01, ekf-th0.01-om0.005, "chi doi std_theta/std_omega (EKF)"]
+  - [ekf-th0.01-om0.0025, ekf-th0.01-om0.005, "chi doi std_theta/std_omega (EKF)"]
+  - [ekf-th0.01-om0.01, ekf-th0.01-om0.005, "chi doi std_theta/std_omega (EKF)"]
+  - [ekf-th0.02-om0.0025, ekf-th0.01-om0.005, "chi doi std_theta/std_omega (EKF)"]
+  - [ekf-th0.02-om0.005, ekf-th0.01-om0.005, "chi doi std_theta/std_omega (EKF)"]
+  - [ekf-th0.02-om0.01, ekf-th0.01-om0.005, "chi doi std_theta/std_omega (EKF)"]
+  - [ekf-th0.05-om0.0025, ekf-th0.01-om0.005, "chi doi std_theta/std_omega (EKF)"]
+  - [ekf-th0.05-om0.005, ekf-th0.01-om0.005, "chi doi std_theta/std_omega (EKF)"]
+  - [ekf-th0.05-om0.01, ekf-th0.01-om0.005, "chi doi std_theta/std_omega (EKF)"]
+  - [cv-p40-v320, cv-p20-v160, "chi doi std_weight_position/velocity (CV)"]
+  - [cv-p40-v160, cv-p20-v160, "chi doi std_weight_position/velocity (CV)"]
+  - [cv-p40-v80, cv-p20-v160, "chi doi std_weight_position/velocity (CV)"]
+  - [cv-p20-v320, cv-p20-v160, "chi doi std_weight_position/velocity (CV)"]
+  - [cv-p20-v80, cv-p20-v160, "chi doi std_weight_position/velocity (CV)"]
+  - [cv-p10-v320, cv-p20-v160, "chi doi std_weight_position/velocity (CV)"]
+  - [cv-p10-v160, cv-p20-v160, "chi doi std_weight_position/velocity (CV)"]
+  - [cv-p10-v80, cv-p20-v160, "chi doi std_weight_position/velocity (CV)"]
+occlusion: {part: train, context_s: 1.2, gaps: false, n_boot: 5000}

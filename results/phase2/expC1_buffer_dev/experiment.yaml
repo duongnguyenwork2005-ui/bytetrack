@@ -1,0 +1,46 @@
+# MOC 2 - C1: THOI GIAN GIU TRACK MAT DAU (track_buffer) - dev UA-DETRAC, c25. Dang ky truoc: PREREG_moc2.md.
+# Chi doi MOT thanh phan: track_buffer_sec theo tracker (-> buoc = round(s*25)). Bo loc {cv, ekf} cung buffer.
+# Detector/cache/association co dinh. assoc_log de tinh ghep nham (wrong_refind_rate).
+name: expC1_buffer_dev
+dataset: detrac
+split_name: DETRAC-all
+part: train
+manifest: results/phase2/manifests/detrac_dev.json
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+elapsed_mode: skip
+assoc_log: true
+conditions:
+  c25: {conf_min: 0.25}
+trackers:
+  - {name: cv-b0.4,  yaml: bytetrack.yaml, track_buffer_sec: 0.4}     # 10 buoc
+  - {name: cv-b0.8,  yaml: bytetrack.yaml, track_buffer_sec: 0.8}     # 20
+  - {name: cv-b1.2,  yaml: bytetrack.yaml, track_buffer_sec: 1.2}     # 30 = hien tai (GD1)
+  - {name: cv-b2.0,  yaml: bytetrack.yaml, track_buffer_sec: 2.0}     # 50
+  - {name: cv-b3.0,  yaml: bytetrack.yaml, track_buffer_sec: 3.0}     # 75
+  - {name: cv-b4.0,  yaml: bytetrack.yaml, track_buffer_sec: 4.0}     # 100
+  - {name: ekf-b0.4, yaml: configs/bytetrack_ekf_ctrv.yaml, track_buffer_sec: 0.4}
+  - {name: ekf-b0.8, yaml: configs/bytetrack_ekf_ctrv.yaml, track_buffer_sec: 0.8}
+  - {name: ekf-b1.2, yaml: configs/bytetrack_ekf_ctrv.yaml, track_buffer_sec: 1.2}
+  - {name: ekf-b2.0, yaml: configs/bytetrack_ekf_ctrv.yaml, track_buffer_sec: 2.0}
+  - {name: ekf-b3.0, yaml: configs/bytetrack_ekf_ctrv.yaml, track_buffer_sec: 3.0}
+  - {name: ekf-b4.0, yaml: configs/bytetrack_ekf_ctrv.yaml, track_buffer_sec: 4.0}
+baseline: cv-b1.2
+pairs:
+  - [cv-b0.4, cv-b1.2, "chi doi buffer 0.4 vs 1.2 (CV)"]
+  - [cv-b0.8, cv-b1.2, "chi doi buffer 0.8 vs 1.2 (CV)"]
+  - [cv-b2.0, cv-b1.2, "chi doi buffer 2.0 vs 1.2 (CV)"]
+  - [cv-b3.0, cv-b1.2, "chi doi buffer 3.0 vs 1.2 (CV)"]
+  - [cv-b4.0, cv-b1.2, "chi doi buffer 4.0 vs 1.2 (CV)"]
+  - [ekf-b0.4, ekf-b1.2, "chi doi buffer 0.4 vs 1.2 (EKF)"]
+  - [ekf-b0.8, ekf-b1.2, "chi doi buffer 0.8 vs 1.2 (EKF)"]
+  - [ekf-b2.0, ekf-b1.2, "chi doi buffer 2.0 vs 1.2 (EKF)"]
+  - [ekf-b3.0, ekf-b1.2, "chi doi buffer 3.0 vs 1.2 (EKF)"]
+  - [ekf-b4.0, ekf-b1.2, "chi doi buffer 4.0 vs 1.2 (EKF)"]
+  - [ekf-b0.4, cv-b0.4, "chi doi bo loc, cung buffer 0.4"]
+  - [ekf-b1.2, cv-b1.2, "chi doi bo loc, cung buffer 1.2"]
+  - [ekf-b2.0, cv-b2.0, "chi doi bo loc, cung buffer 2.0"]
+  - [ekf-b4.0, cv-b4.0, "chi doi bo loc, cung buffer 4.0"]
+occlusion: {part: train, context_s: 1.2, gaps: false, n_boot: 5000}

@@ -1,0 +1,91 @@
+[eval] 12 video, 116,845 dong GT (bo 0 dong khong phai lop danh gia); cua so truoc/sau = 30 frame (1.20 s)
+[eval] doan tho: 717 partial + 245 full = 962
+[eval] sau khi gop thanh su kien khong dem lap: 717 (giam 245 do dem lap)
+[eval] du dieu kien danh gia (xac dinh tu GT): 184
+         loai   369  ly do: gt_missing_before
+         loai   164  ly do: gt_missing_after
+
+[p2-expC2_recover_dev-c25-cv] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                   93    50.5%
+  switched                    44    23.9%
+  lost_after                  14     7.6%
+  no_match_before             33    17.9%
+  id_continuous               57    31.0%
+
+[p2-expC2_recover_dev-c25-cv-maha] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                  102    55.4%
+  switched                    37    20.1%
+  lost_after                  12     6.5%
+  no_match_before             33    17.9%
+  id_continuous               57    31.0%
+
+[p2-expC2_recover_dev-c25-cv-iou] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                  104    56.5%
+  switched                    35    19.0%
+  lost_after                  12     6.5%
+  no_match_before             33    17.9%
+  id_continuous               56    30.4%
+
+[p2-expC2_recover_dev-c25-ekf] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                   90    48.9%
+  switched                    46    25.0%
+  lost_after                  15     8.2%
+  no_match_before             33    17.9%
+  id_continuous               57    31.0%
+
+[p2-expC2_recover_dev-c25-ekf-maha] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                   93    50.5%
+  switched                    46    25.0%
+  lost_after                  12     6.5%
+  no_match_before             33    17.9%
+  id_continuous               56    30.4%
+
+[p2-expC2_recover_dev-c25-ekf-iou] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                   99    53.8%
+  switched                    38    20.7%
+  lost_after                  14     7.6%
+  no_match_before             33    17.9%
+  id_continuous               57    31.0%
+
+==============================================================================
+SO SANH TREN CUNG 184 SU KIEN DU DIEU KIEN (12 video)
+==============================================================================
+  tracker                       id_match   id_continuous
+  ------------------------------------------------------
+  p2-expC2_recover_dev-c25-cv      50.54%          30.98%
+  p2-expC2_recover_dev-c25-cv-maha      55.43%          30.98%
+  p2-expC2_recover_dev-c25-cv-iou      56.52%          30.43%
+  p2-expC2_recover_dev-c25-ekf      48.91%          30.98%
+  p2-expC2_recover_dev-c25-ekf-maha      50.54%          30.43%
+  p2-expC2_recover_dev-c25-ekf-iou      53.80%          30.98%
+
+CHENH LECH so voi p2-expC2_recover_dev-c25-cv, bootstrap THEO VIDEO (5000 lan, giu tinh ghep cap):
+  tracker                     chenh id_match                   KTC 95%
+  --------------------------------------------------------------------
+  p2-expC2_recover_dev-c25-cv-maha          +4.89%   [+1.07%, +8.02%]
+  p2-expC2_recover_dev-c25-cv-iou          +5.98%   [+3.62%, +8.38%]
+  p2-expC2_recover_dev-c25-ekf          -1.63%   [-4.94%, +0.53%]
+  p2-expC2_recover_dev-c25-ekf-maha          +0.00%   [-5.13%, +4.07%]
+  p2-expC2_recover_dev-c25-ekf-iou          +3.26%   [-1.87%, +6.71%]
+
+LUU Y KHI DOC:
+  - Khoang tin cay chua 0 KHONG co nghia hai mo hinh tuong duong; no chi
+    co nghia du lieu hien co chua du de phan biet (thieu luc kiem dinh).
+  - Bootstrap lay mau o cap VIDEO vi cac su kien trong cung video khong
+    doc lap. Neu dung McNemar theo tung su kien thi p-value se HEP hon
+    thuc te vi coi cac su kien la doc lap.
+
+  Da luu -> D:\LABOTARY\bytetrack\results\phase2\expC2_recover_dev\c25
+

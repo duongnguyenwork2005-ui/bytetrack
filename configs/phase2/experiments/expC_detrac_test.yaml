@@ -1,0 +1,38 @@
+# MOC 2 - Nhom C tren TAP TEST UA-DETRAC (40 video), c25. Cau hinh KHOA truoc khi xem ket qua test
+# (configs/phase2/LOCK_moc2.md, results/phase2/lock/lock_moc2.json).
+#
+# Theo TIEU CHI DA DANG KY TRUOC (HOTA c25 + CI khong chua 0) thi KHONG truc nao cua Nhom C duoc chon:
+#   C1 (track_buffer): moi muc 0.8-4.0 s deu co CI chua 0 -> giu 1.2 s
+#   C3 (tham so nhieu): moi cau hinh CI chua 0 -> giu mac dinh
+#   C2 (vong ghep thu 3 cho track LOST): HOTA CI chua 0 -> KHONG dat tieu chi HOTA
+# Nhung C2 cai thien CO Y NGHIA chi so SU KIEN (giu ID qua che khuat): cv-maha +0.049 [+0.011, +0.080]
+# (preserved, bootstrap theo video). Vi hai chi so khong thong nhat, cac nhanh C2 duoc chay tren test nhu
+# ARM THAM DO (exploratory), ghi ro trong LOCK va bao cao: chung KHONG phai "cau hinh duoc chon theo
+# tieu chi dang ky truoc", va ket qua test cua chung phai doc nhu kiem chung mot gia thuyet, khong phai
+# "cau hinh tot nhat".
+name: expC_detrac_test
+dataset: detrac
+split_name: DETRAC-test
+part: test
+manifest: results/phase2/manifests/detrac_test.json
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+track_buffer_sec: 1.2
+elapsed_mode: skip
+assoc_log: true
+conditions:
+  c25: {conf_min: 0.25}
+trackers:
+  - {name: cv,       yaml: configs/phase2/trackers/bytetrack_cv.yaml}
+  - {name: cv-maha,  yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {lost_recover: maha, lost_recover_maha2: 5.991}}
+  - {name: ekf,      yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: ekf-maha, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {lost_recover: maha, lost_recover_maha2: 5.991}}
+baseline: cv
+pairs:
+  - [cv-maha, cv, "chi doi co che ghep: + vong 3 gate Mahalanobis theo P (CV)"]
+  - [ekf-maha, ekf, "chi doi co che ghep: + vong 3 gate Mahalanobis theo P (EKF)"]
+  - [ekf, cv, "chi doi bo loc CV -> EKF-CTRV"]
+  - [ekf-maha, cv-maha, "chi doi bo loc, cung co che ghep moi"]
+occlusion: {part: test, context_s: 1.2, gaps: false, n_boot: 5000}
