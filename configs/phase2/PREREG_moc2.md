@@ -58,9 +58,44 @@ thuộc C1). Ứng viên tương ứng:
 Sau khi chọn: điền mục "C2 — đã chọn" dưới đây (giả thuyết, tham số, điều kiện áp dụng) rồi mới chạy
 `expC2_recover_dev.yaml`: {cv, ekf} × {gốc, +C2}; đo phục hồi đúng (preserved, tầng) **và** ghép nhầm.
 
-### C2 — đã chọn
+### C2 — đã chọn (điền 2026-09-16, sau phân tích nguyên nhân, TRƯỚC khi chạy `expC2_recover_dev.yaml`)
 
-_(điền sau phân tích nguyên nhân, trước khi chạy)_
+Bằng chứng chọn (`results/phase2/failure_analysis/expA_detrac_dev/cause_summary.csv`, c25, tính trên các
+thất bại `switched` + `lost_after`, chỉ xét nguyên nhân **thuộc cơ chế ghép** — không tính `detector_miss`
+và `buffer_expired` (C1 đã phủ)):
+
+| nguyên nhân | cv (full+partial) | ekf (full+partial) |
+|:--|--:|--:|
+| **prediction_drift** | 11 + 9 = **20** | 13 + 10 = **23** |
+| score_fusion_reject | 5 + 7 = 12 | 2 + 6 = 8 |
+| competition | 1 + 2 = 3 | 2 + 2 = 4 |
+| hijacked_during | 0 + 1 = 1 | 0 + 0 = 0 |
+
+→ nổi bật nhất: **`prediction_drift`** (IoU giữa box dự đoán và detection tái xuất hiện < 0,2 nên cặp đó
+không bao giờ qua được `match_thresh` 0,8, dù detection có conf = 1).
+
+**Thay đổi được chọn**: `lost_recover: maha` (trong `src/lost_recovery.py`) — vòng ghép **thứ 3** chỉ giữa
+track **LOST** chưa ghép và detection **high** chưa ghép, đặt **sau** vòng 1 và **trước** vòng 2 + trước khi
+sinh track mới; điều kiện nhận: khoảng cách Mahalanobis **vị trí** theo đúng hiệp phương sai của bộ lọc
+(`kalman_filter.gating_distance(..., only_position=True)`) ≤ `lost_recover_maha2 = 5.991`
+(χ² 2 bậc tự do, mức 95 %); xếp hạng trong gate theo khoảng cách tâm chuẩn hoá theo kích thước detection.
+`lost_recover_max_lost = 0` (không giới hạn thêm — `track_buffer` đã chặn ở 30 bước).
+
+**Giả thuyết (ghi trước)**: các thất bại `prediction_drift` là trường hợp dự đoán lệch **nhưng vẫn nằm
+trong vùng bất định mà chính bộ lọc khai báo**; dùng vùng đó làm cổng (thay vì IoU cố định) sẽ nối lại được
+một phần các track này, và vì gate co/giãn theo P nên số **ghép nhầm** (`wrong_refind_rate`) không tăng
+đáng kể. Khác với Giai đoạn B của GĐ1 (gate nới theo *số frame* + IoA bão hoà ở 1.0 → mọi detection trong
+gate đều cost 0 → IDSW tăng 5–6 lần, `results/phaseB/`): ở đây gate **chỉ lọc**, xếp hạng vẫn theo khoảng
+cách, và độ rộng gate do bộ lọc quyết định.
+
+**Đối chứng (control, không phải "thay đổi được chọn")**: `lost_recover: iou` với
+`lost_recover_iou = 0.05` — cùng vòng ghép thứ 3, nhưng cổng là IoU nới lỏng thay vì hiệp phương sai. Dùng
+để tách phần lợi ích đến từ *việc có thêm một vòng ghép cho track LOST* khỏi phần đến từ *thông tin bất định
+của bộ lọc*. Chạy cho cả CV và EKF.
+
+**Ma trận** (c25, mọi thứ khác cố định, `track_buffer` 1,2 s): {cv, ekf} × {gốc, +maha, +iou(control)} = 6 lần chạy.
+**Chỉ số quyết định**: HOTA COMBINED + CI; kèm bắt buộc: `preserved` theo tầng (full/partial) **và**
+`wrong_refind_rate` (ghép nhầm) — một thay đổi làm tăng phục hồi nhưng tăng ghép nhầm mạnh sẽ **không** được chọn.
 
 ## Kết hợp
 

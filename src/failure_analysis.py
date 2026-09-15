@@ -80,6 +80,11 @@ class VideoContext:
         m = match_video(self.gt, self.trk)                       # (frame, gt_id, tracker_id, iou)
         self.match = m
         self.trk_to_gt = {(int(r.frame), int(r.tracker_id)): int(r.gt_id) for r in m.itertuples()}
+        # tracker_id -> [(frame, gt_id)] tang dan: de tra cuu GT o lan GHEP GAN NHAT truoc mot frame
+        # (track co the o trong pool nhung KHONG co trong output frame do -> trk_to_gt khong co khoa)
+        self.match_by_tid: dict[int, list[tuple[int, int]]] = {}
+        for r in m.sort_values("frame").itertuples():
+            self.match_by_tid.setdefault(int(r.tracker_id), []).append((int(r.frame), int(r.gt_id)))
         self.gt_to_trk = {(int(r.frame), int(r.gt_id)): int(r.tracker_id) for r in m.itertuples()}
         self.tracks, self.dets, self.events = load_log(tdir / "assoc_log", video)
         self.tracks_by_id = {k: g.sort_values("frame") for k, g in self.tracks.groupby("track_id")}
@@ -95,6 +100,14 @@ class VideoContext:
         self.low = float(cfg.get("track_low_thresh", 0.1))
         self.match_thresh = float(cfg.get("match_thresh", 0.8))
         self.buffer = int(cfg.get("track_buffer", 30))
+
+    def last_gt_before(self, tid: int, frame: int) -> tuple[int | None, int | None]:
+        """(frame, gt_id) cua lan tracker `tid` duoc ghep GT GAN NHAT truoc `frame` (None neu chua tung)."""
+        lst = self.match_by_tid.get(int(tid))
+        if not lst:
+            return None, None
+        prev = [x for x in lst if x[0] < frame]
+        return (prev[-1] if prev else (None, None))
 
     def gt_box(self, frame: int, gt_id: int):
         g = self.gt_by_frame.get(frame)
@@ -248,13 +261,9 @@ def refind_quality(vc: VideoContext) -> pd.DataFrame:
                 io = iou_1xn(d[["x", "y", "w", "h"]].to_numpy(float)[0], g[["x", "y", "w", "h"]].to_numpy(float))
                 if io.max() >= 0.5:
                     gt_now = int(g.id.to_numpy()[int(np.argmax(io))])
-        # GT truoc khi mat: frame Tracked cuoi cung cua track truoc f
-        g_prev = vc.tracks_by_id.get(tid)
-        gt_prev = None; f_prev = None
-        if g_prev is not None:
-            prev = g_prev[(g_prev.frame < f) & (g_prev.state == 1)]
-            if len(prev):
-                f_prev = int(prev.frame.iloc[-1]); gt_prev = vc.trk_to_gt.get((f_prev, tid))
+        # GT truoc khi mat: lan track duoc ghep GT gan nhat TRUOC f (track co the nam trong pool nhieu frame
+        # ma khong co trong output -> phai tra cuu lan ghep gan nhat, khong phai frame Tracked cuoi trong log)
+        f_prev, gt_prev = vc.last_gt_before(tid, f)
         rows.append(dict(video=vc.video, frame=f, track_id=tid, n_lost=int(r.n_lost), gt_now=gt_now, gt_prev=gt_prev,
                          f_prev=f_prev, known=(gt_now is not None and gt_prev is not None),
                          wrong=(gt_now is not None and gt_prev is not None and gt_now != gt_prev)))

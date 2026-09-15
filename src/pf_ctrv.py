@@ -322,8 +322,10 @@ class PFTrackView:
         t = self.track
         key = None
         if self.pf.diag_rows is not None:
-            fid = int(getattr(t, "frame_id", -1))
-            key = (int(t.track_id), fid, int(fid - t.end_frame) if t.end_frame is not None else 0)
+            # frame HIEN TAI cua tracker (CTRVSTrack.update/re_activate dat truoc khi goi bo loc); so buoc da mat
+            # = frame hien tai - frame duoc cap nhat lan cuoi (t.frame_id van la gia tri CU luc re_activate).
+            fid = int(getattr(t, "_pending_frame_id", getattr(t, "frame_id", -1)))
+            key = (int(t.track_id), fid, max(0, fid - int(t.frame_id)) if t.frame_id is not None else 0)
         t.particles, t.logw, m, P = self.pf.update_particles(t.particles, t.logw,
                                                              measurement, confidence, t.rng, diag_key=key)
         return m, P
@@ -341,7 +343,8 @@ class PFTrackView:
         m, P = self.pf.estimate_state(t.particles, t.logw)
         if self.pf.diag_rows is not None:
             sxy, sth, sv = self.pf._diag_spread(t.particles, t.logw)
-            self.pf.diag_rows.append([int(t.track_id), int(getattr(t, "frame_id", -1)), "init_motion", 1.0, False,
+            self.pf.diag_rows.append([int(t.track_id), int(getattr(t, "_pending_frame_id", getattr(t, "frame_id", -1))),
+                                      "init_motion", 1.0, False,
                                       len(t.particles), sxy, sth, sv, False, 0.0, 0])
         return m, P, True
 

@@ -1,0 +1,27 @@
+# MOC 2 - Thi nghiem A tren TAP TEST UA-DETRAC (40 video) - danh gia CUOI, cau hinh KHOA tren dev
+# (configs/phase2/LOCK_moc2.md). KHONG tuning tren test. Dieu kien c25 (conf > 0.25) / c10 (conf > 0.10).
+# PF: doi chung pf500 x 3 seed (N lon nhat da khao sat tren dev, cai thien don dieu theo N; pf100/300 KHONG chay tren test).
+name: expA_detrac_test
+dataset: detrac
+split_name: DETRAC-test
+part: test
+manifest: results/phase2/manifests/detrac_test.json
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+track_buffer_sec: 1.2
+elapsed_mode: skip
+assoc_log: true
+pf_diag: true
+conditions:
+  c25: {conf_min: 0.25}
+  c10: {conf_min: 0.10}
+trackers:
+  - {name: cv,    yaml: bytetrack.yaml}
+  - {name: ekf,   yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: ukf,   yaml: configs/bytetrack_ukf_ctrv.yaml}
+  - {name: pf500, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml, seeds: [0, 1, 2]}
+baseline: cv
+pairs: [[ekf, cv, "chi doi bo loc CV -> EKF-CTRV"], [ukf, cv, "chi doi bo loc CV -> UKF-CTRV"], [ukf, ekf, "EKF -> UKF (cung CTRV)"], [pf500, ekf, "EKF -> PF (cung f/Q/R), N=500"]]
+occlusion: {part: test, context_s: 1.2, gaps: false, n_boot: 5000}

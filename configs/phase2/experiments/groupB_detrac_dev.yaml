@@ -25,4 +25,10 @@ trackers:
   - {name: sort-ekf1,   yaml: configs/phase2/trackers/sort_ekf_ctrv_age1.yaml}
   - {name: bt-ekf,      yaml: configs/bytetrack_ekf_ctrv.yaml}
 baseline: sort-orig1
+pairs:                          # Moc 2: tung cap, chi dien giai yeu to duoc kiem soat (aggregate -> paired_pairs.csv)
+  - [sort-orig30, sort-orig1, "chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)"]
+  - [sort-cv30, sort-orig30, "chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"]
+  - [sort-ekf30, sort-cv30, "chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"]
+  - [sort-ekf1, sort-orig1, "chi doi bo loc, max_age 1"]
+  - [bt-ekf, sort-ekf30, "chi doi vong doi/association SORT -> ByteTrack, cung EKF"]
 occlusion: {part: train, context_s: 1.2, gaps: false, n_boot: 5000}

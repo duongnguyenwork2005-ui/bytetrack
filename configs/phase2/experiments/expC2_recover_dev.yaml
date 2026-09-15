@@ -1,0 +1,33 @@
+# MOC 2 - C2: NOI LAI TRACK MAT DAU - dev UA-DETRAC, c25. Lua chon + gia thuyet dang ky TRUOC trong
+# configs/phase2/PREREG_moc2.md muc "C2 - da chon" (nguyen nhan noi bat: prediction_drift).
+# Chi doi MOT thanh phan so voi ban goc: co che ghep cho track LOST (vong ghep thu 3). Bo loc, detector,
+# cache, track_buffer 1.2 s, moi tham so ghep cap khac GIU NGUYEN. assoc_log de do ghep nham.
+name: expC2_recover_dev
+dataset: detrac
+split_name: DETRAC-all
+part: train
+manifest: results/phase2/manifests/detrac_dev.json
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+track_buffer_sec: 1.2
+elapsed_mode: skip
+assoc_log: true
+conditions:
+  c25: {conf_min: 0.25}
+trackers:
+  - {name: cv,        yaml: configs/phase2/trackers/bytetrack_cv.yaml}
+  - {name: cv-maha,   yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {lost_recover: maha, lost_recover_maha2: 5.991}}
+  - {name: cv-iou,    yaml: configs/phase2/trackers/bytetrack_cv.yaml, set: {lost_recover: iou, lost_recover_iou: 0.05}}
+  - {name: ekf,       yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: ekf-maha,  yaml: configs/bytetrack_ekf_ctrv.yaml, set: {lost_recover: maha, lost_recover_maha2: 5.991}}
+  - {name: ekf-iou,   yaml: configs/bytetrack_ekf_ctrv.yaml, set: {lost_recover: iou, lost_recover_iou: 0.05}}
+baseline: cv
+pairs:
+  - [cv-maha, cv, "chi doi co che ghep: + vong 3 gate Mahalanobis theo P (CV)"]
+  - [cv-iou, cv, "doi chung: + vong 3 gate IoU 0.05 (CV)"]
+  - [ekf-maha, ekf, "chi doi co che ghep: + vong 3 gate Mahalanobis theo P (EKF)"]
+  - [ekf-iou, ekf, "doi chung: + vong 3 gate IoU 0.05 (EKF)"]
+  - [ekf-maha, cv-maha, "chi doi bo loc, cung co che ghep moi"]
+occlusion: {part: train, context_s: 1.2, gaps: false, n_boot: 5000}

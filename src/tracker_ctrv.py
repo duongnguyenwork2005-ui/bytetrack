@@ -216,11 +216,16 @@ class CTRVSTrack(STrack):
                              float(self.mean[self.IDX_CY]))
 
     def update(self, new_track: STrack, frame_id: int):
+        # `_pending_frame_id` (Moc 2): frame HIEN TAI cua tracker, de chan doan PF ghi dung frame va so buoc
+        # da mat - `STrack.re_activate` cap nhat bo loc TRUOC khi gan self.frame_id nen doc self.frame_id
+        # trong bo loc se ra frame CU.
+        self._pending_frame_id = int(frame_id)
         self._init_motion_if_needed(new_track, frame_id)
         super().update(new_track, frame_id)
         self._remember_obs(new_track)
 
     def re_activate(self, new_track: STrack, frame_id: int, new_id: bool = False):
+        self._pending_frame_id = int(frame_id)
         self._init_motion_if_needed(new_track, frame_id)
         super().re_activate(new_track, frame_id, new_id)
         self._remember_obs(new_track)
