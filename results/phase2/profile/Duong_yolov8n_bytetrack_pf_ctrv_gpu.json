@@ -1,0 +1,117 @@
+{
+  "host": "Duong",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9",
+  "ultralytics": "8.4.141",
+  "torch": "2.6.0+cu124",
+  "cuda": "12.4",
+  "cudnn": 90100,
+  "gpu": {
+    "name": "NVIDIA GeForce GTX 1650",
+    "max_memory_allocated_mb": 25.33447265625,
+    "max_memory_reserved_mb": 40.0
+  },
+  "device": "0",
+  "detector": "D:\\LABOTARY\\bytetrack\\models\\yolov8n.pt",
+  "weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+  "imgsz": 640,
+  "conf": 0.25,
+  "classes": [
+    2,
+    3,
+    5,
+    7
+  ],
+  "half": false,
+  "batch": 1,
+  "image_shape": [
+    540,
+    960
+  ],
+  "tracker_yaml": "configs/phase2/trackers/bytetrack_pf_ctrv_n300.yaml",
+  "tracker_type": "bytetrack_pf_ctrv",
+  "tracker_cfg": {
+    "tracker_type": "bytetrack_pf_ctrv",
+    "track_high_thresh": 0.25,
+    "track_low_thresh": 0.1,
+    "new_track_thresh": 0.25,
+    "track_buffer": 30,
+    "match_thresh": 0.8,
+    "fuse_score": true,
+    "pf_num_particles": 300,
+    "pf_seed": 0,
+    "pf_resample_ess_ratio": 0.5,
+    "pf_estimate": "mean",
+    "pf_roughening": 0.0,
+    "pf_degenerate_maha2": 10000.0
+  },
+  "video": "MVI_39031",
+  "n_frames_requested": 500,
+  "n_frames_processed": 500,
+  "n_warmup": 50,
+  "n_measured": 450,
+  "n_skipped_unreadable": 0,
+  "rss_mb_before": 488.59375,
+  "rss_mb_after": 1161.94921875,
+  "fps_end_to_end": 46.16379859539331,
+  "git_commit": "1931631",
+  "created": "2026-09-15T15:41:57",
+  "note": "Do tren PC. Jetson Nano: CHUA DO TREN THIET BI (xem scripts/nano/README.md).",
+  "stages_ms": {
+    "decode_ms": {
+      "mean": 2.9326586666421566,
+      "p50": 2.7016999993065838,
+      "p95": 3.9711899992653334
+    },
+    "mask_ms": {
+      "mean": 0.4565682222002781,
+      "p50": 0.38360000053216936,
+      "p95": 0.6855049997284368
+    },
+    "preprocess_ms": {
+      "mean": 1.4857480000137002,
+      "p50": 1.3361500004975824,
+      "p95": 2.163395000479795
+    },
+    "inference_ms": {
+      "mean": 11.457104666604007,
+      "p50": 10.484550000001036,
+      "p95": 16.064939999159833
+    },
+    "postprocess_ms": {
+      "mean": 2.4134493333096745,
+      "p50": 2.0878499999525957,
+      "p95": 3.677679999873361
+    },
+    "detector_wall_ms": {
+      "mean": 15.943126222284466,
+      "p50": 14.70694999989064,
+      "p95": 21.94686999982877
+    },
+    "predict_ms": {
+      "mean": 0.8195257777050655,
+      "p50": 0.7327000002987916,
+      "p95": 1.5479949998734808
+    },
+    "assoc_ms": {
+      "mean": 1.3987180000387727,
+      "p50": 1.264850000552542,
+      "p95": 2.6585950005028267
+    },
+    "tracker_ms": {
+      "mean": 2.2182437777438384,
+      "p50": 2.078099999380356,
+      "p95": 4.293539999525817
+    },
+    "render_ms": {
+      "mean": 0.0,
+      "p50": 0.0,
+      "p95": 0.0
+    },
+    "total_ms": {
+      "mean": 21.661995555534507,
+      "p50": 20.75444999991305,
+      "p95": 29.52459499956603
+    }
+  }
+}

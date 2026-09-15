@@ -159,7 +159,7 @@ def stage_eval(exp: dict, rows: list[dict], videos: list[str]):
         if (out / f"bootstrap_{split}.csv").exists():
             print(f"  [occl ] {cond}: da co, bo qua"); continue
         cmd = [PY, "src/occlusion_eval.py", "--split-name", split, "--trackers", *base, *others,
-               "--out-dir", str(out), "--n-boot", str(occ.get("n_boot", 5000))]
+               "--out-dir", str(out), "--n-boot", str(occ.get("n_boot", 5000)), "--videos", *videos]
         if occ.get("part"):
             cmd += ["--part", occ["part"]]
         if occ.get("tag"):

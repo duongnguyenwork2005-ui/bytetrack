@@ -404,6 +404,10 @@ def main() -> int:
                     help="FPS cua dataset, dung de doi --context-s sang frame (mac dinh 25).")
     ap.add_argument("--context-s", type=float, default=None,
                     help="Cua so truoc/sau su kien theo GIAY (mac dinh: CONTEXT_WINDOW=30 frame).")
+    ap.add_argument("--videos", nargs="*", default=None,
+                    help="Chi cham cac video nay (vd tap dev). Mac dinh: MOI video trong split - video khong co "
+                         "file tracker se bi tinh la no_match_before (quy tac B4), nen voi thi nghiem chi chay "
+                         "mot phan split PHAI truyen danh sach nay.")
     ap.add_argument("--gaps", action="store_true",
                     help="Them su kien GAP (track bien mat roi quay lai) tu track_gaps.csv - dung cho "
                          "BDD100K (khong annotate khi che hoan toan).")
@@ -419,6 +423,11 @@ def main() -> int:
     # --- Nap GT ---
     split_dir = config.PROCESSED_DIR / a.split_name
     videos = sorted(p.name for p in split_dir.iterdir() if p.is_dir())
+    if a.videos:
+        missing = sorted(set(a.videos) - set(videos))
+        if missing:
+            raise SystemExit(f"[ERROR] video khong co trong split {a.split_name}: {missing}")
+        videos = sorted(a.videos)
     gts = []
     for v in videos:
         p = split_dir / v / "gt" / "gt.txt"
