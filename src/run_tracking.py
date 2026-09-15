@@ -109,7 +109,11 @@ def make_tracker(cfg: IterableSimpleNamespace, registry: dict | None = None, ass
     registry = registry or tracker_registry()
     if cfg.tracker_type not in registry:
         raise ValueError(f"tracker_type {cfg.tracker_type!r} khong co trong registry {sorted(registry)}")
-    cls = with_elapsed_steps(registry[cfg.tracker_type])
+    cls = registry[cfg.tracker_type]
+    if getattr(cfg, "lost_no_fuse", False) or str(getattr(cfg, "lost_recover", "none")).lower() not in ("none", "false", ""):
+        from lost_recovery import with_lost_recovery    # Moc 2 C2: chi khi .yaml bat (mac dinh: khong boc)
+        cls = with_lost_recovery(cls)
+    cls = with_elapsed_steps(cls)
     if assoc_log:
         from assoc_log import with_assoc_log       # Moc 2: log quyet dinh ghep (khong doi hanh vi)
         cls = with_assoc_log(cls)

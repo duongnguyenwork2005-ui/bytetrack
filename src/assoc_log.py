@@ -6,7 +6,8 @@ Muc dich (Moc 2, muc 2): truy nguyen nhan mat ID quanh su kien che khuat. Voi mo
              track_id, state (1 Tracked / 2 Lost / 4 Removed / 0 unconfirmed-new), is_activated,
              n_lost = frame_id - end_frame (so buoc da mat), tracklet_len, score cu,
              box DU DOAN (tlwh - dung cho IoU o vong ghep), matched_det (idx det trong ket qua goc, -1),
-             stage (1 = vong 1 high, 2 = vong 2 low, 3 = unconfirmed, 0 = khong ghep)
+             stage (1 = vong 1 high, 2 = vong 2 low, 3 = unconfirmed, 4 = hook sau vong 1 (lost_recovery),
+             0 = khong ghep)
     dets   : moi detection: det_idx (chi so trong mang detection goc), tier (high/low), conf, cls,
              box tlwh, matched_track (-1), stage, new_track_id (neu sinh track moi), reject_reason
              ('' | 'below_new_track_thresh' | 'unmatched_low' ...)
@@ -122,6 +123,13 @@ class AssociationLogMixin:
             self._lg_add_det(d, "high")
         u_track, u_detection = super()._first_association(strack_pool, detections, activated, refind)
         self._lg_mark_matches(strack_pool, detections, "high", 1, self._lg_pool_state, refind_kind=True)
+        return u_track, u_detection
+
+    def _post_first_association(self, strack_pool, detections, u_track, u_detection, activated, refind):
+        u_track, u_detection = super()._post_first_association(strack_pool, detections, u_track, u_detection,
+                                                               activated, refind)
+        # stage 4 = ghep o hook sau vong 1 (vd lost_recovery.LostRecoveryMixin); mac dinh khong co gi
+        self._lg_mark_matches(strack_pool, detections, "high", 4, self._lg_pool_state, refind_kind=True)
         return u_track, u_detection
 
     def _second_association(self, strack_pool, u_track, detections_second, activated, refind, lost):
