@@ -156,6 +156,44 @@ def main() -> int:
         except AssertionError as e:
             failed += 1
             print(f"  !! {e}")
+
+    # --- Test 2: DETECTOR -> CACHE. Chay truc tiep (model.track) vs cache xay bang model.predict
+    # (conf 0.05, 80 lop, max_det 3000) roi loc >conf / [2,3,5,7] / 300 va chay runner, CUNG tien trinh.
+    # Khac test 1 (capture-and-replay: cung mang detection -> kiem tra duong TRACKER), test nay kiem
+    # tra duong detector -> NMS -> cache -> loc. GPU co the khong bit-reproducible giua hai lan forward
+    # nen khang dinh o muc cau truc (cap (frame, id) trung >= 99 %), va bao cao ti le bit-identical.
+    print(f"\n--- test 2: model.track truc tiep vs cache model.predict (conf 0.05) -> runner, {a.n_frames} frame ---")
+    try:
+        from mot_datasets import get_dataset
+        ds = get_dataset("detrac")
+        part = "test" if a.split == "DETRAC-test" else "train"
+        frames = ds.frames(a.video, part)[: a.n_frames]
+        regions = load_ignored_regions(a.video, a.split)
+        from ultralytics import YOLO
+        model = YOLO(config.YOLO_DEFAULT_MODEL)
+        spec = det_cache.DetectorSpec(conf=0.05, classes=None, max_det=3000, device=a.device,
+                                      dataset="detrac", part=part).fill_env()
+        arrays = det_cache.build_video_yolo(model, frames, regions, spec, ds.orig_shape)
+        with tempfile.TemporaryDirectory() as td:
+            det_cache.save_video(Path(td), "v", arrays)
+            vd = det_cache.VideoDetections(Path(td) / "v.npz", conf_min=a.conf, classes=config.YOLO_VEHICLE_CLASSES, max_det=300)
+            _check("cache khong frame nao cham tran max_det", not vd.truncated.any())
+            for name, y in yamls.items():
+                _, direct = capture_run(a.video, a.split, y, a.conf, a.n_frames, a.device)   # model.track truc tiep
+                cfg = run_tracking.load_tracker_cfg(y)
+                via_cache, _, _ = run_tracking.track_video(vd, cfg, 1.0 / config.FPS, elapsed_mode="skip")
+                key = ["frame", "id"]
+                m = direct.merge(via_cache, on=key, suffixes=("_d", "_c"))
+                agree = len(m) / max(len(direct), 1)
+                exact = len(direct) == len(via_cache) and direct.equals(via_cache)
+                dmax = float((m[["bb_left_d", "bb_top_d", "bb_width_d", "bb_height_d"]].to_numpy()
+                              - m[["bb_left_c", "bb_top_c", "bb_width_c", "bb_height_c"]].to_numpy()).__abs__().max()) if len(m) else 0.0
+                _check(f"[{name}] direct vs cache: cap (frame,id) trung >= 99% "
+                       f"({agree:.4f}; direct {len(direct)} / cache {len(via_cache)} dong; bit-identical={exact}; lech toa do max {dmax:.3g} px)",
+                       agree >= 0.99 and abs(len(direct) - len(via_cache)) <= 0.01 * len(direct))
+    except AssertionError as e:
+        failed += 1
+        print(f"  !! {e}")
     n_ok = sum(ok for _, ok in _RESULTS)
     print("\n" + "=" * 78)
     print(f"KET QUA: {n_ok}/{len(_RESULTS)} phep kiem tra PASS")
