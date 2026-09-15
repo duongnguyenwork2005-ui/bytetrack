@@ -257,10 +257,10 @@ def build_video_gt(gt: "pd.DataFrame", frames: list[FrameRef], spec: DetectorSpe
             coco = category_to_coco.get(cat)
             if coco is None or rng.random() < spec.gt_dropout:
                 continue
-            w, h = float(b["width"]), float(b["height"])
+            w, h = float(b["bb_width"]), float(b["bb_height"])
             jx, jy = rng.normal(0, spec.gt_jitter * w), rng.normal(0, spec.gt_jitter * h)
             jw, jh = rng.normal(0, spec.gt_jitter * w), rng.normal(0, spec.gt_jitter * h)
-            x1 = float(b["left"]) + jx; y1 = float(b["top"]) + jy
+            x1 = float(b["bb_left"]) + jx; y1 = float(b["bb_top"]) + jy
             x2 = x1 + max(2.0, w + jw); y2 = y1 + max(2.0, h + jh)
             x1, x2 = np.clip([x1, x2], 0, W); y1, y2 = np.clip([y1, y2], 0, H)
             if x2 - x1 < 1 or y2 - y1 < 1:

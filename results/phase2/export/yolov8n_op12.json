@@ -1,0 +1,54 @@
+{
+  "weights": "models/yolov8n.pt",
+  "onnx": "D:\\LABOTARY\\bytetrack\\models\\export\\yolov8n_640_op12.onnx",
+  "size_mb": 12.23,
+  "opset": 12,
+  "imgsz": 640,
+  "ir_version": 7,
+  "inputs": [
+    [
+      "images",
+      [
+        1,
+        3,
+        640,
+        640
+      ]
+    ]
+  ],
+  "outputs": [
+    [
+      "output0",
+      [
+        1,
+        84,
+        8400
+      ]
+    ]
+  ],
+  "n_nodes": 262,
+  "ops": {
+    "Add": 9,
+    "Concat": 17,
+    "Constant": 22,
+    "Conv": 64,
+    "Div": 2,
+    "Gather": 1,
+    "MaxPool": 3,
+    "Mul": 60,
+    "Reshape": 8,
+    "Resize": 2,
+    "Shape": 1,
+    "Sigmoid": 58,
+    "Slice": 2,
+    "Softmax": 1,
+    "Split": 8,
+    "Sub": 2,
+    "Transpose": 2
+  },
+  "trt82_table": "D:\\LABOTARY\\bytetrack\\scripts\\nano\\trt82_ops.txt",
+  "ops_not_in_trt82_table": [],
+  "end2end": false,
+  "verdict": "can kiem tra bang trtexec tren Nano",
+  "note": "Kiem tra TINH tren PC; ket luan cuoi cung phai build engine tren Nano."
+}

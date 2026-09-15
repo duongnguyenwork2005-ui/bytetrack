@@ -1,0 +1,18 @@
+# Giai doan 2: dataset YOLO lop thong nhat cho giao thong hon hop (tao boi src/prepare_mixed_yolo_dataset.py).
+# 5 lop: car, truck, bus, motorcycle, bicycle.
+#   UA-DETRAC (train, sau khi chot validation): car->car, van->car, others->truck, bus->bus  (GIA DINH)
+#   BDD100K box_track_20 train (khi co): car/truck/bus/motorcycle/bicycle giu nguyen; rider/pedestrian/train/
+#       distractor KHONG dua vao nhan; box crowd -> to xam nhu ignored_region cua DETRAC.
+# HAN CHE DA BIET: frame DETRAC co xe may/xe dap KHONG nhan -> tron voi BDD (co nhan 2 banh) gay xung dot
+#   nhan ("xe may = nen" tren frame DETRAC). Tuy chon --detrac-classes four-wheel-only / --bdd-only-two-wheel
+#   trong script de kiem soat; phai do mAP theo lop tren val giu lai truoc khi ket luan.
+path: D:/LABOTARY/bytetrack/data/yolo_mixed5
+train: train.txt
+val: val.txt
+nc: 5
+names:
+  0: car
+  1: truck
+  2: bus
+  3: motorcycle
+  4: bicycle

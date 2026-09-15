@@ -35,7 +35,8 @@ Schema CU (TrackEval pip 1.3.0 `datasets/bdd100k.py` dung `index`, `attributes.C
 2. SCHEMA INTERIM CHUNG (giong UA-DETRAC de tai dung occlusion_segments / occlusion_eval)
 ===========================================================================
     video, frame (= frameIndex + 1, 1-based, LIEN TUC), frame_name, time_s, track_id (int),
-    left, top, width, height, cx, cy, category, vehicle_type (= category),
+    bb_left, bb_top, bb_width, bb_height (ten cot GIONG parquet UA-DETRAC), cx, cy, category,
+    vehicle_type (= category),
     occluded, truncated, crowd (bool),
     occlusion_ratio: 0.5 neu occluded else 0.0   <- GIA TRI QUY UOC: "che mot phan, muc do
                      khong biet". Chon 0.5 de vuot nguong partial (0.10) nhung KHONG BAO GIO
@@ -175,7 +176,7 @@ def parse_video(json_path: Path, part: str = "val") -> pd.DataFrame:
             x1, y1, x2, y2 = float(b["x1"]), float(b["y1"]), float(b["x2"]), float(b["y2"])
             occ = bool(a["occluded"])
             rows.append({"video": video, "frame": fi + 1, "frame_name": f["name"], "time_s": time_s,
-                         "track_id": id_map[sid], "left": x1, "top": y1, "width": x2 - x1, "height": y2 - y1,
+                         "track_id": id_map[sid], "bb_left": x1, "bb_top": y1, "bb_width": x2 - x1, "bb_height": y2 - y1,
                          "cx": (x1 + x2) / 2, "cy": (y1 + y2) / 2, "category": lb["category"],
                          "vehicle_type": lb["category"], "occluded": occ, "truncated": bool(a["truncated"]),
                          "crowd": bool(a["crowd"]), "occlusion_ratio": OCCLUDED_RATIO if occ else 0.0,
@@ -346,7 +347,7 @@ def export_motchallenge(df: pd.DataFrame, part: str, target: str = "vehicle",
         rows = []
         for _, r in g[is_eval | is_ignore].iterrows():
             ign = bool(r["crowd"]) or r["category"] in ignore_cats
-            rows.append((int(r["frame"]), int(r["track_id"]), r["left"], r["top"], r["width"], r["height"],
+            rows.append((int(r["frame"]), int(r["track_id"]), r["bb_left"], r["bb_top"], r["bb_width"], r["bb_height"],
                          0 if ign else 1, MOT_IGNORE_CLASS if ign else config.MOT_CLASS_ID,
                          0.0 if ign else float(r["visibility"])))
             n_ign += ign; n_eval += (not ign)

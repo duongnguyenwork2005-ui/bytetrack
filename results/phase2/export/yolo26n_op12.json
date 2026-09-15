@@ -1,0 +1,68 @@
+{
+  "weights": "yolo26n.pt",
+  "onnx": "D:\\LABOTARY\\bytetrack\\models\\export\\yolo26n_640_op12.onnx",
+  "size_mb": 9.43,
+  "opset": 12,
+  "imgsz": 640,
+  "ir_version": 7,
+  "inputs": [
+    [
+      "images",
+      [
+        1,
+        3,
+        640,
+        640
+      ]
+    ]
+  ],
+  "outputs": [
+    [
+      "output0",
+      [
+        1,
+        300,
+        6
+      ]
+    ]
+  ],
+  "n_nodes": 437,
+  "ops": {
+    "Add": 22,
+    "Cast": 3,
+    "Concat": 24,
+    "Constant": 37,
+    "ConstantOfShape": 2,
+    "Conv": 102,
+    "Div": 2,
+    "Equal": 2,
+    "Expand": 2,
+    "Flatten": 1,
+    "Gather": 1,
+    "GatherElements": 3,
+    "MatMul": 4,
+    "MaxPool": 3,
+    "Mod": 1,
+    "Mul": 94,
+    "ReduceMax": 1,
+    "Reshape": 12,
+    "Resize": 2,
+    "Shape": 1,
+    "Sigmoid": 88,
+    "Slice": 2,
+    "Softmax": 2,
+    "Split": 12,
+    "Sub": 1,
+    "TopK": 2,
+    "Transpose": 5,
+    "Unsqueeze": 4,
+    "Where": 2
+  },
+  "trt82_table": "D:\\LABOTARY\\bytetrack\\scripts\\nano\\trt82_ops.txt",
+  "ops_not_in_trt82_table": [
+    "Mod"
+  ],
+  "end2end": true,
+  "verdict": "CO OP NGOAI BANG TRT 8.2: ['Mod'] -> can plugin / doi cach export",
+  "note": "Kiem tra TINH tren PC; ket luan cuoi cung phai build engine tren Nano."
+}

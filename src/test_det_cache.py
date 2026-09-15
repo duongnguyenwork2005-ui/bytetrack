@@ -154,8 +154,8 @@ def test_3_roundtrip_and_filtering():
 
 def test_4_gt_synthetic_deterministic():
     gt = pd.DataFrame({"video": ["v"] * 6, "frame": [1, 1, 2, 2, 3, 3], "track_id": [1, 2] * 3,
-                       "left": [10, 100, 12, 102, 14, 104], "top": [10, 50, 11, 51, 12, 52],
-                       "width": [40] * 6, "height": [30] * 6, "category": ["car", "motorcycle"] * 3})
+                       "bb_left": [10, 100, 12, 102, 14, 104], "bb_top": [10, 50, 11, 51, 12, 52],
+                       "bb_width": [40] * 6, "bb_height": [30] * 6, "category": ["car", "motorcycle"] * 3})
     frames = [FrameRef(i, None, (i - 1) * 0.2) for i in (1, 2, 3)]
     c2c = {"car": 2, "motorcycle": 3}
     a = build_video_gt(gt, frames, DetectorSpec(backend="gt-synthetic", gt_jitter=0.05, gt_dropout=0.0, gt_seed=0), (720, 1280), c2c)
