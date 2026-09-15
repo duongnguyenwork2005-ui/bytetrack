@@ -15,7 +15,7 @@ vào hiệu năng khi xe **bị che khuất** và **di chuyển phi tuyến** (r
 | 3 | EKF + CTRV | ✅ Xong — chờ review |
 | 4 | UKF + CTRV | ✅ Xong — chờ review |
 | 5 | Thực nghiệm đầy đủ & phân tích | ✅ Xong — chờ review |
-| **GĐ2** | Giao thông hỗn hợp: cache detection, PF–CTRV, BDD100K-MOT adapter, SORT, runner thí nghiệm, profiling/Nano — **xem [PHASE2_REPORT.md](PHASE2_REPORT.md)** (nhánh `phase2-mixed-traffic`) | 🔄 Đang làm — **mốc 1 bàn giao** (PHASE2_REPORT.md mục 11): pipeline sửa đúng + cache + pilot dev; BDD100K/Nano chưa có |
+| **GĐ2** | Giao thông hỗn hợp: cache detection, PF–CTRV, BDD100K-MOT adapter, SORT, runner thí nghiệm, profiling/Nano — **xem [PHASE2_REPORT.md](PHASE2_REPORT.md)** (nhánh `phase2-mixed-traffic`) | 🔄 Đang làm — **mốc 2 bàn giao** (`CODEX_HANDOFF.md`; PHASE2_REPORT.md mục 12–16): nguyên nhân mất ID, Nhóm C, 40 video test; BDD100K/Nano chưa có |
 
 ---
 
