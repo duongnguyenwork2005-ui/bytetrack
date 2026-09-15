@@ -126,8 +126,13 @@ def bucket_of(duration_s: float) -> str:
 # ---------------------------------------------------------------------------
 # Xu ly 1 track
 # ---------------------------------------------------------------------------
-def process_track(g: pd.DataFrame, min_ratio: float, merge_gap: int, min_len: int):
-    """Tra ve (segments, full_segments, gaps, summary) cho 1 track."""
+def process_track(g: pd.DataFrame, min_ratio: float, merge_gap: int, min_len: int,
+                  fps: float = float(config.FPS)):
+    """Tra ve (segments, full_segments, gaps, summary) cho 1 track.
+
+    `fps` (Giai doan 2): dung de doi so frame -> giay (duration_s, bucket). Mac dinh
+    config.FPS = 25 (UA-DETRAC). BDD100K: 5.
+    """
     g = g.sort_values("frame")
     frames = g["frame"].to_numpy()
     ratio = g["occlusion_ratio"].to_numpy()
@@ -146,7 +151,7 @@ def process_track(g: pd.DataFrame, min_ratio: float, merge_gap: int, min_len: in
             continue
         seg_ratio = ratio[i0:i1 + 1]
         seg_src = src[i0:i1 + 1]
-        duration_s = n_frames / config.FPS
+        duration_s = n_frames / fps
 
         # Quang duong tam bbox di duoc trong doan (px) - dung de danh gia
         # motion model phai ngoai suy xa bao nhieu.
@@ -181,7 +186,7 @@ def process_track(g: pd.DataFrame, min_ratio: float, merge_gap: int, min_len: in
     mask_full = ratio >= config.OCCLUSION_FULL_RATIO
     for k, (i0, i1) in enumerate(find_runs(frames, mask_full, merge_gap)):
         n_frames = int(frames[i1] - frames[i0] + 1)
-        duration_s = n_frames / config.FPS
+        duration_s = n_frames / fps
         dx = np.diff(cx[i0:i1 + 1])
         dy = np.diff(cy[i0:i1 + 1])
         full_segments.append({
@@ -202,7 +207,7 @@ def process_track(g: pd.DataFrame, min_ratio: float, merge_gap: int, min_len: in
     d = np.diff(frames)
     for k, j in enumerate(np.flatnonzero(d > 1)):
         gap_len = int(d[j] - 1)
-        duration_s = gap_len / config.FPS
+        duration_s = gap_len / fps
         gaps.append({
             "video": video, "track_id": tid, "gap_id": k,
             "last_seen_frame": int(frames[j]),
@@ -252,12 +257,22 @@ def main() -> int:
     ap.add_argument("--part", choices=["train", "test"], default="train",
                     help="Phan dataset can xu ly. Giai doan D dung --part test "
                          "(tap test 40 video). File ket qua cua train GIU NGUYEN ten cu.")
+    # --- Giai doan 2: dataset khac UA-DETRAC ---
+    ap.add_argument("--parquet", default=None,
+                    help="File annotation interim (schema chung: video, frame, track_id, cx, cy, "
+                         "occlusion_ratio, occlusion_source, vehicle_type). Mac dinh: UA-DETRAC theo --part.")
+    ap.add_argument("--fps", type=float, default=float(config.FPS), help="FPS de doi frame -> giay (BDD100K: 5)")
+    ap.add_argument("--out-tag", default=None,
+                    help="Tien to file ket qua trong data/interim (vd bdd100k_val). Mac dinh: quy uoc DETRAC.")
     args = ap.parse_args()
 
-    pq = config.ann_parquet(args.part)
+    pq = Path(args.parquet) if args.parquet else config.ann_parquet(args.part)
     if not pq.exists():
-        print(f"[ERROR] Chua co {pq}. Chay src/parse_detrac_xml.py truoc.")
+        print(f"[ERROR] Chua co {pq}. Chay src/parse_detrac_xml.py (DETRAC) hoac check_bdd100k.py (BDD) truoc.")
         return 1
+
+    def out_file(name: str):
+        return (config.INTERIM_DIR / f"{args.out_tag}_{name}") if args.out_tag else config.part_file(name, args.part)
 
     df = pd.read_parquet(pq)
     print(f"[occlusion] {len(df):,} bbox, {df.groupby(['video', 'track_id']).ngroups:,} track")
@@ -266,21 +281,30 @@ def main() -> int:
     all_seg, all_full, all_gap, all_sum = [], [], [], []
     groups = df.groupby(["video", "track_id"], observed=True, sort=True)
     for _, g in tqdm(groups, total=groups.ngroups, desc="  xu ly track", unit="track", ncols=90):
-        seg, full, gap, summ = process_track(g, args.min_ratio, args.merge_gap, args.min_len)
+        seg, full, gap, summ = process_track(g, args.min_ratio, args.merge_gap, args.min_len, args.fps)
         all_seg.extend(seg)
         all_full.extend(full)
         all_gap.extend(gap)
         all_sum.append(summ)
 
-    df_seg = pd.DataFrame(all_seg)
-    df_full = pd.DataFrame(all_full)
-    df_gap = pd.DataFrame(all_gap)
+    # Cot co dinh de file van co header khi RONG (BDD100K: khong co doan >= 0.90; DETRAC: khong co gap).
+    # Neu khong, pd.read_csv o occlusion_eval se loi "No columns to parse from file".
+    SEG_COLS = ["video", "track_id", "seg_id", "start_frame", "end_frame", "length_frames", "duration_s",
+                "bucket", "mean_occlusion_ratio", "max_occlusion_ratio", "is_heavy", "main_source",
+                "path_len_px", "net_disp_px"]
+    FULL_COLS = ["video", "track_id", "seg_id", "start_frame", "end_frame", "length_frames", "duration_s",
+                 "bucket", "mean_occlusion_ratio", "path_len_px", "net_disp_px"]
+    GAP_COLS = ["video", "track_id", "gap_id", "last_seen_frame", "reappear_frame", "gap_frames",
+                "duration_s", "bucket", "jump_px", "occ_ratio_before", "occ_ratio_after"]
+    df_seg = pd.DataFrame(all_seg, columns=SEG_COLS if not all_seg else None)
+    df_full = pd.DataFrame(all_full, columns=FULL_COLS if not all_full else None)
+    df_gap = pd.DataFrame(all_gap, columns=GAP_COLS if not all_gap else None)
     df_sum = pd.DataFrame(all_sum)
 
-    df_seg.to_csv(config.part_file("occlusion_segments.csv", args.part), index=False)
-    df_full.to_csv(config.part_file("full_occlusion_segments.csv", args.part), index=False)
-    df_gap.to_csv(config.part_file("track_gaps.csv", args.part), index=False)
-    df_sum.to_csv(config.part_file("track_occlusion_summary.csv", args.part), index=False)
+    df_seg.to_csv(out_file("occlusion_segments.csv"), index=False)
+    df_full.to_csv(out_file("full_occlusion_segments.csv"), index=False)
+    df_gap.to_csv(out_file("track_gaps.csv"), index=False)
+    df_sum.to_csv(out_file("track_occlusion_summary.csv"), index=False)
 
     # ------------------------------------------------------------------
     # Bao cao

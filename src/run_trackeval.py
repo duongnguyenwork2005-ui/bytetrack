@@ -65,6 +65,18 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
 
 
+def split_benchmark(split_name: str) -> tuple[str, str]:
+    """'DETRAC-all' -> ('DETRAC', 'all'); 'BDD-val_car' -> ('BDD', 'val_car').
+
+    TrackEval ghep gt_set = BENCHMARK + '-' + SPLIT_TO_EVAL, nen tach o dau '-' DAU TIEN.
+    Giai doan 1 chi co tien to DETRAC-; Giai doan 2 them BDD- (bdd100k_mot.export_motchallenge).
+    """
+    if "-" not in split_name:
+        raise ValueError(f"split_name phai co dang <BENCHMARK>-<split>, nhan duoc: {split_name}")
+    bench, split = split_name.split("-", 1)
+    return bench, split
+
+
 def build_configs(split_name: str, tracker_name: str, videos: list[str] | None):
     """Dung config cho Dataset + Evaluator + Metric, khop voi cau truc thu muc cua ta."""
     import trackeval
@@ -72,15 +84,13 @@ def build_configs(split_name: str, tracker_name: str, videos: list[str] | None):
     # 'DETRAC' + '-' + split_name_short se ghep lai thanh gt_set == thu muc ta da tao.
     # Vi split_name da la vd "DETRAC-sample" (co san tien to DETRAC-), ta tach ra
     # de truyen dung BENCHMARK/SPLIT_TO_EVAL ma TrackEval tu ghep lai.
-    if not split_name.startswith("DETRAC-"):
-        raise ValueError(f"split_name phai bat dau bang 'DETRAC-', nhan duoc: {split_name}")
-    split_to_eval = split_name[len("DETRAC-"):]
+    benchmark, split_to_eval = split_benchmark(split_name)
 
     dataset_config = trackeval.datasets.MotChallenge2DBox.get_default_dataset_config()
     dataset_config.update({
         "GT_FOLDER": str(config.PROCESSED_DIR),
         "TRACKERS_FOLDER": str(config.PROCESSED_DIR / "trackers"),
-        "BENCHMARK": "DETRAC",
+        "BENCHMARK": benchmark,
         "SPLIT_TO_EVAL": split_to_eval,
         "TRACKERS_TO_EVAL": [tracker_name],
         "CLASSES_TO_EVAL": ["pedestrian"],   # xem docstring: '1' trung voi class xe cua ta
@@ -117,14 +127,25 @@ def build_configs(split_name: str, tracker_name: str, videos: list[str] | None):
     return eval_config, dataset_config, metric_config
 
 
-def run(split_name: str, tracker_name: str, videos: list[str] | None):
+def dataset_class(name: str):
+    """'mot' = MotChallenge2DBox goc (Giai doan 1); 'mot_crowd' = them vung bo qua theo IoA (BDD100K)."""
+    import trackeval
+    if name == "mot":
+        return trackeval.datasets.MotChallenge2DBox
+    if name == "mot_crowd":
+        from trackeval_ext import MotChallengeCrowdIgnore
+        return MotChallengeCrowdIgnore
+    raise ValueError(f"dataset_class phai la mot | mot_crowd, nhan {name!r}")
+
+
+def run(split_name: str, tracker_name: str, videos: list[str] | None, dataset_cls: str = "mot"):
     """Chay TrackEval, tra ve (eval_results_dict, dataset)."""
     import trackeval
 
     eval_config, dataset_config, metric_config = build_configs(split_name, tracker_name, videos)
 
     evaluator = trackeval.Evaluator(eval_config)
-    dataset = trackeval.datasets.MotChallenge2DBox(dataset_config)
+    dataset = dataset_class(dataset_cls)(dataset_config)
     metrics_list = [
         trackeval.metrics.HOTA(metric_config),
         trackeval.metrics.CLEAR(metric_config),
@@ -143,7 +164,8 @@ def flatten_results(results: dict, tracker_name: str) -> pd.DataFrame:
     da la 'HOTA' tong hop) hoac lay gia tri ung voi alpha = 0.5 khi can chi tiet.
     """
     rows = []
-    d = results["MotChallenge2DBox"][tracker_name]
+    # Khoa cap 1 = ten lop dataset (MotChallenge2DBox hoac MotChallengeCrowdIgnore)
+    d = next(iter(results.values()))[tracker_name]
     for seq, cls_dict in d.items():
         m = cls_dict.get("pedestrian")
         if m is None:
@@ -176,7 +198,11 @@ def main() -> int:
                     help="Ten thu muc tracker trong data/processed/trackers/<split-name>/")
     ap.add_argument("--videos", nargs="*", default=None,
                     help="Chi eval cac video nay (mac dinh: toan bo seqmap cua split)")
+    ap.add_argument("--dataset-class", choices=["mot", "mot_crowd"], default=None,
+                    help="mot (goc, mac dinh cho DETRAC-*) | mot_crowd (vung bo qua IoA, mac dinh cho BDD-*)")
     args = ap.parse_args()
+    if args.dataset_class is None:
+        args.dataset_class = "mot_crowd" if args.split_name.startswith("BDD-") else "mot"
 
     gt_dir = config.PROCESSED_DIR / args.split_name
     trk_dir = config.PROCESSED_DIR / "trackers" / args.split_name / args.tracker
@@ -189,9 +215,9 @@ def main() -> int:
         print("        Chay src/baseline_track.py truoc.")
         return 1
 
-    print(f"[trackeval] split={args.split_name}  tracker={args.tracker}")
+    print(f"[trackeval] split={args.split_name}  tracker={args.tracker}  dataset_class={args.dataset_class}")
     try:
-        results, dataset = run(args.split_name, args.tracker, args.videos)
+        results, dataset = run(args.split_name, args.tracker, args.videos, args.dataset_class)
     except Exception as e:
         print(f"[ERROR] TrackEval that bai: {type(e).__name__}: {e}")
         raise

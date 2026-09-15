@@ -172,7 +172,8 @@ def match_video(gt: pd.DataFrame, trk: pd.DataFrame) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 # 2. XAY DUNG TAP SU KIEN KHONG DEM LAP
 # ---------------------------------------------------------------------------
-def build_events(partial: pd.DataFrame, full: pd.DataFrame) -> pd.DataFrame:
+def build_events(partial: pd.DataFrame, full: pd.DataFrame,
+                 gaps: pd.DataFrame | None = None) -> pd.DataFrame:
     """Gop cac doan che chong lan/ke nhau thanh SU KIEN che khuat khong dem lap.
 
     Mot su kien = hop cua cac doan cua cung (video, track_id) ma khoang frame
@@ -182,6 +183,14 @@ def build_events(partial: pd.DataFrame, full: pd.DataFrame) -> pd.DataFrame:
 
     Cot `has_full` ghi lai su kien do co giai doan bi che gan hoan toan hay
     khong -- dung de phan tang, KHONG tao them mau.
+
+    GIAI DOAN 2 - `gaps` (tuy chon): bang track_gaps.csv (last_seen_frame,
+    reappear_frame). Voi BDD100K, doi tuong bi che HOAN TOAN thi KHONG duoc
+    annotate, nen "che gan hoan toan" the hien bang mot khoang trong (gap) cua
+    track chu khong phai doan occlusion_ratio >= 0.90. Moi gap thanh mot doan
+    [last_seen + 1, reappear - 1] voi is_full = True va gop chung voi cac doan
+    partial ke no (bi che dan roi mat han). Cot `has_gap` danh dau su kien co gap.
+    Voi UA-DETRAC (khong truyen gaps) ket qua TRUNG KHIT ban cu.
     """
     frames = []
     for df, lvl in ((partial, "partial"), (full, "full")):
@@ -189,40 +198,53 @@ def build_events(partial: pd.DataFrame, full: pd.DataFrame) -> pd.DataFrame:
             continue
         d = df[["video", "track_id", "start_frame", "end_frame"]].copy()
         d["is_full"] = (lvl == "full")
+        d["is_gap"] = False
+        frames.append(d)
+    if gaps is not None and len(gaps):
+        c0, c1 = (("last_seen_frame", "reappear_frame") if "last_seen_frame" in gaps.columns
+                  else ("last_seen", "reappear"))
+        d = pd.DataFrame({"video": gaps["video"].to_numpy(), "track_id": gaps["track_id"].to_numpy(),
+                          "start_frame": gaps[c0].astype(int).to_numpy() + 1,
+                          "end_frame": gaps[c1].astype(int).to_numpy() - 1})
+        d = d[d.end_frame >= d.start_frame].copy()
+        d["is_full"] = True
+        d["is_gap"] = True
         frames.append(d)
     if not frames:
         return pd.DataFrame(columns=["video", "track_id", "event_id", "start_frame",
-                                     "end_frame", "length_frames", "has_full"])
+                                     "end_frame", "length_frames", "has_full", "has_gap"])
     allseg = pd.concat(frames, ignore_index=True)
 
     out = []
     for (video, tid), g in allseg.groupby(["video", "track_id"], sort=False):
         g = g.sort_values("start_frame")
         cur_s = cur_e = None
-        cur_full = False
+        cur_full = cur_gap = False
         for r in g.itertuples(index=False):
             s, e = int(r.start_frame), int(r.end_frame)
             if cur_s is None:
-                cur_s, cur_e, cur_full = s, e, bool(r.is_full)
+                cur_s, cur_e, cur_full, cur_gap = s, e, bool(r.is_full), bool(r.is_gap)
             elif s <= cur_e + 1:                 # chong lan hoac ke nhau -> cung su kien
                 cur_e = max(cur_e, e)
                 cur_full = cur_full or bool(r.is_full)
+                cur_gap = cur_gap or bool(r.is_gap)
             else:
-                out.append((video, int(tid), cur_s, cur_e, cur_full))
-                cur_s, cur_e, cur_full = s, e, bool(r.is_full)
+                out.append((video, int(tid), cur_s, cur_e, cur_full, cur_gap))
+                cur_s, cur_e, cur_full, cur_gap = s, e, bool(r.is_full), bool(r.is_gap)
         if cur_s is not None:
-            out.append((video, int(tid), cur_s, cur_e, cur_full))
+            out.append((video, int(tid), cur_s, cur_e, cur_full, cur_gap))
 
     ev = pd.DataFrame(out, columns=["video", "track_id", "start_frame",
-                                    "end_frame", "has_full"])
+                                    "end_frame", "has_full", "has_gap"])
     ev["length_frames"] = ev.end_frame - ev.start_frame + 1
     ev = ev.sort_values(["video", "track_id", "start_frame"]).reset_index(drop=True)
     ev["event_id"] = ev.groupby(["video", "track_id"]).cumcount()
     return ev[["video", "track_id", "event_id", "start_frame", "end_frame",
-               "length_frames", "has_full"]]
+               "length_frames", "has_full", "has_gap"]]
 
 
-def add_gt_eligibility(events: pd.DataFrame, gt: pd.DataFrame) -> pd.DataFrame:
+def add_gt_eligibility(events: pd.DataFrame, gt: pd.DataFrame,
+                       context: int = CONTEXT_WINDOW) -> pd.DataFrame:
     """Xac dinh su kien nao DU DIEU KIEN danh gia -- CHI dua vao GT.
 
     Du dieu kien khi GT cua chinh track do co mat o CA HAI phia:
@@ -242,8 +264,8 @@ def add_gt_eligibility(events: pd.DataFrame, gt: pd.DataFrame) -> pd.DataFrame:
         if fr is None:
             b = a = False
         else:
-            b = bool(((fr >= r.start_frame - CONTEXT_WINDOW) & (fr < r.start_frame)).any())
-            a = bool(((fr > r.end_frame) & (fr <= r.end_frame + CONTEXT_WINDOW)).any())
+            b = bool(((fr >= r.start_frame - context) & (fr < r.start_frame)).any())
+            a = bool(((fr > r.end_frame) & (fr <= r.end_frame + context)).any())
         before_ok.append(b)
         after_ok.append(a)
         reasons.append("" if (b and a) else
@@ -260,7 +282,7 @@ def add_gt_eligibility(events: pd.DataFrame, gt: pd.DataFrame) -> pd.DataFrame:
 # 3. CHAM TUNG SU KIEN
 # ---------------------------------------------------------------------------
 def evaluate_events(events: pd.DataFrame, match: pd.DataFrame,
-                    gt: pd.DataFrame) -> pd.DataFrame:
+                    gt: pd.DataFrame, context: int = CONTEXT_WINDOW) -> pd.DataFrame:
     """Cham ket qua cua MOT tracker tren tap su kien da xac dinh.
 
     Chi cham cac su kien `eligible` (xac dinh tu GT). Ket qua:
@@ -286,6 +308,7 @@ def evaluate_events(events: pd.DataFrame, match: pd.DataFrame,
         rec = dict(video=r.video, track_id=int(r.track_id), event_id=int(r.event_id),
                    start_frame=int(r.start_frame), end_frame=int(r.end_frame),
                    length_frames=int(r.length_frames), has_full=bool(r.has_full),
+                   has_gap=bool(getattr(r, "has_gap", False)),
                    eligible=bool(r.eligible), exclusion_reason=r.exclusion_reason,
                    outcome=None, id_before=None, id_after=None,
                    id_continuous=False, recall_during=0.0)
@@ -301,8 +324,8 @@ def evaluate_events(events: pd.DataFrame, match: pd.DataFrame,
 
         fr = m["frame"].to_numpy()
         ti = m["tracker_id"].to_numpy()
-        before = (fr < r.start_frame) & (fr >= r.start_frame - CONTEXT_WINDOW)
-        after = (fr > r.end_frame) & (fr <= r.end_frame + CONTEXT_WINDOW)
+        before = (fr < r.start_frame) & (fr >= r.start_frame - context)
+        after = (fr > r.end_frame) & (fr <= r.end_frame + context)
         during = (fr >= r.start_frame) & (fr <= r.end_frame)
 
         gfr = gt_frames.get((r.video, int(r.track_id)), np.empty(0))
@@ -373,7 +396,22 @@ def main() -> int:
     ap.add_argument("--out-dir", default="results/eval_fixed")
     ap.add_argument("--part", choices=["train", "test"], default="train")
     ap.add_argument("--n-boot", type=int, default=5000)
+    # --- Giai doan 2: dataset khac UA-DETRAC ---
+    ap.add_argument("--tag", default=None,
+                    help="Tien to file segments trong data/interim (vd 'bdd100k_val' -> "
+                         "bdd100k_val_occlusion_segments.csv ...). Mac dinh: quy uoc DETRAC theo --part.")
+    ap.add_argument("--fps", type=float, default=float(config.FPS),
+                    help="FPS cua dataset, dung de doi --context-s sang frame (mac dinh 25).")
+    ap.add_argument("--context-s", type=float, default=None,
+                    help="Cua so truoc/sau su kien theo GIAY (mac dinh: CONTEXT_WINDOW=30 frame).")
+    ap.add_argument("--gaps", action="store_true",
+                    help="Them su kien GAP (track bien mat roi quay lai) tu track_gaps.csv - dung cho "
+                         "BDD100K (khong annotate khi che hoan toan).")
     a = ap.parse_args()
+    context = CONTEXT_WINDOW if a.context_s is None else max(1, int(round(a.context_s * a.fps)))
+
+    def seg_file(name: str):
+        return (config.INTERIM_DIR / f"{a.tag}_{name}") if a.tag else config.part_file(name, a.part)
 
     out = Path(a.out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -390,16 +428,26 @@ def main() -> int:
         d["video"] = v
         gts.append(d)
     gt = pd.concat(gts, ignore_index=True)
-    print(f"[eval] {len(videos)} video, {len(gt):,} dong GT")
+    # Chi giu GT lop danh gia (class 1). DETRAC: moi dong deu class 1 (khong doi). BDD: bo cac
+    # dong vung bo qua (class 13) - chung khong phai track de cham giu ID.
+    n_all = len(gt)
+    gt = gt[gt["cls"] == config.MOT_CLASS_ID].reset_index(drop=True)
+    print(f"[eval] {len(videos)} video, {len(gt):,} dong GT (bo {n_all - len(gt):,} dong khong phai lop danh gia)"
+          f"; cua so truoc/sau = {context} frame ({context / a.fps:.2f} s)")
 
     # --- Xay tap su kien khong dem lap ---
-    partial = pd.read_csv(config.part_file("occlusion_segments.csv", a.part))
-    full = pd.read_csv(config.part_file("full_occlusion_segments.csv", a.part))
+    partial = pd.read_csv(seg_file("occlusion_segments.csv"))
+    full = pd.read_csv(seg_file("full_occlusion_segments.csv"))
     partial = partial[partial.video.isin(videos)]
     full = full[full.video.isin(videos)]
-    events = build_events(partial, full)
-    events = add_gt_eligibility(events, gt)
-    n_raw = len(partial) + len(full)
+    gaps = None
+    if a.gaps:
+        gaps = pd.read_csv(seg_file("track_gaps.csv"))
+        gaps = gaps[gaps.video.isin(videos)]
+        print(f"[eval] su kien GAP: {len(gaps)} khoang trong track (BDD100K: che hoan toan = khong annotate)")
+    events = build_events(partial, full, gaps)
+    events = add_gt_eligibility(events, gt, context)
+    n_raw = len(partial) + len(full) + (len(gaps) if gaps is not None else 0)
     print(f"[eval] doan tho: {len(partial)} partial + {len(full)} full = {n_raw}")
     print(f"[eval] sau khi gop thanh su kien khong dem lap: {len(events)} "
           f"(giam {n_raw - len(events)} do dem lap)")
@@ -431,7 +479,7 @@ def main() -> int:
             m["video"] = v
             mats.append(m)
         match = pd.concat(mats, ignore_index=True)
-        res = evaluate_events(events, match, gt)
+        res = evaluate_events(events, match, gt, context)
         res["tracker"] = tr
         per_tracker[tr] = res
         ev = res[res.eligible]
