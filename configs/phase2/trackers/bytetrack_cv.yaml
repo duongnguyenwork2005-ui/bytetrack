@@ -1,0 +1,12 @@
+# MOC 2: ByteTrack + KF-CV (KalmanFilterXYAH) voi bo loc THEO INSTANCE (src/tracker_ctrv.py CVByteTracker).
+# Moi tham so ghep cap GIU NGUYEN bytetrack.yaml mac dinh cua ultralytics. Khong co khoa cv_* -> ket qua
+# BIT-IDENTICAL `bytetrack.yaml` goc (test_filter_config.py test 12). Dung cho C3 (tuning nhieu CV).
+tracker_type: bytetrack_cv
+track_high_thresh: 0.25
+track_low_thresh: 0.1
+new_track_thresh: 0.25
+track_buffer: 30
+match_thresh: 0.8
+fuse_score: True
+# cv_std_weight_position: 0.05     # (float) mac dinh 1/20  - he so std vi tri (Q, R, P0 ti le theo h)
+# cv_std_weight_velocity: 0.00625  # (float) mac dinh 1/160 - he so std van toc

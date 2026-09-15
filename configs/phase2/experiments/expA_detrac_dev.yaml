@@ -1,0 +1,31 @@
+# MOC 2 - Thi nghiem A (so sanh BO LOC trong cung ByteTrack) tren DEV UA-DETRAC (12 video), chay lai
+# Nhom A cua moc 1 voi: ten dieu kien c25/c10 (conf > 0.25 / > 0.10 - tranh lan voi ten nhom thi nghiem
+# A/B), assoc_log (log quyet dinh ghep de phan tich nguyen nhan mat ID), pf_diag (ESS, spread...),
+# raw_fields.json (bootstrap tai to hop COMBINED). Output tracking phai BIT-IDENTICAL moc 1
+# (p2-groupA_detrac_dev-{A,B}-*): kiem tra bang src/check_identical_runs.py.
+name: expA_detrac_dev
+dataset: detrac
+split_name: DETRAC-all
+part: train
+manifest: results/phase2/manifests/detrac_dev.json
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+track_buffer_sec: 1.2          # = 30 buoc @ 25 fps (Giai doan 1)
+elapsed_mode: skip
+assoc_log: true
+pf_diag: true
+conditions:
+  c25: {conf_min: 0.25}
+  c10: {conf_min: 0.10}
+trackers:
+  - {name: cv,    yaml: bytetrack.yaml}
+  - {name: ekf,   yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: ukf,   yaml: configs/bytetrack_ukf_ctrv.yaml}
+  - {name: pf100, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n100.yaml, seeds: [0, 1, 2]}
+  - {name: pf300, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n300.yaml, seeds: [0, 1, 2]}
+  - {name: pf500, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml, seeds: [0, 1, 2]}
+baseline: cv
+pairs: [[ekf, cv], [ukf, cv], [ukf, ekf], [pf500, ekf]]
+occlusion: {part: train, context_s: 1.2, gaps: false, n_boot: 5000}

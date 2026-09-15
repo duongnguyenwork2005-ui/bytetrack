@@ -13,6 +13,12 @@ Voi moi dieu kien (A/B):
                      KHONG phai video doc lap). LUU Y: day la trung binh don gian cua chi so tung video,
                      KHAC gia tri COMBINED_SEQ (TrackEval gop thong ke) - ghi ro trong bao cao.
   timing.csv         predict / assoc / update ms/frame tung tracker (trung binh tren video, PF theo seed).
+  paired_bootstrap_combined.csv   (MOC 2, BANG CHINH) chenh lech cua chi so COMBINED (tai to hop thong ke du
+                     y het TrackEval - boot_stats.py) so voi baseline + CI 95 % bootstrap theo video (5000, seed 0),
+                     ghep cap. NHAT QUAN voi summary.csv. PF: thong ke du trung binh theo seed trong video.
+  paired_pairs.csv   (MOC 2) cac cap so sanh khai bao trong exp `pairs: [[a, b], ...]` (a - b), ca hai cach
+                     (combined va mean-video); moi cap ghi ro thanh phan duoc kiem soat (cot `note` neu co).
+  occlusion_strata.csv  ti le giu ID theo tang che khuat (bang chung GT).
 
     python src/aggregate_phase2.py --exp configs/phase2/experiments/groupA_detrac_dev.yaml
 """
@@ -28,9 +34,28 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
 from run_experiment import load_exp, plan  # noqa: E402
+import boot_stats  # noqa: E402
 
 METRICS = ["HOTA", "DetA", "AssA", "IDF1", "MOTA", "IDSW", "FP", "FN"]
 BOOT_METRICS = ["HOTA", "IDF1", "AssA", "DetA", "IDSW"]
+
+
+def load_raw_by_tracker(rr: list[dict], split: str) -> dict:
+    """tracker -> raw_fields (PF: trung binh thong ke du theo seed trong tung video). Thieu file -> bo qua."""
+    by = {}
+    for r in rr:
+        f = config.RESULTS_DIR / "trackeval" / split / r["dir"] / "raw_fields.json"
+        if f.exists():
+            by.setdefault(r["tracker"], []).append(boot_stats.load_raw_fields(f))
+    return {t: boot_stats.average_seeds(v) for t, v in by.items()}
+
+
+def combined_boot_rows(raw: dict, a: str, b: str, videos: list[str], n_boot: int, cond: str) -> list[dict]:
+    res = boot_stats.paired_bootstrap(raw[a], raw[b], videos, n_boot=n_boot, seed=0, metrics=BOOT_METRICS)
+    return [{"cond": cond, "tracker": a, "baseline": b, "metric": m, "a_combined": v["a"], "b_combined": v["b"],
+             "diff_combined": v["diff"], "ci_low": v["ci_low"], "ci_high": v["ci_high"], "n_videos": len(videos),
+             "ci_contains_zero": v["ci_low"] <= 0 <= v["ci_high"], "n_boot": n_boot, "seed": 0, "method": "combined_resample_videos"}
+            for m, v in res.items()]
 
 
 def video_bootstrap_diff(a: pd.Series, b: pd.Series, n_boot: int = 5000, seed: int = 0):
@@ -126,7 +151,36 @@ def main() -> int:
         summ = summ.loc[order].reset_index()
         summ.to_csv(out / "summary.csv", index=False)
 
-        # --- paired bootstrap theo video vs baseline ---
+        # --- (MOC 2) bootstrap COMBINED (bang chinh) vs baseline + cac cap khai bao ---
+        raw = load_raw_by_tracker(rr, split)
+        vids = sorted(pv.video.unique())
+        n_boot = a.n_boot
+        cb_rows = []
+        if base_name in raw:
+            for t in order:
+                if t != base_name and t in raw:
+                    cb_rows += combined_boot_rows(raw, t, base_name, vids, n_boot, cond)
+        if cb_rows:
+            pd.DataFrame(cb_rows).to_csv(out / "paired_bootstrap_combined.csv", index=False)
+        pair_rows = []
+        for pr in exp.get("pairs", []) or []:
+            x, y = pr[0], pr[1]
+            note = pr[2] if len(pr) > 2 else ""
+            if x in raw and y in raw:
+                for row in combined_boot_rows(raw, x, y, vids, n_boot, cond):
+                    row["note"] = note; pair_rows.append(row)
+            if x in set(pv_mean.tracker) and y in set(pv_mean.tracker):
+                bx = pv_mean[pv_mean.tracker == x].set_index("video"); by_ = pv_mean[pv_mean.tracker == y].set_index("video")
+                common = sorted(set(bx.index) & set(by_.index))
+                for m in BOOT_METRICS:
+                    obs, lo, hi = video_bootstrap_diff(bx.loc[common, m], by_.loc[common, m], n_boot)
+                    pair_rows.append({"cond": cond, "tracker": x, "baseline": y, "metric": m, "diff_combined": obs,
+                                      "ci_low": lo, "ci_high": hi, "n_videos": len(common), "ci_contains_zero": lo <= 0 <= hi,
+                                      "n_boot": n_boot, "seed": 0, "method": "mean_of_videos", "note": note})
+        if pair_rows:
+            pd.DataFrame(pair_rows).to_csv(out / "paired_pairs.csv", index=False)
+
+        # --- paired bootstrap theo video vs baseline (TRUNG BINH THEO VIDEO - tham khao) ---
         boot = []
         if base_name in set(pv_mean.tracker):
             b = pv_mean[pv_mean.tracker == base_name].set_index("video")
@@ -149,9 +203,25 @@ def main() -> int:
         cols = ["tracker"] + METRICS + [c for c in ("HOTA_sd_seed", "n_seeds", "predict_ms_per_frame",
                                                     "n_events", "preserved", "id_continuous") if c in summ.columns]
         print(summ[cols].to_string(index=False, float_format=lambda v: f"{v:.4f}"))
+        if cb_rows:
+            bd = pd.DataFrame(cb_rows)
+            print(f"\n  [BANG CHINH] Chenh lech chi so COMBINED so voi baseline {base_name} (bootstrap {n_boot} lan theo video, "
+                  f"tai to hop nhu TrackEval; CI 95%):")
+            piv = bd.pivot(index="tracker", columns="metric", values="diff_combined").loc[[t for t in order if t in set(bd.tracker)]]
+            lo = bd.pivot(index="tracker", columns="metric", values="ci_low").loc[piv.index]
+            hi = bd.pivot(index="tracker", columns="metric", values="ci_high").loc[piv.index]
+            for t in piv.index:
+                s_ = "  ".join(f"{m}: {piv.loc[t, m]:+.4f} [{lo.loc[t, m]:+.4f}, {hi.loc[t, m]:+.4f}]" for m in BOOT_METRICS)
+                print(f"    {t:<10} {s_}")
+        if pair_rows:
+            pdp = pd.DataFrame(pair_rows); pdp = pdp[pdp.method == "combined_resample_videos"]
+            print("\n  Cac cap so sanh (COMBINED, a - b):")
+            for (x, y), g in pdp.groupby(["tracker", "baseline"], sort=False):
+                s_ = "  ".join(f"{r.metric}: {r.diff_combined:+.4f} [{r.ci_low:+.4f}, {r.ci_high:+.4f}]" for r in g.itertuples())
+                print(f"    {x} - {y}: {s_}" + (f"   ({g.note.iloc[0]})" if g.note.iloc[0] else ""))
         if boot:
             bd = pd.DataFrame(boot)
-            print("\n  Chenh lech trung binh theo video so voi baseline (CI 95% bootstrap theo video):")
+            print("\n  [tham khao] Chenh lech TRUNG BINH THEO VIDEO so voi baseline (CI 95% bootstrap theo video):")
             piv = bd.pivot(index="tracker", columns="metric", values="diff_video_mean").loc[[t for t in order if t != base_name]]
             lo = bd.pivot(index="tracker", columns="metric", values="ci_low").loc[piv.index]
             hi = bd.pivot(index="tracker", columns="metric", values="ci_high").loc[piv.index]
