@@ -1,0 +1,10 @@
+primary_cause,cot_log_la_bang_chung,dieu_kien_gan_nhan,n_cv,n_ekf,n_ukf,n_pf500
+prediction_drift,"state_at_fdet, n_lost_at_fdet, iou_pred_det, center_offset_px, det_conf","track con song tai frame detector thay lai GT, nhung IoU(box du doan, det) < 0.2",20,23,24,37
+buffer_expired,"state_at_fdet = removed, removed_frame, first_det_frame",track bi xoa (n_lost > track_buffer) TRUOC frame detector thay lai GT,12,15,14,27
+score_fusion_reject,"iou_pred_det, det_conf, fused_cost",IoU >= 0.2 nhung 1 - IoU*conf > match_thresh (0.8),12,8,8,6
+competition,"det_matched_track, competitor_iou, det_stage","cap (track cu, det) hop le nhung det bi track KHAC lay o vong ghep",3,4,3,4
+detector_miss,"best_iou_high_after, best_iou_low_after, best_iou_cache_after, best_cache_conf, detector_miss_sub",khong co detection tier-high nao IoU >= 0.5 voi GT trong cua so sau su kien,9,10,10,9
+hijacked_during,"hijack_frame, hijack_other_gt",track cu (dang Tracked) ghep detection thuoc GT KHAC ngay trong su kien,1,0,0,1
+track_matched_other,track_matched_det,track cu ghep mot det khac tai frame do,0,0,0,0
+matched_but_eval_mismatch,det_matched_track = id_before,log cho thay DA ghep nhung cham su kien ra khac,1,1,1,2
+unknown,(khong co),khong nhan nao du bang chung,0,0,0,0

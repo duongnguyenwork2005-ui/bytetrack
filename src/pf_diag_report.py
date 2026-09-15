@@ -1,6 +1,14 @@
 """
 pf_diag_report.py -- (MOC 2, muc 4) Tong hop chan doan Particle Filter tu pf_diag/<video>.csv cua cac lan
-chay PF (run_experiment voi pf_diag: true): dau hieu suy giam chat luong:
+chay PF (run_experiment voi pf_diag: true).
+
+DINH NGHIA (xem PFCTRV.enable_diag trong src/pf_ctrv.py): `ess_ratio` = ESS/N voi ESS = 1/sum(w^2), trong so
+DA CHUAN HOA SAU khi nhan likelihood, do TRUOC resample; `n_unique` = so gia tri cx khac nhau, do SAU
+resample; `spread_theta` la do lech chuan VONG. Ket qua chi ap dung cho bootstrap PF nay voi cau hinh da
+chay (ghi trong cac cot pf_*): resample khi ESS < 0.5 N, uoc luong `mean`, roughening = 0, Q/R dung chung
+voi EKF; seed 0/1/2, RNG moi track = SeedSequence([seed, hash(video), track_id]).
+
+Dau hieu suy giam chat luong:
     ess_ratio  : ESS/N truoc resample (thap = trong so tap trung vao it particle)
     resampled  : ti le update phai resample (ESS < 0.5 N)
     n_unique   : so particle KHAC NHAU sau resample / N (thap = mat da dang - sample impoverishment)
@@ -43,10 +51,16 @@ def main() -> int:
         if not files:
             continue
         df = pd.concat([pd.read_csv(f).assign(video=f.stem) for f in files], ignore_index=True)
+        import json as _json
+        meta_f = config.PROCESSED_DIR / "trackers" / exp["split_name"] / r["dir"] / "run_meta.json"
+        cfg = _json.loads(meta_f.read_text(encoding="utf-8")).get("tracker_cfg", {}) if meta_f.exists() else {}
         upd = df[df.kind == "update"]
         n = int(upd.n_unique.max()) if len(upd) else 0
         N = int(r.get("set", {}).get("pf_num_particles", 0)) or n
         rec = {"cond": r["cond"], "tracker": r["tracker"], "seed": r["seed"], "n_update": len(upd), "N_particles": N,
+               "pf_resample_ess_ratio": cfg.get("pf_resample_ess_ratio"), "pf_estimate": cfg.get("pf_estimate"),
+               "pf_roughening": cfg.get("pf_roughening"), "pf_degenerate_maha2": cfg.get("pf_degenerate_maha2"),
+               "track_buffer": cfg.get("track_buffer"),
                "ess_ratio_mean": upd.ess_ratio.mean(), "ess_ratio_p10": upd.ess_ratio.quantile(0.10),
                "frac_resampled": upd.resampled.mean(), "frac_ess_lt_0.2": (upd.ess_ratio < 0.2).mean(),
                "n_unique_ratio_mean": (upd.n_unique / N).mean() if N else np.nan,

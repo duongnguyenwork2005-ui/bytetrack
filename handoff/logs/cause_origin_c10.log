@@ -1,0 +1,42 @@
+[c10] Bang cheo NGUYEN NHAN (track cu khong duoc ghep) x NGUON ID SAU (hau qua):
+id_after_origin              (khong co ID sau - lost_after)  existing_other_track  new_track_from_det
+tracker primary_cause                                                                                
+cv      buffer_expired                                    0                     2                   9
+        competition                                       0                     0                   2
+        detector_miss                                     4                     0                   0
+        hijacked_during                                   1                     1                   0
+        prediction_drift                                  0                     1                  15
+        score_fusion_reject                               4                     0                   8
+ekf     buffer_expired                                    0                     0                  12
+        competition                                       0                     0                   3
+        detector_miss                                     5                     0                   0
+        hijacked_during                                   1                     0                   0
+        prediction_drift                                  0                     2                  18
+        score_fusion_reject                               4                     1                   3
+pf500   buffer_expired                                    3                     0                  20
+        competition                                       0                     2                   2
+        detector_miss                                     5                     0                   0
+        hijacked_during                                   0                     0                   7
+        prediction_drift                                  0                     4                  27
+        score_fusion_reject                               3                     0                   3
+        unknown                                           0                     1                   0
+ukf     buffer_expired                                    0                     1                  11
+        competition                                       0                     0                   2
+        detector_miss                                     5                     0                   0
+        hijacked_during                                   1                     0                   0
+        prediction_drift                                  0                     2                  19
+        score_fusion_reject                               4                     0                   3
+
+Cot log la bang chung cho tung nhan (so ca o dieu kien c10):
+            primary_cause  n_cv  n_ekf  n_ukf  n_pf500                                                                             cot_log_la_bang_chung
+         prediction_drift    16     20     21       31                           state_at_fdet, n_lost_at_fdet, iou_pred_det, center_offset_px, det_conf
+           buffer_expired    11     12     12       23                                           state_at_fdet = removed, removed_frame, first_det_frame
+      score_fusion_reject    12      8      7        6                                                                iou_pred_det, det_conf, fused_cost
+              competition     2      3      2        4                                                      det_matched_track, competitor_iou, det_stage
+            detector_miss     4      5      5        5 best_iou_high_after, best_iou_low_after, best_iou_cache_after, best_cache_conf, detector_miss_sub
+          hijacked_during     2      1      1        7                                                                     hijack_frame, hijack_other_gt
+      track_matched_other     0      0      0        0                                                                                 track_matched_det
+matched_but_eval_mismatch     0      0      0        0                                                                     det_matched_track = id_before
+                  unknown     0      0      0        1                                                                                        (khong co)
+
+-> results\phase2\failure_analysis\expA_detrac_dev\cause_by_origin_c10.csv, results\phase2\failure_analysis\expA_detrac_dev\cause_evidence_c10.csv

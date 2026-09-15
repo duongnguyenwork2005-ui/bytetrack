@@ -107,6 +107,23 @@ class PFCTRV(EKFTrackerCTRV):
         self.diag_rows: list | None = None
 
     def enable_diag(self) -> None:
+        """Bat ghi chan doan (khong doi ket qua). DINH NGHIA CAC DAI LUONG (Moc 2, diem 4):
+
+            ess_ratio  = ESS / N, ESS = 1 / sum(w_i^2) voi w = exp(logw - logsumexp(logw)) - trong so DA
+                         CHUAN HOA SAU khi nhan likelihood cua quan sat, do TRUOC khi resample.
+                         (Voi cau hinh mac dinh resample khi ESS < 0.5 N.)
+            resampled  = lan update do co resample hay khong (systematic resampling, 1 so ngau nhien).
+            n_unique   = so gia tri KHAC NHAU cua toa do cx trong dam may, do SAU buoc resample (neu co);
+                         dung lam xap xi "so particle phan biet" - resample tao cac ban sao trung nhau nen
+                         cx trung nhau la dau hieu mat da dang. (Truoc khi co nhieu qua trinh o buoc
+                         predict ke tiep, cac ban sao nay hoan toan trung nhau.)
+            spread_xy  = do lech chuan vi tri co trong so cua dam may (px), spread_theta = do lech chuan
+                         VONG cua huong (rad, tu do dai vector trung binh), spread_v cua toc do (px/buoc).
+            degenerate = lan update ma khong particle nao gan quan sat (Mahalanobis^2 nho nhat >
+                         degenerate_maha2) -> dat lai vi tri quanh quan sat.
+            n_lost     = so buoc track da mat dau tinh den frame dang cap nhat (0 = dang bam).
+        Moi dong ghi kem track_id va frame HIEN TAI cua tracker (CTRVSTrack dat `_pending_frame_id`).
+        """
         self.diag_rows = []
 
     def diag_frame(self):
