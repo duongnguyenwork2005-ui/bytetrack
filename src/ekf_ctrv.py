@@ -274,7 +274,27 @@ class EKFTrackerCTRV:
     CX, CY, V, THETA, OMEGA, A, H, VA, VH = range(9)
     NDIM = 9
 
-    def __init__(self, dt: float | None = None):
+    def __init__(self, dt: float | None = None,
+                 std_theta: float | None = None, std_omega: float | None = None,
+                 init_std_theta: float | None = None, init_std_omega: float | None = None,
+                 heading_std_after_init: float | None = None,
+                 min_speed_for_heading: float | None = None):
+        """Tao bo loc. Moi tham so None -> lay gia tri mac dinh trong config.py.
+
+        GIAI DOAN 2: tat ca tham so nhieu / khoi tao duoc giu TREN INSTANCE (khong
+        doc `config.*` luc goi ham nua). Ly do: tracker co the tao bo loc voi
+        tham so ghi trong file .yaml (vd `ctrv_std_theta`), va cung mot tien
+        trinh co the chay nhieu cau hinh khac nhau. Gia tri mac dinh van la
+        config.* nen duong chay cu (khong truyen gi) cho ket qua TRUNG KHIT.
+
+        Don vi (che do "buoc", dt = 1 frame -- xem PHASE2_REPORT.md muc thoi gian):
+            std_theta            [rad / buoc]    gia so random-walk cua huong
+            std_omega            [rad / buoc^2]  gia so random-walk cua turn rate
+            init_std_theta       [rad]           do bat dinh huong khi moi sinh track
+            init_std_omega       [rad / buoc]    do bat dinh turn rate khi moi sinh
+            heading_std_after_init [rad]         do bat dinh huong sau khoi tao 2 frame
+            min_speed_for_heading  [px / buoc]   duoi nguong nay coi la dung yen
+        """
         self.dt = config.CTRV_DT if dt is None else dt
         self.omega_eps = config.CTRV_OMEGA_EPS
 
@@ -284,8 +304,20 @@ class EKFTrackerCTRV:
 
         # Nhieu qua trinh cho 2 bien rieng cua CTRV (khong co trong baseline),
         # dat theo so lieu omega thuc do o Giai doan 1 - xem config.py
-        self._std_theta = config.CTRV_STD_THETA
-        self._std_omega = config.CTRV_STD_OMEGA
+        self._std_theta = config.CTRV_STD_THETA if std_theta is None else float(std_theta)
+        self._std_omega = config.CTRV_STD_OMEGA if std_omega is None else float(std_omega)
+
+        # Tham so khoi tao (truoc day doc config.* luc goi initiate / try_initiate_from_motion)
+        self._init_std_theta = (config.CTRV_INIT_STD_THETA if init_std_theta is None
+                                else float(init_std_theta))
+        self._init_std_omega = (config.CTRV_INIT_STD_OMEGA if init_std_omega is None
+                                else float(init_std_omega))
+        self._heading_std_after_init = (config.CTRV_HEADING_STD_AFTER_INIT
+                                        if heading_std_after_init is None
+                                        else float(heading_std_after_init))
+        self._min_speed_for_heading = (config.CTRV_MIN_SPEED_FOR_HEADING
+                                       if min_speed_for_heading is None
+                                       else float(min_speed_for_heading))
 
         # Ma tran do H (4x9): chon cx, cy, a, h. Hang so vi mo hinh do tuyen tinh.
         self._update_mat = np.zeros((4, self.NDIM))
@@ -415,8 +447,8 @@ class EKFTrackerCTRV:
         std[self.CX] = 2 * self._std_weight_position * h
         std[self.CY] = 2 * self._std_weight_position * h
         std[self.V] = 10 * self._std_weight_velocity * h   # tuong ung vx, vy cua baseline
-        std[self.THETA] = config.CTRV_INIT_STD_THETA        # huong hoan toan chua biet
-        std[self.OMEGA] = config.CTRV_INIT_STD_OMEGA
+        std[self.THETA] = self._init_std_theta              # huong hoan toan chua biet
+        std[self.OMEGA] = self._init_std_omega
         std[self.A] = 1e-2
         std[self.H] = 2 * self._std_weight_position * h
         std[self.VA] = 1e-5
@@ -458,7 +490,7 @@ class EKFTrackerCTRV:
         dy = float(measurement[1]) - ref_y
         speed = float(np.hypot(dx, dy)) / (self.dt * max(n_frames, 1.0))
 
-        if speed < config.CTRV_MIN_SPEED_FOR_HEADING:
+        if speed < self._min_speed_for_heading:
             return mean, covariance, False   # dung yen -> chua the biet huong
 
         mean[self.V] = speed
@@ -469,7 +501,7 @@ class EKFTrackerCTRV:
         # duong cheo: ghi de thang lam P mat tinh ban xac dinh duong - xem docstring
         # cua set_marginal_variance va src/repro_init_covariance.py.
         set_marginal_variance(covariance, self.THETA,
-                              config.CTRV_HEADING_STD_AFTER_INIT ** 2)
+                              self._heading_std_after_init ** 2)
         set_marginal_variance(covariance, self.V,
                               (2 * self._std_weight_velocity * mean[self.H] * 10) ** 2)
         # Ep doi xung lai de trieu tieu sai so lam tron tich luy

@@ -112,8 +112,10 @@ class UKFTrackerCTRV(EKFTrackerCTRV):
 
     def __init__(self, dt: float | None = None,
                  alpha: float | None = None, beta: float | None = None,
-                 kappa: float | None = None):
-        super().__init__(dt=dt)
+                 kappa: float | None = None, **ctrv_kwargs):
+        # `ctrv_kwargs`: std_theta, std_omega, init_std_* ... chuyen nguyen cho
+        # EKFTrackerCTRV de EKF va UKF luon dung CUNG bo tham so nhieu / khoi tao.
+        super().__init__(dt=dt, **ctrv_kwargs)
         self.alpha = config.UKF_ALPHA if alpha is None else alpha
         self.beta = config.UKF_BETA if beta is None else beta
         self.kappa = config.UKF_KAPPA if kappa is None else kappa

@@ -101,23 +101,38 @@ class CTRVSTrack(STrack):
         self.mean, self.covariance = self.kalman_filter.predict(mean_state, self.covariance)
 
     # ------------------------------------------------------------------
-    # Override 2: multi_predict - dung shared_kalman cua lop nay
+    # Override 2: multi_predict - dung bo loc CUA TRACKER (khong phai shared_kalman)
     # ------------------------------------------------------------------
     @classmethod
     def multi_predict(cls, stracks):
         """Du doan hang loat cho nhieu track.
 
-        Khai bao la classmethod (baseline la staticmethod) de lop con UKF tu
-        dong dung dung `shared_kalman` cua no ma khong phai viet lai ham nay.
+        LOI DA SUA (Giai doan 2). Ban cu dung `cls.shared_kalman` - mot instance
+        tao MOT LAN luc import voi tham so mac dinh trong config.py. Nhung
+        `BYTETracker.update()` CHI goi `multi_predict` (khong goi `predict` tung
+        track), nen moi tham so nhieu dat tren bo loc cua tracker (tu
+        `get_kalmanfilter()`, vd doc tu file .yaml) BI BO QUA HOAN TOAN o buoc
+        du doan. Da do duoc: dat std_theta = 1.0 tren bo loc cua tracker, sau
+        multi_predict P[theta,theta] van tang dung bang 0.010^2 cua mac dinh.
+        Voi cau hinh mac dinh cua Giai doan 1 hai bo loc trung nhau nen ket qua
+        cu KHONG bi anh huong - xem test_filter_config.py (bit-identical).
+
+        Nay dung `stracks[0].kalman_filter`: moi track cua CUNG mot tracker deu
+        duoc `activate()` voi cung mot instance (`BYTETracker.kalman_filter`),
+        nen lay cua track dau tien la du. `shared_kalman` chi con la du phong
+        cho truong hop track chua co bo loc (khong xay ra trong pool cua ByteTrack).
         """
         if not stracks:
             return
+        kf = stracks[0].kalman_filter
+        if kf is None:
+            kf = cls.shared_kalman
         multi_mean = np.asarray([st.mean for st in stracks])
         multi_covariance = np.asarray([st.covariance for st in stracks])
         for i, st in enumerate(stracks):
             if st.state != TrackState.Tracked:
                 multi_mean[i][cls.IDX_VH] = 0
-        multi_mean, multi_covariance = cls.shared_kalman.multi_predict(multi_mean, multi_covariance)
+        multi_mean, multi_covariance = kf.multi_predict(multi_mean, multi_covariance)
         for i, (mean, cov) in enumerate(zip(multi_mean, multi_covariance)):
             stracks[i].mean = mean
             stracks[i].covariance = cov
@@ -220,6 +235,33 @@ class UKFSTrack(CTRVSTrack):
     filter_class = UKFTrackerCTRV
 
 
+#: Khoa trong file .yaml cua tracker -> ten tham so cua EKFTrackerCTRV.__init__.
+#: Khong co khoa nao trong .yaml -> bo loc dung mac dinh config.py (hanh vi cu).
+CTRV_YAML_KEYS = {
+    "ctrv_dt": "dt",
+    "ctrv_std_theta": "std_theta",
+    "ctrv_std_omega": "std_omega",
+    "ctrv_init_std_theta": "init_std_theta",
+    "ctrv_init_std_omega": "init_std_omega",
+    "ctrv_heading_std_after_init": "heading_std_after_init",
+    "ctrv_min_speed_for_heading": "min_speed_for_heading",
+}
+
+
+def ctrv_kwargs_from_args(args) -> dict:
+    """Doc cac khoa `ctrv_*` (neu co) tu namespace cau hinh tracker.
+
+    Chi lay khoa co mat va khac None, de file .yaml cu (khong co khoa nao) van
+    tao bo loc y het truoc day.
+    """
+    out = {}
+    for key, name in CTRV_YAML_KEYS.items():
+        val = getattr(args, key, None)
+        if val is not None:
+            out[name] = float(val)
+    return out
+
+
 class CTRVByteTracker(LostAwareAssociation, BYTETracker):
     """ByteTracker dung bo loc CTRV. Toan bo logic ghep cap giu nguyen.
 
@@ -231,8 +273,14 @@ class CTRVByteTracker(LostAwareAssociation, BYTETracker):
     track_class = CTRVSTrack
 
     def get_kalmanfilter(self):
-        """Tra ve bo loc CTRV thay vi KalmanFilterXYAH."""
-        return self.track_class.filter_class()
+        """Tra ve bo loc CTRV thay vi KalmanFilterXYAH.
+
+        Tham so nhieu / khoi tao lay tu file .yaml (khoa `ctrv_*`, xem
+        CTRV_YAML_KEYS); khong co khoa -> mac dinh config.py. Instance nay duoc
+        gan cho MOI track khi activate() va la bo loc duy nhat chay trong
+        multi_predict (xem CTRVSTrack.multi_predict).
+        """
+        return self.track_class.filter_class(**ctrv_kwargs_from_args(self.args))
 
     def multi_predict(self, tracks):
         """Goi multi_predict cua lop track tuong ung.
