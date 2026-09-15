@@ -1,0 +1,48 @@
+[check-events] 12 video: doan tho partial 717 + full 245 = 962
+               su kien sau gop (khong dem lap): 717; chong lan cung track: 0
+               du dieu kien (GT co truoc & sau, cua so 30 frame): 184 = full 33 + partial 151
+               loai 369: gt_missing_before
+               loai 164: gt_missing_after
+               do dai su kien du dieu kien (frame): median 28, max 995; full: median 46
+  [c25/cv    ] eligible 184: preserved 93, switched 44, lost_after 14, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 20, score_fusion_reject 12, buffer_expired 12, detector_miss 9, competition 3, hijacked_during 1, matched_but_eval_mismatch 1
+  [c25/ekf   ] eligible 184: preserved 90, switched 46, lost_after 15, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 23, buffer_expired 15, detector_miss 10, score_fusion_reject 8, competition 4, matched_but_eval_mismatch 1
+  [c25/ukf   ] eligible 184: preserved 91, switched 45, lost_after 15, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 24, buffer_expired 14, detector_miss 10, score_fusion_reject 8, competition 3, matched_but_eval_mismatch 1
+  [c25/pf500 ] eligible 184: preserved 64, switched 72, lost_after 14, no_match_before 34 | nguyen nhan chinh (that bai): prediction_drift 37, buffer_expired 27, detector_miss 9, score_fusion_reject 6, competition 4, matched_but_eval_mismatch 2, hijacked_during 1
+  [c10/cv    ] eligible 184: preserved 104, switched 38, lost_after 9, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 16, score_fusion_reject 12, buffer_expired 11, detector_miss 4, hijacked_during 2, competition 2
+  [c10/ekf   ] eligible 184: preserved 102, switched 39, lost_after 10, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 20, buffer_expired 12, score_fusion_reject 8, detector_miss 5, competition 3, hijacked_during 1
+  [c10/ukf   ] eligible 184: preserved 103, switched 38, lost_after 10, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 21, buffer_expired 12, score_fusion_reject 7, detector_miss 5, competition 2, hijacked_during 1
+  [c10/pf500 ] eligible 184: preserved 72, switched 66, lost_after 11, no_match_before 35 | nguyen nhan chinh (that bai): prediction_drift 31, buffer_expired 23, hijacked_during 7, score_fusion_reject 6, detector_miss 5, competition 4, unknown 1
+
+Ghep nham khi noi lai track (refind): 
+cond tracker  n_refind  n_known  n_wrong  wrong_refind_rate
+ c10      cv       753      522       27             0.0517
+ c10     ekf       739      519       19             0.0366
+ c10   pf500       809      596      124             0.2081
+ c10     ukf       736      522       18             0.0345
+ c25      cv      2147     1478       52             0.0352
+ c25     ekf      2196     1545       34             0.0220
+ c25   pf500      1954     1387      103             0.0743
+ c25     ukf      2203     1547       31             0.0200
+
+Nguyen nhan chinh cua that bai (switched + lost_after), theo tang:
+primary_cause         buffer_expired  competition  detector_miss  hijacked_during  matched_but_eval_mismatch  prediction_drift  score_fusion_reject  unknown
+cond tracker stratum                                                                                                                                        
+c10  cv      full                6.0          1.0            0.0              0.0                        0.0              11.0                  5.0      0.0
+             partial             5.0          1.0            4.0              2.0                        0.0               5.0                  7.0      0.0
+     ekf     full                6.0          2.0            0.0              0.0                        0.0              13.0                  2.0      0.0
+             partial             6.0          1.0            5.0              1.0                        0.0               7.0                  6.0      0.0
+     pf500   full                8.0          1.0            0.0              0.0                        0.0              13.0                  1.0      0.0
+             partial            15.0          3.0            5.0              7.0                        0.0              18.0                  5.0      1.0
+     ukf     full                6.0          1.0            0.0              0.0                        0.0              14.0                  2.0      0.0
+             partial             6.0          1.0            5.0              1.0                        0.0               7.0                  5.0      0.0
+c25  cv      full                5.0          1.0            0.0              0.0                        0.0              11.0                  5.0      0.0
+             partial             7.0          2.0            9.0              1.0                        1.0               9.0                  7.0      0.0
+     ekf     full                6.0          2.0            0.0              0.0                        0.0              13.0                  2.0      0.0
+             partial             9.0          2.0           10.0              0.0                        1.0              10.0                  6.0      0.0
+     pf500   full                9.0          0.0            0.0              0.0                        0.0              13.0                  1.0      0.0
+             partial            18.0          4.0            9.0              1.0                        2.0              24.0                  5.0      0.0
+     ukf     full                6.0          1.0            0.0              0.0                        0.0              14.0                  2.0      0.0
+             partial             8.0          2.0           10.0              0.0                        1.0              10.0                  6.0      0.0
+
+-> D:\LABOTARY\bytetrack\results\phase2\failure_analysis\expA_detrac_dev
+exit=0

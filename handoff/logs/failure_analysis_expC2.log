@@ -1,0 +1,33 @@
+  [c25/cv    ] eligible 184: preserved 93, switched 44, lost_after 14, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 20, score_fusion_reject 12, buffer_expired 12, detector_miss 9, competition 3, hijacked_during 1, matched_but_eval_mismatch 1
+  [c25/cv-maha] eligible 184: preserved 102, switched 37, lost_after 12, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 17, detector_miss 9, buffer_expired 7, hijacked_during 6, competition 5, score_fusion_reject 4, matched_but_eval_mismatch 1
+  [c25/cv-iou] eligible 184: preserved 104, switched 35, lost_after 12, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 18, detector_miss 9, hijacked_during 6, buffer_expired 6, score_fusion_reject 4, competition 2, matched_but_eval_mismatch 2
+  [c25/ekf   ] eligible 184: preserved 90, switched 46, lost_after 15, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 23, buffer_expired 15, detector_miss 10, score_fusion_reject 8, competition 4, matched_but_eval_mismatch 1
+  [c25/ekf-maha] eligible 184: preserved 93, switched 46, lost_after 12, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 20, detector_miss 10, buffer_expired 10, hijacked_during 9, competition 6, matched_but_eval_mismatch 2, score_fusion_reject 1
+  [c25/ekf-iou] eligible 184: preserved 99, switched 38, lost_after 14, no_match_before 33 | nguyen nhan chinh (that bai): prediction_drift 17, detector_miss 10, hijacked_during 9, buffer_expired 7, score_fusion_reject 4, matched_but_eval_mismatch 3, competition 2
+
+Ghep nham khi noi lai track (refind): 
+cond  tracker  n_refind  n_known  n_wrong  wrong_refind_rate
+ c25       cv      2147     1478       52             0.0352
+ c25   cv-iou      3867     2348      241             0.1026
+ c25  cv-maha      3536     2123      197             0.0928
+ c25      ekf      2196     1545       34             0.0220
+ c25  ekf-iou      3880     2378      274             0.1152
+ c25 ekf-maha      3679     2220      234             0.1054
+
+Nguyen nhan chinh cua that bai (switched + lost_after), theo tang:
+primary_cause          buffer_expired  competition  detector_miss  hijacked_during  matched_but_eval_mismatch  prediction_drift  score_fusion_reject
+cond tracker  stratum                                                                                                                               
+c25  cv       full                5.0          1.0            0.0              0.0                        0.0              11.0                  5.0
+              partial             7.0          2.0            9.0              1.0                        1.0               9.0                  7.0
+     cv-iou   full                4.0          1.0            0.0              2.0                        0.0              13.0                  2.0
+              partial             2.0          1.0            9.0              4.0                        2.0               5.0                  2.0
+     cv-maha  full                5.0          2.0            0.0              1.0                        0.0              10.0                  2.0
+              partial             2.0          3.0            9.0              5.0                        1.0               7.0                  2.0
+     ekf      full                6.0          2.0            0.0              0.0                        0.0              13.0                  2.0
+              partial             9.0          2.0           10.0              0.0                        1.0              10.0                  6.0
+     ekf-iou  full                4.0          1.0            0.0              2.0                        0.0              13.0                  2.0
+              partial             3.0          1.0           10.0              7.0                        3.0               4.0                  2.0
+     ekf-maha full                6.0          3.0            0.0              1.0                        0.0              11.0                  0.0
+              partial             4.0          3.0           10.0              8.0                        2.0               9.0                  1.0
+
+-> D:\LABOTARY\bytetrack\results\phase2\failure_analysis\expC2_recover_dev
