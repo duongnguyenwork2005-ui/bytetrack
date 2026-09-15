@@ -93,8 +93,10 @@ def collect(cache_max_mb: float, splits: list[str]) -> tuple[list[Path], list[st
             notes.append(f"cache {cdir.name}: {len(npz)} npz ({mb:.1f} MB) DA GOM")
         elif npz:
             notes.append(f"cache {cdir.name}: {len(npz)} npz ({mb:.1f} MB) KHONG gom (> {cache_max_mb} MB) - chi tren may")
-    for h in ("handoff/versions.json", "handoff/INDEX.md", "handoff/large_inputs.md"):
-        files.add(Path(h))
+    for h in ("handoff/versions.json", "handoff/INDEX.md", "handoff/large_inputs.md",
+              "CODEX_HANDOFF.md", "PHASE2_REPORT.md", "README.md", "requirements.txt", ".gitignore"):
+        if (ROOT / h).exists():                     # ke ca khi chua commit (tai lieu ban giao)
+            files.add(Path(h))
     for p in (ROOT / "handoff" / "logs").glob("*"):
         if p.is_file():
             files.add(p.relative_to(ROOT))
@@ -140,12 +142,16 @@ def check_links(zf: zipfile.ZipFile, doc: str) -> list[str]:
     names = set(zf.namelist())
     text = (ROOT / doc).read_text(encoding="utf-8")
     refs = set(re.findall(r"\]\(([^)#\s]+)\)", text)) | set(re.findall(r"`((?:src|configs|results|data|handoff|scripts)/[^`\s]+)`", text))
+    big = (ROOT / "handoff" / "large_inputs.md")
+    big_txt = big.read_text(encoding="utf-8") if big.exists() else ""
     missing = []
     for r in refs:
-        if r.startswith("http"):
-            continue
+        if r.startswith("http") or "{" in r or "*" in r:
+            continue                                  # mau nhieu file / glob - kiem tra thu cong
         r2 = r.rstrip("/")
         if r2 in names or any(n.startswith(r2 + "/") for n in names):
+            continue
+        if r2 in big_txt or r2 + "/" in big_txt:      # da khai bao la "chi tren may"
             continue
         missing.append(r)
     return sorted(missing)

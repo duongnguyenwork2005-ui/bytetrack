@@ -16,3 +16,13 @@
 
 Môi trường: `handoff/versions.json` (Python, torch/cuda, ultralytics 8.4.141, trackeval 1.3.0, pip freeze, GPU GTX 1650, Windows 11).
 Bước cần GPU: tạo cache detection, `test_run_tracking_replay.py`, `profile_pipeline.py`. Mọi bước tracking/đánh giá còn lại chạy CPU từ cache.
+
+## Cố ý KHÔNG đóng gói (không phải thiếu sót)
+
+| Mục | Vì sao |
+|:--|:--|
+| `handoff/phase2_review_latest.zip` | chính gói này (tự tham chiếu) |
+| `src/demo/live_view.py`, `src/demo/*buffer90*`, `live.bat`, `outputs/**` | **file riêng của người dùng**, chưa commit, không thuộc công việc bàn giao |
+| `data/processed/trackers/*/data/*.txt`, `*/assoc_log/*.parquet`, `*/timing/*.csv`, `*/pf_diag/*.csv` | log/kết quả từng frame, dung lượng lớn; bản trích quanh sự kiện có trong `results/phase2/failure_analysis/*/event_window_log.csv`, tổng hợp có trong `summary.csv` + `results/phase2/**` |
+| `results/phase2/shared_kalman/{prefix,fixed}/` | output từng video của kiểm chứng pre-fix/fixed; tóm tắt trong `diff_summary.csv` |
+| `models/**`, `data/raw/**`, `data/extracted/**`, `.git/**` | weights / dataset / lịch sử git (xem bảng trên) |
