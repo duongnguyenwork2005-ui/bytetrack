@@ -185,11 +185,19 @@ def build_events(partial: pd.DataFrame, full: pd.DataFrame,
     khong -- dung de phan tang, KHONG tao them mau.
 
     GIAI DOAN 2 - `gaps` (tuy chon): bang track_gaps.csv (last_seen_frame,
-    reappear_frame). Voi BDD100K, doi tuong bi che HOAN TOAN thi KHONG duoc
-    annotate, nen "che gan hoan toan" the hien bang mot khoang trong (gap) cua
-    track chu khong phai doan occlusion_ratio >= 0.90. Moi gap thanh mot doan
-    [last_seen + 1, reappear - 1] voi is_full = True va gop chung voi cac doan
-    partial ke no (bi che dan roi mat han). Cot `has_gap` danh dau su kien co gap.
+    reappear_frame, occ_ratio_before, occ_ratio_after). Voi BDD100K, doi tuong bi
+    che HOAN TOAN thi KHONG duoc annotate, nen mot khoang trong (gap) cua track CO THE
+    la che khuat hoan toan - nhung cung co the la doi tuong ra khoi khung hinh roi
+    quay lai, hoac loi annotation. KHONG suy dien moi gap thanh che hoan toan:
+    moi gap thanh mot doan [last_seen + 1, reappear - 1] voi is_full = False,
+    is_gap = True va gop voi cac doan partial ke no. Bang chung ghi o cot
+    `gap_evidence`:
+        "occluded_adjacent" : frame ngay TRUOC va ngay SAU gap deu co co occluded
+                              (occ_ratio_before va occ_ratio_after >= 0.5) -> nhieu kha
+                              nang la che khuat dan roi mat han
+        "unknown"           : thieu bang chung -> danh dau chua xac dinh
+    `has_full` CHI dat theo doan occlusion_ratio >= 0.90 that (UA-DETRAC). Bao cao
+    phai tach tang: partial / full / gap-occluded_adjacent / gap-unknown.
     Voi UA-DETRAC (khong truyen gaps) ket qua TRUNG KHIT ban cu.
     """
     frames = []
@@ -199,6 +207,7 @@ def build_events(partial: pd.DataFrame, full: pd.DataFrame,
         d = df[["video", "track_id", "start_frame", "end_frame"]].copy()
         d["is_full"] = (lvl == "full")
         d["is_gap"] = False
+        d["gap_evidence"] = ""
         frames.append(d)
     if gaps is not None and len(gaps):
         c0, c1 = (("last_seen_frame", "reappear_frame") if "last_seen_frame" in gaps.columns
@@ -207,12 +216,19 @@ def build_events(partial: pd.DataFrame, full: pd.DataFrame,
                           "start_frame": gaps[c0].astype(int).to_numpy() + 1,
                           "end_frame": gaps[c1].astype(int).to_numpy() - 1})
         d = d[d.end_frame >= d.start_frame].copy()
-        d["is_full"] = True
+        d["is_full"] = False                     # KHONG suy dien gap = che hoan toan
         d["is_gap"] = True
+        if {"occ_ratio_before", "occ_ratio_after"} <= set(gaps.columns):
+            ob = gaps["occ_ratio_before"].to_numpy(float); oa = gaps["occ_ratio_after"].to_numpy(float)
+            ev = np.where((ob >= 0.5) & (oa >= 0.5), "occluded_adjacent", "unknown")
+            keep = (gaps[c1].astype(int).to_numpy() - 1 >= gaps[c0].astype(int).to_numpy() + 1)
+            d["gap_evidence"] = ev[keep]
+        else:
+            d["gap_evidence"] = "unknown"
         frames.append(d)
     if not frames:
         return pd.DataFrame(columns=["video", "track_id", "event_id", "start_frame",
-                                     "end_frame", "length_frames", "has_full", "has_gap"])
+                                     "end_frame", "length_frames", "has_full", "has_gap", "gap_evidence"])
     allseg = pd.concat(frames, ignore_index=True)
 
     out = []
@@ -220,27 +236,33 @@ def build_events(partial: pd.DataFrame, full: pd.DataFrame,
         g = g.sort_values("start_frame")
         cur_s = cur_e = None
         cur_full = cur_gap = False
+        cur_ev = ""
+
+        def _merge_ev(a, b):        # occluded_adjacent > unknown > ""
+            rank = {"": 0, "unknown": 1, "occluded_adjacent": 2}
+            return a if rank.get(a, 0) >= rank.get(b, 0) else b
         for r in g.itertuples(index=False):
             s, e = int(r.start_frame), int(r.end_frame)
             if cur_s is None:
-                cur_s, cur_e, cur_full, cur_gap = s, e, bool(r.is_full), bool(r.is_gap)
+                cur_s, cur_e, cur_full, cur_gap, cur_ev = s, e, bool(r.is_full), bool(r.is_gap), str(r.gap_evidence)
             elif s <= cur_e + 1:                 # chong lan hoac ke nhau -> cung su kien
                 cur_e = max(cur_e, e)
                 cur_full = cur_full or bool(r.is_full)
                 cur_gap = cur_gap or bool(r.is_gap)
+                cur_ev = _merge_ev(cur_ev, str(r.gap_evidence))
             else:
-                out.append((video, int(tid), cur_s, cur_e, cur_full, cur_gap))
-                cur_s, cur_e, cur_full, cur_gap = s, e, bool(r.is_full), bool(r.is_gap)
+                out.append((video, int(tid), cur_s, cur_e, cur_full, cur_gap, cur_ev))
+                cur_s, cur_e, cur_full, cur_gap, cur_ev = s, e, bool(r.is_full), bool(r.is_gap), str(r.gap_evidence)
         if cur_s is not None:
-            out.append((video, int(tid), cur_s, cur_e, cur_full, cur_gap))
+            out.append((video, int(tid), cur_s, cur_e, cur_full, cur_gap, cur_ev))
 
     ev = pd.DataFrame(out, columns=["video", "track_id", "start_frame",
-                                    "end_frame", "has_full", "has_gap"])
+                                    "end_frame", "has_full", "has_gap", "gap_evidence"])
     ev["length_frames"] = ev.end_frame - ev.start_frame + 1
     ev = ev.sort_values(["video", "track_id", "start_frame"]).reset_index(drop=True)
     ev["event_id"] = ev.groupby(["video", "track_id"]).cumcount()
     return ev[["video", "track_id", "event_id", "start_frame", "end_frame",
-               "length_frames", "has_full", "has_gap"]]
+               "length_frames", "has_full", "has_gap", "gap_evidence"]]
 
 
 def add_gt_eligibility(events: pd.DataFrame, gt: pd.DataFrame,
@@ -309,6 +331,7 @@ def evaluate_events(events: pd.DataFrame, match: pd.DataFrame,
                    start_frame=int(r.start_frame), end_frame=int(r.end_frame),
                    length_frames=int(r.length_frames), has_full=bool(r.has_full),
                    has_gap=bool(getattr(r, "has_gap", False)),
+                   gap_evidence=str(getattr(r, "gap_evidence", "")),
                    eligible=bool(r.eligible), exclusion_reason=r.exclusion_reason,
                    outcome=None, id_before=None, id_after=None,
                    id_continuous=False, recall_during=0.0)

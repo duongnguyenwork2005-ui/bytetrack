@@ -89,9 +89,10 @@ def test_2_parse_and_stats():
     _check("crowd, rider, pedestrian, other vehicle deu duoc giu trong interim",
            b1.crowd.sum() == 12 and (b1.category == "rider").sum() == 12
            and (df.category == "other vehicle").sum() == 12)
-    gaps = track_gaps(df)
-    _check("track_gaps: xe G (b2) gap frame 5-7", len(gaps) == 1 and gaps.iloc[0].gap_start == 5
-           and gaps.iloc[0].gap_end == 7 and gaps.iloc[0].gap_frames == 3, gaps.to_string())
+    gaps = track_gaps(df).sort_values("track_id").reset_index(drop=True)
+    _check("track_gaps: xe G (id 11) gap frame 5-7, xe M (id 15) gap frame 7-8",
+           len(gaps) == 2 and (gaps.track_id.tolist() == [11, 15]) and gaps.iloc[0].gap_start == 5
+           and gaps.iloc[0].gap_end == 7 and gaps.iloc[1].gap_start == 7 and gaps.iloc[1].gap_end == 8, gaps.to_string())
     st = stats_report(df)
     _check("stats_report co 8 lop, rider evaluated=True, other vehicle evaluated=False",
            len(st) == 8 and bool(st[st.category == "rider"].evaluated.iloc[0])
@@ -195,8 +196,8 @@ def test_4_end_to_end():
     seg = pd.read_csv(config.INTERIM_DIR / f"{TAG}_occlusion_segments.csv")
     full = pd.read_csv(config.INTERIM_DIR / f"{TAG}_full_occlusion_segments.csv")
     gaps = pd.read_csv(config.INTERIM_DIR / f"{TAG}_track_gaps.csv")
-    _check("segments: co doan partial (truck 6-8), KHONG co doan full (>=0.90), co 1 gap; duration theo 5 fps",
-           len(seg) > 0 and len(full) == 0 and len(gaps) == 1 and np.isclose(gaps.duration_s.iloc[0], 0.6),
+    _check("segments: co doan partial (truck 6-8), KHONG co doan full (>=0.90), 2 gap; duration theo 5 fps",
+           len(seg) > 0 and len(full) == 0 and len(gaps) == 2 and np.isclose(gaps.sort_values("track_id").duration_s.iloc[0], 0.6),
            f"partial {len(seg)} full {len(full)} gaps {len(gaps)}")
     out_dir = ROOT / "results" / "phase2" / "fixture_occl"
     cmd = [PY, "src/occlusion_eval.py", "--split-name", f"{BENCH}-val", "--trackers", "fx-cv", "fx-ekf",
@@ -206,6 +207,12 @@ def test_4_end_to_end():
     ev = pd.read_csv(out_dir / f"events_{BENCH}-val.csv")
     _check("events co cot has_gap va it nhat 1 su kien gap (xe G) + su kien partial (truck B)",
            "has_gap" in ev.columns and ev.has_gap.sum() >= 1 and (~ev.has_gap).sum() >= 1, ev.to_string())
+    g11 = ev[(ev.track_id == 11) & ev.has_gap]; g15 = ev[(ev.track_id == 15) & ev.has_gap]
+    _check("gap KHONG suy dien la che hoan toan: has_full=False; xe G -> gap_evidence 'unknown' "
+           "(frame 4, 8 khong occluded); xe M -> 'occluded_adjacent' (frame 6, 9 occluded)",
+           len(g11) == 1 and len(g15) == 1 and not g11.has_full.iloc[0] and not g15.has_full.iloc[0]
+           and g11.gap_evidence.iloc[0] == "unknown" and g15.gap_evidence.iloc[0] == "occluded_adjacent",
+           ev[ev.has_gap][["track_id", "start_frame", "end_frame", "has_full", "gap_evidence"]].to_string())
     outc = pd.read_csv(out_dir / f"event_outcomes_{BENCH}-val.csv")
     _check("outcome cua su kien gap duoc cham (khong NaN) cho ca 2 tracker",
            outc[outc.has_gap & outc.eligible].outcome.notna().all() and set(outc.tracker) == {"fx-cv", "fx-ekf"},

@@ -41,7 +41,14 @@ Schema CU (TrackEval pip 1.3.0 `datasets/bdd100k.py` dung `index`, `attributes.C
     occlusion_ratio: 0.5 neu occluded else 0.0   <- GIA TRI QUY UOC: "che mot phan, muc do
                      khong biet". Chon 0.5 de vuot nguong partial (0.10) nhung KHONG BAO GIO
                      vuot nguong full (0.90): trong BDD khong ton tai doan "che gan hoan toan
-                     ma van co annotation"; su kien che hoan toan la GAP (xem occlusion_eval --gaps).
+                     ma van co annotation". Khoang trong (GAP) cua track CO THE la che hoan toan
+                     nhung KHONG duoc suy dien mac dinh: occlusion_eval --gaps tao su kien gap
+                     voi has_full=False va gap_evidence = 'occluded_adjacent' (frame ngay truoc/
+                     sau gap deu occluded) hoac 'unknown' (chua xac dinh) - bao cao tach tang.
+    LUU Y: thuoc tinh goc (category, occluded, truncated, crowd) duoc GIU NGUYEN trong interim;
+    viec gop lop chi xay ra khi xuat MOTChallenge (muc 3). Neu chi co nhan da gop lop / mat
+    thuoc tinh (vd ban chuyen doi "moi xe = lop 0"), chi dung de kiem tra pipeline - KHONG dung
+    de bao cao rieng xe may hay phan tich che khuat.
     occlusion_source: "unknown", visibility: 1 - occlusion_ratio
 
 ===========================================================================

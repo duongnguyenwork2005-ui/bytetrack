@@ -14,8 +14,9 @@ Ba video:
         rider D (nguoi ngoi tren C - box RIENG, KHONG gop), pedestrian E, mot box CROWD
         (car, crowd=true) rong bao 3 xe nho F1..F3 (co ca nhan rieng cho F1, con F2/F3
         khong co nhan rieng - chinh la tinh huong crowd cua BDD).
-    b2  12 frame: car G co GAP (co mat frame 1-4 va 8-12, cung id) - BDD khong annotate
-        khi bi che hoan toan; bicycle H truncated; 'other vehicle' I (distractor).
+    b2  12 frame: car G co GAP frame 5-7 KHONG bang chung (frame 4, 8 khong occluded -> gap_evidence
+        'unknown'); car M co GAP frame 7-8 voi frame 6 va 9 occluded (-> 'occluded_adjacent');
+        bicycle H truncated; 'other vehicle' I (distractor); truck occluded moi 4 frame.
     b3   8 frame CO timestamp (ms), mot khoang bi bo frame (timestamp nhay 400 ms);
         bus J, motorcycle K re trai (theta doi dan).
 
@@ -74,6 +75,9 @@ def video_b2():
         L.append(label(12, "bicycle", box(1220 - 10 * i, 400, 40, 60), truncated=(i < 3)))   # H
         L.append(label(13, "other vehicle", box(50, 500, 90, 60)))                  # I distractor
         L.append(label(14, "truck", box(800, 200 + 6 * i, 170, 120), occluded=(i % 4 == 0)))
+        # car M (id 15): GAP frame 7-8 (1-based) voi bang chung che khuat: frame 6 va 9 deu occluded
+        if not (6 <= i <= 7):
+            L.append(label(15, "car", box(500 + 20 * i, 450, 110, 70), occluded=(i in (5, 8))))
         frames.append(frame(v, i, L))
     return v, frames
 

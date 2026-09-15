@@ -108,6 +108,20 @@ def main() -> int:
                                                  lost_after=("outcome", lambda s: float((s == "lost_after").mean())),
                                                  id_continuous=("id_continuous", "mean"))
             summ = summ.join(occ, how="left")
+            # Tang che khuat theo BANG CHUNG GT (khong suy dien): partial (0.10 <= ratio < 0.90),
+            # full (>= 0.90, chi UA-DETRAC), gap-occluded_adjacent, gap-unknown (chua xac dinh)
+            if "gap_evidence" in e.columns:
+                ge = e["gap_evidence"].fillna("").astype(str).replace("", "unknown")
+                e["stratum"] = np.where(e["has_gap"], "gap-" + ge, np.where(e["has_full"], "full", "partial"))
+            else:
+                e["stratum"] = np.where(e["has_full"], "full", "partial")
+            strata = (e.groupby(["tracker_short", "stratum"])
+                      .agg(n_events=("outcome", "size"), preserved=("outcome", lambda s: float((s == "preserved").mean())),
+                           switched=("outcome", lambda s: float((s == "switched").mean())),
+                           lost_after=("outcome", lambda s: float((s == "lost_after").mean())),
+                           no_match_before=("outcome", lambda s: float((s == "no_match_before").mean())),
+                           id_continuous=("id_continuous", "mean")).reset_index())
+            strata.to_csv(out / "occlusion_strata.csv", index=False)
         order = [t["name"] for t in exp["trackers"] if t["name"] in summ.index]
         summ = summ.loc[order].reset_index()
         summ.to_csv(out / "summary.csv", index=False)
@@ -144,6 +158,12 @@ def main() -> int:
             for t in piv.index:
                 s = "  ".join(f"{m}: {piv.loc[t, m]:+.4f} [{lo.loc[t, m]:+.4f}, {hi.loc[t, m]:+.4f}]" for m in BOOT_METRICS)
                 print(f"    {t:<8} {s}")
+        if (out / "occlusion_strata.csv").exists():
+            st = pd.read_csv(out / "occlusion_strata.csv")
+            print("\n  Giu ID (preserved) theo tang che khuat - bang chung GT; gap-unknown = chua xac dinh nguyen nhan:")
+            piv = st.pivot(index="tracker_short", columns="stratum", values="preserved")
+            print(piv.loc[[t for t in order if t in set(st.tracker_short)]].to_string(float_format=lambda v: f"{v:.3f}"))
+            print("  n_events:", st.groupby("stratum").n_events.first().to_dict())
         print(f"\n  -> {out}")
     return 0
 
