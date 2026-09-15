@@ -54,8 +54,9 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from ekf_ctrv import EKFTrackerCTRV  # noqa: E402
+from ekf_ctrv import EKFTrackerCTRV, normalize_angle  # noqa: E402
 from ekf_ctrv_clamped import EKFTrackerCTRVClamped  # noqa: E402
+from pf_ctrv import PFCTRV, PFTrackView  # noqa: E402
 from ukf_ctrv import UKFTrackerCTRV  # noqa: E402
 
 from lost_association import LostAwareAssociation  # noqa: E402
@@ -235,6 +236,69 @@ class UKFSTrack(CTRVSTrack):
     filter_class = UKFTrackerCTRV
 
 
+class PFSTrack(CTRVSTrack):
+    """STrack dung Particle Filter CTRV (Giai doan 2). Xem pf_ctrv.py.
+
+    Trang thai cua track la DAM MAY particle (`particles` (N,9), `logw` (N,)) + rng rieng.
+    `mean` / `covariance` la uoc luong tong hop (dung cho tlwh -> IoU association, va cho
+    project / gating_distance). Sau activate(), `self.kalman_filter` la PFTrackView -> cac
+    ham STrack.update / re_activate / _init_motion_if_needed cua lop cha chay nguyen ven
+    nhung tac dong len particle cua chinh track nay.
+    """
+
+    shared_kalman = None            # KHONG dung: PF phai di qua bo loc cua tracker (co seed)
+    filter_class = PFCTRV
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.particles: np.ndarray | None = None
+        self.logw: np.ndarray | None = None
+        self.rng: np.random.Generator | None = None
+
+    def activate(self, kalman_filter, frame_id: int):
+        # Lop cha: gan kalman_filter (PFCTRV dung chung), cap track_id, mean/cov = initiate(z)
+        # -> mean tai frame activate la XAC DINH (= quan sat), giong KF/EKF/UKF.
+        super().activate(kalman_filter, frame_id)
+        pf = kalman_filter
+        self.rng = pf.make_rng(self.track_id)               # SeedSequence([seed, video, track_id])
+        self.particles = pf.sample_initial(self.mean, self.covariance, self.rng)
+        self.logw = np.full(pf.num_particles, -np.log(pf.num_particles))
+        self.kalman_filter = PFTrackView(pf, self)
+
+    def predict(self):
+        lost = self.state != TrackState.Tracked
+        self.mean, self.covariance = self.kalman_filter.predict(self.mean, self.covariance, lost=lost)
+
+    @classmethod
+    def multi_predict(cls, stracks):
+        """Du doan hang loat: gom particle cua MOI track -> mot lan f_batch (vector hoa), nhieu
+        qua trinh lay tu rng CUA TUNG TRACK (ket qua khong phu thuoc thu tu track trong pool,
+        va trung khit voi goi predict() tung track)."""
+        if not stracks:
+            return
+        pf = stracks[0].kalman_filter.pf
+        VH, H = pf.VH, pf.H
+        Xs = []
+        for st in stracks:
+            X = st.particles
+            if st.state != TrackState.Tracked and np.any(X[:, VH] != 0.0):
+                X = X.copy()
+                X[:, VH] = 0.0
+            Xs.append(X)
+        allX = np.concatenate(Xs, axis=0)
+        allF = pf.f_batch(allX)
+        std = pf.process_noise_std_batch(np.maximum(allX[:, H], 1e-3))
+        off = 0
+        for st in stracks:
+            n = len(st.particles)
+            Xn = allF[off:off + n] + st.rng.standard_normal((n, pf.NDIM)) * std[off:off + n]
+            Xn[:, pf.THETA] = normalize_angle(Xn[:, pf.THETA])
+            Xn[:, H] = np.maximum(Xn[:, H], 1e-3)
+            st.particles = Xn
+            st.mean, st.covariance = pf.estimate_state(Xn, st.logw)
+            off += n
+
+
 #: Khoa trong file .yaml cua tracker -> ten tham so cua EKFTrackerCTRV.__init__.
 #: Khong co khoa nao trong .yaml -> bo loc dung mac dinh config.py (hanh vi cu).
 CTRV_YAML_KEYS = {
@@ -301,6 +365,43 @@ class UKFByteTracker(CTRVByteTracker):
     track_class = UKFSTrack
 
 
+#: Khoa .yaml cua Particle Filter -> tham so PFCTRV.__init__
+PF_YAML_KEYS = {
+    "pf_num_particles": ("num_particles", int),
+    "pf_seed": ("seed", int),
+    "pf_resample_ess_ratio": ("resample_ess_ratio", float),
+    "pf_estimate": ("estimate", str),
+    "pf_roughening": ("roughening", float),
+    "pf_degenerate_maha2": ("degenerate_maha2", float),
+}
+
+
+class PFByteTracker(CTRVByteTracker):
+    """ByteTracker dung Particle Filter + CTRV (Giai doan 2). Association giu nguyen 100%.
+
+    Tham so PF doc tu .yaml (PF_YAML_KEYS), tham so CTRV (ctrv_*) nhu EKF/UKF. Output phu thuoc
+    seed: runner goi set_seed(seed, video) SAU reset() (reset() tao lai bo loc).
+    """
+
+    track_class = PFSTrack
+
+    def get_kalmanfilter(self):
+        kw = {}
+        for key, (name, typ) in PF_YAML_KEYS.items():
+            val = getattr(self.args, key, None)
+            if val is not None:
+                kw[name] = typ(val)
+        return PFCTRV(**kw, **ctrv_kwargs_from_args(self.args))
+
+    def set_seed(self, seed: int, video: str = "") -> None:
+        self.kalman_filter.set_seed(seed, video)
+
+    def pf_stats(self) -> dict:
+        kf = self.kalman_filter
+        return {"n_update": kf.n_update, "n_resample": kf.n_resample, "n_degenerate": kf.n_degenerate,
+                "num_particles": kf.num_particles, "seed": kf.seed}
+
+
 class CVByteTracker(LostAwareAssociation, BYTETracker):
     """Baseline KF + CV, CHI khac ban goc o ham chi phi lien ket cho track LOST.
 
@@ -325,6 +426,7 @@ CTRV_TRACKERS = {
     "bytetrack_ukf_ctrv": UKFByteTracker,
     "bytetrack_cv_lostassoc": CVByteTracker,
     "bytetrack_ekf_ctrv_clamped": ClampedByteTracker,
+    "bytetrack_pf_ctrv": PFByteTracker,
 }
 
 

@@ -1,0 +1,19 @@
+# Giai doan 2: ByteTrack + Particle Filter CTRV, N = 300 particle (xem src/pf_ctrv.py).
+# Moi tham so GHEP CAP giu NGUYEN bytetrack.yaml mac dinh (nhu EKF/UKF). Chi doi bo loc.
+# So particle 100/300/500 la CAU HINH KHAO SAT, khong phai ket luan ve N toi uu.
+tracker_type: bytetrack_pf_ctrv
+track_high_thresh: 0.25
+track_low_thresh: 0.1
+new_track_thresh: 0.25
+track_buffer: 30
+match_thresh: 0.8
+fuse_score: True
+
+pf_num_particles: 300     # (int) so particle moi track
+pf_seed: 0               # (int) seed goc; runner ghi de bang --seeds; rng track = f(seed, video, track_id)
+pf_resample_ess_ratio: 0.5   # (float) resample khi ESS < ratio * N (systematic)
+pf_estimate: mean        # (str) mean | map  -> bbox dung cho association
+pf_roughening: 0.0       # (float) 0 = tat; >0: jitter = roughening * std(Q) sau resample
+pf_degenerate_maha2: 10000.0   # (float) nguong Mahalanobis^2 nho nhat de coi trong so suy bien
+# Tham so CTRV (mac dinh config.py, giong EKF/UKF): ctrv_std_theta, ctrv_std_omega, ctrv_init_std_theta,
+# ctrv_init_std_omega, ctrv_heading_std_after_init, ctrv_min_speed_for_heading
