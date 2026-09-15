@@ -280,6 +280,112 @@ def test_9_two_trackers_different_configs_same_process():
            CTRVSTrack.shared_kalman._std_theta == config.CTRV_STD_THETA == 0.010)
 
 
+def _mot_df(outs):
+    """list output tung frame (N,8) -> DataFrame MOT (frame,id,bb_left,bb_top,bb_width,bb_height)."""
+    import pandas as pd
+    rows = []
+    for f, o in enumerate(outs, 1):
+        for r in o.reshape(-1, 8):
+            rows.append((f, int(r[4]), float(r[0]), float(r[1]), float(r[2] - r[0]), float(r[3] - r[1])))
+    return pd.DataFrame(rows, columns=["frame", "id", "bb_left", "bb_top", "bb_width", "bb_height"])
+
+
+def test_10_interleaved_trackers_id_bijection_and_same_filter_guard():
+    """(MOC 2) Xen ke hai tracker: (a) lien ket ID xuyen suot sequence cua B == B chay mot minh
+    theo ANH XA ID 1-1 CO DINH (track_compare.id_bijection), khong chi so box tung frame;
+    (b) moi lan multi_predict, moi track trong pool dung CUNG instance bo loc (guard trong
+    CTRVSTrack.multi_predict) - tron pool cua hai tracker phai bi phat hien (fail-loud)."""
+    from track_compare import id_bijection
+    cfg_a = load_cfg("configs/bytetrack_ekf_ctrv.yaml", ctrv_std_theta=1.0)
+    cfg_b = load_cfg("configs/bytetrack_ekf_ctrv.yaml")
+    dets = [synthetic_dets(f).cpu().numpy() for f in range(1, 13)]
+    solo = CTRVByteTracker(args=cfg_b); solo.reset()
+    out_solo = [solo.update(d, None).copy() for d in dets]
+    A = CTRVByteTracker(args=cfg_a); A.reset()
+    B = CTRVByteTracker(args=cfg_b); B.reset()
+    CTRVSTrack.n_multi_predict_calls = 0
+    out_b = []
+    for d in dets:
+        A.update(d, None); out_b.append(B.update(d, None).copy())
+    r = id_bijection(_mot_df(out_solo), _mot_df(out_b), tol=0.0)
+    _check("B xen ke vs B mot minh: song anh ID toan sequence (bit-identical box)", r.is_bijection, r.summary())
+    _check("ID KHAC nhau (bo dem toan cuc) nhung anh xa 1-1 co dinh", r.n_pairs == r.n_ids_a == r.n_ids_b and not r.is_identity,
+           r.summary())
+    _check("guard da chay o moi lan multi_predict (2 tracker x 12 frame, pool rong khong dem)",
+           CTRVSTrack.n_multi_predict_calls >= 20, f"calls={CTRVSTrack.n_multi_predict_calls}")
+    # (b) tron pool cua hai tracker -> guard phai raise
+    pool = (A.tracked_stracks + A.lost_stracks) + (B.tracked_stracks + B.lost_stracks)
+    raised = False
+    try:
+        CTRVSTrack.multi_predict(pool)
+    except AssertionError as e:
+        raised = "khac nhau" in str(e).lower() or "pool" in str(e).lower()
+    _check("pool tron 2 tracker -> multi_predict raise AssertionError (fail-loud)", raised)
+    # pool cua MOT tracker: khong raise
+    CTRVSTrack.multi_predict(B.tracked_stracks + B.lost_stracks)
+    _check("pool cua mot tracker: khong raise", True)
+
+
+def test_11_late_binding_no_cross_tracker_leak():
+    """(MOC 2) Late-binding khong lam cau hinh cua tracker nay anh huong tracker khac:
+    A co ctrv_init_std_omega TUONG MINH (0.33), B mac dinh (doc config luc goi). Doi
+    config.CTRV_INIT_STD_OMEGA giua chung -> chi B doi; override cua A khong xuat hien o B."""
+    old = config.CTRV_INIT_STD_OMEGA
+    try:
+        A = CTRVByteTracker(args=load_cfg("configs/bytetrack_ekf_ctrv.yaml", ctrv_init_std_omega=0.33)); A.reset()
+        B = CTRVByteTracker(args=load_cfg("configs/bytetrack_ekf_ctrv.yaml")); B.reset()
+        U = UKFByteTracker(args=load_cfg("configs/bytetrack_ukf_ctrv.yaml")); U.reset()
+        z = np.array([100.0, 100.0, 1.0, 40.0])
+        _, PA = A.kalman_filter.initiate(z); _, PB = B.kalman_filter.initiate(z); _, PU = U.kalman_filter.initiate(z)
+        _check("truoc khi doi config: A = 0.33^2, B = U = config", np.isclose(PA[4, 4], 0.33 ** 2)
+               and np.isclose(PB[4, 4], old ** 2) and np.isclose(PU[4, 4], old ** 2))
+        config.CTRV_INIT_STD_OMEGA = 0.61
+        _, PA2 = A.kalman_filter.initiate(z); _, PB2 = B.kalman_filter.initiate(z); _, PU2 = U.kalman_filter.initiate(z)
+        _check("sau khi doi config: A van 0.33^2 (tuong minh), B va U theo 0.61^2 (late-binding)",
+               np.isclose(PA2[4, 4], 0.33 ** 2) and np.isclose(PB2[4, 4], 0.61 ** 2) and np.isclose(PU2[4, 4], 0.61 ** 2))
+        _check("explicit_params: A liet ke init_std_omega, B/U khong",
+               "init_std_omega" in A.kalman_filter.explicit_params() and "init_std_omega" not in B.kalman_filter.explicit_params()
+               and "init_std_omega" not in U.kalman_filter.explicit_params())
+        # override cua A KHONG ro ri sang B qua shared_kalman / lop
+        _check("shared_kalman khong doi (khong ro ri qua thuoc tinh lop)",
+               "init_std_omega" not in CTRVSTrack.shared_kalman.explicit_params())
+    finally:
+        config.CTRV_INIT_STD_OMEGA = old
+
+
+def test_12_cv_instance_filter_equals_original_bytetrack():
+    """(MOC 2) bytetrack_cv (CVSTrack.multi_predict dung bo loc cua tracker) voi tham so mac dinh
+    == BYTETracker goc cua ultralytics BIT-IDENTICAL; khoa cv_std_weight_* co tac dung qua
+    BYTETracker.update -> multi_predict (cung duong loi shared_kalman cua ultralytics)."""
+    from ultralytics.trackers.byte_tracker import BYTETracker
+    from tracker_ctrv import CVByteTracker
+    cfg = load_cfg("configs/bytetrack_ekf_ctrv.yaml", tracker_type="bytetrack")
+    orig = BYTETracker(args=cfg); orig.reset()
+    o1 = run_tracker(orig)
+    cv = CVByteTracker(args=load_cfg("configs/bytetrack_ekf_ctrv.yaml", tracker_type="bytetrack_cv"))
+    cv.reset()                                    # reset() dat lai bo dem ID toan cuc -> ID trung tuyet doi
+    o2 = run_tracker(cv)
+    _check("bytetrack_cv mac dinh == BYTETracker goc (12 frame, bit-identical ke ca ID)",
+           all(np.array_equal(a, b) for a, b in zip(o1, o2)))
+    cv2 = CVByteTracker(args=load_cfg("configs/bytetrack_ekf_ctrv.yaml", tracker_type="bytetrack_cv",
+                                      cv_std_weight_position=0.5)); cv2.reset()
+    cv2.update(synthetic_dets(1).cpu().numpy(), None)
+    t = (cv2.tracked_stracks + cv2.lost_stracks)[0]
+    p0 = float(t.covariance[0, 0])
+    cv2.update(synthetic_dets(4).cpu().numpy(), None)          # frame rong -> chi predict
+    dp = float(t.covariance[0, 0]) - p0
+    # dP gom Q[x] = (0.5*h)^2 = 400 (h = 40) + phan lan truyen F P F^T (~6) ; mac dinh Q[x] = (h/20)^2 = 4
+    _check("cv_std_weight_position=0.5 toi multi_predict: dP[x] ~ (0.5*h)^2 = 400 (mac dinh ~4)",
+           380 < dp < 450 and t.kalman_filter._std_weight_position == 0.5, f"dP={dp:.3f}")
+    _check("bo loc mac dinh cua ultralytics KHONG bi doi (STrack.shared_kalman)",
+           STrack_shared_pos() == 1.0 / 20)
+
+
+def STrack_shared_pos():
+    from ultralytics.trackers.byte_tracker import STrack
+    return STrack.shared_kalman._std_weight_position
+
+
 def main() -> int:
     tracker_ctrv.register()
     tests = [test_1_default_filter_is_bit_identical_to_shared_kalman,
@@ -290,7 +396,10 @@ def main() -> int:
              test_6_config_override_before_tracker_creation_still_works,
              test_7_late_binding_legacy_semantics,
              test_8_single_predict_equals_batch_predict,
-             test_9_two_trackers_different_configs_same_process]
+             test_9_two_trackers_different_configs_same_process,
+             test_10_interleaved_trackers_id_bijection_and_same_filter_guard,
+             test_11_late_binding_no_cross_tracker_leak,
+             test_12_cv_instance_filter_equals_original_bytetrack]
     failed = 0
     for t in tests:
         print(f"\n--- {t.__name__} ---")

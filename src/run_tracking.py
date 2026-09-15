@@ -105,11 +105,14 @@ def parse_class_map(s: str | None) -> dict[int, int] | None:
     return {int(a): int(b) for a, b in (p.split(":") for p in s.split(","))}
 
 
-def make_tracker(cfg: IterableSimpleNamespace, registry: dict | None = None):
+def make_tracker(cfg: IterableSimpleNamespace, registry: dict | None = None, assoc_log: bool = False):
     registry = registry or tracker_registry()
     if cfg.tracker_type not in registry:
         raise ValueError(f"tracker_type {cfg.tracker_type!r} khong co trong registry {sorted(registry)}")
     cls = with_elapsed_steps(registry[cfg.tracker_type])
+    if assoc_log:
+        from assoc_log import with_assoc_log       # Moc 2: log quyet dinh ghep (khong doi hanh vi)
+        cls = with_assoc_log(cls)
     tr = cls(args=cfg)
     tr.reset()
     return tr
@@ -136,11 +139,20 @@ class _PredictTimer:
 
 def track_video(vd: det_cache.VideoDetections, cfg: IterableSimpleNamespace, dt_nominal: float,
                 elapsed_mode: str = "skip", seed: int | None = None, video: str = "",
-                registry: dict | None = None):
-    """Chay mot tracker moi tren toan bo frame cua cache. Tra ve (rows, cls_rows, timing)."""
-    tr = make_tracker(cfg, registry)
+                registry: dict | None = None, log_sink: dict | None = None):
+    """Chay mot tracker moi tren toan bo frame cua cache. Tra ve (rows, cls_rows, timing).
+
+    log_sink (Moc 2, tuy chon): dict; neu co khoa "assoc_log": True thi tracker duoc boc
+    AssociationLogMixin va sau khi chay `log_sink["assoc_log"]` = AssocLog; neu "pf_diag": True
+    (tracker PF) thi `log_sink["pf_diag"]` = DataFrame chan doan particle; luon dat
+    `log_sink["tracker"]` = tracker (de test doc trang thai cuoi).
+    """
+    log_sink = log_sink if log_sink is not None else {}
+    tr = make_tracker(cfg, registry, assoc_log=bool(log_sink.get("assoc_log")))
     if seed is not None and hasattr(tr, "set_seed"):
         tr.set_seed(seed, video)          # PF: rng theo (seed, video, track_id)
+    if log_sink.get("pf_diag") and hasattr(tr, "kalman_filter") and hasattr(tr.kalman_filter, "enable_diag"):
+        tr.kalman_filter.enable_diag()
     timer = _PredictTimer(tr)
     rows, cls_rows, timing = [], [], []
     last_t = None
@@ -157,6 +169,7 @@ def track_video(vd: det_cache.VideoDetections, cfg: IterableSimpleNamespace, dt_
         pending_steps = 0
         last_t = t_s
         boxes = det_cache.to_boxes(arr, vd.orig_shape)
+        tr.log_frame = int(frame_idx)      # chi so frame cua video (cho assoc_log / pf_diag)
         t0 = time.perf_counter()
         out = tr.update(boxes.cpu().numpy(), None, n_steps=n_steps)
         t_update = time.perf_counter() - t0
@@ -178,18 +191,30 @@ def track_video(vd: det_cache.VideoDetections, cfg: IterableSimpleNamespace, dt_
     df_cls = pd.DataFrame(cls_rows, columns=["frame", "id", "cls"])
     df_t = pd.DataFrame(timing, columns=["frame", "n_steps", "n_tracks", "n_dets",
                                          "t_predict_ms", "t_assoc_ms", "t_update_ms"])
+    log_sink["tracker"] = tr
+    if log_sink.get("assoc_log"):
+        log_sink["assoc_log"] = tr.assoc_log
+    if log_sink.get("pf_diag") and hasattr(getattr(tr, "kalman_filter", None), "diag_frame"):
+        log_sink["pf_diag"] = tr.kalman_filter.diag_frame()
     return df, df_cls, df_t
 
 
 def run_video_to_dir(out_root: Path, video: str, vd, cfg, dt_nominal, elapsed_mode, seed=None,
-                     registry=None):
-    df, df_cls, df_t = track_video(vd, cfg, dt_nominal, elapsed_mode, seed, video, registry)
+                     registry=None, assoc_log: bool = False, pf_diag: bool = False):
+    sink = {"assoc_log": assoc_log, "pf_diag": pf_diag}
+    df, df_cls, df_t = track_video(vd, cfg, dt_nominal, elapsed_mode, seed, video, registry, log_sink=sink)
     (out_root / "data").mkdir(parents=True, exist_ok=True)
     (out_root / "data_cls").mkdir(exist_ok=True)
     (out_root / "timing").mkdir(exist_ok=True)
     df.to_csv(out_root / "data" / f"{video}.txt", header=False, index=False)
     df_cls.to_csv(out_root / "data_cls" / f"{video}.csv", index=False)
     df_t.to_csv(out_root / "timing" / f"{video}.csv", index=False)
+    if assoc_log:
+        from assoc_log import save_log
+        save_log(sink["assoc_log"], out_root / "assoc_log", video)
+    if pf_diag and isinstance(sink.get("pf_diag"), pd.DataFrame):
+        (out_root / "pf_diag").mkdir(exist_ok=True)
+        sink["pf_diag"].to_csv(out_root / "pf_diag" / f"{video}.csv", index=False)
     return df, df_t
 
 
@@ -214,6 +239,8 @@ def main() -> int:
     ap.add_argument("--elapsed-mode", choices=["skip", "steps"], default="skip")
     ap.add_argument("--allow-truncated", action="store_true")
     ap.add_argument("--skip-existing", action="store_true")
+    ap.add_argument("--assoc-log", action="store_true", help="ghi assoc_log/<video>_*.parquet (Moc 2)")
+    ap.add_argument("--pf-diag", action="store_true", help="ghi pf_diag/<video>.csv (PF)")
     args = ap.parse_args()
 
     cache_dir = det_cache.CACHE_ROOT / args.cache_id
@@ -270,7 +297,8 @@ def main() -> int:
             vd = det_cache.open_cache(args.cache_id, v, args.conf_min, classes, args.max_det, class_map,
                                       allow_truncated=args.allow_truncated)
             t0 = time.time()
-            df, df_t = run_video_to_dir(out_root, v, vd, cfg, dt_nominal, args.elapsed_mode, seed, registry)
+            df, df_t = run_video_to_dir(out_root, v, vd, cfg, dt_nominal, args.elapsed_mode, seed, registry,
+                                        assoc_log=args.assoc_log, pf_diag=args.pf_diag)
             sec = time.time() - t0
             n_tr = int(df["id"].nunique()) if len(df) else 0
             print(f"  {name:<28} {v:<14} {len(vd):>5} frame -> {len(df):>7,} bbox {n_tr:>4} track  "

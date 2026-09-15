@@ -103,6 +103,28 @@ class PFCTRV(EKFTrackerCTRV):
         self.n_resample = 0
         self.n_update = 0
         self.n_degenerate = 0
+        # Moc 2: chan doan theo tung update (tuy chon, khong doi hanh vi): enable_diag() -> diag_rows
+        self.diag_rows: list | None = None
+
+    def enable_diag(self) -> None:
+        self.diag_rows = []
+
+    def diag_frame(self):
+        import pandas as pd
+        cols = ["track_id", "frame", "kind", "ess_ratio", "resampled", "n_unique", "spread_xy", "spread_theta",
+                "spread_v", "degenerate", "maha2_best", "n_lost"]
+        return pd.DataFrame(self.diag_rows or [], columns=cols)
+
+    def _diag_spread(self, X: np.ndarray, logw: np.ndarray) -> tuple[float, float, float]:
+        w = np.exp(logw - _logsumexp(logw))
+        mx, my = float(np.sum(w * X[:, self.CX])), float(np.sum(w * X[:, self.CY]))
+        sxy = float(np.sqrt(np.sum(w * ((X[:, self.CX] - mx) ** 2 + (X[:, self.CY] - my) ** 2))))
+        c, s_ = float(np.sum(w * np.cos(X[:, self.THETA]))), float(np.sum(w * np.sin(X[:, self.THETA])))
+        r = min(1.0, float(np.hypot(c, s_)))
+        sth = float(np.sqrt(max(-2.0 * np.log(max(r, 1e-12)), 0.0)))      # do lech chuan vong
+        mv = float(np.sum(w * X[:, self.V]))
+        sv = float(np.sqrt(np.sum(w * (X[:, self.V] - mv) ** 2)))
+        return sxy, sth, sv
 
     # ------------------------------------------------------------------
     # RNG
@@ -214,14 +236,17 @@ class PFCTRV(EKFTrackerCTRV):
         return Xr, np.full(n, -np.log(n)), True
 
     def update_particles(self, X: np.ndarray, logw: np.ndarray, z: np.ndarray, conf: float | None,
-                         rng: np.random.Generator):
-        """Cap nhat trong so voi quan sat z = (cx, cy, a, h). Tra ve (X, logw, mean, cov)."""
+                         rng: np.random.Generator, diag_key: tuple | None = None):
+        """Cap nhat trong so voi quan sat z = (cx, cy, a, h). Tra ve (X, logw, mean, cov).
+
+        diag_key (Moc 2): (track_id, frame, n_lost) de ghi chan doan khi enable_diag() - khong doi ket qua."""
         self.n_update += 1
         z = np.asarray(z, dtype=np.float64)
         h_ref = float(max(z[3], 1e-3))              # R theo chieu cao quan sat (~ mean[H] cua EKF)
         R_diag = np.diag(self._measurement_noise(h_ref, conf))
         ll = self.log_likelihood(X, z, R_diag)
         best = float(np.max(ll)) if len(ll) else -np.inf
+        maha2_best = float(-2.0 * best) if np.isfinite(best) else float("inf")
         if not np.isfinite(best) or (-2.0 * best) > self.degenerate_maha2:
             # Suy bien: khong particle nao gan quan sat -> dat lai vi tri quanh z, giu chuyen dong
             self.n_degenerate += 1
@@ -232,11 +257,21 @@ class PFCTRV(EKFTrackerCTRV):
             X[:, self.H] = np.maximum(X[:, self.H], 1e-3)
             logw = np.full(len(X), -np.log(len(X)))
             mean, cov = self.estimate_state(X, logw)
+            if self.diag_rows is not None and diag_key is not None:
+                sxy, sth, sv = self._diag_spread(X, logw)
+                self.diag_rows.append([diag_key[0], diag_key[1], "update", 0.0, True, len(X), sxy, sth, sv,
+                                       True, maha2_best, diag_key[2]])
             return X, logw, mean, cov
         logw = logw + ll
         logw -= _logsumexp(logw)
+        ess_ratio = self.ess(logw) / len(logw) if self.diag_rows is not None else None
         mean, cov = self.estimate_state(X, logw)       # uoc luong TRUOC khi resample ('map' co nghia)
-        X, logw, _ = self.resample_if_needed(X, logw, rng)
+        X, logw, resampled = self.resample_if_needed(X, logw, rng)
+        if self.diag_rows is not None and diag_key is not None:
+            sxy, sth, sv = self._diag_spread(X, logw)
+            n_unique = int(len(np.unique(X[:, self.CX])))          # so particle khac nhau sau resample
+            self.diag_rows.append([diag_key[0], diag_key[1], "update", float(ess_ratio), bool(resampled), n_unique,
+                                   sxy, sth, sv, False, maha2_best, diag_key[2]])
         return X, logw, mean, cov
 
     def reseed_motion(self, X: np.ndarray, speed: float, heading: float, h: float,
@@ -285,8 +320,12 @@ class PFTrackView:
 
     def update(self, mean, covariance, measurement, confidence=None):
         t = self.track
+        key = None
+        if self.pf.diag_rows is not None:
+            fid = int(getattr(t, "frame_id", -1))
+            key = (int(t.track_id), fid, int(fid - t.end_frame) if t.end_frame is not None else 0)
         t.particles, t.logw, m, P = self.pf.update_particles(t.particles, t.logw,
-                                                             measurement, confidence, t.rng)
+                                                             measurement, confidence, t.rng, diag_key=key)
         return m, P
 
     def try_initiate_from_motion(self, mean, covariance, measurement, n_frames=1.0, ref_pos=None):
@@ -300,6 +339,10 @@ class PFTrackView:
                                             float(max(mean[self.pf.H], 1e-3)), t.rng)
         t.logw = np.full(len(t.particles), -np.log(len(t.particles)))
         m, P = self.pf.estimate_state(t.particles, t.logw)
+        if self.pf.diag_rows is not None:
+            sxy, sth, sv = self.pf._diag_spread(t.particles, t.logw)
+            self.pf.diag_rows.append([int(t.track_id), int(getattr(t, "frame_id", -1)), "init_motion", 1.0, False,
+                                      len(t.particles), sxy, sth, sv, False, 0.0, 0])
         return m, P, True
 
     def initiate_from_motion(self, mean, covariance, measurement, n_frames=1.0, ref_pos=None):

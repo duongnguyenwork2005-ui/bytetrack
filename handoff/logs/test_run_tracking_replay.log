@@ -1,0 +1,29 @@
+
+--- cv: capture (150 frame MVI_39031) -> replay ---
+  [PASS] [cv] runner replay == model.track (bit-identical)
+         baseline 230 dong, replay 230 dong
+         [thong tin] vs testA-cv (GD1, GPU khac lan chay): 230 dong da luu, 230 dong hom nay; ti le box khop IoU>=0.9: 1.0000
+
+--- ekf: capture (150 frame MVI_39031) -> replay ---
+  [PASS] [ekf] runner replay == model.track (bit-identical)
+         baseline 230 dong, replay 230 dong
+         [thong tin] vs testA-ekf (GD1, GPU khac lan chay): 230 dong da luu, 230 dong hom nay; ti le box khop IoU>=0.9: 1.0000
+
+--- ukf: capture (150 frame MVI_39031) -> replay ---
+  [PASS] [ukf] runner replay == model.track (bit-identical)
+         baseline 230 dong, replay 230 dong
+         [thong tin] vs testA-ukf (GD1, GPU khac lan chay): 230 dong da luu, 230 dong hom nay; ti le box khop IoU>=0.9: 1.0000
+
+--- test 2: model.track truc tiep vs cache model.predict (conf 0.05) -> runner, 150 frame ---
+  [PASS] cache khong frame nao cham tran max_det
+  [PASS] [cv] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=False; lech toa do max 0.000122 px)
+  [PASS] [cv] direct vs cache: SONG ANH ID toan sequence (rows A=230 B=230 matched=230 unmatched A=0 B=0; ids A=3 B=3 pairs=3; A->nhieu B: 0, B->nhieu A: 0; bijection=True identity=True)
+  [PASS] [ekf] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=False; lech toa do max 6.1e-05 px)
+  [PASS] [ekf] direct vs cache: SONG ANH ID toan sequence (rows A=230 B=230 matched=230 unmatched A=0 B=0; ids A=3 B=3 pairs=3; A->nhieu B: 0, B->nhieu A: 0; bijection=True identity=True)
+  [PASS] [ukf] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=False; lech toa do max 0 px)
+  [PASS] [ukf] direct vs cache: SONG ANH ID toan sequence (rows A=230 B=230 matched=230 unmatched A=0 B=0; ids A=3 B=3 pairs=3; A->nhieu B: 0, B->nhieu A: 0; bijection=True identity=True)
+
+==============================================================================
+KET QUA: 10/10 phep kiem tra PASS
+==============================================================================
+exit=0

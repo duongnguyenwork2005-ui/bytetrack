@@ -12,7 +12,12 @@ File YAML (vd configs/phase2/experiments/groupA_detrac_dev.yaml):
     trackers:
       - {name: cv,  yaml: bytetrack.yaml}
       - {name: pf100, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n100.yaml, seeds: [0, 1, 2]}
+      - {name: ekf-b2.0, yaml: configs/bytetrack_ekf_ctrv.yaml, track_buffer_sec: 2.0}   # Moc 2: theo tracker
+      - {name: ekf-th02, yaml: configs/bytetrack_ekf_ctrv.yaml, set: {ctrv_std_theta: 0.02}}
     baseline: cv
+    assoc_log: false           # Moc 2: true -> ghi assoc_log/<video>_*.parquet cho moi lan chay (ByteTrack)
+    pf_diag: false             # Moc 2: true -> pf_diag/<video>.csv cho tracker PF
+    pairs: [[cv, ekf]]         # Moc 2: cac cap so sanh them (aggregate_phase2 -> paired_pairs.csv)
     occlusion: {part: train, context_s: 1.2, gaps: false, tag: null, n_boot: 5000}
 
 Ten thu muc tracker: p2-<name>-<cond>-<tracker>[-s<seed>] trong data/processed/trackers/<split>/.
@@ -79,7 +84,8 @@ def plan(exp: dict) -> list[dict]:
                 rows.append({"cond": cond, "tracker": t["name"], "yaml": t["yaml"], "set": t.get("set") or {},
                              "seed": s, "conf_min": float(cc["conf_min"]),
                              "dir": tracker_dir_name(exp["name"], cond, t["name"], s),
-                             "tracker_type": cfg.tracker_type})
+                             "tracker_type": cfg.tracker_type,
+                             "track_buffer_sec": t.get("track_buffer_sec", exp.get("track_buffer_sec"))})
     return rows
 
 
@@ -88,11 +94,16 @@ def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: b
     dt = 1.0 / fps
     registry = run_tracking.tracker_registry()
     out_rows = []
+    assoc_log = bool(exp.get("assoc_log", False))
+    pf_diag = bool(exp.get("pf_diag", False))
     for r in rows:
         overrides = dict(r["set"])
-        if exp.get("track_buffer_sec") is not None:
-            overrides["track_buffer"] = track_buffer_frames(float(exp["track_buffer_sec"]), fps)
+        # track_buffer_sec theo TRACKER (Moc 2, C1) uu tien hon muc thi nghiem; doi sang buoc theo fps
+        tb_sec = r.get("track_buffer_sec")
+        if tb_sec is not None:
+            overrides["track_buffer"] = track_buffer_frames(float(tb_sec), fps)
         cfg = run_tracking.load_tracker_cfg(r["yaml"], overrides)
+        log_ok = assoc_log and cfg.tracker_type.startswith("bytetrack")     # SORT: khong co hook -> bo qua
         out_root = config.PROCESSED_DIR / "trackers" / exp["split_name"] / r["dir"]
         out_root.mkdir(parents=True, exist_ok=True)
         yaml_sha = hashlib.sha256(Path(run_tracking.resolve_tracker_yaml(r["yaml"])).read_bytes()).hexdigest()[:12]
@@ -102,7 +113,8 @@ def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: b
             "tracker_cfg": vars(cfg), "overrides": overrides, "conf_min": r["conf_min"],
             "classes": exp["classes"], "max_det": exp["max_det"], "fps": fps, "dt_nominal_s": dt,
             "track_buffer_frames": int(cfg.track_buffer), "track_buffer_sec": round(int(cfg.track_buffer) / fps, 4),
-            "elapsed_mode": exp["elapsed_mode"], "git_commit": det_cache.git_commit(),
+            "elapsed_mode": exp["elapsed_mode"], "assoc_log": log_ok, "pf_diag": pf_diag,
+            "git_commit": det_cache.git_commit(),
             "created": time.strftime("%Y-%m-%dT%H:%M:%S")}, indent=2, default=str), encoding="utf-8")
         t_all = 0.0
         summary = []
@@ -112,7 +124,8 @@ def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: b
                 continue
             vd = det_cache.open_cache(exp["cache_id"], v, r["conf_min"], exp["classes"], exp["max_det"])
             t0 = time.time()
-            df, df_t = run_tracking.run_video_to_dir(out_root, v, vd, cfg, dt, exp["elapsed_mode"], r["seed"], registry)
+            df, df_t = run_tracking.run_video_to_dir(out_root, v, vd, cfg, dt, exp["elapsed_mode"], r["seed"], registry,
+                                                     assoc_log=log_ok, pf_diag=pf_diag)
             sec = time.time() - t0
             t_all += sec
             summary.append({"video": v, "n_frames": len(vd), "n_boxes": len(df),
@@ -137,13 +150,17 @@ def stage_eval(exp: dict, rows: list[dict], videos: list[str]):
     # --- TrackEval tung tracker ---
     for r in rows:
         out_dir = config.RESULTS_DIR / "trackeval" / split / r["dir"]
-        if (out_dir / "combined_metrics.csv").exists() and (out_dir / "per_video_metrics.csv").exists():
+        if ((out_dir / "combined_metrics.csv").exists() and (out_dir / "per_video_metrics.csv").exists()
+                and (out_dir / "raw_fields.json").exists()):
             continue
         results, _ = run_trackeval.run(split, r["dir"], videos, dataset_cls)
         df = run_trackeval.flatten_results(results, r["dir"])
         out_dir.mkdir(parents=True, exist_ok=True)
         df[df.video != "COMBINED_SEQ"].sort_values("video").to_csv(out_dir / "per_video_metrics.csv", index=False)
         df[df.video == "COMBINED_SEQ"].to_csv(out_dir / "combined_metrics.csv", index=False)
+        # Moc 2: thong ke du per-sequence de bootstrap tai to hop dung cong thuc COMBINED (boot_stats.py)
+        from boot_stats import save_raw_fields
+        save_raw_fields(results, r["dir"], out_dir / "raw_fields.json")
         c = df[df.video == "COMBINED_SEQ"].iloc[0]
         print(f"  [eval ] {r['dir']:<40} HOTA {c.HOTA:.4f} IDF1 {c.IDF1:.4f} AssA {c.AssA:.4f} IDSW {int(c.IDSW)}")
     # --- occlusion_eval theo dieu kien (baseline dau tien) ---

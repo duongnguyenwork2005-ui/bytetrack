@@ -191,6 +191,13 @@ def main() -> int:
                 _check(f"[{name}] direct vs cache: cap (frame,id) trung >= 99% "
                        f"({agree:.4f}; direct {len(direct)} / cache {len(via_cache)} dong; bit-identical={exact}; lech toa do max {dmax:.3g} px)",
                        agree >= 0.99 and abs(len(direct) - len(via_cache)) <= 0.01 * len(direct))
+                # MOC 2: lien ket ID xuyen suot sequence - anh xa ID 1-1 CO DINH toan sequence (khong chi
+                # tung frame): moi track cua ban direct ung voi dung mot track cua ban cache va nguoc lai.
+                # tol theo px vi GPU khong bit-reproducible giua hai lan forward (lech <= ~1e-4 px).
+                from track_compare import id_bijection
+                r = id_bijection(direct, via_cache, tol=max(1e-3, 10 * dmax))
+                _check(f"[{name}] direct vs cache: SONG ANH ID toan sequence ({r.summary()})",
+                       r.is_bijection and r.is_identity)
     except AssertionError as e:
         failed += 1
         print(f"  !! {e}")

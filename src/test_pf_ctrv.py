@@ -155,14 +155,16 @@ def test_7_pool_order_independence():
         tr.update(scene(f, gap_every=0).cpu().numpy(), None)
     tracks = list(tr.tracked_stracks)
     _check("co 3 track de kiem tra", len(tracks) == 3)
-    A = [copy.deepcopy(t) for t in tracks]
-    B = [copy.deepcopy(t) for t in tracks][::-1]
+    # deepcopy CA DANH SACH mot lan de cac ban sao van dung chung MOT PFCTRV (guard cua Moc 2:
+    # moi track trong pool phai cung instance bo loc; copy tung track rieng le se nhan ban PFCTRV).
+    A = copy.deepcopy(tracks)
+    B = copy.deepcopy(tracks)[::-1]
     PFSTrack.multi_predict(A)
     PFSTrack.multi_predict(B)
     same = all(np.array_equal(a.particles, b.particles) and np.array_equal(a.mean, b.mean)
                for a, b in zip(A, B[::-1]))
     _check("multi_predict: dao thu tu pool -> particle/mean tung track khong doi", same)
-    C = [copy.deepcopy(t) for t in tracks]
+    C = copy.deepcopy(tracks)
     for t in C:
         t.predict()
     _check("multi_predict == predict() tung track (cung rng)",

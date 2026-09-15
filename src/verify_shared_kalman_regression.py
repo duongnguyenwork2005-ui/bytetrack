@@ -139,12 +139,18 @@ def main() -> int:
                     print(r.stderr[-2000:]); raise SystemExit(f"loi chay {tag}/{case}/{v}")
                 outs[tag] = (txt.read_text(), json.loads(r.stdout.strip().splitlines()[-1]))
             same = outs["prefix"][0] == outs["fixed"][0]
+            # MOC 2: ngoai so sanh van ban (bit-identical), kiem tra LIEN KET ID xuyen suot sequence
+            # bang anh xa ID 1-1 co dinh (track_compare.id_bijection) - bao ve truong hop ID bi doi
+            # do bo dem toan cuc ma cau truc track van y het (hoac nguoc lai).
+            from track_compare import id_bijection, read_mot
+            bij = id_bijection(read_mot(OUT / "prefix" / case / f"{v}.txt"), read_mot(OUT / "fixed" / case / f"{v}.txt"), tol=0.0)
             rows.append({"case": case, "video": v, "filter": outs["fixed"][1]["filter"],
                          "prefix_std_theta": outs["prefix"][1]["std_theta"], "fixed_std_theta": outs["fixed"][1]["std_theta"],
                          "n_rows_prefix": outs["prefix"][1]["n_rows"], "n_rows_fixed": outs["fixed"][1]["n_rows"],
-                         "bit_identical": same})
+                         "bit_identical": same, "id_bijection": bij.is_bijection, "id_identity": bij.is_identity,
+                         "n_ids_prefix": bij.n_ids_a, "n_ids_fixed": bij.n_ids_b, "n_unmatched_rows": bij.n_unmatched_a + bij.n_unmatched_b})
             print(f"  {case:<28} {v:<12} prefix {outs['prefix'][1]['n_rows']:>6} dong | fixed {outs['fixed'][1]['n_rows']:>6} dong | "
-                  f"bit-identical={same}")
+                  f"bit-identical={same} | song anh ID={bij.is_bijection} (identity={bij.is_identity})")
     df = pd.DataFrame(rows)
 
     # --- 3. Override: ma cu == mac dinh (loi), ma moi != mac dinh ---

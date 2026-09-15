@@ -128,6 +128,18 @@ class CTRVSTrack(STrack):
         kf = stracks[0].kalman_filter
         if kf is None:
             kf = cls.shared_kalman
+        # MOC 2: bao dam MOI track trong danh sach dung CUNG instance bo loc (tuc cung
+        # tracker, cung cau hinh). Neu pool bi tron giua hai tracker khac cau hinh thi
+        # dung `stracks[0]` se ap sai tham so cho track cua tracker kia -> fail-loud.
+        # Chi phi O(n) so sanh danh tinh, khong doi ket qua so.
+        for st in stracks[1:]:
+            if st.kalman_filter is not kf:
+                raise AssertionError(
+                    "multi_predict: cac track trong pool dung bo loc KHAC NHAU "
+                    f"(track {stracks[0].track_id}: {type(kf).__name__}@{id(kf):x}, "
+                    f"track {st.track_id}: {type(st.kalman_filter).__name__}@{id(st.kalman_filter):x}) "
+                    "- pool bi tron giua hai tracker?")
+        cls.n_multi_predict_calls = getattr(cls, "n_multi_predict_calls", 0) + 1
         multi_mean = np.asarray([st.mean for st in stracks])
         multi_covariance = np.asarray([st.covariance for st in stracks])
         for i, st in enumerate(stracks):
@@ -277,6 +289,11 @@ class PFSTrack(CTRVSTrack):
         if not stracks:
             return
         pf = stracks[0].kalman_filter.pf
+        for st in stracks[1:]:                       # MOC 2: cung PFCTRV (cung tracker/seed/cau hinh)
+            if st.kalman_filter.pf is not pf:
+                raise AssertionError(f"PF multi_predict: track {st.track_id} dung PFCTRV khac track "
+                                     f"{stracks[0].track_id} - pool bi tron giua hai tracker?")
+        cls.n_multi_predict_calls = getattr(cls, "n_multi_predict_calls", 0) + 1
         VH, H = pf.VH, pf.H
         Xs = []
         for st in stracks:
@@ -402,16 +419,68 @@ class PFByteTracker(CTRVByteTracker):
                 "num_particles": kf.num_particles, "seed": kf.seed}
 
 
-class CVByteTracker(LostAwareAssociation, BYTETracker):
-    """Baseline KF + CV, CHI khac ban goc o ham chi phi lien ket cho track LOST.
+class CVSTrack(STrack):
+    """STrack cua baseline KF + CV nhung `multi_predict` dung bo loc CUA TRACKER (Moc 2).
 
-    BAT BUOC phai co lop nay cho Giai doan B: neu chi bat DIoU/expanded gate cho
-    EKF/UKF ma de baseline chay IoU goc thi ta da doi HAI bien cung luc (motion
-    model VA ham chi phi), pha vo nguyen tac co lap bien cua toan de tai.
-    Voi ca hai co TAT, lop nay hanh xu trung khit `BYTETracker` goc.
+    `STrack.multi_predict` goc cua ultralytics dung `STrack.shared_kalman` (thuoc tinh lop,
+    tao luc import) - dung loi `shared_kalman` da sua cho CTRV: tham so nhieu cua
+    `KalmanFilterXYAH` (`_std_weight_position`, `_std_weight_velocity`) dat tren instance
+    cua tracker bi bo qua o buoc du doan. Lop nay lay `stracks[0].kalman_filter` va kiem
+    tra moi track cung instance. Voi tham so mac dinh (1/20, 1/160) ket qua BIT-IDENTICAL
+    `bytetrack.yaml` goc (test_filter_config.py test 12).
     """
 
-    pass
+    @staticmethod
+    def multi_predict(stracks):
+        if not stracks:
+            return
+        kf = stracks[0].kalman_filter
+        if kf is None:
+            kf = STrack.shared_kalman
+        for st in stracks[1:]:
+            if st.kalman_filter is not kf:
+                raise AssertionError(f"CV multi_predict: track {st.track_id} dung bo loc khac track "
+                                     f"{stracks[0].track_id} - pool bi tron giua hai tracker?")
+        CVSTrack.n_multi_predict_calls = getattr(CVSTrack, "n_multi_predict_calls", 0) + 1
+        multi_mean = np.asarray([st.mean for st in stracks])
+        multi_covariance = np.asarray([st.covariance for st in stracks])
+        for i, st in enumerate(stracks):
+            if st.state != TrackState.Tracked:
+                multi_mean[i][7] = 0
+        multi_mean, multi_covariance = kf.multi_predict(multi_mean, multi_covariance)
+        for i, (mean, cov) in enumerate(zip(multi_mean, multi_covariance)):
+            stracks[i].mean = mean
+            stracks[i].covariance = cov
+
+
+#: Khoa .yaml cua bo loc CV (KalmanFilterXYAH) -> thuoc tinh instance. Khong co khoa -> mac dinh ultralytics.
+CV_YAML_KEYS = {
+    "cv_std_weight_position": "_std_weight_position",   # mac dinh 1/20
+    "cv_std_weight_velocity": "_std_weight_velocity",   # mac dinh 1/160
+}
+
+
+class CVByteTracker(LostAwareAssociation, BYTETracker):
+    """Baseline KF + CV voi bo loc THEO INSTANCE (tham so `cv_*` tu .yaml) + ham chi phi LOST (Giai doan B).
+
+    - Khong khoa `cv_*`, khong bat lost_cost/lost_expand -> hanh xu TRUNG KHIT `BYTETracker` goc
+      (bit-identical, test_filter_config.py). Can cho C3 (tuning nhieu CV) va cho Giai doan B
+      (cung ham chi phi voi EKF/UKF, chi doi mot bien).
+    """
+
+    track_class = CVSTrack
+
+    def get_kalmanfilter(self):
+        from ultralytics.trackers.utils.kalman_filter import KalmanFilterXYAH
+        kf = KalmanFilterXYAH()
+        for key, attr in CV_YAML_KEYS.items():
+            val = getattr(self.args, key, None)
+            if val is not None:
+                setattr(kf, attr, float(val))
+        return kf
+
+    def multi_predict(self, tracks):
+        self.track_class.multi_predict(tracks)
 
 
 class ClampedByteTracker(CTRVByteTracker):
@@ -425,6 +494,7 @@ CTRV_TRACKERS = {
     "bytetrack_ekf_ctrv": CTRVByteTracker,
     "bytetrack_ukf_ctrv": UKFByteTracker,
     "bytetrack_cv_lostassoc": CVByteTracker,
+    "bytetrack_cv": CVByteTracker,               # Moc 2: CV bo loc theo instance (khoa cv_*), mac dinh == bytetrack
     "bytetrack_ekf_ctrv_clamped": ClampedByteTracker,
     "bytetrack_pf_ctrv": PFByteTracker,
 }
