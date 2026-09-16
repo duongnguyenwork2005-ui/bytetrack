@@ -65,10 +65,11 @@ rồi chạy 40 video test UA-DETRAC; (6) chuẩn bị BDD100K + Jetson Nano; (7
 
 ## 2. Nhánh, commit, thay đổi chưa commit
 
-- Nhánh: **`phase2-mixed-traffic`**, HEAD **`67445dc`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
+- Nhánh: **`phase2-mixed-traffic`**, HEAD **`61fe76a`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
 - Commit của mốc 2 (từ `e353b84` = cuối mốc 1):
 
 ```
+61fe76a Review vong 2 (4,5): dong bo tai lieu + dua dau van tay danh gia vao goi ban giao
 67445dc Review vong 2 (1,2,3): trang thai tracking theo tung video + chinh sach cache thong nhat + audit provenance
 23f63ed Review-fix (7i): artifact goi review tai HEAD 4889209 (FILE_HASHES khop toan bo 1229 file)
 4889209 Review-fix (7h): ghi FILE_HASHES.csv sau cung (sau INDEX.md) de hash trong gói la ban cuoi
@@ -100,18 +101,6 @@ dd67321 Moc 2 (6-7a): mau thi nghiem BDD (chuyen cau hinh vs tuning, tach biet),
 
 ```
 M .gitignore
- M PHASE2_REPORT.md
- M configs/phase2/experiments/expB_detrac_dev_fix1.yaml
- M configs/phase2/experiments/expB_detrac_test_fix1.yaml
- M handoff/_review_section.md
- M handoff/_test_section.md
- M handoff/logs/tests_latest.log
- M handoff/logs/tests_summary.csv
- M results/phase2/expB_detrac_dev_fix1/A/paired_pairs.csv
- M results/phase2/expB_detrac_test_fix1/c25/paired_pairs.csv
- M src/make_handoff.py
- M src/run_all_tests.py
- M src/test_run_resume_guard.py
 ```
 
 - Ngoài ra người dùng có các file **untracked** riêng (`live.bat`, `outputs/**`, `src/demo/*buffer90*`,
