@@ -47,6 +47,12 @@ REQUIRED = ["CODEX_HANDOFF.md", "PHASE2_REPORT.md", "README.md", "requirements.t
 #: File RIENG CUA NGUOI DUNG (khong bao gio dong goi, ke ca khi git dang theo doi)
 USER_FILES = (".gitignore", "live.bat")
 USER_PREFIXES = ("src/demo/", "outputs/")
+
+#: Artifact do CHINH script nay sinh ra moi lan chay -> khong tinh vao kiem tra "dirty" (neu tinh thi
+#: khong bao gio dong goi duoc: sinh artifact -> tree dirty -> tu choi). Chung ghi lai HEAD luc dung goi;
+#: commit ngay sau do chi chua cac file nay. `handoff/FILE_HASHES.csv` cho phep doi chieu chinh xac noi dung.
+GENERATED = ("handoff/versions.json", "handoff/INDEX.md", "handoff/FILE_HASHES.csv")
+GENERATED_PREFIXES = ("handoff/patches/", "handoff/external/")
 RESULT_EXT = {".csv", ".json", ".md", ".txt", ".yaml", ".yml", ".log"}
 
 
@@ -131,6 +137,8 @@ def dirty_files(exclude_user: bool = True) -> list[str]:
         path = ln[3:].strip().replace("\\", "/")
         if exclude_user and (path in USER_FILES or path.startswith(USER_PREFIXES)):
             continue
+        if path in GENERATED or path.startswith(GENERATED_PREFIXES):
+            continue                                  # artifact do chinh script nay sinh (xem GENERATED)
         out.append(ln.rstrip())
     return out
 
@@ -172,7 +180,10 @@ def write_versions(dirty: list[str] | None = None) -> None:
             "git_branch": git("rev-parse", "--abbrev-ref", "HEAD").strip(),
             "git_dirty_packaged_files": dirty or [],
             "note_user_files": "Cac file rieng cua nguoi dung (.gitignore, src/demo/**, live.bat, outputs/**) "
-                               "KHONG duoc dong goi va KHONG tinh vao trang thai dirty o tren."}
+                               "KHONG duoc dong goi va KHONG tinh vao trang thai dirty o tren.",
+            "note_generated": "handoff/{versions.json,INDEX.md,FILE_HASHES.csv,patches/*,external/*} do chinh "
+                              "src/make_handoff.py sinh ra luc dong goi nen khong tinh vao dirty; commit ngay "
+                              "SAU git_head o tren chi chua cac file do. Doi chieu noi dung bang FILE_HASHES.csv."}
     try:
         import torch
         info["torch"] = torch.__version__; info["cuda"] = torch.version.cuda
