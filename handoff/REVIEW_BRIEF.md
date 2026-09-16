@@ -1,42 +1,52 @@
-# REVIEW_BRIEF — mốc 2, review vòng 2
+# REVIEW_BRIEF — mốc 2, review vòng 3
 
 <!-- BASE_TARGET -->
 
-Base tương ứng bản review `PHASE2_REVIEW_FIX1.md`; nhánh `phase2-mixed-traffic`, chỉ commit cục bộ.
-Chỉ trình bày thay đổi của **vòng này**; lịch sử đầy đủ ở `PHASE2_REPORT.md` §18–19.
+Base là gói delta bạn xác nhận đã đọc (`DELTA_REVIEW_9a1c404.md`, 422.749 byte / 71 file). Chỉ trình bày
+thay đổi của **vòng này**; lịch sử đầy đủ ở `PHASE2_REPORT.md` §18–19.
 
 ## Xử lý từng phát hiện
 
-| # | Phát hiện / yêu cầu | Cách xử lý | File | Test — kết quả thực tế |
+| # | Phát hiện | Cách xử lý | File | Test — kết quả thực tế |
 |:--|:--|:--|:--|:--|
-| 1 | **P1** — run bị ngắt hoặc thiếu metadata có thể trộn đầu ra hai cấu hình | Trạng thái **theo từng video** (`video_meta/<video>.json`, ghi nguyên tử sau khi video xong); `can_reuse_video()` đòi sidecar + `complete` + fingerprint khớp, thiếu/hỏng ⇒ chạy lại; `status="running"` ghi **trước** mọi thao tác ghi đè | `src/run_experiment.py` | `test_run_resume_guard.py` **11/11 PASS** — qua runner thật, lỗi giả lập ở video 2 |
-| 2 | **P2** — cache cho ghi khi đổi phiên bản thư viện rồi từ chối đọc | **Một** tập `GEN_FIELDS` cho **cả** đường ghi (khác ⇒ từ chối, đĩa không đổi) **và** đường đọc (`spec_sha256`); loại đường dẫn `weights`, giữ `weights_sha256`; bỏ backfill hồi tố | `src/det_cache.py` | `test_det_cache.py` **51/51 PASS** |
-| 3 | Audit `_fix1`, chỉ chạy lại khi có bằng chứng | Đối chiếu sha256 **từng file tracking hiện tại** với `eval_meta.json` của lần tính metric | `src/audit_run_provenance.py` → `results/phase2/run_provenance_audit.csv` | **12/12 khớp hash, 0 resume, 0 nghi vấn** ⇒ **giữ nguyên, không chạy lại**; 113 thư mục cũ = `LEGACY` |
-| 4 | Đồng bộ diễn giải (chi tiết §19) | IDSW **2,8–9,8 % tùy nhánh** thay "9–12 %"; cache **3 `ok` / 53 `legacy` / 0 `mismatch`** kèm giới hạn; C3 → "không cấu hình nào **cải thiện** HOTA có ý nghĩa"; nhãn Nhóm B = đổi **gói** biểu diễn **+ thiết lập bộ lọc**; `has_full` = đoạn che ≥ 0,90; bỏ HEAD cũ `7610b56` | `PHASE2_REPORT.md`, `CODEX_HANDOFF.md`, `handoff/_review_section.md`, `_test_section.md` | — |
-| 5 | Đưa `eval_meta.json` / `occl_meta.json` vào gói; gói **delta** thay cho gửi lại cả repo | `collect()` gom thêm cả `video_meta/`; ghi chú nêu rõ **16/127** thư mục trackeval có `eval_meta.json`, **0/129** có `video_meta/`. Gói delta: **0,38 MB / 67 file** so với gói đầy đủ 66,9 MB / 1257 file | `src/make_handoff.py`, `src/make_review_delta.py` | `run_all_tests.py` **21/21 PASS, 0 FAIL, 0 SKIPPED** |
+| 1 | Bản vá cache chưa được tích hợp | Áp `cache_fix_review3.patch` (`git apply --check --ignore-space-change` exit 0, **không xung đột**). `fill_env` bắt buộc checkpoint đọc được và hash **chính file đó**; `write_meta` từ chối khi `weights_sha256` thiếu/không phải 64 hex, và từ chối append khi `spec_sha256` đã lưu khác cách tính hiện tại **kể cả khi `GEN_FIELDS` bằng nhau**; `mkdir` chuyển xuống **sau** nhánh "cache đã tồn tại" nên từ chối thì không tạo gì; CLI nạp YOLO → lấy `model.ckpt_path` đã resolve → hash → mới ghi metadata. Cache legacy **vẫn đọc được**, không gán fingerprint hồi tố; GT synthetic không cần checkpoint | `src/det_cache.py`, `src/test_cache_provenance.py`, `src/test_det_cache.py`, `src/run_all_tests.py` | `test_cache_provenance` **12/12**, `test_det_cache` **51/51**; danh sách nay **22 suite** (giữ `test_review_delta`) |
+| 2 | **P1** — file riêng bị `git rm --cached` lọt nguyên nội dung vào patch | Loại trừ áp dụng **triệt để** cho thêm/sửa/**xóa**/đổi tên, **trước** khi sinh cả payload lẫn patch. `make_patch()` quét lại **từng đường dẫn bên trong diff** (`diff --git`, `---`/`+++`, `rename from/to`) — có đường dẫn bị loại thì **dừng hẳn**; kiểm tra cuối cũng quét nội dung patch trong ZIP, không chỉ tên thành viên | `src/make_review_delta.py` | Tái hiện trên code cũ: **marker nội dung riêng CÓ trong gói**. Sau sửa: không có diff lẫn marker; file trên ổ đĩa còn nguyên |
+| 3 | **P2** — patch `git apply` exit 0 nhưng chưa tái tạo đúng target | Tách **tập thay đổi logic** (`trong_patch`, dùng sinh patch) khỏi **tập payload vật lý** (`trong_goi`, nén vào ZIP). Dedup **chỉ** tác động payload và **chỉ** với file không phải code/config. Dùng `--no-renames` ⇒ đổi tên thành xóa (tên cũ) + thêm (tên mới), cả hai tên đều qua chính sách loại trừ và đều có trong patch | `src/make_review_delta.py` | Tái hiện trên code cũ: đổi tên → **thừa `src/old_util.py`**; hai file trùng nội dung → **thiếu `src/two.py`**. Sau sửa: cây code sau khi áp patch **khớp toàn bộ** target |
+| 4 | Khôi phục trạng thái Git của file riêng bị commit nhầm ở `67445dc` | 6 file **vốn untracked** → `git rm --cached` đúng từng tên; `src/demo/rerun_with_state_log.py` **vốn tracked** → đưa **nội dung trong index** về `23f63ed` bằng `update-index --cacheinfo`, **không đụng working tree**. Commit mới, không sửa lịch sử, không xóa cả `src/demo` | commit `534146c` | sha256 file làm việc trước/sau: **0/7 file đổi nội dung**; `git diff 23f63ed HEAD -- src/demo .gitignore` **rỗng** |
+
+Ba phép kiểm hồi quy ở mục 2–3 đều được **xác minh là FAIL trên code trước khi sửa** rồi mới PASS sau khi sửa;
+hai phép P2 so **toàn bộ** đường dẫn code/test/config sau khi áp patch với cây target, gồm cả file phải biến
+mất — không kết luận từ exit code.
+
+## Kiểm chứng đã chạy
+
+| Lệnh | Kết quả thực tế |
+|:--|:--|
+| `run_all_tests.py --only test_cache_provenance test_det_cache test_review_delta --out-dir handoff/logs/review_delta_fix` | **3 PASS, 0 FAIL, 0 SKIPPED, 19 NOT_RUN**, exit 0 |
+| `run_all_tests.py --out-dir handoff/logs/review_delta_fix_full` | **22 PASS, 0 FAIL, 0 SKIPPED, 0 NOT_RUN**, exit 0 |
+| `src/smoke_cache_provenance_yolo.py` — YOLO **thật**, GPU thật, MVI_20052, 30 frame, 1648 box, cache-id mới trong thư mục **tạm** | **5/5 PASS**: `weights_sha256` == sha256 của chính `model.ckpt_path` đã nạp (`f59b3d83…`); ghi → đọc strict = `ok`; hash khai báo sai → chặn; thiếu hash → từ chối ghi, **không tạo thư mục**; `spec_sha256` cũ không tương thích → chặn append, `meta.json` giữ nguyên |
+
+Điểm để mở trong README bản vá ("chưa chạy inference thật") **đã đóng** trên máy dự án.
 
 ## Số liệu thực nghiệm
 
-**Không số liệu thực nghiệm nào thay đổi.** Đối chiếu: `paired_pairs.csv` của `expB_detrac_{dev,test}_fix1`
-chỉ khác ở cột `note` (nhãn); chạy lại `aggregate_phase2.py` cho đúng giá trị cũ; 12/12 run `_fix1` có sha256
-khớp `eval_meta.json`. Không chạy lại tracking, không tuning/ablation trên test.
-
-Hai con số **trình bày** được sửa: IDSW "9–12 % ở mọi nhánh" → **2,8–9,8 % tùy nhánh**; cặp
-`sort-cv30 − sort-orig30` là −0.013273 (trước) và −0.013250 (sau), **cả hai làm tròn thành −0.0133** — bản
-trước ghi nhầm −0.0132.
+**Không số liệu thực nghiệm nào thay đổi.** Không chạy lại A/B/C hay Giai đoạn 1, không tạo lại cache thí
+nghiệm, không mở tuning. Smoke YOLO dùng cache-id mới trong thư mục tạm rồi xóa — cache và kết quả lịch sử
+không bị đụng.
 
 ## Còn tồn tại
 
-- **53/56 sequence cache `legacy`** và **113 thư mục run `LEGACY`**: sinh trước khi có fingerprint ⇒ không
-  xác minh được bằng hash; 0 dấu hiệu nghi vấn nhưng cũng **không** chứng minh được. Không tạo bằng chứng hồi tố.
+- 53/56 sequence cache `legacy` và 113 thư mục run `LEGACY`: sinh trước khi có fingerprint ⇒ không xác minh
+  được bằng hash. Không tạo bằng chứng hồi tố.
 - `video_meta/` chỉ có ở run sinh sau bản sửa (0/129 run bàn giao).
 - BDD100K và Jetson Nano vẫn chưa có trên máy.
 
 ## Cần bạn kiểm kỹ
 
-1. `GEN_FIELDS` có **thiếu** trường nào ảnh hưởng detection không; loại đường dẫn `weights` có đúng không.
-2. Có đường nào tái sử dụng đầu ra mà **không** đi qua `can_reuse_video()` không.
-3. Tiêu chí `OK` / `LEGACY` / `NGHI VAN` của audit có đủ mạnh để kết luận "không chạy lại `_fix1`" không.
+1. `skip_reason()` + `_paths_trong_diff()`: còn dạng header diff nào mang đường dẫn mà hàm này chưa bắt không.
+2. Ranh giới dedup (`CODE_PREFIXES` / `DOC_EXACT`): file nào nằm ngoài vẫn có thể mất bản đầy đủ trong
+   `files/` dù patch vẫn phục hồi được — ranh giới này đã đủ rộng chưa.
+3. `ckpt_path` của Ultralytics: smoke chạy với checkpoint **local**; đường alias/tự tải về chưa kiểm.
 
 ## Thứ tự đọc
 
