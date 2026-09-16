@@ -1,0 +1,21 @@
+{
+  "purpose": "Ma nguon SORT goc DA GHIM, chi dung lam THAM CHIEU KIEM THU (src/test_sort_upstream_parity.py). KHONG import vao pipeline cua du an.",
+  "repo": "https://github.com/abewley/sort",
+  "file": "sort.py",
+  "commit": "bce9f0d1fc8fb5f45bf7084130248561a3d42f31",
+  "commit_source": "https://github.com/abewley/sort/commits/master/sort.py.atom (GitHub REST API bi rate-limit luc tai)",
+  "raw_url": "https://raw.githubusercontent.com/abewley/sort/bce9f0d1fc8fb5f45bf7084130248561a3d42f31/sort.py",
+  "sha256": "f5b10481ff9055b70f9e3f5d0126d5269ee91b16764a267a01f78ec3a2b931de",
+  "n_lines": 330,
+  "downloaded": "2026-09-16",
+  "license": "GPL-3.0 (xem LICENSE canh file nay)",
+  "runtime_deps": {
+    "filterpy": "1.4.5 - cai RIENG vao third_party/_testdeps (pip install --no-deps --target third_party/_testdeps filterpy==1.4.5), KHONG vao moi truong chinh",
+    "matplotlib/skimage": "chi dung cho phan demo hien thi cua upstream -> test thay bang module rong trong sys.modules"
+  },
+  "diem_khac_con_lai_cua_repo": [
+    "src/sort_tracker.py loc detection theo conf > det_thresh (upstream nhan detection da loc san tu ben ngoai)",
+    "xu ly track co box NaN: upstream xoa hang NaN truoc khi ghep; repo danh dau time_since_update > max_age",
+    "so hoc: repo dung numpy + dang Joseph cho buoc update; upstream dung filterpy -> lech toa do do duoc <= 5.8e-05 px"
+  ]
+}

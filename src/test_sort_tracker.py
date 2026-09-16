@@ -74,16 +74,20 @@ def test_2_min_hits():
     tr = SORT(args("sort_orig", sort_min_hits=3)); tr.reset()
     outs = [tr.update(straight(f, n=1).cpu().numpy(), None) for f in range(1, 4)]
     _check("frame 1..3 (<= min_hits): xuat ngay", all(len(o) == 1 for o in outs))
-    # track moi xuat hien o frame 10 -> can 3 lan khop lien tiep (frame 10, 11, 12) moi xuat
+    # VONG DOI UPSTREAM (abewley/sort, commit bce9f0d): track moi tao o frame 10 co hit_streak = 0;
+    # moi lan ghep sau do tang 1 -> hit_streak dat min_hits = 3 o frame 13, nen track CHI XUAT tu frame 13
+    # (ban truoc khoi tao hit_streak = 1 nen xuat o frame 12 - lech upstream mot frame, da sua).
+    # Doi chieu truc tiep voi ma upstream: src/test_sort_upstream_parity.py.
     tr = SORT(args("sort_orig", sort_min_hits=3)); tr.reset()
     for f in range(1, 10):
         tr.update(straight(f, n=1).cpu().numpy(), None)
     seen = []
-    for f in range(10, 14):
+    for f in range(10, 15):
         det = boxes([[400, 400, 450, 440, 0.9, 2.0], *straight(f, n=1).data.tolist()])
         out = tr.update(det.cpu().numpy(), None)
         seen.append(sorted(out[:, 4].astype(int).tolist()))
-    _check("track moi (id 2) chi xuat tu lan khop thu 3", seen[0] == [1] and seen[1] == [1] and seen[2] == [1, 2], str(seen))
+    _check("track moi (id 2) xuat tu frame 13 = lan khop thu 3 (giong upstream)",
+           seen[0] == [1] and seen[1] == [1] and seen[2] == [1] and seen[3] == [1, 2], str(seen))
 
 
 def test_3_max_age_1_new_id():

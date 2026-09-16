@@ -174,7 +174,11 @@ class SORTTrack:
         self.track_id = SORTTrack._count
         self.filter = box_filter
         self.filter.initiate(xyxy)
-        self.hits = 1; self.hit_streak = 1; self.age = 0; self.time_since_update = 0
+        # VONG DOI Y HET upstream abewley/sort (third_party/sort_upstream/sort.py, commit bce9f0d,
+        # KalmanBoxTracker.__init__): hits/hit_streak khoi tao 0 va CHI tang khi co update ghep.
+        # (Ban truoc dat = 1 -> track duoc xuat som hon upstream DUNG MOT FRAME; loi do review doc lap
+        #  phat hien, xem results/phase2/REVIEW_moc2_codex.md va src/test_sort_upstream_parity.py.)
+        self.hits = 0; self.hit_streak = 0; self.age = 0; self.time_since_update = 0
         self.score = float(score); self.cls = cls; self.idx = idx
 
     def predict(self):

@@ -46,6 +46,18 @@ def _need_dev_runs() -> str:
     return "" if d.is_dir() else "thieu ket qua tracker dev (p2-groupA_detrac_dev-A-cv)"
 
 
+def _need_filterpy() -> str:
+    """Ma upstream SORT can filterpy (cai rieng vao third_party/_testdeps, khong vao moi truong chinh)."""
+    import importlib.util
+    import sys as _s
+    p = ROOT / "third_party" / "_testdeps"
+    if p.is_dir():
+        _s.path.insert(0, str(p))
+    ok = importlib.util.find_spec("filterpy") is not None
+    return "" if ok else ("thieu filterpy: python -m pip install --no-deps --target third_party/_testdeps "
+                          "filterpy==1.4.5")
+
+
 def _need_cache() -> str:
     d = ROOT / "data/interim/det_cache/yolov8n-coco_conf0.05_all/MVI_39031.npz"
     return "" if d.exists() else "thieu detection cache MVI_39031"
@@ -67,6 +79,8 @@ TESTS = [
     ("test_sort_tracker", [], None),
     ("test_smoke_phase2", [], None),
     ("test_lost_recovery", [], _need_cache),
+    ("test_sort_upstream_parity", [], _need_filterpy),
+    ("test_run_experiment_guard", [], None),
     ("test_boot_stats", [], _need_dev_runs),
     ("test_run_tracking_replay", ["--n-frames", "150"], lambda: _need_gpu() or _need_detrac_images()),
 ]

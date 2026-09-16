@@ -29,6 +29,17 @@ Ket qua: results/phase2/<name>/runs.csv, <cond>/{events,event_outcomes,paired,bo
     python src/run_experiment.py --exp ... --stage track      # chi tracking
     python src/run_experiment.py --exp ... --stage eval       # trackeval + occlusion
     python src/run_experiment.py --exp ... --dry-run          # in ke hoach
+    python src/run_experiment.py --exp ... --force            # chay lai MOI buoc (tracking + danh gia + tong hop)
+    python src/run_experiment.py --exp ... --force-eval       # chi buoc danh gia
+
+TAI SU DUNG KET QUA (sua sau review doc lap, xem results/phase2/REVIEW_moc2_codex.md)
+    Truoc day buoc danh gia bi BO QUA chi vi file ket qua da ton tai -> tracking moi co the bi cham bang
+    metric CU. Nay moi buoc danh gia ghi mot DAU VAN TAY (src/run_fingerprint.py): sha256 cua tung file
+    tracking, cau hinh, cache (meta + npz), danh sach sequence, phien ban ma nguon va evaluator. Ket qua
+    chi duoc tai su dung khi dau van tay TRUNG KHIT; lech -> chay lai va in ro truong nao lech.
+    `run_meta.json` cua mot lan chay CHI duoc ghi khi thuc su chay; khi tiep tuc (resume) thi provenance
+    goc duoc giu nguyen va lan chay tiep duoc ghi them vao khoa `resumed`.
+    Moi loi cua buoc danh gia / tong hop deu tra ve exit code khac 0.
 """
 from __future__ import annotations
 
@@ -48,6 +59,7 @@ import config  # noqa: E402
 import det_cache  # noqa: E402
 import run_tracking  # noqa: E402
 import run_trackeval  # noqa: E402
+import run_fingerprint as fp  # noqa: E402
 from time_units import track_buffer_frames  # noqa: E402
 
 PY = sys.executable
@@ -89,6 +101,28 @@ def plan(exp: dict) -> list[dict]:
     return rows
 
 
+def _write_run_meta(path: Path, meta: dict, ran_videos: int, skipped: int) -> None:
+    """Ghi provenance. Neu da co file (lan chay truoc) va lan nay KHONG chay video nao thi GIU NGUYEN
+    provenance goc, chi ghi them mot muc vao `resumed` (khong doi `created`/`git_commit` goc)."""
+    old = None
+    if path.exists():
+        try:
+            old = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            old = None
+    entry = {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "git_commit": det_cache.git_commit(),
+             "n_videos_ran": ran_videos, "n_videos_reused": skipped}
+    if old is not None and ran_videos == 0:
+        old.setdefault("resumed", []).append(entry)
+        path.write_text(json.dumps(old, indent=2, default=str), encoding="utf-8")
+        return
+    if old is not None and ran_videos > 0 and skipped > 0:
+        meta = dict(meta)
+        meta["resumed"] = old.get("resumed", []) + [entry]
+        meta["previous_created"] = old.get("created")
+    path.write_text(json.dumps(meta, indent=2, default=str), encoding="utf-8")
+
+
 def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: bool):
     fps = float(exp["fps"])
     dt = 1.0 / fps
@@ -107,20 +141,41 @@ def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: b
         out_root = config.PROCESSED_DIR / "trackers" / exp["split_name"] / r["dir"]
         out_root.mkdir(parents=True, exist_ok=True)
         yaml_sha = hashlib.sha256(Path(run_tracking.resolve_tracker_yaml(r["yaml"])).read_bytes()).hexdigest()[:12]
-        (out_root / "run_meta.json").write_text(json.dumps({
-            "experiment": exp["name"], "cond": r["cond"], "tracker": r["tracker"], "seed": r["seed"],
-            "cache_id": exp["cache_id"], "tracker_yaml": r["yaml"], "tracker_yaml_sha256_12": yaml_sha,
+        meta = {"experiment": exp["name"], "cond": r["cond"], "tracker": r["tracker"], "seed": r["seed"],
+                "cache_id": exp["cache_id"], "tracker_yaml": r["yaml"], "tracker_yaml_sha256_12": yaml_sha,
+                "tracker_cfg": vars(cfg), "overrides": overrides, "conf_min": r["conf_min"],
+                "classes": exp["classes"], "max_det": exp["max_det"], "fps": fps, "dt_nominal_s": dt,
+                "track_buffer_frames": int(cfg.track_buffer),
+                "track_buffer_sec": round(int(cfg.track_buffer) / fps, 4),
+                "elapsed_mode": exp["elapsed_mode"], "assoc_log": log_ok, "pf_diag": pf_diag,
+                "git_commit": det_cache.git_commit(), "created": time.strftime("%Y-%m-%dT%H:%M:%S")}
+        # DAU VAN TAY DAU VAO cua buoc tracking: cau hinh + cache + danh sach video + ma nguon.
+        # Neu lech so voi lan chay truoc -> KHONG tai su dung file tracking cu (tranh "tiep tuc" mot run
+        # voi cau hinh khac ma van giu ket qua cu).
+        meta["input_fingerprint"] = fp.sha256_obj({
             "tracker_cfg": vars(cfg), "overrides": overrides, "conf_min": r["conf_min"],
-            "classes": exp["classes"], "max_det": exp["max_det"], "fps": fps, "dt_nominal_s": dt,
-            "track_buffer_frames": int(cfg.track_buffer), "track_buffer_sec": round(int(cfg.track_buffer) / fps, 4),
-            "elapsed_mode": exp["elapsed_mode"], "assoc_log": log_ok, "pf_diag": pf_diag,
-            "git_commit": det_cache.git_commit(),
-            "created": time.strftime("%Y-%m-%dT%H:%M:%S")}, indent=2, default=str), encoding="utf-8")
+            "classes": exp["classes"], "max_det": exp["max_det"], "elapsed_mode": exp["elapsed_mode"],
+            "fps": fps, "seed": r["seed"], "assoc_log": log_ok, "pf_diag": pf_diag,
+            "cache": fp.cache_fingerprint(exp["cache_id"], videos), "sequences": list(videos),
+            "code": fp.code_fingerprint()})
+        prev = None
+        if (out_root / "run_meta.json").exists():
+            try:
+                prev = json.loads((out_root / "run_meta.json").read_text(encoding="utf-8"))
+            except Exception:  # noqa: BLE001
+                prev = None
+        reuse = skip_existing
+        if prev is not None and prev.get("input_fingerprint") != meta["input_fingerprint"]:
+            reuse = False
+            print(f"  [track] {r['dir']:<40} CHAY LAI toan bo: dau van tay dau vao da doi "
+                  f"({'chua co' if prev.get('input_fingerprint') is None else 'khac lan truoc'})")
         t_all = 0.0
         summary = []
+        n_skipped = 0
         for v in videos:
             f = out_root / "data" / f"{v}.txt"
-            if skip_existing and f.exists():
+            if reuse and f.exists():
+                n_skipped += 1
                 continue
             vd = det_cache.open_cache(exp["cache_id"], v, r["conf_min"], exp["classes"], exp["max_det"])
             t0 = time.time()
@@ -136,24 +191,49 @@ def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: b
         if summary:
             old = out_root / "summary.csv"
             s = pd.DataFrame(summary)
-            if skip_existing and old.exists():
+            if reuse and old.exists():
                 s = pd.concat([pd.read_csv(old), s]).drop_duplicates("video", keep="last")
             s.to_csv(old, index=False)
-        print(f"  [track] {r['dir']:<40} {len(summary):>3} video  {t_all:6.1f}s")
+        # Provenance ghi SAU khi chay: khong gan commit/thoi diem moi cho ket qua cu (xem _write_run_meta)
+        _write_run_meta(out_root / "run_meta.json", meta, ran_videos=len(summary), skipped=n_skipped)
+        print(f"  [track] {r['dir']:<40} {len(summary):>3} video moi, {n_skipped:>3} tai su dung  {t_all:6.1f}s")
         out_rows.append({**r, "seconds_track": round(t_all, 1)})
     return out_rows
 
 
-def stage_eval(exp: dict, rows: list[dict], videos: list[str]):
+def stage_eval(exp: dict, rows: list[dict], videos: list[str], force: bool = False) -> int:
+    """Chay TrackEval + occlusion_eval. Tra ve so buoc THAT BAI (0 = tat ca thanh cong).
+
+    Ket qua chi duoc tai su dung khi DAU VAN TAY trung khit (src/run_fingerprint.py) -> tracking moi khong
+    the bi cham bang metric cu.
+    """
     split = exp["split_name"]
     dataset_cls = "mot_crowd" if split.startswith("BDD-") else "mot"
+    fps_exp = float(exp["fps"])
+    n_fail = 0
     # --- TrackEval tung tracker ---
     for r in rows:
         out_dir = config.RESULTS_DIR / "trackeval" / split / r["dir"]
-        if ((out_dir / "combined_metrics.csv").exists() and (out_dir / "per_video_metrics.csv").exists()
-                and (out_dir / "raw_fields.json").exists()):
+        overrides = dict(r["set"])
+        tb_sec = r.get("track_buffer_sec")
+        if tb_sec is not None:
+            overrides["track_buffer"] = track_buffer_frames(float(tb_sec), fps_exp)
+        cfg_r = run_tracking.load_tracker_cfg(r["yaml"], overrides)
+        new_fp = fp.run_fingerprint(exp, r, videos, cfg_r, dataset_cls)
+        have = ((out_dir / "combined_metrics.csv").exists() and (out_dir / "per_video_metrics.csv").exists()
+                and (out_dir / "raw_fields.json").exists())
+        diff = fp.compare(fp.load(out_dir / "eval_meta.json"), new_fp)
+        if have and not diff and not force:
+            print(f"  [eval ] {r['dir']:<40} TAI SU DUNG (dau van tay trung khit)")
             continue
-        results, _ = run_trackeval.run(split, r["dir"], videos, dataset_cls)
+        if have:
+            print(f"  [eval ] {r['dir']:<40} CHAY LAI, ly do: {'--force' if force else ', '.join(diff)}")
+        try:
+            results, _ = run_trackeval.run(split, r["dir"], videos, dataset_cls)
+        except Exception as e:  # noqa: BLE001
+            n_fail += 1
+            print(f"  [eval ] {r['dir']:<40} THAT BAI: {type(e).__name__}: {e}")
+            continue
         df = run_trackeval.flatten_results(results, r["dir"])
         out_dir.mkdir(parents=True, exist_ok=True)
         df[df.video != "COMBINED_SEQ"].sort_values("video").to_csv(out_dir / "per_video_metrics.csv", index=False)
@@ -161,6 +241,7 @@ def stage_eval(exp: dict, rows: list[dict], videos: list[str]):
         # Moc 2: thong ke du per-sequence de bootstrap tai to hop dung cong thuc COMBINED (boot_stats.py)
         from boot_stats import save_raw_fields
         save_raw_fields(results, r["dir"], out_dir / "raw_fields.json")
+        fp.save(out_dir / "eval_meta.json", new_fp, {"evaluated_at": time.strftime("%Y-%m-%dT%H:%M:%S")})
         c = df[df.video == "COMBINED_SEQ"].iloc[0]
         print(f"  [eval ] {r['dir']:<40} HOTA {c.HOTA:.4f} IDF1 {c.IDF1:.4f} AssA {c.AssA:.4f} IDSW {int(c.IDSW)}")
     # --- occlusion_eval theo dieu kien (baseline dau tien) ---
@@ -173,8 +254,12 @@ def stage_eval(exp: dict, rows: list[dict], videos: list[str]):
             print(f"  [occl ] {cond}: khong co baseline {exp.get('baseline')!r}, bo qua"); continue
         out = config.RESULTS_DIR / "phase2" / exp["name"] / cond
         out.mkdir(parents=True, exist_ok=True)
+        new_occ_fp = fp.occl_fingerprint(exp, cond, [*base, *others], videos, occ)
+        diff = fp.compare(fp.load(out / "occl_meta.json"), new_occ_fp)
+        if (out / f"bootstrap_{split}.csv").exists() and not diff and not force:
+            print(f"  [occl ] {cond}: TAI SU DUNG (dau van tay trung khit)"); continue
         if (out / f"bootstrap_{split}.csv").exists():
-            print(f"  [occl ] {cond}: da co, bo qua"); continue
+            print(f"  [occl ] {cond}: CHAY LAI, ly do: {'--force' if force else ', '.join(diff)}")
         cmd = [PY, "src/occlusion_eval.py", "--split-name", split, "--trackers", *base, *others,
                "--out-dir", str(out), "--n-boot", str(occ.get("n_boot", 5000)), "--videos", *videos]
         if occ.get("part"):
@@ -192,7 +277,11 @@ def stage_eval(exp: dict, rows: list[dict], videos: list[str]):
         (out / "occlusion_eval.log").write_text(res.stdout + "\n" + res.stderr, encoding="utf-8")
         print(f"  [occl ] {cond}: exit {res.returncode} ({time.time() - t0:.0f}s) -> {out}")
         if res.returncode != 0:
+            n_fail += 1
             print(res.stderr[-1500:])
+        else:
+            fp.save(out / "occl_meta.json", new_occ_fp, {"evaluated_at": time.strftime("%Y-%m-%dT%H:%M:%S")})
+    return n_fail
 
 
 def main() -> int:
@@ -200,7 +289,9 @@ def main() -> int:
     ap.add_argument("--exp", required=True)
     ap.add_argument("--stage", choices=["all", "track", "eval", "aggregate"], default="all")
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--no-skip", action="store_true", help="chay lai ca video da co")
+    ap.add_argument("--no-skip", action="store_true", help="chay lai ca video da co (buoc tracking)")
+    ap.add_argument("--force", action="store_true", help="chay lai MOI buoc (tracking + danh gia + tong hop)")
+    ap.add_argument("--force-eval", action="store_true", help="buoc danh gia chay lai du dau van tay trung")
     a = ap.parse_args()
     exp = load_exp(a.exp)
     videos = json.loads((ROOT / exp["manifest"]).read_text(encoding="utf-8"))["videos"] if exp.get("manifest") \
@@ -215,13 +306,19 @@ def main() -> int:
     pd.DataFrame(rows).to_csv(out_dir / "runs.csv", index=False)
     if a.dry_run:
         print(pd.DataFrame(rows)[["cond", "tracker", "seed", "conf_min", "dir"]].to_string(index=False)); return 0
+    n_fail = 0
     if a.stage in ("all", "track"):
-        stage_track(exp, rows, videos, skip_existing=not a.no_skip)
+        stage_track(exp, rows, videos, skip_existing=not (a.no_skip or a.force))
     if a.stage in ("all", "eval"):
-        stage_eval(exp, rows, videos)
+        n_fail += stage_eval(exp, rows, videos, force=a.force or a.force_eval)
     if a.stage in ("all", "aggregate"):
-        subprocess.run([PY, "src/aggregate_phase2.py", "--exp", a.exp], cwd=ROOT, check=False)
-    return 0
+        res = subprocess.run([PY, "src/aggregate_phase2.py", "--exp", a.exp], cwd=ROOT)
+        if res.returncode != 0:
+            n_fail += 1
+            print(f"[exp] aggregate THAT BAI (exit {res.returncode})")
+    if n_fail:
+        print(f"[exp] {n_fail} buoc THAT BAI -> exit 1")
+    return 1 if n_fail else 0
 
 
 if __name__ == "__main__":
