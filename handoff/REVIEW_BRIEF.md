@@ -1,53 +1,51 @@
-# REVIEW_BRIEF — mốc 2, review vòng 3
+# REVIEW_BRIEF — chốt mốc 2, chuẩn bị mốc 3
 
 <!-- BASE_TARGET -->
 
-Base là gói delta bạn xác nhận đã đọc (`DELTA_REVIEW_9a1c404.md`, 422.749 byte / 71 file). Chỉ trình bày
-thay đổi của **vòng này**; lịch sử đầy đủ ở `PHASE2_REPORT.md` §18–19.
+Base là snapshot bạn đã review (**PASS WITH LIMITATIONS**, không còn lỗi chặn —
+`handoff/CODEX_REVIEW_a8ecaf6.md`). Đợt này **không có thay đổi logic nào** ở pipeline: chỉ chốt báo cáo,
+kiểm kê dữ liệu và bổ sung giao thức đo.
 
-## Xử lý từng phát hiện
+## Đã làm
 
-| # | Phát hiện | Cách xử lý | File | Test — kết quả thực tế |
-|:--|:--|:--|:--|:--|
-| 1 | Bản vá cache chưa được tích hợp | Áp `cache_fix_review3.patch` (`--check --ignore-space-change` exit 0, **không xung đột**). `fill_env` hash **chính file checkpoint** đọc được; `write_meta` từ chối khi `weights_sha256` thiếu/không phải 64 hex, và từ chối append khi `spec_sha256` cũ khác cách tính hiện tại **kể cả khi `GEN_FIELDS` bằng nhau**; `mkdir` xuống **sau** nhánh "cache đã tồn tại" ⇒ từ chối thì không tạo gì; CLI nạp YOLO → `model.ckpt_path` đã resolve → hash → mới ghi metadata. Cache legacy **vẫn đọc được**, không gán fingerprint hồi tố; GT synthetic không cần checkpoint | `src/det_cache.py`, `src/test_cache_provenance.py`, `src/test_det_cache.py`, `src/run_all_tests.py` | `test_cache_provenance` **12/12**, `test_det_cache` **51/51**; danh sách nay **22 suite** |
-| 2 | **P1** — file riêng bị `git rm --cached` lọt nguyên nội dung vào patch | Loại trừ áp dụng **triệt để** cho thêm/sửa/**xóa**/đổi tên, **trước** khi sinh payload lẫn patch. `make_patch()` quét **từng đường dẫn bên trong diff** (`diff --git`, `---`/`+++`, `rename from/to`); có đường dẫn bị loại ⇒ **dừng hẳn**. Kiểm tra cuối quét cả nội dung patch, không chỉ tên thành viên ZIP | `src/make_review_delta.py` | Trên code cũ: **marker nội dung riêng CÓ trong gói**. Sau sửa: không có diff lẫn marker; file trên ổ đĩa còn nguyên |
-| 3 | **P2** — `git apply` exit 0 nhưng chưa tái tạo đúng target | Tách **tập thay đổi logic** (sinh patch) khỏi **tập payload vật lý** (nén vào ZIP). Dedup **chỉ** tác động payload, **chỉ** với file không phải code/config. `--no-renames` ⇒ đổi tên thành xóa + thêm, cả hai tên đều qua loại trừ và đều vào patch | `src/make_review_delta.py` | Trên code cũ: đổi tên → **thừa `src/old_util.py`**; hai file trùng nội dung → **thiếu `src/two.py`**. Sau sửa: cây code sau khi áp patch **khớp toàn bộ** target |
-| 4 | Khôi phục trạng thái Git của file riêng bị commit nhầm ở `67445dc` | 6 file **vốn untracked** → `git rm --cached` đúng từng tên; `rerun_with_state_log.py` **vốn tracked** → đưa **index** về `23f63ed` bằng `update-index --cacheinfo`, **không đụng working tree**. Commit mới, không sửa lịch sử | commit `534146c` | sha256 file làm việc trước/sau: **0/7 file đổi nội dung**; `git diff 23f63ed HEAD -- src/demo .gitignore` **rỗng** |
+| # | Việc | Kết quả | File |
+|:--|:--|:--|:--|
+| 1 | **Chốt báo cáo thực nghiệm mốc 2**, số lấy trực tiếp từ file kết quả gốc | Nhóm A tách **theo từng điều kiện confidence**; Nhóm B dùng `_fix1`, ghi rõ **thành phần thay đổi** của từng cặp; Nhóm C báo cả `preserved` tăng lẫn HOTA giảm; tách dev/test; tách **tốc độ tracker-từ-cache** với **tốc độ toàn pipeline** | `handoff/MOC2_FINAL_SUMMARY.md` |
+| 2 | **Kiểm kê BDD100K** | **Chưa có dữ liệu trên máy.** `check_bdd100k.py --part val` → exit 1, fail-loud đúng đường dẫn cần. Tìm toàn ổ `C:`/`D:`: thư mục duy nhất khớp là `D:\LABOTARY\ByteTrack + EKF + Kitty\datasets\BDD100K` — **rỗng**. Ghi 2 gói cần tải, vị trí đặt, 4 lệnh kiểm tra theo thứ tự | `handoff/BDD100K_INVENTORY.md` |
+| 3 | **Smoke BDD100K** | **KHÔNG chạy** — thiếu dữ liệu. Fixture `bdd100k_mini` **không** dùng thay thế | — |
+| 4 | **Kế hoạch đánh giá BDD** | Hai thí nghiệm tách biệt; **không trùng sequence theo cấu tạo** (tuning từ `train`, đánh giá trên `val`), vẫn kiểm giao hai manifest trước khi chạy | `BDD100K_INVENTORY.md` §6 |
+| 5 | **Nano** | Thêm **giao thức đo CV ↔ EKF cùng điều kiện**: đo tracker từ **cùng detection cache**, xen kẽ A/B/A/B ≥ 5 cặp, trung vị + IQR của hiệu số **theo cặp**, ghi `nvpmodel`/clocks/nhiệt độ mỗi lượt, loại lượt throttling. Lý do: trên PC chênh lệch CV↔EKF là **0,24 ms** còn nhiễu detector **2,2 ms** (~9×), đã làm đảo thứ tự fps end-to-end | `scripts/nano/README.md` §4c |
 
-Ba phép kiểm hồi quy ở mục 2–3 đều được **xác minh FAIL trên code trước khi sửa**. Hai phép P2 so **toàn bộ**
-đường dẫn code/test/config sau khi áp patch với cây target, gồm cả file phải biến mất — không kết luận từ
-exit code.
+## Kết quả thực nghiệm
 
-## Kiểm chứng đã chạy
+**Không số liệu nào thay đổi.** Không chạy lại thí nghiệm, không tuning, không đụng cấu hình khóa. Hai lệnh
+read-only chạy lại để chốt số hiện tại: cache **3 `ok` + 53 `legacy` + 0 `mismatch`**; run **21 `OK` +
+113 `LEGACY` + 0 nghi vấn** (134 thư mục).
 
-| Lệnh | Kết quả thực tế |
-|:--|:--|
-| `--only test_cache_provenance test_det_cache test_review_delta` → `handoff/logs/review_delta_fix` | **3 PASS, 0 FAIL, 0 SKIPPED, 19 NOT_RUN**, exit 0 |
-| `run_all_tests.py` → `handoff/logs/review_delta_fix_full` | **22 PASS, 0 FAIL, 0 SKIPPED, 0 NOT_RUN**, exit 0 |
-| `src/smoke_cache_provenance_yolo.py` — YOLO **thật**, GPU thật, MVI_20052, 30 frame, 1648 box, cache-id mới trong thư mục **tạm** | **5/5 PASS**: `weights_sha256` == sha256 của chính `model.ckpt_path` (`f59b3d83…`); ghi → đọc strict `ok`; hash sai → chặn; thiếu hash → từ chối ghi, **không tạo thư mục**; `spec_sha256` cũ → chặn append, `meta.json` giữ nguyên |
+## Hai chỗ tự sửa vì lệch file nguồn
 
-Điểm để mở trong README bản vá ("chưa chạy inference thật") **đã đóng** trên máy dự án.
+1. `scripts/nano/README.md` ghi `yolo11n` là ứng viên **duy nhất** qua kiểm tra op TRT 8.2. Theo
+   `results/phase2/export/*.json`: **cả `yolov8n` và `yolo11n`** đều qua; chỉ `yolo26n` bị loại (op `Mod`).
+2. Bỏ con số chưa kiểm chứng được ("IoU trung bình 0,06 sau trung vị 25 bước") khỏi báo cáo chốt; thay bằng
+   thứ có trong file nguồn: `prediction_drift` là nguyên nhân số 1 ở tầng `full`, c25 — **cv 11/22,
+   ekf 13/23, ukf 14/23** — tiêu chí gán nhãn **IoU(dự đoán, det) < 0,2**.
 
-## Số liệu thực nghiệm
+## Còn thiếu (chặn mốc 3)
 
-**Không số liệu nào thay đổi.** Không chạy lại A/B/C hay Giai đoạn 1, không tạo lại cache thí nghiệm, không
-mở tuning. Smoke YOLO dùng cache-id mới trong thư mục tạm rồi xóa.
-
-## Còn tồn tại
-
-- 53/56 sequence cache `legacy` và 113 thư mục run `LEGACY`: sinh trước khi có fingerprint ⇒ không xác minh
-  được bằng hash. Không tạo bằng chứng hồi tố.
-- `video_meta/` chỉ có ở run sinh sau bản sửa (0/129 run bàn giao).
-- BDD100K và Jetson Nano vẫn chưa có trên máy.
+- **Dữ liệu BDD100K-MOT**: *MOT 2020 Images* + *MOT 2020 Labels* (bdd-data.berkeley.edu) → `data/raw/bdd100k/`.
+- **Jetson Nano**: chưa kết nối ⇒ chưa có số nào trên thiết bị.
+- **Vòng lặp ByteTrack không phụ thuộc torch**: chưa làm; thiếu nó thì trên Nano chỉ đo được latency detector.
+- Giới hạn provenance legacy giữ nguyên, không tạo bằng chứng hồi tố.
 
 ## Cần bạn kiểm kỹ
 
-1. `skip_reason()` + `_paths_trong_diff()`: còn dạng header diff nào mang đường dẫn mà chưa bắt không.
-2. Ranh giới dedup (`CODE_PREFIXES` / `DOC_EXACT`) đã đủ rộng chưa.
-3. `ckpt_path`: smoke chạy với checkpoint **local**; đường alias/tự tải về chưa kiểm.
+1. `MOC2_FINAL_SUMMARY.md` §2 và §4: mức bằng chứng có bị phát biểu quá không — câu "lợi ích EKF nhỏ và phụ
+   thuộc điều kiện", và câu về C2 (`preserved` tăng ≠ chất lượng tăng).
+2. §6: tách 6a/6b đã đủ rõ để không ai so chéo hai bảng chưa (profile PF dùng **N=300**, bảng kết quả **N=500**).
+3. `BDD100K_INVENTORY.md` §5: quy ước `occlusion_ratio = 0,5` cho cờ `occluded`, và việc **không** suy diễn
+   gap thành che hoàn toàn.
 
 ## Thứ tự đọc
 
-`REVIEW_BRIEF.md` → `patch/delta_<base>..<target>.diff` → `logs/` + test liên quan → `data/` khi cần số liệu →
-`DEPENDENCIES.md` (file phụ thuộc **không** đóng gói, kèm vị trí trong snapshot base và sha256). Thiếu file
-nào, báo lại — sẽ bổ sung đúng file đó ở gói kế tiếp.
+`REVIEW_BRIEF.md` → `patch/` → `files/handoff/MOC2_FINAL_SUMMARY.md` + `files/handoff/BDD100K_INVENTORY.md`
+→ `logs/` → `DEPENDENCIES.md`. Thiếu file nào, báo lại — sẽ bổ sung ở gói kế tiếp.

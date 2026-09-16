@@ -1,4 +1,4 @@
-# CODEX_HANDOFF — điểm bắt đầu cho người review (mốc 2, bản sau review vòng 2)
+# CODEX_HANDOFF — điểm bắt đầu cho người review (mốc 2 đã chốt, đang chuẩn bị mốc 3)
 
 Tài liệu này dành cho **người/agent review không có quyền truy cập máy của tác giả**. Mọi đường dẫn là
 **tương đối từ gốc repository**.
@@ -84,10 +84,20 @@ rồi chạy 40 video test UA-DETRAC; (6) chuẩn bị BDD100K + Jetson Nano; (7
 
 ## 2. Nhánh, commit, thay đổi chưa commit
 
-- Nhánh: **`phase2-mixed-traffic`**, HEAD **`35dd59e`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
+- Nhánh: **`phase2-mixed-traffic`**, HEAD **`a8ecaf6`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
 - Commit của mốc 2 (từ `e353b84` = cuối mốc 1):
 
 ```
+a8ecaf6 Kiem tra goi delta vong 3: quet duong dan ben trong .diff + ap patch roi so toan bo cay code
+5380221 REVIEW_BRIEF vong 3: rut gon (897 -> 801 tu)
+324d752 REVIEW_BRIEF vong 3 + chuyen base review sang 9a1c404 (Codex xac nhan da doc)
+5658c3b Smoke YOLO that cho provenance cache (30 frame dev, GPU that) - dong diem con mo cua ban va
+534146c Khoi phuc trang thai Git cua cac file rieng bi commit nham o 67445dc
+e5d076c Sua hai loi dong goi delta: noi dung file rieng lot vao patch, patch khong tai tao dung target
+8cfbca1 Tich hop ban va cache review vong 3 (phase2_cache_fix_review3): provenance checkpoint
+9a1c404 Goi delta: khong luu hai lan cung mot noi dung (tests_latest.log == tests_<ngay>.log)
+5c5596e REVIEW_BRIEF khong ghi cung base/target: placeholder <!-- BASE_TARGET --> dien luc dong goi
+4ccfc65 Ban giao hai muc: goi DELTA cho moi vong sua, goi day du cho moc lon
 35dd59e Review vong 2: artifact goi review tai HEAD 7341812 (FILE_HASHES khop 1256/1256 file)
 7341812 Review vong 2: ghi ro dong HEAD trong handoff luon dung TRUOC git_head cua goi ZIP
 cdbf911 Review vong 2: sinh lai CODEX_HANDOFF tai HEAD 61fe76a
@@ -123,10 +133,10 @@ dd67321 Moc 2 (6-7a): mau thi nghiem BDD (chuyen cau hinh vs tuning, tach biet),
 
 ```
 M .gitignore
- M handoff/logs/tests_latest.log
- M handoff/logs/tests_summary.csv
- M src/make_handoff.py
- M src/run_all_tests.py
+ M results/phase2/cache_consistency.csv
+ M results/phase2/run_provenance_audit.csv
+ M scripts/nano/README.md
+ M src/demo/rerun_with_state_log.py
 ```
 
 - Ngoài ra người dùng có các file **untracked** riêng (`live.bat`, `outputs/**`, `src/demo/*buffer90*`,
@@ -148,6 +158,12 @@ M .gitignore
 ## 3. Thứ tự đọc
 
 1. `CODEX_HANDOFF.md` (file này).
+1b. **`handoff/MOC2_FINAL_SUMMARY.md` — báo cáo thực nghiệm CHỐT của mốc 2** (Nhóm A theo từng điều kiện
+   confidence, Nhóm B `_fix1` với thành phần thay đổi của từng cặp, Nhóm C gồm cả kết quả âm, tách dev/test,
+   tách tốc độ tracker-từ-cache với tốc độ toàn pipeline, và giới hạn provenance legacy). **Đọc file này
+   trước `PHASE2_REPORT.md`** nếu chỉ cần kết quả.
+1c. `handoff/BDD100K_INVENTORY.md` — kiểm kê BDD100K: **chưa có dữ liệu trên máy**, gói cần tải, vị trí đặt,
+   lệnh kiểm tra, kế hoạch hai thí nghiệm tách biệt.
 2. `results/phase2/REVIEW_moc2_codex.md` — trạng thái từng phát hiện của review vòng 1.
 3. `PHASE2_REPORT.md` — mục **19** (review vòng 2: trạng thái run bị gián đoạn, chính sách cache, audit
    nguồn gốc), mục **18** (review vòng 1, có bảng trước/sau), rồi mục **12–17** (mốc 2); mục 1–11 là mốc 1
@@ -188,7 +204,7 @@ M .gitignore
 | 4 | Bootstrap ghép cặp theo video, 5000, seed 0, **nhất quán với bảng chính** | ✅ | `boot_stats.py` tái tổ hợp COMBINED; kiểm chứng == TrackEval 1e-9 | `src/boot_stats.py`, `src/test_boot_stats.py`; mục 15.2 | Với PF, thống kê đủ trung bình theo seed trước khi cộng (xấp xỉ) |
 | 4 | Nhóm B trình bày theo từng cặp | ✅ | `pairs` trong YAML → `paired_pairs.csv` | `configs/phase2/experiments/{groupB_detrac_dev,expB_detrac_test}.yaml`; mục 15.3, 16.3 | — |
 | 5 | Khóa cấu hình rồi chạy 40 video test, báo cáo đủ kể cả kết quả không cải thiện | ✅ | `LOCK_moc2.md` + `lock_moc2.json` ghi trước (kiểm chứng mốc thời gian); 3 thí nghiệm test (22 lần chạy) | mục 16 | — |
-| 6 | Chuẩn bị BDD100K (2 thí nghiệm tách biệt) + Nano | ⏳ chuẩn bị | YAML `bdd_transfer_val` / `bdd_tuned_val` + checklist Δt/Q; checklist Nano 5 bước | mục 17; `scripts/nano/README.md` | **Chưa có dữ liệu BDD100K, chưa kết nối Nano** |
+| 6 | Chuẩn bị BDD100K (2 thí nghiệm tách biệt) + Nano | ⏳ chuẩn bị | YAML `bdd_transfer_val` / `bdd_tuned_val`; adapter + `check_bdd100k.py` fail-loud; smoke fixture 11/11; **kiểm kê đầy đủ + gói cần tải + lệnh kiểm tra** (`handoff/BDD100K_INVENTORY.md`); Nano: export ONNX + đối chiếu op TRT 8.2 + **giao thức đo CV ↔ EKF cùng điều kiện** (`scripts/nano/README.md` mục 4c) | mục 17; `handoff/BDD100K_INVENTORY.md`; `scripts/nano/README.md` | **Chưa có dữ liệu BDD100K** (đã tìm toàn ổ C:/D:) ⇒ chưa chạy được smoke BDD. **Chưa kết nối Nano** ⇒ chưa có số nào trên thiết bị. Vòng lặp ByteTrack không phụ thuộc torch **chưa làm** |
 | 7 | Bàn giao để review không cần máy | ✅ | File này + ZIP + log test + patch/diff + versions; **từ vòng 2** gói mang thêm `eval_meta.json` / `occl_meta.json` / `video_meta/` của các run có chúng | `handoff/`, `handoff/INDEX.md` mục "Ghi chu dong goi" | Log `assoc_log` đầy đủ (parquet) giữ tại máy; trong ZIP là bản trích quanh sự kiện. **Các run chạy bởi runner cũ không có dấu vân tay đánh giá** — số lượng ghi trong `INDEX.md`, không sinh hồi tố |
 
 ## 5. Kết luận chính — tách "đo được" / "suy luận" / "chưa xác định"
@@ -308,7 +324,10 @@ Các bước khác chạy CPU từ cache (cache có trong ZIP nếu ≤ 60 MB �
 | `python src/audit_run_provenance.py --pattern "p2-*" --verify-eval-fingerprint` (vòng 2) | 0 | `handoff/logs/audit_run_provenance_all.log` — 21 OK, 113 LEGACY, **0 nghi vấn** |
 | `python src/aggregate_phase2.py --exp .../expB_detrac_{dev,test}_fix1.yaml` (vòng 2) | 0 | chỉ sinh lại bảng dẫn xuất sau khi sửa **nhãn** cặp (không đổi tham số thí nghiệm) |
 | `python src/make_review_delta.py` (vòng 2) | 0 | `handoff/review_delta_latest.zip` — 67 file, 0,38 MB (gói đầy đủ 66,9 MB), `MANIFEST.csv` khớp hash |
-| `python src/run_all_tests.py` | 0 | `handoff/logs/tests_latest.log`, `tests_summary.csv` — **21/21 PASS**, 0 FAIL, 0 SKIPPED |
+| `python src/run_all_tests.py --out-dir handoff/logs/review_delta_fix_full` (vòng 3) | 0 | **22/22 PASS**, 0 FAIL, 0 SKIPPED, 0 NOT_RUN |
+| `python src/smoke_cache_provenance_yolo.py` (vòng 3) | 0 | YOLO **thật** + GPU thật, MVI_20052 30 frame: **5/5 PASS** — `weights_sha256` khớp `model.ckpt_path` |
+| `python src/check_bdd100k.py --part val` (mốc 3) | **1** | **đúng như mong đợi**: fail-loud vì chưa có dữ liệu BDD100K trên máy — xem `handoff/BDD100K_INVENTORY.md` |
+| `python src/check_cache_consistency.py` + `audit_run_provenance.py --pattern "p2-*"` (mốc 3, chạy lại để chốt số) | 0 | cache **3 `ok` + 53 `legacy` + 0 `mismatch`**; run **21 `OK` + 113 `LEGACY` + 0 nghi vấn** |
 
 Toàn bộ log của mọi lần chạy (kể cả các lần của mốc 2) nằm trong `handoff/logs/`; mỗi file kết thúc bằng dòng
 `exit=<mã>`.
