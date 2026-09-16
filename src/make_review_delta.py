@@ -189,6 +189,15 @@ def collect(base: str, target: str) -> tuple[list[dict], list[dict]]:
                "sha256_target": sha256_bytes(b_tgt) if b_tgt is not None else "",
                "bytes": len(b_tgt) if b_tgt is not None else 0}
         why = skip_reason(path)
+        if not why and status != "D" and row["sha256_target"]:
+            # tests_latest.log la ban sao cua tests_<ngay>.log -> chi luu MOT ban, ban con lai
+            # duoc ghi trong MANIFEST la trung noi dung (nguoi review doi chieu bang sha256).
+            truoc = next((r for r in gom if r["sha256_target"] == row["sha256_target"]), None)
+            if truoc is not None:
+                row["trung_noi_dung_voi"] = truoc["trong_goi"]
+                row["ly_do_khong_gom"] = f"trung noi dung voi {truoc['trong_goi']} (cung sha256)"
+                bo.append(row)
+                continue
         if why or status == "D":
             row["ly_do_khong_gom"] = why or "file da bi xoa (chi ghi trong manifest va patch)"
             bo.append(row)
@@ -283,7 +292,7 @@ def build(base_info: dict, target: str, dry: bool) -> int:
     manifest_rows = sorted(gom + bo, key=lambda r: (r.get("trong_goi", "zzz"), r["path"]))
     buf = io.StringIO()
     w = csv.DictWriter(buf, fieldnames=["status", "path", "trong_goi", "ly_do_khong_gom",
-                                        "bytes", "sha256_base", "sha256_target"],
+                                        "trung_noi_dung_voi", "bytes", "sha256_base", "sha256_target"],
                        extrasaction="ignore", lineterminator="\n")
     w.writeheader()
     for r in manifest_rows:
