@@ -1,6 +1,6 @@
 # INDEX - handoff/phase2_review_latest.zip
 
-Tao: 2026-09-16 13:09:03  HEAD c601d91
+Tao: 2026-09-16 13:10:13  HEAD 4889209
 File tracked khac HEAD luc dong goi (khong tinh file rieng cua nguoi dung): khong
 
 sha256 tung file: handoff/FILE_HASHES.csv
@@ -487,7 +487,8 @@ sha256 tung file: handoff/FILE_HASHES.csv
 - handoff/logs/verify_c3_effect.log (4.5 kB)
 - handoff/logs/verify_shared_kalman.log (2.3 kB)
 - handoff/patches/README.md (0.1 kB)
-- handoff/patches/commits.txt (3.3 kB)
+- handoff/patches/commits.txt (3.5 kB)
+- handoff/patches/moc2_e353b84..4889209.diff (8990.2 kB)
 - handoff/patches/moc2_e353b84..502f011.diff (615.3 kB)
 - handoff/patches/moc2_e353b84..60c946d.diff (1410.5 kB)
 - handoff/patches/moc2_e353b84..6a1921f.diff (1411.8 kB)
@@ -1177,7 +1178,7 @@ sha256 tung file: handoff/FILE_HASHES.csv
 - src/failure_analysis.py (26.2 kB)
 - src/lost_association.py (9.8 kB)
 - src/lost_recovery.py (5.9 kB)
-- src/make_handoff.py (16.4 kB)
+- src/make_handoff.py (16.5 kB)
 - src/make_lock.py (4.0 kB)
 - src/mot_datasets/__init__.py (0.9 kB)
 - src/mot_datasets/base.py (2.4 kB)
@@ -1244,4 +1245,4 @@ sha256 tung file: handoff/FILE_HASHES.csv
 - third_party/sort_upstream/PROVENANCE.json (1.4 kB)
 - third_party/sort_upstream/sort.py (11.7 kB)
 
-Tong 1229 file, 112.9 MB (chua nen)
+Tong 1230 file, 121.9 MB (chua nen)
