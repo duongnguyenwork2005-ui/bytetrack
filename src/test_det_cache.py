@@ -215,12 +215,33 @@ def test_5_cache_write_policy():
             except RuntimeError as e:
                 err = str(e)
             _check("mode='create' tren cache da ton tai -> LOI", "da ton tai" in err, err[:120])
-            # khac phien ban -> canh bao + version_history
+            # khac phien ban thu vien / thiet bi -> TU CHOI (review vong 2: truoc day chi canh bao nen
+            # sinh ra sequence co fingerprint khac meta.json roi bi chinh open_cache tu choi doc)
+            meta_truoc = (cdir / "meta.json").read_text(encoding="utf-8")
             spec2 = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="abc",
                                     conf=0.05, classes=None, max_det=3000, versions={"ultralytics": "8.9.0"})
-            dc.write_meta(cdir, spec2)
-            hist = json.loads((cdir / "meta.json").read_text()).get("version_history", [])
-            _check("khac phien ban thu vien -> canh bao + ghi version_history", len(hist) == 1, str(hist))
+            err = ""
+            try:
+                dc.write_meta(cdir, spec2)
+            except RuntimeError as e:
+                err = str(e)
+            _check("khac phien ban thu vien -> TU CHOI ghi them, meta.json giu nguyen",
+                   "versions" in err and (cdir / "meta.json").read_text(encoding="utf-8") == meta_truoc, err[:150])
+            spec3 = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="abc",
+                                    conf=0.05, classes=None, max_det=3000, versions={"ultralytics": "8.4.141"},
+                                    device="cpu")
+            err = ""
+            try:
+                dc.write_meta(cdir, spec3)
+            except RuntimeError as e:
+                err = str(e)
+            _check("khac `device` -> TU CHOI (truong nam trong hash thi cung phai bi chan)",
+                   "device" in err, err[:120])
+            spec4 = dc.DetectorSpec(backend="ultralytics", weights="duong/dan/KHAC/w.pt", weights_sha256="abc",
+                                    conf=0.05, classes=None, max_det=3000, versions={"ultralytics": "8.4.141"})
+            dc.write_meta(cdir, spec4)   # duong dan weights KHAC nhung cung sha256 -> khong anh huong
+            _check("duong dan weights khac (cung sha256) -> van ghi them duoc, hash khong doi",
+                   spec4.spec_sha256() == spec.spec_sha256())
 
             # --- du lieu that de kiem tra DOC ---
             arrays = dict(frame_idx=np.arange(1, 4, dtype=np.int32), n_per_frame=np.array([1, 1, 1], np.int32),
@@ -232,7 +253,7 @@ def test_5_cache_write_policy():
             vd = dc.open_cache("c1", "v1", 0.25, [2], 300)
             _check("doc cache rong (conf 0.05, moi lop) voi cau hinh hep (conf 0.25, lop [2], max_det 300) -> OK",
                    len(vd) == 3)
-            # sequence sinh boi spec khac -> mismatch
+            # sequence sinh boi spec khac -> mismatch (mo phong du lieu cu/khong hop le trong cache)
             dc.save_video(cdir, "v2", arrays, spec=spec2)
             st, why = dc.sequence_spec_status(cdir, "v2")
             err = ""
@@ -249,6 +270,21 @@ def test_5_cache_write_policy():
             st3, _ = dc.sequence_spec_status(cdir, "v3")
             dc.open_cache("c1", "v3", 0.25, [2], 300)
             _check("cache cu (khong co spec_sha256) -> 'legacy', van doc duoc", st3 == "legacy")
+            # TRON CHUOI: tao meta -> luu sequence -> doc strict deu dung MOT dinh nghia cau hinh
+            cdir2 = root / "c2"
+            dc.write_meta(cdir2, spec, mode="create")
+            dc.save_video(cdir2, "w1", arrays, spec=spec)
+            st4, why4 = dc.sequence_spec_status(cdir2, "w1")
+            vd4 = dc.open_cache("c2", "w1", 0.25, [2], 300)
+            _check("tron chuoi ghi -> doc strict: status 'ok' va doc duoc", st4 == "ok" and len(vd4) == 3, why4)
+            # khong bo sung fingerprint hoi to cho cache legacy
+            cdir3 = root / "c3"
+            dc.write_meta(cdir3, spec)
+            m3 = json.loads((cdir3 / "meta.json").read_text()); m3.pop("spec_sha256")
+            (cdir3 / "meta.json").write_text(json.dumps(m3), encoding="utf-8")
+            dc.write_meta(cdir3, spec)          # ghi them vao cache legacy
+            _check("cache legacy: KHONG bo sung spec_sha256 hoi to",
+                   "spec_sha256" not in json.loads((cdir3 / "meta.json").read_text()))
         finally:
             dc.CACHE_ROOT = old_root
 

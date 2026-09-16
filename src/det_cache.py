@@ -149,27 +149,51 @@ class DetectorSpec:
         self.created = time.strftime("%Y-%m-%dT%H:%M:%S")
         return self
 
-    #: Cac truong PHAI trung khi GHI THEM vao mot cache da co (thuoc tinh sinh du lieu).
-    #: `part` KHONG nam trong day: mot cache co the chua ca video train lan test cua cung dataset -
-    #: part cua tung video ghi trong <video>.json.
-    #: SUA SAU REVIEW DOC LAP (results/phase2/REVIEW_moc2_codex.md, P2): truoc day `conf`, `classes`,
-    #: `max_det` KHONG duoc kiem -> co the ghi them detection voi nguong/lop/max_det HEP HON trong khi
-    #: meta.json van tuyen bo cau hinh RONG HON, lam dieu kien replay ghi trong metadata khong con dung.
-    STRICT_FIELDS = ("backend", "weights_sha256", "imgsz", "iou", "half", "agnostic_nms",
-                     "augment", "batch", "mask_ignored_regions", "dataset",
-                     "gt_jitter", "gt_dropout", "gt_seed",
-                     "conf", "classes", "max_det")
+    #: CAU HINH SINH DU LIEU ("generation spec") - MOT dinh nghia duy nhat dung cho CA hai duong:
+    #:   - duong GHI  : `write_meta` tu choi ghi them neu bat ky truong nao khac (phai dung --cache-id khac)
+    #:   - duong DOC  : `spec_sha256` (hash cua DUNG cac truong nay) ghi vao tung <video>.json va duoc
+    #:                  `open_cache` doi chieu voi meta.json
+    #: Nho dung CHUNG mot tap truong, khong the co truong hop "cho ghi nhung tu choi doc" (loi P2 vong 2).
+    #: KHONG gom: `weights` (duong dan thay doi theo may - dac trung cua checkpoint da nam trong
+    #: `weights_sha256`), `part` (mot cache chua nhieu part), `created`, `git_commit`.
+    #: `versions` va `device` NAM TRONG danh sach: doi phien ban thu vien / thiet bi co the doi ket qua
+    #: detector, nen phai dung cache-id khac thay vi ghi them (truoc day chi CANH BAO -> sinh sequence co
+    #: hash khac roi bi chinh `open_cache` tu choi).
+    GEN_FIELDS = ("backend", "weights_sha256", "imgsz", "conf", "iou", "classes", "max_det", "half",
+                  "agnostic_nms", "augment", "batch", "device", "mask_ignored_regions", "dataset",
+                  "gt_jitter", "gt_dropout", "gt_seed", "gt_conf_range", "versions")
 
-    #: Truong chi CANH BAO khi khac (khong chan): phien ban thu vien/GPU. Doi phien ban co the doi
-    #: ket qua detector o muc epsilon -> ghi vao meta.json ("version_history") de truy nguon.
-    WARN_FIELDS = ("versions",)
+    #: Ten cu, giu de tuong thich: dieu kien ghi them == cau hinh sinh du lieu
+    STRICT_FIELDS = GEN_FIELDS
 
-    def spec_sha256(self) -> str:
-        """Hash cua CAU HINH SINH DU LIEU (khong gom created/git_commit/part) - ghi vao tung <video>.json."""
-        d = {k: v for k, v in asdict(self).items() if k not in ("created", "git_commit", "part")}
+    def gen_spec(self) -> dict:
+        """Cau hinh sinh du lieu da CHUAN HOA (dung cho ca hash lan so sanh khi ghi)."""
+        d = {k: getattr(self, k) for k in DetectorSpec.GEN_FIELDS}
         if isinstance(d.get("classes"), (list, tuple)):
             d["classes"] = sorted(int(c) for c in d["classes"])
-        return hashlib.sha256(json.dumps(d, sort_keys=True, default=str).encode()).hexdigest()
+        if isinstance(d.get("gt_conf_range"), (list, tuple)):
+            d["gt_conf_range"] = [float(x) for x in d["gt_conf_range"]]
+        if isinstance(d.get("versions"), dict):
+            d["versions"] = {str(k): str(v) for k, v in sorted(d["versions"].items())}
+        d["device"] = str(d.get("device"))
+        return d
+
+    def spec_sha256(self) -> str:
+        """Hash cua CAU HINH SINH DU LIEU - ghi vao meta.json va tung <video>.json."""
+        return hashlib.sha256(json.dumps(self.gen_spec(), sort_keys=True, default=str).encode()).hexdigest()
+
+
+def meta_gen_spec(meta: dict) -> dict:
+    """Chuan hoa cau hinh sinh du lieu doc tu meta.json (de so voi DetectorSpec.gen_spec())."""
+    d = {k: meta.get(k) for k in DetectorSpec.GEN_FIELDS}
+    if isinstance(d.get("classes"), (list, tuple)):
+        d["classes"] = sorted(int(c) for c in d["classes"])
+    if isinstance(d.get("gt_conf_range"), (list, tuple)):
+        d["gt_conf_range"] = [float(x) for x in d["gt_conf_range"]]
+    if isinstance(d.get("versions"), dict):
+        d["versions"] = {str(k): str(v) for k, v in sorted(d["versions"].items())}
+    d["device"] = str(d.get("device"))
+    return d
 
 
 def load_meta(cache_dir: Path) -> dict:
@@ -314,10 +338,14 @@ def save_video(cache_dir: Path, video: str, arrays: dict, extra: dict | None = N
 def write_meta(cache_dir: Path, spec: DetectorSpec, mode: str = "append"):
     """Ghi/kiem meta.json khi GHI du lieu vao cache (khac han voi viec DOC cache de chay tracker).
 
-    mode = "append" (mac dinh): cache co the da ton tai; MOI truong trong STRICT_FIELDS phai trung khit
-        (gom ca `conf`, `classes`, `max_det` - xem docstring cua STRICT_FIELDS), neu khong -> RuntimeError.
-        Khac phien ban thu vien (WARN_FIELDS) -> CANH BAO va ghi them vao "version_history".
+    mode = "append" (mac dinh): cache co the da ton tai; MOI truong trong `GEN_FIELDS` phai trung khit
+        (gom `conf`, `classes`, `max_det`, `device` va `versions`), neu khong -> RuntimeError va KHONG ghi
+        gi (meta.json + du lieu cu giu nguyen). Doi phien ban thu vien / thiet bi => dung `--cache-id` khac.
     mode = "create": bat buoc cache chua ton tai (dung khi muon chac chan khong tron du lieu).
+
+    Cache CU (sinh truoc khi co fingerprint) khong co `spec_sha256`: KHONG bo sung hoi to (mot hash gan
+    sau khong phai bang chung ve cau hinh luc sinh du lieu) - trang thai cua chung la "legacy", xem
+    `sequence_spec_status`.
 
     LUU Y: doc cache voi cau hinh HEP HON (conf cao hon, it lop hon, max_det nho hon) van hop le va do
     `check_compatible` / `VideoDetections` xu ly - day la buoc DOC, khong phai buoc GHI.
@@ -332,23 +360,13 @@ def write_meta(cache_dir: Path, spec: DetectorSpec, mode: str = "append"):
         if mode == "create":
             raise RuntimeError(f"Cache {cache_dir} da ton tai (mode='create'). Dung --cache-id khac.")
         old = json.loads(p.read_text(encoding="utf-8"))
-        diff = {k: (old.get(k), new.get(k)) for k in DetectorSpec.STRICT_FIELDS if old.get(k) != new.get(k)}
+        old_gen, new_gen = meta_gen_spec(old), spec.gen_spec()
+        diff = {k: (old_gen.get(k), new_gen.get(k)) for k in DetectorSpec.GEN_FIELDS
+                if old_gen.get(k) != new_gen.get(k)}
         if diff:
-            raise RuntimeError(f"Cache {cache_dir} da ton tai voi thong so SINH DU LIEU khac: {diff}. "
-                               "Ghi them vao cache nay se lam meta.json khong con mo ta dung du lieu ben trong. "
-                               "Dung --cache-id khac.")
-        warn = {k: (old.get(k), new.get(k)) for k in DetectorSpec.WARN_FIELDS if old.get(k) != new.get(k)}
-        if warn:
-            print(f"[CANH BAO] cache {cache_dir.name}: phien ban khac lan truoc {warn} "
-                  f"- van ghi them, luu vao meta.json['version_history']")
-            hist = old.get("version_history", [])
-            hist.append({"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "versions": new.get("versions"),
-                         "git_commit": new.get("git_commit")})
-            old["version_history"] = hist
-            p.write_text(json.dumps(old, indent=2), encoding="utf-8")
-        if old.get("spec_sha256") is None:                    # cache cu (truoc khi co fingerprint)
-            old["spec_sha256"] = new["spec_sha256"]
-            p.write_text(json.dumps(old, indent=2), encoding="utf-8")
+            raise RuntimeError(f"Cache {cache_dir} da ton tai voi CAU HINH SINH DU LIEU khac: {diff}. "
+                               "Ghi them se tao sequence co fingerprint khac meta.json (chinh open_cache se tu "
+                               "choi doc). Dung --cache-id khac. (Khong ghi gi: meta.json va du lieu cu giu nguyen.)")
         return old
     p.write_text(json.dumps(new, indent=2), encoding="utf-8")
     return new

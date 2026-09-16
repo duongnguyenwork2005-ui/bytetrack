@@ -147,17 +147,23 @@ def main() -> int:
         rc, out4 = run([PY, "src/run_experiment.py", "--exp", str(EXP), "--stage", "track"])
         meta_after = json.loads((tdir() / "run_meta.json").read_text(encoding="utf-8"))
         _check("doi cau hinh khi resume -> tracking CHAY LAI toan bo, fingerprint moi",
-               rc == 0 and "CHAY LAI toan bo" in out4
+               rc == 0 and "CHAY LAI" in out4
                and meta_after["input_fingerprint"] != meta_before["input_fingerprint"]
                and meta_after["conf_min"] == 0.40, out4)
         write_exp()                                   # tra lai cau hinh goc
         rc, out5 = run([PY, "src/run_experiment.py", "--exp", str(EXP), "--stage", "track"])
+        # LUU provenance TRUOC lan resume (review vong 2: truoc day test so file vua doc voi chinh no doc lai)
+        meta_before_resume = json.loads((tdir() / "run_meta.json").read_text(encoding="utf-8"))
+        n_resumed_before = len(meta_before_resume.get("resumed", []))
         rc2, out5b = run([PY, "src/run_experiment.py", "--exp", str(EXP), "--stage", "track"])
         meta_res = json.loads((tdir() / "run_meta.json").read_text(encoding="utf-8"))
-        _check("resume khong doi gi -> giu provenance goc + ghi them 'resumed'",
-               rc2 == 0 and "resumed" in meta_res and meta_res["resumed"][-1]["n_videos_ran"] == 0
-               and meta_res["created"] == json.loads((tdir() / "run_meta.json").read_text(encoding="utf-8"))["created"],
-               out5b)
+        _check("resume khong doi gi -> giu NGUYEN created/git_commit truoc resume + ghi them 'resumed'",
+               rc2 == 0 and meta_res["resumed"][-1]["n_videos_ran"] == 0
+               and meta_res["created"] == meta_before_resume["created"]
+               and meta_res["git_commit"] == meta_before_resume["git_commit"]
+               and len(meta_res.get("resumed", [])) == n_resumed_before + 1,
+               f"created {meta_before_resume['created']} -> {meta_res['created']}; "
+               f"resumed {n_resumed_before} -> {len(meta_res.get('resumed', []))}")
 
         # --- 4. --force chay lai moi buoc ---
         rc, out6 = run([PY, "src/run_experiment.py", "--exp", str(EXP), "--force"])

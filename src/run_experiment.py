@@ -37,8 +37,13 @@ TAI SU DUNG KET QUA (sua sau review doc lap, xem results/phase2/REVIEW_moc2_code
     metric CU. Nay moi buoc danh gia ghi mot DAU VAN TAY (src/run_fingerprint.py): sha256 cua tung file
     tracking, cau hinh, cache (meta + npz), danh sach sequence, phien ban ma nguon va evaluator. Ket qua
     chi duoc tai su dung khi dau van tay TRUNG KHIT; lech -> chay lai va in ro truong nao lech.
-    `run_meta.json` cua mot lan chay CHI duoc ghi khi thuc su chay; khi tiep tuc (resume) thi provenance
-    goc duoc giu nguyen va lan chay tiep duoc ghi them vao khoa `resumed`.
+    Trang thai tracking duoc quan ly THEO TUNG VIDEO: `video_meta/<video>.json` (ghi NGUYEN TU sau khi
+    video do chay xong, co `complete: true` + dau van tay). Mot video chi duoc tai su dung khi co bang
+    chung hoan tat va dau van tay khop; thieu/hong metadata => chay lai. `run_meta.json` mang
+    `status: running` tu truoc khi ghi de bat ky dau ra nao va chuyen sang `complete` khi xong, nen mot
+    lan chay bi NGAT khong the duoc "xac nhan" boi metadata hoan tat cu (loi P1 cua review vong 2).
+    Provenance (`created`, `git_commit`) duoc giu khi dau van tay khong doi; moi lan tiep tuc ghi them
+    mot muc vao `resumed`.
     Moi loi cua buoc danh gia / tong hop deu tra ve exit code khac 0.
 """
 from __future__ import annotations
@@ -101,26 +106,88 @@ def plan(exp: dict) -> list[dict]:
     return rows
 
 
-def _write_run_meta(path: Path, meta: dict, ran_videos: int, skipped: int) -> None:
-    """Ghi provenance. Neu da co file (lan chay truoc) va lan nay KHONG chay video nao thi GIU NGUYEN
-    provenance goc, chi ghi them mot muc vao `resumed` (khong doi `created`/`git_commit` goc)."""
-    old = None
-    if path.exists():
-        try:
-            old = json.loads(path.read_text(encoding="utf-8"))
-        except Exception:  # noqa: BLE001
-            old = None
-    entry = {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "git_commit": det_cache.git_commit(),
-             "n_videos_ran": ran_videos, "n_videos_reused": skipped}
-    if old is not None and ran_videos == 0:
-        old.setdefault("resumed", []).append(entry)
-        path.write_text(json.dumps(old, indent=2, default=str), encoding="utf-8")
-        return
-    if old is not None and ran_videos > 0 and skipped > 0:
-        meta = dict(meta)
-        meta["resumed"] = old.get("resumed", []) + [entry]
-        meta["previous_created"] = old.get("created")
-    path.write_text(json.dumps(meta, indent=2, default=str), encoding="utf-8")
+def _atomic_write_json(path: Path, obj: dict) -> None:
+    """Ghi JSON nguyen tu: ghi file tam roi doi ten (tranh file metadata bi cat doi khi bi ngat)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(obj, indent=2, default=str), encoding="utf-8")
+    tmp.replace(path)
+
+
+def _load_json(path: Path):
+    """None neu thieu HOAC hong (thieu/hong => KHONG duoc coi la tuong thich)."""
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def video_meta_path(out_root: Path, video: str) -> Path:
+    return out_root / "video_meta" / f"{video}.json"
+
+
+def can_reuse_video(out_root: Path, video: str, fingerprint: str) -> tuple[bool, str]:
+    """Chi tai su dung mot video khi CO BANG CHUNG HOAN TAT va dau van tay khop.
+
+    Bang chung = `video_meta/<video>.json` (ghi NGUYEN TU sau khi video chay xong) voi
+    `complete: true` va `input_fingerprint` trung. Thieu/hong metadata -> KHONG tai su dung
+    (loi P1 vong 2: truoc day chi can ton tai `data/<video>.txt` la du).
+    """
+    if not (out_root / "data" / f"{video}.txt").exists():
+        return False, "chua co file tracking"
+    vm = _load_json(video_meta_path(out_root, video))
+    if vm is None:
+        return False, "thieu/hong video_meta"
+    if not vm.get("complete"):
+        return False, "video_meta chua danh dau hoan tat"
+    if vm.get("input_fingerprint") != fingerprint:
+        return False, "dau van tay khac"
+    return True, ""
+
+
+def mark_run_started(path: Path, meta: dict) -> dict:
+    """Danh dau run DANG CHAY truoc khi ghi de bat ky dau ra nao.
+
+    Giu `created`/`git_commit` GOC khi dau van tay khong doi (provenance cua phan thuc su tai su dung);
+    neu dau van tay doi (hoac metadata cu thieu/hong) thi bat dau provenance moi.
+    """
+    old = _load_json(path)
+    m = dict(meta)
+    same = old is not None and old.get("input_fingerprint") == meta["input_fingerprint"]
+    if same:
+        m["created"] = old.get("created", m["created"])
+        m["git_commit"] = old.get("git_commit", m["git_commit"])
+        m["resumed"] = list(old.get("resumed", []))
+    elif old is not None:
+        m["previous"] = {"created": old.get("created"), "git_commit": old.get("git_commit"),
+                         "input_fingerprint": old.get("input_fingerprint"), "status": old.get("status")}
+    m["status"] = "running"
+    m["started_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+    _atomic_write_json(path, m)
+    return m
+
+
+def mark_run_finished(path: Path, meta: dict, ran: int, reused: int, videos: list[str]) -> None:
+    """Ket thuc mot lan chay. Neu tren dia da co metadata CUNG dau van tay (vd lan nay khong chay video nao
+    nen `mark_run_started` khong duoc goi) thi GIU provenance goc va noi tiep danh sach `resumed`."""
+    old = _load_json(path)
+    m = dict(meta)
+    if old is not None and old.get("input_fingerprint") == m.get("input_fingerprint"):
+        m["created"] = old.get("created", m.get("created"))
+        m["git_commit"] = old.get("git_commit", m.get("git_commit"))
+        m["resumed"] = list(old.get("resumed", [])) if not m.get("resumed") else m["resumed"]
+        if old.get("previous") and not m.get("previous"):
+            m["previous"] = old["previous"]
+    m["status"] = "complete"
+    m["finished_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+    m["n_videos_ran"] = ran
+    m["n_videos_reused"] = reused
+    m["videos"] = list(videos)
+    m.setdefault("resumed", []).append({"at": m["finished_at"], "git_commit": det_cache.git_commit(),
+                                        "n_videos_ran": ran, "n_videos_reused": reused})
+    _atomic_write_json(path, m)
 
 
 def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: bool):
@@ -158,45 +225,56 @@ def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: b
             "fps": fps, "seed": r["seed"], "assoc_log": log_ok, "pf_diag": pf_diag,
             "cache": fp.cache_fingerprint(exp["cache_id"], videos), "sequences": list(videos),
             "code": fp.code_fingerprint()})
-        prev = None
-        if (out_root / "run_meta.json").exists():
-            try:
-                prev = json.loads((out_root / "run_meta.json").read_text(encoding="utf-8"))
-            except Exception:  # noqa: BLE001
-                prev = None
-        reuse = skip_existing
-        if prev is not None and prev.get("input_fingerprint") != meta["input_fingerprint"]:
-            reuse = False
-            print(f"  [track] {r['dir']:<40} CHAY LAI toan bo: dau van tay dau vao da doi "
-                  f"({'chua co' if prev.get('input_fingerprint') is None else 'khac lan truoc'})")
+        # Quyet dinh tai su dung THEO TUNG VIDEO, dua tren `video_meta/<video>.json` (ghi nguyen tu sau khi
+        # video do chay xong). Thieu/hong metadata hoac dau van tay khac -> chay lai video do.
+        fingerprint = meta["input_fingerprint"]
+        plan_reuse, plan_run, reasons = [], [], {}
+        for v in videos:
+            ok, why = (can_reuse_video(out_root, v, fingerprint) if skip_existing else (False, "--no-skip/--force"))
+            (plan_reuse if ok else plan_run).append(v)
+            if not ok:
+                reasons.setdefault(why, 0)
+                reasons[why] += 1
+        if plan_run and (out_root / "data").exists() and any((out_root / "data" / f"{v}.txt").exists() for v in plan_run):
+            print(f"  [track] {r['dir']:<40} CHAY LAI {len(plan_run)} video (ghi de): "
+                  + ", ".join(f"{k} x{n}" for k, n in reasons.items()))
+        meta_path = out_root / "run_meta.json"
+        if plan_run:
+            meta = mark_run_started(meta_path, meta)      # danh dau DANG CHAY truoc khi ghi de bat ky dau ra nao
         t_all = 0.0
         summary = []
-        n_skipped = 0
-        for v in videos:
-            f = out_root / "data" / f"{v}.txt"
-            if reuse and f.exists():
-                n_skipped += 1
-                continue
+        for v in plan_run:
             vd = det_cache.open_cache(exp["cache_id"], v, r["conf_min"], exp["classes"], exp["max_det"])
+            # dau ra cu cua video nay khong con dung -> xoa bang chung hoan tat truoc khi ghi de
+            vmp = video_meta_path(out_root, v)
+            if vmp.exists():
+                vmp.unlink()
             t0 = time.time()
             df, df_t = run_tracking.run_video_to_dir(out_root, v, vd, cfg, dt, exp["elapsed_mode"], r["seed"], registry,
                                                      assoc_log=log_ok, pf_diag=pf_diag)
             sec = time.time() - t0
             t_all += sec
-            summary.append({"video": v, "n_frames": len(vd), "n_boxes": len(df),
-                            "n_tracks": int(df["id"].nunique()) if len(df) else 0,
-                            "predict_ms_per_frame": round(float(df_t.t_predict_ms.mean()), 4),
-                            "assoc_ms_per_frame": round(float(df_t.t_assoc_ms.mean()), 4),
-                            "update_ms_per_frame": round(float(df_t.t_update_ms.mean()), 4), "seconds": round(sec, 2)})
+            row = {"video": v, "n_frames": len(vd), "n_boxes": len(df),
+                   "n_tracks": int(df["id"].nunique()) if len(df) else 0,
+                   "predict_ms_per_frame": round(float(df_t.t_predict_ms.mean()), 4),
+                   "assoc_ms_per_frame": round(float(df_t.t_assoc_ms.mean()), 4),
+                   "update_ms_per_frame": round(float(df_t.t_update_ms.mean()), 4), "seconds": round(sec, 2)}
+            summary.append(row)
+            # CONG BO ket qua cua video: ghi bang chung hoan tat (nguyen tu) SAU khi moi file da ghi xong
+            _atomic_write_json(vmp, {"video": v, "complete": True, "input_fingerprint": fingerprint,
+                                     "created": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                                     "git_commit": det_cache.git_commit(), "experiment": exp["name"],
+                                     "cond": r["cond"], "tracker": r["tracker"], "seed": r["seed"],
+                                     "n_frames": row["n_frames"], "n_boxes": row["n_boxes"],
+                                     "n_tracks": row["n_tracks"]})
         if summary:
             old = out_root / "summary.csv"
             s = pd.DataFrame(summary)
-            if reuse and old.exists():
+            if plan_reuse and old.exists():
                 s = pd.concat([pd.read_csv(old), s]).drop_duplicates("video", keep="last")
             s.to_csv(old, index=False)
-        # Provenance ghi SAU khi chay: khong gan commit/thoi diem moi cho ket qua cu (xem _write_run_meta)
-        _write_run_meta(out_root / "run_meta.json", meta, ran_videos=len(summary), skipped=n_skipped)
-        print(f"  [track] {r['dir']:<40} {len(summary):>3} video moi, {n_skipped:>3} tai su dung  {t_all:6.1f}s")
+        mark_run_finished(meta_path, meta, ran=len(summary), reused=len(plan_reuse), videos=videos)
+        print(f"  [track] {r['dir']:<40} {len(summary):>3} video moi, {len(plan_reuse):>3} tai su dung  {t_all:6.1f}s")
         out_rows.append({**r, "seconds_track": round(t_all, 1)})
     return out_rows
 
