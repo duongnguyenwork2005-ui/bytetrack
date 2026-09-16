@@ -1,9 +1,28 @@
 # CODEX_HANDOFF — điểm bắt đầu cho người review (mốc 2, bản sau review vòng 2)
 
 Tài liệu này dành cho **người/agent review không có quyền truy cập máy của tác giả**. Mọi đường dẫn là
-**tương đối từ gốc repository**. Gói review: `handoff/phase2_review_latest.zip` (xem `handoff/INDEX.md` để
-biết file nào có trong gói, `handoff/FILE_HASHES.csv` để đối chiếu sha256 từng file, `handoff/large_inputs.md`
-để biết đầu vào lớn nào **chỉ có trên máy**, cách nhận diện và lệnh dùng chúng).
+**tương đối từ gốc repository**.
+
+> **Bàn giao có HAI mức — vòng sửa thông thường KHÔNG gửi lại cả repository.**
+>
+> | | Gói **DELTA** (mặc định mỗi vòng sửa) | Gói **ĐẦY ĐỦ** (mốc lớn / lưu trữ) |
+> |:--|:--|:--|
+> | File | `handoff/review_delta_latest.zip` | `handoff/phase2_review_latest.zip` |
+> | Dựng bằng | `python src/make_review_delta.py` | `python src/make_handoff.py --base e353b84` |
+> | Nội dung | `REVIEW_BRIEF.md`, patch so với **đúng snapshot đã đọc**, file code/test/config thêm-sửa trong vòng, log kiểm thử mới, CSV/JSON mới, `MANIFEST.csv`/`.json` (base/target + thêm/sửa/xóa + sha256), `DEPENDENCIES.md` | toàn bộ mã, cấu hình, kết quả, cache detection, log |
+> | Đọc theo thứ tự | `REVIEW_BRIEF.md` → `patch/` → `logs/` + test → `data/` → `DEPENDENCIES.md` | tài liệu này → `PHASE2_REPORT.md` → mục 3 dưới đây |
+>
+> **Base review không tự chạy theo HEAD.** Snapshot mà người review đã đọc được ghi trong
+> `handoff/review_base.json` và chỉ đổi khi có xác nhận (`make_review_delta.py --set-base <commit> --round <n>`)
+> — dựng một gói mới **không** làm base nhảy sang HEAD.
+>
+> `DEPENDENCIES.md` của gói delta liệt kê file cần nhưng **không** đóng gói, kèm **vị trí trong snapshot base**
+> và sha256. **Không giả định người review còn giữ bản gốc**: thiếu file nào, báo lại để bổ sung đúng file đó
+> ở gói delta kế tiếp.
+
+Gói đầy đủ: xem `handoff/INDEX.md` để biết file nào có trong gói, `handoff/FILE_HASHES.csv` để đối chiếu
+sha256 từng file, `handoff/large_inputs.md` để biết đầu vào lớn nào **chỉ có trên máy**, cách nhận diện và
+lệnh dùng chúng.
 
 ## 0. Trạng thái sau HAI vòng review độc lập — đọc trước
 
@@ -65,10 +84,13 @@ rồi chạy 40 video test UA-DETRAC; (6) chuẩn bị BDD100K + Jetson Nano; (7
 
 ## 2. Nhánh, commit, thay đổi chưa commit
 
-- Nhánh: **`phase2-mixed-traffic`**, HEAD **`61fe76a`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
+- Nhánh: **`phase2-mixed-traffic`**, HEAD **`35dd59e`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
 - Commit của mốc 2 (từ `e353b84` = cuối mốc 1):
 
 ```
+35dd59e Review vong 2: artifact goi review tai HEAD 7341812 (FILE_HASHES khop 1256/1256 file)
+7341812 Review vong 2: ghi ro dong HEAD trong handoff luon dung TRUOC git_head cua goi ZIP
+cdbf911 Review vong 2: sinh lai CODEX_HANDOFF tai HEAD 61fe76a
 61fe76a Review vong 2 (4,5): dong bo tai lieu + dua dau van tay danh gia vao goi ban giao
 67445dc Review vong 2 (1,2,3): trang thai tracking theo tung video + chinh sach cache thong nhat + audit provenance
 23f63ed Review-fix (7i): artifact goi review tai HEAD 4889209 (FILE_HASHES khop toan bo 1229 file)
@@ -101,6 +123,10 @@ dd67321 Moc 2 (6-7a): mau thi nghiem BDD (chuyen cau hinh vs tuning, tach biet),
 
 ```
 M .gitignore
+ M handoff/logs/tests_latest.log
+ M handoff/logs/tests_summary.csv
+ M src/make_handoff.py
+ M src/run_all_tests.py
 ```
 
 - Ngoài ra người dùng có các file **untracked** riêng (`live.bat`, `outputs/**`, `src/demo/*buffer90*`,
@@ -142,6 +168,7 @@ M .gitignore
    **mới sau review vòng 2**: `src/audit_run_provenance.py`, `src/test_run_resume_guard.py` (+ phần
    `video_meta` / `status` trong `src/run_experiment.py`, `GEN_FIELDS` trong `src/det_cache.py`).
 8. `results/phase2/run_provenance_audit.csv` — audit nguồn gốc **mọi** thư mục run (vòng 2).
+   Riêng khi nhận **gói delta**: đọc `REVIEW_BRIEF.md` trước tiên, tài liệu này chỉ dùng để tra bối cảnh.
 9. `handoff/logs/tests_latest.log` + `handoff/logs/tests_summary.csv` — kết quả test thực tế (exit code).
 
 ## 4. Bảng đối chiếu từng yêu cầu của mốc 2
@@ -257,7 +284,9 @@ $P src/check_identical_runs.py --pairs-from configs/phase2/experiments/expA_detr
 $P src/verify_shared_kalman_regression.py        # mã trước/sau khi sửa shared_kalman, trên cache thật
 $P src/make_lock.py --exps configs/phase2/experiments/expA_detrac_test.yaml \
    configs/phase2/experiments/expB_detrac_test.yaml configs/phase2/experiments/expC_detrac_test.yaml
-$P src/make_handoff.py --base e353b84            # -> handoff/phase2_review_latest.zip
+$P src/make_handoff.py --base e353b84            # goi DAY DU  -> handoff/phase2_review_latest.zip
+$P src/make_review_delta.py                      # goi DELTA   -> handoff/review_delta_latest.zip
+$P src/make_review_delta.py --dry-run            # xem truoc se gom / bo qua nhung gi
 ```
 
 **Đầu vào cần thiết**: ảnh + annotation UA-DETRAC (`data/extracted/`), `models/yolov8n.pt`
@@ -278,7 +307,8 @@ Các bước khác chạy CPU từ cache (cache có trong ZIP nếu ≤ 60 MB �
 | `python src/audit_run_provenance.py --pattern "p2-expB_detrac_*_fix1-*" --verify-eval-fingerprint` (vòng 2) | 0 | `handoff/logs/audit_run_provenance_fix1.log` — 12/12 OK, 0 nghi vấn |
 | `python src/audit_run_provenance.py --pattern "p2-*" --verify-eval-fingerprint` (vòng 2) | 0 | `handoff/logs/audit_run_provenance_all.log` — 21 OK, 113 LEGACY, **0 nghi vấn** |
 | `python src/aggregate_phase2.py --exp .../expB_detrac_{dev,test}_fix1.yaml` (vòng 2) | 0 | chỉ sinh lại bảng dẫn xuất sau khi sửa **nhãn** cặp (không đổi tham số thí nghiệm) |
-| `python src/run_all_tests.py` | 0 | `handoff/logs/tests_latest.log`, `tests_summary.csv` — **20/20 PASS**, 0 FAIL, 0 SKIPPED |
+| `python src/make_review_delta.py` (vòng 2) | 0 | `handoff/review_delta_latest.zip` — 67 file, 0,38 MB (gói đầy đủ 66,9 MB), `MANIFEST.csv` khớp hash |
+| `python src/run_all_tests.py` | 0 | `handoff/logs/tests_latest.log`, `tests_summary.csv` — **21/21 PASS**, 0 FAIL, 0 SKIPPED |
 
 Toàn bộ log của mọi lần chạy (kể cả các lần của mốc 2) nằm trong `handoff/logs/`; mỗi file kết thúc bằng dòng
 `exit=<mã>`.

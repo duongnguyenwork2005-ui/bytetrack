@@ -1,5 +1,11 @@
 """
-make_handoff.py -- Dong goi handoff/phase2_review_latest.zip cho nguoi review KHONG co may (Moc 2, muc 7).
+make_handoff.py -- Dong goi DAY DU handoff/phase2_review_latest.zip cho nguoi review KHONG co may.
+
+DUNG KHI NAO: luu tru tren may va ban giao o MOC LON (ket thuc mot moc, hoac khi nguoi review can dung lai
+toan bo bối cảnh). Cac VONG SUA thong thuong dung goi DELTA `src/make_review_delta.py`
+(-> handoff/review_delta_latest.zip, chi chua thay doi so voi snapshot nguoi review da doc; xem
+handoff/review_base.json). Dung goi day du KHONG tu dong doi base review: base chi doi qua
+`make_review_delta.py --set-base`, khi nguoi review xac nhan da doc snapshot moi.
 
 GOM (giu nguyen duong dan tuong doi tu goc repo):
     - CODEX_HANDOFF.md, PHASE2_REPORT.md, README.md, requirements.txt
