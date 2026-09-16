@@ -1,7 +1,8 @@
 # REVIEW_BRIEF — mốc 2, review vòng 2
 
-**Base** (snapshot bạn đã đọc): `4889209` — gói đầy đủ `phase2_review_latest.zip`, `git_head` `4889209`,
-tương ứng `PHASE2_REVIEW_FIX1.md`. **Target**: `35dd59e`, nhánh `phase2-mixed-traffic` (chỉ commit cục bộ).
+<!-- BASE_TARGET -->
+
+Base tương ứng bản review `PHASE2_REVIEW_FIX1.md`; nhánh `phase2-mixed-traffic`, chỉ commit cục bộ.
 Chỉ trình bày thay đổi của **vòng này**; lịch sử đầy đủ ở `PHASE2_REPORT.md` §18–19.
 
 ## Xử lý từng phát hiện
@@ -12,7 +13,7 @@ Chỉ trình bày thay đổi của **vòng này**; lịch sử đầy đủ ở
 | 2 | **P2** — cache cho ghi khi đổi phiên bản thư viện rồi từ chối đọc | **Một** tập `GEN_FIELDS` cho **cả** đường ghi (khác ⇒ từ chối, đĩa không đổi) **và** đường đọc (`spec_sha256`); loại đường dẫn `weights`, giữ `weights_sha256`; bỏ backfill hồi tố | `src/det_cache.py` | `test_det_cache.py` **51/51 PASS** |
 | 3 | Audit `_fix1`, chỉ chạy lại khi có bằng chứng | Đối chiếu sha256 **từng file tracking hiện tại** với `eval_meta.json` của lần tính metric | `src/audit_run_provenance.py` → `results/phase2/run_provenance_audit.csv` | **12/12 khớp hash, 0 resume, 0 nghi vấn** ⇒ **giữ nguyên, không chạy lại**; 113 thư mục cũ = `LEGACY` |
 | 4 | Đồng bộ diễn giải (chi tiết §19) | IDSW **2,8–9,8 % tùy nhánh** thay "9–12 %"; cache **3 `ok` / 53 `legacy` / 0 `mismatch`** kèm giới hạn; C3 → "không cấu hình nào **cải thiện** HOTA có ý nghĩa"; nhãn Nhóm B = đổi **gói** biểu diễn **+ thiết lập bộ lọc**; `has_full` = đoạn che ≥ 0,90; bỏ HEAD cũ `7610b56` | `PHASE2_REPORT.md`, `CODEX_HANDOFF.md`, `handoff/_review_section.md`, `_test_section.md` | — |
-| 5 | Đưa `eval_meta.json` / `occl_meta.json` vào gói | `collect()` gom thêm cả `video_meta/`; ghi chú nêu rõ **16/127** thư mục trackeval có `eval_meta.json`, **0/129** có `video_meta/` | `src/make_handoff.py` | `run_all_tests.py` **20/20 PASS, 0 FAIL, 0 SKIPPED** |
+| 5 | Đưa `eval_meta.json` / `occl_meta.json` vào gói; gói **delta** thay cho gửi lại cả repo | `collect()` gom thêm cả `video_meta/`; ghi chú nêu rõ **16/127** thư mục trackeval có `eval_meta.json`, **0/129** có `video_meta/`. Gói delta: **0,38 MB / 67 file** so với gói đầy đủ 66,9 MB / 1257 file | `src/make_handoff.py`, `src/make_review_delta.py` | `run_all_tests.py` **21/21 PASS, 0 FAIL, 0 SKIPPED** |
 
 ## Số liệu thực nghiệm
 
@@ -39,6 +40,6 @@ trước ghi nhầm −0.0132.
 
 ## Thứ tự đọc
 
-`REVIEW_BRIEF.md` → `patch/delta_4889209..35dd59e.diff` → `logs/` + test liên quan → `data/` khi cần số liệu →
+`REVIEW_BRIEF.md` → `patch/delta_<base>..<target>.diff` → `logs/` + test liên quan → `data/` khi cần số liệu →
 `DEPENDENCIES.md` (file phụ thuộc **không** đóng gói, kèm vị trí trong snapshot base và sha256). Nếu thiếu file
 nào, báo lại — sẽ bổ sung đúng file đó ở gói delta kế tiếp.

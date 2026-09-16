@@ -19,6 +19,9 @@ GOI GOM (giu nguyen duong dan tuong doi tu goc repo trong thu muc `files/`):
     logs/<path>                     log kiem thu MOI sinh trong vong nay
     data/<path>                     CSV/JSON moi/doi can de xac minh ket luan
     data/large_inputs_hashes.csv    bang thong ke + sha256 cua dau vao LON khong dong goi (cache detection...)
+
+REVIEW_BRIEF.md tren dia KHONG ghi cung base/target (viet xong -> commit -> moi dung goi, nen so ghi tay
+luon lac hau mot commit). Dat `<!-- BASE_TARGET -->` o cho can, script dien gia tri THUC luc dong goi.
     DEPENDENCIES.md                 file phu thuoc KHONG dong goi + vi tri trong snapshot goc + sha256
 
 KHONG GOM: cache detection (*.npz), ket qua cu khong doi, toan bo lich su log, dataset, weights, video,
@@ -67,8 +70,23 @@ DOC_EXACT = ("CODEX_HANDOFF.md", "PHASE2_REPORT.md", "README.md", "requirements.
              "handoff/_review_section.md", "handoff/_test_section.md")
 
 
+PLACEHOLDER = "<!-- BASE_TARGET -->"
+
+
 def git(*args) -> str:
     return subprocess.check_output(["git", *args], cwd=ROOT, text=True, encoding="utf-8", errors="replace")
+
+
+def brief_text(base_info: dict, target: str) -> str:
+    """REVIEW_BRIEF.md voi base/target THUC tai luc dong goi (khop MANIFEST.json)."""
+    base = base_info["base_commit"]
+    khoi = (f"**Base** (snapshot nguoi review da doc): `{base[:7]}`"
+            + (f" — goi day du `{base_info['base_snapshot']}`" if base_info.get("base_snapshot") else "")
+            + f". **Target**: `{target[:7]}` — {git('log', '-1', '--format=%s', target).strip()}\n"
+            + f"({len(git('log', '--format=%h', f'{base}..{target}').split())} commit trong khoang; "
+            + "base/target chinh xac trong `MANIFEST.json`.)")
+    s = BRIEF.read_text(encoding="utf-8")
+    return s.replace(PLACEHOLDER, khoi) if PLACEHOLDER in s else khoi + "\n\n" + s
 
 
 def sha256_bytes(b: bytes) -> str:
@@ -296,7 +314,7 @@ def build(base_info: dict, target: str, dry: bool) -> int:
 
     ZIP.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(ZIP, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
-        z.writestr("REVIEW_BRIEF.md", BRIEF.read_text(encoding="utf-8"))
+        z.writestr("REVIEW_BRIEF.md", brief_text(base_info, target))
         z.writestr("MANIFEST.csv", manifest_csv)
         z.writestr("MANIFEST.json", manifest_json)
         z.writestr("DEPENDENCIES.md", dependencies_md(base_info, bo, target))
