@@ -68,7 +68,11 @@ def main() -> int:
     g = df.groupby(["a", "b"]).agg(n_video=("video", "size"), bit_identical=("bit_identical", "sum"),
                                    id_bijection=("id_bijection", "sum"), id_identity=("id_identity", "sum")).reset_index()
     print(g.to_string(index=False))
-    print(f"\nTONG: {int(df.bit_identical.sum())}/{len(df)} video bit-identical; {int(df.id_bijection.sum())}/{len(df)} song anh ID")
+    n = len(df)
+    print(f"\nTONG (don vi dem = cap (lan chay, video): {g.shape[0]} cap thu muc x {df.video.nunique()} video = {n}):")
+    print(f"  bit-identical (so sanh BYTE cua file, khong chuan hoa): {int(df.bit_identical.sum())}/{n}")
+    print(f"  song anh ID toan sequence (tol={a.tol}): {int(df.id_bijection.sum())}/{n}"
+          f"  (trong do anh xa dong nhat: {int(df.id_identity.sum())}/{n})")
     if a.out:
         Path(a.out).parent.mkdir(parents=True, exist_ok=True); df.to_csv(a.out, index=False)
     return 0 if df.bit_identical.all() else 1

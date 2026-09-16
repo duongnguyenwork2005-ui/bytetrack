@@ -1,0 +1,91 @@
+[eval] 40 video, 675,774 dong GT (bo 0 dong khong phai lop danh gia); cua so truoc/sau = 30 frame (1.20 s)
+[eval] doan tho: 2174 partial + 484 full = 2658
+[eval] sau khi gop thanh su kien khong dem lap: 2174 (giam 484 do dem lap)
+[eval] du dieu kien danh gia (xac dinh tu GT): 1324
+         loai   559  ly do: gt_missing_before
+         loai   291  ly do: gt_missing_after
+
+[p2-expA_detrac_test-c10-cv] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                  646    48.8%
+  switched                   350    26.4%
+  lost_after                  81     6.1%
+  no_match_before            247    18.7%
+  id_continuous              485    36.6%
+
+[p2-expA_detrac_test-c10-ekf] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                  650    49.1%
+  switched                   346    26.1%
+  lost_after                  81     6.1%
+  no_match_before            247    18.7%
+  id_continuous              489    36.9%
+
+[p2-expA_detrac_test-c10-ukf] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                  657    49.6%
+  switched                   339    25.6%
+  lost_after                  81     6.1%
+  no_match_before            247    18.7%
+  id_continuous              490    37.0%
+
+[p2-expA_detrac_test-c10-pf500-s0] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                  595    44.9%
+  switched                   391    29.5%
+  lost_after                  86     6.5%
+  no_match_before            252    19.0%
+  id_continuous              449    33.9%
+
+[p2-expA_detrac_test-c10-pf500-s1] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                  586    44.3%
+  switched                   402    30.4%
+  lost_after                  82     6.2%
+  no_match_before            254    19.2%
+  id_continuous              449    33.9%
+
+[p2-expA_detrac_test-c10-pf500-s2] 0 file tracking rong (van duoc cham)
+  ket qua             so su kien    ti le
+  ---------------------------------------
+  preserved                  591    44.6%
+  switched                   397    30.0%
+  lost_after                  84     6.3%
+  no_match_before            252    19.0%
+  id_continuous              449    33.9%
+
+==============================================================================
+SO SANH TREN CUNG 1324 SU KIEN DU DIEU KIEN (39 video)
+==============================================================================
+  tracker                       id_match   id_continuous
+  ------------------------------------------------------
+  p2-expA_detrac_test-c10-cv      48.79%          36.63%
+  p2-expA_detrac_test-c10-ekf      49.09%          36.93%
+  p2-expA_detrac_test-c10-ukf      49.62%          37.01%
+  p2-expA_detrac_test-c10-pf500-s0      44.94%          33.91%
+  p2-expA_detrac_test-c10-pf500-s1      44.26%          33.91%
+  p2-expA_detrac_test-c10-pf500-s2      44.64%          33.91%
+
+CHENH LECH so voi p2-expA_detrac_test-c10-cv, bootstrap THEO VIDEO (5000 lan, giu tinh ghep cap):
+  tracker                     chenh id_match                   KTC 95%
+  --------------------------------------------------------------------
+  p2-expA_detrac_test-c10-ekf          +0.30%   [-0.52%, +1.15%]
+  p2-expA_detrac_test-c10-ukf          +0.83%   [-0.58%, +2.06%]
+  p2-expA_detrac_test-c10-pf500-s0          -3.85%   [-6.69%, -1.51%]
+  p2-expA_detrac_test-c10-pf500-s1          -4.53%   [-7.88%, -1.99%]
+  p2-expA_detrac_test-c10-pf500-s2          -4.15%   [-7.16%, -1.74%]
+
+LUU Y KHI DOC:
+  - Khoang tin cay chua 0 KHONG co nghia hai mo hinh tuong duong; no chi
+    co nghia du lieu hien co chua du de phan biet (thieu luc kiem dinh).
+  - Bootstrap lay mau o cap VIDEO vi cac su kien trong cung video khong
+    doc lap. Neu dung McNemar theo tung su kien thi p-value se HEP hon
+    thuc te vi coi cac su kien la doc lap.
+
+  Da luu -> D:\LABOTARY\bytetrack\results\phase2\expA_detrac_test\c10
+

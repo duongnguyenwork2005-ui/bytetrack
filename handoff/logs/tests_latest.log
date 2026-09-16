@@ -1,7 +1,7 @@
-# run_all_tests 2026-09-16 03:09:34  python=3.11.9  cwd=D:\LABOTARY\bytetrack
-# git HEAD 225d34e
+# run_all_tests 2026-09-16 10:38:33  python=3.11.9  cwd=D:\LABOTARY\bytetrack
+# git HEAD 76748c8
 
-=== test_ekf_ctrv: PASS (exit 0, 0.2s)
+=== test_ekf_ctrv: PASS (exit 0, 0.3s)
 $ python src/test_ekf_ctrv.py
 --- stdout ---
 ==============================================================================
@@ -138,7 +138,7 @@ KET QUA: 12/12 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_init_regression: PASS (exit 0, 0.3s)
+=== test_init_regression: PASS (exit 0, 0.4s)
 $ python src/test_init_regression.py
 --- stdout ---
 ==============================================================================
@@ -224,7 +224,7 @@ KET QUA: 17/17 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_tracker_lifecycle: PASS (exit 0, 2.9s)
+=== test_tracker_lifecycle: PASS (exit 0, 11.6s)
 $ python src/test_tracker_lifecycle.py
 --- stdout ---
 ==============================================================================
@@ -323,7 +323,7 @@ KET QUA: 20/20 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_occlusion_eval: PASS (exit 0, 1.4s)
+=== test_occlusion_eval: PASS (exit 0, 2.9s)
 $ python src/test_occlusion_eval.py
 --- stdout ---
 ==============================================================================
@@ -376,7 +376,7 @@ KET QUA: 14/14 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_filter_config: PASS (exit 0, 3.2s)
+=== test_filter_config: PASS (exit 0, 4.0s)
 $ python src/test_filter_config.py
 --- stdout ---
 
@@ -461,7 +461,7 @@ KET QUA: 44/44 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_time_units: PASS (exit 0, 3.8s)
+=== test_time_units: PASS (exit 0, 4.7s)
 $ python src/test_time_units.py
 --- stdout ---
 
@@ -523,7 +523,7 @@ KET QUA: 30/30 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_timestep_integration: PASS (exit 0, 4.1s)
+=== test_timestep_integration: PASS (exit 0, 5.0s)
 $ python src/test_timestep_integration.py
 --- stdout ---
 
@@ -606,7 +606,7 @@ KET QUA: 32/32 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_det_cache: PASS (exit 0, 7.8s)
+=== test_det_cache: PASS (exit 0, 9.6s)
 $ python src/test_det_cache.py
 --- stdout ---
 
@@ -664,7 +664,7 @@ KET QUA: 37/37 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_trackeval_ext: PASS (exit 0, 6.3s)
+=== test_trackeval_ext: PASS (exit 0, 28.1s)
 $ python src/test_trackeval_ext.py
 --- stdout ---
 
@@ -788,7 +788,7 @@ KET QUA: 10/10 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_bdd100k_adapter: PASS (exit 0, 14.6s)
+=== test_bdd100k_adapter: PASS (exit 0, 18.2s)
 $ python src/test_bdd100k_adapter.py
 --- stdout ---
   [PASS] fixture co 3 video
@@ -832,18 +832,18 @@ $ python src/test_bdd100k_adapter.py
          60 box, lop {2, 3, 7}
   [PASS] run_tracking cv tren cache fixture
          [run_tracking] cache=fixture_bddfx_gt tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=5.0 track_buffer=6 elapsed=steps seeds=[None]
-           fx-cv                        b1c66a42-6f7d68ca    12 frame ->      59 bbox    5 track  predict 0.08 ms/frame  assoc 0.61  (0.0s, 664 fps)
-           fx-cv                        b2d0a5e2-3c1f9a7b    12 frame ->      41 bbox    4 track  predict 0.08 ms/frame  assoc 0.50  (0.0s, 1091 fps)
-           fx-cv                        b3e7f1c0-9a2b4d6e     8 frame ->       9 bbox    2 track  predict 0.07 ms/frame  assoc 0.45  (0.0s, 1000 fps)
+           fx-cv                        b1c66a42-6f7d68ca    12 frame ->      59 bbox    5 track  predict 0.10 ms/frame  assoc 0.72  (0.0s, 561 fps)
+           fx-cv                        b2d0a5e2-3c1f9a7b    12 frame ->      41 bbox    4 track  predict 0.09 ms/frame  assoc 0.65  (0.0s, 749 fps)
+           fx-cv                        b3e7f1c0-9a2b4d6e     8 frame ->       9 bbox    2 track  predict 0.12 ms/frame  assoc 0.72  (0.0s, 605 fps)
   [PASS] cv: track_buffer 1.2 s @5fps = 6 buoc, fps=5 trong run_meta
   [PASS] cv: b3 co 1 frame n_steps=2 (timestamp nhay 0.4 s)
   [PASS] cv: tach lop car / motorcycle co dong
          {'BDDFX-val_car': 52, 'BDDFX-val_motorcycle': 13}
   [PASS] run_tracking ekf tren cache fixture
-         e=fixture_bddfx_gt tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=5.0 track_buffer=6 elapsed=steps seeds=[None]
-           fx-ekf                       b1c66a42-6f7d68ca    12 frame ->      59 bbox    5 track  predict 0.16 ms/frame  assoc 0.68  (0.0s, 607 fps)
-           fx-ekf                       b2d0a5e2-3c1f9a7b    12 frame ->      41 bbox    4 track  predict 0.14 ms/frame  assoc 0.58  (0.0s, 800 fps)
-           fx-ekf                       b3e7f1c0-9a2b4d6e     8 frame ->       9 bbox    2 track  predict 0.08 ms/frame  assoc 0.46  (0.0s, 1000 fps)
+         he=fixture_bddfx_gt tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=5.0 track_buffer=6 elapsed=steps seeds=[None]
+           fx-ekf                       b1c66a42-6f7d68ca    12 frame ->      59 bbox    5 track  predict 0.40 ms/frame  assoc 1.34  (0.0s, 334 fps)
+           fx-ekf                       b2d0a5e2-3c1f9a7b    12 frame ->      41 bbox    4 track  predict 0.21 ms/frame  assoc 0.89  (0.0s, 631 fps)
+           fx-ekf                       b3e7f1c0-9a2b4d6e     8 frame ->       9 bbox    2 track  predict 0.09 ms/frame  assoc 0.57  (0.0s, 727 fps)
   [PASS] ekf: track_buffer 1.2 s @5fps = 6 buoc, fps=5 trong run_meta
   [PASS] ekf: b3 co 1 frame n_steps=2 (timestamp nhay 0.4 s)
   [PASS] ekf: tach lop car / motorcycle co dong
@@ -1048,7 +1048,7 @@ COMBINED                           13        20        2         2
              D:\LABOTARY\bytetrack\data\interim\track_occlusion_summary.csv
          
            xu ly track:   0%|                                            | 0/14 [00:00<?, ?track/s]
-           xu ly track: 100%|#################################| 14/14 [00:00<00:00, 1399.40track/s]
+           xu ly track: 100%|#################################| 14/14 [00:00<00:00, 1075.09track/s]
   [PASS] segments: co doan partial (truck 6-8), KHONG co doan full (>=0.90), 2 gap; duration theo 5 fps
          partial 6 full 0 gaps 2
   [PASS] occlusion_eval --gaps --context-s 1.2 --fps 5
@@ -1105,7 +1105,7 @@ KET QUA: 42/42 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_pf_ctrv: PASS (exit 0, 11.6s)
+=== test_pf_ctrv: PASS (exit 0, 14.1s)
 $ python src/test_pf_ctrv.py
 --- stdout ---
 
@@ -1164,8 +1164,8 @@ $ python src/test_pf_ctrv.py
 --- test_11_runner_seeds ---
   [PASS] run_tracking PF --seeds 0 1 chay xong
          cache=fixture_pf_seed_test tracker=bytetrack_pf_ctrv yaml=D:\LABOTARY\bytetrack\configs\phase2\trackers\bytetrack_pf_ctrv_n100.yaml conf>0.25 classes=[2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=skip seeds=[0, 1]
-           p2-pftest-s0                 synth             40 frame ->      94 bbox    5 track  predict 0.50 ms/frame  assoc 0.93  (0.1s, 576 fps)
-           p2-pftest-s1                 synth             40 frame ->      95 bbox    4 track  predict 0.31 ms/frame  assoc 0.73  (0.0s, 835 fps)
+           p2-pftest-s0                 synth             40 frame ->      94 bbox    5 track  predict 0.56 ms/frame  assoc 1.11  (0.1s, 470 fps)
+           p2-pftest-s1                 synth             40 frame ->      95 bbox    4 track  predict 0.43 ms/frame  assoc 1.01  (0.1s, 598 fps)
   [PASS] tao 2 thu muc -s0 va -s1
   [PASS] chay lai seed 0: file txt bit-identical
   [PASS] seed 1 khac seed 0
@@ -1178,7 +1178,7 @@ KET QUA: 26/26 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_sort_tracker: PASS (exit 0, 3.8s)
+=== test_sort_tracker: PASS (exit 0, 4.4s)
 $ python src/test_sort_tracker.py
 --- stdout ---
 
@@ -1240,7 +1240,7 @@ KET QUA: 21/21 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_smoke_phase2: PASS (exit 0, 18.6s)
+=== test_smoke_phase2: PASS (exit 0, 22.1s)
 $ python src/test_smoke_phase2.py
 --- stdout ---
   [PASS] make fixture
@@ -1286,10 +1286,10 @@ $ python src/test_smoke_phase2.py
            [occl ] A: exit 0 (2s) -> D:\LABOTARY\bytetrack\results\phase2\smoke_bddfx\A
   [PASS] summary.csv: 4 tracker, HOTA huu han, pf50 co n_seeds = 2
          tracker      HOTA      DetA      AssA      IDF1      MOTA  IDSW    FP    FN  HOTA_sd_seed  IDF1_sd_seed  AssA_sd_seed  n_seeds  predict_ms_per_frame  assoc_ms_per_frame  update_ms_per_frame  n_events  preserved  switched  lost_after  id_continuous
-         0       cv  0.796806  0.731508  0.868245  0.870813  0.747664   0.0  11.0  16.0           NaN           NaN           NaN        0              0.079100            0.507300             0.586367         6   0.833333  0.000000    0.166667       0.500000
-         1      ekf  0.793557  0.728288  0.865058  0.870813  0.747664   0.0  11.0  16.0           NaN           NaN           NaN        0              0.124533            0.548367             0.672900         6   0.833333  0.000000    0.166667       0.500000
-         2     pf50  0.641727  0.574187  0.722265  0.776910  0.626168   2.5  11.5  26.0      0.012627      0.018513      0.023167        2              0.328317            1.029500             1.357800        12   0.666667  0.166667    0.166667       0.500000
-         3  sortekf  0.715927  0.653792  0.784443  0.795918  0.644860   2.0   9.0  27.0           NaN           NaN           NaN        0              0.167433            0.532367             0.699800         6   0.666667  0.000000    0.333333       0.333333
+         0       cv  0.796806  0.731508  0.868245  0.870813  0.747664   0.0  11.0  16.0           NaN           NaN           NaN        0              0.115667            0.744233             0.859933         6   0.833333  0.000000    0.166667       0.500000
+         1      ekf  0.793557  0.728288  0.865058  0.870813  0.747664   0.0  11.0  16.0           NaN           NaN           NaN        0              0.207200            0.843667             1.050833         6   0.833333  0.000000    0.166667       0.500000
+         2     pf50  0.641727  0.574187  0.722265  0.776910  0.626168   2.5  11.5  26.0      0.012627      0.018513      0.023167        2              0.394000            1.240033             1.634050        12   0.666667  0.166667    0.166667       0.500000
+         3  sortekf  0.715927  0.653792  0.784443  0.795918  0.644860   2.0   9.0  27.0           NaN           NaN           NaN        0              0.158167            0.500700             0.658867         6   0.666667  0.000000    0.333333       0.333333
   [PASS] paired_bootstrap.csv: 3 tracker x 5 metric vs baseline cv
   [PASS] timing.csv + event_outcomes (gap) ton tai
   [PASS] occlusion_eval: co su kien gap va outcome cho moi tracker (5 dir: cv, ekf, pf50-s0, pf50-s1, sortekf)
@@ -1305,7 +1305,7 @@ KET QUA: 11/11 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_lost_recovery: PASS (exit 0, 4.9s)
+=== test_lost_recovery: PASS (exit 0, 5.9s)
 $ python src/test_lost_recovery.py
 --- stdout ---
   [PASS] [cv] lost_recovery TAT == goc (bit-identical, 300 frame MVI_39031, 545 dong)
@@ -1330,7 +1330,7 @@ KET QUA: 11/11 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_boot_stats: PASS (exit 0, 8.1s)
+=== test_boot_stats: PASS (exit 0, 9.4s)
 $ python src/test_boot_stats.py
 --- stdout ---
 
@@ -1415,7 +1415,7 @@ KET QUA: 6/6 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_run_tracking_replay: PASS (exit 0, 32.2s)
+=== test_run_tracking_replay: PASS (exit 0, 51.6s)
 $ python src/test_run_tracking_replay.py --n-frames 150
 --- stdout ---
 
@@ -1436,11 +1436,11 @@ $ python src/test_run_tracking_replay.py --n-frames 150
 
 --- test 2: model.track truc tiep vs cache model.predict (conf 0.05) -> runner, 150 frame ---
   [PASS] cache khong frame nao cham tran max_det
-  [PASS] [cv] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=False; lech toa do max 0.000122 px)
+  [PASS] [cv] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=True; lech toa do max 0 px)
   [PASS] [cv] direct vs cache: SONG ANH ID toan sequence (rows A=230 B=230 matched=230 unmatched A=0 B=0; ids A=3 B=3 pairs=3; A->nhieu B: 0, B->nhieu A: 0; bijection=True identity=True)
-  [PASS] [ekf] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=False; lech toa do max 0.000122 px)
+  [PASS] [ekf] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=True; lech toa do max 0 px)
   [PASS] [ekf] direct vs cache: SONG ANH ID toan sequence (rows A=230 B=230 matched=230 unmatched A=0 B=0; ids A=3 B=3 pairs=3; A->nhieu B: 0, B->nhieu A: 0; bijection=True identity=True)
-  [PASS] [ukf] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=False; lech toa do max 0.000122 px)
+  [PASS] [ukf] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=True; lech toa do max 0 px)
   [PASS] [ukf] direct vs cache: SONG ANH ID toan sequence (rows A=230 B=230 matched=230 unmatched A=0 B=0; ids A=3 B=3 pairs=3; A->nhieu B: 0, B->nhieu A: 0; bijection=True identity=True)
 
 ==============================================================================

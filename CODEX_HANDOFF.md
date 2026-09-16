@@ -2,8 +2,8 @@
 
 Tài liệu này dành cho **người/agent review không có quyền truy cập máy của tác giả**. Mọi đường dẫn là
 **tương đối từ gốc repository**. Gói review: `handoff/phase2_review_latest.zip` (xem `handoff/INDEX.md` để
-biết file nào có trong gói, `handoff/large_inputs.md` để biết đầu vào lớn nào **chỉ có trên máy** và lệnh
-dùng chúng).
+biết file nào có trong gói, `handoff/large_inputs.md` để biết đầu vào lớn nào **chỉ có trên máy**, cách nhận
+diện và lệnh dùng chúng).
 
 ## 1. Mục tiêu, phạm vi mốc 2, quyết định đã chốt
 
@@ -27,10 +27,12 @@ rồi chạy 40 video test UA-DETRAC; (6) chuẩn bị BDD100K + Jetson Nano; (7
 
 ## 2. Nhánh, commit, thay đổi chưa commit
 
-- Nhánh: **`phase2-mixed-traffic`**, HEAD **`e761623`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
+- Nhánh: **`phase2-mixed-traffic`**, HEAD **`76748c8`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
 - Commit của mốc 2 (từ `e353b84` = cuối mốc 1):
 
 ```
+76748c8 Moc 2 (lam ro 1-4): verify_c3_effect (override vao bo loc + covariance khac nhung dau ra gan nhu trung), cause_origin_table (nguyen nhan vs nguon ID sau), dinh nghia ESS/n_unique + cau hinh PF, don vi dem cua check_identical_runs
+a5730f1 Moc 2 (7a): CODEX_HANDOFF.md, gioi han dong goi, ZIP review (tao boi src/make_handoff.py; ZIP khong commit)
 e761623 README: trang thai GD2 moc 2
 225d34e Moc 2: bao cao muc 12-15 (kiem tra tinh dung dan, nguyen nhan mat ID, Nhom C, PF + thong ke), ablation_matrix.py
 e69675f Moc 2 (4): chan doan PF theo so buoc mat (ESS, mat da dang hat) + phan tich nguyen nhan cho cac nhanh C2
@@ -46,6 +48,12 @@ dd67321 Moc 2 (6-7a): mau thi nghiem BDD (chuyen cau hinh vs tuning, tach biet),
 
 ```
 M .gitignore
+ M PHASE2_REPORT.md
+ M handoff/logs/expB_detrac_test.log
+ M handoff/logs/run_all_tests_console.log
+ M handoff/logs/tests_latest.log
+ M handoff/logs/tests_summary.csv
+ M src/check_identical_runs.py
  M src/demo/rerun_with_state_log.py
 ```
 
@@ -55,12 +63,13 @@ M .gitignore
 ## 3. Thứ tự đọc
 
 1. `CODEX_HANDOFF.md` (file này).
-2. `PHASE2_REPORT.md` — mục **12–16** là mốc 2; mục 1–11 là mốc 1 (giữ nguyên làm nguồn đối chiếu).
+2. `PHASE2_REPORT.md` — mục **12–17** là mốc 2; mục 1–11 là mốc 1 (giữ nguyên làm nguồn đối chiếu).
 3. `configs/phase2/PREREG_moc2.md` — đăng ký trước Nhóm C (giá trị, ngân sách, tiêu chí, giả thuyết).
 4. `configs/phase2/LOCK_moc2.md` + `results/phase2/lock/lock_moc2.json` — bản khóa trước khi chạy test.
 5. Kết quả: `results/phase2/failure_analysis/expA_detrac_dev/` (nguyên nhân mất ID),
-   `results/phase2/ablation_matrix.csv` (Nhóm C), `results/phase2/{expA,expB,expC}_detrac_test/` (test),
-   `results/phase2/pf_diag/expA_detrac_dev/` (PF).
+   `results/phase2/ablation_matrix.csv` (Nhóm C), `results/phase2/expA_detrac_test/`,
+   `results/phase2/expB_detrac_test/`, `results/phase2/expC_detrac_test/` (test),
+   `results/phase2/pf_diag/expA_detrac_dev/` (PF), `results/phase2/expC3_noise_dev/c3_effect_check.csv`.
 6. Code theo thứ tự phụ thuộc: `src/det_cache.py` → `src/run_tracking.py` → `src/tracker_ctrv.py`
    (+ `src/ekf_ctrv.py`, `src/ukf_ctrv.py`, `src/pf_ctrv.py`, `src/lost_association.py`,
    `src/lost_recovery.py`) → `src/run_experiment.py` → `src/run_trackeval.py`, `src/occlusion_eval.py`,
@@ -71,54 +80,61 @@ M .gitignore
 
 | # | Yêu cầu | Trạng thái | Đã làm | File / bằng chứng | Giới hạn còn lại |
 |:--|:--|:--|:--|:--|:--|
-| 1a | `multi_predict` dùng `stracks[0].kalman_filter`: pool luôn cùng tracker, cấu hình tương thích | ✅ | Guard fail-loud trong `CTRVSTrack`/`PFSTrack`/`CVSTrack.multi_predict` | `src/tracker_ctrv.py`; `src/test_filter_config.py` test 10 (44/44) | Guard là kiểm tra danh tính instance, không kiểm tra "hai instance có cùng tham số" |
+| 1a | `multi_predict` dùng `stracks[0].kalman_filter`: pool luôn cùng tracker, cấu hình tương thích | ✅ | Guard fail-loud trong `CTRVSTrack`/`PFSTrack`/`CVSTrack.multi_predict` | `src/tracker_ctrv.py`; `src/test_filter_config.py` test 10 (44/44) | Guard kiểm tra danh tính instance, không kiểm tra "hai instance có cùng tham số" |
 | 1b | Late-binding không rò rỉ giữa các tracker | ✅ | Test chéo A tường minh / B mặc định / UKF | `src/test_filter_config.py` test 11 | — |
-| 1c | Timestep timestamp → dự đoán → vòng đời trên đường chạy đầy đủ, cả CV/EKF/UKF/PF | ✅ | Test tích hợp mới qua `run_tracking.track_video` | `src/test_timestep_integration.py` (32/32) | Dữ liệu là cache tổng hợp (UA-DETRAC không bỏ frame); Δt thực của BDD chưa kiểm được trên dữ liệu thật |
-| 1d | So sánh tương đương phải kiểm **liên kết ID xuyên suốt sequence** | ✅ | `id_bijection` (song ánh ID toàn sequence) dùng ở 3 nơi | `src/track_compare.py`; `src/check_identical_runs.py`; `results/phase2/expA_detrac_dev/identical_vs_moc1.csv` (288/288) | — |
-| 2 | Phân tích sự kiện mất ID, log trước/trong/sau, phân loại nguyên nhân | ✅ | `assoc_log` (không đổi hành vi) + `failure_analysis` 4 tracker × 2 điều kiện | `results/phase2/failure_analysis/expA_detrac_dev/*`; `PHASE2_REPORT.md` mục 13 | Nhãn nguyên nhân là **suy luận có quy tắc** từ số liệu; ngưỡng (IoU < 0,2; conf) ghi trong docstring `src/failure_analysis.py` |
-| 3 C1 | Dải thời gian giữ track, cùng buffer khi so CV–EKF, báo cáo phục hồi/FP/IDSW/ghép nhầm | ✅ | 6 mức × 2 bộ lọc, có ghép nhầm | `configs/phase2/experiments/expC1_buffer_dev.yaml`; `PHASE2_REPORT.md` mục 14.1 | Chỉ trên dev; UA-DETRAC là camera cố định |
-| 3 C2 | Một thay đổi nhỏ trong cơ chế ghép, giả thuyết ghi trước, có đối chứng CV và EKF | ✅ | Vòng ghép 3 cho track LOST (gate Mahalanobis) + đối chứng IoU | `src/lost_recovery.py`; `configs/phase2/PREREG_moc2.md` mục "C2 — đã chọn"; mục 14.3 | HOTA không cải thiện; chạy test như **nhánh thăm dò** |
-| 3 C3 | Tuning tham số nhiễu, ngân sách công bố trước, giữ detector/ghép/bộ đệm cố định | ✅ | 21 cấu hình | `configs/phase2/experiments/expC3_noise_dev.yaml`; mục 14.2 | Lưới CV chỉ có 5 cấu hình phân biệt (bất biến tỉ lệ — mục 14.2) |
+| 1c | Timestep timestamp → dự đoán → vòng đời trên đường chạy đầy đủ, cả CV/EKF/UKF/PF | ✅ | Test tích hợp qua `run_tracking.track_video` | `src/test_timestep_integration.py` (32/32) | Dữ liệu là cache tổng hợp (UA-DETRAC không bỏ frame); Δt thực của BDD chưa kiểm trên dữ liệu thật |
+| 1d | So sánh tương đương phải kiểm **liên kết ID xuyên suốt sequence** | ✅ | `id_bijection`; định nghĩa và đơn vị đếm ghi ở `PHASE2_REPORT.md` mục 12.1 | `src/track_compare.py`; `src/check_identical_runs.py`; `results/phase2/expA_detrac_dev/identical_vs_moc1.csv` | — |
+| 2 | Phân tích sự kiện mất ID, log trước/trong/sau, phân loại nguyên nhân, giữ `unknown` | ✅ | `assoc_log` (không đổi hành vi) + `failure_analysis` 4 tracker × 2 điều kiện; **tách nguyên nhân (track cũ) khỏi nguồn ID sau** (`cause_origin_table.py`) | `results/phase2/failure_analysis/expA_detrac_dev/*` (`cause_summary.csv`, `cause_by_origin_c25.csv`, `cause_evidence_c25.csv`, `event_window_log.csv`, `representative_cases_*.md`); mục 13 | Nhãn nguyên nhân là **suy luận có quy tắc** từ số liệu; ngưỡng ghi trong docstring `src/failure_analysis.py` |
+| 3 C1 | Dải thời gian giữ track, cùng buffer khi so CV–EKF, báo cáo phục hồi/FP/IDSW/ghép nhầm | ✅ | 6 mức × 2 bộ lọc, có ghép nhầm | `configs/phase2/experiments/expC1_buffer_dev.yaml`; mục 14.1 | Chỉ trên dev; UA-DETRAC là camera cố định |
+| 3 C2 | Một thay đổi nhỏ trong cơ chế ghép, giả thuyết ghi trước, đối chứng CV và EKF | ✅ | Vòng ghép 3 cho track LOST (gate Mahalanobis) + đối chứng IoU | `src/lost_recovery.py`; `configs/phase2/PREREG_moc2.md` mục "C2 — đã chọn"; mục 14.3, 16.4 | Không đạt tiêu chí HOTA trên dev; **trên test HOTA giảm có ý nghĩa** |
+| 3 C3 | Tuning tham số nhiễu, ngân sách công bố trước, giữ detector/ghép/bộ đệm cố định | ✅ | 21 cấu hình + **kiểm chứng override có hiệu lực** (`verify_c3_effect.py`) | `configs/phase2/experiments/expC3_noise_dev.yaml`; `results/phase2/expC3_noise_dev/c3_effect_check.csv`; mục 14.2 | Lưới CV chỉ có 5 cấu hình phân biệt (bất biến tỉ lệ) |
 | 3 | Ma trận ablation, cấu hình kết hợp | ✅ | `ablation_matrix.csv`; không trục nào đạt tiêu chí → không có tổ hợp để chạy | `src/ablation_matrix.py`; mục 14.4 | Kết quả âm |
-| 4 | Dấu hiệu suy giảm PF (ESS, đa dạng hạt, khởi tạo), ≥ 3 seed | ✅ | Chẩn đoán theo `n_lost`, 3 seed × 3 mức N | `src/pf_diag_report.py`; `results/phase2/pf_diag/expA_detrac_dev/`; mục 15.1 | Chưa thử roughening/proposal khác (đổi mô hình nhiễu → thí nghiệm riêng) |
+| 4 | Dấu hiệu suy giảm PF (ESS, đa dạng hạt, khởi tạo), ≥ 3 seed, ghi rõ cách tính | ✅ | Chẩn đoán theo `n_lost`, 3 seed × 3 mức N; định nghĩa + thời điểm đo + cấu hình ghi trong `PFCTRV.enable_diag` và mục 15.1 | `src/pf_diag_report.py`; `results/phase2/pf_diag/expA_detrac_dev/` | Kết luận giới hạn trong implementation bootstrap PF này và các cấu hình đã thử |
 | 4 | Bootstrap ghép cặp theo video, 5000, seed 0, **nhất quán với bảng chính** | ✅ | `boot_stats.py` tái tổ hợp COMBINED; kiểm chứng == TrackEval 1e-9 | `src/boot_stats.py`, `src/test_boot_stats.py`; mục 15.2 | Với PF, thống kê đủ trung bình theo seed trước khi cộng (xấp xỉ) |
-| 4 | Nhóm B trình bày theo từng cặp | ✅ | `pairs` trong YAML → `paired_pairs.csv` | `configs/phase2/experiments/{groupB_detrac_dev,expB_detrac_test}.yaml`; mục 15.3 | — |
-| 5 | Khóa cấu hình rồi chạy 40 video test | ✅ | `LOCK_moc2.md` + `lock_moc2.json` ghi trước; 3 thí nghiệm test | mục 16 | — |
-| 6 | Chuẩn bị BDD100K (2 thí nghiệm tách biệt) + Nano | ⏳ chuẩn bị | YAML `bdd_transfer_val` / `bdd_tuned_val` + checklist Δt/Q; checklist Nano | `configs/phase2/experiments/bdd_*.yaml`; `scripts/nano/README.md` | **Chưa có dữ liệu BDD100K, chưa kết nối Nano** |
-| 7 | Bàn giao để review không cần máy | ✅ | File này + ZIP + log test + patch/diff + versions | `handoff/` | Log assoc_log đầy đủ (parquet) giữ tại máy; trong ZIP là bản trích quanh sự kiện |
+| 4 | Nhóm B trình bày theo từng cặp | ✅ | `pairs` trong YAML → `paired_pairs.csv` | `configs/phase2/experiments/{groupB_detrac_dev,expB_detrac_test}.yaml`; mục 15.3, 16.3 | — |
+| 5 | Khóa cấu hình rồi chạy 40 video test, báo cáo đủ kể cả kết quả không cải thiện | ✅ | `LOCK_moc2.md` + `lock_moc2.json` ghi trước (kiểm chứng mốc thời gian); 3 thí nghiệm test (22 lần chạy) | mục 16 | — |
+| 6 | Chuẩn bị BDD100K (2 thí nghiệm tách biệt) + Nano | ⏳ chuẩn bị | YAML `bdd_transfer_val` / `bdd_tuned_val` + checklist Δt/Q; checklist Nano 5 bước | mục 17; `scripts/nano/README.md` | **Chưa có dữ liệu BDD100K, chưa kết nối Nano** |
+| 7 | Bàn giao để review không cần máy | ✅ | File này + ZIP + log test + patch/diff + versions | `handoff/` | Log `assoc_log` đầy đủ (parquet) giữ tại máy; trong ZIP là bản trích quanh sự kiện |
 
 ## 5. Kết luận chính — tách "đo được" / "suy luận" / "chưa xác định"
 
 **Đo được (có số, có CI, dẫn file)**
 
-1. Trên dev 12 video, **CV ≈ EKF ≈ UKF**: ΔHOTA(EKF − CV) = +0,0025 [−0,0018, +0,0060] (COMBINED, bootstrap
-   theo video) — CI chứa 0. PF–CTRV kém rõ rệt ở cả 3 mức N (ΔHOTA −0,063 … −0,097; CI không chứa 0).
-2. Nguyên nhân thất bại ở **tầng che hoàn toàn** chủ yếu là **dự đoán lệch**: IoU(box dự đoán, det) trung bình
-   0,06 sau trung vị 25 bước mất dấu → không thể vượt `match_thresh`. **86 %** ID mới sau khi mất là **track
-   mới sinh từ detection**.
-3. **Nới `track_buffer` không giúp**: từ 0,8 s đến 4,0 s, tỉ lệ giữ ID **không đổi** trong khi **ghép nhầm
-   tăng đơn điệu** (CV 2,5 % → 5,3 %).
-4. **Tuning tham số nhiễu không giúp** (21 cấu hình, mọi CI chứa 0). `KalmanFilterXYAH` **bất biến** khi nhân
-   cả hai trọng số nhiễu cùng hệ số (bit-identical, 12/12 video).
-5. **Thêm một vòng ghép cho track LOST** làm **tăng có ý nghĩa** tỉ lệ giữ ID qua che khuất (+0,049
-   [+0,011, +0,080] với CV; tầng che hoàn toàn gần gấp đôi) **nhưng không cải thiện HOTA**, vì tỉ lệ **ghép
-   nhầm tăng 3–5 lần**.
-6. **PF suy biến đúng lúc cần**: khi track đang mất dấu > 10 bước, chỉ còn ~3 % particle phân biệt, ESS ~1 % N.
-7. Mọi kết quả GĐ1 và mốc 1 **tái lập được**: expA (có log) vs mốc 1 bit-identical 288/288 video.
+1. **Trên 40 video test**: ở `c10`, **EKF–CTRV hơn KF–CV có ý nghĩa** (ΔHOTA +0.0033 [+0.0011, +0.0057],
+   ΔIDF1 +0.0053, ΔAssA +0.0072); ở `c25` CI vẫn chứa 0 (+0.0012 [−0.0003, +0.0027]). Độ lớn rất nhỏ
+   (≈ +0,6 % tương đối). UKF **kém** EKF một chút có ý nghĩa ở c25 (−0.0011 [−0.0019, −0.0002]).
+   PF–CTRV kém rõ rệt (−0.0316 [−0.0389, −0.0255] so với EKF).
+2. **Thứ tự ảnh hưởng (test, Nhóm B)**: vòng đời/association SORT → ByteTrack **+0.0364** > bộ đệm 1 → 30
+   **+0.0280** > biểu diễn trạng thái KF 7-D → XYAH **−0.0133** ≫ motion model CV → EKF **+0.0020** (CI chạm 0).
+3. **Nguyên nhân mất ID** (dev, 184 sự kiện): ở tầng che hoàn toàn, **dự đoán lệch** là số 1 (cv 11/22,
+   ekf 13/23 ca) — IoU(dự đoán, det) trung bình 0,06 sau trung vị 25 bước mất dấu; `detector_miss` **không**
+   xuất hiện ở tầng full; 86 % ID mới là **track mới sinh từ detection**.
+4. **Nới `track_buffer` không giúp**: 0,8 → 4,0 s giữ nguyên tỉ lệ giữ ID trong khi **ghép nhầm tăng đơn điệu**
+   (CV 2,5 % → 5,3 %).
+5. **Tuning tham số nhiễu không giúp** (21 cấu hình, mọi CI chứa 0) — dù tham số **thực sự có hiệu lực**
+   (covariance đổi rõ: `P[θ,θ]` trung bình 2,46 / 2,83 / 3,88 theo `std_omega`) và đầu ra **không** giống hệt
+   (0/12 bit-identical; ~99 % dòng lệch dưới 1 px với EKF).
+6. **Thêm vòng ghép cho track LOST**: giữ ID qua che khuất tăng có ý nghĩa (dev +0.049; test +0.036; tầng che
+   hoàn toàn **gấp đôi**: 0,060 → 0,121) **nhưng HOTA giảm có ý nghĩa trên test** (−0.0046 / −0.0034) vì ghép
+   nhầm tăng 3–5 lần (3,5 % → 9,3 %).
+7. **PF suy biến đúng lúc cần**: khi track mất dấu > 10 bước, chỉ còn ~3 % particle phân biệt (sau resample),
+   ESS/N ~1 % (trước resample).
+8. Mọi kết quả GĐ1 và mốc 1 **tái lập được**: expA (có log) vs mốc 1 **288/288 cặp (lần chạy, video)**
+   bit-identical **và** song ánh ID.
 
 **Suy luận (có cơ sở nhưng không đo trực tiếp)**
 
-- Vì `match_thresh` 0,8 trên cost 1 − IoU·conf, IoU < 0,2 là **rào cứng**: mọi cải thiện motion model chỉ đổi
-  vị trí dự đoán vài chục px sẽ không vượt được rào này ở các đoạn che dài → giải thích vì sao CV/EKF/UKF
-  gần như hòa nhau trên chỉ số toàn cục.
-- Lợi ích của EKF (nếu có) nằm ở nhóm sự kiện nhỏ (che khuất trung bình, quỹ đạo cong) — mẫu tự nhiên của
-  UA-DETRAC quá nhỏ để tách (kết luận này đã ghi từ GĐ5).
+- Vì `match_thresh` = 0,8 trên cost 1 − IoU·conf, IoU < 0,2 là **rào cứng**: cải thiện motion model chỉ dịch
+  dự đoán vài chục px sẽ không vượt được rào này ở các đoạn che dài → giải thích vì sao CV/EKF/UKF gần như hòa
+  nhau trên chỉ số toàn cục, và vì sao tầng che hoàn toàn đứng yên ở ~6 % với mọi bộ lọc.
+- Lợi ích của EKF (nếu có) tập trung ở nhóm sự kiện nhỏ (che khuất trung bình, quỹ đạo cong) — mẫu tự nhiên
+  của UA-DETRAC quá nhỏ để tách (đã ghi từ GĐ5).
 
 **Chưa xác định**
 
 - Hành vi trên **giao thông hỗn hợp thật** (xe máy, BDD100K 5 fps, camera chuyển động): chưa có dữ liệu.
 - Tốc độ trên **Jetson Nano**: chưa có thiết bị. Mọi con số tốc độ trong repo là trên PC (GTX 1650).
-- PF với thiết kế nhiễu khác (roughening/proposal): chưa chạy.
+- PF với thiết kế nhiễu khác (roughening/proposal/Q riêng): chưa chạy.
 - Detector huấn luyện lại cho 5 lớp: chưa chạy (thí nghiệm riêng, sau khi cố định pipeline tracking).
 
 ## 6. Lệnh tái hiện / tiếp tục
@@ -146,44 +162,80 @@ $P src/run_experiment.py --exp configs/phase2/experiments/expA_detrac_test.yaml 
 $P src/run_experiment.py --exp configs/phase2/experiments/expB_detrac_test.yaml
 $P src/run_experiment.py --exp configs/phase2/experiments/expC_detrac_test.yaml
 
-# 4. Phân tích nguyên nhân mất ID + ca tiêu biểu + ma trận ablation
+# 4. Phân tích nguyên nhân mất ID + ca tiêu biểu + bảng chéo + ma trận ablation
 $P src/failure_analysis.py --exp configs/phase2/experiments/expA_detrac_dev.yaml --check-events \
    --trackers cv ekf ukf pf500
+$P src/cause_origin_table.py --cond c25
 $P src/representative_cases.py --tracker ekf --cond c25
 $P src/ablation_matrix.py
 
-# 5. Chẩn đoán PF, kiểm chứng bit-identical, khóa cấu hình, gói bàn giao
+# 5. Kiểm chứng: PF, C3, bit-identical, khóa cấu hình, gói bàn giao
 $P src/pf_diag_report.py --exp configs/phase2/experiments/expA_detrac_dev.yaml
+$P src/verify_c3_effect.py                       # override co vao bo loc? covariance doi? dau ra khac bao nhieu?
 $P src/check_identical_runs.py --pairs-from configs/phase2/experiments/expA_detrac_dev.yaml \
    --map "groupA_detrac_dev:A=c25,B=c10"
-$P src/verify_shared_kalman_regression.py       # mã trước/sau khi sửa shared_kalman, trên cache thật
+$P src/verify_shared_kalman_regression.py        # mã trước/sau khi sửa shared_kalman, trên cache thật
 $P src/make_lock.py --exps configs/phase2/experiments/expA_detrac_test.yaml \
    configs/phase2/experiments/expB_detrac_test.yaml configs/phase2/experiments/expC_detrac_test.yaml
-$P src/make_handoff.py --base e353b84           # -> handoff/phase2_review_latest.zip
+$P src/make_handoff.py --base e353b84            # -> handoff/phase2_review_latest.zip
 ```
 
 **Đầu vào cần thiết**: ảnh + annotation UA-DETRAC (`data/extracted/`), `models/yolov8n.pt`
-(sha256 `f59b3d83…`), GT MOTChallenge (`data/processed/DETRAC-{all,test}/`) — xem `handoff/large_inputs.md`.
-Bước cần **GPU**: tạo cache, `test_run_tracking_replay.py`, `profile_pipeline.py`. Các bước khác chạy CPU.
+(sha256 `f59b3d83…`), GT MOTChallenge (`data/processed/DETRAC-all/`, `data/processed/DETRAC-test/`) — xem
+`handoff/large_inputs.md`. Bước cần **GPU**: tạo cache, `test_run_tracking_replay.py`, `profile_pipeline.py`.
+Các bước khác chạy CPU từ cache (cache có trong ZIP nếu ≤ 60 MB — xem `handoff/INDEX.md`).
 
 ## 7. Những điểm nên kiểm tra kỹ
 
 1. **Nhãn nguyên nhân** trong `src/failure_analysis.py` (`analyze_event`): thứ tự ưu tiên, ngưỡng IoU 0,2,
-   cách xác định "detector thấy lại" (IoU ≥ 0,5 với GT, tier high) — đây là chỗ dễ tranh luận nhất.
+   cách xác định "detector thấy lại" (IoU ≥ 0,5 với GT, tier high) — chỗ dễ tranh luận nhất. Bảng ánh xạ
+   nhãn ↔ cột số liệu: `results/phase2/failure_analysis/expA_detrac_dev/cause_evidence_c25.csv`.
 2. **`boot_stats.combine_stacked`** có tái tổ hợp đúng công thức TrackEval không (so với
-   `trackeval/metrics/{hota,clear,identity}.py`); test `test_boot_stats.py` chỉ kiểm trên 4 video.
-3. **`lost_recovery.LostRecoveryMixin`**: vòng ghép 3 đặt ở `_post_first_association` — kiểm tra nó không
-   phá thứ tự vòng 2 / unconfirmed / sinh track mới của ByteTrack, và mặc định tắt là bit-identical.
-4. **`assoc_log`**: cách suy ra "track được ghép ở vòng nào" (so `track.frame_id` và `track.idx` sau mỗi
-   vòng) — có thể bỏ sót trường hợp hiếm; kiểm tra lại với `stage == 0` nhưng `matched_det >= 0`.
-5. **Phân biệt tên**: nhóm thí nghiệm A/B/C vs điều kiện confidence `c25`/`c10` (mốc 1 dùng `A`/`B` cho
-   điều kiện — đã đổi tên từ mốc 2, ánh xạ A→c25, B→c10).
-6. **Bản khóa**: `results/phase2/lock/lock_moc2.json` có `created` **trước** `created` trong mọi
-   `run_meta.json` của thư mục `p2-exp*_detrac_test-*` không.
-7. **Kết quả âm**: đọc kỹ mục 14 — không trục nào của Nhóm C đạt tiêu chí đăng ký trước; nhánh C2 trên test
-   là **thăm dò**, không phải "cấu hình tốt nhất".
+   `trackeval/metrics/{hota,clear,identity}.py`); `test_boot_stats.py` chỉ kiểm trên 4 video.
+3. **`lost_recovery.LostRecoveryMixin`**: vòng ghép 3 đặt ở `_post_first_association` — kiểm tra nó không phá
+   thứ tự vòng 2 / unconfirmed / sinh track mới của ByteTrack, và mặc định tắt là bit-identical.
+4. **`assoc_log`**: cách suy ra "track được ghép ở vòng nào" (so `track.frame_id` và `track.idx` sau mỗi vòng)
+   — kiểm tra trường hợp `stage == 0` nhưng `matched_det >= 0`.
+5. **Phân biệt tên**: nhóm thí nghiệm A/B/C vs điều kiện confidence `c25`/`c10` (mốc 1 dùng `A`/`B` cho điều
+   kiện; từ mốc 2 đổi tên, ánh xạ A→c25, B→c10).
+6. **Bản khóa**: `results/phase2/lock/lock_moc2.json.created` (02:33:51) **trước** mọi `run_meta.json.created`
+   của `p2-exp*_detrac_test-*` (sớm nhất 02:44:45) — đã kiểm, xem mục 16.1 của báo cáo.
+7. **Kết quả âm**: mục 14 (không trục Nhóm C nào đạt tiêu chí) và mục 16.4 (nhánh thăm dò C2 làm **giảm** HOTA
+   trên test) — đọc kỹ để không hiểu nhầm là "cấu hình tốt nhất".
+8. **Hai chỉ số ngược chiều**: `preserved` (chỉ số sự kiện) và HOTA (chỉ số toàn cục) có thể đi ngược nhau
+   (mục 14.3, 16.4) — mọi kết luận phải nói rõ đang dùng chỉ số nào.
 
 ## 8. Kết quả trên 40 video test UA-DETRAC
 
-_(dang chay - se cap nhat)_
+Cấu hình được **khóa trước** khi chạy (`configs/phase2/LOCK_moc2.md`, `results/phase2/lock/lock_moc2.json`,
+commit `a64cb754`, ghi lúc **02:33:51**); lần chạy test sớm nhất lúc **02:44:45** → **22/22 lần chạy sau khi
+khóa**. Không có tuning hay ablation mới sau khi xem kết quả test. Chi tiết: `PHASE2_REPORT.md` mục 16.
+
+**A — bộ lọc** (40 video, 1324 sự kiện che khuất; COMBINED + CI 95 % bootstrap ghép cặp theo video):
+
+| cặp | c25 (conf > 0,25) | c10 (conf > 0,10) |
+|:--|:--|:--|
+| EKF − CV (ΔHOTA) | +0.0012 [−0.0003, +0.0027] | **+0.0033 [+0.0011, +0.0057]** |
+| UKF − CV | +0.0001 [−0.0012, +0.0014] | +0.0019 [−0.0002, +0.0041] |
+| UKF − EKF | **−0.0011 [−0.0019, −0.0002]** | −0.0015 [−0.0040, +0.0007] |
+| PF500 − EKF | **−0.0316 [−0.0389, −0.0255]** | **−0.0325 [−0.0394, −0.0264]** |
+
+HOTA tuyệt đối (c25): cv 0.5824, ekf 0.5835, ukf 0.5824, pf500 0.5519. Giữ ID qua che khuất: cv 0.480,
+ekf 0.487, ukf 0.485, pf500 0.435; **tầng che hoàn toàn (182 sự kiện): cả ba bộ lọc đều 0,060**.
+
+**B — thuật toán** (c25, mỗi cặp chỉ đổi một yếu tố): bộ đệm 1 → 30 **+0.0280 [+0.0207, +0.0350]**;
+biểu diễn trạng thái KF 7-D → XYAH **−0.0133 [−0.0185, −0.0077]**; motion model CV → EKF–CTRV +0.0020
+[−0.0001, +0.0042] (IDSW −84 [−162, −4]); vòng đời SORT → ByteTrack **+0.0364 [+0.0298, +0.0428]**.
+
+**C — nhánh thăm dò** (vòng ghép thứ 3 cho track LOST, gate Mahalanobis; **không** phải cấu hình được chọn):
+giữ ID qua che khuất **tăng có ý nghĩa** (+0.036 [+0.019, +0.051] với CV; tầng che hoàn toàn 0,060 → **0,121**)
+nhưng HOTA **giảm có ý nghĩa** (cv −0.0046 [−0.0072, −0.0021]; ekf −0.0034 [−0.0058, −0.0012]) vì FP +8 000 và
+IDSW +261…+319 → **kết quả âm, không bật cơ chế này nếu mục tiêu là HOTA**.
+
+**Tốc độ tracker từ cache** (56 340 frame, CPU, không có detector, đo khi máy còn chạy việc khác → tham khảo):
+sort-orig1 774 fps, bt-ekf 498, cv 420–570, ekf 333–478, ukf 175–187, pf500 106–114. Toàn pipeline có detector
+(GTX 1650): 45–51 fps (mục 7.3). **Chưa đo trên Nano.**
+
+Kết quả đầy đủ: `results/phase2/{expA,expB,expC}_detrac_test/<cond>/{summary.csv, paired_bootstrap_combined.csv,
+paired_pairs.csv, occlusion_strata.csv, bootstrap_DETRAC-test.csv}`, log chạy trong `handoff/logs/exp*_detrac_test.log`.
 
