@@ -56,10 +56,13 @@ rồi chạy 40 video test UA-DETRAC; (6) chuẩn bị BDD100K + Jetson Nano; (7
 
 ## 2. Nhánh, commit, thay đổi chưa commit
 
-- Nhánh: **`phase2-mixed-traffic`**, HEAD **`60c946d`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
+- Nhánh: **`phase2-mixed-traffic`**, HEAD **`7610b56`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
 - Commit của mốc 2 (từ `e353b84` = cuối mốc 1):
 
 ```
+7610b56 Review-fix (7e): artifact cua goi review (INDEX, versions, FILE_HASHES, patches, external/bytetrack.yaml) tai HEAD 6a1921f
+6a1921f Review-fix (7d): khong tinh artifact do chinh make_handoff sinh vao kiem tra dirty (ghi ro trong versions.json)
+e281e1a Review-fix (7c): bo qua duong dan mau khi kiem link, sua tham chieu truong created trong CODEX_HANDOFF
 60c946d Review-fix (7b): CODEX_HANDOFF ban sau review vong 1 (muc 0 trang thai phat hien, lenh thuc chay + exit code, provenance/hash), luu ZIP cu vao handoff/archive
 fb360e0 Review-fix (4,6,7a): chay lai Nhom B sau khi sua SORT (dev+test, thu muc _fix1), sua dien giai, dong goi loai file nguoi dung
 9ec7d8e Review-fix (5): chinh sach cache - STRICT_FIELDS them conf/classes/max_det, fingerprint tung sequence, tach GHI vs DOC
@@ -83,16 +86,18 @@ dd67321 Moc 2 (6-7a): mau thi nghiem BDD (chuyen cau hinh vs tuning, tach biet),
 
 ```
 M .gitignore
- M handoff/INDEX.md
- M handoff/patches/README.md
- M handoff/patches/commits.txt
- M handoff/versions.json
  M src/demo/rerun_with_state_log.py
- M src/make_handoff.py
 ```
 
 - Ngoài ra người dùng có các file **untracked** riêng (`live.bat`, `outputs/**`, `src/demo/*buffer90*`,
   `src/demo/live_view.py`, …) — **không** nằm trong ZIP và không bị sửa.
+
+> **Quan hệ giữa commit và gói ZIP** (rút kinh nghiệm từ review vòng 1): gói được dựng **sau khi mọi thay đổi
+> mã/cấu hình/kết quả đã commit** — `src/make_handoff.py` **từ chối dựng** nếu còn file trong phạm vi gói khác
+> HEAD. Các artifact do chính script sinh (`handoff/versions.json`, `INDEX.md`, `FILE_HASHES.csv`, `patches/`,
+> `external/`) được commit **ngay sau** lần dựng, nên commit cuối của nhánh có thể là commit "artifact" đứng
+> **sau** `git_head` ghi trong `handoff/versions.json` và chỉ chứa đúng các file đó. Đối chiếu chính xác nội
+> dung gói bằng `handoff/FILE_HASHES.csv`.
 
 ## 3. Thứ tự đọc
 
