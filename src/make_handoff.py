@@ -252,8 +252,6 @@ def main() -> int:
     write_versions(dirty)
     write_patches(a.base)
     files, notes = collect(a.cache_max_mb, a.splits)
-    write_file_hashes(files)
-    files, _ = collect(a.cache_max_mb, a.splits)          # lay them FILE_HASHES.csv vua ghi
     # INDEX
     idx = ["# INDEX - handoff/phase2_review_latest.zip", "",
            f"Tao: {time.strftime('%Y-%m-%d %H:%M:%S')}  HEAD {git('rev-parse', '--short', 'HEAD').strip()}",
@@ -275,6 +273,9 @@ def main() -> int:
     idx.append(""); idx.append(f"Tong {len(files)} file, {total / 1e6:.1f} MB (chua nen)")
     (ROOT / "handoff" / "INDEX.md").write_text("\n".join(idx), encoding="utf-8")
     files, _ = collect(a.cache_max_mb, a.splits)          # lay lai INDEX vua ghi
+    # FILE_HASHES.csv ghi SAU CUNG (sau INDEX.md) de hash cua moi file khac deu la ban cuoi
+    write_file_hashes(files)
+    files, _ = collect(a.cache_max_mb, a.splits)          # lay them FILE_HASHES.csv
     if ZIP.exists():
         ZIP.unlink()
     with zipfile.ZipFile(ZIP, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as zf:
