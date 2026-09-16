@@ -176,7 +176,7 @@ def test_5_cache_write_policy():
       - GHI THEM vao cache da co voi `conf` / `classes` / `max_det` KHAC -> phai LOI (truoc day duoc chap
         nhan trong khi meta.json van giu cau hinh cu -> metadata mo ta sai du lieu ben trong).
       - GHI THEM voi cung cau hinh -> OK; mode="create" tren cache da co -> LOI.
-      - Khac phien ban thu vien -> CANH BAO (khong chan) va ghi vao meta.json["version_history"].
+      - Khac phien ban thu vien -> TU CHOI ghi them, khong thay doi metadata.
       - DOC cache rong hon voi cau hinh HEP hon (conf cao hon, it lop hon, max_det nho hon) -> VAN OK.
       - Sequence co `spec_sha256` khac meta.json -> `open_cache` bao loi (strict) / canh bao (khong strict).
     """
@@ -188,7 +188,7 @@ def test_5_cache_write_policy():
         dc.CACHE_ROOT = root
         try:
             cdir = root / "c1"
-            spec = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="abc",
+            spec = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="a" * 64,
                                    conf=0.05, classes=None, max_det=3000,
                                    versions={"ultralytics": "8.4.141"})
             dc.write_meta(cdir, spec)
@@ -198,7 +198,7 @@ def test_5_cache_write_policy():
             dc.write_meta(cdir, spec)
             # conf/classes/max_det khac -> LOI
             for kw, ten in (({"conf": 0.25}, "conf"), ({"classes": [2]}, "classes"), ({"max_det": 300}, "max_det")):
-                bad = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="abc",
+                bad = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="a" * 64,
                                       conf=0.05, classes=None, max_det=3000, versions={"ultralytics": "8.4.141"})
                 for k, v in kw.items():
                     setattr(bad, k, v)
@@ -218,7 +218,7 @@ def test_5_cache_write_policy():
             # khac phien ban thu vien / thiet bi -> TU CHOI (review vong 2: truoc day chi canh bao nen
             # sinh ra sequence co fingerprint khac meta.json roi bi chinh open_cache tu choi doc)
             meta_truoc = (cdir / "meta.json").read_text(encoding="utf-8")
-            spec2 = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="abc",
+            spec2 = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="a" * 64,
                                     conf=0.05, classes=None, max_det=3000, versions={"ultralytics": "8.9.0"})
             err = ""
             try:
@@ -227,7 +227,7 @@ def test_5_cache_write_policy():
                 err = str(e)
             _check("khac phien ban thu vien -> TU CHOI ghi them, meta.json giu nguyen",
                    "versions" in err and (cdir / "meta.json").read_text(encoding="utf-8") == meta_truoc, err[:150])
-            spec3 = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="abc",
+            spec3 = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="a" * 64,
                                     conf=0.05, classes=None, max_det=3000, versions={"ultralytics": "8.4.141"},
                                     device="cpu")
             err = ""
@@ -237,7 +237,7 @@ def test_5_cache_write_policy():
                 err = str(e)
             _check("khac `device` -> TU CHOI (truong nam trong hash thi cung phai bi chan)",
                    "device" in err, err[:120])
-            spec4 = dc.DetectorSpec(backend="ultralytics", weights="duong/dan/KHAC/w.pt", weights_sha256="abc",
+            spec4 = dc.DetectorSpec(backend="ultralytics", weights="duong/dan/KHAC/w.pt", weights_sha256="a" * 64,
                                     conf=0.05, classes=None, max_det=3000, versions={"ultralytics": "8.4.141"})
             dc.write_meta(cdir, spec4)   # duong dan weights KHAC nhung cung sha256 -> khong anh huong
             _check("duong dan weights khac (cung sha256) -> van ghi them duoc, hash khong doi",

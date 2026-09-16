@@ -1,0 +1,146 @@
+# run_all_tests 2026-09-17 04:11:51  python=3.11.9  cwd=D:\LABOTARY\bytetrack
+# git HEAD 9a1c404
+
+=== test_det_cache: PASS (exit 0, 10.9s)
+$ python src/test_det_cache.py
+--- stdout ---
+
+--- test_1_nms_prefix_property ---
+  [PASS] N=400 conf>0.25 classes=[2, 3, 5, 7] max_det=300: loc cache == NMS truc tiep (21 box)
+  [PASS] N=400 conf>0.1 classes=[2, 3, 5, 7] max_det=300: loc cache == NMS truc tiep (21 box)
+  [PASS] N=400 conf>0.25 classes=None max_det=300: loc cache == NMS truc tiep (300 box)
+  [PASS] N=400 conf>0.1 classes=[1, 2, 3, 5, 7] max_det=300: loc cache == NMS truc tiep (25 box)
+  [PASS] N=400 conf>0.5 classes=[2] max_det=50: loc cache == NMS truc tiep (7 box)
+  [PASS] N=400: cache theo thu tu diem giam dan
+  [PASS] N=400: cache khong cham tran max_det=3000
+         400 box
+  [PASS] N=3000 conf>0.25 classes=[2, 3, 5, 7] max_det=300: loc cache == NMS truc tiep (127 box)
+  [PASS] N=3000 conf>0.1 classes=[2, 3, 5, 7] max_det=300: loc cache == NMS truc tiep (127 box)
+  [PASS] N=3000 conf>0.25 classes=None max_det=300: loc cache == NMS truc tiep (300 box)
+  [PASS] N=3000 conf>0.1 classes=[1, 2, 3, 5, 7] max_det=300: loc cache == NMS truc tiep (153 box)
+  [PASS] N=3000 conf>0.5 classes=[2] max_det=50: loc cache == NMS truc tiep (16 box)
+  [PASS] N=3000: cache theo thu tu diem giam dan
+  [PASS] N=3000: cache khong cham tran max_det=3000
+         2995 box
+  [PASS] N=6000: cache cham tran 3000 (bi cat) -> co the phat hien qua len == max_det
+  [PASS] N=6000: cache BI CAT -> loc KHONG con bang NMS truc tiep (canh bao trong tai lieu la dung)
+  [PASS] N=6000: cache KHONG bi cat -> loc == NMS truc tiep
+
+--- test_2_boxes_dtype_matches_ultralytics_path ---
+  [PASS] Boxes.data float32, bang nhau
+  [PASS] Boxes.xywh float32, bang nhau
+  [PASS] Boxes.conf / cls bang nhau
+  [PASS] Boxes rong hop le (0 box)
+
+--- test_3_roundtrip_and_filtering ---
+  [PASS] 4 frame ke ca frame rong / unreadable
+  [PASS] frame 1: loc conf>0.10 -> 3 box, tat ca lop cho phep
+  [PASS] frame 1: loc conf>0.25 & lop {2,5} -> 1 box
+  [PASS] max_det cat tien to
+  [PASS] class_map gop lop
+  [PASS] frame rong -> mang (0,6) float32
+  [PASS] check_compatible: conf thap hon cache -> loi
+  [PASS] check_compatible: max_det lon hon cache -> loi
+  [PASS] check_compatible: hop le -> khong loi
+  [PASS] check_compatible: lop ngoai cache -> loi
+  [PASS] write_meta tu choi thong so STRICT khac
+
+--- test_4_gt_synthetic_deterministic ---
+  [PASS] gt-synthetic: cung seed -> giong het
+  [PASS] gt-synthetic: seed khac -> khac
+  [PASS] gt-synthetic: du 6 box, lop COCO dung
+  [PASS] gt-synthetic: dropout 0.9 bo sot
+  [PASS] gt-synthetic: box hop le trong anh
+
+--- test_5_cache_write_policy ---
+  [PASS] ghi meta lan dau: co spec_sha256
+  [PASS] ghi them voi conf khac -> bi TU CHOI
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpcqtgzwsz\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'conf': (0.05, 0.25)}. Ghi them se tao sequence co fingerpri
+  [PASS] ghi them voi classes khac -> bi TU CHOI
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpcqtgzwsz\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'classes': (None, [2])}. Ghi them se tao sequence co fingerp
+  [PASS] ghi them voi max_det khac -> bi TU CHOI
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpcqtgzwsz\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'max_det': (3000, 300)}. Ghi them se tao sequence co fingerp
+  [PASS] mode='create' tren cache da ton tai -> LOI
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpcqtgzwsz\c1 da ton tai (mode='create'). Dung --cache-id khac.
+  [PASS] khac phien ban thu vien -> TU CHOI ghi them, meta.json giu nguyen
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpcqtgzwsz\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'versions': ({'ultralytics': '8.4.141'}, {'ultraly
+  [PASS] khac `device` -> TU CHOI (truong nam trong hash thi cung phai bi chan)
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpcqtgzwsz\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'device': ('0', 'cpu
+  [PASS] duong dan weights khac (cung sha256) -> van ghi them duoc, hash khong doi
+  [PASS] doc cache rong (conf 0.05, moi lop) voi cau hinh hep (conf 0.25, lop [2], max_det 300) -> OK
+  [PASS] sequence sinh boi cau hinh khac -> open_cache (strict) BAO LOI
+         mismatch: spec_sha256 cua v2 (3f949fd61f90) != meta.json (88485bc4ff2f)
+[CANH BAO] Cache c1/v2: du lieu duoc sinh boi cau hinh KHAC voi meta.json (spec_sha256 cua v2 (3f949fd61f90) != meta.json (88485bc4ff2f)). Khong dung sequence nay - tao lai hoac dung --cache-id khac.
+  [PASS] strict=False -> chi canh bao, van doc duoc
+  [PASS] cache cu (khong co spec_sha256) -> 'legacy', van doc duoc
+  [PASS] tron chuoi ghi -> doc strict: status 'ok' va doc duoc
+  [PASS] cache legacy: KHONG bo sung spec_sha256 hoi to
+
+==============================================================================
+KET QUA: 51/51 phep kiem tra PASS
+==============================================================================
+
+--- stderr ---
+
+
+=== test_cache_provenance: PASS (exit 0, 0.4s)
+$ python src/test_cache_provenance.py
+--- stdout ---
+KET QUA: 12/12 test cases PASS; failing_cases=0, assertion_failures=0, errors=0, skipped=0
+
+--- stderr ---
+test_cli_hashes_resolved_checkpoint_not_input_alias_file (__main__.CacheProvenanceTests.test_cli_hashes_resolved_checkpoint_not_input_alias_file) ... ok
+test_cli_no_resolved_checkpoint_leaves_cache_absent (__main__.CacheProvenanceTests.test_cli_no_resolved_checkpoint_leaves_cache_absent) ... ok
+test_cli_resolves_downloaded_checkpoint_before_cache_write (__main__.CacheProvenanceTests.test_cli_resolves_downloaded_checkpoint_before_cache_write) ... ok
+test_different_known_checkpoint_hash_rejects_append (__main__.CacheProvenanceTests.test_different_known_checkpoint_hash_rejects_append) ... ok
+test_fill_env_checks_declared_hash_against_actual_file (__main__.CacheProvenanceTests.test_fill_env_checks_declared_hash_against_actual_file) ... ok
+test_fill_env_rejects_unavailable_checkpoint (__main__.CacheProvenanceTests.test_fill_env_rejects_unavailable_checkpoint) ... ok
+test_legacy_cache_does_not_gain_retrospective_hash (__main__.CacheProvenanceTests.test_legacy_cache_does_not_gain_retrospective_hash) ... ok
+test_missing_or_invalid_checkpoint_hash_rejects_create (__main__.CacheProvenanceTests.test_missing_or_invalid_checkpoint_hash_rejects_create) ... ok
+test_old_hash_append_is_rejected_without_changes (__main__.CacheProvenanceTests.test_old_hash_append_is_rejected_without_changes) ... ok
+test_same_checkpoint_hash_after_move_roundtrips (__main__.CacheProvenanceTests.test_same_checkpoint_hash_after_move_roundtrips) ... ok
+test_synthetic_cache_does_not_require_checkpoint (__main__.CacheProvenanceTests.test_synthetic_cache_does_not_require_checkpoint) ... ok
+test_unhashed_checkpoint_paths_cannot_share_existing_cache (__main__.CacheProvenanceTests.test_unhashed_checkpoint_paths_cannot_share_existing_cache) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.069s
+
+OK
+
+
+=== test_review_delta: PASS (exit 0, 7.8s)
+$ python src/test_review_delta.py
+--- stdout ---
+  [PASS] thieu REVIEW_BRIEF.md -> TU CHOI dung goi
+         Thieu handoff\REVIEW_BRIEF.md - viet bao cao ngan cua vong nay truoc khi dong goi
+  [PASS] dung goi delta thanh cong
+                    11 B  configs/exp.yaml
+         
+         ZIP: C:\Users\Mikuno\AppData\Local\Temp\delta_test_g6opd7j2\handoff\review_delta_latest.zip (0.01 MB, 11 file); testzip: OK
+         file bat buoc thieu: khong
+         file CAM co trong ZIP: 0 []
+         thu tu doc: REVIEW_BRIEF.md -> patch/delta_c6f8d82..1f5586a.diff -> logs/ + data/ -> DEPENDENCIES.md
+  [PASS] base lay tu review_base.json va KHONG tu chuyen sang HEAD sau khi dung goi
+         base=c6f8d82 target=1f5586a trong file=c6f8d82
+  [PASS] file rieng cua nguoi dung KHONG co trong goi
+  [PASS] du lieu lon / nhi phan / patch toan bo lich su KHONG co trong goi
+  [PASS] code/test/config/log/ket qua moi CO trong goi, dung ban target
+         thieu=set()
+  [PASS] file KHONG doi giua base va target KHONG vao goi
+  [PASS] MANIFEST ghi du base/target + them/sua + sha256 khop noi dung thuc trong ZIP
+         lech=[] status=['sua', 'them']
+  [PASS] patch trong goi ap duoc len DUNG cay base va cho ra noi dung target
+  [PASS] file bi bo qua van duoc liet ke kem ly do trong MANIFEST va DEPENDENCIES.md
+         .gitignore -> file rieng cua nguoi dung; data/interim/cache.npz -> du lieu nhi phan hoac patc; handoff/patches/moc_full.diff -> du lieu nhi phan hoac patc; handoff/phase2_review_latest.zip -> dataset/weights/goi ZIP kh; live.bat -> file rieng cua nguoi dung; models/w.pt -> dataset/weights/goi ZIP kh; src/demo/buffer90_moi.py -> file rieng cua nguoi dung
+  [PASS] P1: file rieng bi `git rm --cached` -> KHONG co diff/marker trong goi, file van con tren dia
+         marker trong goi=False; duong dan trong patch=False
+  [PASS] P2a: doi ten -> ap patch cho DUNG target (ten moi co, ten cu bien mat)
+         thua=[] thieu=[]
+  [PASS] P2b: hai file code trung noi dung -> ap patch co DU ca hai; dedup chi ap cho log
+         thieu sau khi ap=[]; ca hai trong files/=True; so log trong goi=1
+
+KET QUA: 13/13 phep kiem tra PASS
+
+--- stderr ---
+
+

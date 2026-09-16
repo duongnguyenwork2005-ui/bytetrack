@@ -73,6 +73,7 @@ TESTS = [
     ("test_time_units", [], None),
     ("test_timestep_integration", [], None),
     ("test_det_cache", [], None),
+    ("test_cache_provenance", [], None),
     ("test_trackeval_ext", [], None),
     ("test_bdd100k_adapter", [], None),
     ("test_pf_ctrv", [], None),

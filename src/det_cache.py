@@ -143,8 +143,14 @@ class DetectorSpec:
                                                                    if torch.cuda.is_available() else None),
                              "gpu": (torch.cuda.get_device_name(0) if torch.cuda.is_available() else None)}
             w = Path(self.weights)
-            if w.exists() and self.weights_sha256 is None:
-                self.weights_sha256 = sha256_file(w)
+            if not w.is_file():
+                raise RuntimeError(f"Khong xac dinh duoc file checkpoint {self.weights!r}. "
+                                   "Resolve/nap checkpoint truoc khi ghi cache (can weights_sha256).")
+            actual_sha256 = sha256_file(w)
+            if self.weights_sha256 is not None and self.weights_sha256 != actual_sha256:
+                raise RuntimeError("weights_sha256 khai bao khong khop file checkpoint thuc te. "
+                                   "Khong ghi cache voi provenance sai.")
+            self.weights_sha256 = actual_sha256
         self.git_commit = git_commit()
         self.created = time.strftime("%Y-%m-%dT%H:%M:%S")
         return self
@@ -343,6 +349,10 @@ def write_meta(cache_dir: Path, spec: DetectorSpec, mode: str = "append"):
         gi (meta.json + du lieu cu giu nguyen). Doi phien ban thu vien / thiet bi => dung `--cache-id` khac.
     mode = "create": bat buoc cache chua ton tai (dung khi muon chac chan khong tron du lieu).
 
+    Backend ultralytics bat buoc co SHA256 checkpoint hop le truoc khi ghi. Cache da co fingerprint theo
+    cach tinh cu/khac bi TU CHOI append, ke ca khi GEN_FIELDS bang nhau; dung cache-id moi. Khong doi
+    fingerprint cua du lieu lich su de lam cho no tuong thich voi cach tinh moi.
+
     Cache CU (sinh truoc khi co fingerprint) khong co `spec_sha256`: KHONG bo sung hoi to (mot hash gan
     sau khong phai bang chung ve cau hinh luc sinh du lieu) - trang thai cua chung la "legacy", xem
     `sequence_spec_status`.
@@ -352,7 +362,11 @@ def write_meta(cache_dir: Path, spec: DetectorSpec, mode: str = "append"):
     """
     if mode not in ("append", "create"):
         raise ValueError("mode phai la 'append' hoac 'create'")
-    cache_dir.mkdir(parents=True, exist_ok=True)
+    if spec.backend == "ultralytics":
+        digest = spec.weights_sha256
+        if not isinstance(digest, str) or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
+            raise RuntimeError("Backend ultralytics can weights_sha256 hop le cua checkpoint thuc te "
+                               "truoc khi tao/ghi them cache. Resolve/nap checkpoint va goi fill_env().")
     p = cache_dir / "meta.json"
     new = asdict(spec)
     new["spec_sha256"] = spec.spec_sha256()
@@ -367,7 +381,14 @@ def write_meta(cache_dir: Path, spec: DetectorSpec, mode: str = "append"):
             raise RuntimeError(f"Cache {cache_dir} da ton tai voi CAU HINH SINH DU LIEU khac: {diff}. "
                                "Ghi them se tao sequence co fingerprint khac meta.json (chinh open_cache se tu "
                                "choi doc). Dung --cache-id khac. (Khong ghi gi: meta.json va du lieu cu giu nguyen.)")
+        old_hash = old.get("spec_sha256")
+        if old_hash is not None and old_hash != new["spec_sha256"]:
+            raise RuntimeError(f"Cache {cache_dir}: spec_sha256 da luu khong khop cach tinh hien tai, "
+                               "du GEN_FIELDS bang nhau (fingerprint cu/khong tuong thich). "
+                               "Khong ghi them hoac doi hash hoi to; dung --cache-id khac. "
+                               "Meta.json va du lieu cu giu nguyen, van co the doc cache cu.")
         return old
+    cache_dir.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(new, indent=2), encoding="utf-8")
     return new
 
@@ -519,16 +540,25 @@ def main() -> int:
                         mask_ignored_regions=not args.no_mask, dataset=ds.name, part=args.part,
                         gt_jitter=args.gt_jitter if args.source == "gt" else 0.0,
                         gt_dropout=args.gt_dropout if args.source == "gt" else 0.0,
-                        gt_seed=args.gt_seed if args.source == "gt" else 0).fill_env()
+                        gt_seed=args.gt_seed if args.source == "gt" else 0)
+    model = None
+    if args.source == "yolo":
+        from ultralytics import YOLO
+        model = YOLO(spec.weights)
+        # YOLO co the resolve/download ten alias vao mot duong dan khac input.
+        # Hash DUNG checkpoint da nap, truoc khi tao meta hoac ghi them cache.
+        checkpoint = getattr(model, "ckpt_path", None)
+        if not checkpoint or not Path(checkpoint).is_file():
+            raise RuntimeError("YOLO khong cung cap file checkpoint da resolve de tinh weights_sha256. "
+                               "Khong ghi cache; dung checkpoint local co the doc duoc.")
+        spec.weights = str(Path(checkpoint).resolve())
+    spec.fill_env()
     cache_dir = CACHE_ROOT / args.cache_id
     write_meta(cache_dir, spec)
     print(f"[det_cache] {args.cache_id}: backend={spec.backend} conf={spec.conf} iou={spec.iou} "
           f"imgsz={spec.imgsz} classes={spec.classes} max_det={spec.max_det} -> {cache_dir}")
 
-    model = None
     if args.source == "yolo":
-        from ultralytics import YOLO
-        model = YOLO(spec.weights)
         gt_all = None
     else:
         gt_all = ds.gt_dataframe(args.part)
