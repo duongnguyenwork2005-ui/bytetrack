@@ -27,10 +27,11 @@ rồi chạy 40 video test UA-DETRAC; (6) chuẩn bị BDD100K + Jetson Nano; (7
 
 ## 2. Nhánh, commit, thay đổi chưa commit
 
-- Nhánh: **`phase2-mixed-traffic`**, HEAD **`76748c8`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
+- Nhánh: **`phase2-mixed-traffic`**, HEAD **`502f011`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
 - Commit của mốc 2 (từ `e353b84` = cuối mốc 1):
 
 ```
+502f011 Moc 2 (5): ket qua 40 video test UA-DETRAC (A/B/C), muc 16-17 bao cao, CODEX_HANDOFF ban cuoi
 76748c8 Moc 2 (lam ro 1-4): verify_c3_effect (override vao bo loc + covariance khac nhung dau ra gan nhu trung), cause_origin_table (nguyen nhan vs nguon ID sau), dinh nghia ESS/n_unique + cau hinh PF, don vi dem cua check_identical_runs
 a5730f1 Moc 2 (7a): CODEX_HANDOFF.md, gioi han dong goi, ZIP review (tao boi src/make_handoff.py; ZIP khong commit)
 e761623 README: trang thai GD2 moc 2
@@ -48,12 +49,12 @@ dd67321 Moc 2 (6-7a): mau thi nghiem BDD (chuyen cau hinh vs tuning, tach biet),
 
 ```
 M .gitignore
- M PHASE2_REPORT.md
- M handoff/logs/expB_detrac_test.log
- M handoff/logs/run_all_tests_console.log
- M handoff/logs/tests_latest.log
- M handoff/logs/tests_summary.csv
- M src/check_identical_runs.py
+ M CODEX_HANDOFF.md
+ M handoff/INDEX.md
+ M handoff/large_inputs.md
+ M handoff/patches/README.md
+ M handoff/patches/commits.txt
+ M handoff/versions.json
  M src/demo/rerun_with_state_log.py
 ```
 
@@ -198,7 +199,7 @@ Các bước khác chạy CPU từ cache (cache có trong ZIP nếu ≤ 60 MB �
    — kiểm tra trường hợp `stage == 0` nhưng `matched_det >= 0`.
 5. **Phân biệt tên**: nhóm thí nghiệm A/B/C vs điều kiện confidence `c25`/`c10` (mốc 1 dùng `A`/`B` cho điều
    kiện; từ mốc 2 đổi tên, ánh xạ A→c25, B→c10).
-6. **Bản khóa**: `results/phase2/lock/lock_moc2.json.created` (02:33:51) **trước** mọi `run_meta.json.created`
+6. **Bản khóa**: trường `created` của `results/phase2/lock/lock_moc2.json` (02:33:51) **trước** mọi `run_meta.json.created`
    của `p2-exp*_detrac_test-*` (sớm nhất 02:44:45) — đã kiểm, xem mục 16.1 của báo cáo.
 7. **Kết quả âm**: mục 14 (không trục Nhóm C nào đạt tiêu chí) và mục 16.4 (nhánh thăm dò C2 làm **giảm** HOTA
    trên test) — đọc kỹ để không hiểu nhầm là "cấu hình tốt nhất".

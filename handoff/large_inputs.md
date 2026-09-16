@@ -25,4 +25,5 @@ Bước cần GPU: tạo cache detection, `test_run_tracking_replay.py`, `profil
 | `src/demo/live_view.py`, `src/demo/*buffer90*`, `live.bat`, `outputs/**` | **file riêng của người dùng**, chưa commit, không thuộc công việc bàn giao |
 | `data/processed/trackers/*/data/*.txt`, `*/assoc_log/*.parquet`, `*/timing/*.csv`, `*/pf_diag/*.csv` | log/kết quả từng frame, dung lượng lớn; bản trích quanh sự kiện có trong `results/phase2/failure_analysis/*/event_window_log.csv`, tổng hợp có trong `summary.csv` + `results/phase2/**` |
 | `results/phase2/shared_kalman/{prefix,fixed}/` | output từng video của kiểm chứng pre-fix/fixed; tóm tắt trong `diff_summary.csv` |
+| `data/processed/DETRAC-all/`, `data/processed/DETRAC-test/` | ground truth MOTChallenge sinh lai duoc tu XML (xem bang tren) |
 | `models/**`, `data/raw/**`, `data/extracted/**`, `.git/**` | weights / dataset / lịch sử git (xem bảng trên) |
