@@ -149,12 +149,27 @@ class DetectorSpec:
         self.created = time.strftime("%Y-%m-%dT%H:%M:%S")
         return self
 
-    #: cac truong PHAI trung khi dung lai cache (thuoc tinh cua DETECTOR + dataset;
-    #: `part` KHONG nam trong day: mot cache co the chua ca video train lan test cua cung
-    #: dataset - part cua tung video ghi trong <video>.json)
+    #: Cac truong PHAI trung khi GHI THEM vao mot cache da co (thuoc tinh sinh du lieu).
+    #: `part` KHONG nam trong day: mot cache co the chua ca video train lan test cua cung dataset -
+    #: part cua tung video ghi trong <video>.json.
+    #: SUA SAU REVIEW DOC LAP (results/phase2/REVIEW_moc2_codex.md, P2): truoc day `conf`, `classes`,
+    #: `max_det` KHONG duoc kiem -> co the ghi them detection voi nguong/lop/max_det HEP HON trong khi
+    #: meta.json van tuyen bo cau hinh RONG HON, lam dieu kien replay ghi trong metadata khong con dung.
     STRICT_FIELDS = ("backend", "weights_sha256", "imgsz", "iou", "half", "agnostic_nms",
                      "augment", "batch", "mask_ignored_regions", "dataset",
-                     "gt_jitter", "gt_dropout", "gt_seed")
+                     "gt_jitter", "gt_dropout", "gt_seed",
+                     "conf", "classes", "max_det")
+
+    #: Truong chi CANH BAO khi khac (khong chan): phien ban thu vien/GPU. Doi phien ban co the doi
+    #: ket qua detector o muc epsilon -> ghi vao meta.json ("version_history") de truy nguon.
+    WARN_FIELDS = ("versions",)
+
+    def spec_sha256(self) -> str:
+        """Hash cua CAU HINH SINH DU LIEU (khong gom created/git_commit/part) - ghi vao tung <video>.json."""
+        d = {k: v for k, v in asdict(self).items() if k not in ("created", "git_commit", "part")}
+        if isinstance(d.get("classes"), (list, tuple)):
+            d["classes"] = sorted(int(c) for c in d["classes"])
+        return hashlib.sha256(json.dumps(d, sort_keys=True, default=str).encode()).hexdigest()
 
 
 def load_meta(cache_dir: Path) -> dict:
@@ -279,29 +294,61 @@ def build_video_gt(gt: "pd.DataFrame", frames: list[FrameRef], spec: DetectorSpe
                 orig_shape=np.array(orig_shape, dtype=np.int32))
 
 
-def save_video(cache_dir: Path, video: str, arrays: dict, extra: dict | None = None):
+def save_video(cache_dir: Path, video: str, arrays: dict, extra: dict | None = None,
+               spec: "DetectorSpec | None" = None):
+    """Ghi <video>.npz + <video>.json. `spec` (neu co) -> ghi `spec_sha256` cua CAU HINH SINH DU LIEU,
+    de khi doc co the phat hien sequence duoc sinh boi cau hinh khac voi meta.json (xem open_cache)."""
     cache_dir.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(cache_dir / f"{video}.npz", **arrays)
     info = {"video": video, "n_frames": int(len(arrays["frame_idx"])),
             "n_boxes": int(len(arrays["data"])), "n_unreadable": int(arrays["unreadable"].sum()),
             "n_truncated": int(arrays["truncated"].sum()), "created": time.strftime("%Y-%m-%dT%H:%M:%S")}
+    if spec is not None:
+        info["spec_sha256"] = spec.spec_sha256()
     if extra:
         info.update(extra)
     (cache_dir / f"{video}.json").write_text(json.dumps(info, indent=2), encoding="utf-8")
     return info
 
 
-def write_meta(cache_dir: Path, spec: DetectorSpec):
-    """Ghi meta.json; neu da co thi cac truong STRICT phai trung, neu khong -> loi."""
+def write_meta(cache_dir: Path, spec: DetectorSpec, mode: str = "append"):
+    """Ghi/kiem meta.json khi GHI du lieu vao cache (khac han voi viec DOC cache de chay tracker).
+
+    mode = "append" (mac dinh): cache co the da ton tai; MOI truong trong STRICT_FIELDS phai trung khit
+        (gom ca `conf`, `classes`, `max_det` - xem docstring cua STRICT_FIELDS), neu khong -> RuntimeError.
+        Khac phien ban thu vien (WARN_FIELDS) -> CANH BAO va ghi them vao "version_history".
+    mode = "create": bat buoc cache chua ton tai (dung khi muon chac chan khong tron du lieu).
+
+    LUU Y: doc cache voi cau hinh HEP HON (conf cao hon, it lop hon, max_det nho hon) van hop le va do
+    `check_compatible` / `VideoDetections` xu ly - day la buoc DOC, khong phai buoc GHI.
+    """
+    if mode not in ("append", "create"):
+        raise ValueError("mode phai la 'append' hoac 'create'")
     cache_dir.mkdir(parents=True, exist_ok=True)
     p = cache_dir / "meta.json"
     new = asdict(spec)
+    new["spec_sha256"] = spec.spec_sha256()
     if p.exists():
+        if mode == "create":
+            raise RuntimeError(f"Cache {cache_dir} da ton tai (mode='create'). Dung --cache-id khac.")
         old = json.loads(p.read_text(encoding="utf-8"))
         diff = {k: (old.get(k), new.get(k)) for k in DetectorSpec.STRICT_FIELDS if old.get(k) != new.get(k)}
         if diff:
-            raise RuntimeError(f"Cache {cache_dir} da ton tai voi thong so khac: {diff}. "
+            raise RuntimeError(f"Cache {cache_dir} da ton tai voi thong so SINH DU LIEU khac: {diff}. "
+                               "Ghi them vao cache nay se lam meta.json khong con mo ta dung du lieu ben trong. "
                                "Dung --cache-id khac.")
+        warn = {k: (old.get(k), new.get(k)) for k in DetectorSpec.WARN_FIELDS if old.get(k) != new.get(k)}
+        if warn:
+            print(f"[CANH BAO] cache {cache_dir.name}: phien ban khac lan truoc {warn} "
+                  f"- van ghi them, luu vao meta.json['version_history']")
+            hist = old.get("version_history", [])
+            hist.append({"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "versions": new.get("versions"),
+                         "git_commit": new.get("git_commit")})
+            old["version_history"] = hist
+            p.write_text(json.dumps(old, indent=2), encoding="utf-8")
+        if old.get("spec_sha256") is None:                    # cache cu (truoc khi co fingerprint)
+            old["spec_sha256"] = new["spec_sha256"]
+            p.write_text(json.dumps(old, indent=2), encoding="utf-8")
         return old
     p.write_text(json.dumps(new, indent=2), encoding="utf-8")
     return new
@@ -367,9 +414,30 @@ def to_boxes(arr: np.ndarray, orig_shape: tuple[int, int]):
     return Boxes(a, tuple(orig_shape))
 
 
+def sequence_spec_status(cache_dir: Path, video: str, meta: dict | None = None) -> tuple[str, str]:
+    """Kiem tra sequence duoc sinh boi DUNG cau hinh ma meta.json tuyen bo.
+
+    Tra ve (trang_thai, mo_ta): "ok" | "legacy" (cache cu, chua co fingerprint) | "mismatch".
+    """
+    meta = meta if meta is not None else load_meta(cache_dir)
+    j = cache_dir / f"{video}.json"
+    if not j.exists():
+        return "legacy", f"khong co {j.name}"
+    info = json.loads(j.read_text(encoding="utf-8"))
+    want, got = meta.get("spec_sha256"), info.get("spec_sha256")
+    if want is None or got is None:
+        return "legacy", "cache sinh truoc khi co fingerprint (spec_sha256 trong)"
+    if want != got:
+        return "mismatch", f"spec_sha256 cua {video} ({got[:12]}) != meta.json ({want[:12]})"
+    return "ok", ""
+
+
 def open_cache(cache_id: str, video: str, conf_min: float, classes: list[int] | None,
                max_det: int = 300, class_map: dict[int, int] | None = None,
                strict: bool = True, allow_truncated: bool = False) -> VideoDetections:
+    """DOC cache cho mot cau hinh tracker. Duoc phep loc TU RONG XUONG HEP (conf cao hon, it lop hon,
+    max_det nho hon) - `check_compatible` kiem dieu kien do. Ngoai ra kiem `spec_sha256` cua TUNG sequence
+    de phat hien du lieu duoc sinh boi cau hinh khac voi meta.json (loi P2 trong review doc lap)."""
     cache_dir = CACHE_ROOT / cache_id
     meta = load_meta(cache_dir)
     errs = check_compatible(meta, conf_min, classes, max_det)
@@ -378,6 +446,13 @@ def open_cache(cache_id: str, video: str, conf_min: float, classes: list[int] | 
     p = cache_dir / f"{video}.npz"
     if not p.exists():
         raise FileNotFoundError(f"Chua co cache cho video {video}: {p}")
+    st, why = sequence_spec_status(cache_dir, video, meta)
+    if st == "mismatch":
+        msg = (f"Cache {cache_id}/{video}: du lieu duoc sinh boi cau hinh KHAC voi meta.json ({why}). "
+               f"Khong dung sequence nay - tao lai hoac dung --cache-id khac.")
+        if strict:
+            raise ValueError(msg)
+        print(f"[CANH BAO] {msg}")
     return VideoDetections(p, conf_min, classes, max_det, class_map, allow_truncated)
 
 
@@ -453,7 +528,7 @@ def main() -> int:
         else:
             gt_v = gt_all[gt_all["video"] == v]
             arrays = build_video_gt(gt_v, frames, spec, ds.orig_shape, cat2coco)
-        info = save_video(cache_dir, v, arrays, {"part": args.part, "regions_hash": _regions_hash(regions),
+        info = save_video(cache_dir, v, arrays, spec=spec, extra={"part": args.part, "regions_hash": _regions_hash(regions),
                                                  "n_regions": len(regions), "seconds": round(time.time() - t0, 1)})
         print(f"  {v:<20} {info['n_frames']:>5} frame  {info['n_boxes']:>7} box  "
               f"unreadable={info['n_unreadable']} truncated={info['n_truncated']}  ({info['seconds']}s)")

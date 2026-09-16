@@ -169,10 +169,95 @@ def test_4_gt_synthetic_deterministic():
     _check("gt-synthetic: box hop le trong anh", np.all(a["data"][:, 2] > a["data"][:, 0]) and np.all(a["data"][:, :4] >= 0))
 
 
+
+def test_5_cache_write_policy():
+    """(sau review doc lap, loi P2) Chinh sach GHI vs DOC cache:
+
+      - GHI THEM vao cache da co voi `conf` / `classes` / `max_det` KHAC -> phai LOI (truoc day duoc chap
+        nhan trong khi meta.json van giu cau hinh cu -> metadata mo ta sai du lieu ben trong).
+      - GHI THEM voi cung cau hinh -> OK; mode="create" tren cache da co -> LOI.
+      - Khac phien ban thu vien -> CANH BAO (khong chan) va ghi vao meta.json["version_history"].
+      - DOC cache rong hon voi cau hinh HEP hon (conf cao hon, it lop hon, max_det nho hon) -> VAN OK.
+      - Sequence co `spec_sha256` khac meta.json -> `open_cache` bao loi (strict) / canh bao (khong strict).
+    """
+    import tempfile
+    import det_cache as dc
+    with tempfile.TemporaryDirectory() as td:
+        root = Path(td)
+        old_root = dc.CACHE_ROOT
+        dc.CACHE_ROOT = root
+        try:
+            cdir = root / "c1"
+            spec = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="abc",
+                                   conf=0.05, classes=None, max_det=3000,
+                                   versions={"ultralytics": "8.4.141"})
+            dc.write_meta(cdir, spec)
+            _check("ghi meta lan dau: co spec_sha256",
+                   json.loads((cdir / "meta.json").read_text())["spec_sha256"] == spec.spec_sha256())
+            # cung cau hinh -> ghi them OK
+            dc.write_meta(cdir, spec)
+            # conf/classes/max_det khac -> LOI
+            for kw, ten in (({"conf": 0.25}, "conf"), ({"classes": [2]}, "classes"), ({"max_det": 300}, "max_det")):
+                bad = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="abc",
+                                      conf=0.05, classes=None, max_det=3000, versions={"ultralytics": "8.4.141"})
+                for k, v in kw.items():
+                    setattr(bad, k, v)
+                err = ""
+                try:
+                    dc.write_meta(cdir, bad)
+                except RuntimeError as e:
+                    err = str(e)
+                _check(f"ghi them voi {ten} khac -> bi TU CHOI", ten in err and "khac" in err, err[:160])
+            # mode create tren cache da co -> LOI
+            err = ""
+            try:
+                dc.write_meta(cdir, spec, mode="create")
+            except RuntimeError as e:
+                err = str(e)
+            _check("mode='create' tren cache da ton tai -> LOI", "da ton tai" in err, err[:120])
+            # khac phien ban -> canh bao + version_history
+            spec2 = dc.DetectorSpec(backend="ultralytics", weights="w.pt", weights_sha256="abc",
+                                    conf=0.05, classes=None, max_det=3000, versions={"ultralytics": "8.9.0"})
+            dc.write_meta(cdir, spec2)
+            hist = json.loads((cdir / "meta.json").read_text()).get("version_history", [])
+            _check("khac phien ban thu vien -> canh bao + ghi version_history", len(hist) == 1, str(hist))
+
+            # --- du lieu that de kiem tra DOC ---
+            arrays = dict(frame_idx=np.arange(1, 4, dtype=np.int32), n_per_frame=np.array([1, 1, 1], np.int32),
+                          unreadable=np.zeros(3, bool), truncated=np.zeros(3, bool), time_s=np.arange(3) / 25.0,
+                          data=np.array([[10, 10, 50, 50, 0.9, 2.0], [11, 10, 51, 50, 0.4, 2.0],
+                                         [12, 10, 52, 50, 0.9, 7.0]], np.float32),
+                          orig_shape=np.array([540, 960], np.int32))
+            dc.save_video(cdir, "v1", arrays, spec=spec)
+            vd = dc.open_cache("c1", "v1", 0.25, [2], 300)
+            _check("doc cache rong (conf 0.05, moi lop) voi cau hinh hep (conf 0.25, lop [2], max_det 300) -> OK",
+                   len(vd) == 3)
+            # sequence sinh boi spec khac -> mismatch
+            dc.save_video(cdir, "v2", arrays, spec=spec2)
+            st, why = dc.sequence_spec_status(cdir, "v2")
+            err = ""
+            try:
+                dc.open_cache("c1", "v2", 0.25, [2], 300)
+            except ValueError as e:
+                err = str(e)
+            _check("sequence sinh boi cau hinh khac -> open_cache (strict) BAO LOI",
+                   st == "mismatch" and "KHAC voi meta.json" in err, f"{st}: {why}")
+            vd2 = dc.open_cache("c1", "v2", 0.25, [2], 300, strict=False)
+            _check("strict=False -> chi canh bao, van doc duoc", len(vd2) == 3)
+            # cache cu khong co fingerprint -> 'legacy', khong chan
+            dc.save_video(cdir, "v3", arrays)
+            st3, _ = dc.sequence_spec_status(cdir, "v3")
+            dc.open_cache("c1", "v3", 0.25, [2], 300)
+            _check("cache cu (khong co spec_sha256) -> 'legacy', van doc duoc", st3 == "legacy")
+        finally:
+            dc.CACHE_ROOT = old_root
+
+
 def main() -> int:
     failed = 0
     for t in [test_1_nms_prefix_property, test_2_boxes_dtype_matches_ultralytics_path,
-              test_3_roundtrip_and_filtering, test_4_gt_synthetic_deterministic]:
+              test_3_roundtrip_and_filtering, test_4_gt_synthetic_deterministic,
+              test_5_cache_write_policy]:
         print(f"\n--- {t.__name__} ---")
         try:
             t()
