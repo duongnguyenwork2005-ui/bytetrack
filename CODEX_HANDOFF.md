@@ -106,9 +106,15 @@ M .gitignore
 - Ngoài ra người dùng có các file **untracked** riêng (`live.bat`, `outputs/**`, `src/demo/*buffer90*`,
   `src/demo/live_view.py`, …) — **không** nằm trong ZIP và không bị sửa.
 
-> **Quan hệ giữa commit và gói ZIP** (rút kinh nghiệm từ review vòng 1): gói được dựng **sau khi mọi thay đổi
-> mã/cấu hình/kết quả đã commit** — `src/make_handoff.py` **từ chối dựng** nếu còn file trong phạm vi gói khác
-> HEAD. Các artifact do chính script sinh (`handoff/versions.json`, `INDEX.md`, `FILE_HASHES.csv`, `patches/`,
+> **Quan hệ giữa commit và gói ZIP** (rút kinh nghiệm từ review vòng 1 và 2): gói được dựng **sau khi mọi
+> thay đổi mã/cấu hình/kết quả đã commit** — `src/make_handoff.py` **từ chối dựng** nếu còn file trong phạm vi
+> gói khác HEAD.
+>
+> Con số trên dòng HEAD ở trên là commit **tại thời điểm sinh ra chính tài liệu này**. Tài liệu được sinh ra
+> **rồi mới commit**, nên commit chứa nó — và `git_head` trong `handoff/versions.json`, tức commit mà gói ZIP
+> được dựng từ đó — luôn đứng **sau** con số này. Đây là thứ tự bình thường, **không** phải dấu hiệu gói lệch
+> commit. Nguồn đối chiếu chính xác duy nhất về nội dung gói là `handoff/FILE_HASHES.csv` (sha256 từng file);
+> `git_head` trong `handoff/versions.json` cho biết cây mã mà gói được dựng từ đó. Các artifact do chính script sinh (`handoff/versions.json`, `INDEX.md`, `FILE_HASHES.csv`, `patches/`,
 > `external/`) được commit **ngay sau** lần dựng, nên commit cuối của nhánh có thể là commit "artifact" đứng
 > **sau** `git_head` ghi trong `handoff/versions.json` và chỉ chứa đúng các file đó. Đối chiếu chính xác nội
 > dung gói bằng `handoff/FILE_HASHES.csv`.
