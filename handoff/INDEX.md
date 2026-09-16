@@ -1,6 +1,6 @@
 # INDEX - handoff/phase2_review_latest.zip
 
-Tao: 2026-09-16 13:07:57  HEAD 6a1921f
+Tao: 2026-09-16 13:09:03  HEAD c601d91
 File tracked khac HEAD luc dong goi (khong tinh file rieng cua nguoi dung): khong
 
 sha256 tung file: handoff/FILE_HASHES.csv
@@ -14,7 +14,7 @@ sha256 tung file: handoff/FILE_HASHES.csv
 - Xem handoff/large_inputs.md de biet cach lay dau vao lon va lenh dung.
 
 ## Danh sach file
-- CODEX_HANDOFF.md (29.7 kB)
+- CODEX_HANDOFF.md (30.7 kB)
 - PHASE2_REPORT.md (109.5 kB)
 - README.md (94.3 kB)
 - configs/buffer_sweep/cv_buf60.yaml (1.0 kB)
@@ -448,8 +448,8 @@ sha256 tung file: handoff/FILE_HASHES.csv
 - data/processed/trackers/DETRAC-test/p2-expC_detrac_test-c25-ekf-maha/summary.csv (2.1 kB)
 - data/processed/trackers/DETRAC-test/p2-expC_detrac_test-c25-ekf/run_meta.json (0.9 kB)
 - data/processed/trackers/DETRAC-test/p2-expC_detrac_test-c25-ekf/summary.csv (2.1 kB)
-- handoff/FILE_HASHES.csv (168.0 kB)
-- handoff/INDEX.md (96.9 kB)
+- handoff/FILE_HASHES.csv (168.1 kB)
+- handoff/INDEX.md (97.0 kB)
 - handoff/external/bytetrack.yaml (0.9 kB)
 - handoff/large_inputs.md (4.1 kB)
 - handoff/logs/ablation_matrix.log (7.2 kB)
@@ -487,10 +487,11 @@ sha256 tung file: handoff/FILE_HASHES.csv
 - handoff/logs/verify_c3_effect.log (4.5 kB)
 - handoff/logs/verify_shared_kalman.log (2.3 kB)
 - handoff/patches/README.md (0.1 kB)
-- handoff/patches/commits.txt (3.0 kB)
+- handoff/patches/commits.txt (3.3 kB)
 - handoff/patches/moc2_e353b84..502f011.diff (615.3 kB)
 - handoff/patches/moc2_e353b84..60c946d.diff (1410.5 kB)
 - handoff/patches/moc2_e353b84..6a1921f.diff (1411.8 kB)
+- handoff/patches/moc2_e353b84..c601d91.diff (4461.2 kB)
 - handoff/patches/moc2_e353b84..e761623.diff (232.1 kB)
 - handoff/versions.json (2.7 kB)
 - requirements.txt (1.1 kB)
@@ -1243,4 +1244,4 @@ sha256 tung file: handoff/FILE_HASHES.csv
 - third_party/sort_upstream/PROVENANCE.json (1.4 kB)
 - third_party/sort_upstream/sort.py (11.7 kB)
 
-Tong 1228 file, 108.4 MB (chua nen)
+Tong 1229 file, 112.9 MB (chua nen)
