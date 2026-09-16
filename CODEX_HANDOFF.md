@@ -56,10 +56,11 @@ rồi chạy 40 video test UA-DETRAC; (6) chuẩn bị BDD100K + Jetson Nano; (7
 
 ## 2. Nhánh, commit, thay đổi chưa commit
 
-- Nhánh: **`phase2-mixed-traffic`**, HEAD **`fb360e0`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
+- Nhánh: **`phase2-mixed-traffic`**, HEAD **`60c946d`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
 - Commit của mốc 2 (từ `e353b84` = cuối mốc 1):
 
 ```
+60c946d Review-fix (7b): CODEX_HANDOFF ban sau review vong 1 (muc 0 trang thai phat hien, lenh thuc chay + exit code, provenance/hash), luu ZIP cu vao handoff/archive
 fb360e0 Review-fix (4,6,7a): chay lai Nhom B sau khi sua SORT (dev+test, thu muc _fix1), sua dien giai, dong goi loai file nguoi dung
 9ec7d8e Review-fix (5): chinh sach cache - STRICT_FIELDS them conf/classes/max_det, fingerprint tung sequence, tach GHI vs DOC
 1c7ce8c Review-fix (1-3): runner fingerprint + provenance + exit code; SORT vong doi khop upstream da ghim
@@ -82,10 +83,12 @@ dd67321 Moc 2 (6-7a): mau thi nghiem BDD (chuyen cau hinh vs tuning, tach biet),
 
 ```
 M .gitignore
- M handoff/logs/run_all_tests_console.log
- M handoff/logs/tests_latest.log
- M handoff/logs/tests_summary.csv
+ M handoff/INDEX.md
+ M handoff/patches/README.md
+ M handoff/patches/commits.txt
+ M handoff/versions.json
  M src/demo/rerun_with_state_log.py
+ M src/make_handoff.py
 ```
 
 - Ngoài ra người dùng có các file **untracked** riêng (`live.bat`, `outputs/**`, `src/demo/*buffer90*`,
@@ -261,7 +264,7 @@ Toàn bộ log của mọi lần chạy (kể cả các lần của mốc 2) n�
    — kiểm tra trường hợp `stage == 0` nhưng `matched_det >= 0`.
 5. **Phân biệt tên**: nhóm thí nghiệm A/B/C vs điều kiện confidence `c25`/`c10` (mốc 1 dùng `A`/`B` cho điều
    kiện; từ mốc 2 đổi tên, ánh xạ A→c25, B→c10).
-6. **Bản khóa**: `results/phase2/lock/lock_moc2.json.created` (02:33:51) **trước** mọi `run_meta.json.created`
+6. **Bản khóa**: trường `created` của `results/phase2/lock/lock_moc2.json` (02:33:51) **trước** mọi `run_meta.json.created`
    của `p2-exp*_detrac_test-*` (sớm nhất 02:44:45) — đã kiểm, xem mục 16.1 của báo cáo.
 7. **Kết quả âm**: mục 14 (không trục Nhóm C nào đạt tiêu chí) và mục 16.4 (nhánh thăm dò C2 làm **giảm** HOTA
    trên test) — đọc kỹ để không hiểu nhầm là "cấu hình tốt nhất".

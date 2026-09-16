@@ -209,8 +209,8 @@ def check_links(zf: zipfile.ZipFile, doc: str) -> list[str]:
     big_txt = big.read_text(encoding="utf-8") if big.exists() else ""
     missing = []
     for r in refs:
-        if r.startswith("http") or "{" in r or "*" in r:
-            continue                                  # mau nhieu file / glob - kiem tra thu cong
+        if r.startswith("http") or "{" in r or "*" in r or "<" in r:
+            continue                                  # mau nhieu file / glob / placeholder - kiem tra thu cong
         r2 = r.rstrip("/")
         if r2 in names or any(n.startswith(r2 + "/") for n in names):
             continue
