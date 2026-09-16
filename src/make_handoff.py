@@ -91,15 +91,33 @@ def collect(cache_max_mb: float, splits: list[str]) -> tuple[list[Path], list[st
     for p in (ROOT / "results" / "phase2").rglob("*"):
         if p.is_file() and p.suffix.lower() in RESULT_EXT and "prefix" not in p.parts and "fixed" not in p.parts:
             files.add(p.relative_to(ROOT))
+    # `eval_meta.json` / `occl_meta.json` / `video_meta/` la DAU VAN TAY danh gia (tu ban sua sau review
+    # vong 1/2): sha256 tung file tracking tai luc tinh metric + phien ban ma. Dua vao goi de nguoi review
+    # doi chieu duoc ket qua voi dung cac file dang co. Run CU (truoc ban sua) KHONG co -> ghi ro trong
+    # ghi chu dong goi, KHONG sinh metadata hoi to.
+    n_eval_dirs = n_eval_meta = n_trk_dirs = n_video_meta = 0
     for split in splits:
-        for d in (ROOT / "results" / "trackeval" / split).glob("p2-*"):
-            for name in ("per_video_metrics.csv", "combined_metrics.csv", "raw_fields.json"):
+        for d in sorted((ROOT / "results" / "trackeval" / split).glob("p2-*")):
+            n_eval_dirs += 1
+            for name in ("per_video_metrics.csv", "combined_metrics.csv", "raw_fields.json", "eval_meta.json"):
                 if (d / name).exists():
                     files.add((d / name).relative_to(ROOT))
-        for d in (ROOT / "data" / "processed" / "trackers" / split).glob("p2-*"):
+            n_eval_meta += (d / "eval_meta.json").exists()
+        for d in sorted((ROOT / "data" / "processed" / "trackers" / split).glob("p2-*")):
+            n_trk_dirs += 1
             for name in ("summary.csv", "run_meta.json"):
                 if (d / name).exists():
                     files.add((d / name).relative_to(ROOT))
+            vm = sorted((d / "video_meta").glob("*.json"))
+            n_video_meta += bool(vm)
+            for q in vm:
+                files.add(q.relative_to(ROOT))
+    n_occl = sum(1 for q in (ROOT / "results" / "phase2").rglob("occl_meta.json") if q.is_file())
+    notes.append(f"dau van tay danh gia: {n_eval_meta}/{n_eval_dirs} thu muc trackeval co eval_meta.json, "
+                 f"{n_occl} occl_meta.json, {n_video_meta}/{n_trk_dirs} thu muc run co video_meta/")
+    notes.append("cac run con lai chay boi ban runner CU (truoc khi co dau van tay) nen KHONG co "
+                 "eval_meta/video_meta - xem results/phase2/run_provenance_audit.csv; "
+                 "KHONG sinh metadata hoi to cho chung")
     # cache detection
     for cdir in (ROOT / "data" / "interim" / "det_cache").glob("*"):
         if not cdir.is_dir():

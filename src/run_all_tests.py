@@ -81,6 +81,7 @@ TESTS = [
     ("test_lost_recovery", [], _need_cache),
     ("test_sort_upstream_parity", [], _need_filterpy),
     ("test_run_experiment_guard", [], None),
+    ("test_run_resume_guard", [], None),
     ("test_boot_stats", [], _need_dev_runs),
     ("test_run_tracking_replay", ["--n-frames", "150"], lambda: _need_gpu() or _need_detrac_images()),
 ]

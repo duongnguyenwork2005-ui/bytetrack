@@ -678,7 +678,7 @@ ukf 0.060 / 0.553; pf500 0.053 / 0.495.
 ### 16.3 Thí nghiệm B — so sánh **thuật toán**, mỗi cặp đổi một yếu tố (40 video, c25)
 
 > ⚠️ **Bản TRƯỚC khi sửa lỗi vòng đời SORT** (mục 18.1). Kết quả sau khi sửa: mục 18.2 — mọi kết luận
-> định tính không đổi, chênh lệch ≤ 0.002 HOTA, IDSW giảm 9–12 %.
+> định tính không đổi, chênh lệch ≤ 0.002 HOTA, IDSW giảm **2,8–9,8 % tùy nhánh** (xem bảng 18.2).
 
 | tracker | ý nghĩa | HOTA | DetA | AssA | IDF1 | MOTA | IDSW | preserved |
 |:--|:--|--:|--:|--:|--:|--:|--:|--:|
@@ -829,14 +829,24 @@ tiêu chí. **`bt-ekf` (ByteTrack) không dùng `SORTTrack`** → chạy lại c
 | bt-ekf (đối chứng) | 0.5925 → 0.5925 | 472 → 472 | 0.5835 → 0.5835 | 2525 → 2525 | 0.487 → 0.487 |
 
 Hướng thay đổi đúng như dự đoán từ cơ chế: track được xuất muộn hơn một frame ⇒ ít track "non" hơn ⇒ **IDSW
-giảm rõ** (test: −9…−12 %), HOTA gần như không đổi.
+giảm**, HOTA gần như không đổi. Mức giảm IDSW **khác nhau theo nhánh**, trên test:
+
+| nhánh | IDSW trước | IDSW sau | giảm |
+|:--|--:|--:|--:|
+| sort-orig1 | 5890 | 5369 | **8,85 %** |
+| sort-orig30 | 4438 | 4314 | **2,79 %** |
+| sort-cv30 | 4517 | 4318 | **4,41 %** |
+| sort-ekf30 | 4433 | 4210 | **5,03 %** |
+| sort-ekf1 | 6158 | 5555 | **9,79 %** |
+
+tức **2,8–9,8 % tùy nhánh** (không phải "9–12 % ở mọi nhánh" như bản trước đã viết).
 
 **Từng cặp so sánh trên TEST** (COMBINED, bootstrap ghép cặp theo video 5000 lần, seed 0) — trước → sau:
 
 | cặp (yếu tố được kiểm soát) | trước khi sửa | sau khi sửa |
 |:--|:--|:--|
 | bộ đệm 1 → 30 | +0.0280 [+0.0207, +0.0350] | **+0.0274 [+0.0201, +0.0345]** |
-| gói biểu diễn + thiết lập bộ lọc (KF 7-D → XYAH) | −0.0133 [−0.0185, −0.0077] | **−0.0132 [−0.0185, −0.0077]** |
+| gói biểu diễn + thiết lập bộ lọc (KF 7-D → XYAH) | −0.0133 [−0.0185, −0.0077] | **−0.0133 [−0.0185, −0.0077]** (thô: −0.013273 → −0.013250) |
 | motion model CV → EKF–CTRV | +0.0020 [−0.0001, +0.0042] | **+0.0020 [−0.0001, +0.0042]** |
 | chỉ đổi bộ lọc ở `max_age` 1 | −0.0140 [−0.0167, −0.0116] | **−0.0140 [−0.0167, −0.0116]** |
 | vòng đời SORT → ByteTrack | +0.0364 [+0.0298, +0.0428] | **+0.0363 [+0.0296, +0.0428]** |
@@ -884,10 +894,20 @@ thêm ba trường vào `STRICT_FIELDS`; `versions` thành `WARN_FIELDS` (cảnh
 Test: `test_det_cache.py` **47/47** (+10 phép mới).
 
 **Cache hiện có**: [check_cache_consistency.py](src/check_cache_consistency.py) →
-[cache_consistency.csv](results/phase2/cache_consistency.csv): 56 sequence, **0 mismatch**; mỗi `cache-id` chỉ
-có **một** giá trị `conf`/`max_det`/`weights_sha256`/`versions` trong `meta.json`, `version_history` rỗng.
-Các sequence ở trạng thái `legacy` (sinh trước khi có fingerprint) nên không thể khẳng định bằng hash, nhưng
-không có dấu hiệu trộn ⇒ **không tái tạo cache**.
+[cache_consistency.csv](results/phase2/cache_consistency.csv): **56 sequence = 3 `ok` + 53 `legacy` +
+0 `mismatch`**.
+
+Phải đọc đúng giới hạn của con số này: chỉ **3 sequence** (fixture sinh sau khi có fingerprint) được xác minh
+bằng `spec_sha256`; **53 sequence `legacy`** sinh trước đó **không có fingerprint nên không thể xác minh bằng
+hash** cấu hình lúc tạo. Việc `meta.json` của mỗi `cache-id` chỉ có **một** giá trị `conf`/`max_det`/
+`weights_sha256`/`versions` là thuộc tính của **một file metadata duy nhất** được chép vào mọi dòng — **không
+phải** bằng chứng độc lập rằng mọi sequence đã được sinh bằng cùng cấu hình.
+
+Phát biểu đúng: *"Không phát hiện mismatch trong phần kiểm tra được; 53/56 sequence chưa xác minh được bằng
+fingerprint. Cache UA-DETRAC không đổi byte so với gói bàn giao trước (52/52 NPZ, review vòng 2 đối chiếu)."*
+Không có cơ sở từ đây để bắt buộc tạo lại cache; muốn xác minh mạnh hơn phải đối chiếu log tạo cache hoặc
+nguồn khác. **Không** bổ sung fingerprint hồi tố (một hash gắn sau không phải bằng chứng về cấu hình lúc
+sinh dữ liệu) — `write_meta` đã bỏ hành vi backfill này.
 
 ### 18.5 Lỗi P2 — đóng gói
 
@@ -908,4 +928,71 @@ hình nào cải thiện** HOTA có ý nghĩa" (một số cấu hình CV **kém
 áp cho nhánh EKF; (e) `has_full` = sự kiện **có đoạn che ≥ 0,90**, và "cả ba bộ lọc 11/182" chỉ đúng ở c25
 (c10: UKF 12/182); (f) hai cách tổng hợp PF theo seed là hai đại lượng khác nhau, chênh lệch đo được
 ≤ 9,5·10⁻⁶ HOTA.
+
+## 19. Xử lý review vòng 2 (Codex) — trạng thái run bị gián đoạn và chính sách cache
+
+Review vòng 2 xác nhận: lỗi vòng đời SORT **đã sửa**, 12 bảng COMBINED và 10 phép bootstrap Nhóm B `_fix1`
+**tái lập được** từ dữ liệu bàn giao, manifest 1229/1229 file khớp sha256, không có file riêng của người dùng
+trong gói. Còn **hai lỗi** được nêu; cả hai đã **tái hiện trên mã hiện tại** rồi sửa.
+
+### 19.1 P1 — resume sau khi bị gián đoạn / thiếu metadata
+
+**Tái hiện** (dùng chính `stage_track`, thư mục tạm): chạy xong cấu hình A → đổi sang B, ghi xong video đầu
+rồi lỗi ở video thứ hai (metadata vẫn là A, `status` chưa tồn tại) → quay về A và tiếp tục: runner **tái sử
+dụng cả hai video**, trong đó `v1` thuộc cấu hình **B**. Trường hợp thứ hai: có `data/<video>.txt` nhưng
+**thiếu** `run_meta.json` → nhánh `prev is None` vẫn cho bỏ qua tracking rồi ghi provenance mới.
+
+**Đã sửa** ([run_experiment.py](src/run_experiment.py)):
+- **Trạng thái theo từng video**: `video_meta/<video>.json` ghi **nguyên tử** (`tmp` → `replace`) **sau khi**
+  video đó chạy xong, chứa `complete: true` + `input_fingerprint`. `can_reuse_video()` chỉ cho tái sử dụng
+  khi có file tracking **và** sidecar tồn tại, `complete`, fingerprint khớp. **Thiếu/hỏng metadata ⇒ chạy lại**
+  (không mặc nhiên tương thích).
+- **Đánh dấu đang chạy**: trước khi ghi đè bất kỳ đầu ra nào, `run_meta.json` mang `status: "running"` +
+  `started_at`; kết thúc mới chuyển `complete`. Một lần chạy bị ngắt **không thể** được xác nhận bởi metadata
+  hoàn tất cũ. Sidecar của video sắp ghi đè bị **xóa trước** khi ghi.
+- **Provenance**: giữ `created`/`git_commit` gốc khi fingerprint không đổi (kể cả khi lần này không chạy video
+  nào), ghi `previous` khi fingerprint đổi, mỗi lần tiếp tục thêm một mục `resumed`.
+
+**Kiểm chứng**: [test_run_resume_guard.py](src/test_run_resume_guard.py) **10/10**, chạy qua **đường chạy
+runner thật** với lỗi giả lập có kiểm soát: (1) A → B bị ngắt → quay về A: `status=running` sau khi ngắt, video
+bị ghi đè được **chạy lại**, mọi đầu ra sau cùng thuộc A; (2) thiếu `video_meta` → chạy lại đúng 1 video;
+(3) `video_meta` hỏng → chạy lại đúng 1 video; (4) resume không đổi gì → 0 video chạy lại, `created`/
+`git_commit` **giữ nguyên giá trị lưu TRƯỚC resume**, `resumed` +1; (5) đổi cấu hình → chạy lại toàn bộ.
+Phép kiểm `created` trong `test_run_experiment_guard.py` cũng đã sửa theo cách này (trước đây so file vừa đọc
+với chính nó đọc lại nên không kiểm chứng được gì).
+
+### 19.2 P2 — chính sách ghi/đọc cache chưa thống nhất
+
+**Tái hiện**: tạo cache với spec A → `write_meta(mode="append")` với spec B chỉ khác **phiên bản thư viện**:
+được chấp nhận (chỉ cảnh báo) → `save_video(spec=B)` tạo sequence mang hash B → `open_cache(strict=True)` **từ
+chối đọc** chính sequence vừa ghi. Kiểm tra thêm: `device` và đường dẫn `weights` **nằm trong hash** nhưng
+**không bị chặn** khi ghi — cùng loại mâu thuẫn.
+
+**Đã sửa** ([det_cache.py](src/det_cache.py)): định nghĩa **một** tập trường duy nhất `GEN_FIELDS` (cấu hình
+sinh dữ liệu) dùng cho **cả** đường ghi (`write_meta` so sánh) **và** đường đọc (`spec_sha256` = hash của đúng
+tập đó) ⇒ về mặt cấu trúc không thể còn trường hợp "cho ghi nhưng từ chối đọc". `GEN_FIELDS` gồm
+`conf/classes/max_det/device/versions/...`; **loại** `weights` (đường dẫn thay đổi theo máy — đặc trưng của
+checkpoint đã nằm trong `weights_sha256`), `part`, `created`, `git_commit`. Khác bất kỳ trường nào ⇒ **từ chối
+ghi và không thay đổi gì trên đĩa** (yêu cầu `--cache-id` khác). Bỏ hẳn việc **backfill** `spec_sha256` cho
+cache legacy.
+
+**Kiểm chứng**: `test_det_cache.py` **51/51**, gồm: đổi `conf`/`classes`/`max_det`/`versions`/`device` → từ
+chối, `meta.json` giữ nguyên; đường dẫn `weights` khác (cùng sha256) → vẫn ghi được, hash không đổi; **trọn
+chuỗi** tạo metadata → lưu sequence → đọc `strict` cho kết quả `ok`; đọc cache rộng xuống cấu hình tracker hẹp
+hơn vẫn hoạt động; cache legacy **không** bị gắn fingerprint hồi tố.
+
+### 19.3 Audit nguồn gốc các run `_fix1` — kết luận: giữ nguyên, không chạy lại
+
+[audit_run_provenance.py](src/audit_run_provenance.py) →
+[run_provenance_audit.csv](results/phase2/run_provenance_audit.csv):
+
+| Nhóm | Số thư mục | Kết luận |
+|:--|--:|:--|
+| Nhóm B `_fix1` (dev + test) | **12** | `run_meta` hợp lệ, **0 lần resume**, mỗi run là **một lượt chạy liên tục** (14–123 s), `run_meta` ghi **sau** file tracking cuối, và **sha256 của từng file tracking hiện tại KHỚP `eval_meta.json`** của lần tính metric ⇒ bảng kết quả ứng với đúng các file đang có |
+| Các run trước đó (`p2-*` khác) | 113 | **LEGACY**: chạy bởi bản runner cũ (metadata ghi trước vòng lặp, chưa có `eval_meta`/`video_meta`) ⇒ **không xác minh được bằng fingerprint**; không có dấu hiệu bất thường |
+| Nghi vấn | **0** | — |
+
+⇒ Không có bằng chứng run `_fix1` nào đi qua đường resume không an toàn ⇒ **giữ nguyên kết quả `_fix1`**,
+**không** chạy lại Nhóm B, Nhóm A/C, Giai đoạn 1 hay tạo lại cache. Giới hạn xác minh của 113 thư mục legacy
+được ghi rõ ở trên và trong `CODEX_HANDOFF.md`.
 

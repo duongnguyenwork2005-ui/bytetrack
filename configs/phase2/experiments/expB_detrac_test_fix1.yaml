@@ -6,7 +6,7 @@
 # MOC 2 - Thi nghiem B (THUAT TOAN dung chung bo loc) tren TAP TEST UA-DETRAC (40 video), c25, cau hinh KHOA
 # (LOCK_moc2.md). Baseline = SORT nguyen ban (sort-orig1). Moi cap chi doi MOT yeu to (PHASE2_REPORT muc 7.2):
 #   sort-orig1 -> sort-orig30 : bo dem (max_age 1 -> 30)
-#   sort-orig30 -> sort-cv30  : bieu dien trang thai + nhieu (KF 7-D [u,v,s,r] -> KalmanFilterXYAH), cung vong doi SORT
+#   sort-orig30 -> sort-cv30  : GOI bieu dien trang thai + thiet lap bo loc (KF 7-D + Q/R/P0 cua SORT -> XYAH + Q/R/P0 cua ByteTrack), cung vong doi SORT
 #   sort-cv30 -> sort-ekf30   : motion model (CV -> EKF-CTRV), cung xyah, cung vong doi SORT
 #   sort-orig1 -> sort-ekf1   : chi doi bo loc, giu vong doi nguyen ban (max_age 1)
 #   sort-ekf30 -> bt-ekf      : vong doi/association (SORT -> ByteTrack)
@@ -32,7 +32,7 @@ trackers:
 baseline: sort-orig1
 pairs:
   - [sort-orig30, sort-orig1, "chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)"]
-  - [sort-cv30, sort-orig30, "chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"]
+  - [sort-cv30, sort-orig30, "doi GOI bieu dien trang thai + thiet lap bo loc (KF 7-D + Q/R/P0 cua SORT -> XYAH + Q/R/P0 cua ByteTrack), cung vong doi SORT, max_age 30"]
   - [sort-ekf30, sort-cv30, "chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"]
   - [sort-ekf1, sort-orig1, "chi doi bo loc, max_age 1"]
   - [bt-ekf, sort-ekf30, "chi doi vong doi/association SORT -> ByteTrack, cung EKF"]

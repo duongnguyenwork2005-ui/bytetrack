@@ -1,37 +1,46 @@
-# CODEX_HANDOFF — điểm bắt đầu cho người review (mốc 2, bản sau review vòng 1)
+# CODEX_HANDOFF — điểm bắt đầu cho người review (mốc 2, bản sau review vòng 2)
 
 Tài liệu này dành cho **người/agent review không có quyền truy cập máy của tác giả**. Mọi đường dẫn là
 **tương đối từ gốc repository**. Gói review: `handoff/phase2_review_latest.zip` (xem `handoff/INDEX.md` để
 biết file nào có trong gói, `handoff/FILE_HASHES.csv` để đối chiếu sha256 từng file, `handoff/large_inputs.md`
 để biết đầu vào lớn nào **chỉ có trên máy**, cách nhận diện và lệnh dùng chúng).
 
-## 0. Đợt sửa sau review độc lập (Codex) — đọc trước
+## 0. Trạng thái sau HAI vòng review độc lập — đọc trước
 
-Review của Codex trên snapshot `502f011` nêu 4 lỗi (2×P1, 2×P2) + 6 điểm diễn giải. **Cả 4 lỗi đã được tái
-hiện trên mã hiện tại và đã sửa**; phần Nhóm B bị ảnh hưởng **đã chạy lại** trong thư mục mới. Bảng trạng thái
-đầy đủ: `results/phase2/REVIEW_moc2_codex.md`; chi tiết + số liệu trước/sau: `PHASE2_REPORT.md` **mục 18**.
-
-| # | Phát hiện | Trạng thái | Bằng chứng |
+| Vòng | Phát hiện | Trạng thái | Bằng chứng |
 |:--|:--|:--|:--|
-| P1 | Baseline "SORT nguyên bản" xuất track sớm hơn upstream 1 frame (`hits`/`hit_streak` khởi tạo 1 thay vì 0) | **Đã sửa + chạy lại Nhóm B** | `src/sort_tracker.py`; `src/test_sort_upstream_parity.py` **8/8** so toàn chuỗi với mã upstream đã ghim (`third_party/sort_upstream`, commit `bce9f0d`), lệch toạ độ tối đa **5,8·10⁻⁵ px**, ánh xạ ID đồng nhất; kết quả mới: `results/phase2/expB_detrac_{dev,test}_fix1/` |
-| P1 | Runner có thể chấm tracking mới bằng metric cũ; `--no-skip` không tới bước đánh giá; `run_meta` bị ghi đè provenance; lỗi subprocess không thành exit code | **Đã sửa** | `src/run_fingerprint.py` + `src/run_experiment.py`; `src/test_run_experiment_guard.py` **7/7** |
-| P2 | Cache có thể ghi thêm với `conf`/`classes`/`max_det`/phiên bản khác mà metadata giữ nguyên | **Đã sửa** | `src/det_cache.py` (`STRICT_FIELDS`, `spec_sha256` từng sequence, `write_meta(mode=)`); `src/test_det_cache.py` **47/47**; kiểm cache hiện có: `results/phase2/cache_consistency.csv` — **0 mismatch**, không tái tạo |
-| P2 | ZIP chứa `.gitignore`; commit trong ZIP lệch tin nhắn (ZIP dựng trước commit) | **Đã sửa** | `src/make_handoff.py`: `USER_FILES`/`USER_PREFIXES`, **từ chối dựng khi còn file khác HEAD**, `handoff/FILE_HASHES.csv`, `handoff/external/bytetrack.yaml` |
-| — | 6 điểm diễn giải (Nhóm B, PF, C2, C3, `has_full`, tổng hợp PF theo seed) | **Đã sửa trong báo cáo** | `PHASE2_REPORT.md` mục 7.2, 13.1, 14.2, 15.1, 15.2, 16.2, 16.3, 16.4, 18.6 |
+| 1 (P1) | Baseline "SORT nguyên bản" xuất track sớm hơn upstream 1 frame | **Đã sửa + chạy lại Nhóm B** | `src/test_sort_upstream_parity.py` **8/8** so toàn chuỗi với mã upstream ghim (`third_party/sort_upstream`, commit `bce9f0d`), lệch ≤ **5,8·10⁻⁵ px**; kết quả `results/phase2/expB_detrac_{dev,test}_fix1/` |
+| 1 (P1) | Runner chấm tracking mới bằng metric cũ | **Đã sửa** | `src/run_fingerprint.py`; `src/test_run_experiment_guard.py` **7/7** |
+| 1 (P2) | Cache ghi thêm với `conf`/`classes`/`max_det` khác | **Đã sửa** | `src/det_cache.py`; `src/test_det_cache.py` **51/51** |
+| 1 (P2) | ZIP chứa `.gitignore`, commit lệch | **Đã sửa** | `src/make_handoff.py` (`USER_FILES`, từ chối dựng khi dirty, `FILE_HASHES.csv`) |
+| **2 (P1)** | **Resume sau khi bị gián đoạn / thiếu metadata có thể trộn cấu hình** | **Đã tái hiện + sửa** | Trạng thái **theo từng video** (`video_meta/<video>.json`, ghi nguyên tử) + `run_meta.status=running` trước khi ghi đè; `src/test_run_resume_guard.py` **10/10** qua đường chạy runner thật với lỗi giả lập |
+| **2 (P2)** | **Cache cho ghi khi đổi phiên bản thư viện rồi từ chối đọc** | **Đã tái hiện + sửa** | `GEN_FIELDS` là **một** định nghĩa dùng cho cả đường ghi và đường đọc (gồm `versions`, `device`; bỏ đường dẫn `weights`); `src/test_det_cache.py` **51/51** |
+| 2 | Diễn giải: IDSW "9–12 %", "0 mismatch", nhãn cặp KF 7-D → XYAH, C3, số Nhóm B cũ trong handoff | **Đã sửa** | `PHASE2_REPORT.md` mục 18.2, 18.4, 19; mục 5 của file này |
 
-**Kết quả Nhóm B sau khi sửa** (cấu hình y hệt bản đã khóa, chỉ đổi `name`; không tuning):
+**Audit nguồn gốc `_fix1`** (`src/audit_run_provenance.py` → `results/phase2/run_provenance_audit.csv`):
+**12/12** run Nhóm B `_fix1` có `run_meta` hợp lệ, **0 lần resume**, mỗi run là **một lượt chạy liên tục**
+(14–123 s), `run_meta` ghi **sau** file tracking cuối, và **sha256 của từng file tracking hiện tại KHỚP
+`eval_meta.json`** của lần tính metric ⇒ **giữ nguyên kết quả `_fix1`, không chạy lại**. 113 thư mục còn lại
+thuộc bản runner cũ (**LEGACY** — không xác minh được bằng fingerprint), **0 nghi vấn**.
 
-| cặp (yếu tố được kiểm soát) — TEST 40 video, c25 | trước khi sửa | **sau khi sửa** |
+**Kết quả Nhóm B sau khi sửa** (cấu hình y hệt bản đã khóa, chỉ đổi `name`; không tuning) — **đây là bảng dùng
+cho luận văn**, số cũ chỉ còn giá trị lịch sử:
+
+| cặp (yếu tố được kiểm soát) — TEST 40 video, c25 | trước khi sửa | **sau khi sửa (`_fix1`)** |
 |:--|:--|:--|
 | bộ đệm `max_age` 1 → 30 | +0.0280 [+0.0207, +0.0350] | **+0.0274 [+0.0201, +0.0345]** |
-| gói biểu diễn + thiết lập bộ lọc (KF 7-D → XYAH) | −0.0133 [−0.0185, −0.0077] | **−0.0132 [−0.0185, −0.0077]** |
-| motion model CV → EKF–CTRV | +0.0020 [−0.0001, +0.0042] | **+0.0020 [−0.0001, +0.0042]** |
+| **gói** biểu diễn trạng thái **+ thiết lập bộ lọc** (KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack) | −0.0133 [−0.0185, −0.0077] | **−0.0133 [−0.0185, −0.0077]** (thô: −0.013273 → −0.013250) |
+| motion model CV → EKF–CTRV (cùng XYAH, cùng vòng đời) | +0.0020 [−0.0001, +0.0042] | **+0.0020 [−0.0001, +0.0042]**, ΔIDSW **−108 [−186, −28]** |
 | chỉ đổi bộ lọc ở `max_age` 1 | −0.0140 [−0.0167, −0.0116] | **−0.0140 [−0.0167, −0.0116]** |
-| vòng đời SORT → ByteTrack | +0.0364 [+0.0298, +0.0428] | **+0.0363 [+0.0296, +0.0428]** |
+| vòng đời SORT → ByteTrack (cùng EKF) | +0.0364 [+0.0298, +0.0428] | **+0.0363 [+0.0296, +0.0428]** |
 
-IDSW giảm 9–12 % ở mọi nhánh SORT (track xuất muộn hơn 1 frame ⇒ ít track "non"); **mọi kết luận định tính
-không đổi**. `bt-ekf` (ByteTrack) **bit-identical** bản cũ: 12/12 video dev, 40/40 test → bản sửa không đụng
-ByteTrack, nên **không** cần chạy lại Nhóm A, Nhóm C hay Giai đoạn 1 (đã kiểm: chỉ Nhóm B dùng `SORTTrack`).
+IDSW giảm **2,8–9,8 % tùy nhánh** (orig30 2,79 %; cv30 4,41 %; ekf30 5,03 %; orig1 8,85 %; ekf1 9,79 %) —
+**không** phải "9–12 % ở mọi nhánh" như bản trước viết. Mọi kết luận định tính **không đổi**. `bt-ekf`
+(ByteTrack) **bit-identical** bản cũ: 12/12 video dev, 40/40 test ⇒ bản sửa SORT không đụng ByteTrack, nên
+**không** cần chạy lại Nhóm A, Nhóm C hay Giai đoạn 1 (chỉ Nhóm B dùng `SORTTrack`).
+
+Các hiệu số trên chỉ có nghĩa **trong đúng cặp được kiểm soát**; chúng **không** tạo thành một phép phân rã
+cộng hay một thứ hạng áp dụng cho mọi dataset.
 
 
 ## 1. Mục tiêu, phạm vi mốc 2, quyết định đã chốt
@@ -56,10 +65,15 @@ rồi chạy 40 video test UA-DETRAC; (6) chuẩn bị BDD100K + Jetson Nano; (7
 
 ## 2. Nhánh, commit, thay đổi chưa commit
 
-- Nhánh: **`phase2-mixed-traffic`**, HEAD **`7610b56`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
+- Nhánh: **`phase2-mixed-traffic`**, HEAD **`67445dc`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
 - Commit của mốc 2 (từ `e353b84` = cuối mốc 1):
 
 ```
+67445dc Review vong 2 (1,2,3): trang thai tracking theo tung video + chinh sach cache thong nhat + audit provenance
+23f63ed Review-fix (7i): artifact goi review tai HEAD 4889209 (FILE_HASHES khop toan bo 1229 file)
+4889209 Review-fix (7h): ghi FILE_HASHES.csv sau cung (sau INDEX.md) de hash trong gói la ban cuoi
+c6213b0 Review-fix (7g): artifact goi review tai HEAD c601d91
+c601d91 Review-fix (7f): ghi ro quan he giua commit va goi ZIP trong CODEX_HANDOFF
 7610b56 Review-fix (7e): artifact cua goi review (INDEX, versions, FILE_HASHES, patches, external/bytetrack.yaml) tai HEAD 6a1921f
 6a1921f Review-fix (7d): khong tinh artifact do chinh make_handoff sinh vao kiem tra dirty (ghi ro trong versions.json)
 e281e1a Review-fix (7c): bo qua duong dan mau khi kiem link, sua tham chieu truong created trong CODEX_HANDOFF
@@ -86,7 +100,18 @@ dd67321 Moc 2 (6-7a): mau thi nghiem BDD (chuyen cau hinh vs tuning, tach biet),
 
 ```
 M .gitignore
- M src/demo/rerun_with_state_log.py
+ M PHASE2_REPORT.md
+ M configs/phase2/experiments/expB_detrac_dev_fix1.yaml
+ M configs/phase2/experiments/expB_detrac_test_fix1.yaml
+ M handoff/_review_section.md
+ M handoff/_test_section.md
+ M handoff/logs/tests_latest.log
+ M handoff/logs/tests_summary.csv
+ M results/phase2/expB_detrac_dev_fix1/A/paired_pairs.csv
+ M results/phase2/expB_detrac_test_fix1/c25/paired_pairs.csv
+ M src/make_handoff.py
+ M src/run_all_tests.py
+ M src/test_run_resume_guard.py
 ```
 
 - Ngoài ra người dùng có các file **untracked** riêng (`live.bat`, `outputs/**`, `src/demo/*buffer90*`,
@@ -103,8 +128,9 @@ M .gitignore
 
 1. `CODEX_HANDOFF.md` (file này).
 2. `results/phase2/REVIEW_moc2_codex.md` — trạng thái từng phát hiện của review vòng 1.
-3. `PHASE2_REPORT.md` — mục **18** (đợt sửa sau review, có bảng trước/sau), rồi mục **12–17** (mốc 2),
-   mục 1–11 là mốc 1 (giữ nguyên làm nguồn đối chiếu).
+3. `PHASE2_REPORT.md` — mục **19** (review vòng 2: trạng thái run bị gián đoạn, chính sách cache, audit
+   nguồn gốc), mục **18** (review vòng 1, có bảng trước/sau), rồi mục **12–17** (mốc 2); mục 1–11 là mốc 1
+   (giữ nguyên làm nguồn đối chiếu).
 4. `configs/phase2/PREREG_moc2.md` — đăng ký trước Nhóm C (giá trị, ngân sách, tiêu chí, giả thuyết).
 5. `configs/phase2/LOCK_moc2.md` + `results/phase2/lock/lock_moc2.json` — bản khóa trước khi chạy test.
 6. Kết quả: `results/phase2/expB_detrac_dev_fix1/`, `results/phase2/expB_detrac_test_fix1/` (Nhóm B **sau khi
@@ -116,9 +142,12 @@ M .gitignore
    (+ `src/ekf_ctrv.py`, `src/ukf_ctrv.py`, `src/pf_ctrv.py`, `src/lost_association.py`,
    `src/lost_recovery.py`) → `src/run_experiment.py` → `src/run_trackeval.py`, `src/occlusion_eval.py`,
    `src/boot_stats.py`, `src/aggregate_phase2.py` → `src/assoc_log.py`, `src/failure_analysis.py`;
-   **mới sau review**: `src/run_fingerprint.py`, `src/check_cache_consistency.py`,
-   `src/test_sort_upstream_parity.py`, `src/test_run_experiment_guard.py`, `third_party/sort_upstream/`.
-8. `handoff/logs/tests_latest.log` + `handoff/logs/tests_summary.csv` — kết quả test thực tế (exit code).
+   **mới sau review vòng 1**: `src/run_fingerprint.py`, `src/check_cache_consistency.py`,
+   `src/test_sort_upstream_parity.py`, `src/test_run_experiment_guard.py`, `third_party/sort_upstream/`;
+   **mới sau review vòng 2**: `src/audit_run_provenance.py`, `src/test_run_resume_guard.py` (+ phần
+   `video_meta` / `status` trong `src/run_experiment.py`, `GEN_FIELDS` trong `src/det_cache.py`).
+8. `results/phase2/run_provenance_audit.csv` — audit nguồn gốc **mọi** thư mục run (vòng 2).
+9. `handoff/logs/tests_latest.log` + `handoff/logs/tests_summary.csv` — kết quả test thực tế (exit code).
 
 ## 4. Bảng đối chiếu từng yêu cầu của mốc 2
 
@@ -138,7 +167,7 @@ M .gitignore
 | 4 | Nhóm B trình bày theo từng cặp | ✅ | `pairs` trong YAML → `paired_pairs.csv` | `configs/phase2/experiments/{groupB_detrac_dev,expB_detrac_test}.yaml`; mục 15.3, 16.3 | — |
 | 5 | Khóa cấu hình rồi chạy 40 video test, báo cáo đủ kể cả kết quả không cải thiện | ✅ | `LOCK_moc2.md` + `lock_moc2.json` ghi trước (kiểm chứng mốc thời gian); 3 thí nghiệm test (22 lần chạy) | mục 16 | — |
 | 6 | Chuẩn bị BDD100K (2 thí nghiệm tách biệt) + Nano | ⏳ chuẩn bị | YAML `bdd_transfer_val` / `bdd_tuned_val` + checklist Δt/Q; checklist Nano 5 bước | mục 17; `scripts/nano/README.md` | **Chưa có dữ liệu BDD100K, chưa kết nối Nano** |
-| 7 | Bàn giao để review không cần máy | ✅ | File này + ZIP + log test + patch/diff + versions | `handoff/` | Log `assoc_log` đầy đủ (parquet) giữ tại máy; trong ZIP là bản trích quanh sự kiện |
+| 7 | Bàn giao để review không cần máy | ✅ | File này + ZIP + log test + patch/diff + versions; **từ vòng 2** gói mang thêm `eval_meta.json` / `occl_meta.json` / `video_meta/` của các run có chúng | `handoff/`, `handoff/INDEX.md` mục "Ghi chu dong goi" | Log `assoc_log` đầy đủ (parquet) giữ tại máy; trong ZIP là bản trích quanh sự kiện. **Các run chạy bởi runner cũ không có dấu vân tay đánh giá** — số lượng ghi trong `INDEX.md`, không sinh hồi tố |
 
 ## 5. Kết luận chính — tách "đo được" / "suy luận" / "chưa xác định"
 
@@ -148,21 +177,28 @@ M .gitignore
    ΔIDF1 +0.0053, ΔAssA +0.0072); ở `c25` CI vẫn chứa 0 (+0.0012 [−0.0003, +0.0027]). Độ lớn rất nhỏ
    (≈ +0,6 % tương đối). UKF **kém** EKF một chút có ý nghĩa ở c25 (−0.0011 [−0.0019, −0.0002]).
    PF–CTRV kém rõ rệt (−0.0316 [−0.0389, −0.0255] so với EKF).
-2. **Thứ tự ảnh hưởng (test, Nhóm B)**: vòng đời/association SORT → ByteTrack **+0.0364** > bộ đệm 1 → 30
-   **+0.0280** > biểu diễn trạng thái KF 7-D → XYAH **−0.0133** ≫ motion model CV → EKF **+0.0020** (CI chạm 0).
+2. **Thứ tự ảnh hưởng (test, Nhóm B — số của bản `_fix1` sau khi sửa lỗi SORT)**: vòng đời/association
+   SORT → ByteTrack **+0.0363 [+0.0296, +0.0428]** > bộ đệm 1 → 30 **+0.0274 [+0.0201, +0.0345]** > **gói**
+   biểu diễn trạng thái **+ thiết lập bộ lọc** (KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack)
+   **−0.0133 [−0.0185, −0.0077]** ≫ motion model CV → EKF **+0.0020 [−0.0001, +0.0042]** (CI chạm 0; chỉ
+   ΔIDSW **−108 [−186, −28]** có ý nghĩa). Chỉ đọc trong đúng cặp được kiểm soát, không phải thứ hạng phổ quát.
 3. **Nguyên nhân mất ID** (dev, 184 sự kiện): ở tầng che hoàn toàn, **dự đoán lệch** là số 1 (cv 11/22,
    ekf 13/23 ca) — IoU(dự đoán, det) trung bình 0,06 sau trung vị 25 bước mất dấu; `detector_miss` **không**
    xuất hiện ở tầng full; 86 % ID mới là **track mới sinh từ detection**.
 4. **Nới `track_buffer` không giúp**: 0,8 → 4,0 s giữ nguyên tỉ lệ giữ ID trong khi **ghép nhầm tăng đơn điệu**
    (CV 2,5 % → 5,3 %).
-5. **Tuning tham số nhiễu không giúp** (21 cấu hình, mọi CI chứa 0) — dù tham số **thực sự có hiệu lực**
+5. **Tuning tham số nhiễu: không cấu hình nào CẢI THIỆN HOTA có ý nghĩa** (21 cấu hình; một số cấu hình CV
+   **kém hơn có ý nghĩa**, ví dụ `std_weight_position` 1/10 với `std_weight_velocity` 1/320: −0.0094
+   [−0.0197, −0.0019]) — dù tham số **thực sự có hiệu lực**
    (covariance đổi rõ: `P[θ,θ]` trung bình 2,46 / 2,83 / 3,88 theo `std_omega`) và đầu ra **không** giống hệt
    (0/12 bit-identical; ~99 % dòng lệch dưới 1 px với EKF).
 6. **Thêm vòng ghép cho track LOST**: giữ ID qua che khuất tăng có ý nghĩa (dev +0.049; test +0.036; tầng che
    hoàn toàn **gấp đôi**: 0,060 → 0,121) **nhưng HOTA giảm có ý nghĩa trên test** (−0.0046 / −0.0034) vì ghép
    nhầm tăng 3–5 lần (3,5 % → 9,3 %).
-7. **PF suy biến đúng lúc cần**: khi track mất dấu > 10 bước, chỉ còn ~3 % particle phân biệt (sau resample),
-   ESS/N ~1 % (trước resample).
+7. **PF — đúng cái đã đo**: ở các lần **cập nhật sau một khoảng mất dấu dài**, ESS/N ~1 % (đo **trước**
+   resample) và chỉ còn ~3 % particle phân biệt (đo **sau** resample). **Không** suy ra được từ log này rằng
+   mất đa dạng xảy ra *trước khi có quan sát mới*, cũng **không** phải bằng chứng đó là *nguyên nhân* của các
+   lần nối lại thất bại (những lần đó không có bước cập nhật nên không có dòng log).
 8. Mọi kết quả GĐ1 và mốc 1 **tái lập được**: expA (có log) vs mốc 1 **288/288 cặp (lần chạy, video)**
    bit-identical **và** song ánh ID.
 
@@ -176,6 +212,11 @@ M .gitignore
 
 **Chưa xác định**
 
+- **Nguồn gốc cấu hình của 53/56 sequence cache `legacy`**: chúng được sinh trước khi có `spec_sha256` nên
+  không xác minh được bằng fingerprint (chỉ 3 sequence fixture ở trạng thái `ok`, 0 mismatch). Cache
+  UA-DETRAC không đổi byte giữa hai gói bàn giao. Không bổ sung fingerprint hồi tố.
+- **Nguồn gốc của 113 thư mục run `LEGACY`** (chạy bởi bản runner cũ): không có `eval_meta`/`video_meta` để
+  đối chiếu; 0 dấu hiệu nghi vấn nhưng cũng không chứng minh được bằng hash.
 - Hành vi trên **giao thông hỗn hợp thật** (xe máy, BDD100K 5 fps, camera chuyển động): chưa có dữ liệu.
 - Tốc độ trên **Jetson Nano**: chưa có thiết bị. Mọi con số tốc độ trong repo là trên PC (GTX 1650).
 - PF với thiết kế nhiễu khác (roughening/proposal/Q riêng): chưa chạy.
@@ -238,7 +279,11 @@ Các bước khác chạy CPU từ cache (cache có trong ZIP nếu ≤ 60 MB �
 | `python src/check_identical_runs.py --split DETRAC-all --a p2-groupB_detrac_dev-A-bt-ekf --b p2-expB_detrac_dev_fix1-A-bt-ekf` | 0 | 12/12 bit-identical |
 | `python src/check_identical_runs.py --split DETRAC-test --a p2-expB_detrac_test-c25-bt-ekf --b p2-expB_detrac_test_fix1-c25-bt-ekf` | 0 | 40/40 bit-identical |
 | `python src/check_cache_consistency.py` | 0 | `results/phase2/cache_consistency.csv` (0 mismatch) |
-| `python src/run_all_tests.py` | 0 | `handoff/logs/tests_latest.log`, `tests_summary.csv` — **19/19 PASS**, 0 FAIL, 0 SKIPPED |
+| `python src/test_run_resume_guard.py` (vòng 2) | 0 | 10/10 — A→B bị ngắt→A, thiếu/hỏng `video_meta`, resume giữ provenance |
+| `python src/audit_run_provenance.py --pattern "p2-expB_detrac_*_fix1-*" --verify-eval-fingerprint` (vòng 2) | 0 | `handoff/logs/audit_run_provenance_fix1.log` — 12/12 OK, 0 nghi vấn |
+| `python src/audit_run_provenance.py --pattern "p2-*" --verify-eval-fingerprint` (vòng 2) | 0 | `handoff/logs/audit_run_provenance_all.log` — 21 OK, 113 LEGACY, **0 nghi vấn** |
+| `python src/aggregate_phase2.py --exp .../expB_detrac_{dev,test}_fix1.yaml` (vòng 2) | 0 | chỉ sinh lại bảng dẫn xuất sau khi sửa **nhãn** cặp (không đổi tham số thí nghiệm) |
+| `python src/run_all_tests.py` | 0 | `handoff/logs/tests_latest.log`, `tests_summary.csv` — **20/20 PASS**, 0 FAIL, 0 SKIPPED |
 
 Toàn bộ log của mọi lần chạy (kể cả các lần của mốc 2) nằm trong `handoff/logs/`; mỗi file kết thúc bằng dòng
 `exit=<mã>`.
@@ -254,7 +299,8 @@ Toàn bộ log của mọi lần chạy (kể cả các lần của mốc 2) n�
 | Cache detection | `data/interim/det_cache/<id>/meta.json` (+ `spec_sha256` từ nay) và từng `<video>.json` |
 | SORT upstream | `third_party/sort_upstream/PROVENANCE.json` (commit `bce9f0d`, sha256 `f5b10481…`) |
 | `bytetrack.yaml` của ultralytics | `handoff/external/bytetrack.yaml` (bản đang dùng, để đối chiếu hash trong lock) |
-| Mỗi lần chạy | `data/processed/trackers/<split>/<dir>/run_meta.json` (cfg, cache, commit, `created`, `input_fingerprint`, `resumed`) và `results/trackeval/<split>/<dir>/eval_meta.json` (dấu vân tay đánh giá) |
+| Mỗi lần chạy | `data/processed/trackers/<split>/<dir>/run_meta.json` (cfg, cache, commit, `created`, `input_fingerprint`, `status`, `resumed`), `video_meta/<video>.json` (bằng chứng hoàn tất từng video — từ vòng 2), `results/trackeval/<split>/<dir>/eval_meta.json` + `results/phase2/<exp>/<cond>/occl_meta.json` (dấu vân tay đánh giá) |
+| Audit nguồn gốc | `results/phase2/run_provenance_audit.csv` (mọi thư mục run: status, resume, hash khớp `eval_meta` hay không) |
 
 ## 7. Những điểm nên kiểm tra kỹ
 
@@ -279,8 +325,19 @@ Toàn bộ log của mọi lần chạy (kể cả các lần của mốc 2) n�
    mọi thay đổi ảnh hưởng kết quả không; `eval_meta.json`/`occl_meta.json` có bị bỏ qua ở nhánh nào không.
 10. **(sau review vòng 1)** `src/test_sort_upstream_parity.py`: cách stub `matplotlib`/`skimage`, và hai khác
    biệt có chủ ý so với upstream (lọc `conf > det_thresh`, xử lý track NaN) — xem `PROVENANCE.json`.
-11. **(sau review vòng 1)** `src/det_cache.py`: chính sách `STRICT_FIELDS` vs `WARN_FIELDS` có hợp lý không;
-   các cache `legacy` (chưa có `spec_sha256`) được xử lý ra sao khi đọc.
+11. **(sau review vòng 2)** `src/det_cache.py`: `GEN_FIELDS` — **một** tập trường dùng cho **cả** đường ghi
+   (`write_meta` so sánh, khác ⇒ từ chối và không đổi gì trên đĩa) **và** đường đọc (`spec_sha256` hash đúng
+   tập đó). Cần kiểm: tập này có **thiếu** trường nào thực sự ảnh hưởng detection không, và việc **loại**
+   đường dẫn `weights` (giữ `weights_sha256`) có đúng không. Cache `legacy` (chưa có `spec_sha256`) chỉ được
+   cảnh báo, **không** backfill.
+12. **(sau review vòng 2)** `src/run_experiment.py`: `can_reuse_video()` + `video_meta/<video>.json` +
+   `run_meta.status`. Cần kiểm: có đường nào tái sử dụng đầu ra mà **không** đi qua `can_reuse_video` không;
+   `mark_run_started` có chạy **trước** mọi thao tác ghi đè không; `mark_run_finished` hợp nhất provenance có
+   làm mất lịch sử `resumed` không. Test đối chứng: `src/test_run_resume_guard.py` (10 phép, chạy qua runner
+   thật với lỗi giả lập).
+13. **(sau review vòng 2)** `src/audit_run_provenance.py`: tiêu chí phân loại `OK` / `LEGACY` / `NGHI VAN`.
+   Kết luận "giữ nguyên `_fix1`, không chạy lại" **dựa trên** `tracking_hash_match=True` với `eval_meta.json`
+   — nếu tiêu chí này chưa đủ mạnh thì kết luận đó cần xem lại.
 
 ## 8. Kết quả trên 40 video test UA-DETRAC
 
@@ -298,11 +355,25 @@ khóa**. Không có tuning hay ablation mới sau khi xem kết quả test. Chi 
 | PF500 − EKF | **−0.0316 [−0.0389, −0.0255]** | **−0.0325 [−0.0394, −0.0264]** |
 
 HOTA tuyệt đối (c25): cv 0.5824, ekf 0.5835, ukf 0.5824, pf500 0.5519. Giữ ID qua che khuất: cv 0.480,
-ekf 0.487, ukf 0.485, pf500 0.435; **tầng che hoàn toàn (182 sự kiện): cả ba bộ lọc đều 0,060**.
+ekf 0.487, ukf 0.485, pf500 0.435. **Tầng che nặng** (`has_full` = sự kiện **có đoạn che ≥ 0,90**, không
+phải che 100 % ở mọi frame; 182 sự kiện): **tại c25** cả ba bộ lọc đều 0,060 (11/182); **tại c10** UKF 12/182
+(0,066), CV/EKF vẫn 11/182 — chênh **một** sự kiện, không có ý nghĩa thống kê. Phát biểu "cả ba như nhau" chỉ
+áp dụng cho **c25**.
 
-**B — thuật toán** (c25, mỗi cặp chỉ đổi một yếu tố): bộ đệm 1 → 30 **+0.0280 [+0.0207, +0.0350]**;
-biểu diễn trạng thái KF 7-D → XYAH **−0.0133 [−0.0185, −0.0077]**; motion model CV → EKF–CTRV +0.0020
-[−0.0001, +0.0042] (IDSW −84 [−162, −4]); vòng đời SORT → ByteTrack **+0.0364 [+0.0298, +0.0428]**.
+**B — thuật toán** (c25, mỗi cặp chỉ đổi một yếu tố) — **số của bản `_fix1`**, tức sau khi sửa lỗi vòng đời
+SORT (`results/phase2/expB_detrac_test_fix1/c25/paired_pairs.csv`); số trong ngoặc là bản trước khi sửa, chỉ
+còn giá trị lịch sử:
+
+| cặp (yếu tố được kiểm soát) | ΔHOTA `_fix1` | (trước khi sửa) | ΔIDSW `_fix1` |
+|:--|:--|:--|:--|
+| bộ đệm `max_age` 1 → 30 | **+0.0274 [+0.0201, +0.0345]** | (+0.0280) | −1055 [−1390, −759] |
+| **gói** biểu diễn trạng thái **+ thiết lập bộ lọc** (KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack) | **−0.0133 [−0.0185, −0.0077]** | (−0.0133) | +4 [−140, +156] (CI chứa 0) |
+| motion model CV → EKF–CTRV (cùng XYAH, cùng vòng đời SORT) | +0.0020 [−0.0001, +0.0042] (CI chạm 0) | (+0.0020) | **−108 [−186, −28]** |
+| chỉ đổi bộ lọc, `max_age` 1 | **−0.0140 [−0.0167, −0.0116]** | (−0.0140) | +186 [+62, +308] |
+| vòng đời/association SORT → ByteTrack (cùng EKF) | **+0.0363 [+0.0296, +0.0428]** | (+0.0364) | −1685 [−2090, −1292] |
+
+Mỗi hiệu số chỉ có nghĩa **trong đúng cặp được kiểm soát** — không phải một phép phân rã cộng, cũng không phải
+thứ hạng áp dụng cho mọi dataset. `bt-ekf` **bit-identical** giữa hai bản (40/40 video test).
 
 **C — nhánh thăm dò** (vòng ghép thứ 3 cho track LOST, gate Mahalanobis; **không** phải cấu hình được chọn):
 giữ ID qua che khuất **tăng có ý nghĩa** (+0.036 [+0.019, +0.051] với CV; tầng che hoàn toàn 0,060 → **0,121**)

@@ -1,0 +1,61 @@
+{
+  "dir": "p2-expB_detrac_dev_fix1-A-sort-cv30",
+  "split_name": "DETRAC-all",
+  "tracking": {
+    "n_videos": 12,
+    "n_missing": 0,
+    "sha256": "b93aff0e479b186f54f02068905325850c9f5ec482a8f6bd1798a5b5cd688616",
+    "per_video": {
+      "MVI_20052": "8f9b20c60976b691",
+      "MVI_20062": "7049e6378b74aa3b",
+      "MVI_39851": "6fadb22b8ba34360",
+      "MVI_39931": "20fe26d06c6100e9",
+      "MVI_40213": "5f3717eae3b361d0",
+      "MVI_40752": "f78cd412be560bf3",
+      "MVI_40871": "4ce71f87bf40a5a1",
+      "MVI_40992": "5347549e564f97f6",
+      "MVI_63544": "dd0c280726cef809",
+      "MVI_63552": "2d14d6f92df52ba9",
+      "MVI_63554": "211ae8a0f03d27f5",
+      "MVI_63561": "31998531c994fbff"
+    }
+  },
+  "config": "b1f1d3b2fca7d5946ca2ce0afaf429d7542a3aa138cb3e96f250378a6f17bbb6",
+  "cache": {
+    "cache_id": "yolov8n-coco_conf0.05_all",
+    "meta_sha256": "870cb45fbb006d0e898b3468b698deeee470a9f6aef1ffd4e3e9acc073282211",
+    "npz_sha256": "9d596eb4b6b446a674d3402dfafab287c777d39bf545d993c188916e961405de",
+    "weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "conf": 0.05,
+    "classes": null,
+    "max_det": 3000
+  },
+  "sequences": "cbe50ca57a54f6fdaf44ae184d2000a033933b3159dfd28e094d18bb28c6d8ea",
+  "code": {
+    "git_commit": "1c7ce8c",
+    "modules": {
+      "run_tracking.py": "710c734caad11ca2",
+      "run_experiment.py": "b03d86672c8d433b",
+      "tracker_ctrv.py": "9875193edabd3a79",
+      "sort_tracker.py": "f59ace284ab71e21",
+      "ekf_ctrv.py": "b516781efa01f473",
+      "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+      "ukf_ctrv.py": "2d59daf4794d8039",
+      "pf_ctrv.py": "06583f6dd2504ad5",
+      "lost_recovery.py": "db8d186a4a7d5424",
+      "lost_association.py": "72f81352bbe36140",
+      "time_units.py": "c13b6e20fe003f6d",
+      "det_cache.py": "172a6e5056ae37af",
+      "occlusion_eval.py": "1b892596be674b9e",
+      "boot_stats.py": "e9245f6729659f8f",
+      "run_trackeval.py": "b6ef4cff5bc7b1bc",
+      "trackeval_ext.py": "3dcf6582548adcfa",
+      "assoc_log.py": "9e7fd79b4e3a7ef5"
+    }
+  },
+  "evaluator": {
+    "trackeval": "1.3.0",
+    "dataset_class": "mot"
+  },
+  "evaluated_at": "2026-09-16T12:33:38"
+}

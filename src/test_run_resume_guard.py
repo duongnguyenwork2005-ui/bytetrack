@@ -185,8 +185,11 @@ def main() -> int:
                and len(meta_res.get("resumed", [])) == n_resumed_before + 1,
                f"created {meta_before_resume['created']} -> {meta_res['created']}; "
                f"resumed {n_resumed_before} -> {len(meta_res.get('resumed', []))}")
-        # (created cua lan chay A dau tien = {created_A}, {commit_A} - da bi thay khi chuyen sang cau hinh B
-        #  roi quay lai, dung nhu ky vong: doi dau van tay => provenance moi)
+        # Provenance cua lan chay A DAU TIEN (created_A/commit_A) da bi thay khi chuyen sang cau hinh B roi
+        # quay lai - dung nhu ky vong: doi dau van tay => provenance moi.
+        _check("provenance cua lan A dau tien da bi thay sau khi doi cau hinh roi quay lai",
+               meta_res["created"] != created_A or meta_res["git_commit"] == commit_A)
+        prov_truoc_doi_cfg = (meta_res["created"], meta_res["git_commit"])
 
         # --- 5. doi cau hinh -> chay lai toan bo ---
         ran["n"] = 0
@@ -196,10 +199,13 @@ def main() -> int:
         finally:
             run_tracking.run_video_to_dir = orig
         meta_b2 = json.loads((out_root() / "run_meta.json").read_text(encoding="utf-8"))
-        _check("doi cau hinh -> chay lai TOAN BO, provenance moi, status=complete",
+        prev = meta_b2.get("previous", {})
+        _check("doi cau hinh -> chay lai TOAN BO, status=complete, 'previous' giu provenance NGAY TRUOC do",
                ran["n"] == len(videos) and meta_b2["status"] == "complete"
-               and meta_b2["created"] != created_A and meta_b2.get("previous", {}).get("created") == created_A,
-               f"ran={ran['n']} created={meta_b2['created']}")
+               and (prev.get("created"), prev.get("git_commit")) == prov_truoc_doi_cfg
+               and meta_b2["input_fingerprint"] != meta_res["input_fingerprint"],
+               f"ran={ran['n']} created={meta_b2['created']} previous={prev.get('created')} "
+               f"(mong doi {prov_truoc_doi_cfg[0]})")
     except AssertionError:
         failed += 1
     finally:
