@@ -155,6 +155,7 @@ def set_base(commit: str, rnd: int, snapshot: str | None, mo_ta: str | None) -> 
     lich_su = cur.get("lich_su", [])
     if cur.get("base_commit"):
         lich_su.append({k: cur.get(k) for k in ("vong", "base_commit", "base_snapshot", "cap_nhat_luc")})
+    BASE_FILE.parent.mkdir(parents=True, exist_ok=True)
     BASE_FILE.write_text(json.dumps({
         "vong": rnd,
         "base_commit": full,
@@ -173,9 +174,23 @@ def set_base(commit: str, rnd: int, snapshot: str | None, mo_ta: str | None) -> 
 
 
 def collect(base: str, target: str) -> tuple[list[dict], list[dict]]:
-    """Tra ve (rows_gom, rows_bo_qua). Moi row: status, path, sha256_base, sha256_target, bytes."""
+    """Tra ve (rows_gom, rows_bo_qua) cho MOI duong dan doi giua base va target.
+
+    Moi row co HAI co che doc lap:
+        trong_patch  duong dan nay co mat trong patch khong (tap THAY DOI LOGIC)
+        trong_goi    file vat ly duoc nen vao ZIP o dau (tap PAYLOAD), "" neu khong nen
+
+    Ba truong hop:
+        - bi LOAI theo chinh sach (file rieng cua nguoi dung, du lieu lon...): khong patch, khong payload.
+        - bi XOA hoac trung noi dung: KHONG co payload nhung VAN nam trong patch, nen ap patch van tai
+          tao dung target.
+        - con lai: ca patch lan payload.
+
+    Dung `--no-renames`: doi ten duoc bieu dien thanh xoa (ten cu) + them (ten moi), nho do chinh sach
+    loai tru va patch xu ly du CA HAI ten (truoc day `-M` chi tra ten moi -> ap patch xong file cu con lai).
+    """
     gom, bo = [], []
-    out = git("diff", "--name-status", "-M", f"{base}..{target}")
+    out = git("diff", "--name-status", "--no-renames", f"{base}..{target}")
     for ln in out.splitlines():
         if not ln.strip():
             continue
@@ -183,35 +198,70 @@ def collect(base: str, target: str) -> tuple[list[dict], list[dict]]:
         status, path = parts[0][0], parts[-1].replace("\\", "/")
         b_base = blob_at(base, path)
         b_tgt = blob_at(target, path)
-        row = {"status": {"A": "them", "M": "sua", "D": "xoa", "R": "doi ten"}.get(status, status),
-               "path": path,
+        row = {"status": {"A": "them", "M": "sua", "D": "xoa"}.get(status, status),
+               "path": path, "trong_patch": False, "trong_goi": "",
                "sha256_base": sha256_bytes(b_base) if b_base is not None else "",
                "sha256_target": sha256_bytes(b_tgt) if b_tgt is not None else "",
                "bytes": len(b_tgt) if b_tgt is not None else 0}
+
         why = skip_reason(path)
-        if not why and status != "D" and row["sha256_target"]:
-            # tests_latest.log la ban sao cua tests_<ngay>.log -> chi luu MOT ban, ban con lai
-            # duoc ghi trong MANIFEST la trung noi dung (nguoi review doi chieu bang sha256).
+        if why:
+            # LOAI TRIET DE: khong payload va cung KHONG vao patch. Truoc day file rieng bi
+            # `git rm --cached` van lot noi dung vao patch vi moi row 'xoa' deu duoc dua vao.
+            row["ly_do_khong_gom"] = why
+            bo.append(row)
+            continue
+
+        row["trong_patch"] = True           # moi thay doi khong bi loai deu nam trong patch
+        if status == "D":
+            row["ly_do_khong_gom"] = "file da bi xoa (thao tac xoa nam trong patch)"
+            bo.append(row)
+            continue
+
+        # Dedup CHI cho payload va CHI voi file khong phai code/config: neu dedup dung cham code thi
+        # ap patch xong van du file, nhung nguoi review mat ban day du trong `files/` -> khong danh doi.
+        if row["sha256_target"] and not path.startswith(CODE_PREFIXES) and path not in DOC_EXACT:
             truoc = next((r for r in gom if r["sha256_target"] == row["sha256_target"]), None)
             if truoc is not None:
                 row["trung_noi_dung_voi"] = truoc["trong_goi"]
-                row["ly_do_khong_gom"] = f"trung noi dung voi {truoc['trong_goi']} (cung sha256)"
+                row["ly_do_khong_gom"] = (f"trung noi dung voi {truoc['trong_goi']} (cung sha256); "
+                                          "thay doi van nam trong patch")
                 bo.append(row)
                 continue
-        if why or status == "D":
-            row["ly_do_khong_gom"] = why or "file da bi xoa (chi ghi trong manifest va patch)"
-            bo.append(row)
-        else:
-            row["trong_goi"] = f"{zip_dir(path)}/{path}"
-            gom.append(row)
+
+        row["trong_goi"] = f"{zip_dir(path)}/{path}"
+        gom.append(row)
     return gom, bo
 
 
+def _paths_trong_diff(patch: str) -> set[str]:
+    """Moi duong dan xuat hien trong tung phan cua diff (khong chi ten thanh vien ZIP)."""
+    out = set()
+    for ln in patch.splitlines():
+        if ln.startswith("diff --git "):
+            for tok in ln[len("diff --git "):].split():
+                out.add(tok[2:] if tok[:2] in ("a/", "b/") else tok)
+        elif ln.startswith(("--- a/", "+++ b/")):
+            out.add(ln[6:])
+        elif ln.startswith(("rename from ", "rename to ")):
+            out.add(ln.split(" ", 2)[2])
+    out.discard("dev/null")
+    return out
+
+
 def make_patch(base: str, target: str, paths: list[str]) -> str:
-    """Patch chi chua cac duong dan duoc dong goi (loai file rieng cua nguoi dung va du lieu lon)."""
+    """Patch cho DUNG cac duong dan thuoc tap thay doi logic.
+
+    Sau khi sinh, kiem tra lai TUNG duong dan ben trong diff: neu co bat ky duong dan nao thuoc dien
+    bi loai (file rieng cua nguoi dung, du lieu lon...) thi dung han - khong dong goi.
+    """
     if not paths:
         return ""
-    return git("diff", "-M", f"{base}..{target}", "--", *paths)
+    patch = git("diff", "--no-renames", f"{base}..{target}", "--", *paths)
+    lot = sorted(q for q in _paths_trong_diff(patch) if skip_reason(q))
+    if lot:
+        sys.exit("DUNG: patch chua duong dan thuoc dien bi loai: " + ", ".join(lot[:10]))
+    return patch
 
 
 def large_inputs_table() -> list[dict]:
@@ -273,7 +323,7 @@ def build(base_info: dict, target: str, dry: bool) -> int:
     if not BRIEF.exists():
         sys.exit(f"Thieu {BRIEF.relative_to(ROOT)} - viet bao cao ngan cua vong nay truoc khi dong goi")
 
-    patch_paths = [r["path"] for r in gom] + [r["path"] for r in bo if r["status"] == "xoa"]
+    patch_paths = [r["path"] for r in gom + bo if r.get("trong_patch")]
     patch = make_patch(base, target, patch_paths)
     patch_name = f"patch/delta_{base[:7]}..{target[:7]}.diff"
     large = large_inputs_table()
@@ -289,10 +339,11 @@ def build(base_info: dict, target: str, dry: bool) -> int:
             print(f"    {r['ly_do_khong_gom']:<52s} {r['path']}")
         return 0
 
-    manifest_rows = sorted(gom + bo, key=lambda r: (r.get("trong_goi", "zzz"), r["path"]))
+    manifest_rows = sorted(gom + bo, key=lambda r: (r.get("trong_goi") or "zzz", r["path"]))
     buf = io.StringIO()
-    w = csv.DictWriter(buf, fieldnames=["status", "path", "trong_goi", "ly_do_khong_gom",
-                                        "trung_noi_dung_voi", "bytes", "sha256_base", "sha256_target"],
+    w = csv.DictWriter(buf, fieldnames=["status", "path", "trong_goi", "trong_patch",
+                                        "ly_do_khong_gom", "trung_noi_dung_voi", "bytes",
+                                        "sha256_base", "sha256_target"],
                        extrasaction="ignore", lineterminator="\n")
     w.writeheader()
     for r in manifest_rows:
@@ -309,6 +360,7 @@ def build(base_info: dict, target: str, dry: bool) -> int:
         "tao_luc": dt.datetime.now().isoformat(timespec="seconds"),
         "commits": [ln for ln in git("log", "--format=%h %s", f"{base}..{target}").splitlines() if ln],
         "so_file_trong_goi": len(gom), "so_file_bo_qua": len(bo),
+        "so_duong_dan_trong_patch": sum(1 for r in gom + bo if r.get("trong_patch")),
         "thu_tu_doc": ["REVIEW_BRIEF.md", patch_name, "logs/", "data/", "DEPENDENCIES.md"],
         "file_trong_goi": gom, "file_bo_qua": bo,
         "dau_vao_lon_giu_tren_may": large,
@@ -343,6 +395,10 @@ def build(base_info: dict, target: str, dry: bool) -> int:
                  if n not in names]
         xau = [n for n in names if is_user_file(n.split("/", 1)[-1]) or "buffer90" in n
                or n.endswith((".npz", ".pt", ".mp4"))]
+        # ...va ca duong dan BEN TRONG patch (ten thanh vien ZIP khong noi gi ve noi dung .diff)
+        if patch:
+            xau += ["(trong patch) " + q for q in sorted(_paths_trong_diff(
+                z.read(patch_name).decode("utf-8", "replace"))) if skip_reason(q)]
     print(f"\nZIP: {ZIP} ({ZIP.stat().st_size/1e6:.2f} MB, {len(names)} file); testzip: OK")
     print(f"file bat buoc thieu: {thieu or 'khong'}")
     print(f"file CAM co trong ZIP: {len(xau)} {xau[:5]}")

@@ -15,6 +15,13 @@ sua" gom file code, test, log, ket qua, file rieng cua nguoi dung, mot file nhi 
   8. File bi bo qua van duoc liet ke (kem ly do) trong MANIFEST va DEPENDENCIES.md.
   9. Thieu REVIEW_BRIEF.md -> tu choi dung goi.
 
+Ba phep kiem hoi quy cho hai loi packager (review vong 3), moi phep dung REPO TAM RIENG:
+ 10. P1 - file rieng bi `git rm --cached` (bo theo doi, GIU tren o dia): goi KHONG chua diff hay
+     marker noi dung cua file do; file lam viec van con nguyen.
+ 11. P2a - doi ten file code: ap patch len base phai cho ra DUNG target (ten moi co, ten cu BIEN MAT).
+ 12. P2b - hai file code moi TRUNG noi dung: ap patch len base phai co DU ca hai.
+Hai phep 11-12 so TOAN BO duong dan code/test/config voi target, khong chi exit code hay mot file.
+
     python src/test_review_delta.py
 """
 from __future__ import annotations
@@ -96,6 +103,149 @@ def make_repo(d: Path) -> str:
     run(["git", "add", "-A", "-f"], d)
     run(["git", "commit", "-qm", "vong sua"], d)
     return base
+
+
+def dung_goi(d: Path, base: str) -> zipfile.ZipFile:
+    """Dat base roi dung goi delta trong repo tam `d`; tra ve ZipFile da mo."""
+    (d / "handoff").mkdir(parents=True, exist_ok=True)   # fixture tu tao, khong phu thuoc packager
+    run([PY, "src/make_review_delta.py", "--set-base", base, "--round", "1",
+         "--base-snapshot", "handoff/archive/base.zip"], d)
+    write(d, "handoff/REVIEW_BRIEF.md", "# brief\n")
+    r = run([PY, "src/make_review_delta.py"], d)
+    assert r.returncode == 0, r.stdout + r.stderr
+    return zipfile.ZipFile(d / "handoff" / "review_delta_latest.zip")
+
+
+def cay_code_sau_khi_ap(d: Path, base: str, patch: bytes) -> dict[str, str]:
+    """Clone repo tam ve base, ap patch, tra ve {duong dan code/test/config: noi dung}."""
+    w = Path(tempfile.mkdtemp(prefix="delta_apply_"))
+    run(["git", "clone", "-q", str(d), str(w / "r")], w)
+    r = w / "r"
+    run(["git", "checkout", "-q", base], r)
+    (r / "p.diff").write_bytes(patch)
+    ap = run(["git", "apply", "p.diff"], r)
+    assert ap.returncode == 0, ap.stdout + ap.stderr
+    out = {}
+    for q in sorted(r.rglob("*")):
+        rel = q.relative_to(r).as_posix()
+        if q.is_file() and (rel.startswith(("src/", "configs/")) and "make_review_delta" not in rel):
+            out[rel] = q.read_text(encoding="utf-8")
+    shutil.rmtree(w, ignore_errors=True)
+    return out
+
+
+def cay_code_tai(d: Path, commit: str) -> dict[str, str]:
+    """{duong dan code/test/config: noi dung} tai mot commit cua repo tam."""
+    ls = run(["git", "ls-tree", "-r", "--name-only", commit], d).stdout.split()
+    out = {}
+    for rel in ls:
+        if rel.startswith(("src/", "configs/")) and "make_review_delta" not in rel:
+            out[rel] = run(["git", "show", f"{commit}:{rel}"], d).stdout
+    return out
+
+
+def test_p1_file_rieng_bi_bo_theo_doi() -> None:
+    """P1: `git rm --cached` file rieng -> noi dung KHONG duoc lot vao patch."""
+    d = Path(tempfile.mkdtemp(prefix="delta_p1_"))
+    try:
+        MARKER = "MARKER_NOI_DUNG_RIENG_KHONG_DUOC_RO_RI"
+        run(["git", "init", "-q", "-b", "main"], d)
+        run(["git", "config", "user.email", "t@t"], d)
+        run(["git", "config", "user.name", "t"], d)
+        (d / "src").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / "src" / "make_review_delta.py", d / "src" / "make_review_delta.py")
+        write(d, "src/tracker.py", "x = 1\n")
+        write(d, "src/demo/private.py", f"# {MARKER}\nbi_mat = 1\n")
+        run(["git", "add", "-A", "-f"], d)
+        run(["git", "commit", "-qm", "base"], d)
+        base = run(["git", "rev-parse", "HEAD"], d).stdout.strip()
+
+        run(["git", "rm", "--cached", "-q", "src/demo/private.py"], d)   # bo theo doi, GIU tren o dia
+        write(d, "src/tracker.py", "x = 2\n")
+        run(["git", "add", "src/tracker.py"], d)
+        run(["git", "commit", "-qm", "bo theo doi file rieng"], d)
+
+        with dung_goi(d, base) as z:
+            names = z.namelist()
+            patch = z.read(next(n for n in names if n.startswith("patch/"))).decode("utf-8", "replace")
+            toan_bo = b"".join(z.read(n) for n in names).decode("utf-8", "replace")
+        con_tren_dia = (d / "src" / "demo" / "private.py").read_text(encoding="utf-8")
+        _check("P1: file rieng bi `git rm --cached` -> KHONG co diff/marker trong goi, file van con tren dia",
+               MARKER not in toan_bo and "src/demo/private.py" not in patch
+               and MARKER in con_tren_dia,
+               f"marker trong goi={MARKER in toan_bo}; duong dan trong patch="
+               f"{'src/demo/private.py' in patch}")
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def test_p2a_doi_ten() -> None:
+    """P2a: doi ten file code -> ap patch phai cho DUNG target (ten cu BIEN MAT)."""
+    d = Path(tempfile.mkdtemp(prefix="delta_p2a_"))
+    try:
+        run(["git", "init", "-q", "-b", "main"], d)
+        run(["git", "config", "user.email", "t@t"], d)
+        run(["git", "config", "user.name", "t"], d)
+        (d / "src").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / "src" / "make_review_delta.py", d / "src" / "make_review_delta.py")
+        write(d, "src/old_util.py", "def f():\n    return 1\n")
+        write(d, "configs/exp.yaml", "conf: 0.25\n")
+        run(["git", "add", "-A"], d)
+        run(["git", "commit", "-qm", "base"], d)
+        base = run(["git", "rev-parse", "HEAD"], d).stdout.strip()
+
+        run(["git", "mv", "src/old_util.py", "src/new_util.py"], d)
+        run(["git", "commit", "-qm", "doi ten"], d)
+        target = run(["git", "rev-parse", "HEAD"], d).stdout.strip()
+
+        with dung_goi(d, base) as z:
+            patch = z.read(next(n for n in z.namelist() if n.startswith("patch/")))
+        sau = cay_code_sau_khi_ap(d, base, patch)
+        mong = cay_code_tai(d, target)
+        _check("P2a: doi ten -> ap patch cho DUNG target (ten moi co, ten cu bien mat)",
+               sau == mong,
+               f"thua={sorted(set(sau) - set(mong))} thieu={sorted(set(mong) - set(sau))}")
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def test_p2b_hai_file_trung_noi_dung() -> None:
+    """P2b: hai file code moi trung noi dung -> ap patch phai co DU ca hai."""
+    d = Path(tempfile.mkdtemp(prefix="delta_p2b_"))
+    try:
+        run(["git", "init", "-q", "-b", "main"], d)
+        run(["git", "config", "user.email", "t@t"], d)
+        run(["git", "config", "user.name", "t"], d)
+        (d / "src").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / "src" / "make_review_delta.py", d / "src" / "make_review_delta.py")
+        write(d, "src/goc.py", "x = 0\n")
+        run(["git", "add", "-A"], d)
+        run(["git", "commit", "-qm", "base"], d)
+        base = run(["git", "rev-parse", "HEAD"], d).stdout.strip()
+
+        GIONG = "def chung():\n    return 42\n"
+        write(d, "src/one.py", GIONG)
+        write(d, "src/two.py", GIONG)                      # TRUNG noi dung voi one.py
+        write(d, "handoff/logs/a.log", "cung log\n")
+        write(d, "handoff/logs/b.log", "cung log\n")      # log trung -> duoc phep dedup payload
+        run(["git", "add", "-A"], d)
+        run(["git", "commit", "-qm", "them hai file trung noi dung"], d)
+        target = run(["git", "rev-parse", "HEAD"], d).stdout.strip()
+
+        with dung_goi(d, base) as z:
+            names = z.namelist()
+            patch = z.read(next(n for n in names if n.startswith("patch/")))
+        sau = cay_code_sau_khi_ap(d, base, patch)
+        mong = cay_code_tai(d, target)
+        ca_hai_payload = {"files/src/one.py", "files/src/two.py"} <= set(names)
+        log_dedup = sum(1 for n in names if n.startswith("logs/")) == 1
+        _check("P2b: hai file code trung noi dung -> ap patch co DU ca hai; dedup chi ap cho log",
+               sau == mong and ca_hai_payload and log_dedup,
+               f"thieu sau khi ap={sorted(set(mong) - set(sau))}; "
+               f"ca hai trong files/={ca_hai_payload}; so log trong goi="
+               f"{sum(1 for n in names if n.startswith('logs/'))}")
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
 
 
 def main() -> int:
@@ -181,6 +331,11 @@ def main() -> int:
                 "data/interim/cache.npz"} <= set(bo)
                and all(bo[p] for p in bo) and "live.bat" in deps,
                "; ".join(f"{k} -> {v[:26]}" for k, v in sorted(bo.items())))
+
+        # --- 10-12. hoi quy hai loi packager (review vong 3) ---
+        test_p1_file_rieng_bi_bo_theo_doi()
+        test_p2a_doi_ten()
+        test_p2b_hai_file_trung_noi_dung()
     except AssertionError:
         failed += 1
     finally:
