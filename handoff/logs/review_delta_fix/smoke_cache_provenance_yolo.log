@@ -1,0 +1,18 @@
+﻿video dev: MVI_20052;  cache-id: smoke_review3_provenance;  thu muc tam: C:\Users\Mikuno\AppData\Local\Temp\smoke_cache_j_lnis9p
+[det_cache] smoke_review3_provenance: backend=ultralytics conf=0.05 iou=0.7 imgsz=640 classes=None max_det=3000 -> C:\Users\Mikuno\AppData\Local\Temp\smoke_cache_j_lnis9p\smoke_review3_provenance
+  MVI_20052               30 frame     1648 box  unreadable=0 truncated=0  (3.1s)
+  [PASS] weights_sha256 trong meta.json == sha256 cua checkpoint YOLO da nap (model.ckpt_path)
+         ckpt=D:\LABOTARY\bytetrack\models\yolov8n.pt
+         meta=f59b3d833e2ff32e194b5bb8...  thuc=f59b3d833e2ff32e194b5bb8...
+  [PASS] ghi cache roi doc lai strict -> trang thai 'ok', doc duoc du frame
+         trang_thai=ok (); npz=1; n_frame doc lai=30
+  [PASS] khai bao weights_sha256 KHAC file checkpoint thuc -> bi chan
+         weights_sha256 khai bao khong khop file checkpoint thuc te. Khong ghi cache voi provenance sai.
+  [PASS] thieu weights_sha256 (backend ultralytics) -> tu choi ghi, khong tao thu muc
+         Backend ultralytics can weights_sha256 hop le cua checkpoint thuc te truoc khi tao/ghi them cache. Resolve/nap
+  [PASS] spec_sha256 cu khong tuong thich -> tu choi append, meta.json giu nguyen
+         Cache C:\Users\Mikuno\AppData\Local\Temp\smoke_cache_j_lnis9p\smoke_review3_provenance: spec_sha256 da luu khong khop cach tinh hi
+
+KET QUA SMOKE: 5/5 PASS  (video MVI_20052, 30 frame, GPU that)
+da xoa thu muc cache tam (khong dung cham D:\LABOTARY\bytetrack\data\interim\det_cache)
+exit=0
