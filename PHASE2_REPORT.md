@@ -152,7 +152,11 @@ Che hoàn toàn: mọi bộ lọc ≤ 9 % (2–3/33 sự kiện; switched ≈ 0,
 
 ### 7.2 Nhóm B — thuật toán dùng chung bộ lọc (dev, điều kiện A, **baseline = SORT nguyên bản**)
 
-Cấu hình [groupB_detrac_dev.yaml](configs/phase2/experiments/groupB_detrac_dev.yaml): mỗi cặp so sánh chỉ đổi **một** yếu tố — sort-orig1 → sort-orig30: bộ đệm (max_age 1 → 30 = `track_buffer` của ByteTrack); sort-orig30 → sort-cv30: biểu diễn trạng thái + nhiễu (KF 7-D `[u,v,s,r]` → `KalmanFilterXYAH`); sort-cv30 → sort-ekf30: motion model (CV → EKF–CTRV, cùng xyah, cùng vòng đời SORT); sort-orig1 → sort-ekf1: chỉ đổi bộ lọc, giữ vòng đời nguyên bản; sort-ekf30 → bt-ekf: vòng đời/association (SORT → ByteTrack: 2 vòng ghép, unconfirmed, fuse_score). SORT-CV-XYAH là **đối chứng** để tách ảnh hưởng của biểu diễn trạng thái khỏi ảnh hưởng của EKF.
+> ⚠️ **Số trong mục này là bản TRƯỚC khi sửa lỗi vòng đời SORT** (baseline xuất track sớm hơn upstream một
+> frame — review độc lập, mục 18.1). Giữ lại để đối chiếu lịch sử. **Bảng dùng cho luận văn**: mục 18.2
+> (kết quả `expB_detrac_dev_fix1` / `expB_detrac_test_fix1`).
+
+Cấu hình [groupB_detrac_dev.yaml](configs/phase2/experiments/groupB_detrac_dev.yaml): mỗi cặp so sánh chỉ đổi **một** yếu tố — sort-orig1 → sort-orig30: bộ đệm (max_age 1 → 30 = `track_buffer` của ByteTrack); sort-orig30 → sort-cv30: **gói biểu diễn trạng thái + thiết lập bộ lọc** (KF 7-D `[u,v,s,r]` với Q/R/P₀ của SORT → `KalmanFilterXYAH` với Q/R/P₀ tỉ lệ theo chiều cao của ByteTrack) — **không phải** chỉ đổi biểu diễn; sort-cv30 → sort-ekf30: motion model (CV → EKF–CTRV, cùng xyah, cùng vòng đời SORT); sort-orig1 → sort-ekf1: chỉ đổi bộ lọc, giữ vòng đời nguyên bản; sort-ekf30 → bt-ekf: vòng đời/association (SORT → ByteTrack: 2 vòng ghép, unconfirmed, fuse_score). SORT-CV-XYAH là **đối chứng** để tách ảnh hưởng của biểu diễn trạng thái khỏi ảnh hưởng của EKF.
 
 | tracker | ý nghĩa | HOTA | DetA | AssA | IDF1 | MOTA | IDSW | FP | FN | preserved | id_continuous |
 |:--|:--|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
@@ -175,7 +179,7 @@ Cấu hình [groupB_detrac_dev.yaml](configs/phase2/experiments/groupB_detrac_de
 
 Tỉ lệ giữ ID theo tầng che khuất (full n = 33 / partial n = 151): sort-orig1 0.000 / 0.424; sort-orig30 0.091 / 0.596; sort-cv30 0.091 / 0.530; sort-ekf30 0.091 / 0.523; sort-ekf1 0.000 / 0.411; bt-ekf 0.061 / 0.583.
 
-Đọc kết quả theo từng cặp (dev, chưa phải test): (i) **bộ đệm** (orig1 → orig30): cải thiện rõ và có ý nghĩa (HOTA +0.018, IDSW −26, preserved +0.158, CI không chứa 0) — yếu tố lớn nhất trong SORT; (ii) **biểu diễn trạng thái** (orig30 → cv30): XYAH + nhiễu tỉ lệ theo h của ByteTrack **kém** KF 7-D nguyên bản về DetA/MOTA (FP tăng 8766 → 11278, FN tăng) trong vòng đời SORT — tức so sánh "SORT vs SORT-EKF" mà không có đối chứng này sẽ gán sai phần suy giảm cho EKF; (iii) **motion model** (cv30 → ekf30): CV → EKF–CTRV **không khác** (ΔHOTA −0.0006, mọi chỉ số trong CI) — cùng kết luận với Nhóm A; (iv) đổi bộ lọc mà giữ max_age 1 (ekf1) **kém** baseline có ý nghĩa (−0.026) vì mất ưu điểm KF 7-D và không có bộ đệm; (v) **vòng đời** (ekf30 → bt-ekf): ByteTrack tăng AssA/IDF1, IDSW giảm mạnh, đổi lại DetA/MOTA thấp hơn (nhiều FP do vòng ghép 2 và không có min_hits). Kết luận tạm: thứ tự ảnh hưởng **bộ đệm > vòng đời association > biểu diễn trạng thái ≫ motion model (CV vs CTRV)**; phải kiểm chứng lại trên 40 video test.
+Đọc kết quả theo từng cặp (dev, chưa phải test): (i) **bộ đệm** (orig1 → orig30): cải thiện rõ và có ý nghĩa (HOTA +0.018, IDSW −26, preserved +0.158, CI không chứa 0) — yếu tố lớn nhất trong SORT; (ii) **gói biểu diễn + thiết lập bộ lọc** (orig30 → cv30; đổi đồng thời state 7-D→XYAH **và** Q/R/P₀ — không tách được riêng phần nào): XYAH + nhiễu tỉ lệ theo h của ByteTrack **kém** KF 7-D nguyên bản về DetA/MOTA (FP tăng 8766 → 11278, FN tăng) trong vòng đời SORT — tức so sánh "SORT vs SORT-EKF" mà không có đối chứng này sẽ gán sai phần suy giảm cho EKF; (iii) **motion model** (cv30 → ekf30): CV → EKF–CTRV **không khác** (ΔHOTA −0.0006, mọi chỉ số trong CI) — cùng kết luận với Nhóm A; (iv) đổi bộ lọc mà giữ max_age 1 (ekf1) **kém** baseline có ý nghĩa (−0.026) vì mất ưu điểm KF 7-D và không có bộ đệm; (v) **vòng đời** (ekf30 → bt-ekf): ByteTrack tăng AssA/IDF1, IDSW giảm mạnh, đổi lại DetA/MOTA thấp hơn (nhiều FP do vòng ghép 2 và không có min_hits). Kết luận tạm: thứ tự ảnh hưởng **bộ đệm > vòng đời association > biểu diễn trạng thái ≫ motion model (CV vs CTRV)**; phải kiểm chứng lại trên 40 video test.
 
 ### 7.3 Chi phí tính toán (PC, GTX 1650, `profile_pipeline.py`, MVI_39031, 450 frame đo sau 50 warm-up, 960×540→640)
 
@@ -314,7 +318,7 @@ Bằng chứng số: (a) `test_filter_config.py` — mặc định mới == `sha
 ### 11.4 Kết quả chạy thử (dev UA-DETRAC, 12 video, cùng cache `yolov8n-coco_conf0.05_all`)
 
 - Nhóm A (mục 7.1): HOTA cond A cv 0.5900 / ekf 0.5925 / ukf 0.5879 / pf100 0.4933 / pf300 0.5182 / pf500 0.5269; cond B 0.5989 / 0.5993 / 0.5990 / 0.4938 / 0.5213 / 0.5329. EKF ≈ CV ≈ UKF (CI chứa 0); PF cùng giả định nhiễu kém rõ (IDSW ×3–4), tăng N cải thiện đơn điệu; tầng che hoàn toàn (n = 33) ≤ 9 % với mọi bộ lọc.
-- Nhóm B (mục 7.2, baseline SORT nguyên bản): bộ đệm +0.018 HOTA (có ý nghĩa); XYAH kém KF 7-D về DetA trong SORT (đối chứng SORT-CV-XYAH); CV → EKF trong SORT **không khác**; ByteTrack tăng IDF1 +0.068, IDSW −47 nhưng DetA thấp hơn.
+- Nhóm B (mục 7.2, baseline SORT nguyên bản; **số của mốc 2 trước khi sửa lỗi vòng đời SORT** — bản sau khi sửa ở mục 18): bộ đệm +0.018 HOTA (có ý nghĩa); gói XYAH + Q/R/P₀ của ByteTrack kém KF 7-D + Q/R/P₀ của SORT về DetA trong vòng đời SORT (đối chứng SORT-CV-XYAH); CV → EKF trong SORT **không khác**; ByteTrack tăng IDF1 +0.068, IDSW −47 nhưng DetA thấp hơn.
 - Timing: bộ lọc (predict) 0,13 / 0,33 / 2,24 / 1,3–3,7 ms/frame (CV/EKF/UKF/PF) khi chạy từ cache — CV 745 fps, EKF 697 fps, UKF 267 fps, PF300 ≈ 200 fps, SORT nguyên bản ≈ 1000 fps; **toàn pipeline** (có detector, mục 7.3) 45–51 fps trên GTX 1650 — hai con số không so sánh với nhau. Nano chưa đo.
 
 ### 11.5 Phần bị chặn, đầu vào cần bổ sung, lệnh tiếp theo
@@ -377,6 +381,7 @@ Bằng chứng đối chiếu GĐ1 (mục 11.3) **giữ nguyên**; ba kiểm tra
 | `lost_after` | có ID trước, **không** ghép lại được trong cửa sổ sau (GT vẫn còn) | 184 |
 | `no_match_before` | tracker chưa từng ghép GT trong cửa sổ trước → không đánh giá được phần "giữ" | 184 (33 sự kiện với mọi tracker) |
 | `id_continuous` | `preserved` **và** mọi frame có GT trong sự kiện đều được ghép đúng ID đó | 184 |
+| `has_full` (tầng "full") | sự kiện **có ít nhất một đoạn** với tỉ lệ che khuất GT **≥ 0,90** (`occlusion_eval.build_events`) — **không** có nghĩa mọi frame bị che 100 %; tầng "partial" = sự kiện chỉ có đoạn 0,10 ≤ ratio < 0,90 | 33 (full) + 151 (partial) |
 | `wrong_refind_rate` | trong các lần **nối lại track** (refind), tỉ lệ det được ghép thuộc **GT khác** GT mà track bám trước khi mất | số refind xác định được cả hai GT |
 
 Kết quả ([outcome_counts.csv](results/phase2/failure_analysis/expA_detrac_dev/outcome_counts.csv)), điều kiện c25 (conf > 0,25) và c10 (conf > 0,10):
@@ -482,6 +487,10 @@ Ca tiêu biểu (≥ 2 thất bại cho mỗi nguyên nhân + ca thành công, d
 "Hòa" ở đây là **không phân biệt được về mặt thống kê**, **không** phải "kết quả giống nhau". Cụ thể, so với
 cấu hình tham chiếu của cùng bộ lọc:
 
+(Nói "hòa nhau" cho **toàn bộ 21 cấu hình** là sai: đúng phát biểu là **không cấu hình nào cải thiện HOTA có
+ý nghĩa**, trong khi **một số cấu hình CV kém hơn có ý nghĩa** — ví dụ `std_weight_position` 1/10 với
+`std_weight_velocity` 1/320: ΔHOTA −0.0094 [−0.0197, −0.0019].)
+
 | Mức so sánh | EKF (11 cấu hình khác tham chiếu) | CV (6 cấu hình có tham số hiệu dụng khác) |
 |:--|:--|:--|
 | HOTA **làm tròn 4 chữ số** | 0.5925–0.5931 (chênh ≤ 0.0006) | 0.5806–0.5900 |
@@ -494,9 +503,11 @@ chạy** rồi đọc thuộc tính thật của bộ lọc (`_std_theta/_std_om
 pool: `P[θ,θ]` trung bình đổi rõ theo `std_omega` (2,456 → 2,833 → 3,880 khi ω = 0,0025 / 0,005 / 0,01), và
 `covariance_giong_het = False` với mọi cấu hình có tham số hiệu dụng khác.
 
-→ Kết luận đúng mức: **tham số đã có hiệu lực và trạng thái/covariance thay đổi rõ rệt**, nhưng **phần lớn
-quyết định ghép không đổi** (dự đoán chỉ dịch dưới 1 px ở ~99 % số dòng với EKF), nên chỉ số tổng hợp chênh
-lệch trong khoảng nhiễu lấy mẫu (CI chứa 0). Hai cấu hình CV chỉ **trùng tham số hiệu dụng** mới cho đầu ra
+→ Kết luận đúng mức: **tham số đã có hiệu lực và trạng thái/covariance thay đổi rõ rệt**, nhưng với **nhánh
+EKF** phần lớn quyết định ghép không đổi (dự đoán chỉ dịch dưới 1 px ở ~99 % số dòng) nên chênh lệch nằm trong
+khoảng nhiễu lấy mẫu (CI chứa 0). **Với nhánh CV thì khác**: chỉ 61–83 % số dòng lệch dưới 1 px và hai cấu
+hình lệch tỉ số nhiều nhất **kém hơn có ý nghĩa**. Tỉ lệ "~99 % dưới 1 px" **chỉ áp dụng cho EKF**, không phải
+cho cả lưới. Hai cấu hình CV chỉ **trùng tham số hiệu dụng** mới cho đầu ra
 bit-identical (xem dưới).
 
 **Phát hiện phụ (kiểm chứng bằng số)**: `KalmanFilterXYAH` của ultralytics **bất biến** khi nhân **cả hai** trọng số nhiễu với cùng hệ số, vì nhiễu **đo** cũng dùng `_std_weight_position`: `cv-p40-v320` và `cv-p10-v80` **bit-identical** với `cv-p20-v160` (12/12 video, `check_identical_runs.py`) → lưới 3 × 3 thực chất chỉ có **5 cấu hình phân biệt**; chỉ **tỉ số** vị trí/vận tốc là tham số thật. Phải tính đến điều này khi thiết kế tuning cho BDD100K.
@@ -565,19 +576,34 @@ cho PF nói chung (proposal khác, roughening > 0, Q riêng cho PF đều chưa 
 | 6–10 | 0,035 | 0,097 | 0,038 | 0,092 |
 | 11–30 | 0,011 | 0,034 | 0,017 | 0,035 |
 
-→ Đúng vào lúc track vừa được nối lại sau che khuất, đám mây particle chỉ còn **~3 % số particle phân biệt**
-(đo **sau** resample) và ESS/N ~1 % (đo **trước** resample): **mất đa dạng hạt (sample impoverishment)** đã xảy
-ra **trước** khi có quan sát mới. Đây là bằng chứng trực tiếp cho kết luận mốc 1 (PF kém hơn dưới **cùng giả
-định nhiễu** với EKF — không phải lỗi cài đặt): với Q rất nhỏ cho θ/ω, việc resample gần như mỗi bước (98–100 %
-số lần cập nhật) làm cạn kiệt đa dạng; tăng N cải thiện đơn điệu nhưng không đổi bản chất. Giới hạn: kết luận
-gắn với **implementation bootstrap PF này** và **các cấu hình đã liệt kê ở trên**; cải tiến PF (roughening,
-nhiễu tham số, proposal khác) là **đổi mô hình nhiễu** → phải là thí nghiệm riêng, **chưa làm**.
+→ **Điều các con số này chứng minh** (và chỉ chừng đó): ở những lần **cập nhật xảy ra sau một khoảng mất dấu
+dài**, trọng số tập trung mạnh ngay sau khi nhân likelihood (ESS/N ~1 % — đo **trước** resample) và đám mây chỉ
+còn ~3 % số particle phân biệt **sau** resample. Đây là dấu hiệu **mất đa dạng hạt (sample impoverishment)**
+trong các lần nối lại **thành công** mà log ghi được.
+
+**Không** được suy ra từ đây rằng (i) sự mất đa dạng đã xảy ra **trước khi** có quan sát mới — log không đo
+phân bố tiên nghiệm ngay trước quan sát, chỉ đo sau likelihood; (ii) đây là **nguyên nhân** khiến các track
+khác **không** nối lại được — những lần thất bại đó không có bước cập nhật nên không có dòng log tương ứng.
+Muốn khẳng định mạnh hơn phải đo riêng tiên nghiệm/hậu nghiệm ở từng bước (chưa làm).
+
+Điều này **nhất quán** với kết luận mốc 1 (PF kém hơn dưới **cùng giả định nhiễu** với EKF — không phải lỗi cài
+đặt): Q rất nhỏ cho θ/ω + resample gần như mỗi bước (98–100 % số lần cập nhật); tăng N cải thiện đơn điệu.
+Giới hạn: kết luận gắn với **implementation bootstrap PF này** và **các cấu hình đã liệt kê ở trên**; cải tiến
+PF (roughening, nhiễu tham số, proposal khác) là **đổi mô hình nhiễu** → thí nghiệm riêng, **chưa làm**.
 
 ### 15.2 Cách tổng hợp thống kê (nhất quán với bảng chính)
 
 [boot_stats.py](src/boot_stats.py) (mới — mục còn nợ của mốc 1): `stage_eval` lưu thêm `raw_fields.json` (HOTA_TP/FN/FP và AssA/AssRe/AssPr theo 19 ngưỡng α, IDTP/IDFN/IDFP, CLR_TP/FN/FP, IDSW cho **từng sequence**). Bootstrap **ghép cặp theo video** (5000 lần, seed 0) **cộng thống kê đủ** của các video được chọn rồi **tái tổ hợp đúng công thức `combine_sequences` của TrackEval** → CI cho chênh lệch của **chính chỉ số COMBINED** in trong bảng chính. Kiểm chứng: tái tổ hợp toàn bộ video **trùng** `combined_metrics.csv` tới 1e-9 trên dữ liệu thật (`test_boot_stats.py` 6/6).
 
-`aggregate_phase2.py` nay xuất **cả hai**: `paired_bootstrap_combined.csv` (**bảng chính**) và `paired_bootstrap.csv` (trung bình theo video — chỉ tham khảo, ghi rõ là đại lượng khác). Với chỉ số **sự kiện** (preserved), bootstrap vẫn **cụm theo video** (`occlusion_eval.bootstrap_diff_by_video`) vì các sự kiện trong cùng một video không độc lập. Với PF, thống kê đủ được trung bình **theo seed trong từng video** trước khi cộng; biến thiên do seed (SD ≤ 0,005 HOTA) được báo cáo tách khỏi bất định giữa các video (CI).
+`aggregate_phase2.py` nay xuất **cả hai**: `paired_bootstrap_combined.csv` (**bảng chính**) và `paired_bootstrap.csv` (trung bình theo video — chỉ tham khảo, ghi rõ là đại lượng khác). Với chỉ số **sự kiện** (preserved), bootstrap vẫn **cụm theo video** (`occlusion_eval.bootstrap_diff_by_video`) vì các sự kiện trong cùng một video không độc lập.
+
+**PF — hai cách tổng hợp theo seed là hai đại lượng khác nhau** (metric phi tuyến): bảng chính lấy **trung
+bình của metric** từng seed; bootstrap lấy **trung bình thống kê đủ** theo seed rồi mới tái tổ hợp metric.
+Đã đo chênh lệch trên chính dữ liệu này: |ΔHOTA| = 6,7·10⁻⁶ (test c25), 4,2·10⁻⁶ (test c10), 9,5·10⁻⁶ (dev
+c25 pf500), 4,5·10⁻⁶ (dev c25 pf100); |ΔIDF1| ≤ 1,2·10⁻⁶ — nhỏ hơn 3–4 bậc so với khoảng cách PF–EKF
+(≈ 3·10⁻²), nên không ảnh hưởng kết luận nào; vẫn ghi rõ ở đây để người đọc không nhầm hai đại lượng.
+Ngoài ra, CI bootstrap **theo video** không bao gồm bất định do **chọn seed**; biến thiên giữa 3 seed được
+báo cáo riêng (SD HOTA ≤ 0,005 trên dev, ≤ 0,0004 trên test).
 
 ### 15.3 Nhóm B trình bày theo từng cặp
 
@@ -643,11 +669,16 @@ ukf 0.060 / 0.553; pf500 0.053 / 0.495.
    kém hơn EKF ở CTRV).
 3. **PF–CTRV kém rõ rệt** ở mọi chỉ số, nhất quán dev; biến thiên giữa 3 seed nhỏ (SD HOTA ≤ 0,0004) → chênh
    lệch không do seed.
-4. Giữ ID qua che khuất **không** khác biệt có ý nghĩa giữa CV/EKF/UKF; ở **tầng che hoàn toàn** cả ba đều
-   0,060 (11/182 sự kiện) — đúng như phân tích nguyên nhân (mục 13.2): rào cản là IoU ở bước ghép, không phải
-   độ chính xác của motion model.
+4. Giữ ID qua che khuất **không** khác biệt có ý nghĩa giữa CV/EKF/UKF. Ở **tầng che nặng** (`has_full`:
+   sự kiện có đoạn che ≥ 0,90 — xem định nghĩa ở mục 13.1), **tại điều kiện c25** cả ba đều 0,060 (11/182 sự
+   kiện); **tại c10** UKF nhỉnh hơn một sự kiện (12/182 = 0,066) còn CV/EKF vẫn 11/182 — khác biệt một sự kiện,
+   không có ý nghĩa thống kê. Kết luận "cả ba như nhau" chỉ phát biểu cho c25, và phù hợp với phân tích nguyên
+   nhân (mục 13.2): rào cản là IoU ở bước ghép, không phải độ chính xác của motion model.
 
 ### 16.3 Thí nghiệm B — so sánh **thuật toán**, mỗi cặp đổi một yếu tố (40 video, c25)
+
+> ⚠️ **Bản TRƯỚC khi sửa lỗi vòng đời SORT** (mục 18.1). Kết quả sau khi sửa: mục 18.2 — mọi kết luận
+> định tính không đổi, chênh lệch ≤ 0.002 HOTA, IDSW giảm 9–12 %.
 
 | tracker | ý nghĩa | HOTA | DetA | AssA | IDF1 | MOTA | IDSW | preserved |
 |:--|:--|--:|--:|--:|--:|--:|--:|--:|
@@ -663,14 +694,17 @@ Từng cặp (COMBINED + CI 95 %; chỉ diễn giải yếu tố được kiểm
 | cặp (yếu tố duy nhất thay đổi) | ΔHOTA | ΔIDF1 | ΔIDSW | Δpreserved |
 |:--|:--|:--|:--|:--|
 | bộ đệm 1 → 30 (SORT nguyên bản) | **+0.0280 [+0.0207, +0.0350]** | **+0.0605 [+0.0468, +0.0743]** | **−1452 [−1862, −1099]** | **+0.158 [+0.119, +0.194]** |
-| biểu diễn trạng thái KF 7-D → XYAH (cùng vòng đời SORT) | **−0.0133 [−0.0185, −0.0077]** | −0.0070 [−0.0144, +0.0014] | +79 [−71, +236] | −0.037 (0.486 → 0.449) |
+| gói biểu diễn + thiết lập bộ lọc: KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack (cùng vòng đời SORT) | **−0.0133 [−0.0185, −0.0077]** | −0.0070 [−0.0144, +0.0014] | +79 [−71, +236] | −0.037 (0.486 → 0.449) |
 | motion model CV → EKF–CTRV (cùng XYAH, cùng vòng đời) | +0.0020 [−0.0001, +0.0042] | +0.0038 [−0.0001, +0.0075] | **−84 [−162, −4]** | +0.002 |
 | chỉ đổi bộ lọc ở max_age 1 | **−0.0140 [−0.0167, −0.0116]** | −0.0082 [−0.0108, −0.0059] | **+268 [+135, +410]** | −0.018 [−0.026, −0.011] |
 | vòng đời/association SORT → ByteTrack (cùng EKF) | **+0.0364 [+0.0298, +0.0428]** | **+0.0545 [+0.0452, +0.0641]** | **−1908 [−2341, −1492]** | +0.036 |
 
-**Thứ tự ảnh hưởng trên test**: vòng đời/association (+0.036) > bộ đệm (+0.028) > biểu diễn trạng thái
-(−0.013, XYAH **kém hơn** KF 7-D trong vòng đời SORT) ≫ motion model CV→EKF (+0.002, CI chạm 0; chỉ IDSW giảm
-có ý nghĩa). Kết luận này **trùng với dev** và nay có mẫu 40 video.
+**Thứ tự ảnh hưởng trên test** (chỉ trong đúng các cặp đã kiểm soát ở trên, **không** phải một phép phân rã
+cộng hay thứ hạng phổ quát): vòng đời/association (+0.036) > bộ đệm (+0.028) > gói biểu diễn + thiết lập bộ
+lọc (−0.013: XYAH + Q/R/P₀ của ByteTrack **kém hơn** KF 7-D + Q/R/P₀ của SORT **trong vòng đời SORT**)
+≫ motion model CV→EKF (+0.002, CI chạm 0; chỉ IDSW giảm có ý nghĩa). Trùng hướng với dev, nay có mẫu 40 video.
+Lưu ý: cặp thứ ba đổi **hai thứ cùng lúc** (biểu diễn state và tham số nhiễu) nên không được gán toàn bộ
+−0.0133 cho riêng "biểu diễn trạng thái".
 
 ### 16.4 Thí nghiệm C — nhánh **thăm dò** (không phải cấu hình được chọn)
 
@@ -680,9 +714,22 @@ test như **nhánh kiểm chứng giả thuyết**, khai báo trước trong LOC
 | tracker | HOTA | ΔHOTA vs gốc | IDSW | FP | preserved | preserved full / partial |
 |:--|--:|:--|--:|--:|--:|:--|
 | cv | 0.5824 | — | 2498 | 73 478 | 0.480 | 0.060 / 0.547 |
-| cv + maha | 0.5778 | **−0.0046 [−0.0072, −0.0021]** | 2759 | 81 428 | 0.516 (**+0.036 [+0.019, +0.051]**) | **0.121** / 0.579 |
+| cv + maha | 0.5778 | **−0.0046 [−0.0072, −0.0021]** | 2759 | 81 428 | 0.516 (**+0.0355 [+0.0185, +0.0508]** so với `cv`) | **0.121** / 0.579 |
 | ekf | 0.5835 | — | 2525 | 73 140 | 0.487 | 0.060 / 0.555 |
-| ekf + maha | 0.5801 | **−0.0034 [−0.0058, −0.0012]** | 2844 | 81 332 | 0.526 (+0.045 [+0.018, +0.069] so với `cv`) | **0.121** / 0.590 |
+| ekf + maha | 0.5801 | **−0.0034 [−0.0058, −0.0012]** | 2844 | 81 332 | 0.526 (**+0.0385 [+0.0197, +0.0535]** so với `ekf`) | **0.121** / 0.590 |
+
+**Cặp đối chứng đúng cho `preserved`** (mỗi nhánh so với **chính bộ lọc của nó**, bootstrap theo video 5000
+lần, seed 0 — tính lại từ `paired_DETRAC-test.csv` / `paired_DETRAC-all.csv`):
+
+| cặp | test (40 video, 1324 sự kiện) | dev (12 video, 184 sự kiện) |
+|:--|:--|:--|
+| `cv-maha − cv` | **+0.0355 [+0.0185, +0.0508]** | **+0.0489 [+0.0107, +0.0803]** |
+| `ekf-maha − ekf` | **+0.0385 [+0.0197, +0.0535]** | +0.0163 [−0.0387, +0.0691] (CI **chứa 0**) |
+
+Con số "+0,045" trong bản trước là `ekf-maha` so với **`cv`** — gộp cả việc đổi bộ lọc, **không** dùng để mô
+tả riêng tác động của cơ chế nối lại; đã thay bằng cặp đối chứng đúng ở trên. Trên **dev**, nhánh EKF **không**
+đạt ý nghĩa cho `preserved` (chỉ nhánh CV đạt) — thêm một lý do để C2 không được chọn theo tiêu chí đăng ký
+trước, và để đọc kết quả test của C2 như **kiểm chứng giả thuyết**, không phải khẳng định cải thiện.
 
 **Kết luận C trên test (kết quả âm, báo cáo đúng như đo được)**: vòng ghép thứ 3 cho track LOST **tăng có ý
 nghĩa** khả năng giữ ID qua che khuất (+0,036…+0,045; ở tầng che hoàn toàn **gấp đôi**: 0,060 → 0,121, tức
@@ -727,4 +774,138 @@ nên **chỉ mang tính tham khảo tương đối**; con số đo có kiểm so
 **Nguyên tắc đã ghi trước** (`bdd_transfer_val.yaml`): kết quả "chuyển cấu hình" và "tuning trên BDD" **không
 được gộp** thành một kết luận về khả năng chuyển miền; thay đổi detector là **thí nghiệm riêng**, chỉ làm sau
 khi pipeline tracking đã cố định.
+
+## 18. Xử lý review độc lập (Codex) — sửa tính đúng đắn sau lần đánh giá test ban đầu
+
+Bảng trạng thái đầy đủ từng phát hiện: [REVIEW_moc2_codex.md](results/phase2/REVIEW_moc2_codex.md).
+Snapshot được review là commit `502f011`; `git diff --stat 502f011..28ca79b` cho thấy **chỉ có 7 file thuộc
+`handoff/` + `CODEX_HANDOFF.md`** thay đổi (không đụng `src/`, `configs/`, `results/`) — nguyên nhân là ZIP
+được dựng **trước** commit cuối, đã sửa quy trình (nay `make_handoff.py` **từ chối** đóng gói khi còn file
+trong phạm vi gói khác HEAD).
+
+**Kết quả cũ của mốc 2 được giữ nguyên**; mọi lần chạy sau khi sửa nằm trong thí nghiệm `*_fix1` (thư mục và
+tên tracker mới).
+
+### 18.1 Lỗi P1 — baseline SORT xuất track sớm hơn upstream một frame
+
+`SORTTrack.__init__` khởi tạo `hits = 1; hit_streak = 1`, trong khi `KalmanBoxTracker` của
+[abewley/sort](https://github.com/abewley/sort) khởi tạo **0** rồi chỉ tăng khi có update ghép. Với
+`min_hits = 3`, track tạo ở frame 10 được xuất ở **frame 12** thay vì **frame 13**. Test cũ
+(`test_2_min_hits`) lại khẳng định đúng hành vi lệch đó.
+
+**Đã sửa**: `hits = 0; hit_streak = 0`. Bằng chứng tương đương:
+[test_sort_upstream_parity.py](src/test_sort_upstream_parity.py) chạy **chính mã upstream đã ghim**
+([third_party/sort_upstream/](third_party/sort_upstream/), commit `bce9f0d`, sha256 `f5b10481…`, GPL-3.0;
+`filterpy` cài riêng vào `third_party/_testdeps`) trên **cùng detection** và so **toàn chuỗi**:
+
+| kịch bản | dòng (repo vs upstream) | track | song ánh ID | lệch toạ độ tối đa |
+|:--|:--|:--|:--|--:|
+| min_hits (xuất từ frame 13) | 4 vs 4 | 1 vs 1 | ✔ đồng nhất | 6,7·10⁻⁶ px |
+| track sinh muộn + mất 3 frame, `max_age` 1 / 30 | 64/65 vs 64/65 | 3/2 | ✔ | 3,1·10⁻⁵ px |
+| 2 đối tượng, 1 bị che 5 frame, `max_age` 1 / 30 | 52/53 vs 52/53 | 3/2 | ✔ | 3,1·10⁻⁵ px |
+| **detection thật** `MVI_39031` 200 frame, `max_age` 1 / 30 | 305/308 vs 305/308 | 8/6 | ✔ | 5,8·10⁻⁵ px |
+
+Khác biệt còn lại **chỉ là số học** (repo: numpy + dạng Joseph; upstream: filterpy), tối đa **5,8·10⁻⁵ px**
+trên mọi kịch bản; vòng đời, số track và ánh xạ ID trùng khít. Hai khác biệt **có chủ ý** vẫn còn, đã ghi
+trong `PROVENANCE.json`: repo lọc `conf > det_thresh` (upstream nhận detection đã lọc sẵn) và cách xử lý
+track có box NaN.
+
+### 18.2 Chạy lại Nhóm B với baseline đã sửa — trước/sau
+
+Cấu hình **y hệt bản đã khóa**, chỉ đổi `name` → [expB_detrac_dev_fix1.yaml](configs/phase2/experiments/expB_detrac_dev_fix1.yaml),
+[expB_detrac_test_fix1.yaml](configs/phase2/experiments/expB_detrac_test_fix1.yaml). Không tuning, không đổi
+tiêu chí. **`bt-ekf` (ByteTrack) không dùng `SORTTrack`** → chạy lại cho ra kết quả **bit-identical** bản cũ:
+12/12 video (dev) và 40/40 (test), song ánh ID đồng nhất (`check_identical_runs.py`).
+
+**Chỉ số tuyệt đối (c25)** — trước → sau:
+
+| tracker | dev HOTA | dev IDSW | test HOTA | test IDSW | test preserved |
+|:--|:--|:--|:--|:--|:--|
+| sort-orig1 | 0.5731 → **0.5715** | 1038 → **912** | 0.5304 → **0.5311** | 5890 → **5369** | 0.329 → 0.327 |
+| sort-orig30 | 0.5872 → **0.5854** | 726 → **681** | 0.5584 → **0.5585** | 4438 → **4314** | 0.486 → 0.485 |
+| sort-cv30 | 0.5690 → **0.5677** | 747 → **680** | 0.5451 → **0.5452** | 4517 → **4318** | 0.449 → 0.450 |
+| sort-ekf30 | 0.5666 → **0.5652** | 742 → **679** | 0.5471 → **0.5472** | 4433 → **4210** | 0.451 → 0.452 |
+| sort-ekf1 | 0.5513 → **0.5500** | 1062 → **925** | 0.5164 → **0.5171** | 6158 → **5555** | 0.310 → 0.310 |
+| bt-ekf (đối chứng) | 0.5925 → 0.5925 | 472 → 472 | 0.5835 → 0.5835 | 2525 → 2525 | 0.487 → 0.487 |
+
+Hướng thay đổi đúng như dự đoán từ cơ chế: track được xuất muộn hơn một frame ⇒ ít track "non" hơn ⇒ **IDSW
+giảm rõ** (test: −9…−12 %), HOTA gần như không đổi.
+
+**Từng cặp so sánh trên TEST** (COMBINED, bootstrap ghép cặp theo video 5000 lần, seed 0) — trước → sau:
+
+| cặp (yếu tố được kiểm soát) | trước khi sửa | sau khi sửa |
+|:--|:--|:--|
+| bộ đệm 1 → 30 | +0.0280 [+0.0207, +0.0350] | **+0.0274 [+0.0201, +0.0345]** |
+| gói biểu diễn + thiết lập bộ lọc (KF 7-D → XYAH) | −0.0133 [−0.0185, −0.0077] | **−0.0132 [−0.0185, −0.0077]** |
+| motion model CV → EKF–CTRV | +0.0020 [−0.0001, +0.0042] | **+0.0020 [−0.0001, +0.0042]** |
+| chỉ đổi bộ lọc ở `max_age` 1 | −0.0140 [−0.0167, −0.0116] | **−0.0140 [−0.0167, −0.0116]** |
+| vòng đời SORT → ByteTrack | +0.0364 [+0.0298, +0.0428] | **+0.0363 [+0.0296, +0.0428]** |
+
+Trên **dev** (trung bình theo video, so với `sort-orig1` — đại lượng duy nhất có sẵn ở cả hai bản):
+orig30 +0.0178 → **+0.0177**; cv30 −0.0028 → **−0.0026**; ekf30 −0.0034 → **−0.0033**; ekf1 −0.0256 →
+**−0.0253**; bt-ekf +0.0218 → **+0.0238**. Bản mới còn có bootstrap COMBINED cho từng cặp:
+bộ đệm **+0.0139 [+0.0071, +0.0285]**; KF 7-D → XYAH **−0.0178 [−0.0406, −0.0026]**; CV → EKF
+−0.0024 [−0.0052, +0.0013]; `max_age` 1 đổi bộ lọc −0.0215 [−0.0425, −0.0086]; SORT → ByteTrack
+**+0.0273 [+0.0199, +0.0327]**.
+
+**Kết luận Nhóm B sau khi sửa** (giữ nguyên tiêu chí): mọi kết luận định tính **không đổi** — thứ tự ảnh
+hưởng vẫn là vòng đời/association > bộ đệm > gói biểu diễn + thiết lập bộ lọc ≫ motion model (CV→EKF vẫn có
+CI chạm/chứa 0 ở cả dev và test; chỉ IDSW giảm có ý nghĩa trên test). Khác biệt số học ở mức ≤ 0.002 HOTA,
+không đảo chiều cặp nào. **Các bảng Nhóm B dùng cho luận văn phải lấy từ `*_fix1`** (mục 7.2 và 16.3 giữ lại
+để đối chiếu lịch sử, đã ghi chú rõ).
+
+### 18.3 Lỗi P1 — runner có thể chấm tracking mới bằng metric cũ
+
+`stage_eval` trước đây bỏ qua TrackEval **chỉ vì ba file kết quả tồn tại**; vòng occlusion bỏ qua khi có
+`bootstrap_*.csv`; `--no-skip` chỉ tác động bước tracking; `stage_track` ghi `run_meta.json` (commit, cấu
+hình, `created`) **trước** khi bỏ qua video đã có; lỗi subprocess chỉ được in còn `main()` luôn trả 0.
+
+**Đã sửa** ([run_experiment.py](src/run_experiment.py) + [run_fingerprint.py](src/run_fingerprint.py)):
+mỗi bước đánh giá ghi **dấu vân tay** (`eval_meta.json`, `occl_meta.json`) gồm sha256 của **từng file
+tracking**, cấu hình, cache (`meta.json` + từng `.npz`), danh sách sequence, **mã nguồn** (git commit +
+sha256 của 17 module ảnh hưởng kết quả) và phiên bản `trackeval`. Chỉ tái sử dụng khi dấu vân tay **trùng
+khít**, lệch thì chạy lại và **in rõ trường nào lệch**. Bước tracking cũng có `input_fingerprint`: đổi cấu
+hình khi "tiếp tục" một run ⇒ chạy lại toàn bộ. `run_meta.json` chỉ ghi khi thực sự chạy; khi tái sử dụng thì
+**giữ provenance gốc** và ghi thêm mục `resumed`. Thêm `--force` / `--force-eval`; lỗi đánh giá/tổng hợp ⇒
+**exit code 1**.
+
+Kiểm chứng: [test_run_experiment_guard.py](src/test_run_experiment_guard.py) **7/7** trên fixture BDD100K —
+(1) chạy lại không đổi gì ⇒ "TÁI SỬ DỤNG"; (2) sửa một file tracking ⇒ đánh giá chạy lại (lý do `tracking`)
+và HOTA đổi; (3) đổi cấu hình khi resume ⇒ tracking chạy lại toàn bộ, provenance giữ nguyên + có `resumed`;
+(4) `--force` ⇒ mọi bước chạy lại; (5) evaluator ném lỗi ⇒ đếm thất bại và exit code ≠ 0.
+
+### 18.4 Lỗi P2 — chính sách detection cache
+
+`DetectorSpec.STRICT_FIELDS` thiếu `conf`, `classes`, `max_det` ⇒ có thể **ghi thêm** detection với ngưỡng/lớp
+hẹp hơn trong khi `meta.json` vẫn tuyên bố cấu hình rộng hơn. **Đã sửa** ([det_cache.py](src/det_cache.py)):
+thêm ba trường vào `STRICT_FIELDS`; `versions` thành `WARN_FIELDS` (cảnh báo + ghi `version_history`);
+`write_meta(mode="append"|"create")`; `save_video` ghi `spec_sha256` cho **từng sequence**; `open_cache` kiểm
+`spec_sha256` (lệch ⇒ lỗi ở chế độ strict). Việc **đọc** cache rộng xuống cấu hình hẹp hơn vẫn hợp lệ như cũ.
+Test: `test_det_cache.py` **47/47** (+10 phép mới).
+
+**Cache hiện có**: [check_cache_consistency.py](src/check_cache_consistency.py) →
+[cache_consistency.csv](results/phase2/cache_consistency.csv): 56 sequence, **0 mismatch**; mỗi `cache-id` chỉ
+có **một** giá trị `conf`/`max_det`/`weights_sha256`/`versions` trong `meta.json`, `version_history` rỗng.
+Các sequence ở trạng thái `legacy` (sinh trước khi có fingerprint) nên không thể khẳng định bằng hash, nhưng
+không có dấu hiệu trộn ⇒ **không tái tạo cache**.
+
+### 18.5 Lỗi P2 — đóng gói
+
+ZIP cũ vẫn chứa `.gitignore` (file của người dùng). **Đã sửa** ([make_handoff.py](src/make_handoff.py)):
+danh sách `USER_FILES`/`USER_PREFIXES` (`.gitignore`, `live.bat`, `src/demo/**`, `outputs/**`) bị loại tuyệt
+đối; gói **từ chối dựng** khi còn file trong phạm vi gói khác HEAD (`--allow-dirty` để bỏ qua, khi đó danh
+sách dirty được ghi vào `versions.json` và `INDEX.md`); thêm `handoff/FILE_HASHES.csv` (sha256 từng file) và
+`handoff/external/bytetrack.yaml` (bản ultralytics mà LOCK tham chiếu, để đối chiếu hash được).
+
+### 18.6 Các điểm diễn giải đã chỉnh
+
+Xem trực tiếp trong mục 7.2, 13.1, 14.2, 15.1, 15.2, 16.2, 16.3, 16.4: (a) cặp KF 7-D → XYAH đổi **cả** biểu
+diễn lẫn Q/R/P₀ nên không quy riêng cho biểu diễn; (b) PF chỉ khẳng định đúng cái đã đo (ESS/N sau likelihood
+trước resample; số hạt phân biệt sau resample; **không** suy ra "mất đa dạng trước khi có quan sát" hay
+nguyên nhân của các lần nối lại thất bại); (c) thêm cặp đối chứng đúng `ekf-maha − ekf` cho `preserved`
+(test **+0.0385 [+0.0197, +0.0535]**, dev +0.0163 [−0.0387, +0.0691] — CI chứa 0); (d) C3 nói "**không cấu
+hình nào cải thiện** HOTA có ý nghĩa" (một số cấu hình CV **kém hơn** có ý nghĩa), tỉ lệ ~99 % dưới 1 px chỉ
+áp cho nhánh EKF; (e) `has_full` = sự kiện **có đoạn che ≥ 0,90**, và "cả ba bộ lọc 11/182" chỉ đúng ở c25
+(c10: UKF 12/182); (f) hai cách tổng hợp PF theo seed là hai đại lượng khác nhau, chênh lệch đo được
+≤ 9,5·10⁻⁶ HOTA.
 

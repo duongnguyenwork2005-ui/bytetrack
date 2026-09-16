@@ -1,0 +1,51 @@
+cond,tracker,baseline,metric,a_combined,b_combined,diff_combined,ci_low,ci_high,n_videos,ci_contains_zero,n_boot,seed,method,note
+c25,sort-orig30,sort-orig1,HOTA,0.5584623680353231,0.5310636450648695,0.02739872297045365,0.0200844146155942,0.034477249743305995,40,False,5000,0,combined_resample_videos,chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)
+c25,sort-orig30,sort-orig1,IDF1,0.652843062232033,0.5943156030792984,0.05852745915273461,0.044641423373533544,0.0724035411591163,40,False,5000,0,combined_resample_videos,chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)
+c25,sort-orig30,sort-orig1,AssA,0.5811412340114287,0.5235122225857002,0.057629011425728516,0.04291821680418772,0.07164829031590578,40,False,5000,0,combined_resample_videos,chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)
+c25,sort-orig30,sort-orig1,DetA,0.5414631755258001,0.5444103058875345,-0.002947130361734329,-0.003998809699843434,-0.0019818036630928184,40,False,5000,0,combined_resample_videos,chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)
+c25,sort-orig30,sort-orig1,IDSW,4314.0,5369.0,-1055.0,-1390.025,-758.9500000000007,40,False,5000,0,combined_resample_videos,chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)
+c25,sort-orig30,sort-orig1,HOTA,,,0.024148345803652792,0.018108001351877415,0.030344101200062003,40,False,5000,0,mean_of_videos,chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)
+c25,sort-orig30,sort-orig1,IDF1,,,0.05078231654820198,0.03848206180854512,0.06318385856236189,40,False,5000,0,mean_of_videos,chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)
+c25,sort-orig30,sort-orig1,AssA,,,0.049208713634049085,0.03768650828022395,0.06095021475927007,40,False,5000,0,mean_of_videos,chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)
+c25,sort-orig30,sort-orig1,DetA,,,-0.0028958157580456848,-0.0038213863579718726,-0.0020140907509404588,40,False,5000,0,mean_of_videos,chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)
+c25,sort-orig30,sort-orig1,IDSW,,,-26.375,-34.750625,-18.97375000000002,40,False,5000,0,mean_of_videos,chi doi bo dem max_age 1 -> 30 (SORT nguyen ban)
+c25,sort-cv30,sort-orig30,HOTA,0.5452123770845433,0.5584623680353231,-0.013249990950779833,-0.018462409720491815,-0.007669291867946333,40,False,5000,0,combined_resample_videos,"chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"
+c25,sort-cv30,sort-orig30,IDF1,0.6459699732805327,0.652843062232033,-0.006873088951500295,-0.01428329046642362,0.0015624729955324137,40,True,5000,0,combined_resample_videos,"chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"
+c25,sort-cv30,sort-orig30,AssA,0.5682255898530082,0.5811412340114287,-0.012915644158420503,-0.023343815094488705,-0.0007334386087298708,40,False,5000,0,combined_resample_videos,"chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"
+c25,sort-cv30,sort-orig30,DetA,0.5279882449853315,0.5414631755258001,-0.013474930540468666,-0.01653957171068516,-0.010915427374139024,40,False,5000,0,combined_resample_videos,"chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"
+c25,sort-cv30,sort-orig30,IDSW,4318.0,4314.0,4.0,-140.0,156.0,40,True,5000,0,combined_resample_videos,"chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"
+c25,sort-cv30,sort-orig30,HOTA,,,-0.012808415220672359,-0.01853552612390504,-0.006938549157493552,40,False,5000,0,mean_of_videos,"chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"
+c25,sort-cv30,sort-orig30,IDF1,,,-0.004779147392835935,-0.012571718613724215,0.003486074954920561,40,True,5000,0,mean_of_videos,"chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"
+c25,sort-cv30,sort-orig30,AssA,,,-0.010013938179351213,-0.020251984768642303,0.0008274460159037952,40,True,5000,0,mean_of_videos,"chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"
+c25,sort-cv30,sort-orig30,DetA,,,-0.015577304409870773,-0.01907774921084012,-0.012494666519677934,40,False,5000,0,mean_of_videos,"chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"
+c25,sort-cv30,sort-orig30,IDSW,,,0.1,-3.5,3.9,40,True,5000,0,mean_of_videos,"chi doi bieu dien trang thai KF 7-D -> XYAH, cung vong doi SORT, max_age 30"
+c25,sort-ekf30,sort-cv30,HOTA,0.5472485077125087,0.5452123770845433,0.0020361306279653713,-8.217518908337491e-05,0.004190195359194406,40,True,5000,0,combined_resample_videos,"chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"
+c25,sort-ekf30,sort-cv30,IDF1,0.6498351958958408,0.6459699732805327,0.0038652226153080838,-8.503094448470693e-05,0.0075434116190528635,40,True,5000,0,combined_resample_videos,"chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"
+c25,sort-ekf30,sort-cv30,AssA,0.5725363941051712,0.5682255898530082,0.004310804252163014,-0.00017171100315674628,0.009040808958961524,40,True,5000,0,combined_resample_videos,"chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"
+c25,sort-ekf30,sort-cv30,DetA,0.5280245507716953,0.5279882449853315,3.6305786363821646e-05,-0.00020424309789263405,0.0002766724044435369,40,True,5000,0,combined_resample_videos,"chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"
+c25,sort-ekf30,sort-cv30,IDSW,4210.0,4318.0,-108.0,-186.0,-28.0,40,False,5000,0,combined_resample_videos,"chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"
+c25,sort-ekf30,sort-cv30,HOTA,,,0.001497119975908949,-0.000709470221104709,0.0036340351056523184,40,True,5000,0,mean_of_videos,"chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"
+c25,sort-ekf30,sort-cv30,IDF1,,,0.0034064640557135706,-0.0005098828111672841,0.007314391685370889,40,True,5000,0,mean_of_videos,"chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"
+c25,sort-ekf30,sort-cv30,AssA,,,0.003005600618693147,-0.0016465485927458598,0.0074557662909976105,40,True,5000,0,mean_of_videos,"chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"
+c25,sort-ekf30,sort-cv30,DetA,,,8.586458616870879e-05,-0.00024479048190510235,0.000444184299758616,40,True,5000,0,mean_of_videos,"chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"
+c25,sort-ekf30,sort-cv30,IDSW,,,-2.7,-4.65,-0.7,40,False,5000,0,mean_of_videos,"chi doi motion model CV -> EKF-CTRV, cung XYAH, cung vong doi SORT"
+c25,sort-ekf1,sort-orig1,HOTA,0.5170754229570442,0.5310636450648695,-0.013988222107825243,-0.016738879051150846,-0.011620714818301944,40,False,5000,0,combined_resample_videos,"chi doi bo loc, max_age 1"
+c25,sort-ekf1,sort-orig1,IDF1,0.5863204359036406,0.5943156030792984,-0.007995167175657847,-0.010602173756358788,-0.0057416820214605995,40,False,5000,0,combined_resample_videos,"chi doi bo loc, max_age 1"
+c25,sort-ekf1,sort-orig1,AssA,0.5102922775897262,0.5235122225857002,-0.013219944995974009,-0.01701403804221707,-0.009850713422296853,40,False,5000,0,combined_resample_videos,"chi doi bo loc, max_age 1"
+c25,sort-ekf1,sort-orig1,DetA,0.5298779653943689,0.5444103058875345,-0.014532340493165541,-0.01747823222853103,-0.012073371994944739,40,False,5000,0,combined_resample_videos,"chi doi bo loc, max_age 1"
+c25,sort-ekf1,sort-orig1,IDSW,5555.0,5369.0,186.0,62.0,308.02499999999964,40,False,5000,0,combined_resample_videos,"chi doi bo loc, max_age 1"
+c25,sort-ekf1,sort-orig1,HOTA,,,-0.015476359241742163,-0.018670896138700602,-0.012449876922837458,40,False,5000,0,mean_of_videos,"chi doi bo loc, max_age 1"
+c25,sort-ekf1,sort-orig1,IDF1,,,-0.008984738414046577,-0.013437470446681284,-0.004822451738891304,40,False,5000,0,mean_of_videos,"chi doi bo loc, max_age 1"
+c25,sort-ekf1,sort-orig1,AssA,,,-0.013599465794992832,-0.017878981669052354,-0.009167148202349236,40,False,5000,0,mean_of_videos,"chi doi bo loc, max_age 1"
+c25,sort-ekf1,sort-orig1,DetA,,,-0.016668418128701862,-0.020097272787873897,-0.013691209621262019,40,False,5000,0,mean_of_videos,"chi doi bo loc, max_age 1"
+c25,sort-ekf1,sort-orig1,IDSW,,,4.65,1.55,7.700624999999991,40,False,5000,0,mean_of_videos,"chi doi bo loc, max_age 1"
+c25,bt-ekf,sort-ekf30,HOTA,0.5835249618449226,0.5472485077125087,0.03627645413241398,0.02962759768983419,0.042795508801708564,40,False,5000,0,combined_resample_videos,"chi doi vong doi/association SORT -> ByteTrack, cung EKF"
+c25,bt-ekf,sort-ekf30,IDF1,0.7035828598063553,0.6498351958958408,0.05374766391051444,0.04436405631695975,0.06342506610366079,40,False,5000,0,combined_resample_videos,"chi doi vong doi/association SORT -> ByteTrack, cung EKF"
+c25,bt-ekf,sort-ekf30,AssA,0.641834835545852,0.5725363941051712,0.06929844144068076,0.055874230061405614,0.082305544185171,40,False,5000,0,combined_resample_videos,"chi doi vong doi/association SORT -> ByteTrack, cung EKF"
+c25,bt-ekf,sort-ekf30,DetA,0.535470181533095,0.5280245507716953,0.007445630761399702,0.004864962267053766,0.00995291849373875,40,False,5000,0,combined_resample_videos,"chi doi vong doi/association SORT -> ByteTrack, cung EKF"
+c25,bt-ekf,sort-ekf30,IDSW,2525.0,4210.0,-1685.0,-2090.0,-1292.0,40,False,5000,0,combined_resample_videos,"chi doi vong doi/association SORT -> ByteTrack, cung EKF"
+c25,bt-ekf,sort-ekf30,HOTA,,,0.034168895033631186,0.027999983734897524,0.0401367135004906,40,False,5000,0,mean_of_videos,"chi doi vong doi/association SORT -> ByteTrack, cung EKF"
+c25,bt-ekf,sort-ekf30,IDF1,,,0.05200428491628565,0.04261670602246151,0.06141786323380447,40,False,5000,0,mean_of_videos,"chi doi vong doi/association SORT -> ByteTrack, cung EKF"
+c25,bt-ekf,sort-ekf30,AssA,,,0.06439027775628525,0.052786554441660444,0.07603038293247565,40,False,5000,0,mean_of_videos,"chi doi vong doi/association SORT -> ByteTrack, cung EKF"
+c25,bt-ekf,sort-ekf30,DetA,,,0.006497621141746841,0.003972214573449192,0.009051463721677694,40,False,5000,0,mean_of_videos,"chi doi vong doi/association SORT -> ByteTrack, cung EKF"
+c25,bt-ekf,sort-ekf30,IDSW,,,-42.125,-52.25,-32.3,40,False,5000,0,mean_of_videos,"chi doi vong doi/association SORT -> ByteTrack, cung EKF"

@@ -2,7 +2,7 @@
 make_handoff.py -- Dong goi handoff/phase2_review_latest.zip cho nguoi review KHONG co may (Moc 2, muc 7).
 
 GOM (giu nguyen duong dan tuong doi tu goc repo):
-    - CODEX_HANDOFF.md, PHASE2_REPORT.md, README.md, requirements.txt, .gitignore
+    - CODEX_HANDOFF.md, PHASE2_REPORT.md, README.md, requirements.txt
     - file GIT-TRACKED trong src/ (tru src/demo/), configs/, scripts/, data/fixtures/, handoff/logs, handoff/patches
     - results/phase2/** (csv/json/md/txt/yaml/log), results/trackeval/<split>/p2-*/{per_video,combined}_metrics.csv + raw_fields.json
     - data/processed/trackers/<split>/p2-*/{summary.csv, run_meta.json} (KHONG gom data/*.txt, assoc_log, timing)
@@ -10,9 +10,15 @@ GOM (giu nguyen duong dan tuong doi tu goc repo):
       (cache detection la du lieu DAN XUAT tu weights + anh, cho phep chay lai tracking khong can GPU)
     - handoff/versions.json (pip freeze, python, GPU, OS), handoff/large_inputs.md, handoff/INDEX.md (tao o day)
     - handoff/patches/moc2_<base>..<head>.diff + commits.txt (tao o day; --base = commit bat dau moc 2)
-LOAI: dataset (data/raw, data/extracted), weights (models/), venv, .git, video, outputs/, ZIP cu, file rieng
-chua commit cua nguoi dung (src/demo/*, live.bat ...), log parquet assoc_log (giu tai may; trich trong
-results/phase2/failure_analysis/*/event_window_log.csv).
+LOAI: dataset (data/raw, data/extracted), weights (models/), venv, .git, video, outputs/, ZIP cu, log
+parquet assoc_log (giu tai may; trich trong results/phase2/failure_analysis/*/event_window_log.csv) va
+FILE RIENG CUA NGUOI DUNG - danh sach tuong minh trong USER_FILES (`.gitignore`, `src/demo/**`, `live.bat`,
+`outputs/**`). Loi P2 cua review doc lap: ban truoc van dong goi `.gitignore` du mo ta noi da loai.
+
+TINH NHAT QUAN SNAPSHOT: ZIP phai duoc dung SAU commit cuoi. Neu con file (thuoc pham vi dong goi) khac
+HEAD thi mac dinh TU CHOI dung goi (`--allow-dirty` de bo qua, khi do danh sach dirty duoc ghi vao
+versions.json va INDEX.md). Kem `handoff/FILE_HASHES.csv` (sha256 tung file trong goi) va
+`handoff/external/bytetrack.yaml` (ban ultralytics dung trong LOCK) de doi chieu hash.
 
 Kiem tra sau khi tao: zipfile.testzip(), file bat buoc co mat, moi duong dan tuong doi trong CODEX_HANDOFF.md
 (dang [..](path) hoac `path`) ton tai trong ZIP hoac duoc liet ke la "chi tren may".
@@ -35,7 +41,12 @@ ROOT = Path(__file__).resolve().parents[1]
 ZIP = ROOT / "handoff" / "phase2_review_latest.zip"
 REQUIRED = ["CODEX_HANDOFF.md", "PHASE2_REPORT.md", "README.md", "requirements.txt", "handoff/versions.json",
             "handoff/INDEX.md", "handoff/large_inputs.md", "handoff/logs/tests_summary.csv", "handoff/logs/tests_latest.log",
-            "configs/phase2/PREREG_moc2.md", "configs/phase2/LOCK_moc2.md"]
+            "configs/phase2/PREREG_moc2.md", "configs/phase2/LOCK_moc2.md", "handoff/FILE_HASHES.csv",
+            "results/phase2/REVIEW_moc2_codex.md"]
+
+#: File RIENG CUA NGUOI DUNG (khong bao gio dong goi, ke ca khi git dang theo doi)
+USER_FILES = (".gitignore", "live.bat")
+USER_PREFIXES = ("src/demo/", "outputs/")
 RESULT_EXT = {".csv", ".json", ".md", ".txt", ".yaml", ".yml", ".log"}
 
 
@@ -54,8 +65,12 @@ def collect(cache_max_mb: float, splits: list[str]) -> tuple[list[Path], list[st
     for f in tracked:
         p = Path(f)
         top = p.parts[0] if p.parts else ""
-        if f in ("CODEX_HANDOFF.md", "PHASE2_REPORT.md", "README.md", "requirements.txt", ".gitignore"):
+        if f in USER_FILES or f.startswith(USER_PREFIXES):
+            continue                                      # file rieng cua nguoi dung -> khong dong goi
+        if f in ("CODEX_HANDOFF.md", "PHASE2_REPORT.md", "README.md", "requirements.txt"):
             files.add(p)
+        elif top == "third_party" and "_testdeps" not in f:
+            files.add(p)                                  # ma SORT upstream da ghim + PROVENANCE (tham chieu kiem thu)
         elif top == "src" and not f.startswith("src/demo/"):
             files.add(p)
         elif top in ("configs", "scripts"):
@@ -93,8 +108,9 @@ def collect(cache_max_mb: float, splits: list[str]) -> tuple[list[Path], list[st
             notes.append(f"cache {cdir.name}: {len(npz)} npz ({mb:.1f} MB) DA GOM")
         elif npz:
             notes.append(f"cache {cdir.name}: {len(npz)} npz ({mb:.1f} MB) KHONG gom (> {cache_max_mb} MB) - chi tren may")
-    for h in ("handoff/versions.json", "handoff/INDEX.md", "handoff/large_inputs.md",
-              "CODEX_HANDOFF.md", "PHASE2_REPORT.md", "README.md", "requirements.txt", ".gitignore"):
+    for h in ("handoff/versions.json", "handoff/INDEX.md", "handoff/large_inputs.md", "handoff/FILE_HASHES.csv",
+              "handoff/external/bytetrack.yaml", "CODEX_HANDOFF.md", "PHASE2_REPORT.md", "README.md",
+              "requirements.txt"):
         if (ROOT / h).exists():                     # ke ca khi chua commit (tai lieu ban giao)
             files.add(Path(h))
     for p in (ROOT / "handoff" / "logs").glob("*"):
@@ -106,10 +122,57 @@ def collect(cache_max_mb: float, splits: list[str]) -> tuple[list[Path], list[st
     return sorted(files, key=str), notes
 
 
-def write_versions() -> None:
+def dirty_files(exclude_user: bool = True) -> list[str]:
+    """File TRACKED dang khac HEAD. Mac dinh bo qua file rieng cua nguoi dung."""
+    out = []
+    for ln in git("status", "--porcelain", "--untracked-files=no").splitlines():
+        if not ln.strip():
+            continue
+        path = ln[3:].strip().replace("\\", "/")
+        if exclude_user and (path in USER_FILES or path.startswith(USER_PREFIXES)):
+            continue
+        out.append(ln.rstrip())
+    return out
+
+
+def write_external() -> None:
+    """Chep file cau hinh NGOAI repo duoc LOCK tham chieu (bytetrack.yaml cua ultralytics) de doi chieu hash."""
+    d = ROOT / "handoff" / "external"
+    d.mkdir(parents=True, exist_ok=True)
+    try:
+        from ultralytics.utils.checks import check_yaml
+        src = Path(check_yaml("bytetrack.yaml"))
+        (d / "bytetrack.yaml").write_bytes(src.read_bytes())
+        (d / "README.md").write_text(
+            "File cua thu vien ultralytics (khong thuoc repo), duoc `configs/phase2/LOCK_moc2.md` tham chieu.\n"
+            f"Nguon: {src}\nPhien ban ultralytics: xem handoff/versions.json\n"
+            "Chep vao day de nguoi review doi chieu duoc hash ghi trong lock_moc2.json.\n", encoding="utf-8")
+    except Exception as e:  # noqa: BLE001
+        (d / "README.md").write_text(f"Khong chep duoc bytetrack.yaml: {e}\n", encoding="utf-8")
+
+
+def write_file_hashes(files: list[Path]) -> None:
+    import csv
+    out = ROOT / "handoff" / "FILE_HASHES.csv"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with out.open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["path", "bytes", "sha256"])
+        for p in files:
+            fp = ROOT / p
+            if fp.is_file() and p.as_posix() != "handoff/FILE_HASHES.csv":
+                import hashlib
+                h = hashlib.sha256(fp.read_bytes()).hexdigest()
+                w.writerow([p.as_posix(), fp.stat().st_size, h])
+
+
+def write_versions(dirty: list[str] | None = None) -> None:
     info = {"created": time.strftime("%Y-%m-%dT%H:%M:%S"), "python": sys.version, "platform": platform.platform(),
             "machine": platform.machine(), "git_head": git("rev-parse", "HEAD").strip(),
-            "git_branch": git("rev-parse", "--abbrev-ref", "HEAD").strip()}
+            "git_branch": git("rev-parse", "--abbrev-ref", "HEAD").strip(),
+            "git_dirty_packaged_files": dirty or [],
+            "note_user_files": "Cac file rieng cua nguoi dung (.gitignore, src/demo/**, live.bat, outputs/**) "
+                               "KHONG duoc dong goi va KHONG tinh vao trang thai dirty o tren."}
     try:
         import torch
         info["torch"] = torch.__version__; info["cuda"] = torch.version.cuda
@@ -162,13 +225,30 @@ def main() -> int:
     ap.add_argument("--base", default="e353b84", help="commit truoc moc 2 (de tao diff)")
     ap.add_argument("--cache-max-mb", type=float, default=60.0)
     ap.add_argument("--splits", nargs="*", default=["DETRAC-all", "DETRAC-test"])
+    ap.add_argument("--allow-dirty", action="store_true",
+                    help="van dong goi khi con file (thuoc pham vi goi) khac HEAD; danh sach duoc ghi vao versions.json")
     a = ap.parse_args()
     (ROOT / "handoff").mkdir(exist_ok=True)
-    write_versions()
+    dirty = dirty_files()
+    if dirty and not a.allow_dirty:
+        print("[LOI] Con file khac HEAD (khong tinh file rieng cua nguoi dung) -> commit truoc khi dong goi, "
+              "de snapshot trong ZIP trung voi commit bao cao:")
+        for ln in dirty:
+            print("   ", ln)
+        print("   (hoac chay lai voi --allow-dirty)")
+        return 2
+    write_external()
+    write_versions(dirty)
     write_patches(a.base)
     files, notes = collect(a.cache_max_mb, a.splits)
+    write_file_hashes(files)
+    files, _ = collect(a.cache_max_mb, a.splits)          # lay them FILE_HASHES.csv vua ghi
     # INDEX
-    idx = ["# INDEX - handoff/phase2_review_latest.zip", "", f"Tao: {time.strftime('%Y-%m-%d %H:%M:%S')}  HEAD {git('rev-parse', '--short', 'HEAD').strip()}", "",
+    idx = ["# INDEX - handoff/phase2_review_latest.zip", "",
+           f"Tao: {time.strftime('%Y-%m-%d %H:%M:%S')}  HEAD {git('rev-parse', '--short', 'HEAD').strip()}",
+           f"File tracked khac HEAD luc dong goi (khong tinh file rieng cua nguoi dung): "
+           f"{dirty if dirty else 'khong'}", "",
+           "sha256 tung file: handoff/FILE_HASHES.csv", "",
            "## Ghi chu dong goi", *[f"- {n}" for n in notes],
            "- KHONG gom: data/raw, data/extracted (UA-DETRAC), models/*.pt, outputs/, .git, venv, ZIP cu, file rieng chua commit "
            "cua nguoi dung (src/demo/*, live.bat), data/processed/trackers/*/data/*.txt + assoc_log/*.parquet + timing/*.csv "
