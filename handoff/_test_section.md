@@ -24,7 +24,7 @@ còn giá trị lịch sử:
 | cặp (yếu tố được kiểm soát) | ΔHOTA `_fix1` | (trước khi sửa) | ΔIDSW `_fix1` |
 |:--|:--|:--|:--|
 | bộ đệm `max_age` 1 → 30 | **+0.0274 [+0.0201, +0.0345]** | (+0.0280) | −1055 [−1390, −759] |
-| **gói** biểu diễn trạng thái **+ thiết lập bộ lọc** (KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack) | **−0.0133 [−0.0185, −0.0077]** | (−0.0133) | +4 [−140, +156] (CI chứa 0) |
+| **gói** biểu diễn trạng thái **+ thiết lập bộ lọc** (KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack) | **−0.0132 [−0.0185, −0.0077]** | (−0.0133) | +4 [−140, +156] (CI chứa 0) |
 | motion model CV → EKF–CTRV (cùng XYAH, cùng vòng đời SORT) | +0.0020 [−0.0001, +0.0042] (CI chạm 0) | (+0.0020) | **−108 [−186, −28]** |
 | chỉ đổi bộ lọc, `max_age` 1 | **−0.0140 [−0.0167, −0.0116]** | (−0.0140) | +186 [+62, +308] |
 | vòng đời/association SORT → ByteTrack (cùng EKF) | **+0.0363 [+0.0296, +0.0428]** | (+0.0364) | −1685 [−2090, −1292] |

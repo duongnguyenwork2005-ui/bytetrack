@@ -603,7 +603,7 @@ bình của metric** từng seed; bootstrap lấy **trung bình thống kê đ�
 c25 pf500), 4,5·10⁻⁶ (dev c25 pf100); |ΔIDF1| ≤ 1,2·10⁻⁶ — nhỏ hơn 3–4 bậc so với khoảng cách PF–EKF
 (≈ 3·10⁻²), nên không ảnh hưởng kết luận nào; vẫn ghi rõ ở đây để người đọc không nhầm hai đại lượng.
 Ngoài ra, CI bootstrap **theo video** không bao gồm bất định do **chọn seed**; biến thiên giữa 3 seed được
-báo cáo riêng (SD HOTA ≤ 0,005 trên dev, ≤ 0,0004 trên test).
+báo cáo riêng (SD HOTA ≤ 0,005 trên dev; trên test SD HOTA = 0,00054 ở c25 và 0,00043 ở c10).
 
 ### 15.3 Nhóm B trình bày theo từng cặp
 
@@ -667,7 +667,7 @@ ukf 0.060 / 0.553; pf500 0.053 / 0.495.
    thấy được nhờ mẫu lớn (40 video, ghép cặp). Ở `c25` (cấu hình khóa của GĐ1) CI vẫn chứa 0 (+0.0012).
 2. UKF **không** hơn CV, và **kém EKF** một chút có ý nghĩa ở c25 (−0.0011) — nhất quán với GĐ4 (UKF ngoại suy
    kém hơn EKF ở CTRV).
-3. **PF–CTRV kém rõ rệt** ở mọi chỉ số, nhất quán dev; biến thiên giữa 3 seed nhỏ (SD HOTA ≤ 0,0004) → chênh
+3. **PF–CTRV kém rõ rệt** ở mọi chỉ số, nhất quán dev; biến thiên giữa 3 seed nhỏ (SD HOTA ≤ 0,00054) → chênh
    lệch không do seed.
 4. Giữ ID qua che khuất **không** khác biệt có ý nghĩa giữa CV/EKF/UKF. Ở **tầng che nặng** (`has_full`:
    sự kiện có đoạn che ≥ 0,90 — xem định nghĩa ở mục 13.1), **tại điều kiện c25** cả ba đều 0,060 (11/182 sự
@@ -846,7 +846,7 @@ tức **2,8–9,8 % tùy nhánh** (không phải "9–12 % ở mọi nhánh" nh�
 | cặp (yếu tố được kiểm soát) | trước khi sửa | sau khi sửa |
 |:--|:--|:--|
 | bộ đệm 1 → 30 | +0.0280 [+0.0207, +0.0350] | **+0.0274 [+0.0201, +0.0345]** |
-| gói biểu diễn + thiết lập bộ lọc (KF 7-D → XYAH) | −0.0133 [−0.0185, −0.0077] | **−0.0133 [−0.0185, −0.0077]** (thô: −0.013273 → −0.013250) |
+| gói biểu diễn + thiết lập bộ lọc (KF 7-D → XYAH) | −0.0133 [−0.0185, −0.0077] | **−0.0132 [−0.0185, −0.0077]** (thô −0.0132726 → **−0.0132500**; hai giá trị nằm hai bên mốc làm tròn 4 chữ số) |
 | motion model CV → EKF–CTRV | +0.0020 [−0.0001, +0.0042] | **+0.0020 [−0.0001, +0.0042]** |
 | chỉ đổi bộ lọc ở `max_age` 1 | −0.0140 [−0.0167, −0.0116] | **−0.0140 [−0.0167, −0.0116]** |
 | vòng đời SORT → ByteTrack | +0.0364 [+0.0298, +0.0428] | **+0.0363 [+0.0296, +0.0428]** |

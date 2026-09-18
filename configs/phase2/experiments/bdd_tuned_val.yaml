@@ -1,5 +1,7 @@
 # MOC 2 (muc 6) - THI NGHIEM 2 tren BDD100K-MOT: TUNING tren BDD train-dev (~40 video chon tu train,
-# results/phase2/manifests/bdd100k_dev_train.json do check_bdd100k.py --part train --make-manifest --n-dev 40 --seed 0)
+# results/phase2/manifests/bdd100k_dev.json do check_bdd100k.py --part train --make-manifest --n-dev 40 --seed 0
+# -- CHUA DU DIEU KIEN: tren may moi co anh split `val`, KHONG co `train`. Train-dev BAT BUOC lay tu
+# `train`, khong duoc cat val ra lam tap tuning. Xem handoff/BDD100K_INVENTORY.md muc 6B.)
 # roi DANH GIA tren val. CHUA CHAY (chua co du lieu). Tach biet voi bdd_transfer_val.yaml: KHONG gop hai ket qua.
 #
 # Quy trinh (ghi truoc):

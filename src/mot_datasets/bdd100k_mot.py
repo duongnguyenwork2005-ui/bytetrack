@@ -91,7 +91,13 @@ BDD_TO_COCO = {v: k for k, v in COCO_TO_BDD.items()}
 MOT_IGNORE_CLASS = 13
 FPS = 5.0
 IMG_W, IMG_H = 1280, 720
-OCCLUDED_RATIO = 0.5       # gia tri quy uoc cho co `occluded` (xem docstring muc 2)
+#: GIA TRI QUY UOC cho co NHI PHAN `occluded` cua BDD100K - KHONG phai muc che 50% do duoc.
+#: BDD chi ghi "co bi che mot phan hay khong", khong ghi muc do; 0.5 duoc chon vi no vuot nguong
+#: partial (0.10) nhung KHONG BAO GIO vuot nguong full (0.90), tuc khong bao gio bien mot co nhi phan
+#: thanh mot su kien "che gan hoan toan". Moi thong ke dan xuat tu truong nay (occlusion_ratio,
+#: visibility) mang cung tinh chat QUY UOC do, khong so sanh truc tiep duoc voi occlusion_ratio DO DUOC
+#: cua UA-DETRAC. Xem docstring muc 2.
+OCCLUDED_RATIO = 0.5
 
 REQUIRED_FRAME_KEYS = ("name", "frameIndex", "labels")
 REQUIRED_ATTR_KEYS = ("occluded", "truncated", "crowd")

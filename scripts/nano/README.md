@@ -49,13 +49,24 @@ nhiệt độ) vấn đề này **nặng hơn**. Vì vậy:
    riêng, không trộn (đúng như tách 6a / 6b của UA-DETRAC).
 2. **Xen kẽ A/B/A/B**, không phải "toàn bộ A rồi toàn bộ B": ≥ 5 cặp lượt, mỗi lượt cùng số frame, báo cáo
    **trung vị + IQR của hiệu số theo cặp**, không phải hiệu số của hai trung bình.
-3. **Ghi điều kiện chạy ở mỗi lượt**: `nvpmodel -q`, `jetson_clocks` bật/tắt, nhiệt độ và tần số từ
-   `tegrastats` (lấy mẫu song song), RAM/swap. Lượt nào rơi vào throttling thì **đánh dấu và loại**, không
-   im lặng lấy trung bình.
-4. **Warm-up** như trên PC: bỏ 50 frame đầu, đo 450 frame tiếp theo, batch 1, cùng độ phân giải.
-5. **Tách từng pha** giống `src/profile_pipeline.py`: `predict_ms`, `assoc_ms`, `update_ms` riêng — chênh
-   lệch CV ↔ EKF nằm gần như toàn bộ ở `predict` + `update`, `assoc` phải gần như bằng nhau; nếu `assoc`
-   lệch nhiều thì phép đo có vấn đề.
+3. **Lưu MỌI lượt, kể cả lượt bị throttling.** Ghi điều kiện chạy ở mỗi lượt: `nvpmodel -q`,
+   `jetson_clocks` bật/tắt, nhiệt độ và tần số từ `tegrastats` (lấy mẫu song song), RAM/swap. **Không loại
+   lượt nào khỏi dữ liệu thô.**
+   - **Số chính thức là hiệu năng chạy LIÊN TỤC** — tính trên toàn bộ các lượt, vì đó mới là điều kiện một
+     thiết bị Nano thật gặp phải khi chạy dài. Throttling là **đặc tính của thiết bị**, không phải nhiễu đo.
+   - Bảng "không throttling" chỉ là **phân tích bổ sung**, kèm **tiêu chí loại công bố TRƯỚC khi đo**
+     (ví dụ: loại lượt có `tegrastats` báo nhiệt > X °C hoặc tần số GPU < Y MHz ở bất kỳ mẫu nào). Báo cáo
+     **cả hai** bảng và ghi rõ đã loại bao nhiêu lượt, theo tiêu chí nào.
+4. **Cân bằng thứ tự**: chạy xen kẽ cả **A/B** lẫn **B/A** (số cặp mỗi chiều bằng nhau) để nhiệt độ tích lũy
+   không dồn lợi thế cho một bộ lọc. Mọi lượt dùng **cùng warm-up** (bỏ 50 frame đầu, đo 450 frame tiếp
+   theo, batch 1, cùng độ phân giải) và **cùng điều kiện bắt đầu** (chờ nhiệt độ về ngưỡng đã định trước khi
+   bắt đầu lượt kế tiếp, ghi lại nhiệt độ đó).
+5. **Đọc đúng ba cột timer** — chúng **KHÔNG** phải ba pha độc lập (xem `src/run_tracking.py`:177–183):
+   `update_ms` là **tổng** lời gọi `tracker.update()`; `predict_ms` chỉ là `multi_predict`; `assoc_ms =
+   update − predict` nên **bao gồm cả bước cập nhật (correction) của bộ lọc**, quản lý vòng đời và loại
+   track trùng. Vì vậy **không** kỳ vọng `assoc` của CV và EKF bằng nhau — phần cập nhật của hai bộ lọc
+   khác nhau thật. Đại lượng để so là **`update_ms`** (tổng chi phí tracker); `predict_ms` dùng để biết phần
+   chênh lệch nằm ở bước dự đoán hay bước cập nhật.
 6. **Đối chứng độ chính xác**: mọi cấu hình tăng tốc (FP16 detector, engine khác) phải chạy lại đánh giá
    tracking trên PC trước khi so tốc độ — số tốc độ không đi kèm số chất lượng thì không kết luận được gì.
 

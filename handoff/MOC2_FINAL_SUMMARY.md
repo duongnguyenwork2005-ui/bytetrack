@@ -53,14 +53,19 @@ Nguồn: [expA_detrac_test/{c25,c10}/summary.csv](../results/phase2/expA_detrac_
 
 **dev (12 video, c25)** — [expA_detrac_dev/c25](../results/phase2/expA_detrac_dev/c25/): cv 0.5900,
 ekf 0.5925, ukf 0.5879; ekf − cv **+0.0025 [−0.0018, +0.0060] (CI chứa 0)**. PF kém có ý nghĩa ở cả ba mức
-N: pf100 −0.0967, pf300 −0.0718, pf500 −0.0631 (mọi CI không chứa 0), và **tăng theo N** ⇒ suy giảm là hệ quả
-của số hạt, nhất quán với chẩn đoán ở mục 5.
+N: pf100 −0.0967, pf300 −0.0718, pf500 −0.0631 (mọi CI không chứa 0). Khoảng cách **thu hẹp khi N tăng** ⇒
+số hạt là **một phần** nguyên nhân; nhưng ở N = 500 PF vẫn kém rõ rệt, nên số hạt **chưa giải thích được toàn
+bộ** — các yếu tố khác (thiết kế nhiễu, proposal, thiếu roughening) chưa được tách riêng.
 
 **Đọc đúng mức bằng chứng**
+- **CI chứa 0 ⇒ "không đủ bằng chứng về khác biệt", KHÔNG phải "tương đương".** Với cỡ mẫu và độ biến thiên
+  ở đây, CI của `ekf − cv` tại c25 là [−0.0003, +0.0027] — khoảng này vẫn cho phép một khác biệt thật tới
+  +0.0027 HOTA. Không có phép kiểm tương đương (equivalence test) nào được đăng ký trước, nên không kết luận
+  được hai bộ lọc như nhau.
 - Lợi ích của EKF so với CV là **nhỏ và phụ thuộc điều kiện**: có ý nghĩa thống kê ở **c10** (+0.0033 HOTA
   ≈ **+0,57 %** tương đối), **không** có ý nghĩa ở c25 và **không** có ý nghĩa trên dev. Không đủ cơ sở để
   phát biểu "EKF tốt hơn CV" mà không kèm điều kiện confidence và tập dữ liệu.
-- UKF **không** hơn CV, và **kém EKF một chút có ý nghĩa** ở c25.
+- UKF **không cho thấy** cải thiện so với CV, và **kém EKF một chút có ý nghĩa** ở c25.
 - Ở **tầng che hoàn toàn** (`has_full` = sự kiện có đoạn che ≥ 0,90; 182 sự kiện, test c25):
   cv / ekf / ukf **đều 0,0604 (11/182)** — cả ba như nhau. Ở c10, ukf 12/182 (0,0659), cv/ekf vẫn 11/182:
   chênh **một** sự kiện, không có ý nghĩa. Phát biểu "cả ba như nhau" chỉ đúng ở **c25**.
@@ -81,7 +86,7 @@ khi sửa chỉ còn giá trị lịch sử. Nguồn:
 | cặp — **thành phần thay đổi** | ΔHOTA | ΔIDSW |
 |:--|:--|:--|
 | `sort-orig30 − sort-orig1`: **chỉ** bộ đệm `max_age` 1 → 30 (SORT nguyên bản) | **+0.0274 [+0.0201, +0.0345]** | **−1055 [−1390, −759]** |
-| `sort-cv30 − sort-orig30`: **gói** biểu diễn trạng thái **+ thiết lập bộ lọc** — KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack (cùng vòng đời SORT, cùng `max_age` 30) | **−0.0133 [−0.0185, −0.0077]** | +4 [−140, +156] |
+| `sort-cv30 − sort-orig30`: **gói** biểu diễn trạng thái **+ thiết lập bộ lọc** — KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack (cùng vòng đời SORT, cùng `max_age` 30) | **−0.0132 [−0.0185, −0.0077]** (thô −0.0132500) | +4 [−140, +156] |
 | `sort-ekf30 − sort-cv30`: **chỉ** motion model CV → EKF–CTRV (cùng XYAH, cùng vòng đời SORT) | +0.0020 [−0.0001, +0.0042] (**CI chạm 0**) | **−108 [−186, −28]** |
 | `sort-ekf1 − sort-orig1`: **chỉ** bộ lọc, ở `max_age` 1 | **−0.0140 [−0.0167, −0.0116]** | +186 [+62, +308] |
 | `bt-ekf − sort-ekf30`: **chỉ** vòng đời/association SORT → ByteTrack (cùng EKF–CTRV) | **+0.0363 [+0.0296, +0.0428]** | **−1685 [−2090, −1292]** |
@@ -117,7 +122,7 @@ cải thiện phục hồi sau che khuất trên UA-DETRAC.
 |:--|:--|:--|
 | `preserved` chung | cv 0.505 → cv-maha **0.554**; cv-iou 0.565 | cv 0.480 → cv-maha **0.516**; ekf 0.487 → ekf-maha **0.526** |
 | Tầng **che hoàn toàn** (182 sự kiện) | — | cv/ekf **0.0604** → cv-maha/ekf-maha **0.1209** — **gấp đôi** |
-| ΔHOTA, cặp **đúng đối chứng** | cv-maha − cv +0.0019; ekf-maha − ekf −0.0025 | **cv-maha − cv −0.0046 [−0.0072, −0.0021]**; **ekf-maha − ekf −0.0035 [−0.0058, −0.0012]** |
+| ΔHOTA, cặp **đúng đối chứng** | cv-maha − cv +0.0019; ekf-maha − ekf −0.0025 | **cv-maha − cv −0.0046 [−0.0072, −0.0021]**; **ekf-maha − ekf −0.0034 [−0.0058, −0.0012]** |
 | ΔIDSW | cv-maha −24; ekf-maha −2 | **cv-maha +261 [+103, +441]**; **ekf-maha +319 [+155, +495]** |
 | FP | cv 12 119 → cv-maha 13 157 | cv 73 478 → cv-maha 81 428 (**+7 950**) |
 
@@ -144,8 +149,8 @@ chí đã đăng ký ⇒ **không có tổ hợp nào để chạy**. Đây là 
 ## 5. PF–CTRV — giới hạn kết luận
 
 Đo được ([pf_diag](../results/phase2/pf_diag/expA_detrac_dev/), 3 seed × 3 mức N): PF kém rõ rệt ở mọi chỉ số
-trên cả dev và test; biến thiên giữa 3 seed rất nhỏ (SD HOTA ≤ 0,0004 trên test) ⇒ chênh lệch **không** do
-seed. Ở các lần **cập nhật sau một khoảng mất dấu dài**: ESS/N ~1 % (đo **trước** resample) và chỉ còn ~3 %
+trên cả dev và test; biến thiên giữa 3 seed rất nhỏ (trên test: SD HOTA **0,00054** ở c25 và 0,00043 ở
+c10; SD lớn nhất trong các chỉ số là AssA **0,00090**) ⇒ chênh lệch **không** do seed. Ở các lần **cập nhật sau một khoảng mất dấu dài**: ESS/N ~1 % (đo **trước** resample) và chỉ còn ~3 %
 particle phân biệt (đo **sau** resample).
 
 **Không** suy ra được từ log này rằng mất đa dạng xảy ra *trước khi có quan sát mới*, cũng **không** phải bằng
@@ -159,17 +164,26 @@ riêng cho PF) **chưa chạy** ⇒ không kết luận "PF không phù hợp ch
 ## 6. Tốc độ — **hai đại lượng khác nhau, không được trộn**
 
 ### 6a. Tracker chạy **từ cache** (CPU, **không** có detector)
-`predict_ms_per_frame` + `assoc_ms_per_frame` trong `summary.csv` của chính các lần chạy đánh giá:
 
-| tracker (test c25) | predict ms | assoc ms | fps *chỉ tracker* |
-|:--|--:|--:|--:|
-| cv | 0,285 | 1,755 | ~490 |
-| ekf | 0,664 | 1,997 | ~376 |
-| ukf | 3,218 | 2,240 | ~183 |
-| pf500 | 3,460 | 5,332 | ~114 |
+**Ba cột trong `summary.csv` KHÔNG phải ba pha độc lập** ([run_tracking.py](../src/run_tracking.py):177–183):
 
-Nhóm B (test c25): sort-orig30 ~882 · sort-orig1 ~842 · sort-ekf1 ~708 · sort-cv30 ~650 · sort-ekf30 ~619 ·
-bt-ekf ~502 fps.
+| cột | đo đúng cái gì |
+|:--|:--|
+| `update_ms_per_frame` | **tổng** một lời gọi `tracker.update()` — đây là chi phí tracker mỗi frame |
+| `predict_ms_per_frame` | **chỉ** phần `multi_predict` (bước dự đoán của bộ lọc) |
+| `assoc_ms_per_frame` | **phần còn lại** = `update − predict`: association **cộng với** bước cập nhật (correction) của bộ lọc, quản lý vòng đời track, loại track trùng, khởi tạo track mới |
+
+Vì `assoc` chứa cả bước cập nhật của bộ lọc, **CV và EKF không có lý do gì phải bằng nhau ở cột này**.
+
+| tracker (test c25) | `update` ms (= chi phí tracker) | trong đó `predict` ms | phần còn lại ms | fps *chỉ tracker* |
+|:--|--:|--:|--:|--:|
+| cv | 2,041 | 0,285 | 1,755 | ~490 |
+| ekf | 2,661 | 0,664 | 1,997 | ~376 |
+| ukf | 5,457 | 3,218 | 2,240 | ~183 |
+| pf500 | 8,792 | 3,460 | 5,332 | ~114 |
+
+Nhóm B (test c25), theo `update_ms`: sort-orig30 ~882 · sort-orig1 ~842 · sort-ekf1 ~708 · sort-cv30 ~650 ·
+sort-ekf30 ~619 · bt-ekf ~502 fps.
 
 > Các số này đo **trong lúc chạy đánh giá**, khi máy còn chạy việc khác ⇒ chỉ dùng để **so tương đối giữa các
 > bộ lọc**, không phải benchmark.
@@ -189,8 +203,9 @@ bt-ekf ~502 fps.
 end-to-end dù tracker UKF đắt gấp ~1,9 lần). Nguyên nhân là `detector_wall` dao động giữa các lần chạy
 (14,9–17,1 ms, tức 2,2 ms — lớn hơn toàn bộ chênh lệch tracker 0,24 ms giữa CV và EKF). Vì vậy **chỉ bảng 6a
 mới so được chi phí của motion model**; bảng 6b cho biết **ngân sách tổng** và cho thấy trên phần cứng này
-**detector chiếm ~70–75 % thời gian**, tracker ~4–11 %. Bản profile PF dùng **N=300**, không phải N=500 của
-bảng kết quả — không so chéo hai con số này.
+**detector chiếm 73,6–77,9 % thời gian**, tracker 4,0–10,2 % (tính từ `stages_ms` trong
+[profile/*.json](../results/phase2/profile/): `detector_wall_ms.mean / total_ms.mean`). Bản profile PF dùng
+**N=300**, không phải N=500 của bảng kết quả — không so chéo hai con số này.
 
 **Chưa đo trên Jetson Nano.** Mọi số ở trên là PC; xem [scripts/nano/README.md](../scripts/nano/README.md).
 
@@ -210,12 +225,17 @@ Không sửa lại số liệu lịch sử, không mở thêm tuning/ablation tr
 
 ## 8. Kết luận chốt của mốc 2
 
-1. **Trên UA-DETRAC, khác biệt giữa KF–CV, EKF–CTRV và UKF–CTRV là rất nhỏ.** EKF hơn CV **có ý nghĩa chỉ ở
-   c10** (+0.0033 HOTA, ≈ +0,57 % tương đối); ở c25 và trên dev thì CI chứa 0. UKF không hơn CV và kém EKF
-   một chút ở c25.
+1. **Trên UA-DETRAC, khác biệt đo được giữa KF–CV, EKF–CTRV và UKF–CTRV là rất nhỏ.** EKF hơn CV **có ý
+   nghĩa chỉ ở c10** (+0.0033 HOTA, ≈ +0,57 % tương đối); ở c25 và trên dev **CI chứa 0 ⇒ không đủ bằng
+   chứng về khác biệt**, không phải bằng chứng về sự tương đương. UKF không cho thấy cải thiện so với CV và
+   kém EKF một chút ở c25.
 2. **Yếu tố ảnh hưởng lớn hơn motion model một bậc**: vòng đời/association (SORT → ByteTrack, +0.0363) và bộ
    đệm (`max_age` 1 → 30, +0.0274) — lớn hơn ~15–18 lần so với đổi motion model trong cùng khung (+0.0020).
-3. **Rào cản không nằm ở motion model**: ở tầng che hoàn toàn, cả ba bộ lọc đều giữ được ~6 % ID. Phân tích
+3. **Trong khoảng đã thử, motion model không phải yếu tố quyết định ở tầng che hoàn toàn**: cả ba bộ lọc
+   đều chỉ giữ được ~6 % ID. Điều này **không loại trừ** motion model là một phần nguyên nhân — ba bộ lọc
+   này chia sẻ cùng một họ giả định (chuyển động trơn, nhiễu Gauss) và cùng một khung association, nên chúng
+   có thể cùng thất bại vì cùng một lý do. Một họ dự đoán khác hẳn (ví dụ mô hình học được, dùng ngoại cảnh)
+   chưa được thử. Phân tích
    nguyên nhân (dev, 184 sự kiện đủ điều kiện — [cause_summary.csv](../results/phase2/failure_analysis/expA_detrac_dev/cause_summary.csv))
    cho thấy **`prediction_drift` là nguyên nhân số 1** ở tầng `full`, c25: **cv 11/22 ca (50 %), ekf 13/23
    (56 %), ukf 14/23 (61 %)**. Nhãn này được gán khi *track còn sống tại frame detector thấy lại GT, nhưng
@@ -227,8 +247,9 @@ Không sửa lại số liệu lịch sử, không mở thêm tuning/ablation tr
 5. **Ba trục Nhóm C đều cho kết quả âm** theo tiêu chí đã đăng ký trước ⇒ giữ cấu hình đã khóa.
 6. **PF–CTRV kém rõ rệt** trong implementation và các cấu hình đã thử; không mở rộng kết luận ra ngoài phạm
    vi đó.
-7. **Chi phí tính toán**: trên PC, detector chiếm ~70–75 % thời gian; chênh lệch CV ↔ EKF ở phần tracker là
-   ~0,24 ms/frame. **Chưa có số trên Jetson Nano.**
+7. **Chi phí tính toán**: trên PC, detector chiếm **73,6–77,9 %** thời gian; chênh lệch CV ↔ EKF ở phần
+   tracker là ~0,24 ms/frame (`tracker_ms` toàn pipeline) / ~0,62 ms/frame (`update_ms` chạy từ cache).
+   **Chưa có số trên Jetson Nano.**
 
 **Việc còn lại (mốc 3)**: BDD100K (chưa có dữ liệu trên máy — xem
 [BDD100K_INVENTORY.md](BDD100K_INVENTORY.md)), đo trên Jetson Nano thật, và huấn luyện lại detector cho 5 lớp
