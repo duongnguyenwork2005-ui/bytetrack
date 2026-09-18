@@ -1,51 +1,58 @@
-# REVIEW_BRIEF — chốt mốc 2, chuẩn bị mốc 3
+# REVIEW_BRIEF — review vòng 4, kiểm kê BDD100K, backend không phụ thuộc torch
 
 <!-- BASE_TARGET -->
 
-Base là snapshot bạn đã review (**PASS WITH LIMITATIONS**, không còn lỗi chặn —
-`handoff/CODEX_REVIEW_a8ecaf6.md`). Đợt này **không có thay đổi logic nào** ở pipeline: chỉ chốt báo cáo,
-kiểm kê dữ liệu và bổ sung giao thức đo.
+Base giữ nguyên `a8ecaf6`. Chi tiết: `handoff/MOC2_FINAL_SUMMARY.md`, `handoff/BDD100K_INVENTORY.md`,
+`scripts/nano/README.md`, `third_party/ultralytics_trackers/PROVENANCE.json`.
 
-## Đã làm
+## 1. Sửa tài liệu — 6 điểm, đã đối chiếu source trước khi sửa
 
-| # | Việc | Kết quả | File |
-|:--|:--|:--|:--|
-| 1 | **Chốt báo cáo thực nghiệm mốc 2**, số lấy trực tiếp từ file kết quả gốc | Nhóm A tách **theo từng điều kiện confidence**; Nhóm B dùng `_fix1`, ghi rõ **thành phần thay đổi** của từng cặp; Nhóm C báo cả `preserved` tăng lẫn HOTA giảm; tách dev/test; tách **tốc độ tracker-từ-cache** với **tốc độ toàn pipeline** | `handoff/MOC2_FINAL_SUMMARY.md` |
-| 2 | **Kiểm kê BDD100K** | **Chưa có dữ liệu trên máy.** `check_bdd100k.py --part val` → exit 1, fail-loud đúng đường dẫn cần. Tìm toàn ổ `C:`/`D:`: thư mục duy nhất khớp là `D:\LABOTARY\ByteTrack + EKF + Kitty\datasets\BDD100K` — **rỗng**. Ghi 2 gói cần tải, vị trí đặt, 4 lệnh kiểm tra theo thứ tự | `handoff/BDD100K_INVENTORY.md` |
-| 3 | **Smoke BDD100K** | **KHÔNG chạy** — thiếu dữ liệu. Fixture `bdd100k_mini` **không** dùng thay thế | — |
-| 4 | **Kế hoạch đánh giá BDD** | Hai thí nghiệm tách biệt; **không trùng sequence theo cấu tạo** (tuning từ `train`, đánh giá trên `val`), vẫn kiểm giao hai manifest trước khi chạy | `BDD100K_INVENTORY.md` §6 |
-| 5 | **Nano** | Thêm **giao thức đo CV ↔ EKF cùng điều kiện**: đo tracker từ **cùng detection cache**, xen kẽ A/B/A/B ≥ 5 cặp, trung vị + IQR của hiệu số **theo cặp**, ghi `nvpmodel`/clocks/nhiệt độ mỗi lượt, loại lượt throttling. Lý do: trên PC chênh lệch CV↔EKF là **0,24 ms** còn nhiễu detector **2,2 ms** (~9×), đã làm đảo thứ tự fps end-to-end | `scripts/nano/README.md` §4c |
+| Điểm | Bằng chứng | Đã sửa |
+|:--|:--|:--|
+| `--videos` | `run_experiment.py` **không có** cờ đó | YAML smoke riêng `bdd_smoke_val.yaml` (tên riêng ở **cả 4 chỗ**) |
+| tên manifest | script tạo `bdd100k_dev.json` | sửa ở INVENTORY + `bdd_tuned_val.yaml` |
+| timer | `run_tracking.py:177–183`: `update` = **tổng**; `assoc = update − predict` **gồm cả** filter-update + vòng đời | mô tả lại; **bỏ** yêu cầu sai "assoc CV/EKF phải bằng nhau" |
+| làm tròn 2 lần | thô −0.01324999 ⇒ **−0.0132**; `ekf-maha − ekf` −0.00344993 ⇒ **−0.0034** | định dạng **một lần** từ float đầy đủ |
+| SD seed PF | thật: HOTA **0,00054**, AssA **0,00090** | thay "≤ 0,0004" (sai) |
+| tỷ trọng detector | thật **73,6–77,9 %**, tracker **4,0–10,2 %** | thay "~70–75 %" / "~4–11 %" (sai) |
+| vượt bằng chứng | — | CI chứa 0 = **không đủ bằng chứng về khác biệt**, không phải tương đương; ba bộ lọc cùng kém **không loại trừ** motion model (chung họ giả định + chung khung association); PF: số hạt là **một phần** |
+| `occlusion_ratio=0.5` | — | **quy ước cho cờ nhị phân**, không phải 50 % đo được |
 
-## Kết quả thực nghiệm
+Giao thức Nano: **lưu mọi lượt kể cả throttling**, số chính thức là chạy liên tục; bảng "không throttling"
+là phân tích bổ sung với tiêu chí loại công bố trước; cân bằng **AB và BA**.
 
-**Không số liệu nào thay đổi.** Không chạy lại thí nghiệm, không tuning, không đụng cấu hình khóa. Hai lệnh
-read-only chạy lại để chốt số hiện tại: cache **3 `ok` + 53 `legacy` + 0 `mismatch`**; run **21 `OK` +
-113 `LEGACY` + 0 nghi vấn** (134 thư mục).
+## 2. BDD100K — có ảnh, **chưa có nhãn**
 
-## Hai chỗ tự sửa vì lệch file nguồn
+Đã giải nén đúng vị trí: `data/raw/bdd100k/images/track/val/` = **200 video / 39.973 jpg**, không lồng thư
+mục. **Không có** `labels/box_track_20/` (0 JSON) và **không có** split `train`. Adapter lấy danh sách
+video/frame/`timestamp` **từ nhãn JSON** ⇒ chặn cứng: `check_bdd100k` exit 1, `det_cache` và evaluator đều
+không chạy. **Smoke BDD chưa chạy**, không dùng fixture thay thế. Còn thiếu **MOT 2020 Labels** (~50 MB).
+Chỉ có `val` ⇒ chưa được tuning trên BDD.
 
-1. `scripts/nano/README.md` ghi `yolo11n` là ứng viên **duy nhất** qua kiểm tra op TRT 8.2. Theo
-   `results/phase2/export/*.json`: **cả `yolov8n` và `yolo11n`** đều qua; chỉ `yolo26n` bị loại (op `Mod`).
-2. Bỏ con số chưa kiểm chứng được ("IoU trung bình 0,06 sau trung vị 25 bước") khỏi báo cáo chốt; thay bằng
-   thứ có trong file nguồn: `prediction_drift` là nguyên nhân số 1 ở tầng `full`, c25 — **cv 11/22,
-   ekf 13/23, ukf 14/23** — tiêu chí gán nhãn **IoU(dự đoán, det) < 0,2**.
+## 3. Backend không phụ thuộc torch (CV + EKF)
 
-## Còn thiếu (chặn mốc 3)
+5 module tracker của ultralytics **không import torch dòng nào** ⇒ **vendor** (AGPL-3.0, sha256 upstream +
+vendor trong `PROVENANCE.json`), chỉ đổi **5 dòng import** sang shim NumPy — thuật toán ghép **giữ nguyên
+100 %**. `ul_backend.py` chọn nguồn lớp nền ⇒ **một** bản mã CTRV/CV cho cả hai backend. Dependencies:
+`numpy`, `scipy`, `lap`. Backend nằm trong **fingerprint** ⇒ đổi backend thì runner **phải chạy lại**.
 
-- **Dữ liệu BDD100K-MOT**: *MOT 2020 Images* + *MOT 2020 Labels* (bdd-data.berkeley.edu) → `data/raw/bdd100k/`.
-- **Jetson Nano**: chưa kết nối ⇒ chưa có số nào trên thiết bị.
-- **Vòng lặp ByteTrack không phụ thuộc torch**: chưa làm; thiếu nó thì trên Nano chỉ đo được latency detector.
-- Giới hạn provenance legacy giữ nguyên, không tạo bằng chứng hồi tố.
+**Parity, tolerance công bố trước = bit-identical**, 3 sequence dev chọn trước: CV **17.348 hàng** và EKF
+**17.333 hàng** bit-identical; song ánh ID **đồng nhất** (469 track); chuỗi kiểm có 177 frame không track và
+116 track tái xuất hiện sau gap; chạy trong tiến trình **chặn** `torch` và `ultralytics`.
+
+## Test thực tế
+
+`run_all_tests.py --out-dir handoff/logs/backend_np` → **23 PASS, 0 FAIL, 0 SKIPPED, 0 NOT_RUN** (exit 0),
+gồm `test_bytetrack_np_parity` 8/8 và `test_run_experiment_guard` 9/9.
+
+## Chưa xác minh
+
+**Nhãn BDD100K** (chặn smoke). **Nano chưa kết nối** — parity trên PC **không** chứng minh tương thích hay
+tốc độ Nano; bản vendor cần **Python ≥ 3.7** còn JetPack 4.6 có **3.6**; `scipy`/`lap` aarch64 chưa thử;
+đường detector trên Nano chưa nối vào backend mới.
 
 ## Cần bạn kiểm kỹ
 
-1. `MOC2_FINAL_SUMMARY.md` §2 và §4: mức bằng chứng có bị phát biểu quá không — câu "lợi ích EKF nhỏ và phụ
-   thuộc điều kiện", và câu về C2 (`preserved` tăng ≠ chất lượng tăng).
-2. §6: tách 6a/6b đã đủ rõ để không ai so chéo hai bảng chưa (profile PF dùng **N=300**, bảng kết quả **N=500**).
-3. `BDD100K_INVENTORY.md` §5: quy ước `occlusion_ratio = 0,5` cho cờ `occluded`, và việc **không** suy diễn
-   gap thành che hoàn toàn.
-
-## Thứ tự đọc
-
-`REVIEW_BRIEF.md` → `patch/` → `files/handoff/MOC2_FINAL_SUMMARY.md` + `files/handoff/BDD100K_INVENTORY.md`
-→ `logs/` → `DEPENDENCIES.md`. Thiếu file nào, báo lại — sẽ bổ sung ở gói kế tiếp.
+1. Bản vendor có thật sự chỉ khác upstream ở 5 dòng import không; phép so có tự phát hiện nếu upstream đổi.
+2. Còn đường nào **không** qua `ul_backend` mà vẫn kéo ultralytics vào backend `np` không.
+3. Hợp đồng `Detections` đã đủ so với `Boxes` mà `BYTETracker` thực dùng chưa.

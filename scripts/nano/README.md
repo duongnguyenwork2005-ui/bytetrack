@@ -70,11 +70,29 @@ nhiệt độ) vấn đề này **nặng hơn**. Vì vậy:
 6. **Đối chứng độ chính xác**: mọi cấu hình tăng tốc (FP16 detector, engine khác) phải chạy lại đánh giá
    tracking trên PC trước khi so tốc độ — số tốc độ không đi kèm số chất lượng thì không kết luận được gì.
 
-**Chặn kỹ thuật còn lại** (chưa làm, cần trước khi chạy mục này): vòng lặp ByteTrack/SORT hiện phụ thuộc
-`ultralytics` (Python ≥ 3.8, torch), trong khi Nano gốc chỉ có Python 3.6 — cần một vòng lặp
-ByteTrack **chỉ dùng numpy**. Ba bộ lọc (`ekf_ctrv.py`, `ukf_ctrv.py`, `pf_ctrv.py`) đã chỉ dùng numpy nên
-không phải viết lại. Khi chưa có vòng lặp này thì **chỉ đo được latency detector** (mục 3), chưa đo được
-CV ↔ EKF.
+**Backend không phụ thuộc torch — ĐÃ CÓ trên PC, CHƯA XÁC MINH trên thiết bị** (2026-09-18):
+
+```bash
+BYTETRACK_BACKEND=np python <script chạy tracker từ cache>     # CV + EKF, không import torch/ultralytics
+```
+
+- `third_party/ultralytics_trackers/` — bản **vendor** 5 module tracker của ultralytics 8.4.141 (AGPL-3.0,
+  `PROVENANCE.json` ghi sha256 upstream/vendor), chỉ đổi **5 dòng import** sang `np_compat.py`.
+- `src/ul_backend.py` chọn nguồn lớp nền; **một** bản mã CTRV/CV chạy trên cả hai backend.
+- **Dependencies thực tế**: `numpy`, `scipy`, `lap` (bản PC: 2.4.6 / 1.17.1 / 0.5.13). Không cần torch,
+  không cần Ultralytics.
+- Kiểm chứng trên PC: `src/test_bytetrack_np_parity.py` **8/8** — CV **17.348 hàng** và EKF **17.333 hàng**
+  **bit-identical** với backend hiện tại trên 3 sequence dev, chạy trong tiến trình **chặn** `torch` và
+  `ultralytics`.
+
+⚠️ **Parity trên PC KHÔNG chứng minh tương thích hay tốc độ Nano.** Rủi ro đã biết, **chưa kiểm**: bản
+vendor dùng `from __future__ import annotations` (cần **Python ≥ 3.7**) trong khi JetPack 4.6 chỉ có
+**Python 3.6** ⇒ cần cài Python mới hơn trên Nano (miniforge aarch64 hoặc tương đương), và `scipy`/`lap`
+phải build được cho aarch64. Chưa bước nào trong số này được chạy trên thiết bị.
+
+**Còn thiếu để đo end-to-end**: đường detector trên Nano (TensorRT engine + NMS numpy) chưa nối vào backend
+này — mục 4 vẫn chưa làm. Backend mới cho phép đo **phần tracker** (CV ↔ EKF) từ detection cache, đúng
+phép đo mà mục 4c cần.
 
 **Tóm tắt trạng thái chuẩn bị Nano**
 
@@ -84,9 +102,26 @@ CV ↔ EKF.
 | Đối chiếu op với bảng TensorRT 8.2 | ✅ `scripts/nano/trt82_ops.txt`; **2/3 qua**: `yolov8n`, `yolo11n` (verdict *"cần kiểm tra bằng trtexec trên Nano"*). `yolo26n` **bị loại**: có op `Mod` ngoài bảng TRT 8.2 |
 | Script kiểm stack / build engine / benchmark | ✅ `00_check_stack.sh`, `01_build_engine.sh`, `02_benchmark_engine.sh` |
 | Giao thức đo CV ↔ EKF | ✅ mục 4c này |
-| Vòng lặp ByteTrack không phụ thuộc torch | ❌ **chưa làm** |
-| Thiết bị Nano | ❌ **chưa kết nối** |
+| Vòng lặp ByteTrack không phụ thuộc torch | ✅ **đã có** (`BYTETRACK_BACKEND=np`), parity bit-identical trên PC — **chưa chạy trên thiết bị** |
+| Python ≥ 3.7 trên Nano (bản vendor yêu cầu) | ❓ **chưa xác minh** — JetPack 4.6 mặc định Python 3.6 |
+| `scipy` / `lap` cho aarch64 | ❓ **chưa xác minh** |
+| Đường detector trên Nano nối vào backend mới | ❌ **chưa làm** |
+| Thiết bị Nano | ❌ **chưa kết nối** (`ping nano.local` không phân giải được, 2026-09-18) |
 | Số đo trên Nano | ❌ **chưa có số nào**; mọi FPS trong repo là PC (GTX 1650) |
+
+### Lệnh thu thập thông tin khi có thiết bị (chạy TRƯỚC mọi phép đo)
+
+```bash
+# tren Nano
+bash scripts/nano/00_check_stack.sh            # JetPack/L4T, CUDA, TensorRT, RAM, nvpmodel
+uname -m && cat /etc/nv_tegra_release           # kien truc (phai la aarch64) + ban L4T
+python3 -VV && python3 -c "import sys;print(sys.version_info >= (3,7))"   # bản vendor CAN >= 3.7
+python3 -c "import numpy, scipy, lap; print(numpy.__version__, scipy.__version__, lap.__version__)"
+free -h && swapon --show && nvpmodel -q && cat /sys/devices/virtual/thermal/thermal_zone*/temp
+```
+
+Chỉ tuyên bố "đã chạy trên Nano" khi có **output thật từ thiết bị** dán vào
+`results/phase2/profile/nano_stack.txt`.
 
 ## 5. Không hạ độ chính xác bộ lọc
 FP16 chỉ cho detector (TensorRT). Bộ lọc (P, Q, R, Cholesky của UKF, trọng số PF) giữ float64 numpy. Mọi cấu hình tăng tốc phải chạy lại đánh giá tracking (HOTA/IDF1/IDSW + giữ ID qua che khuất) trước khi kết luận.

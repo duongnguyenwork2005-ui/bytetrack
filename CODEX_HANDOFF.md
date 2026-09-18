@@ -48,7 +48,7 @@ cho luận văn**, số cũ chỉ còn giá trị lịch sử:
 | cặp (yếu tố được kiểm soát) — TEST 40 video, c25 | trước khi sửa | **sau khi sửa (`_fix1`)** |
 |:--|:--|:--|
 | bộ đệm `max_age` 1 → 30 | +0.0280 [+0.0207, +0.0350] | **+0.0274 [+0.0201, +0.0345]** |
-| **gói** biểu diễn trạng thái **+ thiết lập bộ lọc** (KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack) | −0.0133 [−0.0185, −0.0077] | **−0.0133 [−0.0185, −0.0077]** (thô: −0.013273 → −0.013250) |
+| **gói** biểu diễn trạng thái **+ thiết lập bộ lọc** (KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack) | −0.0133 [−0.0185, −0.0077] | **−0.0132 [−0.0185, −0.0077]** (thô −0.0132726 → −0.0132500) |
 | motion model CV → EKF–CTRV (cùng XYAH, cùng vòng đời) | +0.0020 [−0.0001, +0.0042] | **+0.0020 [−0.0001, +0.0042]**, ΔIDSW **−108 [−186, −28]** |
 | chỉ đổi bộ lọc ở `max_age` 1 | −0.0140 [−0.0167, −0.0116] | **−0.0140 [−0.0167, −0.0116]** |
 | vòng đời SORT → ByteTrack (cùng EKF) | +0.0364 [+0.0298, +0.0428] | **+0.0363 [+0.0296, +0.0428]** |
@@ -84,10 +84,14 @@ rồi chạy 40 video test UA-DETRAC; (6) chuẩn bị BDD100K + Jetson Nano; (7
 
 ## 2. Nhánh, commit, thay đổi chưa commit
 
-- Nhánh: **`phase2-mixed-traffic`**, HEAD **`a8ecaf6`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
+- Nhánh: **`phase2-mixed-traffic`**, HEAD **`11603cb`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
 - Commit của mốc 2 (từ `e353b84` = cuối mốc 1):
 
 ```
+11603cb Backend ByteTrack khong phu thuoc torch (CV + EKF) cho Jetson Nano
+96c5478 Review vong 4 (muc 1-3): sua tai lieu, kiem ke BDD100K that, chuan bi smoke rieng
+5c170b3 Chuyen base review sang a8ecaf6 (Codex xac nhan doc + PASS WITH LIMITATIONS)
+ffd1dd4 Chot bao cao moc 2 + kiem ke BDD100K + giao thuc do CV/EKF tren Nano
 a8ecaf6 Kiem tra goi delta vong 3: quet duong dan ben trong .diff + ap patch roi so toan bo cay code
 5380221 REVIEW_BRIEF vong 3: rut gon (897 -> 801 tu)
 324d752 REVIEW_BRIEF vong 3 + chuyen base review sang 9a1c404 (Codex xac nhan da doc)
@@ -133,8 +137,6 @@ dd67321 Moc 2 (6-7a): mau thi nghiem BDD (chuyen cau hinh vs tuning, tach biet),
 
 ```
 M .gitignore
- M results/phase2/cache_consistency.csv
- M results/phase2/run_provenance_audit.csv
  M scripts/nano/README.md
  M src/demo/rerun_with_state_log.py
 ```
@@ -162,8 +164,11 @@ M .gitignore
    confidence, Nhóm B `_fix1` với thành phần thay đổi của từng cặp, Nhóm C gồm cả kết quả âm, tách dev/test,
    tách tốc độ tracker-từ-cache với tốc độ toàn pipeline, và giới hạn provenance legacy). **Đọc file này
    trước `PHASE2_REPORT.md`** nếu chỉ cần kết quả.
-1c. `handoff/BDD100K_INVENTORY.md` — kiểm kê BDD100K: **chưa có dữ liệu trên máy**, gói cần tải, vị trí đặt,
-   lệnh kiểm tra, kế hoạch hai thí nghiệm tách biệt.
+1c. `handoff/BDD100K_INVENTORY.md` — kiểm kê BDD100K **thực tế 2026-09-18**: đã có **ảnh** `val`
+   (200 video / 39.973 jpg, đúng vị trí), **chưa có nhãn** `box_track_20` và **chưa có** split `train`
+   ⇒ smoke BDD còn bị chặn. Kèm gói cần tải, vị trí đặt, lệnh kiểm tra, kế hoạch hai thí nghiệm tách biệt.
+1d. `third_party/ultralytics_trackers/PROVENANCE.json` + `src/ul_backend.py` — **backend ByteTrack không
+   phụ thuộc torch** (`BYTETRACK_BACKEND=np`), cho CV và EKF–CTRV.
 2. `results/phase2/REVIEW_moc2_codex.md` — trạng thái từng phát hiện của review vòng 1.
 3. `PHASE2_REPORT.md` — mục **19** (review vòng 2: trạng thái run bị gián đoạn, chính sách cache, audit
    nguồn gốc), mục **18** (review vòng 1, có bảng trước/sau), rồi mục **12–17** (mốc 2); mục 1–11 là mốc 1
@@ -212,13 +217,15 @@ M .gitignore
 **Đo được (có số, có CI, dẫn file)**
 
 1. **Trên 40 video test**: ở `c10`, **EKF–CTRV hơn KF–CV có ý nghĩa** (ΔHOTA +0.0033 [+0.0011, +0.0057],
-   ΔIDF1 +0.0053, ΔAssA +0.0072); ở `c25` CI vẫn chứa 0 (+0.0012 [−0.0003, +0.0027]). Độ lớn rất nhỏ
-   (≈ +0,6 % tương đối). UKF **kém** EKF một chút có ý nghĩa ở c25 (−0.0011 [−0.0019, −0.0002]).
+   ΔIDF1 +0.0053, ΔAssA +0.0072); ở `c25` CI vẫn chứa 0 (+0.0012 [−0.0003, +0.0027]) ⇒ **không đủ bằng
+   chứng về khác biệt**, **không** phải bằng chứng về sự tương đương (không có phép kiểm tương đương nào
+   được đăng ký trước; CI c25 vẫn cho phép khác biệt thật tới +0.0027). Độ lớn rất nhỏ (≈ +0,6 % tương đối).
+   UKF **kém** EKF một chút có ý nghĩa ở c25 (−0.0011 [−0.0019, −0.0002]).
    PF–CTRV kém rõ rệt (−0.0316 [−0.0389, −0.0255] so với EKF).
 2. **Thứ tự ảnh hưởng (test, Nhóm B — số của bản `_fix1` sau khi sửa lỗi SORT)**: vòng đời/association
    SORT → ByteTrack **+0.0363 [+0.0296, +0.0428]** > bộ đệm 1 → 30 **+0.0274 [+0.0201, +0.0345]** > **gói**
    biểu diễn trạng thái **+ thiết lập bộ lọc** (KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack)
-   **−0.0133 [−0.0185, −0.0077]** ≫ motion model CV → EKF **+0.0020 [−0.0001, +0.0042]** (CI chạm 0; chỉ
+   **−0.0132 [−0.0185, −0.0077]** ≫ motion model CV → EKF **+0.0020 [−0.0001, +0.0042]** (CI chạm 0; chỉ
    ΔIDSW **−108 [−186, −28]** có ý nghĩa). Chỉ đọc trong đúng cặp được kiểm soát, không phải thứ hạng phổ quát.
 3. **Nguyên nhân mất ID** (dev, 184 sự kiện): ở tầng che hoàn toàn, **dự đoán lệch** là số 1 (cv 11/22,
    ekf 13/23 ca) — IoU(dự đoán, det) trung bình 0,06 sau trung vị 25 bước mất dấu; `detector_miss` **không**
@@ -234,7 +241,9 @@ M .gitignore
    hoàn toàn **gấp đôi**: 0,060 → 0,121) **nhưng HOTA giảm có ý nghĩa trên test** (−0.0046 / −0.0034) vì ghép
    nhầm tăng 3–5 lần (3,5 % → 9,3 %).
 7. **PF — đúng cái đã đo**: ở các lần **cập nhật sau một khoảng mất dấu dài**, ESS/N ~1 % (đo **trước**
-   resample) và chỉ còn ~3 % particle phân biệt (đo **sau** resample). **Không** suy ra được từ log này rằng
+   resample) và chỉ còn ~3 % particle phân biệt (đo **sau** resample). Khoảng cách so với EKF **thu hẹp khi
+   N tăng** (100 → 300 → 500) ⇒ số hạt là **một phần** nguyên nhân, nhưng ở N = 500 PF vẫn kém rõ rệt nên
+   số hạt **chưa giải thích được toàn bộ**. **Không** suy ra được từ log này rằng
    mất đa dạng xảy ra *trước khi có quan sát mới*, cũng **không** phải bằng chứng đó là *nguyên nhân* của các
    lần nối lại thất bại (những lần đó không có bước cập nhật nên không có dòng log).
 8. Mọi kết quả GĐ1 và mốc 1 **tái lập được**: expA (có log) vs mốc 1 **288/288 cặp (lần chạy, video)**
@@ -243,8 +252,11 @@ M .gitignore
 **Suy luận (có cơ sở nhưng không đo trực tiếp)**
 
 - Vì `match_thresh` = 0,8 trên cost 1 − IoU·conf, IoU < 0,2 là **rào cứng**: cải thiện motion model chỉ dịch
-  dự đoán vài chục px sẽ không vượt được rào này ở các đoạn che dài → giải thích vì sao CV/EKF/UKF gần như hòa
-  nhau trên chỉ số toàn cục, và vì sao tầng che hoàn toàn đứng yên ở ~6 % với mọi bộ lọc.
+  dự đoán vài chục px sẽ không vượt được rào này ở các đoạn che dài → **một cách giải thích nhất quán** với
+  việc CV/EKF/UKF không tách được nhau trên chỉ số toàn cục, và tầng che hoàn toàn đứng yên ở ~6 % với cả ba.
+  **Không loại trừ** motion model là một phần nguyên nhân: ba bộ lọc này dùng chung một họ giả định (chuyển
+  động trơn, nhiễu Gauss) và chung khung association, nên có thể cùng thất bại vì cùng một lý do; một họ dự
+  đoán khác hẳn chưa được thử.
 - Lợi ích của EKF (nếu có) tập trung ở nhóm sự kiện nhỏ (che khuất trung bình, quỹ đạo cong) — mẫu tự nhiên
   của UA-DETRAC quá nhỏ để tách (đã ghi từ GĐ5).
 
@@ -324,6 +336,8 @@ Các bước khác chạy CPU từ cache (cache có trong ZIP nếu ≤ 60 MB �
 | `python src/audit_run_provenance.py --pattern "p2-*" --verify-eval-fingerprint` (vòng 2) | 0 | `handoff/logs/audit_run_provenance_all.log` — 21 OK, 113 LEGACY, **0 nghi vấn** |
 | `python src/aggregate_phase2.py --exp .../expB_detrac_{dev,test}_fix1.yaml` (vòng 2) | 0 | chỉ sinh lại bảng dẫn xuất sau khi sửa **nhãn** cặp (không đổi tham số thí nghiệm) |
 | `python src/make_review_delta.py` (vòng 2) | 0 | `handoff/review_delta_latest.zip` — 67 file, 0,38 MB (gói đầy đủ 66,9 MB), `MANIFEST.csv` khớp hash |
+| `python src/run_all_tests.py --out-dir handoff/logs/backend_np` (vòng 4) | 0 | **23/23 PASS**, 0 FAIL, 0 SKIPPED, 0 NOT_RUN |
+| `python src/test_bytetrack_np_parity.py` (vòng 4) | 0 | **8/8** — CV 17.348 hàng + EKF 17.333 hàng **bit-identical**, chạy trong tiến trình **chặn** `torch`/`ultralytics` |
 | `python src/run_all_tests.py --out-dir handoff/logs/review_delta_fix_full` (vòng 3) | 0 | **22/22 PASS**, 0 FAIL, 0 SKIPPED, 0 NOT_RUN |
 | `python src/smoke_cache_provenance_yolo.py` (vòng 3) | 0 | YOLO **thật** + GPU thật, MVI_20052 30 frame: **5/5 PASS** — `weights_sha256` khớp `model.ckpt_path` |
 | `python src/check_bdd100k.py --part val` (mốc 3) | **1** | **đúng như mong đợi**: fail-loud vì chưa có dữ liệu BDD100K trên máy — xem `handoff/BDD100K_INVENTORY.md` |
@@ -382,6 +396,13 @@ Toàn bộ log của mọi lần chạy (kể cả các lần của mốc 2) n�
 13. **(sau review vòng 2)** `src/audit_run_provenance.py`: tiêu chí phân loại `OK` / `LEGACY` / `NGHI VAN`.
    Kết luận "giữ nguyên `_fix1`, không chạy lại" **dựa trên** `tracking_hash_match=True` với `eval_meta.json`
    — nếu tiêu chí này chưa đủ mạnh thì kết luận đó cần xem lại.
+14. **(sau review vòng 4)** `third_party/ultralytics_trackers/` + `src/ul_backend.py`: bản vendor có thật sự
+   chỉ khác upstream ở **5 dòng import** không (test đối chiếu tự sinh lại phép so), `np_compat.bbox_ioa`
+   có chép đúng thân hàm gốc không, và `BYTETRACK_BACKEND` có đường nào **không** đi qua `ul_backend`
+   (tức vẫn kéo ultralytics vào) không.
+15. **(sau review vòng 4)** `src/bytetrack_np.Detections`: hợp đồng NumPy đã đủ chưa so với `Boxes` mà
+   `BYTETracker` thực sự dùng (`.xywh`, `.conf`, `.cls`, `len`, cắt theo mask) — nếu upstream đổi, phép so
+   phải phát hiện được.
 
 ## 8. Kết quả trên 40 video test UA-DETRAC
 
@@ -411,7 +432,7 @@ còn giá trị lịch sử:
 | cặp (yếu tố được kiểm soát) | ΔHOTA `_fix1` | (trước khi sửa) | ΔIDSW `_fix1` |
 |:--|:--|:--|:--|
 | bộ đệm `max_age` 1 → 30 | **+0.0274 [+0.0201, +0.0345]** | (+0.0280) | −1055 [−1390, −759] |
-| **gói** biểu diễn trạng thái **+ thiết lập bộ lọc** (KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack) | **−0.0133 [−0.0185, −0.0077]** | (−0.0133) | +4 [−140, +156] (CI chứa 0) |
+| **gói** biểu diễn trạng thái **+ thiết lập bộ lọc** (KF 7-D + Q/R/P₀ của SORT → XYAH + Q/R/P₀ của ByteTrack) | **−0.0132 [−0.0185, −0.0077]** | (−0.0133) | +4 [−140, +156] (CI chứa 0) |
 | motion model CV → EKF–CTRV (cùng XYAH, cùng vòng đời SORT) | +0.0020 [−0.0001, +0.0042] (CI chạm 0) | (+0.0020) | **−108 [−186, −28]** |
 | chỉ đổi bộ lọc, `max_age` 1 | **−0.0140 [−0.0167, −0.0116]** | (−0.0140) | +186 [+62, +308] |
 | vòng đời/association SORT → ByteTrack (cùng EKF) | **+0.0363 [+0.0296, +0.0428]** | (+0.0364) | −1685 [−2090, −1292] |
