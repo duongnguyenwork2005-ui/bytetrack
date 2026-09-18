@@ -35,7 +35,7 @@ import config  # noqa: E402
 from ekf_ctrv import EKFTrackerCTRV  # noqa: E402
 from tracker_ctrv import ctrv_kwargs_from_args  # noqa: E402
 
-from ultralytics.trackers.utils.kalman_filter import KalmanFilterXYAH  # noqa: E402
+from ul_backend import KalmanFilterXYAH  # noqa: E402
 
 
 # ---------------------------------------------------------------------------

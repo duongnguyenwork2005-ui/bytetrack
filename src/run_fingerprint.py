@@ -36,7 +36,9 @@ import config  # noqa: E402
 CODE_FILES = ("run_tracking.py", "run_experiment.py", "tracker_ctrv.py", "sort_tracker.py", "ekf_ctrv.py",
               "ekf_ctrv_clamped.py", "ukf_ctrv.py", "pf_ctrv.py", "lost_recovery.py", "lost_association.py",
               "time_units.py", "det_cache.py", "occlusion_eval.py", "boot_stats.py", "run_trackeval.py",
-              "trackeval_ext.py", "assoc_log.py")
+              "trackeval_ext.py", "assoc_log.py",
+              # backend ByteTrack (ultralytics da cai / ban vendor khong phu thuoc torch)
+              "ul_backend.py", "bytetrack_np.py")
 
 
 def sha256_file(p: Path, missing: str = "MISSING") -> str:
@@ -54,8 +56,17 @@ def sha256_obj(obj) -> str:
 
 
 def code_fingerprint() -> dict:
+    """Dau van tay cua MA sinh ra ket qua.
+
+    Gom ca DANH TINH BACKEND: doi `BYTETRACK_BACKEND` (ultralytics <-> np), doi ban vendor, hay doi
+    phien ban numpy/scipy/lap deu lam fingerprint doi => runner KHONG duoc tai su dung ket qua cu.
+    """
+    import ul_backend                                       # noqa: PLC0415
+
     src = Path(__file__).resolve().parent
-    return {"git_commit": _git_commit(), "modules": {f: sha256_file(src / f)[:16] for f in CODE_FILES}}
+    return {"git_commit": _git_commit(),
+            "modules": {f: sha256_file(src / f)[:16] for f in CODE_FILES},
+            "backend": ul_backend.fingerprint()}
 
 
 def _git_commit() -> str:

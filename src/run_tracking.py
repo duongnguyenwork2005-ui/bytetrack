@@ -47,9 +47,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
 import det_cache  # noqa: E402
 import tracker_ctrv  # noqa: E402
+import ul_backend  # noqa: E402
 from time_units import steps_between, track_buffer_frames, with_elapsed_steps  # noqa: E402
 
-from ultralytics.utils import IterableSimpleNamespace, YAML  # noqa: E402
+# Backend `np` (Jetson Nano) khong co ultralytics -> khong duoc import o muc module.
+# `IterableSimpleNamespace` chi dung lam kieu tra ve; `ul_backend._Cfg` thay the tuong duong.
+if ul_backend.backend_name() == "np":
+    from ul_backend import _Cfg as IterableSimpleNamespace  # noqa: E402
+    YAML = None
+else:
+    from ultralytics.utils import IterableSimpleNamespace, YAML  # noqa: E402
+
+#: True khi chay backend NumPy (khong co torch/ultralytics). Doc MOT LAN luc import.
+_BACKEND_NP = ul_backend.backend_name() == "np"
 
 #: tracker_type ma output phu thuoc seed (chay moi seed mot lan)
 STOCHASTIC_TRACKERS = {"bytetrack_pf_ctrv"}
@@ -57,7 +67,13 @@ TRK_COLS = ["frame", "id", "bb_left", "bb_top", "bb_width", "bb_height", "conf"]
 
 
 def tracker_registry() -> dict:
-    """tracker_type -> lop tracker. Gom ultralytics TRACKER_MAP + CTRV + SORT (neu co)."""
+    """tracker_type -> lop tracker. Gom ultralytics TRACKER_MAP + CTRV + SORT (neu co).
+
+    Backend `np`: chi CV + EKF-CTRV (pham vi da chot), lay tu `bytetrack_np.tracker_registry_np()`.
+    """
+    if ul_backend.backend_name() == "np":
+        import bytetrack_np
+        return bytetrack_np.tracker_registry_np()
     tracker_ctrv.register()
     from ultralytics.trackers.track import TRACKER_MAP
     reg = dict(TRACKER_MAP)
@@ -76,6 +92,10 @@ def resolve_tracker_yaml(yaml_path: str | Path) -> str:
 
 
 def load_tracker_cfg(yaml_path: str | Path, overrides: dict | None = None) -> IterableSimpleNamespace:
+    """Nap cau hinh tracker. Backend `np` dung ban vendor cua `bytetrack.yaml` (sha256 giong het ban
+    trong goi ultralytics - doi chieu trong test parity), khong goi `check_yaml` cua ultralytics."""
+    if ul_backend.backend_name() == "np":
+        return ul_backend.load_tracker_cfg_np(yaml_path, overrides)
     d = YAML.load(resolve_tracker_yaml(yaml_path))
     for k, v in (overrides or {}).items():
         d[k] = v
@@ -172,10 +192,13 @@ def track_video(vd: det_cache.VideoDetections, cfg: IterableSimpleNamespace, dt_
             n_steps = 1
         pending_steps = 0
         last_t = t_s
-        boxes = det_cache.to_boxes(arr, vd.orig_shape)
+        # Backend `ultralytics`: `Boxes` roi `.cpu().numpy()` y het callback goc.
+        # Backend `np`: `Detections` NumPy thuan (khong co tensor nen khong can .cpu()/.numpy()).
+        dets = (det_cache.to_boxes_np(arr, vd.orig_shape) if _BACKEND_NP
+                else det_cache.to_boxes(arr, vd.orig_shape).cpu().numpy())
         tr.log_frame = int(frame_idx)      # chi so frame cua video (cho assoc_log / pf_diag)
         t0 = time.perf_counter()
-        out = tr.update(boxes.cpu().numpy(), None, n_steps=n_steps)
+        out = tr.update(dets, None, n_steps=n_steps)
         t_update = time.perf_counter() - t0
         t_pred = timer.pop()
         n_tracks = len(getattr(tr, "tracked_stracks", None) or getattr(tr, "tracks", []))

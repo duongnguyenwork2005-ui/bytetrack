@@ -165,6 +165,30 @@ def main() -> int:
                f"created {meta_before_resume['created']} -> {meta_res['created']}; "
                f"resumed {n_resumed_before} -> {len(meta_res.get('resumed', []))}")
 
+        # --- 3b. BACKEND nam trong dau van tay: giu nguyen -> tai dung; doi backend -> chay lai ---
+        run([PY, "src/run_experiment.py", "--exp", str(EXP), "--stage", "eval"])   # cho metric on dinh
+        rc_a, out_a = run([PY, "src/run_experiment.py", "--exp", str(EXP), "--stage", "eval"])
+        _check("fingerprint KHONG doi (cung backend) -> buoc danh gia TAI SU DUNG",
+               rc_a == 0 and "TAI SU DUNG" in out_a
+               and "CHAY LAI" not in out_a.split("[occl")[0], out_a)
+
+        import os as _os
+        env_np = {**_os.environ, "BYTETRACK_BACKEND": "np"}
+        subprocess.run([PY, "src/run_experiment.py", "--exp", str(EXP), "--stage", "eval", "--dry-run"],
+                           cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", env=env_np)
+        fp_khac = subprocess.run(
+            [PY, "-c", "import sys;sys.path.insert(0,'src');import run_fingerprint as fp,json;"
+                       "print(json.dumps(fp.code_fingerprint()['backend'],sort_keys=True))"],
+            cwd=ROOT, capture_output=True, text=True, env=env_np).stdout.strip()
+        fp_cu = subprocess.run(
+            [PY, "-c", "import sys;sys.path.insert(0,'src');import run_fingerprint as fp,json;"
+                       "print(json.dumps(fp.code_fingerprint()['backend'],sort_keys=True))"],
+            cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        _check("DOI BACKEND -> dau van tay ma doi (runner buoc phai chay lai, khong tai dung ket qua cu)",
+               fp_cu and fp_khac and fp_cu != fp_khac,
+               f"ultralytics: {fp_cu[:90]}\n         np         : {fp_khac[:90]}")
+
         # --- 4. --force chay lai moi buoc ---
         rc, out6 = run([PY, "src/run_experiment.py", "--exp", str(EXP), "--force"])
         _check("--force: moi buoc chay lai (khong co dong TAI SU DUNG)",

@@ -1,0 +1,75 @@
+{
+  "component": "ultralytics.trackers (ByteTrack loop, STrack, matching, KalmanFilterXYAH)",
+  "upstream": "https://github.com/ultralytics/ultralytics",
+  "version": "8.4.141",
+  "license": "AGPL-3.0-or-later (ban day du o ./LICENSE)",
+  "vendored_at": "2026-09-18",
+  "source": "goi ultralytics da CAI trong env `khoaluan-mot` (cung ban dung cho moi ket qua cua moc 2)",
+  "ly_do": "Nam file nay KHONG import torch dong nao; torch chi vao qua ultralytics/__init__.py va 6 ky hieu tien ich. Chep vao day + np_compat.py cho phep chay vong lap ByteTrack trong moi truong khong cai torch/Ultralytics (Jetson Nano), GIU NGUYEN 100% thuat toan ghep.",
+  "import_rewrites": [
+    {
+      "file": "byte_tracker.py",
+      "from": "from ..utils import LOGGER",
+      "to": "from .np_compat import LOGGER"
+    },
+    {
+      "file": "byte_tracker.py",
+      "from": "from ..utils.ops import xywh2ltwh",
+      "to": "from .np_compat import xywh2ltwh"
+    },
+    {
+      "file": "utils/matching.py",
+      "from": "from ultralytics.utils.metrics import batch_probiou, bbox_ioa",
+      "to": "from ..np_compat import batch_probiou, bbox_ioa"
+    },
+    {
+      "file": "utils/matching.py",
+      "from": "from ultralytics.utils.checks import check_requirements",
+      "to": "from ..np_compat import check_requirements"
+    },
+    {
+      "file": "utils/matching.py",
+      "from": "from ultralytics.utils.ops import linear_sum_assignment",
+      "to": "from ..np_compat import linear_sum_assignment"
+    }
+  ],
+  "thay_doi_khac": "KHONG. Ngoai 5 dong import tren, noi dung nam file giu nguyen van (co test doi chieu).",
+  "files": {
+    "basetrack.py": {
+      "upstream_path": "ultralytics/trackers/basetrack.py",
+      "sha256_upstream": "9ef094b9a54ff2f52c9118b5bd1a2f84ba331aa557277f54186de11728c2f7e8",
+      "sha256_vendor": "9ef094b9a54ff2f52c9118b5bd1a2f84ba331aa557277f54186de11728c2f7e8",
+      "n_lines": 102
+    },
+    "byte_tracker.py": {
+      "upstream_path": "ultralytics/trackers/byte_tracker.py",
+      "sha256_upstream": "8a0128e453b05f19693247b6b2bdedfe33a89e9321f3c47671eb09289627932c",
+      "sha256_vendor": "0e0df805a18c16b163aca61f1c15ee9d7a1cc6317348a1e3bc82b77e0ec28f9b",
+      "n_lines": 530
+    },
+    "utils/matching.py": {
+      "upstream_path": "ultralytics/trackers/utils/matching.py",
+      "sha256_upstream": "bce7ee712f464ab884e79dd2a61087f6620ee9ed5b375ae7201ee5e89b4efdc7",
+      "sha256_vendor": "9adce2b668d24599f15d6806c87e90b03b4c0bc8325b709eaf9936885036c297",
+      "n_lines": 167
+    },
+    "utils/kalman_filter.py": {
+      "upstream_path": "ultralytics/trackers/utils/kalman_filter.py",
+      "sha256_upstream": "90b078b7aa32418b1bf61fe8fb8946e49c037b2c65534955dc9d6b366df739f8",
+      "sha256_vendor": "90b078b7aa32418b1bf61fe8fb8946e49c037b2c65534955dc9d6b366df739f8",
+      "n_lines": 482
+    },
+    "utils/stracks.py": {
+      "upstream_path": "ultralytics/trackers/utils/stracks.py",
+      "sha256_upstream": "c4cf83cda7be4c89ee5bd8f33424b149a7764da00e4a704bf10ebcfa1b870607",
+      "sha256_vendor": "c4cf83cda7be4c89ee5bd8f33424b149a7764da00e4a704bf10ebcfa1b870607",
+      "n_lines": 179
+    }
+  },
+  "dependencies": {
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13"
+  },
+  "kiem_chung": "src/test_bytetrack_np_parity.py (parity + doi chieu ban vendor voi ban da cai)"
+}

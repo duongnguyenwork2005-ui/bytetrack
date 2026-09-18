@@ -326,7 +326,7 @@ class PFTrackView:
         sau activate mean[vh] = 0 mot cach xac dinh trong khi track van Tracked)."""
         t = self.track
         if lost is None:
-            from ultralytics.trackers.basetrack import TrackState
+            from ul_backend import TrackState
             lost = t.state != TrackState.Tracked
         X = t.particles
         if lost and np.any(X[:, self.pf.VH] != 0.0):

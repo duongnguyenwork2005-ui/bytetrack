@@ -61,8 +61,10 @@ from ukf_ctrv import UKFTrackerCTRV  # noqa: E402
 
 from lost_association import LostAwareAssociation  # noqa: E402
 
-from ultralytics.trackers.basetrack import TrackState  # noqa: E402
-from ultralytics.trackers.byte_tracker import BYTETracker, STrack  # noqa: E402
+# Lop nen lay qua `ul_backend` de chay duoc CA tren ultralytics da cai LAN ban vendor khong
+# phu thuoc torch (BYTETRACK_BACKEND=np). Mot ban ma CTRV duy nhat cho ca hai backend.
+import ul_backend  # noqa: E402
+from ul_backend import BYTETracker, STrack, TrackState  # noqa: E402
 
 
 class CTRVSTrack(STrack):
@@ -476,7 +478,7 @@ class CVByteTracker(LostAwareAssociation, BYTETracker):
     track_class = CVSTrack
 
     def get_kalmanfilter(self):
-        from ultralytics.trackers.utils.kalman_filter import KalmanFilterXYAH
+        from ul_backend import KalmanFilterXYAH
         kf = KalmanFilterXYAH()
         for key, attr in CV_YAML_KEYS.items():
             val = getattr(self.args, key, None)
@@ -511,6 +513,9 @@ def register() -> None:
     Phai goi TRUOC khi goi model.track(...), neu khong ultralytics se bao
     'Only [...] are supported for now' vi khong biet tracker_type moi.
     """
+    if ul_backend.backend_name() == "np":
+        return          # backend vendor khong co ultralytics.trackers.track (va khong can: khong
+                        # chay qua model.track); registry cua repo lay tu CTRV_TRACKERS truc tiep.
     from ultralytics.trackers import track as _track_mod
 
     _track_mod.TRACKER_MAP.update(CTRV_TRACKERS)

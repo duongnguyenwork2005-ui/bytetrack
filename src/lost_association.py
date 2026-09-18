@@ -66,9 +66,13 @@ NGUYEN TAC THUC NGHIEM
 """
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import numpy as np
-from ultralytics.trackers.basetrack import TrackState
-from ultralytics.trackers.utils import matching
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ul_backend import TrackState, matching  # noqa: E402
 
 
 def _tlwh_to_xyxy(b: np.ndarray) -> np.ndarray:

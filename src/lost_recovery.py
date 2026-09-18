@@ -27,8 +27,11 @@ GHI CHU: ket qua ghep o vong 3 la re_activate (giu ID) -> refind; ghep nham do b
 from __future__ import annotations
 
 import numpy as np
-from ultralytics.trackers.basetrack import TrackState
-from ultralytics.trackers.utils import matching
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ul_backend import TrackState, matching  # noqa: E402
 
 
 class LostRecoveryMixin:

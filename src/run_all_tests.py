@@ -84,6 +84,7 @@ TESTS = [
     ("test_run_experiment_guard", [], None),
     ("test_run_resume_guard", [], None),
     ("test_review_delta", [], None),
+    ("test_bytetrack_np_parity", [], _need_cache),
     ("test_boot_stats", [], _need_dev_runs),
     ("test_run_tracking_replay", ["--n-frames", "150"], lambda: _need_gpu() or _need_detrac_images()),
 ]

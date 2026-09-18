@@ -453,6 +453,16 @@ def to_boxes(arr: np.ndarray, orig_shape: tuple[int, int]):
     return Boxes(a, tuple(orig_shape))
 
 
+def to_boxes_np(arr: np.ndarray, orig_shape: tuple[int, int]):
+    """Nhu `to_boxes` nhung tra ve `bytetrack_np.Detections` (NumPy thuan, KHONG dung ultralytics).
+
+    Dung cho backend `np` (Jetson Nano). Cung mang dau vao `arr` (N,6) nen hai backend nhan DUNG cung
+    mot so lieu detection; khac biet duy nhat la lop chua no.
+    """
+    import bytetrack_np
+    return bytetrack_np.Detections.from_cache_array(arr, tuple(orig_shape))
+
+
 def sequence_spec_status(cache_dir: Path, video: str, meta: dict | None = None) -> tuple[str, str]:
     """Kiem tra sequence duoc sinh boi DUNG cau hinh ma meta.json tuyen bo.
 
