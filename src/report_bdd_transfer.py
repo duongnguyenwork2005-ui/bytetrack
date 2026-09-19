@@ -17,6 +17,7 @@ Sinh:
 from __future__ import annotations
 
 import argparse
+import collections
 import json
 import sys
 from pathlib import Path
@@ -137,38 +138,136 @@ def lop_gt_det(exp: dict, labels: str, out: Path) -> None:
                   "Với đề tài giao thông hỗn hợp (xe máy chiếm đa số), **BDD val không phải là tập đại "
                   "diện**; mọi kết luận về xe máy từ nguồn này đều dựa trên mẫu rất nhỏ.", "",
               "## Số detection theo lớp (từ detection cache, sau khi lọc)", ""]
-    n_det = {}
-    for cond, cc in exp["conditions"].items():
-        f = config.RESULTS_DIR / "phase2" / exp["name"] / cond / "summary.csv"
-        if f.exists():
-            d = pd.read_csv(f)
-            n_det[cond] = {"conf_min": cc["conf_min"], "n_box_tracker": d.get("FP", pd.Series([0])).sum()}
-    lines += ["Detection thô theo lớp nằm trong cache; số box **sau tracker** theo lớp chưa được tách "
-              "(cùng lý do với metric theo lớp). Xem `theo_video.csv` cho số box từng video.", ""]
+    dem = _det_counts(exp)
+    ten = {v: k for k, v in COCO_TO_BDD.items()}
+    lines += ["Số detection đưa vào tracker, đếm từ **chính detection cache** sau khi lọc theo "
+              "`classes` và ngưỡng confidence của từng điều kiện (trước association):", "",
+              "| lớp | COCO id | " + " | ".join(f"det `{c}`" for c in exp["conditions"])
+              + " | GT | det/GT `" + list(exp["conditions"])[0] + "` |",
+              "|:--|--:|" + "--:|" * (len(exp["conditions"]) + 2)]
+    c0 = list(exp["conditions"])[0]
+    for cid in sorted(exp["classes"]):
+        nb = COCO_TO_BDD.get(cid, str(cid))
+        g = int(gt.get(nb, 0))
+        o = [f"| {nb} | {cid} "]
+        for c in exp["conditions"]:
+            o.append(f"| {dem.get(c, {}).get(cid, 0):,} ")
+        r = dem.get(c0, {}).get(cid, 0) / g if g else float("nan")
+        o.append(f"| {g:,} | {fmt(r, 2)} |")
+        lines.append("".join(o))
+    lines += ["",
+              "> `det/GT` **không** là độ chính xác: detection chưa được ghép với GT và hai bên dùng "
+              "**định nghĩa lớp khác nhau** (COCO vs BDD). Nó chỉ cho thấy detector **đề xuất nhiều hay "
+              "ít hơn** GT ở mỗi lớp.", "",
+              ]
+    g_mo = int(gt.get("motorcycle", 0))
+    ty = {c: (dem.get(c, {}).get(3, 0) / g_mo if g_mo else float("nan")) for c in exp["conditions"]}
+    lines += ["> **Xe máy** — số đề xuất so với GT đổi chiều theo ngưỡng: "
+              + "; ".join(f"`{c}` {dem.get(c, {}).get(3, 0):,}/{g_mo:,} = {ty[c]:.2f}"
+                          for c in exp["conditions"])
+              + ". Vì GT gộp 5 lớp xe thành một, **nhầm lớp giữa các lớp xe không bị phạt**, nên "
+              "những con số này **không** nói được detector phát hiện xe máy tốt hay kém; muốn biết "
+              "phải ghép theo lớp, mà đường đó chưa được kiểm chứng trên nguồn này.", ""]
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def _det_counts(exp: dict) -> dict:
+    """Dem detection THEO LOP COCO tu cache, ung voi nguong cua TUNG dieu kien.
+
+    Doc dung cache ma tracker da dung; loc y het duong chay that (`classes` + `conf_min`).
+    Cot cua `data`: [x1, y1, x2, y2, conf, cls].
+    """
+    import numpy as np
+    d = config.INTERIM_DIR / "det_cache" / exp["cache_id"]
+    giu = set(exp["classes"])
+    out = {c: collections.Counter() for c in exp["conditions"]}
+    for f in sorted(d.glob("*.npz")):
+        with np.load(f) as z:
+            a = z["data"]
+        if not len(a):
+            continue
+        cls, conf = a[:, 5].astype(int), a[:, 4]
+        m0 = np.isin(cls, list(giu))
+        for c, cc in exp["conditions"].items():
+            m = m0 & (conf > float(cc["conf_min"]))
+            for k, v in zip(*np.unique(cls[m], return_counts=True)):
+                out[c][int(k)] += int(v)
+    return out
+
+
 def toc_do(exp: dict, out: Path) -> None:
-    lines = ["# Tốc độ — tracker chạy TỪ CACHE", "",
+    lines = ["# Tốc độ — tách **tracker từ cache** khỏi **toàn pipeline**", "",
              "**Chỉ là số đo mô tả của chính các lượt đã chạy** (máy còn chạy việc khác, không lặp có "
              "kiểm soát) ⇒ **không** đủ để xếp hạng hiệu năng.", "",
              "Ba cột **không** phải ba pha độc lập: `update` = **tổng** lời gọi `tracker.update()`; "
              "`predict` = chỉ `multi_predict`; phần còn lại = `update − predict`, **bao gồm** "
              "association, bước cập nhật của bộ lọc và quản lý vòng đời.", "",
-             "Đo từ cache **loại** chi phí **detector**; **không** có số toàn pipeline (có detector) "
-             "cho BDD trong đợt này.", ""]
+             "## 1. Tracker chạy TỪ CACHE (không gồm detector)", "",
+             "Đo từ cache **loại** chi phí **detector**. Mục 2 ghép thêm chi phí detector đã ghi "
+             "lúc dựng cache để có con số **toàn pipeline**.", ""]
     for cond in exp["conditions"]:
         f = config.RESULTS_DIR / "phase2" / exp["name"] / cond / "summary.csv"
         if not f.exists():
             continue
         d = pd.read_csv(f)
-        lines += [f"## `{cond}`", "", "| tracker | update ms/frame | trong đó predict ms | còn lại ms |",
+        lines += [f"### `{cond}`", "", "| tracker | update ms/frame | trong đó predict ms | còn lại ms |",
                   "|:--|--:|--:|--:|"]
         for _, r in d.iterrows():
             u, p = r.get("update_ms_per_frame"), r.get("predict_ms_per_frame")
             lines.append(f"| {r['tracker']} | {fmt(u, 3)} | {fmt(p, 3)} | {fmt(u - p, 3)} |")
         lines.append("")
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _detector_seconds(exp: dict) -> tuple[float, float, int]:
+    """Tong thoi gian detector + so frame, doc tu sidecar cache (truong `seconds`).
+
+    `seconds` do luc DUNG CACHE: gom doc/giai ma JPEG + suy luan + NMS cho ca 80 lop COCO
+    (`max_det` 3000), KHONG phai chi rieng suy luan.
+    """
+    d = config.INTERIM_DIR / "det_cache" / exp["cache_id"]
+    tong_s, tong_f = 0.0, 0
+    for f in sorted(d.glob("*.json")):
+        m = json.loads(f.read_text(encoding="utf-8"))
+        tong_s += float(m.get("seconds") or 0.0)
+        tong_f += int(m.get("n_frames") or 0)
+    return tong_s, (1000.0 * tong_s / tong_f if tong_f else float("nan")), tong_f
+
+
+def toan_pipeline(exp: dict, out: Path) -> None:
+    """Muc 2 cua bao cao toc do: detector + tracker, noi ro day la TONG HAI PHA DO RIENG."""
+    tong_s, det_ms, n_frame = _detector_seconds(exp)
+    lines = ["", "## 2. Toàn pipeline (detector + tracker)", "",
+             "⚠️ Đây là **tổng của hai pha đo RIÊNG** (detector đo lúc dựng cache, tracker đo lúc chạy "
+             "ma trận), **không phải** một phép đo end-to-end. Chạy thật một lượt liền mạch có thể khác "
+             "(chồng lấn I/O, giữ GPU nóng, không ghi/đọc cache).", "",
+             f"- Detector (`yolov8n`, conf 0,05, **80 lớp COCO**, `max_det` 3000): "
+             f"**{det_ms:.1f} ms/frame** — {tong_s / 60:.1f} phút cho {n_frame:,} frame.",
+             "- Số này **gom cả đọc + giải mã JPEG**, không phải riêng suy luận.",
+             "- Detector ở đây **dư thừa có chủ ý** cho mục đích cache (giữ 80 lớp để mọi điều kiện dùng chung "
+             "một cache); một triển khai thật chỉ cần 5 lớp và `max_det` 300 sẽ **nhanh hơn**. "
+             "Vì vậy con số này là **cận trên**, không dùng để suy ra FPS triển khai.", ""]
+    for cond in exp["conditions"]:
+        f = config.RESULTS_DIR / "phase2" / exp["name"] / cond / "summary.csv"
+        if not f.exists():
+            continue
+        d = pd.read_csv(f)
+        lines += [f"### `{cond}`", "",
+                  "| tracker | detector ms | tracker ms | tổng ms/frame | FPS suy ra | tracker chiếm |",
+                  "|:--|--:|--:|--:|--:|--:|"]
+        for _, r in d.iterrows():
+            u = r.get("update_ms_per_frame")
+            if pd.isna(u):
+                continue
+            tot = det_ms + u
+            lines.append(f"| {r['tracker']} | {det_ms:.1f} | {u:.3f} | {tot:.1f} | {1000 / tot:.1f} | "
+                         f"{100 * u / tot:.1f} % |")
+        lines.append("")
+    lines += ["> **Đọc đúng mức**: với cấu hình cache này, chi phí **detector áp đảo**; chênh lệch giữa "
+              "các bộ lọc gần như không đổi FPS toàn pipeline trên máy này. Điều này **không** suy ra được cho "
+              "Jetson Nano: tỷ lệ CPU/GPU khác hẳn, chưa đo.", ""]
+    with out.open("a", encoding="utf-8") as fh:
+        fh.write("\n".join(lines) + "\n")
 
 
 def main() -> int:
@@ -186,6 +285,7 @@ def main() -> int:
     pf_seed(exp, out / "pf_seed.md")
     lop_gt_det(exp, a.labels, out / "lop_gt_det.md")
     toc_do(exp, out / "toc_do.md")
+    toan_pipeline(exp, out / "toc_do.md")
 
     per = []
     for cond in exp["conditions"]:

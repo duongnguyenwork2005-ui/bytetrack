@@ -1,0 +1,66 @@
+# THI NGHIEM 1 (BDD100K val): CHUYEN CAU HINH tu UA-DETRAC sang BDD100K. KHONG tuning tren BDD.
+#
+# NGUON NHAN: `data/raw/bdd100k/labels_cocovid/bdd_box_track_val_cocofmt.json`
+#   -- COCO-video CHUYEN DOI, **KHONG phai `box_track_20` native**.
+#   sha256 074ff79555483296cf7ccadddeeceeec7a83452c900506dc46588ed3a3e65d5d (117.094.032 byte)
+#   Doc bang adapter RIENG `src/mot_datasets/bdd100k_coco.py` (dataset: bdd100k_coco).
+#
+# TACH KHOI smoke VA khoi duong nhan native - ten rieng o CA BON cho:
+#   name        bdd_transfer_cocovid_val        (smoke: bdd_smoke_val; native: bdd_transfer_val)
+#   split_name  BDDCOCOVID-val                  (smoke: BDDSMOKE-val;  native: BDD-val)
+#   manifest    bdd100k_transfer_cocovid_val.json
+#   cache_id    yolov8n-coco_conf0.05_all_bddcocovid
+#
+# ===========================================================================
+# QUY UOC THOI GIAN - PHAI DOC KY KHI BAO CAO
+# ===========================================================================
+# Bo loc lam viec o DON VI BUOC (dt = 1). Thi nghiem nay GIU NGUYEN tham so nhieu THEO BUOC cua
+# UA-DETRAC (dung nghia "chuyen cau hinh"), NHUNG:
+#     mot buoc o BDD = 0,2 s  (5 fps)        mot buoc o UA-DETRAC = 0,04 s  (25 fps)
+# tuc **gap 5 lan**. Vi vay day KHONG PHAI la "giu nguyen mo hinh nhieu theo don vi vat ly";
+# no la giu nguyen CON SO theo buoc. KHONG tu them cach quy doi hay tuning nao trong thi nghiem nay
+# (viec chon lai tham so thuoc Thi nghiem 2, tren BDD train-dev, chua du dieu kien).
+#
+# `track_buffer_sec` 1,2 s = 6 buoc @ 5 fps  -> CUNG THOI GIAN giu track voi DETRAC (30 buoc @ 25 fps).
+#
+# Nguon THIEU `occluded`/`truncated`/`timestamp`:
+#   - occlusion_ratio / visibility = NaN, occlusion_source = "MISSING"
+#   - delta t suy ra tu frame index voi gia dinh 5 fps (`elapsed_mode: steps` van tinh dung khoang
+#     frame bi bo qua neu co; kiem ke cho thay val KHONG co video nao co khoang bo qua)
+#   - KHONG khai bao muc `occlusion` => phan tang che khuat BI TAT; khoang annotation trong KHONG
+#     duoc bien thanh su kien che hoan toan.
+#
+# BACKEND: `ultralytics` (mac dinh) cho toan bo ma tran nay. Pham vi backend NumPy da kiem chung chu
+# yeu la CV/EKF, nen KHONG doi backend va bo loc cung luc trong phep so sanh chinh.
+#
+# QUY TRINH (da chay; xem handoff/logs/review6/):
+#   1. python src/check_bdd100k_cocovid.py                      # kiem ke 200 video / 39.973 anh
+#   2. python -m src.mot_datasets.bdd100k_coco --labels <nhan> --videos <200> \
+#        --export-gt --benchmark BDDCOCOVID                     # GT + seqmap rieng, seqLength theo anh
+#   3. python src/det_cache.py --dataset bdd100k_coco --labels-json <nhan> --part val \
+#        --manifest results/phase2/manifests/bdd100k_transfer_cocovid_val.json \
+#        --cache-id yolov8n-coco_conf0.05_all_bddcocovid        # CAN GPU
+#   4. python src/make_lock.py --exps configs/phase2/experiments/bdd_transfer_cocovid_val.yaml
+#   5. python src/run_experiment.py --exp configs/phase2/experiments/bdd_transfer_cocovid_val.yaml
+name: bdd_pilot_cocovid
+dataset: bdd100k_coco
+split_name: BDDCOCOVID-val
+part: val
+manifest: results/phase2/manifests/bdd100k_pilot_cocovid.json
+cache_id: yolov8n-coco_conf0.05_all_bddcocovid
+classes: [1, 2, 3, 5, 7]          # COCO bicycle, car, motorcycle, bus, truck (rider/pedestrian: chi thong ke)
+max_det: 300
+fps: 5
+track_buffer_sec: 1.2             # = 6 buoc @ 5 fps
+elapsed_mode: steps               # delta t tu frame index (5 fps danh nghia; nguon khong co timestamp)
+assoc_log: false
+conditions:
+  c25: {conf_min: 0.25}
+  c10: {conf_min: 0.10}
+trackers:                         # = cau hinh DA KHOA tren DETRAC (configs/phase2/LOCK_moc2.md), khong doi
+  - {name: cv,    yaml: bytetrack.yaml}
+  - {name: ekf,   yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: ukf,   yaml: configs/bytetrack_ukf_ctrv.yaml}
+  - {name: pf500, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml, seeds: [0, 1, 2]}
+baseline: cv
+pairs: [[ekf, cv], [ukf, cv], [ukf, ekf], [pf500, cv], [pf500, ekf]]

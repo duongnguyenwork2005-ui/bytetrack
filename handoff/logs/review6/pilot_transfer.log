@@ -1,0 +1,16 @@
+lenh: python src/run_experiment.py --exp configs/phase2/experiments/bdd_pilot_cocovid.yaml
+[exp] bdd_pilot_cocovid: split=BDDCOCOVID-val cache=yolov8n-coco_conf0.05_all_bddcocovid 3 video, 12 lan chay tracker (2 dieu kien)
+  [eval ] p2-bdd_pilot_cocovid-c25-cv              HOTA 0.2409 IDF1 0.2894 AssA 0.3175 IDSW 106
+  [eval ] p2-bdd_pilot_cocovid-c25-ekf             HOTA 0.2498 IDF1 0.3123 AssA 0.3393 IDSW 71
+  [eval ] p2-bdd_pilot_cocovid-c25-ukf             HOTA 0.2504 IDF1 0.3142 AssA 0.3373 IDSW 73
+  [eval ] p2-bdd_pilot_cocovid-c25-pf500-s0        HOTA 0.1997 IDF1 0.2300 AssA 0.2563 IDSW 117
+  [eval ] p2-bdd_pilot_cocovid-c25-pf500-s1        HOTA 0.1959 IDF1 0.2251 AssA 0.2454 IDSW 128
+  [eval ] p2-bdd_pilot_cocovid-c25-pf500-s2        HOTA 0.1948 IDF1 0.2228 AssA 0.2471 IDSW 126
+  [eval ] p2-bdd_pilot_cocovid-c10-cv              HOTA 0.2450 IDF1 0.2948 AssA 0.3118 IDSW 113
+  [eval ] p2-bdd_pilot_cocovid-c10-ekf             HOTA 0.2529 IDF1 0.3148 AssA 0.3350 IDSW 72
+  [eval ] p2-bdd_pilot_cocovid-c10-ukf             HOTA 0.2537 IDF1 0.3169 AssA 0.3356 IDSW 69
+  [eval ] p2-bdd_pilot_cocovid-c10-pf500-s0        HOTA 0.2006 IDF1 0.2349 AssA 0.2514 IDSW 103
+  [eval ] p2-bdd_pilot_cocovid-c10-pf500-s1        HOTA 0.2021 IDF1 0.2317 AssA 0.2520 IDSW 110
+  [eval ] p2-bdd_pilot_cocovid-c10-pf500-s2        HOTA 0.1984 IDF1 0.2289 AssA 0.2463 IDSW 123
+  [occl ] bo qua: thi nghiem khong khai bao muc `occlusion` (nguon nhan khong co du lieu che khuat)
+exit=0

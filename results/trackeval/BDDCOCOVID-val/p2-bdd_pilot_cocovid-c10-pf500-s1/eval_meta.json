@@ -1,0 +1,61 @@
+{
+  "dir": "p2-bdd_pilot_cocovid-c10-pf500-s1",
+  "split_name": "BDDCOCOVID-val",
+  "tracking": {
+    "n_videos": 3,
+    "n_missing": 0,
+    "sha256": "c1fa3229b149a3f20fbf7369b8da562a5759912ed60cd5854ed9a2c13f6400f5",
+    "per_video": {
+      "b1c66a42-6f7d68ca": "b5b8247bacb20289",
+      "b1c81faa-3df17267": "da69c41199da6d32",
+      "b1c81faa-c80764c5": "e55367e696545bff"
+    }
+  },
+  "config": "f4014833c97dc7f505b1f3af60e2c68434ddb130a3c0ccc56ee9732237785888",
+  "cache": {
+    "cache_id": "yolov8n-coco_conf0.05_all_bddcocovid",
+    "meta_sha256": "600482a632b39934d9e0f5b0f93be6279f8e6fda804fd7e781d3e3771f518339",
+    "npz_sha256": "bc593750d6cdcbd084d15043f9915f8532a5422a05dccc87b014eab2fd46f7e6",
+    "weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "conf": 0.05,
+    "classes": null,
+    "max_det": 3000
+  },
+  "sequences": "2156064814f02d7727372dc2d0a178b94e9550c02efe94adb256b3a2072162d0",
+  "code": {
+    "git_commit": "d1f6d62",
+    "modules": {
+      "run_tracking.py": "3c1e67e56ec3459c",
+      "run_experiment.py": "501a91af603c4f36",
+      "tracker_ctrv.py": "c2f493997f602f59",
+      "sort_tracker.py": "a4ab4b26867989eb",
+      "ekf_ctrv.py": "b516781efa01f473",
+      "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+      "ukf_ctrv.py": "2d59daf4794d8039",
+      "pf_ctrv.py": "e82b8d8db7942b24",
+      "lost_recovery.py": "38f30192b492fa80",
+      "lost_association.py": "469c2782cba41e01",
+      "time_units.py": "c13b6e20fe003f6d",
+      "det_cache.py": "364fae6740fc67bf",
+      "occlusion_eval.py": "1b892596be674b9e",
+      "boot_stats.py": "e9245f6729659f8f",
+      "run_trackeval.py": "519d3f9165803fde",
+      "trackeval_ext.py": "3dcf6582548adcfa",
+      "assoc_log.py": "0915453e70f75eb2",
+      "ul_backend.py": "7381910281d8a273",
+      "bytetrack_np.py": "8d37ec565230603b"
+    },
+    "backend": {
+      "backend": "ultralytics",
+      "ultralytics": "8.4.141",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "lap": "0.5.13"
+    }
+  },
+  "evaluator": {
+    "trackeval": "1.3.0",
+    "dataset_class": "mot_crowd"
+  },
+  "evaluated_at": "2026-09-20T03:50:04"
+}
