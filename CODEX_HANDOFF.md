@@ -84,10 +84,12 @@ rồi chạy 40 video test UA-DETRAC; (6) chuẩn bị BDD100K + Jetson Nano; (7
 
 ## 2. Nhánh, commit, thay đổi chưa commit
 
-- Nhánh: **`phase2-mixed-traffic`**, HEAD **`8665480`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
+- Nhánh: **`phase2-mixed-traffic`**, HEAD **`9dcd2d6`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
 - Commit của mốc 2 (từ `e353b84` = cuối mốc 1):
 
 ```
+9dcd2d6 Review vong 6: sua 4 finding (evaluator, resume CLI, provenance backend, timeline GT)
+d42f223 Ban giao vong 5: brief + phu luc BACKEND_NP_NOTES + handoff
 8665480 Review vong 5 (muc 5,6): adapter COCO-video + smoke BDD that + ha muc dien giai
 0520c01 Sua thu tu quy tac .gitattributes: git lay dong KHOP CUOI CUNG
 2895b71 Review vong 5: sua 2 loi P1 + 3 loi tich hop, kiem chung QUA RUNNER THAT
@@ -141,7 +143,7 @@ dd67321 Moc 2 (6-7a): mau thi nghiem BDD (chuyen cau hinh vs tuning, tach biet),
 
 ```
 M .gitignore
- M CODEX_HANDOFF.md
+ M handoff/BACKEND_NP_NOTES.md
  M handoff/REVIEW_BRIEF.md
  M src/demo/rerun_with_state_log.py
 ```
@@ -344,6 +346,10 @@ Các bước khác chạy CPU từ cache (cache có trong ZIP nếu ≤ 60 MB �
 | `python src/audit_run_provenance.py --pattern "p2-*" --verify-eval-fingerprint` (vòng 2) | 0 | `handoff/logs/audit_run_provenance_all.log` — 21 OK, 113 LEGACY, **0 nghi vấn** |
 | `python src/aggregate_phase2.py --exp .../expB_detrac_{dev,test}_fix1.yaml` (vòng 2) | 0 | chỉ sinh lại bảng dẫn xuất sau khi sửa **nhãn** cặp (không đổi tham số thí nghiệm) |
 | `python src/make_review_delta.py` (vòng 2) | 0 | `handoff/review_delta_latest.zip` — 67 file, 0,38 MB (gói đầy đủ 66,9 MB), `MANIFEST.csv` khớp hash |
+| `python src/run_all_tests.py --out-dir handoff/logs/review6` (vòng 6) | 0 | **26/26 PASS**, 0 FAIL, 0 SKIPPED, 0 NOT_RUN |
+| `python src/test_evaluator_choice.py` (vòng 6) | 0 | **5/5** — lớp evaluator chọn theo **loại dataset**; fixture: `mot` FP=2 vs `mot_crowd` FP=1 |
+| `python src/audit_run_provenance.py --pattern "p2-*"` (vòng 6) | 0 | **136/136 run = `UNKNOWN/LEGACY`** (thiếu bằng chứng backend) — kết luận cũ "chưa có run NumPy" **đã rút lại** |
+| `python src/run_experiment.py --exp .../bdd_smoke_val.yaml --stage eval` (vòng 6) | 0 | chạy lại **chỉ** evaluation + tổng hợp với `mot_crowd`; FP 124→123 (cv), 111→110 (ekf) |
 | `python src/run_all_tests.py --out-dir handoff/logs/review5` (vòng 5) | 0 | **25/25 PASS**, 0 FAIL, 0 SKIPPED, 0 NOT_RUN |
 | `python src/test_runner_backend_np.py` (vòng 5) | 0 | **9/9** — CLI **và** `stage_track()` **thật** chạy trong tiến trình **chặn** `torch`/`ultralytics`; sửa YAML cùng đường dẫn ⇒ chạy lại (**4 dòng → 0 dòng**); đổi backend ⇒ chạy lại |
 | `python src/test_bdd100k_coco.py` (vòng 5) | 0 | **8/8** — adapter COCO-video: ID theo **(video, instance_id)**, trường thiếu không bị bịa |
@@ -419,6 +425,15 @@ Toàn bộ log của mọi lần chạy (kể cả các lần của mốc 2) n�
 16. **(sau review vòng 5)** `input_fingerprint` nay gồm `tracker_cfg` (qua `cfg_to_dict`) **và**
    `tracker_yaml_sha256_12`. Cần kiểm: còn đầu vào nào ảnh hưởng kết quả mà **chưa** nằm trong dấu vân tay
    không (ví dụ `--class-map`, `allow_truncated`).
+18. **(sau review vòng 6)** `src/run_state.py`: chính sách resume nay **dùng chung** cho `stage_track`
+   và CLI `run_tracking.py`. Cần kiểm: còn đường nào ghi `run_meta.json` hoặc bỏ qua video mà **không**
+   đi qua module này không.
+19. **(sau review vòng 6)** `run_trackeval.DATASET_EVALUATOR`: bảng loại dataset → lớp evaluator. Thêm
+   dataset mới mà quên khai báo ⇒ **lỗi** (đúng ý đồ) — kiểm xem có đường nào vẫn rơi về nhánh dự phòng
+   theo tên split không.
+20. **(sau review vòng 6)** `audit_run_provenance.backend_of()`: chỉ kết luận từ `tracker_backend` /
+   `code.backend`. **136/136 run hiện có là `UNKNOWN`** — cần kiểm rằng không chỗ nào trong báo cáo
+   diễn giải `UNKNOWN` thành "Ultralytics" hay "chưa có run NumPy".
 17. **(sau review vòng 5)** `src/mot_datasets/bdd100k_coco.py`: nhãn là **COCO-video**, không phải
    `box_track_20` native. Cần kiểm: `crowd = iscrowd | ignore` có đúng ý nghĩa vùng bỏ qua của TrackEval
    không; `visibility = 1.0` ở `gt.txt` đã được ghi rõ là **placeholder** chưa; và việc đánh số `track_id`

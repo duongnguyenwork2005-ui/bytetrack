@@ -1,53 +1,56 @@
-# REVIEW_BRIEF — xử lý REQUEST CHANGES vòng 5
+# REVIEW_BRIEF — xử lý REQUEST CHANGES vòng 6
 
 <!-- BASE_TARGET -->
 
-Base giữ **`a8ecaf6`** (chưa chuyển sang `ed4fda2`). Chi tiết: **`handoff/BACKEND_NP_NOTES.md`**.
-Tái hiện trước khi sửa: `handoff/logs/review5/repro_truoc_khi_sua.log` — **mọi finding đều đúng**.
+Base giữ **`a8ecaf6`**. Chi tiết: **`handoff/BACKEND_NP_NOTES.md`**.
+Tái hiện trước khi sửa: `handoff/logs/review6/repro_truoc_khi_sua.log` — **cả 4 finding đều đúng**.
 
-## Finding → sửa → kiểm thử → kết quả
+## Finding → bằng chứng trước sửa → thay đổi → kiểm chứng sau sửa
 
-| # | Sửa ở đâu | Kết quả sau sửa (test tái hiện) |
-|:--|:--|:--|
-| **P1-A** resolver kéo Ultralytics | `resolve_tracker_yaml()` thành resolver **duy nhất, biết backend**; `load_tracker_cfg` nạp từ **đúng** file resolver trả về | `test_runner_backend_np` #1–2, qua **CLI thật** + **`stage_track()` thật** trong tiến trình **chặn** torch+ultralytics: CLI `rc=0`, `torch=False`, `ultralytics=False` |
-| **P1-B** cấu hình NumPy → `{}` | `as_mapping()`/`cfg_to_dict()` thay **cả 3** chỗ `vars(cfg)`; **thêm `tracker_yaml_sha256` vào `input_fingerprint`** | #3–4 (kịch bản Codex đo): `tracker_cfg` đầy đủ; sửa YAML **cùng đường dẫn** ⇒ chạy lại, **4 dòng → 0 dòng**; không đổi ⇒ tái dùng |
-| **P2-3** `assoc_log` | lấy **cả** `TrackState` và `BYTETracker` từ `ul_backend`, kể cả trong `issubclass` | #6: chạy trên np, ghi **3 parquet**, output tracking **không đổi** |
-| **P2-4** fallback YAML | chỉ **tên trần** trong `VENDORED_YAML` mới tra bản vendor | đường dẫn có thư mục không tồn tại ⇒ `FileNotFoundError` |
-| **P2-5** + **phát hiện thêm** | **Một** quy ước: `sha256` nội dung **chuẩn hóa LF** cho PROVENANCE + `fingerprint()` + test; thêm `.gitattributes` | `test_bytetrack_np_parity` kiểm **cả hai** trường hash: 5/5 khớp. *Thêm*: `fingerprint()` cũ hash byte đĩa ⇒ cùng commit cho hash **khác nhau** Windows/Nano — nay ổn định |
-| **BDD** thiếu bước GT, `split_name` dùng chung | `bdd100k_coco.py --export-gt --benchmark BDDSMOKE` | GT + seqmap **riêng**; `BDD-val` không bị đụng |
+| # | Trước sửa | Thay đổi | Sau sửa |
+|:--|:--|:--|:--|
+| **F1** evaluator | `startswith("BDD-")` ⇒ `BDDSMOKE-val` chọn **`mot`**, mất crowd-ignore | `dataset_class_for(dataset, split)` chọn theo **loại dataset**; dataset lạ ⇒ **lỗi rõ ràng**; tên thư mục output không còn quyết định chính sách | `test_evaluator_choice` **5/5** với đúng fixture của bạn: `mot` FP=**2** · `mot_crowd` FP=**1** · TP=1 cả hai |
+| **F2** resume CLI | CLI ghi metadata mới **trước** vòng lặp rồi `[SKIP]` chỉ vì file tồn tại ⇒ 4 dòng cũ + metadata 0.95 | Tách `src/run_state.py` **dùng chung** cho `stage_track` và CLI: chỉ tái dùng khi có **bằng chứng hoàn tất** + fingerprint khớp | `test_runner_backend_np` **14/14** qua **CLI thật** (chặn torch/ultralytics): sửa cùng YAML → **chạy lại, 4 dòng → 0**; không đổi ⇒ tái dùng; thiếu `video_meta` ⇒ chạy lại |
+| **F3** audit backend | `run_meta.json` không có tên backend ⇒ grep trả 0 **kể cả với run NumPy thật** | `tracker_backend` + `code` lưu **tường minh** ở cả hai đường chạy; `backend_of()` chỉ kết luận từ bằng chứng tường minh | Audit: **136/136 run = `UNKNOWN/LEGACY`**. Kết luận cũ "chưa có run NumPy" **đã rút lại** |
+| **F4** timeline GT | `seqLength` lấy từ frame annotation cuối ⇒ cắt ngắn video có frame cuối không nhãn | `frame_timeline()` + `seq_lengths_from_images()`: độ dài = **chỉ số frame cuối của timeline ảnh**; CLI trả **mã lỗi 2** khi thiếu ảnh; `--no-images` ghi rõ chỉ kiểm nhãn | `test_bdd100k_coco` **11/11**: frame cuối không nhãn ⇒ 5 (không phải 2); video **không** annotation ⇒ timeline đúng; timeline có khoảng bỏ qua ⇒ 5 (không phải 3 ảnh) |
 
-## Nhãn BDD và smoke
+## Smoke sau khi sửa evaluator
 
-Nguồn là **COCO-video**, không phải `box_track_20` native ⇒ adapter **riêng**
-(`src/mot_datasets/bdd100k_coco.py`). Thiếu `occluded`/`truncated`/`timestamp` ⇒ ghi **NaN + MISSING**,
-`dt_source = "nominal"`, **không** chạy phân tầng che khuất. Đo trên nhãn thật: **327/392 `instance_id`
-xuất hiện ở nhiều video** ⇒ `track_id` đánh số theo **(video, instance_id)**. `visibility = 1.0` trong
-`gt.txt` là **placeholder** do định dạng bắt buộc — nghĩa là "không biết".
+Giữ nguyên cache và tracking — **không** chạy lại detector/tracking. Bản cũ lưu ở
+`results/phase2/bdd_smoke_val_PRE_F1/`.
 
-Smoke chạy thật từ thư mục sạch, manifest ghi **trước** khi xem metric, 3 video × 202 frame,
-ảnh = cache = `seqLength`: `cv` HOTA 0.2409 · `ekf` HOTA 0.2498. Đây là **smoke pipeline**, **không** phải
-kết quả thí nghiệm, **không** dùng chọn tham số, và **không** kiểm chứng đường nhãn native.
+| tracker | HOTA trước | HOTA sau | FP trước → sau |
+|:--|--:|--:|:--|
+| cv | 0.2409002 | **0.2409274** | 124 → **123** |
+| ekf | 0.2497727 | **0.2498010** | 111 → **110** |
 
-## Diễn giải đã hạ mức
+Trên ba video này mỗi tracker chỉ có **đúng một** detection rơi vào vùng bỏ qua ⇒ ảnh hưởng số học nhỏ;
+cơ chế nay đã đúng. Vẫn là **smoke pipeline**, không phải kết quả thí nghiệm. `eval_meta.json` ghi
+`dataset_class: mot_crowd`; backend tracking của smoke là **`UNKNOWN`** (chạy trước khi có
+`tracker_backend`) — **không** tạo metadata hồi tố. Hash GT/seqmap/manifest + lệnh tái hiện: phụ lục §2.
 
-Tầng `full`: **11/182 → 22/182 là thay đổi quan sát được** (chưa có CI riêng cho tầng). Seed: "lớn hơn biến
-thiên giữa **ba seed đã thử**". Tốc độ: **số đo mô tả**, không xếp hạng; đo từ cache chỉ loại chi phí
-**detector** — `update_ms` **vẫn gồm** association + vòng đời. Bỏ "nhiễu gấp ~9 lần" và "trên Nano nặng
-hơn" → **rủi ro cần kiểm**. Nano: **một** lịch cân bằng **AB/BA** (3 cặp mỗi chiều), giữ **mọi** lượt,
-loại **theo cặp**.
+## Audit backend
 
-## Test thực tế
+| Nhóm | Run |
+|:--|--:|
+| NUMPY (xác nhận) / ULTRALYTICS (xác nhận) | 0 / 0 |
+| **UNKNOWN/LEGACY (thiếu bằng chứng)** | **136** |
+| Mâu thuẫn / nguy cơ tái dùng sai | 0 |
 
-`run_all_tests.py --out-dir handoff/logs/review5` → **25 PASS, 0 FAIL, 0 SKIPPED, 0 NOT_RUN** (exit 0).
-Gồm `test_runner_backend_np` **9/9** (mới), `test_bdd100k_coco` **8/8** (mới), `test_bytetrack_np_parity`
-**10/10** (cache **thật**, bit-identical).
+**Không có bằng chứng cụ thể** buộc chạy lại run lịch sử. Giữ nguyên UA-DETRAC A/B/C và GĐ1, không mở
+tuning.
 
-`grep '"backend": "np"'` trên mọi `run_meta.json` → **0 kết quả** ⇒ chưa có run nào sinh bằng backend
-NumPy ⇒ **không có gì cần audit hay chạy lại**. Việc thêm `tracker_yaml_sha256` vào fingerprint làm mọi thí
-nghiệm có fingerprint mới ở lần chạy tới — đó là **sửa lỗi**, không chạy lại A/B/C.
+## Test thực tế (tự chạy trên bản sửa cuối)
 
-## Chưa xác minh
+`run_all_tests.py --out-dir handoff/logs/review6` → **26 PASS, 0 FAIL, 0 SKIPPED, 0 NOT_RUN** (exit 0).
+Mới/đổi: `test_evaluator_choice` **5/5**, `test_runner_backend_np` **14/14**, `test_bdd100k_coco`
+**11/11**.
 
-Nhãn **native** `box_track_20` và split `train` (⇒ chưa tuning trên BDD). **Nano chưa kết nối** — parity
-trên PC **không** chứng minh tương thích/tốc độ Nano; bản vendor cần **Python ≥ 3.7** còn JetPack 4.6 có
-**3.6**; `scipy`/`lap` aarch64 và đường detector trên Nano chưa thử.
+## Còn bị chặn
+
+- **File nhãn `bdd_box_track_val_cocofmt.json` không còn trên máy** (đã tìm `C:\` và `D:\`) ⇒ **chưa
+  kiểm F4 trên video thật `b23b2649-8349d2a1`** (ảnh tới 202, annotation cuối 94). Fixture bao đúng ba
+  tình huống, nhưng đó không thay được phép kiểm trên video thật. Gửi lại file là đóng được.
+- Nhãn `box_track_20` **native** và split `train` ⇒ chưa tuning trên BDD.
+- **Nano chưa kết nối**; bản vendor cần Python ≥ 3.7 còn JetPack 4.6 có 3.6.
+- Quy ước hash LF **chỉ** áp cho module vendor — `code_fingerprint()` và hash YAML vẫn là byte thô.
