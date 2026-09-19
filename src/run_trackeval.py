@@ -127,6 +127,34 @@ def build_configs(split_name: str, tracker_name: str, videos: list[str] | None):
     return eval_config, dataset_config, metric_config
 
 
+#: Loai dataset -> lop evaluator. BDD (ca ban native LAN ban COCO-video) can `mot_crowd` vi GT co
+#: VUNG BO QUA (crowd/ignore, class 13 conf 0); `mot` KHONG loai FP roi vao vung do.
+DATASET_EVALUATOR = {"detrac": "mot", "ua-detrac": "mot", "ua_detrac": "mot",
+                     "bdd100k": "mot_crowd", "bdd100k_mot": "mot_crowd", "bdd": "mot_crowd",
+                     "bdd100k_coco": "mot_crowd", "bdd_coco": "mot_crowd"}
+
+
+def dataset_class_for(dataset: str | None, split_name: str | None = None) -> str:
+    """Lop evaluator theo LOAI DATASET (khong phai theo ten thu muc output).
+
+    Review vong 6, F1: truoc day quy tac la `split.startswith("BDD-")`, nen mot split smoke dat ten
+    `BDDSMOKE-val` bi cham bang `mot` va MAT xu ly crowd-ignore. Ten thu muc output KHONG duoc quyet
+    dinh chinh sach danh gia.
+
+    `dataset` khong ro -> DU PHONG theo tien to ten split (giu tuong thich voi lenh cu), nhung duong
+    chay chinh (`run_experiment`) luon truyen `dataset` tuong minh.
+    """
+    if dataset:
+        key = str(dataset).lower()
+        if key not in DATASET_EVALUATOR:
+            raise ValueError(
+                f"khong biet dung lop evaluator nao cho dataset {dataset!r}; "
+                f"khai bao trong DATASET_EVALUATOR (co: {sorted(DATASET_EVALUATOR)}) "
+                f"hoac truyen --dataset-class tuong minh")
+        return DATASET_EVALUATOR[key]
+    return "mot_crowd" if (split_name or "").upper().startswith("BDD") else "mot"
+
+
 def dataset_class(name: str):
     """'mot' = MotChallenge2DBox goc (Giai doan 1); 'mot_crowd' = them vung bo qua theo IoA (BDD100K)."""
     import trackeval
@@ -198,11 +226,16 @@ def main() -> int:
                     help="Ten thu muc tracker trong data/processed/trackers/<split-name>/")
     ap.add_argument("--videos", nargs="*", default=None,
                     help="Chi eval cac video nay (mac dinh: toan bo seqmap cua split)")
+    ap.add_argument("--dataset", default=None,
+                    help="loai dataset cua thi nghiem (detrac | bdd100k | bdd100k_coco) -> suy ra lop "
+                         "evaluator; uu tien thap hon --dataset-class")
     ap.add_argument("--dataset-class", choices=["mot", "mot_crowd"], default=None,
                     help="mot (goc, mac dinh cho DETRAC-*) | mot_crowd (vung bo qua IoA, mac dinh cho BDD-*)")
     args = ap.parse_args()
     if args.dataset_class is None:
-        args.dataset_class = "mot_crowd" if args.split_name.startswith("BDD-") else "mot"
+        args.dataset_class = dataset_class_for(args.dataset, args.split_name)
+        print(f"[trackeval] dataset_class = {args.dataset_class!r} "
+              f"(tu {'--dataset ' + args.dataset if args.dataset else 'ten split (DU PHONG)'})")
 
     gt_dir = config.PROCESSED_DIR / args.split_name
     trk_dir = config.PROCESSED_DIR / "trackers" / args.split_name / args.tracker

@@ -149,6 +149,40 @@ class BDD100KCocoDataset:
         return pd.read_parquet(p) if p.exists() else self.build_interim(part)
 
 
+def frame_timeline(d: dict, videos: list[str] | None = None) -> dict[str, dict]:
+    """Timeline ANH cua tung video: {video: {"n_images", "first", "last", "missing_frames"}} (1-based).
+
+    F4 (review vong 6): `seqLength` PHAI lay tu day, KHONG tu frame annotation cuoi. Video
+    `b23b2649-8349d2a1` co anh toi frame 202 nhung annotation cuoi o frame 94 -> lay theo annotation
+    se ghi seqLength=94 va evaluator co the tu choi cac dong tracking sau frame 94.
+
+    Cung KHONG duoc lay `n_images` lam do dai khi timeline co khoang frame bi bo qua: do dai phai la
+    CHI SO FRAME CUOI (`max(frame_id) + 1`).
+    """
+    check_schema(d)
+    vid2name = {v["id"]: v["name"] for v in d["videos"]}
+    keep = set(videos) if videos else None
+    acc: dict[str, list[int]] = {}
+    for im in d["images"]:
+        name = vid2name[im["video_id"]]
+        if keep is not None and name not in keep:
+            continue
+        acc.setdefault(name, []).append(int(im["frame_id"]) + 1)      # 1-based, cung quy uoc parse_coco
+    out = {}
+    for name, frames in acc.items():
+        fs = sorted(frames)
+        out[name] = {"n_images": len(fs), "first": fs[0], "last": fs[-1],
+                     "missing_frames": sorted(set(range(fs[0], fs[-1] + 1)) - set(fs))}
+    for v in (videos or []):                       # video khong co ANH nao -> van bao cao tuong minh
+        out.setdefault(v, {"n_images": 0, "first": 0, "last": 0, "missing_frames": []})
+    return out
+
+
+def seq_lengths_from_images(d: dict, videos: list[str] | None = None) -> dict[str, int]:
+    """`seqLength` cho `export_motchallenge`: CHI SO FRAME CUOI cua timeline anh."""
+    return {v: info["last"] for v, info in frame_timeline(d, videos).items()}
+
+
 def parse_coco(d: dict, part: str = "val", videos: list[str] | None = None) -> pd.DataFrame:
     """COCO-video -> schema interim chung (cung ten cot voi `bdd100k_mot.parse_video`).
 
@@ -232,18 +266,37 @@ def main() -> int:
     print(f"[bo qua]  crowd={int(df.crowd.sum())} (iscrowd={int(df.iscrowd.sum())}, "
           f"ignore={int(df['ignore'].sum())})")
 
-    if not a.no_images:
-        thieu = sum(1 for v in videos for f in ds.frames(v, a.part) if f.path is None)
-        print(f"[anh]     thieu {thieu} anh trong {ds.images_dir(a.part)}")
+    n_thieu_anh = 0
+    if a.no_images:
+        print("[anh]     --no-images: CHI kiem phan NHAN. KHONG xac nhan anh da du "
+              "(khong dung ket qua nay de ket luan dau vao hoan chinh).")
+    else:
+        n_thieu_anh = sum(1 for v in videos for f in ds.frames(v, a.part) if f.path is None)
+        print(f"[anh]     thieu {n_thieu_anh} anh trong {ds.images_dir(a.part)}")
 
     if a.export_gt:
         from .bdd100k_mot import export_motchallenge
-        seq_len = {v: int(df[df.video == v].frame.max()) for v in videos}
+        # F4: do dai lay tu TIMELINE ANH (khong phai frame annotation cuoi)
+        seq_len = seq_lengths_from_images(ds._load(), videos)
+        tl = frame_timeline(ds._load(), videos)
+        for v in videos:
+            ann = df[df.video == v]
+            last_ann = int(ann.frame.max()) if len(ann) else 0
+            if last_ann != seq_len[v]:
+                print(f"[GT]      {v}: seqLength={seq_len[v]} (timeline anh) trong khi annotation cuoi "
+                      f"o frame {last_ann} -> {seq_len[v] - last_ann} frame cuoi khong co nhan, VAN duoc "
+                      f"giu trong timeline")
+            if tl[v]["missing_frames"]:
+                print(f"[GT]      {v}: timeline co {len(tl[v]['missing_frames'])} frame bi bo qua "
+                      f"(vd {tl[v]['missing_frames'][:5]})")
         info = export_motchallenge(df_for_gt_export(df), a.part, "vehicle", seq_lengths=seq_len,
                                    videos=videos, benchmark=a.benchmark)
         print(f"[GT]      {info}")
         print("[GT]      LUU Y: cot `vis` trong gt.txt = 1.0 la PLACEHOLDER (dinh dang bat buoc mot so); "
               "nguon COCO-video khong co thong tin che khuat.")
+    if n_thieu_anh:
+        print(f"[ERROR]   thieu {n_thieu_anh} anh -> dau vao CHUA du de chay tracking/danh gia")
+        return 2
     return 0
 
 

@@ -75,6 +75,7 @@ TESTS = [
     ("test_det_cache", [], None),
     ("test_cache_provenance", [], None),
     ("test_trackeval_ext", [], None),
+    ("test_evaluator_choice", [], None),
     ("test_bdd100k_adapter", [], None),
     ("test_bdd100k_coco", [], None),
     ("test_pf_ctrv", [], None),

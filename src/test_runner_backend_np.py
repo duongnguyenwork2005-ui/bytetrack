@@ -19,6 +19,14 @@ cache hay ket qua nghien cuu.
      (kiem so video da chay + metadata, khong dung `--dry-run` hay so hash lam bang chung).
   6. `assoc_log=True` chay duoc tren backend NumPy (P2-3) va KHONG doi output tracking.
 
+Review vong 6 bo sung:
+  7. CLI `--skip-existing` dung CHUNG chinh sach resume voi `stage_track` (F2): sua YAML tai CUNG
+     duong dan roi chay lai voi `--skip-existing` phai CHAY LAI va cho ket qua cua cau hinh MOI,
+     KHONG giu output cu roi gan metadata moi; khong doi gi -> tai su dung; thieu/hong `video_meta`
+     -> chay lai.
+  8. `run_meta.json` luu BACKEND TRACKER tuong minh (F3) - truoc day backend chi nam trong doi tuong
+     da hash nen `grep '"backend": "np"'` luon tra 0 ke ca voi run NumPy that.
+
     python src/test_runner_backend_np.py
 """
 from __future__ import annotations
@@ -104,6 +112,36 @@ def run_py(code: str, tmp: Path, backend: str = "np", block: bool = True) -> sub
     env = {**os.environ, "BYTETRACK_BACKEND": backend}
     return subprocess.run([PY, "-c", src], cwd=tmp, capture_output=True, text=True,
                           encoding="utf-8", errors="replace", env=env)
+
+
+def cli_code(tmp: Path, cache_id: str, video: str, yaml_path: Path, tracker_name: str,
+             skip_existing: bool = False) -> str:
+    """Kich ban goi CLI `run_tracking.main()` THAT tren cache tam."""
+    extra = ', "--skip-existing"' if skip_existing else ""
+    return f'''
+import json, pathlib, config, det_cache
+det_cache.CACHE_ROOT = pathlib.Path({str(tmp / "det_cache")!r})
+import run_tracking
+config.PROCESSED_DIR = pathlib.Path({str(tmp / "cli_processed")!r})
+run_tracking.config.PROCESSED_DIR = config.PROCESSED_DIR
+sys.argv = ["run_tracking.py", "--cache-id", {cache_id!r}, "--videos", {video!r},
+            "--split-name", "SYN-test", "--tracker-name", {tracker_name!r},
+            "--tracker-yaml", {str(yaml_path)!r}, "--conf-min", "0.25",
+            "--fps", "25", "--elapsed-mode", "steps"{extra}]
+rc = run_tracking.main()
+d = config.PROCESSED_DIR / "trackers" / "SYN-test" / {tracker_name!r}
+txt = d / "data" / f"{video}.txt"
+raw = txt.read_text(encoding="utf-8").strip() if txt.exists() else ""
+meta = json.loads((d / "run_meta.json").read_text(encoding="utf-8"))
+print("@@JSON@@" + json.dumps({{
+    "rc": rc, "n_lines": len(raw.splitlines()) if raw else 0,
+    "cfg_thresh": (meta.get("tracker_cfg") or {{}}).get("new_track_thresh"),
+    "tracker_backend": meta.get("tracker_backend"), "status": meta.get("status"),
+    "n_ran": meta.get("n_videos_ran"), "n_reused": meta.get("n_videos_reused"),
+    "fingerprint": meta.get("input_fingerprint"),
+    "has_video_meta": (d / "video_meta" / f"{video}.json").exists(),
+    "torch": "torch" in sys.modules, "ul": "ultralytics" in sys.modules}}))
+'''
 
 
 def stage_track_code(tmp: Path, cache_id: str, video: str, yaml_path: Path, out_name: str,
@@ -251,6 +289,46 @@ print("@@JSON@@" + json.dumps({{"rc": rc, "torch": "torch" in sys.modules,
                (r.stdout[-900:] + r.stderr[-900:]) if not ok_log else
                f"n_lines {g['n_lines']} vs {h.get('n_lines')}; file log: "
                f"{[p.name for p in logdir.iterdir()] if logdir.is_dir() else 'KHONG CO'}")
+        # --- 7. F2: CLI --skip-existing dung chung chinh sach resume ---
+        yml3 = tmp / "tracker_cli.yaml"
+        yml3.write_text(YAML_TMPL.format(thresh=0.25), encoding="utf-8")
+        a1 = parse(run_py(cli_code(tmp, CACHE, VIDEO, yml3, "clires"), tmp), "CLI 0.25")
+        _check("F2/CLI: chay lan dau (new_track_thresh=0.25) -> 4 dong, co video_meta, "
+               "status=complete",
+               a1["n_lines"] == 4 and a1["has_video_meta"] and a1["status"] == "complete"
+               and not a1["torch"] and not a1["ul"],
+               f"n_lines={a1['n_lines']} video_meta={a1['has_video_meta']} status={a1['status']}")
+
+        yml3.write_text(YAML_TMPL.format(thresh=0.95), encoding="utf-8")
+        a2 = parse(run_py(cli_code(tmp, CACHE, VIDEO, yml3, "clires", skip_existing=True), tmp),
+                   "CLI 0.95 --skip-existing")
+        _check("F2/CLI: sua CUNG file YAML -> 0.95 roi chay voi --skip-existing -> CHAY LAI, ket qua "
+               "cua cau hinh MOI (0 dong), KHONG giu 4 dong cu",
+               a2["n_lines"] == 0 and a2["n_ran"] == 1 and a2["cfg_thresh"] == 0.95
+               and a2["fingerprint"] != a1["fingerprint"],
+               f"n_lines: {a1['n_lines']} -> {a2['n_lines']}; n_ran={a2['n_ran']}; "
+               f"cfg_thresh={a2['cfg_thresh']}")
+
+        a3 = parse(run_py(cli_code(tmp, CACHE, VIDEO, yml3, "clires", skip_existing=True), tmp),
+                   "CLI khong doi gi")
+        _check("F2/CLI: chay lai khi KHONG doi gi -> TAI SU DUNG (0 video chay lai)",
+               a3["n_ran"] in (0, None) and a3["n_reused"] == 1
+               and a3["fingerprint"] == a2["fingerprint"],
+               f"n_ran={a3['n_ran']} n_reused={a3['n_reused']}")
+
+        # thieu video_meta -> phai chay lai (khong mac nhien tuong thich)
+        (tmp / "cli_processed" / "trackers" / "SYN-test" / "clires" / "video_meta"
+         / f"{VIDEO}.json").unlink()
+        a4 = parse(run_py(cli_code(tmp, CACHE, VIDEO, yml3, "clires", skip_existing=True), tmp),
+                   "CLI thieu video_meta")
+        _check("F2/CLI: thieu bang chung hoan tat (`video_meta`) -> CHAY LAI, khong tai su dung",
+               a4["n_ran"] == 1 and a4["has_video_meta"], f"n_ran={a4['n_ran']}")
+
+        # --- 8. F3: backend tracker duoc luu TUONG MINH ---
+        _check("F3: `run_meta.json` luu `tracker_backend` tuong minh tren CA HAI duong chay "
+               "(truoc day grep '\"backend\": \"np\"' luon tra 0)",
+               a1["tracker_backend"] == "np" and b.get("tracker_backend", "np") in ("np", None),
+               f"CLI tracker_backend={a1['tracker_backend']!r}")
     except AssertionError:
         failed += 1
     except Exception as exc:  # noqa: BLE001

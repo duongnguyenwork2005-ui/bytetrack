@@ -46,6 +46,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
 import det_cache  # noqa: E402
+import run_state  # noqa: E402
 import tracker_ctrv  # noqa: E402
 import ul_backend  # noqa: E402
 from time_units import steps_between, track_buffer_frames, with_elapsed_steps  # noqa: E402
@@ -318,7 +319,11 @@ def main() -> int:
         name = args.tracker_name + (f"-s{seed}" if seed is not None else "")
         out_root = config.PROCESSED_DIR / "trackers" / args.split_name / name
         out_root.mkdir(parents=True, exist_ok=True)
-        run_meta = {"cache_id": args.cache_id, "cache_meta": meta, "tracker_yaml": str(args.tracker_yaml),
+        # F3: backend TRACKER tuong minh (khac `cache_meta.backend` = backend DETECTOR cua cache).
+        import run_fingerprint as _fp
+        code_fp = _fp.code_fingerprint()
+        run_meta = {"tracker_backend": code_fp["backend"]["backend"], "code": code_fp,
+                    "cache_id": args.cache_id, "cache_meta": meta, "tracker_yaml": str(args.tracker_yaml),
                     "tracker_yaml_sha256_12": yaml_sha, "tracker_cfg": cfg_to_dict(cfg), "overrides": overrides,
                     "conf_min": args.conf_min, "classes": classes, "class_map": class_map,
                     "max_det": args.max_det, "fps": fps, "dt_nominal_s": dt_nominal,
@@ -326,18 +331,47 @@ def main() -> int:
                     "track_buffer_sec": round(int(cfg.track_buffer) / fps, 4),
                     "elapsed_mode": args.elapsed_mode, "seed": seed,
                     "git_commit": det_cache.git_commit(), "created": time.strftime("%Y-%m-%dT%H:%M:%S")}
-        (out_root / "run_meta.json").write_text(json.dumps(run_meta, indent=2, default=str), encoding="utf-8")
+        # F2 (review vong 6): CUNG chinh sach resume voi `stage_track` - chi tai su dung khi co BANG
+        # CHUNG HOAN TAT va dau van tay khop. Truoc day CLI ghi metadata moi TRUOC vong lap roi bo qua
+        # video chi vi file tracking ton tai => output cu bi gan cau hinh moi.
+        run_meta["input_fingerprint"] = _fp.sha256_obj({
+            "tracker_cfg": cfg_to_dict(cfg), "tracker_yaml_sha256_12": yaml_sha, "overrides": overrides,
+            "conf_min": args.conf_min, "classes": classes, "class_map": class_map,
+            "max_det": args.max_det, "elapsed_mode": args.elapsed_mode, "fps": fps, "seed": seed,
+            "assoc_log": bool(args.assoc_log), "pf_diag": bool(args.pf_diag),
+            "cache": _fp.cache_fingerprint(args.cache_id, videos), "sequences": list(videos),
+            "code": code_fp})
+        fingerprint = run_meta["input_fingerprint"]
+        meta_path = out_root / "run_meta.json"
+        plan_reuse, plan_run, reasons = run_state.plan_videos(out_root, videos, fingerprint,
+                                                              args.skip_existing)
+        for v, why in reasons.items():
+            if (out_root / "data" / f"{v}.txt").exists():
+                print(f"  {name:<28} {v:<14} CHAY LAI (ghi de): {why}")
+        for v in plan_reuse:
+            print(f"  {name:<28} {v:<14} [TAI SU DUNG] bang chung hoan tat + dau van tay khop")
+        if plan_run:
+            # danh dau DANG CHAY truoc khi ghi de bat ky dau ra nao (va GIU provenance goc neu
+            # dau van tay khong doi)
+            run_meta = run_state.mark_run_started(meta_path, run_meta)
+        else:
+            run_state.mark_run_finished(meta_path, run_meta, 0, len(plan_reuse), videos,
+                                        det_cache.git_commit())
         summary = []
-        for v in videos:
-            out_file = out_root / "data" / f"{v}.txt"
-            if args.skip_existing and out_file.exists():
-                print(f"  {name:<28} {v:<14} [SKIP]"); continue
+        for v in plan_run:
+            vmp = run_state.video_meta_path(out_root, v)
+            if vmp.exists():
+                vmp.unlink()          # dau ra cu khong con dung -> xoa bang chung truoc khi ghi de
             vd = det_cache.open_cache(args.cache_id, v, args.conf_min, classes, args.max_det, class_map,
                                       allow_truncated=args.allow_truncated)
             t0 = time.time()
             df, df_t = run_video_to_dir(out_root, v, vd, cfg, dt_nominal, args.elapsed_mode, seed, registry,
                                         assoc_log=args.assoc_log, pf_diag=args.pf_diag)
             sec = time.time() - t0
+            run_state.write_video_meta(out_root, v, fingerprint,
+                                       {"created": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                                        "git_commit": det_cache.git_commit(), "seed": seed,
+                                        "n_frames": len(vd), "n_boxes": int(len(df))})
             n_tr = int(df["id"].nunique()) if len(df) else 0
             print(f"  {name:<28} {v:<14} {len(vd):>5} frame -> {len(df):>7,} bbox {n_tr:>4} track  "
                   f"predict {df_t.t_predict_ms.mean():.2f} ms/frame  assoc {df_t.t_assoc_ms.mean():.2f}  "
@@ -347,7 +381,16 @@ def main() -> int:
                             "assoc_ms_per_frame": round(float(df_t.t_assoc_ms.mean()), 4),
                             "update_ms_per_frame": round(float(df_t.t_update_ms.mean()), 4),
                             "seconds": round(sec, 2)})
-            pd.DataFrame(summary).to_csv(out_root / "summary.csv", index=False)
+        if summary:
+            # giu lai hang cua cac video DUOC TAI SU DUNG (giong stage_track), khong ghi de mat
+            old_csv = out_root / "summary.csv"
+            sdf = pd.DataFrame(summary)
+            if plan_reuse and old_csv.exists():
+                sdf = pd.concat([pd.read_csv(old_csv), sdf]).drop_duplicates("video", keep="last")
+            sdf.to_csv(old_csv, index=False)
+            run_state.mark_run_finished(meta_path, run_meta, len(summary), len(plan_reuse), videos,
+                                        det_cache.git_commit())
+        print(f"  {name:<28} {len(summary):>3} video moi, {len(plan_reuse):>3} tai su dung")
     return 0
 
 

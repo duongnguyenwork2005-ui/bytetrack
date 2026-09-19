@@ -17,6 +17,11 @@ du lieu nghien cuu.
      interim VAN giu NaN.
   7. `frames()` tra ve frame 1-based theo `frame_id` tang dan, `time_s` theo fps danh nghia.
 
+Review vong 6, F4 - `seqLength` phai lay tu TIMELINE ANH, khong tu frame annotation cuoi:
+  8. Video co frame CUOI khong co annotation -> `seqLength` = frame anh cuoi (khong bi cat ngan).
+  9. Video KHONG co annotation nao -> van co timeline dung, khong nem loi, schema van du cot.
+ 10. Timeline co KHOANG FRAME BI BO QUA -> do dai la CHI SO FRAME CUOI, khong phai so anh.
+
     python src/test_bdd100k_coco.py
 """
 from __future__ import annotations
@@ -139,6 +144,48 @@ def main() -> int:
                and all(f.path is None for f in fr)      # khong co anh -> path None, khong nem loi
                and ds.list_videos("val") == ["vidA", "vidB"],
                f"index={[f.index for f in fr]} time_s={[round(f.time_s, 3) for f in fr]}")
+        # --- 8/9/10. F4: seqLength theo TIMELINE ANH ---
+        from mot_datasets.bdd100k_coco import frame_timeline, seq_lengths_from_images
+
+        # vidC: 5 anh (frame 1..5) nhung annotation chi toi frame 2  -> duoi anh cuoi
+        # vidD: 3 anh, KHONG co annotation nao
+        # vidE: anh o frame_id 0,1,4 (thieu frame 3,4 theo 1-based) -> do dai = 5, so anh = 3
+        d2 = {"categories": [{"id": 3, "name": "car"}],
+              "videos": [{"id": 1, "name": "vidC"}, {"id": 2, "name": "vidD"}, {"id": 3, "name": "vidE"}],
+              "images": [], "annotations": []}
+        aid = 0
+        for vid, vname, frame_ids, ann_upto in ((1, "vidC", range(5), 1), (2, "vidD", range(3), -1),
+                                                (3, "vidE", [0, 1, 4], 1)):
+            for f in frame_ids:
+                iid = vid * 100 + f
+                d2["images"].append({"id": iid, "video_id": vid, "frame_id": f, "width": 1280,
+                                     "height": 720, "file_name": f"{vname}/{vname}-{f + 1:07d}.jpg"})
+                if f <= ann_upto:
+                    aid += 1
+                    d2["annotations"].append({"id": aid, "image_id": iid, "category_id": 3,
+                                              "instance_id": 1, "iscrowd": 0, "ignore": 0,
+                                              "bbox": [1.0, 2.0, 3.0, 4.0]})
+        tl = frame_timeline(d2)
+        sl = seq_lengths_from_images(d2)
+        df2 = parse_coco(d2, part="val")
+        ann_last_C = int(df2[df2.video == "vidC"].frame.max())
+        _check("F4: frame CUOI khong co annotation -> seqLength = frame ANH cuoi (khong cat ngan theo "
+               "annotation)",
+               sl["vidC"] == 5 and ann_last_C == 2,
+               f"seqLength(vidC)={sl['vidC']} (ky vong 5); frame annotation cuoi={ann_last_C} "
+               f"-> cach cu se ghi {ann_last_C}")
+        _check("F4: video KHONG co annotation nao -> van co timeline dung, khong nem loi, "
+               "schema df van du cot",
+               sl["vidD"] == 3 and tl["vidD"]["n_images"] == 3
+               and len(df2[df2.video == "vidD"]) == 0
+               and {"video", "frame", "track_id", "occlusion_ratio"} <= set(df2.columns),
+               f"seqLength(vidD)={sl['vidD']} n_images={tl['vidD']['n_images']} "
+               f"n_hang={len(df2[df2.video == 'vidD'])}")
+        _check("F4: timeline co KHOANG FRAME BI BO QUA -> do dai la CHI SO FRAME CUOI, khong phai so anh",
+               sl["vidE"] == 5 and tl["vidE"]["n_images"] == 3
+               and tl["vidE"]["missing_frames"] == [3, 4],
+               f"seqLength(vidE)={sl['vidE']} (ky vong 5), n_images={tl['vidE']['n_images']} (3), "
+               f"frame bi bo qua={tl['vidE']['missing_frames']}")
     except AssertionError:
         failed += 1
     except Exception as e:  # noqa: BLE001

@@ -62,6 +62,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
 import det_cache  # noqa: E402
+import run_state  # noqa: E402
 import run_tracking  # noqa: E402
 import run_trackeval  # noqa: E402
 import run_fingerprint as fp  # noqa: E402
@@ -106,88 +107,18 @@ def plan(exp: dict) -> list[dict]:
     return rows
 
 
-def _atomic_write_json(path: Path, obj: dict) -> None:
-    """Ghi JSON nguyen tu: ghi file tam roi doi ten (tranh file metadata bi cat doi khi bi ngat)."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(obj, indent=2, default=str), encoding="utf-8")
-    tmp.replace(path)
-
-
-def _load_json(path: Path):
-    """None neu thieu HOAC hong (thieu/hong => KHONG duoc coi la tuong thich)."""
-    if not path.exists():
-        return None
-    try:
-        return json.loads(path.read_text(encoding="utf-8"))
-    except Exception:  # noqa: BLE001
-        return None
-
-
-def video_meta_path(out_root: Path, video: str) -> Path:
-    return out_root / "video_meta" / f"{video}.json"
-
-
-def can_reuse_video(out_root: Path, video: str, fingerprint: str) -> tuple[bool, str]:
-    """Chi tai su dung mot video khi CO BANG CHUNG HOAN TAT va dau van tay khop.
-
-    Bang chung = `video_meta/<video>.json` (ghi NGUYEN TU sau khi video chay xong) voi
-    `complete: true` va `input_fingerprint` trung. Thieu/hong metadata -> KHONG tai su dung
-    (loi P1 vong 2: truoc day chi can ton tai `data/<video>.txt` la du).
-    """
-    if not (out_root / "data" / f"{video}.txt").exists():
-        return False, "chua co file tracking"
-    vm = _load_json(video_meta_path(out_root, video))
-    if vm is None:
-        return False, "thieu/hong video_meta"
-    if not vm.get("complete"):
-        return False, "video_meta chua danh dau hoan tat"
-    if vm.get("input_fingerprint") != fingerprint:
-        return False, "dau van tay khac"
-    return True, ""
-
-
-def mark_run_started(path: Path, meta: dict) -> dict:
-    """Danh dau run DANG CHAY truoc khi ghi de bat ky dau ra nao.
-
-    Giu `created`/`git_commit` GOC khi dau van tay khong doi (provenance cua phan thuc su tai su dung);
-    neu dau van tay doi (hoac metadata cu thieu/hong) thi bat dau provenance moi.
-    """
-    old = _load_json(path)
-    m = dict(meta)
-    same = old is not None and old.get("input_fingerprint") == meta["input_fingerprint"]
-    if same:
-        m["created"] = old.get("created", m["created"])
-        m["git_commit"] = old.get("git_commit", m["git_commit"])
-        m["resumed"] = list(old.get("resumed", []))
-    elif old is not None:
-        m["previous"] = {"created": old.get("created"), "git_commit": old.get("git_commit"),
-                         "input_fingerprint": old.get("input_fingerprint"), "status": old.get("status")}
-    m["status"] = "running"
-    m["started_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
-    _atomic_write_json(path, m)
-    return m
+# Chinh sach resume nam o `src/run_state.py` - DUNG CHUNG voi CLI `run_tracking.py`
+# (review vong 6, F2: truoc day CLI co ban cai dat rieng va khong kiem dau van tay).
+# Cac ten duoi day giu nguyen de test/ma cu van goi duoc.
+_atomic_write_json = run_state.atomic_write_json
+_load_json = run_state.load_json
+video_meta_path = run_state.video_meta_path
+can_reuse_video = run_state.can_reuse_video
+mark_run_started = run_state.mark_run_started
 
 
 def mark_run_finished(path: Path, meta: dict, ran: int, reused: int, videos: list[str]) -> None:
-    """Ket thuc mot lan chay. Neu tren dia da co metadata CUNG dau van tay (vd lan nay khong chay video nao
-    nen `mark_run_started` khong duoc goi) thi GIU provenance goc va noi tiep danh sach `resumed`."""
-    old = _load_json(path)
-    m = dict(meta)
-    if old is not None and old.get("input_fingerprint") == m.get("input_fingerprint"):
-        m["created"] = old.get("created", m.get("created"))
-        m["git_commit"] = old.get("git_commit", m.get("git_commit"))
-        m["resumed"] = list(old.get("resumed", [])) if not m.get("resumed") else m["resumed"]
-        if old.get("previous") and not m.get("previous"):
-            m["previous"] = old["previous"]
-    m["status"] = "complete"
-    m["finished_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
-    m["n_videos_ran"] = ran
-    m["n_videos_reused"] = reused
-    m["videos"] = list(videos)
-    m.setdefault("resumed", []).append({"at": m["finished_at"], "git_commit": det_cache.git_commit(),
-                                        "n_videos_ran": ran, "n_videos_reused": reused})
-    _atomic_write_json(path, m)
+    return run_state.mark_run_finished(path, meta, ran, reused, videos, det_cache.git_commit())
 
 
 def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: bool):
@@ -208,7 +139,12 @@ def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: b
         out_root = config.PROCESSED_DIR / "trackers" / exp["split_name"] / r["dir"]
         out_root.mkdir(parents=True, exist_ok=True)
         yaml_sha = hashlib.sha256(Path(run_tracking.resolve_tracker_yaml(r["yaml"])).read_bytes()).hexdigest()[:12]
+        # F3 (review vong 6): luu BACKEND TRACKER tuong minh. Truoc day no chi nam trong doi tuong da
+        # duoc hash thanh `input_fingerprint`, nen KHONG the suy nguoc tu run_meta.json (grep tra 0 ke ca
+        # khi run do chay bang NumPy). `cache_meta.backend` la backend DETECTOR cua cache - khac han.
+        code_fp = fp.code_fingerprint()
         meta = {"experiment": exp["name"], "cond": r["cond"], "tracker": r["tracker"], "seed": r["seed"],
+                "tracker_backend": code_fp["backend"]["backend"], "code": code_fp,
                 "cache_id": exp["cache_id"], "tracker_yaml": r["yaml"], "tracker_yaml_sha256_12": yaml_sha,
                 "tracker_cfg": run_tracking.cfg_to_dict(cfg), "overrides": overrides,
                 "conf_min": r["conf_min"],
@@ -228,7 +164,7 @@ def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: b
             "classes": exp["classes"], "max_det": exp["max_det"], "elapsed_mode": exp["elapsed_mode"],
             "fps": fps, "seed": r["seed"], "assoc_log": log_ok, "pf_diag": pf_diag,
             "cache": fp.cache_fingerprint(exp["cache_id"], videos), "sequences": list(videos),
-            "code": fp.code_fingerprint()})
+            "code": code_fp})
         # Quyet dinh tai su dung THEO TUNG VIDEO, dua tren `video_meta/<video>.json` (ghi nguyen tu sau khi
         # video do chay xong). Thieu/hong metadata hoac dau van tay khac -> chay lai video do.
         fingerprint = meta["input_fingerprint"]
@@ -290,7 +226,9 @@ def stage_eval(exp: dict, rows: list[dict], videos: list[str], force: bool = Fal
     the bi cham bang metric cu.
     """
     split = exp["split_name"]
-    dataset_cls = "mot_crowd" if split.startswith("BDD-") else "mot"
+    # F1 (review vong 6): lop evaluator theo LOAI DATASET, KHONG suy tu ten thu muc output.
+    # `BDDSMOKE-val` truoc day bi cham bang `mot` -> mat xu ly crowd-ignore.
+    dataset_cls = exp.get("dataset_class") or run_trackeval.dataset_class_for(exp.get("dataset"), split)
     fps_exp = float(exp["fps"])
     n_fail = 0
     # --- TrackEval tung tracker ---

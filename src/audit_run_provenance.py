@@ -41,6 +41,34 @@ def load_json(p: Path):
         return "corrupt"
 
 
+#: Nhom ket luan ve BACKEND TRACKER cua mot run.
+BACKEND_NP = "NUMPY (xac nhan)"
+BACKEND_UL = "ULTRALYTICS (xac nhan)"
+BACKEND_UNKNOWN = "UNKNOWN/LEGACY (thieu bang chung)"
+
+
+def backend_of(meta: dict) -> str:
+    """BACKEND TRACKER cua mot run, CHI khi co bang chung tuong minh trong metadata.
+
+    F3 (review vong 6): truoc day backend chi nam trong doi tuong da duoc hash thanh
+    `input_fingerprint`, nen `grep '"backend": "np"'` tra 0 NGAY CA voi run NumPy that -> khong duoc
+    dung phep grep do de ket luan. Tu vong nay, `run_meta.json` luu `tracker_backend` tuong minh.
+
+    KHONG suy doan tu ten thu muc, tu viec THIEU mot truong, hay tu `cache_meta.backend`
+    (do la backend DETECTOR cua cache, khac han backend TRACKER).
+    """
+    bk = meta.get("tracker_backend")
+    if isinstance(bk, str) and bk:
+        return {"np": BACKEND_NP, "ultralytics": BACKEND_UL}.get(bk, f"KHAC ({bk})")
+    code = meta.get("code")
+    if isinstance(code, dict):
+        inner = code.get("backend")
+        if isinstance(inner, dict) and isinstance(inner.get("backend"), str):
+            return {"np": BACKEND_NP, "ultralytics": BACKEND_UL}.get(inner["backend"],
+                                                                     f"KHAC ({inner['backend']})")
+    return BACKEND_UNKNOWN
+
+
 def audit_dir(d: Path) -> dict:
     txts = sorted((d / "data").glob("*.txt")) if (d / "data").is_dir() else []
     mtimes = [t.stat().st_mtime for t in txts]
@@ -50,7 +78,8 @@ def audit_dir(d: Path) -> dict:
            "run_meta": "missing" if meta == "missing" else ("corrupt" if meta == "corrupt" else "ok"),
            "n_video_meta": len(vm)}
     if isinstance(meta, dict):
-        row.update(status=meta.get("status", "(khong co truong status)"), created=meta.get("created"),
+        row.update(backend=backend_of(meta), status=meta.get("status", "(khong co truong status)"),
+                   created=meta.get("created"),
                    git_commit=meta.get("git_commit"), n_resumed=len(meta.get("resumed", [])),
                    input_fingerprint=(meta.get("input_fingerprint") or "")[:12],
                    experiment=meta.get("experiment"), cond=meta.get("cond"), tracker=meta.get("tracker"),
@@ -145,8 +174,17 @@ def main() -> int:
                         "txt_span_s", "meta_after_last_txt", "tracking_hash_match", "evaluated_at",
                         "ket_luan") if c in df.columns]
     print(df[cols].to_string(index=False))
-    print("\nPhan loai:")
+    print("\nPhan loai provenance:")
     print(df.ket_luan.str.split(":").str[0].value_counts().to_string())
+    print("\nBACKEND TRACKER (chi tu bang chung TUONG MINH trong run_meta.json):")
+    bk = df.get("backend")
+    if bk is None:
+        print("  (khong thu muc nao co metadata doc duoc)")
+    else:
+        for ten, n in bk.fillna(BACKEND_UNKNOWN).value_counts().items():
+            print(f"  {ten:<32s} {n}")
+        print(f"  --> {int((bk == BACKEND_UNKNOWN).sum())} run THIEU BANG CHUNG backend. KHONG suy ra "
+              "chung dung Ultralytics, va cung khong ket luan 'chua co run NumPy'.")
     bad = df[df.ket_luan.str.startswith("NGHI VAN")]
     n_legacy = int(df.ket_luan.str.startswith("LEGACY").sum())
     print(f"\nSo thu muc NGHI VAN: {len(bad)}/{len(df)}; "
