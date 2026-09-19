@@ -1,0 +1,13 @@
+lenh: python -m src.mot_datasets.bdd100k_coco --labels <nhan> --videos <200 video> --export-gt --benchmark BDDCOCOVID
+[schema] OK: {'n_videos': 200, 'n_images': 39973, 'n_annotations': 465512, 'n_categories': 8}
+[schema] THIEU so voi box_track_20 native: ['occluded', 'truncated', 'timestamp'] -> occlusion_ratio/visibility = NaN, dt_source = 'nominal'
+[du lieu] 200 video, 465512 hang, 18842 track (danh so theo (video, instance_id))
+[lop]     {'car': 361515, 'pedestrian': 58907, 'truck': 27824, 'bus': 9091, 'bicycle': 4406, 'rider': 2546, 'motorcycle': 915, 'train': 308}
+[bo qua]  crowd=22690 (iscrowd=22690, ignore=4065)
+[anh]     thieu 0 anh trong D:\LABOTARY\bytetrack\data\raw\bdd100k\images\track\val
+[GT]      b23b2649-8349d2a1: seqLength=202 (timeline anh) trong khi annotation cuoi o frame 94 -> 108 frame cuoi khong co nhan, VAN duoc giu trong timeline
+[GT]      {'split_name': 'BDDCOCOVID-val', 'n_videos': 200, 'n_eval_rows': 382903, 'n_ignore_rows': 22998}
+[GT]      LUU Y: cot `vis` trong gt.txt = 1.0 la PLACEHOLDER (dinh dang bat buoc mot so); nguon COCO-video khong co thong tin che khuat.
+... (bo bot dong)
+[GT]      {'split_name': 'BDDCOCOVID-val', 'n_videos': 200, 'n_eval_rows': 382903, 'n_ignore_rows': 22998}
+exit= 0

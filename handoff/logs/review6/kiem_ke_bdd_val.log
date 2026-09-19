@@ -1,0 +1,16 @@
+lenh: python src/check_bdd100k_cocovid.py
+[schema]  OK: {'n_videos': 200, 'n_images': 39973, 'n_annotations': 465512, 'n_categories': 8}
+[schema]  THIEU so voi box_track_20 native: ['occluded', 'truncated', 'timestamp']
+[kiem ke] video 200/200, anh 39973/39973, annotation 465512
+[tham chieu] annotation mo coi 0, anh mo coi 0
+[anh]     file_name sai quy uoc: 0; thieu tren dia: 0; video lech so anh: 0
+[timeline] 0 video co khoang frame BI BO QUA; do dai: min 102 / max 204
+[ID]      392 instance_id, 327 dung chung o NHIEU video -> BAT BUOC danh so theo (video, instance_id)
+[bbox]    w/h <= 0: 0; vuot khung 1280x720: 0 (0.00 %)
+[lop]     car=361515, pedestrian=58907, truck=27824, bus=9091, bicycle=4406, rider=2546, motorcycle=915, train=308
+[bo qua]  iscrowd=22690, ignore=4065 (dem RIENG, khong cong gop; crowd hop nhat=22690)
+[frame]   615 anh KHONG co annotation (1.54 %) - VAN thuoc timeline hop le
+
+-> D:\LABOTARY\bytetrack\results\phase2\bdd_cocovid_check
+[OK]     khong phat hien van de chan viec chay thi nghiem
+exit=0

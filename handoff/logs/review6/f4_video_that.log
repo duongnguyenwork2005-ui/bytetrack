@@ -1,0 +1,30 @@
+=== F4 tren VIDEO THAT b23b2649-8349d2a1 ===
+lenh: python -m src.mot_datasets.bdd100k_coco --labels data/raw/bdd100k/labels_cocovid/bdd_box_track_val_cocofmt.json --videos b23b2649-8349d2a1 --export-gt --benchmark REVIEWTAIL --no-images
+[schema] OK: {'n_videos': 200, 'n_images': 39973, 'n_annotations': 465512, 'n_categories': 8}
+[schema] THIEU so voi box_track_20 native: ['occluded', 'truncated', 'timestamp'] -> occlusion_ratio/visibility = NaN, dt_source = 'nominal'
+[du lieu] 1 video, 1304 hang, 22 track (danh so theo (video, instance_id))
+[lop]     {'car': 1067, 'pedestrian': 137, 'truck': 94, 'bus': 6}
+[bo qua]  crowd=0 (iscrowd=0, ignore=0)
+[anh]     --no-images: CHI kiem phan NHAN. KHONG xac nhan anh da du (khong dung ket qua nay de ket luan dau vao hoan chinh).
+[GT]      b23b2649-8349d2a1: seqLength=202 (timeline anh) trong khi annotation cuoi o frame 94 -> 108 frame cuoi khong co nhan, VAN duoc giu trong timeline
+[GT]      {'split_name': 'REVIEWTAIL-val', 'n_videos': 1, 'n_eval_rows': 1167, 'n_ignore_rows': 0}
+[GT]      LUU Y: cot `vis` trong gt.txt = 1.0 la PLACEHOLDER (dinh dang bat buoc mot so); nguon COCO-video khong co thong tin che khuat.
+exit=0
+
+=== BANG CHUNG: seqinfo.ini + GT ===
+[Sequence]
+name=b23b2649-8349d2a1
+imDir=img1
+frameRate=5
+seqLength=202
+imWidth=1280
+imHeight=720
+imExt=.jpg
+--- frame cuoi trong gt.txt ---
+94,22,1132.040,306.181,43.425,42.609,1,1,1.000
+
+  seqLength trong seqinfo.ini : 202
+  frame annotation cuoi       : 94
+  so anh thuc te tren dia     : 202
+
+  => DAT: seqLength=202 (timeline anh), annotation cuoi=94, 108 frame cuoi khong nhan VAN trong timeline
