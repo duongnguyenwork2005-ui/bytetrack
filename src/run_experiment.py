@@ -327,7 +327,13 @@ def stage_eval(exp: dict, rows: list[dict], videos: list[str], force: bool = Fal
         c = df[df.video == "COMBINED_SEQ"].iloc[0]
         print(f"  [eval ] {r['dir']:<40} HOTA {c.HOTA:.4f} IDF1 {c.IDF1:.4f} AssA {c.AssA:.4f} IDSW {int(c.IDSW)}")
     # --- occlusion_eval theo dieu kien (baseline dau tien) ---
-    occ = exp.get("occlusion", {})
+    # Bo qua khi YAML KHONG khai bao `occlusion` (vd nguon nhan khong co thong tin che khuat):
+    # chay occlusion_eval khi khong co du lieu chi tao ra loi kho hieu, khong tao ra thong tin.
+    occ = exp.get("occlusion") or {}
+    if not occ:
+        print("  [occl ] bo qua: thi nghiem khong khai bao muc `occlusion` "
+              "(nguon nhan khong co du lieu che khuat)")
+        return n_fail
     for cond in exp["conditions"]:
         rr = [r for r in rows if r["cond"] == cond]
         base = [r["dir"] for r in rr if r["tracker"] == exp.get("baseline")]

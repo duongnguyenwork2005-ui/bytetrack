@@ -38,25 +38,39 @@ Chưa có (cần vòng lặp tracker không phụ thuộc torch). Khi có: đo d
 **Trạng thái: CHƯA ĐO. Nano chưa kết nối.** Mục này chỉ định nghĩa trước cách đo, để khi có thiết bị thì
 không phải quyết định giữa chừng.
 
-Vấn đề đã thấy trên PC (xem `handoff/MOC2_FINAL_SUMMARY.md` mục 6b): chênh lệch giữa CV và EKF ở phần
-tracker là **~0,24 ms/frame**, trong khi `detector_wall` dao động **2,2 ms** giữa các lần chạy. Nếu đo kiểu
-"chạy CV một lượt, chạy EKF một lượt" thì **nhiễu của detector lớn gấp ~9 lần hiệu ứng cần đo** — trên PC nó
-đã làm thứ tự fps end-to-end đảo ngược so với chi phí tracker. Trên Nano (tản nhiệt kém, throttling theo
-nhiệt độ) vấn đề này **nặng hơn**. Vì vậy:
+Quan sát trên PC (xem `handoff/MOC2_FINAL_SUMMARY.md` mục 6b): chênh lệch giữa CV và EKF ở phần tracker là
+**~0,24 ms/frame**, trong khi `detector_wall` **khác nhau 2,2 ms giữa bốn lượt đã chạy** — mỗi cấu hình chỉ
+một lượt, nên đây là **chênh lệch quan sát được**, chưa phải ước lượng nhiễu đã kiểm chứng. Dù vậy nó **đủ
+để cảnh báo**: nếu đo kiểu "chạy CV một lượt, chạy EKF một lượt" thì biến thiên ở phần detector có thể át
+hiệu ứng cần đo (trên PC, thứ tự fps end-to-end đã đảo ngược so với chi phí tracker).
+
+Trên Nano, tản nhiệt kém và throttling theo nhiệt độ là **rủi ro cần kiểm**, **không** phải kết luận — chưa
+có phép đo nào trên thiết bị. Giao thức dưới đây được thiết kế để phép đo vẫn có nghĩa kể cả khi rủi ro đó
+xảy ra:
 
 1. **Cùng detection, không chạy lại detector.** Đo tracker từ **cùng một detection cache** (`det_cache`) cho
    cả CV và EKF. Đây là phép đo *duy nhất* tách được chi phí motion model. Số end-to-end đo riêng và báo cáo
    riêng, không trộn (đúng như tách 6a / 6b của UA-DETRAC).
-2. **Xen kẽ A/B/A/B**, không phải "toàn bộ A rồi toàn bộ B": ≥ 5 cặp lượt, mỗi lượt cùng số frame, báo cáo
-   **trung vị + IQR của hiệu số theo cặp**, không phải hiệu số của hai trung bình.
+2. **Một lịch đo duy nhất, cân bằng AB/BA** (không phải "toàn bộ A rồi toàn bộ B", và cũng không phải
+   A/B/A/B thuần — thứ tự cố định làm nhiệt độ tích lũy luôn thiệt cho cấu hình chạy sau):
+
+   | khối | thứ tự | số cặp |
+   |:--|:--|--:|
+   | 1 | A → B | 3 |
+   | 2 | B → A | 3 |
+
+   Tổng **6 cặp** (3 mỗi chiều). Mỗi **cặp** cho một hiệu số `EKF − CV`; báo cáo **trung vị + IQR của các
+   hiệu số theo cặp**, **không** phải hiệu của hai trung bình.
 3. **Lưu MỌI lượt, kể cả lượt bị throttling.** Ghi điều kiện chạy ở mỗi lượt: `nvpmodel -q`,
    `jetson_clocks` bật/tắt, nhiệt độ và tần số từ `tegrastats` (lấy mẫu song song), RAM/swap. **Không loại
    lượt nào khỏi dữ liệu thô.**
    - **Số chính thức là hiệu năng chạy LIÊN TỤC** — tính trên toàn bộ các lượt, vì đó mới là điều kiện một
      thiết bị Nano thật gặp phải khi chạy dài. Throttling là **đặc tính của thiết bị**, không phải nhiễu đo.
    - Bảng "không throttling" chỉ là **phân tích bổ sung**, kèm **tiêu chí loại công bố TRƯỚC khi đo**
-     (ví dụ: loại lượt có `tegrastats` báo nhiệt > X °C hoặc tần số GPU < Y MHz ở bất kỳ mẫu nào). Báo cáo
-     **cả hai** bảng và ghi rõ đã loại bao nhiêu lượt, theo tiêu chí nào.
+     (ví dụ: loại lượt có `tegrastats` báo nhiệt > X °C hoặc tần số GPU < Y MHz ở bất kỳ mẫu nào).
+   - **Loại theo CẶP, không theo lượt đơn**: nếu một lượt trong cặp bị loại thì **loại cả cặp**. Hiệu số chỉ
+     có nghĩa khi cả hai nửa của cặp còn nguyên; bỏ một nửa sẽ làm lệch hiệu số ghép cặp.
+   - Báo cáo **cả hai** bảng và ghi rõ đã loại bao nhiêu **cặp**, theo tiêu chí nào.
 4. **Cân bằng thứ tự**: chạy xen kẽ cả **A/B** lẫn **B/A** (số cặp mỗi chiều bằng nhau) để nhiệt độ tích lũy
    không dồn lợi thế cho một bộ lọc. Mọi lượt dùng **cùng warm-up** (bỏ 50 frame đầu, đo 450 frame tiếp
    theo, batch 1, cùng độ phân giải) và **cùng điều kiện bắt đầu** (chờ nhiệt độ về ngưỡng đã định trước khi

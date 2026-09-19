@@ -126,8 +126,11 @@ cải thiện phục hồi sau che khuất trên UA-DETRAC.
 | ΔIDSW | cv-maha −24; ekf-maha −2 | **cv-maha +261 [+103, +441]**; **ekf-maha +319 [+155, +495]** |
 | FP | cv 12 119 → cv-maha 13 157 | cv 73 478 → cv-maha 81 428 (**+7 950**) |
 
-**Kết luận C2**: khả năng **giữ ID qua che khuất tăng có ý nghĩa** — kể cả ở tầng che hoàn toàn, nơi mọi
-motion model đều bế tắc. Nhưng trên test, **HOTA giảm có ý nghĩa** ở cả hai cặp đúng đối chứng, vì FP tăng
+**Kết luận C2**: khả năng **giữ ID qua che khuất tăng có ý nghĩa** ở chỉ số `preserved` **chung**
+(cv-maha − cv: +0.036 [+0.019, +0.051] trên dev). Ở **tầng che hoàn toàn**, con số đi từ **11/182 → 22/182**
+— đây là **thay đổi quan sát được**, **không** phải khác biệt đã kiểm định: bảng hiện có chỉ cung cấp CI cho
+chỉ số **tổng** và tỉ lệ theo tầng, **chưa** có phép kiểm/CI riêng cho tầng `full`. Muốn khẳng định "có ý
+nghĩa ở tầng che hoàn toàn" thì phải chạy bootstrap riêng cho tầng đó — chưa làm. Nhưng trên test, **HOTA giảm có ý nghĩa** ở cả hai cặp đúng đối chứng, vì FP tăng
 ~8 000 và IDSW tăng 261…319. Đây là ví dụ trực tiếp cho nguyên tắc: **khả năng phục hồi ID tăng KHÔNG đồng
 nghĩa chất lượng tracking tổng thể tăng**. Hai chỉ số đo hai thứ khác nhau (`preserved` là chỉ số **sự kiện**,
 HOTA là chỉ số **toàn cục**) và ở đây chúng đi **ngược chiều** ⇒ **không bật** cơ chế này nếu mục tiêu là HOTA.
@@ -150,7 +153,8 @@ chí đã đăng ký ⇒ **không có tổ hợp nào để chạy**. Đây là 
 
 Đo được ([pf_diag](../results/phase2/pf_diag/expA_detrac_dev/), 3 seed × 3 mức N): PF kém rõ rệt ở mọi chỉ số
 trên cả dev và test; biến thiên giữa 3 seed rất nhỏ (trên test: SD HOTA **0,00054** ở c25 và 0,00043 ở
-c10; SD lớn nhất trong các chỉ số là AssA **0,00090**) ⇒ chênh lệch **không** do seed. Ở các lần **cập nhật sau một khoảng mất dấu dài**: ESS/N ~1 % (đo **trước** resample) và chỉ còn ~3 %
+c10; SD lớn nhất trong các chỉ số là AssA **0,00090**) ⇒ chênh lệch quan sát được **lớn hơn biến thiên
+giữa ba seed đã thử**. Điều này **không** loại trừ mọi ảnh hưởng của seed — ba seed là một mẫu rất nhỏ. Ở các lần **cập nhật sau một khoảng mất dấu dài**: ESS/N ~1 % (đo **trước** resample) và chỉ còn ~3 %
 particle phân biệt (đo **sau** resample).
 
 **Không** suy ra được từ log này rằng mất đa dạng xảy ra *trước khi có quan sát mới*, cũng **không** phải bằng
@@ -185,8 +189,13 @@ Vì `assoc` chứa cả bước cập nhật của bộ lọc, **CV và EKF khô
 Nhóm B (test c25), theo `update_ms`: sort-orig30 ~882 · sort-orig1 ~842 · sort-ekf1 ~708 · sort-cv30 ~650 ·
 sort-ekf30 ~619 · bt-ekf ~502 fps.
 
-> Các số này đo **trong lúc chạy đánh giá**, khi máy còn chạy việc khác ⇒ chỉ dùng để **so tương đối giữa các
-> bộ lọc**, không phải benchmark.
+> Các số này đo **trong lúc chạy đánh giá**, khi máy còn chạy việc khác và **không** có lượt lặp hay kiểm
+> soát tải. Vì vậy chúng là **số đo mô tả của chính các lượt đã chạy** — **không** đủ để xếp hạng hiệu năng
+> một cách chắc chắn, kể cả xếp hạng tương đối giữa các bộ lọc. Muốn xếp hạng thì phải đo lặp có kiểm soát
+> (xem giao thức ở `scripts/nano/README.md` §4c).
+>
+> Ngoài ra, chạy **từ cache** chỉ loại được chi phí **detector**; `update_ms` **vẫn bao gồm** association và
+> quản lý vòng đời, nên nó **không** cô lập riêng chi phí của bộ lọc.
 
 ### 6b. **Toàn pipeline** có detector (PC, GTX 1650)
 [results/phase2/profile/*.json](../results/phase2/profile/) — MVI_39031, 450 frame sau 50 warm-up, batch 1,
@@ -200,9 +209,10 @@ sort-ekf30 ~619 · bt-ekf ~502 fps.
 | ByteTrack + EKF–CTRV | 45,4 | 17,1 | 1,02 |
 
 **Cảnh báo khi đọc bảng 6b**: thứ tự fps end-to-end **không** khớp chi phí tracker (UKF nhanh hơn EKF
-end-to-end dù tracker UKF đắt gấp ~1,9 lần). Nguyên nhân là `detector_wall` dao động giữa các lần chạy
-(14,9–17,1 ms, tức 2,2 ms — lớn hơn toàn bộ chênh lệch tracker 0,24 ms giữa CV và EKF). Vì vậy **chỉ bảng 6a
-mới so được chi phí của motion model**; bảng 6b cho biết **ngân sách tổng** và cho thấy trên phần cứng này
+end-to-end dù tracker UKF đắt gấp ~1,9 lần). Quan sát được: `detector_wall` **khác nhau giữa bốn lượt**
+(14,9–17,1 ms, chênh 2,2 ms — lớn hơn chênh lệch tracker 0,24 ms giữa CV và EKF). Mỗi cấu hình chỉ chạy
+**một lượt**, nên **không** kết luận được đây là "nhiễu đo" hay nguyên nhân của việc đảo thứ tự; đó là một
+**giả thuyết cần kiểm bằng đo lặp**, chưa kiểm. Vì vậy **không** dùng bảng 6b để so chi phí motion model; bảng 6b cho biết **ngân sách tổng** và cho thấy trên phần cứng này
 **detector chiếm 73,6–77,9 % thời gian**, tracker 4,0–10,2 % (tính từ `stages_ms` trong
 [profile/*.json](../results/phase2/profile/): `detector_wall_ms.mean / total_ms.mean`). Bản profile PF dùng
 **N=300**, không phải N=500 của bảng kết quả — không so chéo hai con số này.

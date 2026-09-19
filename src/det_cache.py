@@ -510,7 +510,9 @@ def open_cache(cache_id: str, video: str, conf_min: float, classes: list[int] | 
 # ---------------------------------------------------------------------------
 def main() -> int:
     ap = argparse.ArgumentParser(description="Xay detection cache (YOLO hoac GT tong hop)")
-    ap.add_argument("--dataset", default="detrac", help="detrac | bdd100k")
+    ap.add_argument("--dataset", default="detrac", help="detrac | bdd100k | bdd100k_coco")
+    ap.add_argument("--labels-json", default=None,
+                    help="bdd100k_coco: duong dan file nhan COCO-video (*_cocofmt.json)")
     ap.add_argument("--part", default="train")
     ap.add_argument("--videos", nargs="*", default=None)
     ap.add_argument("--manifest", default=None, help="JSON co khoa 'videos' (danh sach video)")
@@ -534,6 +536,10 @@ def main() -> int:
     args = ap.parse_args()
 
     ds_kwargs = {"root": args.data_root} if (args.dataset.startswith("bdd") and args.data_root) else {}
+    if args.dataset.lower() in ("bdd100k_coco", "bdd_coco"):
+        if not args.labels_json:
+            print("[ERROR] dataset bdd100k_coco can --labels-json (file *_cocofmt.json)"); return 1
+        ds_kwargs["labels_json"] = args.labels_json
     ds = get_dataset(args.dataset, **ds_kwargs)
     if args.videos:
         videos = args.videos

@@ -1,36 +1,46 @@
 # SMOKE BDD100K-MOT tren 1-3 sequence val: XAC MINH DUONG CHAY, KHONG PHAI KET QUA THI NGHIEM.
 #
-# Ten rieng o CA BON cho (name / manifest / cache_id / split_name) de KHONG dung cham danh gia day du:
-#   name       bdd_smoke_val   -> results/phase2/bdd_smoke_val/,
-#                                 data/processed/trackers/BDD-val/p2-bdd_smoke_val-*
-#   manifest   bdd100k_smoke_val.json  (KHONG phai bdd100k_final_val.json)
-#   cache_id   yolov8n-coco_conf0.05_smoke_bdd  (KHONG phai ..._all_bdd cua danh gia day du)
+# NGUON NHAN: `bdd_box_track_val_cocofmt.json` - COCO-video, **KHONG phai box_track_20 native**.
+# Nguon nay THIEU `occluded`, `truncated`, `timestamp` => KHONG chay duoc phan tang che khuat va
+# delta t lay theo 5 fps danh nghia. Xem src/mot_datasets/bdd100k_coco.py va handoff/BDD100K_INVENTORY.md.
+# => Smoke nay kiem chung duong chay cache -> tracking -> evaluator; no KHONG kiem chung duong nhan NATIVE.
 #
-# CHUA CHAY: da co anh val (200 video) nhung CHUA co nhan box_track_20 -> xem handoff/BDD100K_INVENTORY.md.
-# `run_experiment.py` KHONG co tham so --videos; chon tap con BANG MANIFEST, khong bang dong lenh.
+# TEN RIENG o CA BON cho de KHONG dung cham danh gia day du:
+#   name        bdd_smoke_val                    -> results/phase2/bdd_smoke_val/
+#   split_name  BDDSMOKE-val                     -> GT + seqmap RIENG (danh gia day du dung BDD-val)
+#   manifest    bdd100k_smoke_val.json           -> KHONG phai bdd100k_final_val.json
+#   cache_id    yolov8n-coco_conf0.05_smoke_bdd  -> KHONG phai ..._all_bdd
 #
-# Quy trinh (theo dung thu tu, khong duoc dao):
-#   1. python src/check_bdd100k.py --part val --make-manifest          # phai exit 0, 0 loi schema
-#   2. CHON 1-3 sequence va GHI RA results/phase2/manifests/bdd100k_smoke_val.json
-#      TRUOC KHI XEM BAT KY METRIC NAO (tranh chon theo ket qua):
-#        {"name": "bdd100k_smoke_val", "part": "val", "n_videos": 3, "videos": ["<v1>", "<v2>", "<v3>"],
-#         "chon_luc": "<ISO timestamp>", "tieu_chi": "<vi du: 3 video dau theo thu tu bang chu cai>"}
-#   3. python src/det_cache.py --dataset bdd100k --part val \
-#        --manifest results/phase2/manifests/bdd100k_smoke_val.json \
-#        --cache-id yolov8n-coco_conf0.05_smoke_bdd                     # CAN GPU
-#   4. python src/run_experiment.py --exp configs/phase2/experiments/bdd_smoke_val.yaml
+# QUY TRINH DAY DU (chay duoc tu THU MUC SACH, khong dua vao GT do test fixture tao):
+#   0. Manifest da ghi TRUOC khi xem bat ky metric nao:
+#        results/phase2/manifests/bdd100k_smoke_val.json  (3 video dau theo thu tu bang chu cai)
+#   1. Kiem nhan + XUAT GT MOTChallenge (buoc nay truoc day con THIEU trong quy trinh):
+#        python -m src.mot_datasets.bdd100k_coco \
+#          --labels <duong/dan>/bdd_box_track_val_cocofmt.json \
+#          --videos b1c66a42-6f7d68ca b1c81faa-3df17267 b1c81faa-c80764c5 \
+#          --export-gt --benchmark BDDSMOKE
+#      -> data/processed/BDDSMOKE-val/<video>/gt/gt.txt + seqinfo.ini
+#      -> data/processed/seqmaps/BDDSMOKE-val.txt
+#   2. Cache detection (CAN GPU):
+#        python src/det_cache.py --dataset bdd100k_coco \
+#          --labels-json <duong/dan>/bdd_box_track_val_cocofmt.json --part val \
+#          --manifest results/phase2/manifests/bdd100k_smoke_val.json \
+#          --cache-id yolov8n-coco_conf0.05_smoke_bdd
+#   3. Chay smoke:
+#        python src/run_experiment.py --exp configs/phase2/experiments/bdd_smoke_val.yaml
 #
-# Kiem sau khi chay (day la MUC DICH cua smoke, khong phai con so HOTA):
-#   - nhan/frame/timestamp ghep dung: doi chieu n_frames trong summary.csv voi val_dt_stats.csv
-#   - delta t vao du doan va vong doi: elapsed_mode steps, 1 buoc = 0.2 s @ 5 fps
-#   - cache co weights_sha256 cua DUNG checkpoint da nap + doc strict thanh cong (guard review vong 3)
+# KIEM SAU KHI CHAY (day la MUC DICH cua smoke, khong phai con so HOTA):
+#   - nhan/frame ghep dung: so frame trong summary.csv khop so anh cua tung video
+#   - delta t vao du doan va vong doi: elapsed_mode steps, 1 buoc = 0.2 s @ 5 fps (nominal)
+#   - cache co weights_sha256 cua DUNG checkpoint da nap + doc strict thanh cong
 #   - anh xa lop va crowd-ignore: TrackEval dataset-class mot_crowd, class 13 conf 0
-#   - frame khong co detection va khoang trong annotation KHONG bi suy dien thanh che hoan toan
+#   - track_id duoc danh so theo (video, instance_id): instance_id trong nguon DUNG CHUNG giua cac video
 #
 # KHONG chon tham so/bo loc tu metric cua smoke. KHONG mo benchmark day du, tuning hay training detector.
+# KHONG co muc `occlusion`: nguon nhan khong co `occluded` nen phan tang che khuat khong co y nghia.
 name: bdd_smoke_val
-dataset: bdd100k
-split_name: BDD-val
+dataset: bdd100k_coco
+split_name: BDDSMOKE-val
 part: val
 manifest: results/phase2/manifests/bdd100k_smoke_val.json
 cache_id: yolov8n-coco_conf0.05_smoke_bdd
@@ -38,8 +48,8 @@ classes: [1, 2, 3, 5, 7]          # COCO bicycle, car, motorcycle, bus, truck
 max_det: 300
 fps: 5
 track_buffer_sec: 1.2             # = 6 buoc @ 5 fps, cung THOI GIAN giu track voi DETRAC 30 buoc @ 25 fps
-elapsed_mode: steps               # delta t thuc tu timestamp -> n_steps
-assoc_log: true
+elapsed_mode: steps
+assoc_log: false
 conditions:
   c25: {conf_min: 0.25}
 trackers:                         # cau hinh DA KHOA tren DETRAC (configs/phase2/LOCK_moc2.md), khong doi
@@ -47,4 +57,3 @@ trackers:                         # cau hinh DA KHOA tren DETRAC (configs/phase2
   - {name: ekf, yaml: configs/bytetrack_ekf_ctrv.yaml}
 baseline: cv
 pairs: [[ekf, cv]]
-occlusion: {tag: bdd_smoke_val, fps: 5, context_s: 1.2, gaps: true, n_boot: 200}

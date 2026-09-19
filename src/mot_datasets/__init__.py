@@ -21,4 +21,9 @@ def get_dataset(name: str, **kwargs) -> DatasetSpec:
     if name in ("bdd100k", "bdd100k_mot", "bdd"):
         from .bdd100k_mot import BDD100KMOTDataset
         return BDD100KMOTDataset(**kwargs)
-    raise ValueError(f"Dataset khong ho tro: {name!r} (detrac | bdd100k)")
+    if name in ("bdd100k_coco", "bdd_coco"):
+        # Nhan BDD100K-MOT da CHUYEN DOI sang COCO-video (khong phai box_track_20 native).
+        # Can `labels_json`; xem src/mot_datasets/bdd100k_coco.py.
+        from .bdd100k_coco import BDD100KCocoDataset
+        return BDD100KCocoDataset(**kwargs)
+    raise ValueError(f"Dataset khong ho tro: {name!r} (detrac | bdd100k | bdd100k_coco)")
