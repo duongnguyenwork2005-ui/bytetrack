@@ -1,0 +1,54 @@
+==============================================================================
+P1-A  resolve_tracker_yaml() keo Ultralytics vao ca CLI lan stage_track
+==============================================================================
+exit=1
+Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+  File "D:\\LABOTARY\\bytetrack\\src\run_tracking.py", line 90, in resolve_tracker_yaml
+    from ultralytics.utils.checks import check_yaml
+  File "<string>", line 7, in load_module
+ImportError: CHAN: ultralytics
+
+-> TAI HIEN DUOC
+
+==============================================================================
+P1-B  vars(_Cfg) == {} => metadata va input_fingerprint bo qua cau hinh
+==============================================================================
+exit=0
+dict(cfg)[new_track_thresh] = 0.95
+vars(cfg)                   = {}
+fingerprint(0.95) == fingerprint(0.25) ? True <- PHAI la False
+
+==============================================================================
+P2-3  assoc_log: import + issubclass deu dung lop nen Ultralytics
+==============================================================================
+exit=1
+lop nen cua backend np: lost_association
+Traceback (most recent call last):
+  File "<string>", line 13, in <module>
+  File "D:\LABOTARY\bytetrack\src\assoc_log.py", line 27, in <module>
+    from ultralytics.trackers.basetrack import TrackState
+  File "<string>", line 7, in load_module
+ImportError: CHAN: ultralytics
+
+-> TAI HIEN DUOC (import)
+kiem issubclass (khong chan import, backend=np):
+backend = np
+CVByteTracker la lop con cua BYTETracker cua ULTRALYTICS ? False
+
+==============================================================================
+P2-4  fallback YAML: duong dan SAI van nap cau hinh mac dinh
+==============================================================================
+exit=0
+nap duoc du duong dan KHONG ton tai -> {'tracker_type': 'bytetrack', 'track_high_thresh': 0.25, 'track_low_thresh': 0.1, 'new_track_thresh': 0.25, 'track_buffer': 30, 'match_thresh': 0.8, 'fuse_score': True}
+-> TAI HIEN DUOC
+
+==============================================================================
+P2-5 + phat hien them  hash vendor: byte dia (CRLF) != byte git (LF)
+==============================================================================
+file                     PROVENANCE     byte dia       byte git       ket luan
+basetrack.py             9ef094b9a54f   9ef094b9a54f   9ef094b9a54f   KHOP
+byte_tracker.py          0e0df805a18c   0e0df805a18c   e4efea1f8187   LECH byte git/ZIP
+utils/matching.py        9adce2b668d2   9adce2b668d2   4d33a6c87845   LECH byte git/ZIP
+utils/kalman_filter.py   90b078b7aa32   90b078b7aa32   90b078b7aa32   KHOP
+utils/stracks.py         c4cf83cda7be   c4cf83cda7be   c4cf83cda7be   KHOP

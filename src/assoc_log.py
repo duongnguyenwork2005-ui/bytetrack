@@ -22,9 +22,14 @@ Kiem tra: output tracker co/khong log BIT-IDENTICAL (test_assoc_log.py).
 """
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from ultralytics.trackers.basetrack import TrackState
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ul_backend import TrackState  # noqa: E402
 
 TRACK_COLS = ["frame", "tracker_frame_id", "track_id", "state", "is_activated", "n_lost", "tracklet_len",
               "score", "x", "y", "w", "h", "matched_det", "stage"]
@@ -190,7 +195,9 @@ def with_assoc_log(tracker_cls):
     """Lop con `Logged<Ten>` = AssociationLogMixin + tracker_cls (chi cho lop ke thua BYTETracker)."""
     if issubclass(tracker_cls, AssociationLogMixin):
         return tracker_cls
-    from ultralytics.trackers.byte_tracker import BYTETracker
+    # Lop nen phai lay tu BACKEND DANG DUNG: tren backend `np`, `tracker_cls` ke thua BYTETracker cua ban
+    # VENDOR, nen so voi lop cua ultralytics se luon False (review vong 5, P2-3 - sua import thoi chua du).
+    from ul_backend import BYTETracker
     if not issubclass(tracker_cls, BYTETracker):
         raise TypeError(f"assoc_log chi ho tro lop ke thua BYTETracker, nhan {tracker_cls.__name__}")
     return type(f"Logged{tracker_cls.__name__}", (AssociationLogMixin, tracker_cls), {})

@@ -101,47 +101,105 @@ class _Cfg(dict):
         return iter(self.items())
 
 
-def load_tracker_cfg_np(yaml_path, overrides: dict | None = None) -> _Cfg:
-    """Nap cau hinh tracker KHONG can ultralytics (dung cho backend `np`).
+#: TEN TRAN duoc phep tra ban vendor (tuong duong `check_yaml` cua ultralytics tra file trong package).
+#: Moi duong dan CO THU MUC deu phai ton tai that - xem `resolve_tracker_yaml_np`.
+VENDORED_YAML = ("bytetrack.yaml",)
 
-    Ten tran (`bytetrack.yaml`) -> ban VENDOR `third_party/ultralytics_trackers/bytetrack.yaml`
-    (da doi chieu sha256 giong het ban trong goi ultralytics). Duong dan tuong doi -> lay tu repo.
+
+def resolve_tracker_yaml_np(yaml_path) -> Path:
+    """Giai duong dan cau hinh tracker cho backend `np`. Tra ve DUONG DAN THUC SE DUOC NAP.
+
+    Quy tac (review vong 5, P2-4 - truoc day bo phan thu muc roi am tham lay ban vendor):
+      - `bytetrack.yaml` (TEN TRAN, nam trong VENDORED_YAML) -> ban vendor trong third_party/.
+      - moi duong dan khac (tuong doi co thu muc, hoac tuyet doi) -> phai TON TAI THAT, khong thi
+        `FileNotFoundError`. KHONG bao gio bo phan thu muc de tra ve cau hinh mac dinh.
     """
+    p = Path(yaml_path)
+    if p.is_absolute():
+        if not p.is_file():
+            raise FileNotFoundError(f"khong co file cau hinh tracker: {p}")
+        return p
+    if p.parent == Path("."):                       # ten tran
+        if p.name in VENDORED_YAML:
+            vend = VENDOR_DIR / "ultralytics_trackers" / p.name
+            if not vend.is_file():
+                raise FileNotFoundError(f"thieu ban vendor cua {p.name}: {vend}")
+            return vend
+        cand = ROOT / p
+        if cand.is_file():
+            return cand
+        raise FileNotFoundError(
+            f"ten cau hinh tracker {yaml_path!r} khong co ban vendor (chi ho tro {VENDORED_YAML}) "
+            f"va khong co {cand}")
+    cand = ROOT / p                                 # duong dan CO thu muc -> phai ton tai that
+    if not cand.is_file():
+        raise FileNotFoundError(
+            f"khong co file cau hinh tracker: {cand} (duong dan co thu muc thi KHONG duoc thay bang "
+            f"ban vendor - tranh am tham chay cau hinh mac dinh)")
+    return cand
+
+
+def load_tracker_cfg_np(yaml_path, overrides: dict | None = None) -> _Cfg:
+    """Nap cau hinh tracker KHONG can ultralytics (dung cho backend `np`), tu DUNG file resolver tra ve."""
     import yaml as _yaml
 
-    p = Path(yaml_path)
-    if not p.is_absolute():
-        cand = ROOT / p
-        if cand.exists():
-            p = cand
-        else:
-            vend = VENDOR_DIR / "ultralytics_trackers" / p.name
-            if not vend.exists():
-                raise FileNotFoundError(
-                    f"khong tim thay cau hinh tracker {yaml_path!r}: khong co {cand} va cung khong co "
-                    f"ban vendor {vend}")
-            p = vend
+    p = resolve_tracker_yaml_np(yaml_path)
     d = _yaml.safe_load(p.read_text(encoding="utf-8"))
     for k, v in (overrides or {}).items():
         d[k] = v
     return _Cfg(d)
 
 
+def as_mapping(cfg) -> dict:
+    """Cau hinh HIEU LUC duoi dang mapping, dung cho CA HAI backend.
+
+    Review vong 5 (P1-B): runner truoc day dung `vars(cfg)`. Voi `IterableSimpleNamespace` cua ultralytics
+    thi dung, nhung `_Cfg` ke thua `dict` nen `vars()` = `{}` => metadata rong VA `input_fingerprint` bo
+    qua toan bo tham so tracker => doi YAML khong lam mat hieu luc tai su dung ket qua cu.
+    """
+    if isinstance(cfg, dict):
+        return dict(cfg)
+    d = vars(cfg)
+    if d:
+        return dict(d)
+    # phong truong hop lop cau hinh khong dung __dict__ (vd dung __slots__)
+    return {k: getattr(cfg, k) for k in dir(cfg)
+            if not k.startswith("_") and not callable(getattr(cfg, k, None))}
+
+
+#: QUY UOC HASH DUY NHAT cho ma vendor (review vong 5, muc 5 + phat hien them):
+#: sha256 cua NOI DUNG DA CHUAN HOA XUONG DONG VE LF.
+#: Ly do: `core.autocrlf=true` tren Windows lam byte tren dia khac byte git/ZIP, va lam
+#: `fingerprint()` KHAC NHAU giua Windows (CRLF) va Nano (LF) => runner chay lai vo co va provenance
+#: khong so duoc giua hai may. Quy uoc nay ap dung THONG NHAT cho PROVENANCE.json, fingerprint() va test.
+HASH_CONVENTION = "sha256 cua noi dung da chuan hoa xuong dong ve LF"
+
+
+def sha256_lf(path) -> str:
+    """sha256 theo QUY UOC LF (xem HASH_CONVENTION) - on dinh tren moi nen tang."""
+    import hashlib
+
+    return hashlib.sha256(Path(path).read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
+#: Cac module vendor duoc tinh vao danh tinh backend.
+VENDOR_MODULES = ("ultralytics_trackers/basetrack.py", "ultralytics_trackers/byte_tracker.py",
+                  "ultralytics_trackers/np_compat.py", "ultralytics_trackers/utils/matching.py",
+                  "ultralytics_trackers/utils/kalman_filter.py", "ultralytics_trackers/utils/stracks.py")
+
+
 def fingerprint() -> dict:
     """Danh tinh backend de dua vao provenance cua runner (doi backend => phai chay lai)."""
-    import hashlib
     import importlib.metadata as md
 
     name = backend_name()
     out = {"backend": name}
     if name == "np":
-        files = ("ultralytics_trackers/basetrack.py", "ultralytics_trackers/byte_tracker.py",
-                 "ultralytics_trackers/np_compat.py", "ultralytics_trackers/utils/matching.py",
-                 "ultralytics_trackers/utils/kalman_filter.py", "ultralytics_trackers/utils/stracks.py")
+        out["hash_convention"] = HASH_CONVENTION
         mods = {}
-        for f in files:
+        for f in VENDOR_MODULES:
             p = VENDOR_DIR / f
-            mods[f] = (hashlib.sha256(p.read_bytes()).hexdigest()[:16] if p.exists() else "MISSING")
+            mods[f] = (sha256_lf(p)[:16] if p.exists() else "MISSING")
         out["vendor_modules"] = mods
     else:
         try:

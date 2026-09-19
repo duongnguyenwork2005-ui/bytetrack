@@ -3,7 +3,7 @@
   "upstream": "https://github.com/ultralytics/ultralytics",
   "version": "8.4.141",
   "license": "AGPL-3.0-or-later (ban day du o ./LICENSE)",
-  "vendored_at": "2026-09-18",
+  "vendored_at": "2026-09-19",
   "source": "goi ultralytics da CAI trong env `khoaluan-mot` (cung ban dung cho moi ket qua cua moc 2)",
   "ly_do": "Nam file nay KHONG import torch dong nao; torch chi vao qua ultralytics/__init__.py va 6 ky hieu tien ich. Chep vao day + np_compat.py cho phep chay vong lap ByteTrack trong moi truong khong cai torch/Ultralytics (Jetson Nano), GIU NGUYEN 100% thuat toan ghep.",
   "import_rewrites": [
@@ -44,13 +44,13 @@
     "byte_tracker.py": {
       "upstream_path": "ultralytics/trackers/byte_tracker.py",
       "sha256_upstream": "8a0128e453b05f19693247b6b2bdedfe33a89e9321f3c47671eb09289627932c",
-      "sha256_vendor": "0e0df805a18c16b163aca61f1c15ee9d7a1cc6317348a1e3bc82b77e0ec28f9b",
+      "sha256_vendor": "e4efea1f8187296b156e30a71308b354904969b8938608a8a4d4d7bc80a4c81b",
       "n_lines": 530
     },
     "utils/matching.py": {
       "upstream_path": "ultralytics/trackers/utils/matching.py",
       "sha256_upstream": "bce7ee712f464ab884e79dd2a61087f6620ee9ed5b375ae7201ee5e89b4efdc7",
-      "sha256_vendor": "9adce2b668d24599f15d6806c87e90b03b4c0bc8325b709eaf9936885036c297",
+      "sha256_vendor": "4d33a6c878458be989f77eb81442bbb5c25fef95d12ef458d5cedea35361aa59",
       "n_lines": 167
     },
     "utils/kalman_filter.py": {
@@ -71,5 +71,18 @@
     "scipy": "1.17.1",
     "lap": "0.5.13"
   },
-  "kiem_chung": "src/test_bytetrack_np_parity.py (parity + doi chieu ban vendor voi ban da cai)"
+  "kiem_chung": "src/test_bytetrack_np_parity.py (parity + doi chieu ban vendor voi ban da cai)",
+  "hash_convention": "sha256 cua noi dung da chuan hoa xuong dong ve LF",
+  "hash_convention_ghi_chu": "Moi truong sha256_* trong file nay tinh tren NOI DUNG DA CHUAN HOA VE LF, khong phai byte tren dia. Nho `.gitattributes` (`third_party/** -text`) nen byte tren dia = byte git = byte trong goi ZIP, va hash giong nhau tren Windows lan Linux/Nano. Doi chieu: src/test_bytetrack_np_parity.py.",
+  "files_khac": {
+    "np_compat.py": {
+      "mo_ta": "shim NumPy (ma DUY NHAT duoc viet them)",
+      "sha256": "a151538a7adc389abf054feb80e54bde47c10dcd7dd6f51b0cd0a00a04515f08"
+    },
+    "bytetrack.yaml": {
+      "mo_ta": "cau hinh tracker mac dinh cua ultralytics, chep nguyen",
+      "sha256_upstream": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b",
+      "sha256_vendor": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b"
+    }
+  }
 }

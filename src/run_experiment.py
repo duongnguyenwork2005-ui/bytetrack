@@ -210,7 +210,8 @@ def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: b
         yaml_sha = hashlib.sha256(Path(run_tracking.resolve_tracker_yaml(r["yaml"])).read_bytes()).hexdigest()[:12]
         meta = {"experiment": exp["name"], "cond": r["cond"], "tracker": r["tracker"], "seed": r["seed"],
                 "cache_id": exp["cache_id"], "tracker_yaml": r["yaml"], "tracker_yaml_sha256_12": yaml_sha,
-                "tracker_cfg": vars(cfg), "overrides": overrides, "conf_min": r["conf_min"],
+                "tracker_cfg": run_tracking.cfg_to_dict(cfg), "overrides": overrides,
+                "conf_min": r["conf_min"],
                 "classes": exp["classes"], "max_det": exp["max_det"], "fps": fps, "dt_nominal_s": dt,
                 "track_buffer_frames": int(cfg.track_buffer),
                 "track_buffer_sec": round(int(cfg.track_buffer) / fps, 4),
@@ -219,8 +220,11 @@ def stage_track(exp: dict, rows: list[dict], videos: list[str], skip_existing: b
         # DAU VAN TAY DAU VAO cua buoc tracking: cau hinh + cache + danh sach video + ma nguon.
         # Neu lech so voi lan chay truoc -> KHONG tai su dung file tracking cu (tranh "tiep tuc" mot run
         # voi cau hinh khac ma van giu ket qua cu).
+        # `tracker_yaml_sha256_12` PHAI nam trong dau van tay: sua NOI DUNG file YAML tai CUNG duong
+        # dan cung phai lam mat hieu luc tai su dung (review vong 5, P1-B).
         meta["input_fingerprint"] = fp.sha256_obj({
-            "tracker_cfg": vars(cfg), "overrides": overrides, "conf_min": r["conf_min"],
+            "tracker_cfg": run_tracking.cfg_to_dict(cfg), "tracker_yaml_sha256_12": yaml_sha,
+            "overrides": overrides, "conf_min": r["conf_min"],
             "classes": exp["classes"], "max_det": exp["max_det"], "elapsed_mode": exp["elapsed_mode"],
             "fps": fps, "seed": r["seed"], "assoc_log": log_ok, "pf_diag": pf_diag,
             "cache": fp.cache_fingerprint(exp["cache_id"], videos), "sequences": list(videos),

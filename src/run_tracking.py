@@ -86,20 +86,31 @@ def tracker_registry() -> dict:
 
 
 def resolve_tracker_yaml(yaml_path: str | Path) -> str:
-    """Ten tran nhu 'bytetrack.yaml' -> file trong package ultralytics (giong model.track)."""
+    """Duong dan THUC cua cau hinh tracker -- resolver DUY NHAT, biet backend.
+
+    Ca CLI lan `run_experiment.stage_track` dung ham nay de HASH file cau hinh, nen no phai chay duoc
+    tren backend `np` (khong co ultralytics) -- review vong 5, P1-A. `load_tracker_cfg` nap tu dung
+    duong dan ham nay tra ve, nho vay file duoc HASH dung la file duoc NAP.
+    """
+    if ul_backend.backend_name() == "np":
+        return str(ul_backend.resolve_tracker_yaml_np(yaml_path))
     from ultralytics.utils.checks import check_yaml
     return str(check_yaml(str(yaml_path)))
 
 
 def load_tracker_cfg(yaml_path: str | Path, overrides: dict | None = None) -> IterableSimpleNamespace:
-    """Nap cau hinh tracker. Backend `np` dung ban vendor cua `bytetrack.yaml` (sha256 giong het ban
-    trong goi ultralytics - doi chieu trong test parity), khong goi `check_yaml` cua ultralytics."""
+    """Nap cau hinh tracker tu DUNG file `resolve_tracker_yaml` tra ve (ca hai backend)."""
     if ul_backend.backend_name() == "np":
         return ul_backend.load_tracker_cfg_np(yaml_path, overrides)
     d = YAML.load(resolve_tracker_yaml(yaml_path))
     for k, v in (overrides or {}).items():
         d[k] = v
     return IterableSimpleNamespace(**d)
+
+
+def cfg_to_dict(cfg) -> dict:
+    """Cau hinh HIEU LUC duoi dang mapping (dung cho metadata va dau van tay), ca hai backend."""
+    return ul_backend.as_mapping(cfg)
 
 
 def parse_set(items: list[str] | None) -> dict:
@@ -308,7 +319,7 @@ def main() -> int:
         out_root = config.PROCESSED_DIR / "trackers" / args.split_name / name
         out_root.mkdir(parents=True, exist_ok=True)
         run_meta = {"cache_id": args.cache_id, "cache_meta": meta, "tracker_yaml": str(args.tracker_yaml),
-                    "tracker_yaml_sha256_12": yaml_sha, "tracker_cfg": vars(cfg), "overrides": overrides,
+                    "tracker_yaml_sha256_12": yaml_sha, "tracker_cfg": cfg_to_dict(cfg), "overrides": overrides,
                     "conf_min": args.conf_min, "classes": classes, "class_map": class_map,
                     "max_det": args.max_det, "fps": fps, "dt_nominal_s": dt_nominal,
                     "track_buffer_frames": int(cfg.track_buffer),

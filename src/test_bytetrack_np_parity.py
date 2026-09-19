@@ -11,7 +11,10 @@ TOLERANCE CONG BO TRUOC: **bit-identical**. Hai backend chay CUNG mot ban ma CTR
 Lech du mot bit la dau hieu ban vendor khong tuong duong => GHI LAI FRAME SAI DAU TIEN va tim nguyen
 nhan, KHONG noi tolerance de dat PASS.
 
-  1. Ban vendor GIONG HET ban ultralytics da cai, tru dung 5 dong import da ghi trong PROVENANCE.json.
+  1. Ban vendor GIONG HET ban ultralytics da cai, tru dung 5 dong import da ghi trong PROVENANCE.json,
+     VA moi truong hash trong PROVENANCE.json dung theo quy uoc da cong bo (sha256 cua noi dung chuan
+     hoa ve LF) - review vong 5 muc 5: truoc day test chi so `read_text()` nen bo qua khac biet xuong
+     dong va khong he kiem cac truong hash.
   2. Backend np import duoc trong tien trinh CHAN san `torch` va `ultralytics` (chan o sys.meta_path).
   3. Parity CV  tren cac sequence da chon: moi hang (frame, id, bbox, conf, cls) bit-identical.
   4. Parity EKF tren cac sequence da chon: nhu tren.
@@ -136,16 +139,47 @@ def main() -> int:
         rw = {}
         for r in prov["import_rewrites"]:
             rw.setdefault(r["file"], []).append((r["from"], r["to"]))
-        khac = []
+        import sys as _sys
+        _sys.path.insert(0, str(ROOT / "src"))
+        from ul_backend import HASH_CONVENTION, sha256_lf
+
+        khac, hash_sai = [], []
         for rel, meta in prov["files"].items():
-            up = (ul / meta["upstream_path"].split("ultralytics/", 1)[1]).read_text(encoding="utf-8")
-            ve = (ROOT / "third_party/ultralytics_trackers" / rel).read_text(encoding="utf-8")
+            up_p = ul / meta["upstream_path"].split("ultralytics/", 1)[1]
+            ve_p = ROOT / "third_party/ultralytics_trackers" / rel
+            # so NOI DUNG sau khi ap dung dung cac dong import da khai bao
+            up = up_p.read_text(encoding="utf-8")
             for old, new in rw.get(rel, []):
                 up = up.replace(old, new, 1)
-            if up != ve:
+            if up != ve_p.read_text(encoding="utf-8"):
                 khac.append(rel)
+            # va kiem CA HAI truong hash trong PROVENANCE theo dung quy uoc da cong bo
+            if sha256_lf(up_p) != meta["sha256_upstream"]:
+                hash_sai.append(f"{rel}:sha256_upstream")
+            if sha256_lf(ve_p) != meta["sha256_vendor"]:
+                hash_sai.append(f"{rel}:sha256_vendor")
         _check(f"ban vendor == ultralytics {prov['version']} sau khi ap dung {len(prov['import_rewrites'])} "
                f"dong import da khai bao", not khac, f"file khac: {khac}")
+        _check(f"moi truong hash trong PROVENANCE dung theo quy uoc da cong bo "
+               f"({prov.get('hash_convention', '(THIEU)')})",
+               not hash_sai and prov.get("hash_convention") == HASH_CONVENTION,
+               f"hash sai: {hash_sai}; quy uoc trong file = {prov.get('hash_convention')!r}")
+
+        # hash phai ON DINH giua CRLF va LF (review vong 5: fingerprint tung phu thuoc nen tang)
+        import hashlib
+        import tempfile as _tf
+        mau = ROOT / "third_party/ultralytics_trackers/basetrack.py"
+        lf = mau.read_bytes().replace(b"\r\n", b"\n")
+        with _tf.TemporaryDirectory() as d:
+            a, b = Path(d) / "lf.py", Path(d) / "crlf.py"
+            a.write_bytes(lf)
+            b.write_bytes(lf.replace(b"\n", b"\r\n"))
+            _check("sha256 theo quy uoc LF cho KET QUA GIONG NHAU voi ban LF va ban CRLF "
+                   "(fingerprint khong phu thuoc nen tang)",
+                   sha256_lf(a) == sha256_lf(b)
+                   and hashlib.sha256(a.read_bytes()).hexdigest()
+                   != hashlib.sha256(b.read_bytes()).hexdigest(),
+                   f"LF {sha256_lf(a)[:12]} vs CRLF {sha256_lf(b)[:12]}")
 
         videos = chosen_videos()
         print(f"         sequence da chon (3 dau cua detrac_dev.json): {videos}")
