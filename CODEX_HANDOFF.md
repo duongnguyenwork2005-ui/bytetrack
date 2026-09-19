@@ -84,10 +84,14 @@ rồi chạy 40 video test UA-DETRAC; (6) chuẩn bị BDD100K + Jetson Nano; (7
 
 ## 2. Nhánh, commit, thay đổi chưa commit
 
-- Nhánh: **`phase2-mixed-traffic`**, HEAD **`11603cb`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
+- Nhánh: **`phase2-mixed-traffic`**, HEAD **`8665480`** (chỉ commit cục bộ, **không push/merge** — yêu cầu của tác giả).
 - Commit của mốc 2 (từ `e353b84` = cuối mốc 1):
 
 ```
+8665480 Review vong 5 (muc 5,6): adapter COCO-video + smoke BDD that + ha muc dien giai
+0520c01 Sua thu tu quy tac .gitattributes: git lay dong KHOP CUOI CUNG
+2895b71 Review vong 5: sua 2 loi P1 + 3 loi tich hop, kiem chung QUA RUNNER THAT
+ed4fda2 Ban giao vong 4: handoff + brief + trang thai Nano sau khi co backend NumPy
 11603cb Backend ByteTrack khong phu thuoc torch (CV + EKF) cho Jetson Nano
 96c5478 Review vong 4 (muc 1-3): sua tai lieu, kiem ke BDD100K that, chuan bi smoke rieng
 5c170b3 Chuyen base review sang a8ecaf6 (Codex xac nhan doc + PASS WITH LIMITATIONS)
@@ -137,7 +141,8 @@ dd67321 Moc 2 (6-7a): mau thi nghiem BDD (chuyen cau hinh vs tuning, tach biet),
 
 ```
 M .gitignore
- M scripts/nano/README.md
+ M CODEX_HANDOFF.md
+ M handoff/REVIEW_BRIEF.md
  M src/demo/rerun_with_state_log.py
 ```
 
@@ -167,8 +172,11 @@ M .gitignore
 1c. `handoff/BDD100K_INVENTORY.md` — kiểm kê BDD100K **thực tế 2026-09-18**: đã có **ảnh** `val`
    (200 video / 39.973 jpg, đúng vị trí), **chưa có nhãn** `box_track_20` và **chưa có** split `train`
    ⇒ smoke BDD còn bị chặn. Kèm gói cần tải, vị trí đặt, lệnh kiểm tra, kế hoạch hai thí nghiệm tách biệt.
-1d. `third_party/ultralytics_trackers/PROVENANCE.json` + `src/ul_backend.py` — **backend ByteTrack không
-   phụ thuộc torch** (`BYTETRACK_BACKEND=np`), cho CV và EKF–CTRV.
+1d. **`handoff/BACKEND_NP_NOTES.md`** — phụ lục vòng 5: bảng finding → sửa ở đâu → kiểm thử → kết quả;
+   lệnh chạy + dependencies của backend NumPy; nhãn BDD COCO-video; kết quả smoke.
+1e. `third_party/ultralytics_trackers/PROVENANCE.json` + `src/ul_backend.py` — **backend ByteTrack không
+   phụ thuộc torch** (`BYTETRACK_BACKEND=np`), cho CV và EKF–CTRV. **Quy ước hash: sha256 của nội dung
+   chuẩn hóa LF** (`HASH_CONVENTION`) — áp dụng thống nhất cho PROVENANCE, `fingerprint()` và test.
 2. `results/phase2/REVIEW_moc2_codex.md` — trạng thái từng phát hiện của review vòng 1.
 3. `PHASE2_REPORT.md` — mục **19** (review vòng 2: trạng thái run bị gián đoạn, chính sách cache, audit
    nguồn gốc), mục **18** (review vòng 1, có bảng trước/sau), rồi mục **12–17** (mốc 2); mục 1–11 là mốc 1
@@ -336,6 +344,11 @@ Các bước khác chạy CPU từ cache (cache có trong ZIP nếu ≤ 60 MB �
 | `python src/audit_run_provenance.py --pattern "p2-*" --verify-eval-fingerprint` (vòng 2) | 0 | `handoff/logs/audit_run_provenance_all.log` — 21 OK, 113 LEGACY, **0 nghi vấn** |
 | `python src/aggregate_phase2.py --exp .../expB_detrac_{dev,test}_fix1.yaml` (vòng 2) | 0 | chỉ sinh lại bảng dẫn xuất sau khi sửa **nhãn** cặp (không đổi tham số thí nghiệm) |
 | `python src/make_review_delta.py` (vòng 2) | 0 | `handoff/review_delta_latest.zip` — 67 file, 0,38 MB (gói đầy đủ 66,9 MB), `MANIFEST.csv` khớp hash |
+| `python src/run_all_tests.py --out-dir handoff/logs/review5` (vòng 5) | 0 | **25/25 PASS**, 0 FAIL, 0 SKIPPED, 0 NOT_RUN |
+| `python src/test_runner_backend_np.py` (vòng 5) | 0 | **9/9** — CLI **và** `stage_track()` **thật** chạy trong tiến trình **chặn** `torch`/`ultralytics`; sửa YAML cùng đường dẫn ⇒ chạy lại (**4 dòng → 0 dòng**); đổi backend ⇒ chạy lại |
+| `python src/test_bdd100k_coco.py` (vòng 5) | 0 | **8/8** — adapter COCO-video: ID theo **(video, instance_id)**, trường thiếu không bị bịa |
+| `python -m src.mot_datasets.bdd100k_coco --export-gt --benchmark BDDSMOKE` (vòng 5) | 0 | GT MOTChallenge cho 3 sequence smoke, split **riêng** `BDDSMOKE-val` |
+| `python src/run_experiment.py --exp configs/phase2/experiments/bdd_smoke_val.yaml` (vòng 5) | 0 | **smoke BDD chạy thật**: nhãn → GT → cache (GPU) → tracking → evaluator → tổng hợp |
 | `python src/run_all_tests.py --out-dir handoff/logs/backend_np` (vòng 4) | 0 | **23/23 PASS**, 0 FAIL, 0 SKIPPED, 0 NOT_RUN |
 | `python src/test_bytetrack_np_parity.py` (vòng 4) | 0 | **8/8** — CV 17.348 hàng + EKF 17.333 hàng **bit-identical**, chạy trong tiến trình **chặn** `torch`/`ultralytics` |
 | `python src/run_all_tests.py --out-dir handoff/logs/review_delta_fix_full` (vòng 3) | 0 | **22/22 PASS**, 0 FAIL, 0 SKIPPED, 0 NOT_RUN |
@@ -403,6 +416,13 @@ Toàn bộ log của mọi lần chạy (kể cả các lần của mốc 2) n�
 15. **(sau review vòng 4)** `src/bytetrack_np.Detections`: hợp đồng NumPy đã đủ chưa so với `Boxes` mà
    `BYTETracker` thực sự dùng (`.xywh`, `.conf`, `.cls`, `len`, cắt theo mask) — nếu upstream đổi, phép so
    phải phát hiện được.
+16. **(sau review vòng 5)** `input_fingerprint` nay gồm `tracker_cfg` (qua `cfg_to_dict`) **và**
+   `tracker_yaml_sha256_12`. Cần kiểm: còn đầu vào nào ảnh hưởng kết quả mà **chưa** nằm trong dấu vân tay
+   không (ví dụ `--class-map`, `allow_truncated`).
+17. **(sau review vòng 5)** `src/mot_datasets/bdd100k_coco.py`: nhãn là **COCO-video**, không phải
+   `box_track_20` native. Cần kiểm: `crowd = iscrowd | ignore` có đúng ý nghĩa vùng bỏ qua của TrackEval
+   không; `visibility = 1.0` ở `gt.txt` đã được ghi rõ là **placeholder** chưa; và việc đánh số `track_id`
+   theo `(video, instance_id)` có chỗ nào còn rò rỉ ID giữa các video không.
 
 ## 8. Kết quả trên 40 video test UA-DETRAC
 

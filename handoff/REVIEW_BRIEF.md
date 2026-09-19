@@ -1,58 +1,53 @@
-# REVIEW_BRIEF — review vòng 4, kiểm kê BDD100K, backend không phụ thuộc torch
+# REVIEW_BRIEF — xử lý REQUEST CHANGES vòng 5
 
 <!-- BASE_TARGET -->
 
-Base giữ nguyên `a8ecaf6`. Chi tiết: `handoff/MOC2_FINAL_SUMMARY.md`, `handoff/BDD100K_INVENTORY.md`,
-`scripts/nano/README.md`, `third_party/ultralytics_trackers/PROVENANCE.json`.
+Base giữ **`a8ecaf6`** (chưa chuyển sang `ed4fda2`). Chi tiết: **`handoff/BACKEND_NP_NOTES.md`**.
+Tái hiện trước khi sửa: `handoff/logs/review5/repro_truoc_khi_sua.log` — **mọi finding đều đúng**.
 
-## 1. Sửa tài liệu — 6 điểm, đã đối chiếu source trước khi sửa
+## Finding → sửa → kiểm thử → kết quả
 
-| Điểm | Bằng chứng | Đã sửa |
+| # | Sửa ở đâu | Kết quả sau sửa (test tái hiện) |
 |:--|:--|:--|
-| `--videos` | `run_experiment.py` **không có** cờ đó | YAML smoke riêng `bdd_smoke_val.yaml` (tên riêng ở **cả 4 chỗ**) |
-| tên manifest | script tạo `bdd100k_dev.json` | sửa ở INVENTORY + `bdd_tuned_val.yaml` |
-| timer | `run_tracking.py:177–183`: `update` = **tổng**; `assoc = update − predict` **gồm cả** filter-update + vòng đời | mô tả lại; **bỏ** yêu cầu sai "assoc CV/EKF phải bằng nhau" |
-| làm tròn 2 lần | thô −0.01324999 ⇒ **−0.0132**; `ekf-maha − ekf` −0.00344993 ⇒ **−0.0034** | định dạng **một lần** từ float đầy đủ |
-| SD seed PF | thật: HOTA **0,00054**, AssA **0,00090** | thay "≤ 0,0004" (sai) |
-| tỷ trọng detector | thật **73,6–77,9 %**, tracker **4,0–10,2 %** | thay "~70–75 %" / "~4–11 %" (sai) |
-| vượt bằng chứng | — | CI chứa 0 = **không đủ bằng chứng về khác biệt**, không phải tương đương; ba bộ lọc cùng kém **không loại trừ** motion model (chung họ giả định + chung khung association); PF: số hạt là **một phần** |
-| `occlusion_ratio=0.5` | — | **quy ước cho cờ nhị phân**, không phải 50 % đo được |
+| **P1-A** resolver kéo Ultralytics | `resolve_tracker_yaml()` thành resolver **duy nhất, biết backend**; `load_tracker_cfg` nạp từ **đúng** file resolver trả về | `test_runner_backend_np` #1–2, qua **CLI thật** + **`stage_track()` thật** trong tiến trình **chặn** torch+ultralytics: CLI `rc=0`, `torch=False`, `ultralytics=False` |
+| **P1-B** cấu hình NumPy → `{}` | `as_mapping()`/`cfg_to_dict()` thay **cả 3** chỗ `vars(cfg)`; **thêm `tracker_yaml_sha256` vào `input_fingerprint`** | #3–4 (kịch bản Codex đo): `tracker_cfg` đầy đủ; sửa YAML **cùng đường dẫn** ⇒ chạy lại, **4 dòng → 0 dòng**; không đổi ⇒ tái dùng |
+| **P2-3** `assoc_log` | lấy **cả** `TrackState` và `BYTETracker` từ `ul_backend`, kể cả trong `issubclass` | #6: chạy trên np, ghi **3 parquet**, output tracking **không đổi** |
+| **P2-4** fallback YAML | chỉ **tên trần** trong `VENDORED_YAML` mới tra bản vendor | đường dẫn có thư mục không tồn tại ⇒ `FileNotFoundError` |
+| **P2-5** + **phát hiện thêm** | **Một** quy ước: `sha256` nội dung **chuẩn hóa LF** cho PROVENANCE + `fingerprint()` + test; thêm `.gitattributes` | `test_bytetrack_np_parity` kiểm **cả hai** trường hash: 5/5 khớp. *Thêm*: `fingerprint()` cũ hash byte đĩa ⇒ cùng commit cho hash **khác nhau** Windows/Nano — nay ổn định |
+| **BDD** thiếu bước GT, `split_name` dùng chung | `bdd100k_coco.py --export-gt --benchmark BDDSMOKE` | GT + seqmap **riêng**; `BDD-val` không bị đụng |
 
-Giao thức Nano: **lưu mọi lượt kể cả throttling**, số chính thức là chạy liên tục; bảng "không throttling"
-là phân tích bổ sung với tiêu chí loại công bố trước; cân bằng **AB và BA**.
+## Nhãn BDD và smoke
 
-## 2. BDD100K — có ảnh, **chưa có nhãn**
+Nguồn là **COCO-video**, không phải `box_track_20` native ⇒ adapter **riêng**
+(`src/mot_datasets/bdd100k_coco.py`). Thiếu `occluded`/`truncated`/`timestamp` ⇒ ghi **NaN + MISSING**,
+`dt_source = "nominal"`, **không** chạy phân tầng che khuất. Đo trên nhãn thật: **327/392 `instance_id`
+xuất hiện ở nhiều video** ⇒ `track_id` đánh số theo **(video, instance_id)**. `visibility = 1.0` trong
+`gt.txt` là **placeholder** do định dạng bắt buộc — nghĩa là "không biết".
 
-Đã giải nén đúng vị trí: `data/raw/bdd100k/images/track/val/` = **200 video / 39.973 jpg**, không lồng thư
-mục. **Không có** `labels/box_track_20/` (0 JSON) và **không có** split `train`. Adapter lấy danh sách
-video/frame/`timestamp` **từ nhãn JSON** ⇒ chặn cứng: `check_bdd100k` exit 1, `det_cache` và evaluator đều
-không chạy. **Smoke BDD chưa chạy**, không dùng fixture thay thế. Còn thiếu **MOT 2020 Labels** (~50 MB).
-Chỉ có `val` ⇒ chưa được tuning trên BDD.
+Smoke chạy thật từ thư mục sạch, manifest ghi **trước** khi xem metric, 3 video × 202 frame,
+ảnh = cache = `seqLength`: `cv` HOTA 0.2409 · `ekf` HOTA 0.2498. Đây là **smoke pipeline**, **không** phải
+kết quả thí nghiệm, **không** dùng chọn tham số, và **không** kiểm chứng đường nhãn native.
 
-## 3. Backend không phụ thuộc torch (CV + EKF)
+## Diễn giải đã hạ mức
 
-5 module tracker của ultralytics **không import torch dòng nào** ⇒ **vendor** (AGPL-3.0, sha256 upstream +
-vendor trong `PROVENANCE.json`), chỉ đổi **5 dòng import** sang shim NumPy — thuật toán ghép **giữ nguyên
-100 %**. `ul_backend.py` chọn nguồn lớp nền ⇒ **một** bản mã CTRV/CV cho cả hai backend. Dependencies:
-`numpy`, `scipy`, `lap`. Backend nằm trong **fingerprint** ⇒ đổi backend thì runner **phải chạy lại**.
-
-**Parity, tolerance công bố trước = bit-identical**, 3 sequence dev chọn trước: CV **17.348 hàng** và EKF
-**17.333 hàng** bit-identical; song ánh ID **đồng nhất** (469 track); chuỗi kiểm có 177 frame không track và
-116 track tái xuất hiện sau gap; chạy trong tiến trình **chặn** `torch` và `ultralytics`.
+Tầng `full`: **11/182 → 22/182 là thay đổi quan sát được** (chưa có CI riêng cho tầng). Seed: "lớn hơn biến
+thiên giữa **ba seed đã thử**". Tốc độ: **số đo mô tả**, không xếp hạng; đo từ cache chỉ loại chi phí
+**detector** — `update_ms` **vẫn gồm** association + vòng đời. Bỏ "nhiễu gấp ~9 lần" và "trên Nano nặng
+hơn" → **rủi ro cần kiểm**. Nano: **một** lịch cân bằng **AB/BA** (3 cặp mỗi chiều), giữ **mọi** lượt,
+loại **theo cặp**.
 
 ## Test thực tế
 
-`run_all_tests.py --out-dir handoff/logs/backend_np` → **23 PASS, 0 FAIL, 0 SKIPPED, 0 NOT_RUN** (exit 0),
-gồm `test_bytetrack_np_parity` 8/8 và `test_run_experiment_guard` 9/9.
+`run_all_tests.py --out-dir handoff/logs/review5` → **25 PASS, 0 FAIL, 0 SKIPPED, 0 NOT_RUN** (exit 0).
+Gồm `test_runner_backend_np` **9/9** (mới), `test_bdd100k_coco` **8/8** (mới), `test_bytetrack_np_parity`
+**10/10** (cache **thật**, bit-identical).
+
+`grep '"backend": "np"'` trên mọi `run_meta.json` → **0 kết quả** ⇒ chưa có run nào sinh bằng backend
+NumPy ⇒ **không có gì cần audit hay chạy lại**. Việc thêm `tracker_yaml_sha256` vào fingerprint làm mọi thí
+nghiệm có fingerprint mới ở lần chạy tới — đó là **sửa lỗi**, không chạy lại A/B/C.
 
 ## Chưa xác minh
 
-**Nhãn BDD100K** (chặn smoke). **Nano chưa kết nối** — parity trên PC **không** chứng minh tương thích hay
-tốc độ Nano; bản vendor cần **Python ≥ 3.7** còn JetPack 4.6 có **3.6**; `scipy`/`lap` aarch64 chưa thử;
-đường detector trên Nano chưa nối vào backend mới.
-
-## Cần bạn kiểm kỹ
-
-1. Bản vendor có thật sự chỉ khác upstream ở 5 dòng import không; phép so có tự phát hiện nếu upstream đổi.
-2. Còn đường nào **không** qua `ul_backend` mà vẫn kéo ultralytics vào backend `np` không.
-3. Hợp đồng `Detections` đã đủ so với `Boxes` mà `BYTETracker` thực dùng chưa.
+Nhãn **native** `box_track_20` và split `train` (⇒ chưa tuning trên BDD). **Nano chưa kết nối** — parity
+trên PC **không** chứng minh tương thích/tốc độ Nano; bản vendor cần **Python ≥ 3.7** còn JetPack 4.6 có
+**3.6**; `scipy`/`lap` aarch64 và đường detector trên Nano chưa thử.
