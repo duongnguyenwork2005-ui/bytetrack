@@ -177,9 +177,12 @@ python src/track_video_file.py --dataset detrac --part test --video MVI_39031 \
 ```
 
 CV ↔ EKF chỉ khác `--tracker-yaml` (`bytetrack.yaml` / `configs/bytetrack_ekf_ctrv.yaml`); UKF/PF/SORT
-dùng YAML tương ứng. Detector chạy ở ngưỡng thô 0,05 (như det cache) rồi mới lọc `--conf-min`, để
-ByteTrack còn detection confidence thấp cho vòng ghép thứ hai. Chi tiết tham số, đầu ra, cách tái
-hiện, kiểm chứng live = replay và số đo thời gian: **`handoff/HE_THONG_PC.md`**.
+dùng YAML tương ứng. Detector chạy ở ngưỡng thô `--det-conf 0.05` (như det cache, để cache dùng lại
+được cho cả c25 lẫn c10); **ngưỡng hiệu lực vào tracker là `--conf-min`** (mặc định 0,25 = c25): mọi
+detection dưới đó bị lọc trước khi vào ByteTrack, nên muốn vòng ghép thứ hai thấy detection 0,1–0,25
+thì dùng `--conf-min 0.1`. Live và replay dùng chung guard tương thích (`--det-conf ≤ --conf-min`,
+`--det-max-det ≥ --max-det`, frame chạm trần bị từ chối trừ khi `--allow-truncated`). Chi tiết tham
+số, đầu ra, cách tái hiện, kiểm chứng live = replay và số đo thời gian: **`handoff/HE_THONG_PC.md`**.
 
 ---
 

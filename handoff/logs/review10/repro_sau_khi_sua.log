@@ -1,0 +1,28 @@
+==========================================================================
+PC-F1: decode_ms co do bo doc 20 ms/frame khong?
+==========================================================================
+  exit=0  decode_ms=20.4626  tong/frame=26.5377  wall vong lap=89.2 ms / 3 frame
+  TAI HIEN (decode_ms << 20): False
+==========================================================================
+PC-F2: live chap nhan cau hinh ma replay tu choi
+==========================================================================
+  (a) thong thuong                    live=0 replay=0 
+  (b) det-max-det 1, 1 det/frame      live=3 replay=-1 [EXC] FileNotFoundError: Khong co D:\LABOTARY\bytetrack\data\interim\det_cache\repro_b_tran\meta.json
+  (c) det-conf 0.5, conf-min 0.1      live=2 replay=-1 [EXC] FileNotFoundError: Khong co D:\LABOTARY\bytetrack\data\interim\det_cache\repro_c_conf\meta.json
+  (d) det-max-det 5, max-det 10       live=2 replay=-1 [EXC] FileNotFoundError: Khong co D:\LABOTARY\bytetrack\data\interim\det_cache\repro_d_maxdet\meta.json
+  TAI HIEN (live exit 0 nhung replay tu choi o b/c; d live chap nhan): False
+==========================================================================
+PC-F3: parity quy nguyen nhan / dao thu tu dong doi ket luan
+==========================================================================
+  (a) chi doi conf 0.9->0.90002 trong FILE KET QUA: ly_do = conf lech 2.000e-05 > 1e-06; ID va phan hoach: KHOP (khac biet chi o bbox/conf; nguyen nhan: CHUA XA
+      quy nguyen nhan cho detector du khong co raw detection: False
+  (b) hai track bbox/conf GIONG HET: test A phan_hoach_khop=None, test B (chi dao 2 dong frame 2) phan_hoach_khop=None, mo_ho=None
+      dao thu tu dong lam DOI ket luan: False
+==========================================================================
+PC-F4: thu muc 1.jpg 2.jpg 10.jpg doc theo thu tu nao?
+==========================================================================
+  thu tu doc: ['1.jpg', '2.jpg', '10.jpg']
+  TAI HIEN (1 -> 10 -> 2): False
+
+TONG KET: {'F1': False, 'F2': False, 'F3': False, 'F4': False}
+exit=1 (1 = KHONG tai hien duoc nua, dung mong doi)

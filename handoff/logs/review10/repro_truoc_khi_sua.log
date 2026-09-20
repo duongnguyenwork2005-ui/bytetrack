@@ -1,0 +1,28 @@
+==========================================================================
+PC-F1: decode_ms co do bo doc 20 ms/frame khong?
+==========================================================================
+  exit=0  decode_ms=0.0028  pipeline_khong_ve_ms=3.9594  wall=83.1 ms / 3 frame
+  TAI HIEN (decode_ms << 20): True
+==========================================================================
+PC-F2: live chap nhan cau hinh ma replay tu choi
+==========================================================================
+  (a) thong thuong                    live=0 replay=0 
+  (b) det-max-det 1, 1 det/frame      live=0 replay=-1 [EXC] ValueError: anh.npz: 3 frame cham tran max_det cua cache (vd frame [1, 2, 3]); xay lai cache voi --max-d
+  (c) det-conf 0.5, conf-min 0.1      live=0 replay=-1 [EXC] ValueError: Cache repro_c_conf khong tai lap duoc dieu kien yeu cau:
+  (d) det-max-det 5, max-det 10       live=0 replay=-1 [EXC] ValueError: Cache repro_d_maxdet khong tai lap duoc dieu kien yeu cau:
+  TAI HIEN (live exit 0 nhung replay tu choi o b/c; d live chap nhan): True
+==========================================================================
+PC-F3: parity quy nguyen nhan / dao thu tu dong doi ket luan
+==========================================================================
+  (a) chi doi conf 0.9->0.90002 trong FILE KET QUA: ly_do = conf lech 2.000e-05 > 1e-06; [chan doan] lien ket ID y het -> khac biet nam o dau vao detector, khon
+      quy nguyen nhan cho detector du khong co raw detection: True
+  (b) hai track bbox/conf GIONG HET: test A phan_hoach_khop=True, test B (chi dao 2 dong frame 2) phan_hoach_khop=False, mo_ho=8
+      dao thu tu dong lam DOI ket luan: True
+==========================================================================
+PC-F4: thu muc 1.jpg 2.jpg 10.jpg doc theo thu tu nao?
+==========================================================================
+  thu tu doc: ['1.jpg', '10.jpg', '2.jpg']
+  TAI HIEN (1 -> 10 -> 2): True
+
+TONG KET: {'F1': True, 'F2': True, 'F3': True, 'F4': True}
+exit=0

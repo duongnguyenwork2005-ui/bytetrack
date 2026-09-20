@@ -1,0 +1,22 @@
+### v2 cv ###
+[track_video] 1470 frame (0 unreadable, 0 cham tran), 5842 hang tracking, 72 track
+[track_video] sau warm-up (1445 frame): decode 3.74 | mask 0.47 | detect 17.50 | tracker 1.03 | ve 0.00 | ghi 0.00 | show 0.00 | overhead 0.36 = frame_total 23.10 ms  -> 43.3 fps theo stage
+[track_video] wall: khoi tao 0.9s | vong lap 36.5s (40.3 fps, ke ca warm-up) | ghi 0.1s
+### v2 cv_video ###
+[track_video] 1470 frame (0 unreadable, 0 cham tran), 5842 hang tracking, 72 track
+[track_video] sau warm-up (1445 frame): decode 3.56 | mask 0.49 | detect 17.80 | tracker 1.02 | ve 0.84 | ghi 4.89 | show 0.00 | overhead 0.60 = frame_total 29.19 ms  -> 34.3 fps theo stage
+[track_video] wall: khoi tao 1.0s | vong lap 45.7s (32.2 fps, ke ca warm-up) | ghi 0.1s
+### v2 ekf ###
+[track_video] 1470 frame (0 unreadable, 0 cham tran), 5845 hang tracking, 70 track
+[track_video] sau warm-up (1445 frame): decode 3.63 | mask 0.52 | detect 18.69 | tracker 1.28 | ve 0.00 | ghi 0.00 | show 0.00 | overhead 0.42 = frame_total 24.54 ms  -> 40.7 fps theo stage
+[track_video] wall: khoi tao 0.8s | vong lap 38.2s (38.4 fps, ke ca warm-up) | ghi 0.1s
+### v2 ekf_video ###
+[track_video] 1470 frame (0 unreadable, 0 cham tran), 5845 hang tracking, 70 track
+[track_video] sau warm-up (1445 frame): decode 3.90 | mask 0.57 | detect 20.50 | tracker 1.38 | ve 0.92 | ghi 5.43 | show 0.00 | overhead 0.63 = frame_total 33.33 ms  -> 30.0 fps theo stage
+[track_video] wall: khoi tao 0.9s | vong lap 51.4s (28.6 fps, ke ca warm-up) | ghi 0.1s
+
+=== DOI CHIEU sum(frame_total, MOI frame) vs wall_vong_lap; wall_ngoai_frame ===
+cv         sum(frame_total)= 36.461s  wall_vong_lap= 36.473s  ngoai_frame=0.012s (0.01 ms/frame)  khoi_tao=0.92s  ghi=0.11s
+cv_video   sum(frame_total)= 45.661s  wall_vong_lap= 45.683s  ngoai_frame=0.022s (0.01 ms/frame)  khoi_tao=0.98s  ghi=0.11s
+ekf        sum(frame_total)= 38.221s  wall_vong_lap= 38.233s  ngoai_frame=0.012s (0.01 ms/frame)  khoi_tao=0.78s  ghi=0.11s
+ekf_video  sum(frame_total)= 51.353s  wall_vong_lap= 51.379s  ngoai_frame=0.026s (0.02 ms/frame)  khoi_tao=0.88s  ghi=0.09s

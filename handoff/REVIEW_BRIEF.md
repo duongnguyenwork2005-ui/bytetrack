@@ -1,60 +1,45 @@
-# REVIEW_BRIEF — vòng 9: hệ thống tracking trên PC + F2 của review `8bab154`
+# REVIEW_BRIEF — vòng 10: sửa PC-F1…F4 của review `8abb368`
 
 <!-- BASE_TARGET -->
 
-Base delta **giữ `b623465`** (review `8bab154` còn REQUEST CHANGES; gói này chứa trọn cả vòng 8 lẫn
-vòng 9). Ưu tiên đã đổi: hoàn thiện hệ thống trên **PC**; Nano do người dùng tự chuẩn bị.
-Chi tiết: **`handoff/HE_THONG_PC.md`**. Không chạy lại thí nghiệm; metric/GT/lock giữ nguyên.
+Base delta **giữ `b623465`**; review `8abb368` còn REQUEST CHANGES, **chưa** đánh dấu PASS. Nano F1/F3
+tiếp tục hoãn. Không tuning/ablation/train; metric, GT, lock UA-DETRAC/BDD **không đổi** (đã kiểm `git diff`).
+Chi tiết: **`handoff/REVIEW10_CHI_TIET.md`**; hướng dẫn + thời gian mới: **`handoff/HE_THONG_PC.md`**.
 
-## 1. Rà soát đường chạy
+## Tái hiện → sửa → kiểm chứng
 
-Đã có và kiểm chứng: `run_tracking.track_video()` (vòng lặp cache), `det_cache` (detector + cache),
-`load_tracker_cfg`/`make_tracker` (YAML override vào tracker thật). Trùng lặp/lệch tìm thấy:
-`profile_pipeline.py` gọi `tr.update(boxes, None)` **không truyền `n_steps`** và chạy detector ở
-`conf=0.25` — lệch runner ở cả thời gian lẫn ngưỡng; `src/demo/live_view.py` là vùng riêng, không đụng.
+Cả 4 tái hiện bằng fixture (detector/`imread` giả lập, tracker thật, `main()` thật) đúng như Codex mô tả
+(`handoff/logs/review10/repro_truoc_khi_sua.log`); sau sửa không còn tái hiện được (`repro_sau_khi_sua.log`).
 
-## 2. Đã làm — một entry point, ba chỗ dùng **chung** mã
+| # | Trước | Sửa | Sau |
+|:--|:--|:--|:--|
+| **F1** | bộ đọc 20 ms → `decode_ms` 0,003 | timer quanh đúng `imread`/`read`; tách `mask`; `frame_total` từ trước đọc đến sau tracker + vẽ/ghi; `overhead` ghi riêng; render/write/show theo frame; cùng tập frame sau warm-up; wall tách khởi tạo/vòng lặp/ghi/ngoài-frame | `decode_ms` **20,46**; Σstage+overhead == `frame_total` (3,6·10⁻¹⁵); dữ liệu thật: Σ`frame_total` = `wall_vong_lap` − 12…26 ms/1470 frame |
+| **F2** | live nhận cấu hình mà replay từ chối | `check_compatible()` **trước** khi chạy → exit 2; chạm trần → exit 3 không ghi (y hệt `VideoDetections`); `--allow-truncated` có ghi meta + lệnh replay | (a) 0/0 parity ĐẠT **bằng đúng lệnh trong `run_meta`**; (b) exit 2; (c) exit 3, với flag → 0/0 ĐẠT; (d) exit 2 |
+| **F3** | quy nguyên nhân cho detector; đảo dòng đổi kết luận | bỏ quy nguyên nhân; song ánh từ cặp **không mơ hồ** + ràng buộc toàn sequence; không giải được → **`mo_ho`** (không PASS); không Hungarian | `test_nano_parity` **20/20**: đảo dòng → y hệt; fixture Codex → `mo_ho` cả hai; chỉ đổi conf → *chưa xác định*; đổi liên kết thật vẫn FAIL |
+| **F4** | `1,2,10` → `1,10,2` | sắp theo **số** cuối tên (cùng tiền tố); mơ hồ → lỗi có hướng dẫn `--frames-manifest`; ghi `frames_manifest.json` | `test_track_video_file` **23/23** (6 ca F4) |
 
-`src/track_video_file.py`: video file / thư mục ảnh / sequence dataset → YOLO → ByteTrack → MOT +
-lớp + timing + `run_meta.json` (đủ tái hiện: sha256 video, checkpoint, YAML; cấu hình hiệu lực; lệnh
-replay) + video bbox/ID/lớp (`--save-video`, `--show`, q thoát vẫn ghi đủ) + det cache (`--save-cache`).
+## Thời gian đo lại (một lượt, `MVI_39031`, sau 25 frame warm-up, cùng tập 1445 frame)
 
-| Bước | Dùng chung | Lý do |
-|:--|:--|:--|
-| Detector | `det_cache.detect_frame()` — tách từ `build_video_yolo` | cùng `DetectorSpec` cache: conf **0,05**, mọi lớp, `max_det` 3000; ByteTrack cần detection thấp cho vòng ghép 2 |
-| Lọc | `det_cache.filter_dets()` — tách từ `VideoDetections.frame` | y hệt replay |
-| Vòng lặp | `run_tracking.track_video(..., on_frame=None)` | cùng `n_steps`, `update` cả frame rỗng; `LiveVideoDetections` chỉ là adapter |
+| ms/frame | decode | detect | tracker | vẽ+ghi | overhead | **frame_total** | fps stage / vòng lặp |
+|:--|--:|--:|--:|--:|--:|--:|--:|
+| CV | 3,74 | 17,50 | 1,03 | — | 0,36 | **23,10** | 43,3 / 40,3 |
+| CV `--save-video` | 3,56 | 17,80 | 1,02 | 5,73 | 0,60 | **29,19** | 34,3 / 32,2 |
+| EKF | 3,63 | 18,69 | 1,28 | — | 0,42 | **24,54** | 40,7 / 38,4 |
+| EKF `--save-video` | 3,90 | 20,50 | 1,38 | 6,35 | 0,63 | **33,33** | 30,0 / 28,6 |
 
-CV/EKF chỉ khác `--tracker-yaml`; UKF/PF/SORT dùng YAML tương ứng. GT không tham gia.
+`fps stage` = 1000/`frame_total`; `fps vòng lặp` = 1470/`wall_vong_lap` (kể cả warm-up). Khởi tạo/ghi tách
+riêng. Nguồn `results/track_video/v2_MVI_39031_*/pipeline/*.csv`; bản cũ giữ, không dùng.
 
-## 3. Kiểm chứng (`test_track_video_file` **11/11**)
+## Tài liệu / provenance
 
-- **Live → save-cache → replay `run_tracking.py` → parity ĐẠT, lệch 0,000e+00.**
-- Detection live vs **cache gốc thí nghiệm**: cùng số det/lớp từng frame; lệch bbox **6·10⁻⁵ px**,
-  conf **3·10⁻⁵** — nhiễu GPU. Hai lượt độc lập trên 1470 frame (CV và EKF): **liên kết ID y hệt**,
-  công cụ parity chẩn đoán đúng "khác biệt ở đầu vào detector, không ở tracker".
-- .mp4 thật + `--save-video` → 60/60 frame, `run_meta` đủ; video toàn đen → 0 hàng nhưng timing đủ
-  15 frame (vòng đời cập nhật frame rỗng); checkpoint/nguồn sai → exit 2 / ≠ 0; frame không đọc được
-  → `unreadable`; bấm q → giữ hàng frame cuối.
-- Camera: **chưa smoke** (không có camera).
+Ngưỡng **hiệu lực** là `--conf-min` (0,05 không tự bảo đảm vòng ghép thấp; c10 cần 0,1); ví dụ replay khớp
+classes; chế độ dataset chỉ mask `ignored_regions`, không đưa GT vào association; `run_meta.entry_point` =
+sha256 `track_video_file.py` + trạng thái `src/` (không mở rộng `CODE_FILES`, không hồi tố). Log lỗi 19:39:
+stdout thật lưu `handoff/logs/review9/lich_su_that_bai/` + README tách *đã xác minh* / *giả thuyết* (3 commit
+19:41–19:42 trong cửa sổ chạy); log chi tiết đã mất, không tái tạo.
 
-**Thời gian** (1470 frame, GTX 1650, sau 25 frame warm-up, một lượt): tracker CV **0,83** / EKF
-**0,99** ms; detector ~14,5; **pipeline không vẽ 15,6 / 16,2 ms/frame** (47 fps); vẽ + ghi thêm
-~4,7 ms → 40 / 37 fps wall. Số toàn pipeline **không gồm** hiển thị/ghi trừ khi ghi rõ.
+## Kiểm thử
 
-## 4. Review `8bab154` theo phạm vi mới
-
-**F2 đã sửa**: ghép bằng khóa `(frame,id)`; phân hoạch qua ghép hình học 1-1 (Hungarian, ngưỡng
-tolerance, báo mơ hồ) + song ánh ID cố định toàn sequence; tolerance **giữ nguyên**.
-`test_nano_parity` **15/15**, gồm hai fixture của Codex (lệch thật 0,0002 px, trước báo 400 px; đảo
-thứ tự dòng, trước báo 10 px), hoán đổi ID, và ca đổi liên kết thật (vẫn FAIL). Sửa thêm: hoán đổi
-ID làm tập khóa vẫn bằng nhau nên kiểm phân hoạch phải chạy khi mức (a) không đạt trọn vẹn.
-**F1/F3 và tài liệu NANO_STATUS mục 5: hoãn, còn mở.** Review này **chưa** PASS.
-
-## 5. Toàn vẹn
-
-Đổi `run_tracking.py`/`det_cache.py` (trong `CODE_FILES`): `test_run_tracking_replay` 10/10,
-`test_bytetrack_np_parity` 10/10 (bit-identical cache thật), `test_det_cache` 51/51 → **không** chạy
-lại thí nghiệm. `stage_eval` lần sau sẽ báo `code` đổi và đánh giá lại với metric y hệt. Không tuning
-BDD val; không đụng `.gitignore`/`src/demo/**`/`live.bat`/`outputs/**`; mp4 mẫu **không** stage.
-Full suite: **30/30 PASS, 0 FAIL** (`handoff/logs/review9/tests_20260920-1948.log`, chay khi khong co commit song song).
+`test_nano_parity` 20/20, `test_track_video_file` 23/23 (tầng fixture + YOLO thật/GPU: live→cache→replay
+**bit-identical**), `test_run_tracking_replay` 10/10, `test_bytetrack_np_parity` 10/10. Full suite trên code
+chốt: `handoff/logs/review10/` — không commit/sửa source trong lúc chạy.
