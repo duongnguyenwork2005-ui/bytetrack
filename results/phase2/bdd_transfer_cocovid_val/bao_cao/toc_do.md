@@ -27,13 +27,13 @@ Ba cột **không** phải ba pha độc lập: `update` = **tổng** lời gọ
 | pf500 | 5.178 | 2.209 | 2.969 |
 
 
-## 2. Toàn pipeline (detector + tracker)
+## 2. Ước tính cộng hai pha đo riêng (detector + tracker)
 
-⚠️ Đây là **tổng của hai pha đo RIÊNG** (detector đo lúc dựng cache, tracker đo lúc chạy ma trận), **không phải** một phép đo end-to-end. Chạy thật một lượt liền mạch có thể khác (chồng lấn I/O, giữ GPU nóng, không ghi/đọc cache).
+⚠️ Đây là **tổng số học của hai pha đo RIÊNG** — detector đo lúc dựng cache, tracker đo lúc chạy ma trận. **Không phải** một phép đo end-to-end, và **không** lặp có kiểm soát. Một lượt chạy liền mạch có thể khác (chồng lấn I/O, giữ GPU nóng, không ghi/đọc cache).
 
-- Detector (`yolov8n`, conf 0,05, **80 lớp COCO**, `max_det` 3000): **22.9 ms/frame** — 15.3 phút cho 39,973 frame.
+- Detector (`yolov8n`, conf 0,05, **80 lớp COCO**, `max_det` 3000): **22.9 ms/frame** — 15.3 phút cho 39,973 frame trên đúng 200 sequence của manifest.
 - Số này **gom cả đọc + giải mã JPEG**, không phải riêng suy luận.
-- Detector ở đây **dư thừa có chủ ý** cho mục đích cache (giữ 80 lớp để mọi điều kiện dùng chung một cache); một triển khai thật chỉ cần 5 lớp và `max_det` 300 sẽ **nhanh hơn**. Vì vậy con số này là **cận trên**, không dùng để suy ra FPS triển khai.
+- Cache giữ **80 lớp COCO** và `max_det` 3000 để mọi điều kiện dùng chung một cache. Một triển khai chỉ cần 5 lớp và `max_det` 300 sẽ làm **ít việc hơn ở bước NMS/hậu xử lý**, nhưng **chưa đo** nên không khẳng định nhanh hơn bao nhiêu — và phần lớn chi phí nằm ở suy luận cùng giải mã ảnh, vốn **không** đổi theo số lớp.
 
 ### `c25`
 
@@ -44,6 +44,9 @@ Ba cột **không** phải ba pha độc lập: `update` = **tổng** lời gọ
 | ukf | 22.9 | 2.924 | 25.9 | 38.7 | 11.3 % |
 | pf500 | 22.9 | 5.150 | 28.1 | 35.6 | 18.3 % |
 
+Khoảng FPS suy ra trong điều kiện này: **35.6** (`pf500`) → **41.8** (`cv`), chênh **17.4 %**.
+
+
 ### `c10`
 
 | tracker | detector ms | tracker ms | tổng ms/frame | FPS suy ra | tracker chiếm |
@@ -53,5 +56,8 @@ Ba cột **không** phải ba pha độc lập: `update` = **tổng** lời gọ
 | ukf | 22.9 | 3.021 | 26.0 | 38.5 | 11.6 % |
 | pf500 | 22.9 | 5.178 | 28.1 | 35.6 | 18.4 % |
 
-> **Đọc đúng mức**: với cấu hình cache này, chi phí **detector áp đảo**; chênh lệch giữa các bộ lọc gần như không đổi FPS toàn pipeline trên máy này. Điều này **không** suy ra được cho Jetson Nano: tỷ lệ CPU/GPU khác hẳn, chưa đo.
+Khoảng FPS suy ra trong điều kiện này: **35.6** (`pf500`) → **41.5** (`cv`), chênh **16.8 %**.
+
+
+> **Đọc đúng mức**: chi phí detector chiếm phần lớn tổng, nhưng **không** vì thế mà mọi bộ lọc cho FPS như nhau — xem khoảng FPS ghi ngay trên, tính riêng cho từng cặp. Toàn bộ số ở đây là của **máy này** (GTX 1650) với **cấu hình cache này**; **không** suy ra được cho Jetson Nano (tỷ lệ CPU/GPU khác hẳn, chưa đo).
 

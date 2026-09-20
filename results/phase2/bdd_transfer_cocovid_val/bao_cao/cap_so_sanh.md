@@ -1,6 +1,8 @@
 # Cặp so sánh — chênh lệch ghép cặp theo video
 
-Bootstrap **5000 lần, seed 0**, ghép cặp **theo video**; COMBINED tái tổ hợp nhất quán với bảng chính (`src/boot_stats.py`). Các cặp đã **khóa trước** trong YAML.
+Bootstrap **5000 lần, seed 0**, ghép cặp **theo video**; COMBINED tái tổ hợp bằng `src/boot_stats.py`. Các cặp đã **khóa trước** trong YAML.
+
+> **Ngoại lệ PF — hai bảng là hai đại lượng khác nhau.** Với `pf500`, **bảng chính** lấy trung bình **metric** theo ba seed, còn **bootstrap ở đây** lấy trung bình **thống kê đủ** theo seed rồi mới tái tổ hợp. Với metric phi tuyến, hai cách cho kết quả **khác nhau**, nên Δ của `pf500` dưới đây **không** đúng bằng hiệu hai ô trong bảng chính. Cách tổng hợp này đã khai báo trong bản khóa từ trước, **không** chọn sau khi xem kết quả (`PHASE2_REPORT.md` mục 15.2).
 
 ## `c25`
 
@@ -53,5 +55,10 @@ Bootstrap **5000 lần, seed 0**, ghép cặp **theo video**; COMBINED tái tổ
 | pf500 − ekf | IDSW | 2,495 | [2,119, 2,888] | không |
 
 
-**Đọc đúng mức bằng chứng**: CI chứa 0 ⇒ *không đủ bằng chứng về khác biệt*, **không** phải bằng chứng về sự tương đương.
+**Đọc đúng mức bằng chứng**
+
+- CI **chứa 0** ⇒ *không đủ bằng chứng về khác biệt*, **không** phải bằng chứng về sự tương đương.
+- CI **không chứa 0** ⇒ phát biểu đúng là *"CI 95 % của phép so sánh đã định trước không chứa 0"*, **không** phải "lợi thế là thật".
+- Đây là CI **riêng cho từng phép so sánh**. Bảng có nhiều cặp × nhiều metric, nên **chưa** có bảo đảm đồng thời (không hiệu chỉnh đa so sánh).
+- Phạm vi: protocol **gộp phương tiện thành một lớp** trên nhãn **COCO-video chuyển đổi**. Đây **không** phải kết quả benchmark BDD100K native, và **không** phải bằng chứng về khả năng phục hồi sau che khuất (nguồn nhãn không có thuộc tính che khuất).
 
