@@ -19,6 +19,12 @@ TANG 1b (review 8abb368 -- fixture: detector/imread gia lap, tracker THAT, chay 
      (d) `max_det` consumer > producer: live exit 2.
  F4. Thu muc anh: 1,2,10 -> theo SO; 001,002,010 -> nhu nhau; tien to khac nhau / khong co so -> loi ro;
      --frames-manifest -> dung thu tu manifest; frames_manifest.json duoc ghi ra.
+ Q1/Q2 (review 923305d). Bam q (GUI gia lap) o frame 1 / frame 2, warm-up 0: moi dong pipeline huu han
+     (frame_total + overhead, show_ms frame cuoi > 0), n_frame_tong_ket == so dong, sum(stage)+overhead ==
+     frame_total, frames_manifest tach `nguon` (3) / `da_xu_ly`, tracking + cache du va replay tuong duong.
+ S1/S2 (review 923305d). Nguon 'traffic clip' + YAML 'cfg dir/ekf ctrv.yaml': `replay_argv` giu moi gia
+     tri la MOT phan tu, chuoi `replay` quote theo shell nen tang; replay CHAY TU replay_argv (khong
+     .split()) exit 0, parity DAT; ca --allow-truncated cung vay.
 
 TANG 2 (can detector that; dung GPU neu co, khong thi CPU voi it frame hon):
   6. LIVE tren sequence DETRAC + --save-cache, roi REPLAY bang run_tracking.py tu cache do
@@ -239,20 +245,24 @@ def main() -> int:  # noqa: C901
             DELAY["ms"] = 0.0
 
             # --- F2 ---
-            def live_replay(tag, live_extra, replay_extra):
+            def live_replay(tag, live_extra, replay_extra, src_dir=None):
                 cid = f"tvf_f2_{tag}"
                 shutil.rmtree(det_cache.CACHE_ROOT / cid, ignore_errors=True)
                 o = tmp / f"f2_{tag}"
-                rc1, l1 = _main(tvf, base + ["--out", str(o), "--save-cache", cid] + live_extra)
+                src = src_dir or anh_gia
+                argv_live = [x for x in base]
+                argv_live[argv_live.index("--source") + 1] = str(src)
+                rc1, l1 = _main(tvf, argv_live + ["--out", str(o), "--save-cache", cid] + live_extra)
                 meta = json.loads((o / "run_meta.json").read_text(encoding="utf-8")) if (o / "run_meta.json").exists() else {}
                 split = f"TVF_F2_{tag}"
                 shutil.rmtree(ROOT / "data/processed/trackers" / split, ignore_errors=True)
                 rc2, l2, pr = None, "", None
-                if rc1 == 0 and meta.get("replay"):
-                    # dung DUNG lenh replay sinh ra (thay <split>/<ten>), bo "python src/run_tracking.py"
-                    argv = meta["replay"].replace("<split>", split).replace("<ten>", "cv").split()[2:]
+                if rc1 == 0 and meta.get("replay_argv"):
+                    # (review 923305d) dung `replay_argv` CO CAU TRUC: thay hai phan tu placeholder, KHONG .split()
+                    argv = [split if x == "<split>" else ("cv" if x == "<ten>" else x) for x in meta["replay_argv"]][2:]
                     rc2, l2 = _main(run_tracking, argv)
-                    f_live, f_rep = o / "data" / "anh_gia.txt", ROOT / "data/processed/trackers" / split / "cv" / "data" / "anh_gia.txt"
+                    ten_src = src.name
+                    f_live, f_rep = o / "data" / f"{ten_src}.txt", ROOT / "data/processed/trackers" / split / "cv" / "data" / f"{ten_src}.txt"
                     if f_rep.exists():
                         pr = npar.so_mot_video(f_live, f_rep)
                 shutil.rmtree(ROOT / "data/processed/trackers" / split, ignore_errors=True)
@@ -284,6 +294,77 @@ def main() -> int:  # noqa: C901
             _check("F2d. max_det consumer (10) > producer (5) -> live exit 2",
                    d_[0] == 2 and d_[1] is None, f"live={d_[0]} log={d_[4][-160:]}")
 
+            # --- 923305d ca 1: bam q o frame 1 / frame 2, warm-up 0 (GUI gia lap) ---
+            _named0, _imshow0, _wait0, _destroy0 = cv2.namedWindow, cv2.imshow, cv2.waitKey, cv2.destroyAllWindows
+            GUI = {"n": 0, "q_tai": 0}
+
+            def _waitkey_gia(ms=1):
+                GUI["n"] += 1
+                return ord("q") if GUI["n"] == GUI["q_tai"] else 255
+            try:
+                cv2.namedWindow = lambda *aa, **kk: None
+                cv2.imshow = lambda *aa, **kk: None
+                cv2.destroyAllWindows = lambda *aa, **kk: None
+                cv2.waitKey = _waitkey_gia
+                DELAY["ms"] = 20.0
+                for q_tai in (1, 2):
+                    GUI["n"], GUI["q_tai"] = 0, q_tai
+                    cid_q = f"tvf_q{q_tai}"
+                    shutil.rmtree(det_cache.CACHE_ROOT / cid_q, ignore_errors=True)
+                    oq = tmp / f"q{q_tai}"
+                    rc_q, log_q = _main(tvf, base + ["--out", str(oq), "--show", "--save-cache", cid_q])
+                    mq = json.loads((oq / "run_meta.json").read_text(encoding="utf-8"))
+                    pq = pd.read_csv(oq / "pipeline" / "anh_gia.csv")
+                    fmq = json.loads((oq / "frames_manifest.json").read_text(encoding="utf-8"))
+                    tq = mq["thoi_gian"]
+                    huu_han = pq.frame_total_ms.notna() & pq.overhead_ms.notna()
+                    tong_lai_q = (pq[["decode_ms", "mask_ms", "detect_ms", "t_update_ms", "render_ms", "write_ms",
+                                     "show_ms", "overhead_ms"]].sum(axis=1) - pq["frame_total_ms"]).abs().max()
+                    # replay tu cache 2 frame bang replay_argv
+                    split_q = f"TVF_Q{q_tai}"
+                    shutil.rmtree(ROOT / "data/processed/trackers" / split_q, ignore_errors=True)
+                    argv_q = [split_q if x == "<split>" else ("cv" if x == "<ten>" else x) for x in mq["replay_argv"]][2:]
+                    rc_rq, _ = _main(run_tracking, argv_q)
+                    pr_q = npar.so_mot_video(oq / "data" / "anh_gia.txt",
+                                             ROOT / "data/processed/trackers" / split_q / "cv" / "data" / "anh_gia.txt")
+                    _check(f"Q{q_tai}. bam q o frame {q_tai} (warm-up 0): exit 0, dung_som, {q_tai} dong pipeline DEU huu han "
+                           "(frame_total + overhead), show_ms cua frame cuoi > 0, n_frame_tong_ket == so dong huu han, "
+                           "sum(stage)+overhead == frame_total, manifest tach nguon 3 / da_xu_ly, replay cache tuong duong",
+                           rc_q == 0 and mq["ket_qua"]["dung_som"] is True and len(pq) == q_tai and huu_han.all()
+                           and float(pq.show_ms.iloc[-1]) > 0 and tq["n_frame_tong_ket"] == int(huu_han.sum()) == q_tai
+                           and tong_lai_q < 1e-6 and pq.frame_total_ms.iloc[-1] >= pq.decode_ms.iloc[-1]
+                           and fmq["n_nguon"] == 3 and fmq["n_da_xu_ly"] == q_tai and fmq["da_xu_ly"] == list(range(1, q_tai + 1))
+                           and rc_rq == 0 and pr_q["dat"] and pr_q["n_ref"] == q_tai,
+                           f"rc={rc_q} n={len(pq)} huu_han={int(huu_han.sum())} tong_ket={tq['n_frame_tong_ket']} "
+                           f"show_cuoi={float(pq.show_ms.iloc[-1]):.3f} tong_lai={tong_lai_q:.1e} "
+                           f"manifest={fmq.get('n_nguon')}/{fmq.get('n_da_xu_ly')} replay={rc_rq} parity={pr_q.get('ly_do','DAT')}")
+                    shutil.rmtree(ROOT / "data/processed/trackers" / split_q, ignore_errors=True)
+                    shutil.rmtree(det_cache.CACHE_ROOT / cid_q, ignore_errors=True)
+                DELAY["ms"] = 0.0
+            finally:
+                cv2.namedWindow, cv2.imshow, cv2.waitKey, cv2.destroyAllWindows = _named0, _imshow0, _wait0, _destroy0
+
+            # --- 923305d ca 2: ten nguon va duong dan YAML co DAU CACH, replay tu replay_argv ---
+            src_sp = tmp / "traffic clip"; src_sp.mkdir()
+            for i in (1, 2, 3):
+                (src_sp / f"{i:03d}.jpg").write_bytes(b"x")
+            yaml_sp = tmp / "cfg dir" / "ekf ctrv.yaml"
+            yaml_sp.parent.mkdir()
+            shutil.copy(ROOT / "configs" / "bytetrack_ekf_ctrv.yaml", yaml_sp)
+            sp1 = live_replay("space", ["--conf-min", "0.25", "--tracker-yaml", str(yaml_sp)], [], src_dir=src_sp)
+            m_sp = sp1[3]
+            _check("S1. nguon 'traffic clip' + YAML 'cfg dir/ekf ctrv.yaml': live exit 0; replay_argv giu MOI gia tri "
+                   "la MOT phan tu; chuoi `replay` quote theo shell (Windows: list2cmdline); replay tu replay_argv exit 0, parity DAT",
+                   sp1[0] == 0 and "traffic clip" in m_sp.get("replay_argv", []) and str(yaml_sp) in m_sp.get("replay_argv", [])
+                   and '"traffic clip"' in m_sp.get("replay", "") and m_sp.get("replay_quote")
+                   and sp1[1] == 0 and sp1[2] and sp1[2]["dat"],
+                   f"live={sp1[0]} replay={sp1[1]} parity={sp1[2] and sp1[2].get('ly_do','DAT')} quote={m_sp.get('replay_quote')}")
+            sp2 = live_replay("space_tran", ["--det-max-det", "1", "--max-det", "1", "--allow-truncated",
+                                             "--tracker-yaml", str(yaml_sp)], [], src_dir=src_sp)
+            _check("S2. cung nguon/YAML co dau cach + --allow-truncated: replay_argv co '--allow-truncated', replay exit 0, parity DAT",
+                   sp2[0] == 0 and "--allow-truncated" in sp2[3].get("replay_argv", []) and sp2[1] == 0 and sp2[2] and sp2[2]["dat"],
+                   f"live={sp2[0]} replay={sp2[1]} parity={sp2[2] and sp2[2].get('ly_do','DAT')}")
+
             # --- F4 ---
             def thu_tu(ten_files, manifest=None):
                 d = tmp / ("f4_" + str(abs(hash(tuple(ten_files))) % 10**6))
@@ -312,10 +393,11 @@ def main() -> int:  # noqa: C901
             _check("F4e. --frames-manifest -> dung DUNG thu tu manifest (b2 truoc a1) du ten mo ho",
                    thu_tu(["a1.jpg", "b2.jpg"], str(mf)) == ["b2.jpg", "a1.jpg"])
             fm = json.loads((o1 / "frames_manifest.json").read_text(encoding="utf-8"))
-            _check("F4f. run ghi frames_manifest.json: quy uoc + (file, frame, time_s) da dung",
-                   fm["quy_uoc"] and [x["file"] for x in fm["frames"]] == ["001.jpg", "002.jpg", "003.jpg"]
-                   and [x["frame"] for x in fm["frames"]] == [1, 2, 3] and abs(fm["frames"][2]["time_s"] - 0.4) < 1e-9,
-                   f"{fm['frames']}")
+            _check("F4f. run ghi frames_manifest.json: quy uoc + `nguon` (file, frame, time_s) + `da_xu_ly` (chay het: 3/3)",
+                   fm["quy_uoc"] and [x["file"] for x in fm["nguon"]] == ["001.jpg", "002.jpg", "003.jpg"]
+                   and [x["frame"] for x in fm["nguon"]] == [1, 2, 3] and abs(fm["nguon"][2]["time_s"] - 0.4) < 1e-9
+                   and fm["n_nguon"] == 3 and fm["n_da_xu_ly"] == 3 and fm["da_xu_ly"] == [1, 2, 3] and fm["dung_som"] is False,
+                   f"{fm.get('nguon')} da_xu_ly={fm.get('da_xu_ly')}")
         finally:
             cv2.imread, det_cache.detect_frame, ultralytics.YOLO = _imread0, _detect0, _yolo0
 

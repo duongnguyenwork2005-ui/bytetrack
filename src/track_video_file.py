@@ -48,7 +48,8 @@ PHAM VI DO (review 8abb368, PC-F1) -- theo TUNG frame, cot trong pipeline/<ten>.
 Tong ket trong run_meta.json bo `--warmup-frames` frame dau va dung CUNG tap frame cho MOI cot.
     wall_vong_lap_s  = quanh `track_video()` (moi frame, KE CA warm-up, ke ca ve/ghi/hien thi)
     wall_khoi_tao_s  = mo nguon + nap detector + dung tracker
-    wall_ghi_s       = ghi MOT/CSV/cache/meta SAU vong lap
+    wall_ghi_s       = ghi MOT/CSV/pipeline/frames_manifest/cache SAU vong lap -- dung TRUOC khi ghi
+                       run_meta.json (file chua chinh so do nay)
     fps_vong_lap     = n_frame / wall_vong_lap_s          (co warm-up)
     fps_theo_stage   = 1000 / mean(frame_total_ms sau warm-up)
 
@@ -284,8 +285,11 @@ class LiveVideoDetections:
                 self._ghi_raw(idx, t_s, None, True)
                 self.pipeline.append(row)
                 self.last_img = None
-                yield idx, t_s, True, np.zeros((0, 6), dtype=np.float32)
-                row["frame_total_ms"] = (pc() - t_bat_dau) * 1e3
+                try:
+                    yield idx, t_s, True, np.zeros((0, 6), dtype=np.float32)
+                finally:
+                    # chay ca khi generator bi close() do dung som (review 923305d)
+                    row["frame_total_ms"] = (pc() - t_bat_dau) * 1e3
                 continue
             t1 = pc()
             if self.spec.mask_ignored_regions and self.nguon.regions:
@@ -308,11 +312,15 @@ class LiveVideoDetections:
             self.pipeline.append(row)
             self.last_img = img
             self.ghi_ve.clear()
-            yield idx, t_s, False, arr
-            # resume: tracker.update + on_frame (ve/ghi/hien thi) cua frame nay DA xong
-            row["frame_total_ms"] = (pc() - t_bat_dau) * 1e3
-            for k in ("render_ms", "write_ms", "show_ms"):
-                row[k] = float(self.ghi_ve.get(k, 0.0))
+            try:
+                yield idx, t_s, False, arr
+            finally:
+                # Chot timing cua frame nay: chay o CA HAI duong -- resume binh thuong (frame ke tiep) VA
+                # generator bi close() tuong minh khi on_frame tra False (track_video dong trong finally
+                # ngay tai break). Khong doc them frame, khong dien 0 thay gia tri thieu.
+                row["frame_total_ms"] = (pc() - t_bat_dau) * 1e3
+                for k in ("render_ms", "write_ms", "show_ms"):
+                    row[k] = float(self.ghi_ve.get(k, 0.0))
 
     def __len__(self):
         return self.n_frames
@@ -360,23 +368,36 @@ def _entry_point_provenance() -> dict:
     return d
 
 
-def lenh_replay(a, ten: str, classes, seed, fps: float, allow_truncated: bool) -> str:
-    """Lenh run_tracking.py voi DUNG cau hinh hieu luc + chinh sach cua lan live."""
-    c = ["python src/run_tracking.py", f"--cache-id {a.save_cache}", "--split-name <split>",
-         f"--tracker-yaml {a.tracker_yaml}", "--tracker-name <ten>", f"--videos {ten}",
-         f"--conf-min {a.conf_min}",
-         ("--all-classes" if classes is None else "--classes " + " ".join(map(str, classes))),
-         f"--max-det {a.max_det}", f"--fps {fps:g}", f"--track-buffer-sec {a.track_buffer_sec}",
-         f"--elapsed-mode {a.elapsed_mode}"]
+def replay_argv(a, ten: str, classes, seed, fps: float, allow_truncated: bool) -> list[str]:
+    """Danh sach doi so REPLAY (moi doi so mot phan tu -- bao toan ten co dau cach) voi DUNG cau hinh
+    hieu luc + chinh sach cua lan live. Placeholder `<split>` va `<ten>` la HAI PHAN TU rieng: thay
+    bang gia tri that (co the co dau cach) truoc khi chay `subprocess.run(argv, shell=False)`.
+    (review 923305d) KHONG dung `.split()` len chuoi hien thi de lay lai argv."""
+    c = ["python", "src/run_tracking.py", "--cache-id", a.save_cache, "--split-name", "<split>",
+         "--tracker-yaml", a.tracker_yaml, "--tracker-name", "<ten>", "--videos", ten,
+         "--conf-min", str(a.conf_min)]
+    c += ["--all-classes"] if classes is None else ["--classes", *[str(x) for x in classes]]
+    c += ["--max-det", str(a.max_det), "--fps", f"{fps:g}", "--track-buffer-sec", str(a.track_buffer_sec),
+          "--elapsed-mode", a.elapsed_mode]
     if a.class_map:
-        c.append(f"--class-map {a.class_map}")
+        c += ["--class-map", a.class_map]
     if seed is not None:
-        c.append(f"--seeds {seed}")
+        c += ["--seeds", str(seed)]
     if a.set:
-        c.append("--set " + " ".join(a.set))
+        c += ["--set", *a.set]
     if allow_truncated:
         c.append("--allow-truncated")
-    return " ".join(c)
+    return c
+
+
+def chuoi_lenh(argv: list[str]) -> tuple[str, str]:
+    """Chuoi de NGUOI DUNG sao chep, quote theo shell cua NEN TANG HIEN TAI: Windows -> quy tac
+    CommandLineToArgvW (`subprocess.list2cmdline`, dung cho cmd/PowerShell khi goi .exe); POSIX ->
+    `shlex.join`. Tra ve (chuoi, ten_quy_tac). Khong ap quote Bash roi coi la dung tren Windows."""
+    if sys.platform.startswith("win"):
+        return subprocess.list2cmdline(argv), "windows-list2cmdline"
+    import shlex
+    return shlex.join(argv), "posix-shlex"
 
 
 # --------------------------------------------------------------------------- CLI
@@ -586,8 +607,13 @@ def main() -> int:  # noqa: C901
         stage = df_p[["decode_ms", "mask_ms", "detect_ms", "t_update_ms", "render_ms", "write_ms", "show_ms"]]
         df_p["overhead_ms"] = df_p["frame_total_ms"] - stage.fillna(0.0).sum(axis=1)
     df_p.to_csv(out / "pipeline" / f"{ten}.csv", index=False)
+    da_xu_ly = [int(x) for x in df_p.frame] if len(df_p) else []
     (out / "frames_manifest.json").write_text(json.dumps(
-        {"quy_uoc": nguon.quy_uoc_thu_tu, "fps": nguon.fps, "frames": nguon.manifest_frames()},
+        {"quy_uoc": nguon.quy_uoc_thu_tu, "fps": nguon.fps,
+         "ghi_chu": "`nguon` = toan bo danh sach nguon theo thu tu da chot; `da_xu_ly` = chi so frame THUC SU "
+                    "da qua detector+tracker (it hon khi --max-frames hoac dung som bang q).",
+         "n_nguon": nguon.n_frames_khai_bao, "n_da_xu_ly": len(da_xu_ly), "dung_som": trang_thai["dung_som"],
+         "nguon": nguon.manifest_frames(), "da_xu_ly": da_xu_ly},
         ensure_ascii=False, indent=1), encoding="utf-8")
 
     cache_info = None
@@ -628,7 +654,9 @@ def main() -> int:  # noqa: C901
                           + tong_ket["t_update_ms"] + tong_ket["render_ms"] + tong_ket["write_ms"]
                           + tong_ket["show_ms"]),
         "fps_theo_stage": (1000.0 / tong_ket["frame_total_ms"] if tong_ket["frame_total_ms"] > 0 else float("nan")),
-        "wall_khoi_tao_s": wall_khoi_tao, "wall_vong_lap_s": wall_vong_lap, "wall_ghi_s": wall_ghi,
+        "wall_khoi_tao_s": wall_khoi_tao, "wall_vong_lap_s": wall_vong_lap,
+        # wall_ghi_s: MOT/CSV/pipeline/frames_manifest/cache; dung TRUOC khi ghi run_meta.json (file nay)
+        "wall_ghi_s": wall_ghi,
         "wall_tong_s": time.perf_counter() - t_main,
         # phan cua wall_vong_lap KHONG thuoc frame nao (dung tracker, StopIteration, dung DataFrame)
         "wall_ngoai_frame_s": (wall_vong_lap - float(np.nansum(df_p.frame_total_ms)) / 1000.0) if len(df_p) else None,
@@ -669,7 +697,14 @@ def main() -> int:  # noqa: C901
                     "det_cache": ({"cache_id": a.save_cache, "dir": str(det_cache.CACHE_ROOT / a.save_cache),
                                    **cache_info} if cache_info else None)},
         "thoi_gian": thoi_gian,
-        "replay": (lenh_replay(a, ten, classes, seed, nguon.fps, a.allow_truncated) if a.save_cache else None),
+        # (review 923305d) `replay_argv` la nguon chuan (moi doi so mot phan tu); `replay` chi de sao chep
+        "replay_argv": (replay_argv(a, ten, classes, seed, nguon.fps, a.allow_truncated) if a.save_cache else None),
+        "replay": (chuoi_lenh(replay_argv(a, ten, classes, seed, nguon.fps, a.allow_truncated))[0]
+                   if a.save_cache else None),
+        "replay_quote": (chuoi_lenh(["x"])[1] if a.save_cache else None),
+        "replay_huong_dan": ("Chay: thay HAI phan tu '<split>' va '<ten>' trong `replay_argv` bang gia tri that "
+                             "roi subprocess.run(argv, shell=False). Chuoi `replay` da quote theo `replay_quote`; "
+                             "tren shell khac phai quote lai, khong dung .split()." if a.save_cache else None),
         "replay_trang_thai": (None if not a.save_cache else
                               ("san dung: cau hinh da qua check_compatible; "
                                + ("co frame cham tran, replay CAN --allow-truncated (da them)" if vd.n_truncated
