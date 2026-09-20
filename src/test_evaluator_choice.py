@@ -13,8 +13,14 @@ bang `mot` va MAT xu ly crowd-ignore (GT co vung bo qua class 13 conf 0).
         - `mot`       : FP = 2  (KHONG loai detection trong vung bo qua)
         - `mot_crowd` : FP = 1  (loai dung mot cai)
         - ca hai      : detection khop GT hop le VAN duoc giu (TP = 1)
-  5. Chay qua `run_experiment.stage_eval()` THAT voi split `BDDSMOKE-val`: lop duoc dung la
-     `mot_crowd` va ghi vao `eval_meta.json`.
+  5. Chay qua `run_experiment.stage_eval()` THAT (review ca93c1e, P3 -- truoc day phep kiem nay
+     chi TINH LAI bieu thuc chon lop roi kiem `rex is not None`, khong he goi runner, nen van PASS
+     ke ca khi duong goi evaluator trong runner bi sua sai):
+       5a. runner chon `mot_crowd` va GHI vao `eval_meta.json`; FP = 1 (da loai detection trong
+           vung bo qua), TP = 1 (detection khop GT hop le VAN duoc giu).
+       5b. DO NHAY: ep runner dung `mot` tren cung fixture -> FP = 2. Neu khong doi thi phep kiem
+           nay vo nghia, nen chenh lech FP chinh la bang chung test bat duoc loi chon evaluator.
+       5c. GT hop le CHONG LEN vung bo qua: detection khop no VAN la TP, khong bi vung ignore nuot.
 
     python src/test_evaluator_choice.py
 """
@@ -62,6 +68,59 @@ def make_fixture(root: Path, split: str, tracker: str) -> None:
         "1,2,410,110,60,60,0.9,-1,-1,-1\n"       # (b) nam trong vung bo qua
         "1,3,800,400,50,50,0.9,-1,-1,-1\n",      # (c) FP thuong
         encoding="utf-8")
+
+
+def make_fixture_chong_lan(root: Path, split: str, tracker: str) -> None:
+    """GT hop le NAM CHONG LEN vung bo qua -> detection khop no phai VAN duoc tinh la TP.
+
+    GT      : muc tieu A (100,100,50,50); VUNG BO QUA (400,100,80,80);
+              muc tieu B (405,105,70,70) -- chong len vung bo qua
+    Tracking: khop A, khop B, va mot detection nam GON trong vung bo qua nhung khong khop GT nao
+    """
+    seq = root / split / "v1"
+    (seq / "gt").mkdir(parents=True, exist_ok=True)
+    (seq / "gt" / "gt.txt").write_text(
+        "1,1,100,100,50,50,1,1,1.000\n"
+        "1,2,400,100,80,80,0,13,0.000\n"
+        "1,3,405,105,70,70,1,1,1.000\n", encoding="utf-8")
+    (seq / "seqinfo.ini").write_text(
+        "[Sequence]\nname=v1\nimDir=img1\nframeRate=5\nseqLength=1\nimWidth=1280\nimHeight=720\n"
+        "imExt=.jpg\n", encoding="utf-8")
+    (root / "seqmaps").mkdir(parents=True, exist_ok=True)
+    (root / "seqmaps" / f"{split}.txt").write_text("name\nv1\n", encoding="utf-8")
+    td = root / "trackers" / split / tracker / "data"
+    td.mkdir(parents=True, exist_ok=True)
+    (td / "v1.txt").write_text(
+        "1,1,100,100,50,50,0.9,-1,-1,-1\n"        # khop muc tieu A
+        "1,2,405,105,70,70,0.9,-1,-1,-1\n"        # khop muc tieu B (chong vung bo qua)
+        "1,3,470,160,12,12,0.9,-1,-1,-1\n",       # trong vung bo qua, khong khop GT nao
+        encoding="utf-8")
+
+
+def _stage_eval_that(rex, config, proc: Path, res: Path, split: str, tracker: str,
+                     dataset_cls: str | None = None) -> tuple[dict, dict]:
+    """Goi `run_experiment.stage_eval()` THAT; tra ve (metric COMBINED, eval_meta.json)."""
+    import contextlib
+    import io
+    import pandas as pd
+    exp = {"name": "evalchoice", "split_name": split, "dataset": "bdd100k_coco",
+           "cache_id": "khong-co", "classes": [2], "max_det": 300, "fps": 5,
+           "elapsed_mode": "steps", "conditions": {"c25": {"conf_min": 0.25}}, "occlusion": {}}
+    if dataset_cls:
+        exp["dataset_class"] = dataset_cls
+    rows = [{"cond": "c25", "tracker": "cv", "yaml": "bytetrack.yaml", "set": {}, "seed": None,
+             "conf_min": 0.25, "dir": tracker, "tracker_type": "bytetrack", "track_buffer_sec": None}]
+    old_p, old_r = config.PROCESSED_DIR, config.RESULTS_DIR
+    try:
+        config.PROCESSED_DIR, config.RESULTS_DIR = proc, res
+        with contextlib.redirect_stdout(io.StringIO()):
+            rex.stage_eval(exp, rows, ["v1"], force=True)
+        d = pd.read_csv(res / "trackeval" / split / tracker / "combined_metrics.csv").iloc[0]
+        meta = json.loads((res / "trackeval" / split / tracker / "eval_meta.json").read_text())
+    finally:
+        config.PROCESSED_DIR, config.RESULTS_DIR = old_p, old_r
+    return {"FP": int(d["FP"]), "FN": int(d["FN"]), "GT_dets": int(d["GT_dets"]),
+            "HOTA": round(float(d["HOTA"]), 7)}, meta
 
 
 def main() -> int:
@@ -122,15 +181,38 @@ def main() -> int:
                and ket["mot"]["TP"] == 1 and ket["mot_crowd"]["TP"] == 1,
                f"mot={ket['mot']}  mot_crowd={ket['mot_crowd']}")
 
-        # --- 5. qua stage_eval THAT voi ten split BDDSMOKE-* ---
+        # --- 5. qua stage_eval() THAT (P3) ---
         import run_experiment as rex
-        exp = {"name": "evalchoice", "split_name": split, "dataset": "bdd100k_coco",
-               "cache_id": "x", "classes": None, "max_det": 300, "fps": 5,
-               "elapsed_mode": "steps", "conditions": {"c25": {"conf_min": 0.25}}, "occlusion": {}}
-        chon = exp.get("dataset_class") or rt.dataset_class_for(exp.get("dataset"), exp["split_name"])
-        _check("`stage_eval` voi split 'BDDSMOKE-*' + dataset bdd100k_coco -> dung `mot_crowd` "
-               "(truoc day quy tac startswith('BDD-') cho ra 'mot')",
-               chon == "mot_crowd" and rex is not None, f"dataset_cls = {chon!r}")
+
+        proc5, res5 = tmp / "p5", tmp / "r5"
+        split5, trk5 = "BDDSMOKE-val", "p2-evalchoice-c25-cv"
+        make_fixture(proc5, split5, trk5)
+
+        m_auto, meta_auto = _stage_eval_that(rex, config, proc5, res5, split5, trk5)
+        _check("5a. `stage_eval()` THAT voi split 'BDDSMOKE-*' + dataset bdd100k_coco: runner dung "
+               "`mot_crowd`, ghi vao `eval_meta.json`; FP = 1 (loai detection trong vung bo qua), "
+               "GT_dets = 1",
+               meta_auto.get("evaluator", {}).get("dataset_class") == "mot_crowd"
+               and m_auto["FP"] == 1 and m_auto["GT_dets"] == 1,
+               f"eval_meta.evaluator={meta_auto.get('evaluator')}  metric={m_auto}")
+
+        m_mot, meta_mot = _stage_eval_that(rex, config, proc5, res5, split5, trk5, dataset_cls="mot")
+        _check("5b. DO NHAY: ep runner dung `mot` tren CUNG fixture -> FP = 2. Chenh lech nay la "
+               "bang chung phep kiem bat duoc loi chon evaluator (truoc day khong bat duoc)",
+               meta_mot.get("evaluator", {}).get("dataset_class") == "mot"
+               and m_mot["FP"] == 2 and m_mot["FP"] != m_auto["FP"],
+               f"mot: FP={m_mot['FP']}  mot_crowd: FP={m_auto['FP']}")
+
+        proc5b, res5b = tmp / "p5b", tmp / "r5b"
+        split5b = "BDDSMOKE-chonglan"
+        make_fixture_chong_lan(proc5b, split5b, trk5)
+        m_ov, meta_ov = _stage_eval_that(rex, config, proc5b, res5b, split5b, trk5)
+        _check("5c. GT hop le CHONG LEN vung bo qua: detection khop no VAN la TP (2 GT duoc cham, "
+               "khong bi vung ignore nuot); detection trong vung bo qua khong khop GT thi bi loai",
+               meta_ov.get("evaluator", {}).get("dataset_class") == "mot_crowd"
+               and m_ov["GT_dets"] == 2 and m_ov["FN"] == 0 and m_ov["FP"] == 0,
+               f"metric={m_ov}")
+
     except AssertionError:
         failed += 1
     except Exception as e:  # noqa: BLE001
