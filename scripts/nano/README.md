@@ -116,11 +116,13 @@ phép đo mà mục 4c cần.
 | Đối chiếu op với bảng TensorRT 8.2 | ✅ `scripts/nano/trt82_ops.txt`; **2/3 qua**: `yolov8n`, `yolo11n` (verdict *"cần kiểm tra bằng trtexec trên Nano"*). `yolo26n` **bị loại**: có op `Mod` ngoài bảng TRT 8.2 |
 | Script kiểm stack / build engine / benchmark | ✅ `00_check_stack.sh`, `01_build_engine.sh`, `02_benchmark_engine.sh` |
 | Giao thức đo CV ↔ EKF | ✅ mục 4c này |
+| Bộ so kết quả Nano ↔ PC | ✅ `src/nano_parity.py` — tolerance công bố trước, liên kết ID **không** có tolerance; `src/test_nano_parity.py` **10/10** |
+| Khung đo AB/BA theo mục 4c | ✅ `src/nano_bench_tracker.py` — 6 cặp cân bằng, warm-up, `tegrastats`, lưu **mọi** lượt, báo trung vị + IQR của hiệu số **theo cặp** |
 | Vòng lặp ByteTrack không phụ thuộc torch | ✅ **đã có** (`BYTETRACK_BACKEND=np`), parity bit-identical trên PC — **chưa chạy trên thiết bị** |
 | Python ≥ 3.7 trên Nano (bản vendor yêu cầu) | ❓ **chưa xác minh** — JetPack 4.6 mặc định Python 3.6 |
-| `scipy` / `lap` cho aarch64 | ❓ **chưa xác minh** |
+| `scipy` / `lap` / **`pandas`** cho aarch64 | ❓ **chưa xác minh** — `src/run_tracking.py` có import `pandas` để ghi `timing/*.csv`, nên đây là phụ thuộc **bắt buộc** của đường tracker-từ-cache |
 | Đường detector trên Nano nối vào backend mới | ❌ **chưa làm** |
-| Thiết bị Nano | ❌ **chưa kết nối** (`ping nano.local` không phân giải được, 2026-09-18) |
+| Thiết bị Nano | ❌ **không tiếp cận được** — kiểm lại 2026-09-20: 4 tên không phân giải, ARP không có OUI NVIDIA `00-04-4b`, không cổng serial, không thiết bị PnP Jetson/Tegra/APX. Bằng chứng: `handoff/logs/review8/thu_ket_noi_nano.log` |
 | Số đo trên Nano | ❌ **chưa có số nào**; mọi FPS trong repo là PC (GTX 1650) |
 
 ### Lệnh thu thập thông tin khi có thiết bị (chạy TRƯỚC mọi phép đo)

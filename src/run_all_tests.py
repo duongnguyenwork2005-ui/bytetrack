@@ -79,6 +79,8 @@ TESTS = [
     # review ca93c1e: guard dau vao danh gia (P1) + thong ke cong cu bao cao (P2)
     ("test_eval_guard", [], None),
     ("test_report_stats", [], None),
+    # moc Nano: bo so ket qua tracking Nano voi ban tham chieu PC
+    ("test_nano_parity", [], None),
     ("test_bdd100k_adapter", [], None),
     ("test_bdd100k_coco", [], None),
     ("test_pf_ctrv", [], None),
