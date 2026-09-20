@@ -1,0 +1,19 @@
+==========================================================================
+CA 1: dung som bang q o frame 2 -> timing frame cuoi?
+==========================================================================
+  exit=0 dung_som=True n_frame_xu_ly=2 n_frame_tong_ket=2
+    frame 1: frame_total=39.872 overhead=0.272 show=0.008 render=18.876
+    frame 2: frame_total=21.226 overhead=0.234 show=0.005 render=0.118
+  frame_total NaN: 0 | huu han: 2 (n_frame_tong_ket noi 2) | wall_ngoai_frame=0.82 ms | manifest: nguon 3 / da_xu_ly 2
+  TAI HIEN: False
+==========================================================================
+CA 2: nguon 'traffic clip' -> lenh replay tach thanh 2 video?
+==========================================================================
+  live exit=0; cache: True
+  lenh replay: ...--videos "traffic clip" --conf-min 0.25 ...
+  replay_argv co 'traffic clip' la MOT phan tu: True
+  replay (replay_argv) exit=0 
+  TAI HIEN: False
+
+TONG KET: {'CA1_q': False, 'CA2_space': False}
+exit=1 (1 = khong tai hien duoc nua)

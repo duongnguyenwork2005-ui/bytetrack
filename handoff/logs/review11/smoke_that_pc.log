@@ -1,0 +1,20 @@
+### smoke that: --show + --save-video + --save-cache, 60 frame, GPU ###
+[track_video] nguon=dataset:detrac/test/MVI_39031  960x540 @ 25 fps  (1470 frame khai bao); thu tu: dataset detrac: FrameRef.index/time_s cua adapter
+[track_video] detector=yolov8n.pt det_conf=0.05 det_max_det=3000 device=0 allow_truncated=False
+[track_video] loc: conf>0.25 (NGUONG HIEU LUC vao tracker) classes=[2, 3, 5, 7] max_det=300 class_map=None
+[track_video] tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml track_buffer=30 buoc (1.2s) elapsed=steps seed=None backend=ultralytics
+[track_video] 60 frame (0 unreadable, 0 cham tran), 95 hang tracking, 2 track
+[track_video] sau warm-up (35 frame): decode 2.33 | mask 0.37 | detect 12.63 | tracker 0.75 | ve 0.42 | ghi 3.65 | show 1.47 | overhead 0.36 = frame_total 21.98 ms  -> 45.5 fps theo stage
+[track_video] wall: khoi tao 0.7s | vong lap 3.3s (18.0 fps, ke ca warm-up) | ghi 0.1s
+[track_video] -> C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\smoke11\live
+[track_video] det cache -> D:\LABOTARY\bytetrack\data\interim\det_cache\smoke11  (san dung: cau hinh da qua check_compatible; khong frame nao cham tran)
+exit_live=0
+
+### replay bang subprocess.run(replay_argv, shell=False) ###
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', 'src/run_tracking.py', '--cache-id', 'smoke11', '--split-name', 'SMOKE11', '--tracker-yaml', 'configs/bytetrack_ekf_ctrv.yaml', '--tracker-name', 'ekf', '--videos', 'MVI_39031', '--conf-min', '0.25', '--classes', '2', '3', '5', '7', '--max-det', '300', '--fps', '25', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
+exit_replay = 0
+['  ekf                          MVI_39031         60 frame ->      95 bbox    2 track  predict 0.07 ms/frame  assoc 0.39  (0.0s, 1463 fps)', '  ekf                            1 video moi,   0 tai su dung']
+
+### parity live vs replay ###
+MVI_39031                         95    0.000e+00    0.000e+00       khop  DAT
+KET QUA: 1/1 video DAT

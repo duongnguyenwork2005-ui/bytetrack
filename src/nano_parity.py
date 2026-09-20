@@ -22,7 +22,8 @@ SAI, vi toa do duoc phep lech toi TOL_BBOX nen thu tu tuyet doi cua toa do khong
 box gan nhau doi cho sau sai so nho, hai box trung (x, y) phu thuoc thu tu dong trong file):
   - Muc (a): khoa (frame, id). Tap khoa hai ben phai BANG NHAU va KHONG co khoa trung.
   - Muc (b): trong moi frame, tap UNG VIEN = cac cap (ref, test) co Chebyshev 4 toa do <= TOL_BBOX
-    va |d conf| <= TOL_CONF. Song anh ID xay tu cac cap KHONG MO HO (1-1 duy nhat) roi lan truyen
+    (CHI HINH HOC; confidence KHONG tham gia ghep, no duoc kiem RIENG o muc (a)). Song anh ID xay tu
+    cac cap KHONG MO HO (1-1 duy nhat) roi lan truyen
     bang rang buoc TOAN SEQUENCE; box con nhieu ung vien ma rang buoc khong phan biet duoc ->
     trang thai MO HO (khong PASS, khong FAIL). KHONG dung Hungarian de chon tuy y (review 8abb368).
     Ket qua khong phu thuoc thu tu dong trong file.

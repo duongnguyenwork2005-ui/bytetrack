@@ -1,6 +1,6 @@
 # Hệ thống tracking phương tiện trên PC — hướng dẫn sử dụng và kiểm chứng
 
-Cập nhật 2026-09-20 (sau review `8abb368`). Entry point: **`src/track_video_file.py`** (ngoài `src/demo/**`).
+Cập nhật 2026-09-21 (sau review `923305d`). Entry point: **`src/track_video_file.py`** (ngoài `src/demo/**`).
 
 ## 1. Chạy một video
 
@@ -19,7 +19,8 @@ python src/track_video_file.py --source D:\anh\cam01 --fps 25 --tracker-yaml con
 python src/track_video_file.py --source D:\anh\cam01 --fps 25 --frames-manifest thu_tu.json
 ```
 
-Phím khi `--show`: **q** thoát (kết quả đã xử lý **vẫn được ghi đầy đủ**), **SPACE** tạm dừng/tiếp.
+Phím khi `--show`: **q** thoát (kết quả, cache **và timing của frame cuối** vẫn được chốt đầy đủ — generator được
+đóng tường minh tại điểm dừng, không chờ thu gom), **SPACE** tạm dừng/tiếp.
 
 | Nhóm | Tham số | Mặc định | Ghi chú |
 |:--|:--|:--|:--|
@@ -66,7 +67,7 @@ là điều kiện c25 đã khóa trong thí nghiệm. Muốn vòng ghép thứ 
 <out>/data_cls/<tên>.csv     frame,id,cls
 <out>/timing/<tên>.csv       tracker theo frame: t_predict_ms, t_assoc_ms, t_update_ms, n_steps
 <out>/pipeline/<tên>.csv     TỪNG STAGE theo frame (mục 6) — tính lại được mọi tổng
-<out>/frames_manifest.json   quy ước thứ tự + (file, frame, time_s) đã dùng
+<out>/frames_manifest.json   quy ước thứ tự; `nguon` = toàn bộ danh sách nguồn; `da_xu_ly` = frame THỰC SỰ đã chạy
 <out>/run_meta.json          tái hiện (mục 4)
 <out>/<tên>_tracked.mp4      nếu --save-video
 ```
@@ -89,8 +90,13 @@ là điều kiện c25 đã khóa trong thí nghiệm. Muốn vòng ghép thứ 
 (weights sha256, imgsz, conf, iou, max_det, device, phiên bản), bộ lọc (+ `allow_truncated`, kết quả
 `check_compatible`), tracker (YAML + sha256, override, **cấu hình hiệu lực**, seed, backend), `code`
 fingerprint (commit + 20 module), **`entry_point`** (sha256 LF của chính `track_video_file.py` +
-`working_tree_src`: các file `src/` khác HEAD lúc chạy), thống kê thời gian, **lệnh replay** với đúng
-cấu hình hiệu lực và `replay_trang_thai`.
+`working_tree_src`: các file `src/` khác HEAD lúc chạy), thống kê thời gian, và replay:
+
+- **`replay_argv`** — nguồn chuẩn: danh sách đối số, **mỗi đối số một phần tử** (tên nguồn/YAML có dấu cách
+  vẫn là một phần tử); `<split>` và `<ten>` là hai phần tử placeholder → thay bằng giá trị thật rồi
+  `subprocess.run(argv, shell=False)`.
+- **`replay`** — chuỗi để sao chép, quote theo shell của **nền tảng lúc chạy** (`replay_quote`: Windows →
+  `list2cmdline`, POSIX → `shlex.join`). Trên shell khác phải quote lại; **không** `.split()` chuỗi này.
 
 Ví dụ khớp cấu hình (cùng `--classes`, cùng ngưỡng):
 
@@ -105,7 +111,7 @@ python src/run_tracking.py --cache-id tv_xe --split-name TV --tracker-yaml confi
 python src/nano_parity.py --ref results/track_video/xe --test data/processed/trackers/TV/ekf
 ```
 
-## 5. Đã kiểm chứng (`src/test_track_video_file.py`, **23/23**)
+## 5. Đã kiểm chứng (`src/test_track_video_file.py`, **27/27**)
 
 | # | Kiểm | Kết quả |
 |:--|:--|:--|
@@ -115,12 +121,15 @@ python src/nano_parity.py --ref results/track_video/xe --test data/processed/tra
 | F2c | `--det-max-det 1`, 1 det/frame | mặc định live **exit 3, không ghi**; `--allow-truncated` → exit 0, lệnh replay có `--allow-truncated`, replay exit 0, parity ĐẠT |
 | F2d | `max_det` consumer 10 > producer 5 | live **exit 2** |
 | F4 | `1,2,10` / `001,002,010` / `img_7,img_08,img_10` | theo số; tiền tố khác / không số / trùng số → lỗi có hướng dẫn; `--frames-manifest` được tôn trọng; `frames_manifest.json` ghi ra |
+| Q1/Q2 | bấm **q** ở frame 1 / 2 (GUI giả lập, warm-up 0) | mọi dòng pipeline **hữu hạn**, `show_ms` frame cuối > 0, `n_frame_tong_ket` == số dòng, Σstage+overhead == `frame_total` (sai số 0), manifest `nguon` 3 / `da_xu_ly` 1 hoặc 2, replay cache tương đương |
+| S1/S2 | nguồn `traffic clip` + YAML `cfg dir/ekf ctrv.yaml` | `replay_argv` giữ mỗi giá trị một phần tử; chuỗi `replay` quote `"traffic clip"`; replay **chạy từ `replay_argv`** exit 0, parity ĐẠT; cả ca `--allow-truncated` |
 | 6b | **live → save-cache → replay (YOLO thật, GPU)** | **ĐẠT, lệch 0,000e+00** |
 | 7 | detection live vs cache gốc thí nghiệm | cùng số det/lớp; bbox lệch 1,8·10⁻⁴ px, conf 3,2·10⁻⁵ |
 | 8/9/10 | .mp4 thật + `--save-video`; video đen; đầu vào sai | 60/60 frame; 0 hàng + timing đủ 15 frame; exit 2 / ≠0 |
 
 Tái hiện trước sửa: `handoff/logs/review10/repro_truoc_khi_sua.log` (cả 4 = True); sau sửa:
-`repro_sau_khi_sua.log` (cả 4 = False).
+`repro_sau_khi_sua.log` (cả 4 = False). Hai ca của review `923305d`: `handoff/logs/review11/repro_*.log`
+(trước: frame cuối `NaN`, `--videos traffic clip` thành hai video; sau: cả hai hết tái hiện).
 
 ### Hai lượt độc lập cùng cấu hình — điều **quan sát được**
 
@@ -162,10 +171,13 @@ trung bình trên **cùng tập 1445 frame sau 25 frame warm-up** cho **mọi** 
 - **fps theo stage** = 1000 / `frame_total` (sau warm-up). **fps vòng lặp** = 1470 / `wall_vong_lap`
   (**kể cả** warm-up, kể cả vẽ/ghi khi bật; **không** gồm khởi tạo và ghi kết quả). Hai số khác phạm vi.
 - Đối chiếu: Σ`frame_total` (mọi frame) = `wall_vong_lap` − 12…26 ms trên 1470 frame (`wall_ngoai_frame_s`
-  trong `run_meta`); khởi tạo (nạp detector + import tracker) 0,8–1,0 s ghi ở `wall_khoi_tao_s`; ghi
-  MOT/CSV/meta 0,1 s ở `wall_ghi_s`.
+  trong `run_meta`). Khoảng chênh 5–6 s của bản cũ **nhất quán với** decode chưa được đo (≈3,6 ms × 1470
+  ≈ 5,3 s) — là đối chiếu số học sau sửa, không phải phép đo trực tiếp của bản cũ. Khởi tạo (nạp detector
+  + import tracker ~0,4 s) 0,8–1,0 s ghi ở `wall_khoi_tao_s`; ghi
+  MOT/CSV/pipeline/manifest/cache 0,1 s ở `wall_ghi_s` (mốc đo dừng **trước** khi ghi `run_meta.json`).
 - Detector chiếm ~75 %; chênh CV↔EKF ở tracker ~0,25 ms/frame ≈ 1 % `frame_total`. Biến thiên detector
-  giữa 4 lượt (17,5–20,5 ms) là tải máy, một lượt đo không tách được.
+  giữa 4 lượt (17,5–20,5 ms) là **quan sát**; một lượt đo không tách được nguyên nhân (tải máy, clock GPU…
+  đều chỉ là giả thuyết).
 
 ## 7. Giới hạn
 

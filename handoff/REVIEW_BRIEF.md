@@ -1,45 +1,35 @@
-# REVIEW_BRIEF — vòng 10: sửa PC-F1…F4 của review `8abb368`
+# REVIEW_BRIEF — vòng 11: hai ca còn lại của review `923305d` (PC-F1/PC-F2)
 
 <!-- BASE_TARGET -->
 
-Base delta **giữ `b623465`**; review `8abb368` còn REQUEST CHANGES, **chưa** đánh dấu PASS. Nano F1/F3
-tiếp tục hoãn. Không tuning/ablation/train; metric, GT, lock UA-DETRAC/BDD **không đổi** (đã kiểm `git diff`).
-Chi tiết: **`handoff/REVIEW10_CHI_TIET.md`**; hướng dẫn + thời gian mới: **`handoff/HE_THONG_PC.md`**.
+Base delta **giữ `b623465`**; review `923305d` **chưa** đánh dấu PASS. Nano F1/F3 hoãn. Không tuning/train;
+4 run `v2`, kết quả UA-DETRAC/BDD và lock **không đổi** (`git diff`). Chi tiết: **`handoff/REVIEW11_CHI_TIET.md`**.
 
 ## Tái hiện → sửa → kiểm chứng
 
-Cả 4 tái hiện bằng fixture (detector/`imread` giả lập, tracker thật, `main()` thật) đúng như Codex mô tả
-(`handoff/logs/review10/repro_truoc_khi_sua.log`); sau sửa không còn tái hiện được (`repro_sau_khi_sua.log`).
+Cả hai tái hiện bằng fixture (detector/`imread`/GUI giả lập; tracker, cache, hai entry point **thật**) đúng như
+Codex mô tả — `handoff/logs/review11/repro_truoc_khi_sua.log`; sau sửa hết tái hiện — `repro_sau_khi_sua.log`.
 
-| # | Trước | Sửa | Sau |
+| Ca | Trước | Sửa | Sau |
 |:--|:--|:--|:--|
-| **F1** | bộ đọc 20 ms → `decode_ms` 0,003 | timer quanh đúng `imread`/`read`; tách `mask`; `frame_total` từ trước đọc đến sau tracker + vẽ/ghi; `overhead` ghi riêng; render/write/show theo frame; cùng tập frame sau warm-up; wall tách khởi tạo/vòng lặp/ghi/ngoài-frame | `decode_ms` **20,46**; Σstage+overhead == `frame_total` (3,6·10⁻¹⁵); dữ liệu thật: Σ`frame_total` = `wall_vong_lap` − 12…26 ms/1470 frame |
-| **F2** | live nhận cấu hình mà replay từ chối | `check_compatible()` **trước** khi chạy → exit 2; chạm trần → exit 3 không ghi (y hệt `VideoDetections`); `--allow-truncated` có ghi meta + lệnh replay | (a) 0/0 parity ĐẠT **bằng đúng lệnh trong `run_meta`**; (b) exit 2; (c) exit 3, với flag → 0/0 ĐẠT; (d) exit 2 |
-| **F3** | quy nguyên nhân cho detector; đảo dòng đổi kết luận | bỏ quy nguyên nhân; song ánh từ cặp **không mơ hồ** + ràng buộc toàn sequence; không giải được → **`mo_ho`** (không PASS); không Hungarian | `test_nano_parity` **20/20**: đảo dòng → y hệt; fixture Codex → `mo_ho` cả hai; chỉ đổi conf → *chưa xác định*; đổi liên kết thật vẫn FAIL |
-| **F4** | `1,2,10` → `1,10,2` | sắp theo **số** cuối tên (cùng tiền tố); mơ hồ → lỗi có hướng dẫn `--frames-manifest`; ghi `frames_manifest.json` | `test_track_video_file` **23/23** (6 ca F4) |
+| **1. bấm `q`** | frame cuối `frame_total=NaN`, show/render = 0 dù đã hiển thị; `n_frame_tong_ket` lệch số dòng hữu hạn; manifest gọi cả 3 ảnh là "đã dùng" | `track_video` giữ generator và **`close()` trong `finally` ngay tại `break`** (không chờ GC); adapter chốt timing trong `finally` quanh `yield`; không đọc thêm frame, không điền 0; manifest tách `nguon` / `da_xu_ly` | `q` ở frame 1 và 2: **0 NaN**, `show_ms` frame cuối > 0, `n_frame_tong_ket` == số dòng, Σstage+overhead == `frame_total` (sai số 0), `wall_ngoai_frame` 28,5 → 0,82 ms, tracking/cache đủ, replay tương đương |
+| **2. tên có dấu cách** | `--videos traffic clip` → hai video → replay `FileNotFoundError` | `replay_argv` (mỗi đối số một phần tử, placeholder riêng); `replay` quote theo nền tảng (`replay_quote`: Windows `list2cmdline` / POSIX `shlex`); test bỏ `.split()` | `traffic clip` + YAML `cfg dir/ekf ctrv.yaml`: replay **từ `replay_argv`** exit 0, parity ĐẠT; cả ca `--allow-truncated` |
 
-## Thời gian đo lại (một lượt, `MVI_39031`, sau 25 frame warm-up, cùng tập 1445 frame)
+`test_track_video_file` **27/27** (+Q1, Q2, S1, S2). Runner đổi (`run_tracking.py`): `test_run_tracking_replay`
+10/10, `test_bytetrack_np_parity` 10/10 bit-identical.
 
-| ms/frame | decode | detect | tracker | vẽ+ghi | overhead | **frame_total** | fps stage / vòng lặp |
-|:--|--:|--:|--:|--:|--:|--:|--:|
-| CV | 3,74 | 17,50 | 1,03 | — | 0,36 | **23,10** | 43,3 / 40,3 |
-| CV `--save-video` | 3,56 | 17,80 | 1,02 | 5,73 | 0,60 | **29,19** | 34,3 / 32,2 |
-| EKF | 3,63 | 18,69 | 1,28 | — | 0,42 | **24,54** | 40,7 / 38,4 |
-| EKF `--save-video` | 3,90 | 20,50 | 1,38 | 6,35 | 0,63 | **33,33** | 30,0 / 28,6 |
+## Smoke thật trên PC
 
-`fps stage` = 1000/`frame_total`; `fps vòng lặp` = 1470/`wall_vong_lap` (kể cả warm-up). Khởi tạo/ghi tách
-riêng. Nguồn `results/track_video/v2_MVI_39031_*/pipeline/*.csv`; bản cũ giữ, không dùng.
+YOLO + GPU, **cửa sổ `--show` thật**, `--save-video`, `--save-cache`, 60 frame: `show_ms` ghi 1,47 ms/frame;
+replay bằng **`subprocess.run(replay_argv, shell=False)` thật** → exit 0, 95/95 hàng, parity **ĐẠT lệch 0**
+(`handoff/logs/review11/smoke_that_pc.log`). Bấm `q` thật trên GUI chưa smoke tay — chỉ GUI giả lập trong test.
 
-## Tài liệu / provenance
+## Tài liệu
 
-Ngưỡng **hiệu lực** là `--conf-min` (0,05 không tự bảo đảm vòng ghép thấp; c10 cần 0,1); ví dụ replay khớp
-classes; chế độ dataset chỉ mask `ignored_regions`, không đưa GT vào association; `run_meta.entry_point` =
-sha256 `track_video_file.py` + trạng thái `src/` (không mở rộng `CODE_FILES`, không hồi tố). Log lỗi 19:39:
-stdout thật lưu `handoff/logs/review9/lich_su_that_bai/` + README tách *đã xác minh* / *giả thuyết* (3 commit
-19:41–19:42 trong cửa sổ chạy); log chi tiết đã mất, không tái tạo.
+Docstring parity: ứng viên **chỉ hình học**, conf kiểm riêng. `wall_ghi_s`: dừng **trước** khi ghi `run_meta.json`.
+Bỏ "403 ms giải thích phần lớn chênh cũ" → chênh 5–6 s **nhất quán với** decode chưa đo (≈3,6 ms × 1470),
+là đối chiếu số học, không phải đo bản cũ. "Chênh detector là tải máy" → **quan sát**, chưa quy nguyên nhân.
 
 ## Kiểm thử
 
-`test_nano_parity` 20/20, `test_track_video_file` 23/23 (tầng fixture + YOLO thật/GPU: live→cache→replay
-**bit-identical**), `test_run_tracking_replay` 10/10, `test_bytetrack_np_parity` 10/10. Full suite trên code
-chốt: **30/30 PASS, 0 FAIL** (`handoff/logs/review10/tests_20260920-2337.log`) — không commit/sửa source trong lúc chạy.
+Full suite trên code chốt (runner đổi): `handoff/logs/review11/` — không commit/sửa source trong lúc chạy.

@@ -35,7 +35,7 @@ exit 1 = không còn tái hiện được).
 
 4 cấu hình × `MVI_39031` (1470 frame), output mới ở `results/track_video/v2_MVI_39031_*`, bản cũ giữ nguyên.
 Log: `handoff/logs/review10/do_lai_4_cau_hinh.log` (gồm bảng đối chiếu Σ`frame_total` vs `wall_vong_lap`).
-Mỗi cấu hình **một lượt**; không diễn giải thống kê. Chênh detector giữa các lượt (17,5–20,5 ms) là tải máy.
+Mỗi cấu hình **một lượt**; không diễn giải thống kê. Chênh detector giữa các lượt (17,5–20,5 ms) chỉ là **quan sát**, chưa đủ bằng chứng quy nguyên nhân.
 
 ## 4. Còn mở
 
