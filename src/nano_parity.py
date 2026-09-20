@@ -207,7 +207,8 @@ def so_mot_video(ref: Path, test: Path) -> dict:
     # id_tho_khop = khoa khop VA noi dung duoi khoa khop; neu (b) chi ra "chi danh so lech" thi (a)
     # that bai vi DANH SO, khong phai vi bbox -> bao dung loai loi
     danh_so_lech = ph_ok and (rb.get("chi_danh_so_lech") or not khoa_khop)
-    r["id_tho_khop"] = bool(a_dat) if not danh_so_lech else False
+    # id_tho_khop noi ve ID, KHONG noi ve bbox/conf: khoa (frame,id) khop va khong phai doi danh so
+    r["id_tho_khop"] = bool(khoa_khop and not danh_so_lech)
     bbox_de_xet = rb.get("max_bbox_hinh_hoc", r["max_bbox"]) if ph_ok else r["max_bbox"]
     conf_de_xet = rb.get("max_conf_hinh_hoc", r["max_conf"]) if ph_ok else r["max_conf"]
 
@@ -226,6 +227,10 @@ def so_mot_video(ref: Path, test: Path) -> dict:
                 vi.append("ID tho: " + ra.get("ly_do", "khac"))
         if not ph_ok:
             vi.append(f"phan hoach track KHAC: {r['phan_hoach_ly_do']}")
+        elif r["id_tho_khop"]:
+            # ID va lien ket y het, chi bbox/conf lech: khac biet nam o DAU VAO tracker (detector),
+            # khong phai o quyet dinh cua tracker
+            vi.append("[chan doan] lien ket ID y het -> khac biet nam o dau vao detector, khong o tracker")
         r["ly_do"] = "; ".join(vi) or "khong dat"
     return r
 
