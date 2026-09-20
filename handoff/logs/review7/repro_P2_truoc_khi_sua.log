@@ -1,0 +1,22 @@
+==========================================================================
+P2 -- thong ke detection / thoi gian cua cong cu bao cao
+==========================================================================
+  manifest chon    : ['trong_manifest']  (cache co them 'ngoai_manifest')
+  max_det thi nghiem: 1
+
+                                       dau vao tracker THAT    cong cu bao cao
+  so detection                                            1                  5
+  tong giay detector                                    1.0               21.0
+  so frame tinh thoi gian                                 1                  2
+
+  tai hien: bo qua max_det + gom ca video ngoai manifest = True
+            dem ca 5 detection (3 trong + 2 ngoai)       = True
+            thoi gian 21 s / 2 frame thay vi 1 s / 1 frame = True
+            sidecar thieu `seconds` -> coi nhu 0 (tong=20.0) = True
+
+  TONG KET:
+    P2_max_det         tai hien duoc loi = True
+    P2_manifest        tai hien duoc loi = True
+    P2_timing          tai hien duoc loi = True
+    P2_thieu_so_do     tai hien duoc loi = True
+exit=0
