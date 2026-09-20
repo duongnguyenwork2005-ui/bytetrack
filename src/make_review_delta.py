@@ -260,7 +260,9 @@ def make_patch(base: str, target: str, paths: list[str]) -> str:
     """
     if not paths:
         return ""
-    patch = git("diff", "--no-renames", f"{base}..{target}", "--", *paths)
+    # --binary: file nhi phan nho (anh man hinh .png) duoc ma hoa day du trong patch -> `git apply` ap duoc
+    # tren cay base sach; khong co no, git chi ghi "Binary files differ" va patch KHONG ap duoc.
+    patch = git("diff", "--no-renames", "--binary", f"{base}..{target}", "--", *paths)
     lot = sorted(q for q in _paths_trong_diff(patch) if skip_reason(q))
     if lot:
         sys.exit("DUNG: patch chua duong dan thuoc dien bi loai: " + ", ".join(lot[:10]))
