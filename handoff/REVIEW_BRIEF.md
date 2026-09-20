@@ -32,4 +32,4 @@ là đối chiếu số học, không phải đo bản cũ. "Chênh detector là
 
 ## Kiểm thử
 
-Full suite trên code chốt (runner đổi): `handoff/logs/review11/` — không commit/sửa source trong lúc chạy.
+Full suite trên code chốt (runner đổi): **30/30 PASS, 0 FAIL** (`handoff/logs/review11/tests_20260921-0155.log`) — không commit/sửa source trong lúc chạy.
