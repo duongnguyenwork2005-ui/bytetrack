@@ -57,4 +57,4 @@ ID làm tập khóa vẫn bằng nhau nên kiểm phân hoạch phải chạy kh
 `test_bytetrack_np_parity` 10/10 (bit-identical cache thật), `test_det_cache` 51/51 → **không** chạy
 lại thí nghiệm. `stage_eval` lần sau sẽ báo `code` đổi và đánh giá lại với metric y hệt. Không tuning
 BDD val; không đụng `.gitignore`/`src/demo/**`/`live.bat`/`outputs/**`; mp4 mẫu **không** stage.
-Full suite: `handoff/logs/review9/`.
+Full suite: **30/30 PASS, 0 FAIL** (`handoff/logs/review9/tests_20260920-1948.log`, chay khi khong co commit song song).
