@@ -164,6 +164,23 @@ python src/run_trackeval.py --split-name DETRAC-sample --tracker yolov8n-bytetra
 Danh sách video mẫu nằm ở `config.SAMPLE_VIDEOS` — chỉ cần sửa ở đó, không cần
 sửa lệnh.
 
+## Chạy một video bất kỳ qua detector + tracker (hệ thống trên PC)
+
+```bash
+# video file: xem trực tiếp, lưu video có bbox/ID/lớp, xuất MOT + metadata tái hiện
+python src/track_video_file.py --source C:\videos\xe.mp4 --tracker-yaml configs/bytetrack_ekf_ctrv.yaml \
+    --classes 1 2 3 5 7 --conf-min 0.25 --device 0 --out results/track_video/xe --save-video --show
+
+# sequence dataset có sẵn; --save-cache để replay lại bằng run_tracking.py (kết quả bit-identical)
+python src/track_video_file.py --dataset detrac --part test --video MVI_39031 \
+    --tracker-yaml bytetrack.yaml --save-cache tv_xe
+```
+
+CV ↔ EKF chỉ khác `--tracker-yaml` (`bytetrack.yaml` / `configs/bytetrack_ekf_ctrv.yaml`); UKF/PF/SORT
+dùng YAML tương ứng. Detector chạy ở ngưỡng thô 0,05 (như det cache) rồi mới lọc `--conf-min`, để
+ByteTrack còn detection confidence thấp cho vòng ghép thứ hai. Chi tiết tham số, đầu ra, cách tái
+hiện, kiểm chứng live = replay và số đo thời gian: **`handoff/HE_THONG_PC.md`**.
+
 ---
 
 ## Giải thích từng file code

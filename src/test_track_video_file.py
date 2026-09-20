@@ -203,7 +203,10 @@ def main() -> int:  # noqa: C901
             # 7. so detection tho voi cache GOC (neu co)
             goc = det_cache.CACHE_ROOT / "yolov8n-coco_conf0.05_all" / "MVI_39031.npz"
             if goc.exists():
-                a, b = np.load(cache_dir / "MVI_39031.npz"), np.load(goc)
+                # `with`: NpzFile giu file mo -> tren Windows rmtree(cache_dir) se that bai am tham
+                with np.load(cache_dir / "MVI_39031.npz") as za, np.load(goc) as zb:
+                    a = {k: za[k] for k in ("frame_idx", "n_per_frame", "data")}
+                    b = {k: zb[k] for k in ("n_per_frame", "data")}
                 k = len(a["frame_idx"])
                 cung_n = np.array_equal(a["n_per_frame"], b["n_per_frame"][:k])
                 if cung_n:

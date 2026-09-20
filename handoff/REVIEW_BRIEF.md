@@ -1,64 +1,60 @@
-# REVIEW_BRIEF — vòng 8: chốt review `b623465` + chuẩn bị đánh giá Jetson Nano
+# REVIEW_BRIEF — vòng 9: hệ thống tracking trên PC + F2 của review `8bab154`
 
 <!-- BASE_TARGET -->
 
-Review `b623465`: **PASS WITH LIMITATIONS**, ba finding P1/P2/P3 đã đóng
-(`handoff/CODEX_REVIEW_b623465.md`). Base delta chuyển sang `b623465` — ghi nhận snapshot đã đọc.
-Đợt này **không** chạy lại thí nghiệm; metric, bootstrap, GT và bản khóa máy đọc giữ nguyên.
-Kiểm kê Nano đầy đủ + lệnh tiếp tục: **`handoff/NANO_STATUS.md`**.
+Base delta **giữ `b623465`** (review `8bab154` còn REQUEST CHANGES; gói này chứa trọn cả vòng 8 lẫn
+vòng 9). Ưu tiên đã đổi: hoàn thiện hệ thống trên **PC**; Nano do người dùng tự chuẩn bị.
+Chi tiết: **`handoff/HE_THONG_PC.md`**. Không chạy lại thí nghiệm; metric/GT/lock giữ nguyên.
 
-## 1. Đã chốt gì từ review
+## 1. Rà soát đường chạy
 
-Hàng mục 6 của `CODEX_HANDOFF.md`: quy mô → **6 cấu hình/seed × 2 điều kiện = 12 run tổng cộng,
-mỗi run 200 video**; SD → ghi rõ **`0,00005–0,00095` là SD HOTA** của PF giữa ba seed.
+Đã có và kiểm chứng: `run_tracking.track_video()` (vòng lặp cache), `det_cache` (detector + cache),
+`load_tracker_cfg`/`make_tracker` (YAML override vào tracker thật). Trùng lặp/lệch tìm thấy:
+`profile_pipeline.py` gọi `tr.update(boxes, None)` **không truyền `n_steps`** và chạy detector ở
+`conf=0.25` — lệch runner ở cả thời gian lẫn ngưỡng; `src/demo/live_view.py` là vùng riêng, không đụng.
 
-Hai chỗ mô tả bằng chứng Codex chỉ đúng, đã sửa:
+## 2. Đã làm — một entry point, ba chỗ dùng **chung** mã
 
-- **Tracking**: "2.400 file 0 lệch" → **"0 lệch theo quy ước chuẩn hóa LF"** (brief, phụ lục,
-  handoff). CRLF và LF coi là cùng nội dung, **không** phải so byte thô.
-- **Phạm vi ổn định hash**: docstring `run_fingerprint.py` từng nói dấu vân tay "không đổi giữa
-  Windows và Nano" — sai phạm vi, chỉ `.txt`/`.ini`/`.csv` được chuẩn hóa. Đã kiểm trên đĩa:
-  `run_fingerprint.py` **281 CRLF / 0 LF**, `bytetrack_np.py` **0 CRLF / 125 LF** ⇒ trường `code`
-  **sẽ lệch giữa hai máy dù cùng commit**. Đã sửa docstring và ghi thành điều kiện phải xử lý
-  trước khi so provenance giữa hai máy.
+`src/track_video_file.py`: video file / thư mục ảnh / sequence dataset → YOLO → ByteTrack → MOT +
+lớp + timing + `run_meta.json` (đủ tái hiện: sha256 video, checkpoint, YAML; cấu hình hiệu lực; lệnh
+replay) + video bbox/ID/lớp (`--save-video`, `--show`, q thoát vẫn ghi đủ) + det cache (`--save-cache`).
 
-## 2. Nano: KHÔNG tiếp cận được — bằng chứng, không suy đoán
+| Bước | Dùng chung | Lý do |
+|:--|:--|:--|
+| Detector | `det_cache.detect_frame()` — tách từ `build_video_yolo` | cùng `DetectorSpec` cache: conf **0,05**, mọi lớp, `max_det` 3000; ByteTrack cần detection thấp cho vòng ghép 2 |
+| Lọc | `det_cache.filter_dets()` — tách từ `VideoDetections.frame` | y hệt replay |
+| Vòng lặp | `run_tracking.track_video(..., on_frame=None)` | cùng `n_steps`, `update` cả frame rỗng; `LiveVideoDetections` chỉ là adapter |
 
-`handoff/logs/review8/thu_ket_noi_nano.log`: `~/.ssh/config` và `known_hosts` **không tồn tại**;
-4 tên (`nano.local`, `jetson.local`, `nano`, `tegra-ubuntu.local`) **đều không phân giải được**;
-ARP **không có OUI NVIDIA `00-04-4b`**; **không** cổng serial; thiết bị PnP khớp
-`NVIDIA/Jetson/Tegra/APX` chỉ có **GTX 1650 của chính PC này**.
+CV/EKF chỉ khác `--tracker-yaml`; UKF/PF/SORT dùng YAML tương ứng. GT không tham gia.
 
-⇒ Không thu thập được model, RAM, kiến trúc CPU, JetPack/L4T, numpy/scipy/lap, CUDA/TensorRT,
-dung lượng, nguồn, clocks hay nhiệt độ. **Không số đo Nano nào được tạo ra.**
-**Cần bổ sung**: IP/hostname + thiết bị bật cùng LAN; tài khoản và cách xác thực; hoặc cáp USB +
-chế độ recovery.
+## 3. Kiểm chứng (`test_track_video_file` **11/11**)
 
-## 3. Đã hoàn thiện để chạy ngay khi có thiết bị
+- **Live → save-cache → replay `run_tracking.py` → parity ĐẠT, lệch 0,000e+00.**
+- Detection live vs **cache gốc thí nghiệm**: cùng số det/lớp từng frame; lệch bbox **6·10⁻⁵ px**,
+  conf **3·10⁻⁵** — nhiễu GPU. Hai lượt độc lập trên 1470 frame (CV và EKF): **liên kết ID y hệt**,
+  công cụ parity chẩn đoán đúng "khác biệt ở đầu vào detector, không ở tracker".
+- .mp4 thật + `--save-video` → 60/60 frame, `run_meta` đủ; video toàn đen → 0 hàng nhưng timing đủ
+  15 frame (vòng đời cập nhật frame rỗng); checkpoint/nguồn sai → exit 2 / ≠ 0; frame không đọc được
+  → `unreadable`; bấm q → giữ hàng frame cuối.
+- Camera: **chưa smoke** (không có camera).
 
-- **`src/nano_parity.py`** — so tracking Nano ↔ PC, **tolerance công bố trước**: bbox `≤1e-3` px,
-  conf `≤1e-6`, **liên kết ID không có tolerance**. ID kiểm hai mức (giá trị thô **và** phân hoạch
-  track) để tách "đánh số lệch" khỏi "ghép khác hẳn". `test_nano_parity` **10/10**; kiểm ngược
-  trên dữ liệu thật: `cv` vs chính nó → 2/2 ĐẠT, `cv` vs `ekf` → 0/2 exit 1.
-- **`src/nano_bench_tracker.py`** — giao thức 4c: AB/BA **cân bằng**, mặc định **6 cặp** (≥5, chia
-  đều), warm-up 50 frame/video, lấy mẫu `tegrastats`, ghi nvpmodel/nhiệt độ trước–sau **từng
-  lượt**, **lưu mọi lượt**, báo **trung vị + IQR của hiệu số theo cặp**; cặp thiếu một nửa không
-  dùng; tự cảnh báo khi máy không phải Jetson.
+**Thời gian** (1470 frame, GTX 1650, sau 25 frame warm-up, một lượt): tracker CV **0,83** / EKF
+**0,99** ms; detector ~14,5; **pipeline không vẽ 15,6 / 16,2 ms/frame** (47 fps); vẽ + ghi thêm
+~4,7 ms → 40 / 37 fps wall. Số toàn pipeline **không gồm** hiển thị/ghi trừ khi ghi rõ.
 
-Tự kiểm trên PC (kiểm **công cụ**, không phải kết quả): 6 cặp trọn, warm-up đúng 152/202 frame.
-Hiệu số `ekf − cv` trung vị `+0,28 ms` nhưng **IQR `[-0,0002; +0,483]` chứa 0** — đúng lý do giao
-thức phải ghép cặp và cân bằng thứ tự.
+## 4. Review `8bab154` theo phạm vi mới
 
-## 4. Còn bị chặn
+**F2 đã sửa**: ghép bằng khóa `(frame,id)`; phân hoạch qua ghép hình học 1-1 (Hungarian, ngưỡng
+tolerance, báo mơ hồ) + song ánh ID cố định toàn sequence; tolerance **giữ nguyên**.
+`test_nano_parity` **15/15**, gồm hai fixture của Codex (lệch thật 0,0002 px, trước báo 400 px; đảo
+thứ tự dòng, trước báo 10 px), hoán đổi ID, và ca đổi liên kết thật (vẫn FAIL). Sửa thêm: hoán đổi
+ID làm tập khóa vẫn bằng nhau nên kiểm phân hoạch phải chạy khi mức (a) không đạt trọn vẹn.
+**F1/F3 và tài liệu NANO_STATUS mục 5: hoãn, còn mở.** Review này **chưa** PASS.
 
-Mọi số đo Nano (**không tiếp cận được thiết bị**). Python ≥ 3.7 và `scipy`/`lap`/**`pandas`** cho
-aarch64 chưa xác minh — `run_tracking.py` có import `pandas` nên đó là phụ thuộc bắt buộc. Đường
-detector trên Nano chưa nối vào backend NumPy. Ổn định hash `.py` giữa hai máy: **hoãn có chủ ý**
-— sửa `TEXT_SUFFIXES` bây giờ sẽ làm 12 `eval_meta.json` vừa review thành cũ mà chưa đổi lấy thông
-tin gì. Thí nghiệm 2 chờ split train/dev. Che khuất và metric xe máy trên BDD vẫn không làm được
-(nguồn thiếu `occluded`; GT gộp 5 lớp xe).
+## 5. Toàn vẹn
 
-## 5. Trạng thái
-
-Test liên quan: `test_nano_parity` **10/10**, `test_eval_guard` **11/11**, `test_report_stats`
-**8/8**, `test_evaluator_choice` **7/7**, tất cả exit 0. Full suite ở `handoff/logs/review8/`.
+Đổi `run_tracking.py`/`det_cache.py` (trong `CODE_FILES`): `test_run_tracking_replay` 10/10,
+`test_bytetrack_np_parity` 10/10 (bit-identical cache thật), `test_det_cache` 51/51 → **không** chạy
+lại thí nghiệm. `stage_eval` lần sau sẽ báo `code` đổi và đánh giá lại với metric y hệt. Không tuning
+BDD val; không đụng `.gitignore`/`src/demo/**`/`live.bat`/`outputs/**`; mp4 mẫu **không** stage.
+Full suite: `handoff/logs/review9/`.
