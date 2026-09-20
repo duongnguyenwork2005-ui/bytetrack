@@ -75,6 +75,9 @@ trên 150 frame `MVI_39031`, CV và EKF: DANG_KHOI_TAO → DANG_CHAY → HOAN_TA
 `handoff/anh/launcher_{1..5}_*.png` — điền form, bấm **Bắt đầu** và **Dừng** thật qua `invoke()`, worker YOLO/GPU
 thật, dừng ở frame 153/1470 → ĐÃ DỪNG (chụp bằng script điều khiển `after()`, không phải thao tác chuột tay).
 
+**Full suite** (`src/run_all_tests.py`, đã đăng ký `test_pc_launcher`): **31/31 PASS** trên code chốt —
+`handoff/logs/review12/tests_20260921-0304.log`.
+
 ## Giới hạn
 
 - Chưa smoke bằng tay (chuột/bàn phím thật); thao tác nút đã kiểm qua `invoke()` và controller.

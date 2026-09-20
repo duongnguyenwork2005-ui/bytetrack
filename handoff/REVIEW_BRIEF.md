@@ -36,4 +36,5 @@ Tkinter/ttk có sẵn; **không** viết lại detector/association/vòng lặp 
 | **Thật, không GUI** (`logs/review12/smoke_launcher_that.log`) | controller → YOLO/GPU 150 frame, **CV và EKF** → HOAN_TAT → cache → replay subprocess → **parity ĐẠT lệch 0** |
 | **Thật, cửa sổ Tk** (`handoff/anh/launcher_1..5_*.png`) | form điền bằng script, **Bắt đầu/Dừng bấm thật qua `invoke()`**, worker YOLO/GPU, dừng ở 153/1470 → ĐÃ DỪNG; ảnh chỉ chứa cửa sổ launcher |
 
-Chưa smoke chuột tay; chưa camera/VFR/exe/Nano. Full suite trên code chốt: `handoff/logs/review12/`.
+Chưa smoke chuột tay; chưa camera/VFR/exe/Nano. **Full suite 31/31 PASS** trên code chốt `512712f`
+(`handoff/logs/review12/tests_20260921-0304.log`, không commit/sửa trong lúc chạy).

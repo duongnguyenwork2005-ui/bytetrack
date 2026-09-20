@@ -48,7 +48,8 @@ khác của người dùng đã **xóa**, không đưa vào gói.
 ## 4. Toàn vẹn
 
 Không sửa runner dùng chung (`run_tracking.py`, `det_cache.py`) trong vòng này; `track_video_file.py` chỉ thêm
-điều phối tùy chọn. Full suite trên code chốt: `handoff/logs/review12/`. 4 run `v2`, kết quả UA-DETRAC/BDD, GT,
+điều phối tùy chọn. **Full suite 31/31 PASS** (30 cũ + `test_pc_launcher`) trên code chốt `512712f`:
+`handoff/logs/review12/tests_20260921-0304.log` + `tests_summary.csv`; không commit/sửa source trong lúc chạy. 4 run `v2`, kết quả UA-DETRAC/BDD, GT,
 lock **không đổi**. Không đụng file riêng. mp4 của smoke GUI **không stage**.
 
 ## 5. Giới hạn
