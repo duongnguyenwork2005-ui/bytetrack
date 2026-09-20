@@ -201,9 +201,33 @@ def track_video(vd: det_cache.VideoDetections, cfg: IterableSimpleNamespace, dt_
         tr.kalman_filter.enable_diag()
     timer = _PredictTimer(tr)
     rows, cls_rows, timing = [], [], []
+    # Giu generator de DONG TUONG MINH khi dung som (on_frame tra False -> break): adapter live chot
+    # timing cua frame cuoi trong `finally` quanh `yield`, nen phai close() ngay tai day, khong cho
+    # thu gom doi tuong (review 923305d). Voi VideoDetections (cache) close() la no-op vo hai.
+    gen = vd.iter_frames()
+    try:
+        _vong_lap_tracker(gen, vd, tr, timer, elapsed_mode, dt_nominal, rows, cls_rows, timing, on_frame)
+    finally:
+        close = getattr(gen, "close", None)
+        if close is not None:
+            close()
+    df = pd.DataFrame(rows, columns=TRK_COLS)
+    df_cls = pd.DataFrame(cls_rows, columns=["frame", "id", "cls"])
+    df_t = pd.DataFrame(timing, columns=["frame", "n_steps", "n_tracks", "n_dets",
+                                         "t_predict_ms", "t_assoc_ms", "t_update_ms"])
+    log_sink["tracker"] = tr
+    if log_sink.get("assoc_log"):
+        log_sink["assoc_log"] = tr.assoc_log
+    if log_sink.get("pf_diag") and hasattr(getattr(tr, "kalman_filter", None), "diag_frame"):
+        log_sink["pf_diag"] = tr.kalman_filter.diag_frame()
+    return df, df_cls, df_t
+
+
+def _vong_lap_tracker(gen, vd, tr, timer, elapsed_mode, dt_nominal, rows, cls_rows, timing, on_frame):
+    """Than vong lap cua `track_video` (tach ra de dong generator trong `finally` cua ham goi)."""
     last_t = None
     pending_steps = 0
-    for frame_idx, t_s, unreadable, arr in vd.iter_frames():
+    for frame_idx, t_s, unreadable, arr in gen:
         if unreadable:
             if elapsed_mode == "steps":
                 pending_steps += 1        # thoi gian van troi, khong co quan sat
@@ -238,16 +262,6 @@ def track_video(vd: det_cache.VideoDetections, cfg: IterableSimpleNamespace, dt_
         # callback SAU khi da ghi hang cua frame nay -> dung som van giu tron ket qua frame cuoi
         if on_frame is not None and on_frame(int(frame_idx), out) is False:
             break
-    df = pd.DataFrame(rows, columns=TRK_COLS)
-    df_cls = pd.DataFrame(cls_rows, columns=["frame", "id", "cls"])
-    df_t = pd.DataFrame(timing, columns=["frame", "n_steps", "n_tracks", "n_dets",
-                                         "t_predict_ms", "t_assoc_ms", "t_update_ms"])
-    log_sink["tracker"] = tr
-    if log_sink.get("assoc_log"):
-        log_sink["assoc_log"] = tr.assoc_log
-    if log_sink.get("pf_diag") and hasattr(getattr(tr, "kalman_filter", None), "diag_frame"):
-        log_sink["pf_diag"] = tr.kalman_filter.diag_frame()
-    return df, df_cls, df_t
 
 
 def run_video_to_dir(out_root: Path, video: str, vd, cfg, dt_nominal, elapsed_mode, seed=None,
