@@ -353,12 +353,28 @@ def main() -> int:  # noqa: C901
             shutil.copy(ROOT / "configs" / "bytetrack_ekf_ctrv.yaml", yaml_sp)
             sp1 = live_replay("space", ["--conf-min", "0.25", "--tracker-yaml", str(yaml_sp)], [], src_dir=src_sp)
             m_sp = sp1[3]
+            # (review 074ceca, muc 6.4) KHONG kiem kieu ky tu quote (Windows nhay kep / POSIX nhay don):
+            # kiem RANH GIOI DOI SO bang cach parse lai chuoi theo dung quy tac cua nen tang -> phai ra y het argv.
+            def _parse_lai(chuoi: str, quy_tac: str) -> list:
+                if quy_tac == "windows-list2cmdline":
+                    # Nghich dao cua list2cmdline la CommandLineToArgvW trong tien trinh con. Truyen CHUOI voi
+                    # shell=False tren Windows -> di thang CreateProcess, KHONG qua cmd.exe -> con tach argv
+                    # dung quy tac do. Thay token dau ("python") bang mot script echo argv.
+                    assert chuoi.startswith("python "), chuoi[:30]
+                    echo = subprocess.list2cmdline([sys.executable, "-c", "import sys,json;print(json.dumps(sys.argv[1:]))"])
+                    r = subprocess.run(echo + " " + chuoi[len("python "):], shell=False, capture_output=True, text=True)
+                    return ["python"] + json.loads(r.stdout.strip().splitlines()[-1])
+                import shlex
+                return shlex.split(chuoi)
+            roundtrip = _parse_lai(m_sp.get("replay", ""), m_sp.get("replay_quote", "")) == m_sp.get("replay_argv")
             _check("S1. nguon 'traffic clip' + YAML 'cfg dir/ekf ctrv.yaml': live exit 0; replay_argv giu MOI gia tri "
-                   "la MOT phan tu; chuoi `replay` quote theo shell (Windows: list2cmdline); replay tu replay_argv exit 0, parity DAT",
+                   "la MOT phan tu; chuoi `replay` parse lai theo quy tac nen tang (`replay_quote`) ra DUNG replay_argv "
+                   "(roundtrip, khong phu thuoc kieu quote); replay tu replay_argv exit 0, parity DAT",
                    sp1[0] == 0 and "traffic clip" in m_sp.get("replay_argv", []) and str(yaml_sp) in m_sp.get("replay_argv", [])
-                   and '"traffic clip"' in m_sp.get("replay", "") and m_sp.get("replay_quote")
+                   and roundtrip and m_sp.get("replay_quote")
                    and sp1[1] == 0 and sp1[2] and sp1[2]["dat"],
-                   f"live={sp1[0]} replay={sp1[1]} parity={sp1[2] and sp1[2].get('ly_do','DAT')} quote={m_sp.get('replay_quote')}")
+                   f"live={sp1[0]} replay={sp1[1]} parity={sp1[2] and sp1[2].get('ly_do','DAT')} "
+                   f"quote={m_sp.get('replay_quote')} roundtrip={roundtrip}")
             sp2 = live_replay("space_tran", ["--det-max-det", "1", "--max-det", "1", "--allow-truncated",
                                              "--tracker-yaml", str(yaml_sp)], [], src_dir=src_sp)
             _check("S2. cung nguon/YAML co dau cach + --allow-truncated: replay_argv co '--allow-truncated', replay exit 0, parity DAT",
