@@ -1,48 +1,64 @@
-# REVIEW_BRIEF — vòng 7: xử lý REQUEST CHANGES của review `ca93c1e`
+# REVIEW_BRIEF — vòng 8: chốt review `b623465` + chuẩn bị đánh giá Jetson Nano
 
 <!-- BASE_TARGET -->
 
-Trạng thái review `ca93c1e`: **REQUEST CHANGES**. Base delta chuyển sang `ca93c1e` chỉ để ghi nhận
-**snapshot đã được đọc**, không phải dấu hiệu chấp thuận. HEAD lúc bắt đầu đúng bằng `ca93c1e`.
-Chi tiết, bảng số đầy đủ và phần còn bị chặn: **`handoff/REVIEW7_CHI_TIET.md`**.
+Review `b623465`: **PASS WITH LIMITATIONS**, ba finding P1/P2/P3 đã đóng
+(`handoff/CODEX_REVIEW_b623465.md`). Base delta chuyển sang `b623465` — ghi nhận snapshot đã đọc.
+Đợt này **không** chạy lại thí nghiệm; metric, bootstrap, GT và bản khóa máy đọc giữ nguyên.
+Kiểm kê Nano đầy đủ + lệnh tiếp tục: **`handoff/NANO_STATUS.md`**.
 
-## Finding → tái hiện → sửa → bằng chứng
+## 1. Đã chốt gì từ review
 
-| # | Tái hiện (fixture tạm, `stage_eval()` thật) | Sửa | Sau sửa |
-|:--|:--|:--|:--|
-| **P1** GT ngoài fingerprint | Đổi `gt.txt` cùng đường dẫn → `TAI SU DUNG`, giữ metric cũ (đúng phải là 2 / 0,8 / 0,6832349). Đổi `seqLength`, **xóa** `gt.txt` cũng không lệch | Hash `gt.txt` + `seqinfo.ini` + `seqLength` riêng + seqmap khi thật sự đọc; `occl_fingerprint` thêm GT và file segment; `check_eval_inputs()` chạy **trước** khi xét tái dùng; `run_state.py` vào `CODE_FILES` | `test_eval_guard` **11/11**: đổi GT → `ly do: gt`, ra đúng số; xóa GT → lỗi, exit ≠ 0; **GT rỗng ≠ GT thiếu** |
-| **P2** không theo manifest | 1 detection thật → báo **5**; 1 s/1 frame → **21 s/2 frame**; thiếu `seconds` cộng như **0** | Đọc manifest; đếm qua `open_cache(...).frame(i)` (áp `max_det` **từng frame**); thiếu số đo → **từ chối** đưa ra tổng | `test_report_stats` **8/8** |
-| **P3** test không gọi runner | Phép kiểm 5 chỉ tính lại biểu thức, kiểm `rex is not None` | Gọi `stage_eval()` thật, đọc `eval_meta.json` | `test_evaluator_choice` **7/7**, có **độ nhạy**: ép `mot` → FP 1→2 |
+Hàng mục 6 của `CODEX_HANDOFF.md`: quy mô → **6 cấu hình/seed × 2 điều kiện = 12 run tổng cộng,
+mỗi run 200 video**; SD → ghi rõ **`0,00005–0,00095` là SD HOTA** của PF giữa ba seed.
 
-## Đánh giá lại từ tracking hiện có (không chạy lại detector/tracker)
+Hai chỗ mô tả bằng chứng Codex chỉ đúng, đã sửa:
 
-`--stage eval` → `--stage aggregate`, exit 0; 12 run chạy lại, lý do `tracking, gt, code`.
+- **Tracking**: "2.400 file 0 lệch" → **"0 lệch theo quy ước chuẩn hóa LF"** (brief, phụ lục,
+  handoff). CRLF và LF coi là cùng nội dung, **không** phải so byte thô.
+- **Phạm vi ổn định hash**: docstring `run_fingerprint.py` từng nói dấu vân tay "không đổi giữa
+  Windows và Nano" — sai phạm vi, chỉ `.txt`/`.ini`/`.csv` được chuẩn hóa. Đã kiểm trên đĩa:
+  `run_fingerprint.py` **281 CRLF / 0 LF**, `bytetrack_np.py` **0 CRLF / 125 LF** ⇒ trường `code`
+  **sẽ lệch giữa hai máy dù cùng commit**. Đã sửa docstring và ghi thành điều kiện phải xử lý
+  trước khi so provenance giữa hai máy.
 
-| Đối chiếu | Kết quả |
-|:--|:--|
-| 2.400 file tracking · 12 `run_meta.json` | **0 lệch** (provenance giữ nguyên) |
-| 56 giá trị metric · 100 dòng bootstrap (Δ + CI) | lệch tối đa **0,000e+00** |
-| `gt_per_video` vs bản khóa | **200/200 khớp** |
+## 2. Nano: KHÔNG tiếp cận được — bằng chứng, không suy đoán
 
-⇒ P1 **có thật** nhưng **không** ảnh hưởng số liệu BDD đã bàn giao. Bản trước giữ nguyên ở
-`results/phase2/_PRE_P1_ca93c1e/`.
+`handoff/logs/review8/thu_ket_noi_nano.log`: `~/.ssh/config` và `known_hosts` **không tồn tại**;
+4 tên (`nano.local`, `jetson.local`, `nano`, `tegra-ubuntu.local`) **đều không phân giải được**;
+ARP **không có OUI NVIDIA `00-04-4b`**; **không** cổng serial; thiết bị PnP khớp
+`NVIDIA/Jetson/Tegra/APX` chỉ có **GTX 1650 của chính PC này**.
 
-Bảng detection và thời gian detector cũng **không đổi**; lý do đã kiểm (cache đúng 200 video
-manifest, frame đông nhất 25/59 detection — xa `max_det` 300, 0 sidecar thiếu `seconds`) nằm ở
-phụ lục mục 2.
+⇒ Không thu thập được model, RAM, kiến trúc CPU, JetPack/L4T, numpy/scipy/lap, CUDA/TensorRT,
+dung lượng, nguồn, clocks hay nhiệt độ. **Không số đo Nano nào được tạo ra.**
+**Cần bổ sung**: IP/hostname + thiết bị bật cùng LAN; tài khoản và cách xác thực; hoặc cáp USB +
+chế độ recovery.
 
-## Diễn giải đã thu hẹp (sửa ở **nguồn sinh**, không sửa file đã sinh)
+## 3. Đã hoàn thiện để chạy ngay khi có thiết bị
 
-Bỏ "cận trên" và bảo đảm "5 lớp sẽ nhanh hơn" → **ước tính cộng hai pha đo riêng**; thay "gần như
-không đổi FPS" bằng khoảng tính từ số liệu **35,6 → 41,8 FPS, chênh 17,4 %**. SD của PF ghi **theo
-từng metric**, kết luận giới hạn trong ba seed đã thử. Hậu quả lỗi timeline: TrackEval **ném lỗi**
-với timestep ngoài `seqLength` — **rút lại** câu "mọi FP sau frame 94 biến mất". Quy mô: **6 cấu
-hình/seed × 2 điều kiện = 12 run**. Dùng "CI 95 % của phép so sánh đã định trước không chứa 0", nêu
-rõ **chưa** hiệu chỉnh đa so sánh. **Đính chính DETRAC**: test **c10** đã có CI HOTA **không chứa 0**;
-chỉ **c25** chứa 0 — đã bỏ giải thích "CI hẹp vì có 200 video".
+- **`src/nano_parity.py`** — so tracking Nano ↔ PC, **tolerance công bố trước**: bbox `≤1e-3` px,
+  conf `≤1e-6`, **liên kết ID không có tolerance**. ID kiểm hai mức (giá trị thô **và** phân hoạch
+  track) để tách "đánh số lệch" khỏi "ghép khác hẳn". `test_nano_parity` **10/10**; kiểm ngược
+  trên dữ liệu thật: `cv` vs chính nó → 2/2 ĐẠT, `cv` vs `ekf` → 0/2 exit 1.
+- **`src/nano_bench_tracker.py`** — giao thức 4c: AB/BA **cân bằng**, mặc định **6 cặp** (≥5, chia
+  đều), warm-up 50 frame/video, lấy mẫu `tegrastats`, ghi nvpmodel/nhiệt độ trước–sau **từng
+  lượt**, **lưu mọi lượt**, báo **trung vị + IQR của hiệu số theo cặp**; cặp thiếu một nửa không
+  dùng; tự cảnh báo khi máy không phải Jetson.
 
-## Trạng thái
+Tự kiểm trên PC (kiểm **công cụ**, không phải kết quả): 6 cặp trọn, warm-up đúng 152/202 frame.
+Hiệu số `ekf − cv` trung vị `+0,28 ms` nhưng **IQR `[-0,0002; +0,483]` chứa 0** — đúng lý do giao
+thức phải ghép cặp và cân bằng thứ tự.
 
-**Test: 28/28 PASS, 0 FAIL** (`handoff/logs/review7/`). **Nano: chưa kết nối**, chưa có số đo.
-Còn bị chặn: Thí nghiệm 2 (chỉ có split `val`), chỉ số che khuất (nguồn thiếu `occluded`), metric
-theo lớp (GT gộp 5 lớp xe).
+## 4. Còn bị chặn
+
+Mọi số đo Nano (**không tiếp cận được thiết bị**). Python ≥ 3.7 và `scipy`/`lap`/**`pandas`** cho
+aarch64 chưa xác minh — `run_tracking.py` có import `pandas` nên đó là phụ thuộc bắt buộc. Đường
+detector trên Nano chưa nối vào backend NumPy. Ổn định hash `.py` giữa hai máy: **hoãn có chủ ý**
+— sửa `TEXT_SUFFIXES` bây giờ sẽ làm 12 `eval_meta.json` vừa review thành cũ mà chưa đổi lấy thông
+tin gì. Thí nghiệm 2 chờ split train/dev. Che khuất và metric xe máy trên BDD vẫn không làm được
+(nguồn thiếu `occluded`; GT gộp 5 lớp xe).
+
+## 5. Trạng thái
+
+Test liên quan: `test_nano_parity` **10/10**, `test_eval_guard` **11/11**, `test_report_stats`
+**8/8**, `test_evaluator_choice` **7/7**, tất cả exit 0. Full suite ở `handoff/logs/review8/`.

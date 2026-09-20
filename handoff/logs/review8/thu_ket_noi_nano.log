@@ -1,0 +1,29 @@
+=== THU KET NOI JETSON NANO ===
+thoi diem : 2026-09-20T08:03:30+07:00
+may       : Duong
+
+[1] ~/.ssh/config        : KHONG TON TAI
+[2] ~/.ssh/known_hosts   : KHONG TON TAI
+[3] bien moi truong nano/jetson : khong co
+[4] phan giai ten (Resolve-DnsName):
+      nano.local          -> khong phan giai duoc
+      jetson.local        -> khong phan giai duoc
+      nano                -> khong phan giai duoc
+      tegra-ubuntu.local  -> khong phan giai duoc
+[5] bang ARP, OUI NVIDIA 00-04-4b : KHONG co muc nao
+[6] cong serial (Win32_SerialPort): khong co
+[7] thiet bi PnP khop NVIDIA/Jetson/Tegra/APX:
+      NVIDIA GeForce GTX 1650            <- GPU CUA CHINH PC NAY
+      NVIDIA High Definition Audio       <- audio cua GPU PC
+      NVIDIA Virtual Audio Device        <- audio ao cua GPU PC
+      (KHONG co thiet bi Jetson/Tegra/APX nao)
+
+KET LUAN (chi tu output lenh o tren):
+  Khong co duong nao toi thiet bi Jetson Nano tu may nay:
+  khong co ten phan giai duoc, khong co thiet bi NVIDIA nao khac GPU cua PC
+  trong ARP/USB/serial. => KHONG THE thu thap thong tin thiet bi trong dot nay.
+
+THIEU DE TIEN HANH (nguoi dung cung cap):
+  - dia chi IP hoac hostname cua Nano, va thiet bi dang bat + cung mang LAN
+  - tai khoan dang nhap (user) va cach xac thuc (khoa SSH hoac mat khau)
+  - hoac: cap USB + Nano o che do recovery (APX) neu muon flash/serial
