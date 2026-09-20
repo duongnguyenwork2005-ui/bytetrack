@@ -8,6 +8,18 @@ TANG 1 (khong can GPU, nhanh): adapter `LiveVideoDetections` va nguon frame.
   4. Nguon khong hop le: khong ton tai / duoi la / thu muc khong anh / thu muc thieu fps -> loi ro rang.
   5. `on_frame` tra False -> `track_video` dung som nhung VAN giu hang cua frame cuoi.
 
+TANG 1b (review 8abb368 -- fixture: detector/imread gia lap, tracker THAT, chay `main()` that):
+ F1. Bo doc anh mat ~20 ms/frame -> `decode_ms` ~20 (khong phai ~0), `frame_total_ms` bao phu no,
+     overhead ghi rieng; CSV pipeline co du cot de tinh lai tong.
+ F2. live -> save-cache -> replay:
+     (a) thong thuong: ca hai exit 0, parity DAT;
+     (b) `--det-conf 0.5 --conf-min 0.1`: live TU CHOI SOM (exit 2) bang cung guard check_compatible;
+     (c) `--det-max-det 1 --max-det 1`, 1 det/frame: mac dinh live exit 3 (cham tran, khong ghi ket qua);
+         voi `--allow-truncated`: live exit 0, replay (lenh sinh ra CO --allow-truncated) exit 0, parity DAT;
+     (d) `max_det` consumer > producer: live exit 2.
+ F4. Thu muc anh: 1,2,10 -> theo SO; 001,002,010 -> nhu nhau; tien to khac nhau / khong co so -> loi ro;
+     --frames-manifest -> dung thu tu manifest; frames_manifest.json duoc ghi ra.
+
 TANG 2 (can detector that; dung GPU neu co, khong thi CPU voi it frame hon):
   6. LIVE tren sequence DETRAC + --save-cache, roi REPLAY bang run_tracking.py tu cache do
      -> parity DAT (bit-identical): cung detector, cung loc, cung vong lap.
@@ -57,7 +69,7 @@ class _NguonGia:
     def __iter__(self):
         for i in range(1, 5):
             img = None if i == 3 else np.zeros((720, 1280, 3), dtype=np.uint8)
-            yield i, (i - 1) / self.fps, img
+            yield i, (i - 1) / self.fps, img, 0.5          # (idx, t_s, img, decode_ms)
 
     def dong(self):
         pass
@@ -97,6 +109,7 @@ def main() -> int:  # noqa: C901
         import det_cache
         import run_tracking
         import track_video_file as tvf
+        import pandas as pd
 
         # ================= TANG 1 =================
         spec = det_cache.DetectorSpec(conf=0.05, classes=None, max_det=3000)
@@ -159,6 +172,152 @@ def main() -> int:  # noqa: C901
                goi == [1, 2] and list(df_t.frame) == [1, 2] and (len(df) == 0 or df.frame.max() <= 2)
                and (2 in set(df.frame) or len(df) == 0),
                f"goi={goi} timing={list(df_t.frame)} rows_frame={sorted(set(df.frame))}")
+
+        # ================= TANG 1b: fixture qua main() that (review 8abb368) =================
+        import contextlib
+        import io
+        import time
+        import types
+        import ultralytics
+        import nano_parity as npar
+
+        DELAY = {"ms": 0.0}
+        DETS = {"queue": None, "mac_dinh": np.array([[10, 10, 50, 50, 0.9, 2]], dtype=np.float32)}
+        _imread0, _detect0, _yolo0 = cv2.imread, det_cache.detect_frame, ultralytics.YOLO
+
+        def _imread_gia(pth, *aa, **kk):
+            time.sleep(DELAY["ms"] / 1000.0)
+            return np.zeros((240, 320, 3), np.uint8)
+
+        def _detect_gia(model, img, spec):
+            q = DETS["queue"]
+            return (q.pop(0) if q else DETS["mac_dinh"]).copy()
+
+        def _main(mod, argv):
+            old = sys.argv; sys.argv = ["x"] + argv
+            buf = io.StringIO()
+            try:
+                with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
+                    try:
+                        rc = mod.main()
+                    except SystemExit as e:
+                        rc = int(e.code or 0)
+                    except Exception as e:  # noqa: BLE001
+                        rc = -1; buf.write(f"[EXC] {type(e).__name__}: {e}")
+            finally:
+                sys.argv = old
+            return rc, buf.getvalue()
+
+        ck_gia = tmp / "gia.pt"; ck_gia.write_bytes(b"fake")
+        anh_gia = tmp / "anh_gia"; anh_gia.mkdir()
+        for i in (1, 2, 3):
+            (anh_gia / f"{i:03d}.jpg").write_bytes(b"x")
+        try:
+            cv2.imread, det_cache.detect_frame = _imread_gia, _detect_gia
+            ultralytics.YOLO = lambda w: types.SimpleNamespace(names={2: "car"})
+            base = ["--source", str(anh_gia), "--fps", "5", "--model", str(ck_gia), "--device", "cpu",
+                    "--classes", "2", "--warmup-frames", "0"]
+
+            # --- F1 ---
+            DELAY["ms"] = 20.0
+            o1 = tmp / "f1"
+            rc, log = _main(tvf, base + ["--out", str(o1)])
+            m = json.loads((o1 / "run_meta.json").read_text(encoding="utf-8"))["thoi_gian"]
+            tb_ = m["trung_binh_ms"]
+            csv1 = pd.read_csv(o1 / "pipeline" / "anh_gia.csv")
+            cot = {"decode_ms", "mask_ms", "detect_ms", "t_update_ms", "render_ms", "write_ms", "show_ms",
+                   "frame_total_ms", "overhead_ms"}
+            tong_lai = (csv1[["decode_ms", "mask_ms", "detect_ms", "t_update_ms", "render_ms", "write_ms",
+                              "show_ms", "overhead_ms"]].sum(axis=1) - csv1["frame_total_ms"]).abs().max()
+            _check("F1. bo doc ~20 ms/frame -> decode_ms ~20 (truoc: ~0), frame_total bao phu, "
+                   "CSV du cot va tong stage + overhead == frame_total",
+                   rc == 0 and 18.0 <= tb_["decode_ms"] <= 30.0 and tb_["frame_total_ms"] >= tb_["decode_ms"]
+                   and cot <= set(csv1.columns) and tong_lai < 1e-6
+                   and m["wall_vong_lap_s"] * 1000 >= 3 * 18.0,
+                   f"decode={tb_['decode_ms']:.2f} total={tb_['frame_total_ms']:.2f} "
+                   f"wall_vong_lap={m['wall_vong_lap_s']*1000:.1f}ms tong_lai={tong_lai:.2e} rc={rc}")
+            DELAY["ms"] = 0.0
+
+            # --- F2 ---
+            def live_replay(tag, live_extra, replay_extra):
+                cid = f"tvf_f2_{tag}"
+                shutil.rmtree(det_cache.CACHE_ROOT / cid, ignore_errors=True)
+                o = tmp / f"f2_{tag}"
+                rc1, l1 = _main(tvf, base + ["--out", str(o), "--save-cache", cid] + live_extra)
+                meta = json.loads((o / "run_meta.json").read_text(encoding="utf-8")) if (o / "run_meta.json").exists() else {}
+                split = f"TVF_F2_{tag}"
+                shutil.rmtree(ROOT / "data/processed/trackers" / split, ignore_errors=True)
+                rc2, l2, pr = None, "", None
+                if rc1 == 0 and meta.get("replay"):
+                    # dung DUNG lenh replay sinh ra (thay <split>/<ten>), bo "python src/run_tracking.py"
+                    argv = meta["replay"].replace("<split>", split).replace("<ten>", "cv").split()[2:]
+                    rc2, l2 = _main(run_tracking, argv)
+                    f_live, f_rep = o / "data" / "anh_gia.txt", ROOT / "data/processed/trackers" / split / "cv" / "data" / "anh_gia.txt"
+                    if f_rep.exists():
+                        pr = npar.so_mot_video(f_live, f_rep)
+                shutil.rmtree(ROOT / "data/processed/trackers" / split, ignore_errors=True)
+                shutil.rmtree(det_cache.CACHE_ROOT / cid, ignore_errors=True)
+                return rc1, rc2, pr, meta, (l1 + l2)[-300:]
+
+            DETS["queue"] = None
+            a_ = live_replay("thuong", ["--conf-min", "0.25"], [])
+            _check("F2a. thong thuong: live exit 0, replay (lenh tu run_meta) exit 0, parity DAT lech 0",
+                   a_[0] == 0 and a_[1] == 0 and a_[2] and a_[2]["dat"] and a_[2]["max_bbox"] == 0.0,
+                   f"live={a_[0]} replay={a_[1]} parity={a_[2] and a_[2].get('ly_do','DAT')}")
+            b_ = live_replay("conf", ["--det-conf", "0.5", "--conf-min", "0.1"], [])
+            _check("F2b. --det-conf 0.5 --conf-min 0.1 -> live TU CHOI SOM exit 2 (cung guard check_compatible), "
+                   "khong tao cache",
+                   b_[0] == 2 and b_[1] is None and not b_[3], f"live={b_[0]} log={b_[4][-160:]}")
+            c1 = live_replay("tran", ["--det-max-det", "1", "--max-det", "1"], [])
+            _check("F2c. --det-max-det 1, 1 det/frame, mac dinh -> live exit 3 (cham tran, KHONG ghi ket qua), "
+                   "y het VideoDetections tu choi",
+                   c1[0] == 3 and c1[1] is None and not c1[3], f"live={c1[0]} log={c1[4][-160:]}")
+            c2 = live_replay("tran_ok", ["--det-max-det", "1", "--max-det", "1", "--allow-truncated"], [])
+            _check("F2c'. cung ca voi --allow-truncated -> live exit 0, meta ghi allow_truncated + "
+                   "replay_trang_thai, lenh replay CO --allow-truncated, replay exit 0, parity DAT",
+                   c2[0] == 0 and c2[3].get("loc", {}).get("allow_truncated") is True
+                   and "--allow-truncated" in c2[3].get("replay", "") and "cham tran" in c2[3].get("replay_trang_thai", "")
+                   and c2[1] == 0 and c2[2] and c2[2]["dat"],
+                   f"live={c2[0]} replay={c2[1]} parity={c2[2] and c2[2].get('ly_do','DAT')} "
+                   f"replay_cmd_ok={'--allow-truncated' in c2[3].get('replay','')}")
+            d_ = live_replay("maxdet", ["--det-max-det", "5", "--max-det", "10"], [])
+            _check("F2d. max_det consumer (10) > producer (5) -> live exit 2",
+                   d_[0] == 2 and d_[1] is None, f"live={d_[0]} log={d_[4][-160:]}")
+
+            # --- F4 ---
+            def thu_tu(ten_files, manifest=None):
+                d = tmp / ("f4_" + str(abs(hash(tuple(ten_files))) % 10**6))
+                d.mkdir(exist_ok=True)
+                for n in ten_files:
+                    (d / n).write_bytes(b"x")
+                ng = tvf.NguonFrame(str(d), None, "x", None, 5.0, None, manifest)
+                return [Path(q).name for _, _, q in ng.paths]
+            _check("F4a. 1.jpg 2.jpg 10.jpg -> theo SO: 1, 2, 10 (truoc: 1, 10, 2)",
+                   thu_tu(["1.jpg", "2.jpg", "10.jpg"]) == ["1.jpg", "2.jpg", "10.jpg"])
+            _check("F4b. 001 002 010 (zero-padding) -> nhu nhau",
+                   thu_tu(["001.jpg", "002.jpg", "010.jpg"]) == ["001.jpg", "002.jpg", "010.jpg"])
+            _check("F4c. img_7.jpg img_08.jpg img_10.jpg (cung tien to, padding lan lon) -> theo SO",
+                   thu_tu(["img_10.jpg", "img_7.jpg", "img_08.jpg"]) == ["img_7.jpg", "img_08.jpg", "img_10.jpg"])
+            loi4 = {}
+            for ten, files in (("tien to khac", ["a1.jpg", "b2.jpg"]), ("khong co so", ["x.jpg", "y.jpg"]),
+                               ("trung so", ["a01.jpg", "a1.jpg"])):
+                try:
+                    thu_tu(files); loi4[ten] = None
+                except ValueError as e:
+                    loi4[ten] = "frames-manifest" in str(e)
+            _check("F4d. tien to khac nhau / khong co so / trung so -> ValueError co huong dan --frames-manifest",
+                   all(v is True for v in loi4.values()), f"{loi4}")
+            mf = tmp / "thu_tu.json"
+            mf.write_text(json.dumps(["b2.jpg", "a1.jpg"]), encoding="utf-8")
+            _check("F4e. --frames-manifest -> dung DUNG thu tu manifest (b2 truoc a1) du ten mo ho",
+                   thu_tu(["a1.jpg", "b2.jpg"], str(mf)) == ["b2.jpg", "a1.jpg"])
+            fm = json.loads((o1 / "frames_manifest.json").read_text(encoding="utf-8"))
+            _check("F4f. run ghi frames_manifest.json: quy uoc + (file, frame, time_s) da dung",
+                   fm["quy_uoc"] and [x["file"] for x in fm["frames"]] == ["001.jpg", "002.jpg", "003.jpg"]
+                   and [x["frame"] for x in fm["frames"]] == [1, 2, 3] and abs(fm["frames"][2]["time_s"] - 0.4) < 1e-9,
+                   f"{fm['frames']}")
+        finally:
+            cv2.imread, det_cache.detect_frame, ultralytics.YOLO = _imread0, _detect0, _yolo0
 
         # ================= TANG 2 =================
         import torch
