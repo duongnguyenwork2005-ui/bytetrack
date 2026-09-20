@@ -167,6 +167,9 @@ sửa lệnh.
 ## Chạy một video bất kỳ qua detector + tracker (hệ thống trên PC)
 
 ```bash
+# Giao diện (Tkinter): chọn video/thư mục ảnh, bộ lọc, thiết bị, thư mục kết quả; Bắt đầu / Dừng / Mở kết quả
+python src/pc_launcher.py          # hướng dẫn: handoff/LAUNCHER_PC.md
+
 # video file: xem trực tiếp, lưu video có bbox/ID/lớp, xuất MOT + metadata tái hiện
 python src/track_video_file.py --source C:\videos\xe.mp4 --tracker-yaml configs/bytetrack_ekf_ctrv.yaml \
     --classes 1 2 3 5 7 --conf-min 0.25 --device 0 --out results/track_video/xe --save-video --show

@@ -1,6 +1,8 @@
 # Hệ thống tracking phương tiện trên PC — hướng dẫn sử dụng và kiểm chứng
 
 Cập nhật 2026-09-21 (sau review `923305d`). Entry point: **`src/track_video_file.py`** (ngoài `src/demo/**`).
+Giao diện: **`src/pc_launcher.py`** — xem `handoff/LAUNCHER_PC.md`. Mốc PC được Codex nghiệm thu ở `074ceca`
+(PASS WITH LIMITATIONS).
 
 ## 1. Chạy một video
 
@@ -45,6 +47,7 @@ Phím khi `--show`: **q** thoát (kết quả, cache **và timing của frame cu
 | | `--save-video` / `--show` | tắt | |
 | | `--save-cache CACHE_ID` | tắt | ghi detection thô vào det cache → replay bằng `run_tracking.py` |
 | | `--warmup-frames` | `25` | số frame đầu bỏ khỏi **tổng kết** thời gian (CSV vẫn đủ) |
+| Điều phối | `--progress-file` / `--progress-every` / `--stop-file` | tắt | cho launcher: JSON tiến trình ghi giới hạn tần suất, nguyên tử; stop-file → dừng qua đường phím q (xem `LAUNCHER_PC.md`) |
 
 ### Ngưỡng nào thực sự vào tracker
 
