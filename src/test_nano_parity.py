@@ -21,6 +21,11 @@ Cac phep kiem:
  13. (F2) Doi so ID lam DAO THU TU ID (1<->2) nhung lien ket y het -> ID tho khac, phan hoach KHOP.
  14. (F2) Thuc su DOI LIEN KET o mot frame (hai track hoan doi box) -> phan hoach KHONG khop, FAIL.
  15. Khoa (frame, id) TRUNG trong mot file -> khong hop le de so, KHONG DAT.
+ 16. (F3, review 8abb368) Chi DAO THU TU DONG cua test (giu nguyen tap ban ghi) -> ket luan Y HET.
+ 17. (F3) Hai track bbox/conf GIONG HET o hai frame, ref ID 1/2, test ID 8/9: hinh hoc khong phan
+     biet duoc -> trang thai MO HO (khong PASS, khong FAIL), va dao thu tu 2 dong frame 2 -> VAN mo ho.
+ 18. (F3) Chi doi confidence trong file ket qua -> KHONG quy nguyen nhan cho detector; ghi CHUA XAC DINH.
+ 19. (F3) Neo khong mo ho o frame khac GIAI DUOC mo ho o frame nay bang rang buoc toan sequence.
 
 Cac ca 11-14 la ly do KHONG duoc ghep hang theo thu tu sap xep toa do: toa do duoc phep lech toi
 tolerance nen thu tu tuyet doi khong con la khoa. Muc (a) ghep bang khoa (frame, id); muc (b) ghep
@@ -191,6 +196,58 @@ def main() -> int:  # noqa: C901
         _check("khoa (frame,id) TRUNG trong file test -> khong hop le de so, KHONG DAT",
                (not r["dat"]) and ("so hang" in r["ly_do"] or "TRUNG" in r["ly_do"]),
                f"ly_do={r.get('ly_do','')}")
+
+        # --- 16. (F3) dao thu tu dong -> ket luan y het ---
+        import random
+        rows_dao = list(GOC)
+        random.Random(7).shuffle(rows_dao)
+        r_goc = so(GOC, "t16a")
+        r_dao = so(rows_dao, "t16b")
+        khoa_so = ("dat", "max_bbox", "max_conf", "id_tho_khop", "phan_hoach", "phan_hoach_khop")
+        _check("(F3) chi DAO THU TU DONG cua test (cung tap ban ghi) -> ket luan y het",
+               all(r_goc.get(k) == r_dao.get(k) for k in khoa_so),
+               f"goc={[r_goc.get(k) for k in khoa_so]} dao={[r_dao.get(k) for k in khoa_so]}")
+        swap_dao = list(swap)                           # ca doi lien ket that (phep 14) cung phai on dinh
+        random.Random(11).shuffle(swap_dao)
+        r_s1, r_s2 = so(swap, "t16c"), so(swap_dao, "t16d")
+        _check("(F3) ca doi lien ket that: dao thu tu dong van FAIL voi cung trang thai phan hoach",
+               (not r_s1["dat"]) and (not r_s2["dat"]) and r_s1["phan_hoach"] == r_s2["phan_hoach"] == "khac",
+               f"{r_s1['phan_hoach']} / {r_s2['phan_hoach']}")
+
+        # --- 17. (F3) fixture Codex: hai track giong het -> MO HO, on dinh khi dao dong ---
+        B = (10.0, 20.0, 30.0, 40.0, 0.9)
+        refc = tmp / "ref_codex"
+        viet(refc / "v1.txt", [(1, 1, *B), (1, 2, *B), (2, 1, *B), (2, 2, *B)])
+        viet(tmp / "t17a" / "v1.txt", [(1, 8, *B), (1, 9, *B), (2, 8, *B), (2, 9, *B)])
+        viet(tmp / "t17b" / "v1.txt", [(1, 8, *B), (1, 9, *B), (2, 9, *B), (2, 8, *B)])
+        ra_ = np_.so_mot_video(refc / "v1.txt", tmp / "t17a" / "v1.txt")
+        rb_ = np_.so_mot_video(refc / "v1.txt", tmp / "t17b" / "v1.txt")
+        _check("(F3) hai track bbox/conf GIONG HET, ID 1/2 vs 8/9: phan hoach = MO HO (khong PASS, khong "
+               "FAIL), va DAO 2 dong frame 2 -> VAN mo ho (ban cu: khop -> khac)",
+               ra_["phan_hoach"] == "mo_ho" and rb_["phan_hoach"] == "mo_ho"
+               and (not ra_["dat"]) and (not rb_["dat"]) and ra_["phan_hoach_khop"] is None,
+               f"a={ra_['phan_hoach']} b={rb_['phan_hoach']} ly_do={ra_.get('ly_do','')[:90]}")
+
+        # --- 18. (F3) chi doi conf trong file ket qua -> khong quy cho detector ---
+        r = so([(f, i, x, y, w, h, c + 2e-5) for f, i, x, y, w, h, c in GOC], "t18")
+        _check("(F3) chi doi confidence 2e-5 trong file ket qua: KHONG DAT, KHONG quy nguyen nhan cho "
+               "detector, ghi CHUA XAC DINH",
+               (not r["dat"]) and "detector" not in r["ly_do"].lower().replace("chua xac dinh", "")
+               and "CHUA XAC DINH" in r["ly_do"] and r["id_tho_khop"] and r["phan_hoach"] == "khop",
+               r.get("ly_do", ""))
+
+        # --- 19. (F3) neo o frame khac giai duoc mo ho ---
+        # frame 1: hai box GIONG HET (mo ho); frame 2: hai box KHAC vi tri (neo). Test danh so 8/9.
+        ref19 = tmp / "ref19"
+        viet(ref19 / "v1.txt", [(1, 1, *B), (1, 2, *B), (2, 1, 100.0, 100.0, 50.0, 40.0, 0.9),
+                                (2, 2, 600.0, 300.0, 60.0, 50.0, 0.8)])
+        viet(tmp / "t19" / "v1.txt", [(1, 8, *B), (1, 9, *B), (2, 8, 100.0, 100.0, 50.0, 40.0, 0.9),
+                                      (2, 9, 600.0, 300.0, 60.0, 50.0, 0.8)])
+        r = np_.so_mot_video(ref19 / "v1.txt", tmp / "t19" / "v1.txt")
+        _check("(F3) frame 1 mo ho nhung frame 2 co neo 1->8, 2->9: rang buoc toan sequence GIAI duoc -> "
+               "phan hoach KHOP (chi lech danh so), khong con mo ho",
+               r["phan_hoach"] == "khop" and r.get("chi_danh_so_lech") is True and r.get("n_box_chua_chot") == 0,
+               f"phan_hoach={r['phan_hoach']} chua_chot={r.get('n_box_chua_chot')} ly_do={r.get('ly_do','')[:80]}")
 
         # --- 10. tolerance duoc cong bo thanh hang so, khong an trong ham ---
         _check("tolerance la hang so module, cong bo duoc truoc khi so "

@@ -21,10 +21,15 @@ CACH GHEP HANG (review 8bab154, F2 -- ban truoc sap theo (frame, x, y) roi so th
 SAI, vi toa do duoc phep lech toi TOL_BBOX nen thu tu tuyet doi cua toa do khong con la khoa; hai
 box gan nhau doi cho sau sai so nho, hai box trung (x, y) phu thuoc thu tu dong trong file):
   - Muc (a): khoa (frame, id). Tap khoa hai ben phai BANG NHAU va KHONG co khoa trung.
-  - Muc (b): trong moi frame, ghep 1-1 bang Hungarian tren khoang cach Chebyshev cua 4 toa do,
-    chi chap nhan cap co khoang cach <= TOL_BBOX. Neu mot box co >1 ung vien trong tolerance thi
-    ghi nhan MO HO (khong tu chon). Song anh ID duoc suy tu TOAN BO cac cap da ghep, khong anh
-    xa lai tung frame.
+  - Muc (b): trong moi frame, tap UNG VIEN = cac cap (ref, test) co Chebyshev 4 toa do <= TOL_BBOX
+    va |d conf| <= TOL_CONF. Song anh ID xay tu cac cap KHONG MO HO (1-1 duy nhat) roi lan truyen
+    bang rang buoc TOAN SEQUENCE; box con nhieu ung vien ma rang buoc khong phan biet duoc ->
+    trang thai MO HO (khong PASS, khong FAIL). KHONG dung Hungarian de chon tuy y (review 8abb368).
+    Ket qua khong phu thuoc thu tu dong trong file.
+
+CONG CU NAY CHI CO HAI FILE TRACKING: no bao dieu QUAN SAT duoc (bbox/conf lech, khoa (frame,id),
+phan hoach khop/khac/mo ho). No KHONG ket luan nguyen nhan (detector hay tracker) -- muon biet phai
+kiem detection dau vao bang phep kiem rieng (vd so npz cua hai lan chay).
 
 VI SAO bbox co tolerance ma ID thi khong: hai kien truc (x86-64 va aarch64) co the dung BLAS/libm
 khac nhau, nen phep toan dau phay dong co the lech o chu so cuoi. Lech do chap nhan duoc mien la
@@ -107,130 +112,184 @@ def so_theo_id_tho(a: np.ndarray, b: np.ndarray) -> dict:
 
 
 # --------------------------------------------------------------------------- muc (b): ghep hinh hoc + song anh
-def _ghep_hinh_hoc_mot_frame(A: np.ndarray, B: np.ndarray) -> tuple[list, int, str]:
-    """Ghep 1-1 cac hang cua mot frame theo khoang cach Chebyshev 4 toa do, nguong TOL_BBOX.
-
-    Tra ve (cap [(i_ref, j_test)], so_box_mo_ho, ly_do_khong_ghep_duoc).
-    Mo ho = mot box co >1 ung vien trong tolerance (hinh hoc khong phan biet duoc).
-    """
+def _ung_vien_mot_frame(A: np.ndarray, B: np.ndarray) -> "np.ndarray | None":
+    """Ma tran ung vien (n_ref, n_test): True khi khoang cach Chebyshev 4 toa do <= TOL_BBOX.
+    Chi dung HINH HOC de dinh danh detection; confidence la dai luong quan sat RIENG (bao o muc (a)),
+    khong tham gia ghep -- neu khong, chi lech conf da lam "khong ghep duoc" va che mat ket luan
+    phan hoach. None neu so hang khac nhau."""
     if len(A) != len(B):
-        return [], 0, f"so hang khac nhau trong frame: {len(A)} vs {len(B)}"
+        return None
     if len(A) == 0:
-        return [], 0, ""
-    D = np.max(np.abs(A[:, None, 2:6] - B[None, :, 2:6]), axis=2)       # (n, n) Chebyshev
-    ung_vien = (D <= TOL_BBOX)
-    mo_ho = int(np.sum(ung_vien.sum(axis=1) > 1) + np.sum(ung_vien.sum(axis=0) > 1))
-    from scipy.optimize import linear_sum_assignment
-    ri, cj = linear_sum_assignment(D)
-    cap = [(int(i), int(j)) for i, j in zip(ri, cj) if D[i, j] <= TOL_BBOX]
-    if len(cap) < len(A):
-        return cap, mo_ho, f"{len(A) - len(cap)}/{len(A)} box khong co doi tac trong tolerance"
-    return cap, mo_ho, ""
+        return np.zeros((0, 0), dtype=bool)
+    D = np.max(np.abs(A[:, None, 2:6] - B[None, :, 2:6]), axis=2)
+    return D <= TOL_BBOX
 
 
 def so_phan_hoach(a: np.ndarray, b: np.ndarray) -> dict:
-    """Muc (b): ghep hinh hoc tung frame, roi kiem song anh ID co dinh tren toan sequence."""
+    """Muc (b): phan hoach track co tuong duong qua MOT song anh ID co dinh tren toan sequence?
+
+    (review 8abb368, PC-F3) KHONG dung Hungarian de chon giua nhieu ung vien: lua chon tuy y cua no
+    khong phai bang chung. Thay vao do:
+      1. Tim cac cap (ref_id, test_id) KHONG MO HO: box ref co dung 1 ung vien va box test do cung
+         co dung 1 ung vien (trong frame do) -> mo neo cua song anh.
+      2. Lan truyen bang RANG BUOC TOAN SEQUENCE: voi box con mo ho, neu ref_id da co anh xa
+         (tu neo) va anh xa do nam trong tap ung vien cua box -> chot. Lap den khi khong doi.
+      3. Con box chua chot -> trang thai `mo_ho` (khong DAT, khong FAIL): du lieu hai file khong
+         du de phan biet. Khong bien mo ho thanh PASS.
+      4. Neu anh xa thu duoc khong phai song anh (mot ID ung voi >1 ID ben kia) -> phan hoach KHAC.
+    Ket qua KHONG phu thuoc thu tu dong trong file: chi dung tap ung vien va tap ID.
+
+    Tra ve dict co `trang_thai` in {"khop", "khac", "mo_ho", "loi_ghep"} va cac truong mo ta.
+    """
     fa = defaultdict(list); fb = defaultdict(list)
     for i in range(len(a)):
         fa[int(a[i, 0])].append(i)
     for j in range(len(b)):
         fb[int(b[j, 0])].append(j)
     if set(fa) != set(fb):
-        return {"phan_hoach_khop": False, "ly_do": "danh sach frame khac nhau"}
-    anh_xa: dict[int, set] = defaultdict(set)      # id_ref -> {id_test}
-    nguoc: dict[int, set] = defaultdict(set)       # id_test -> {id_ref}
-    n_mo_ho, loi_frame, mx_bbox, mx_conf = 0, [], 0.0, 0.0
+        return {"trang_thai": "loi_ghep", "phan_hoach_khop": False, "ly_do": "danh sach frame khac nhau"}
+
+    # --- tap ung vien theo frame ---
+    frames = []
+    loi_frame = []
     for f in sorted(fa):
         A, B = a[fa[f]], b[fb[f]]
-        cap, mo_ho, ly_do = _ghep_hinh_hoc_mot_frame(A, B)
-        n_mo_ho += mo_ho
-        if ly_do:
-            loi_frame.append((f, ly_do))
+        M = _ung_vien_mot_frame(A, B)
+        if M is None:
+            loi_frame.append((f, f"so hang khac nhau trong frame: {len(A)} vs {len(B)}"))
             continue
-        for i, j in cap:
-            anh_xa[int(A[i, 1])].add(int(B[j, 1]))
-            nguoc[int(B[j, 1])].add(int(A[i, 1]))
-            mx_bbox = max(mx_bbox, float(np.max(np.abs(A[i, 2:6] - B[j, 2:6]))))
-            mx_conf = max(mx_conf, float(abs(A[i, 6] - B[j, 6])))
-    r: dict = {"n_frame_mo_ho_hinh_hoc": n_mo_ho, "n_frame_loi_ghep": len(loi_frame),
-               "max_bbox_hinh_hoc": mx_bbox, "max_conf_hinh_hoc": mx_conf}
+        if len(A) and (not M.any(axis=1).all() or not M.any(axis=0).all()):
+            n = int((~M.any(axis=1)).sum() + (~M.any(axis=0)).sum())
+            loi_frame.append((f, f"{n} box khong co doi tac trong tolerance"))
+            continue
+        frames.append((f, A, B, M))
     if loi_frame:
         f, why = loi_frame[0]
-        r.update(phan_hoach_khop=False, ly_do=f"{len(loi_frame)} frame khong ghep hinh hoc duoc"
-                 f" (vd frame {f}: {why})")
+        return {"trang_thai": "loi_ghep", "phan_hoach_khop": False, "n_frame_loi_ghep": len(loi_frame),
+                "ly_do": f"{len(loi_frame)} frame khong ghep hinh hoc duoc (vd frame {f}: {why})"}
+
+    # --- 1. neo khong mo ho ---
+    anh_xa: dict[int, int] = {}          # ref_id -> test_id
+    nguoc: dict[int, int] = {}           # test_id -> ref_id
+    xung_dot = []
+
+    def them(r_id: int, t_id: int) -> None:
+        if anh_xa.get(r_id, t_id) != t_id or nguoc.get(t_id, r_id) != r_id:
+            xung_dot.append((r_id, t_id, anh_xa.get(r_id), nguoc.get(t_id)))
+        anh_xa.setdefault(r_id, t_id); nguoc.setdefault(t_id, r_id)
+
+    n_box, n_mo_ho_ban_dau = 0, 0
+    for f, A, B, M in frames:
+        for i in range(len(A)):
+            n_box += 1
+            js = np.flatnonzero(M[i])
+            if len(js) == 1 and M[:, js[0]].sum() == 1:
+                them(int(A[i, 1]), int(B[js[0], 1]))
+            else:
+                n_mo_ho_ban_dau += 1
+
+    # --- 2. lan truyen rang buoc toan sequence ---
+    chua_chot = []
+    doi = True
+    while doi:
+        doi = False
+        chua_chot = []
+        for f, A, B, M in frames:
+            for i in range(len(A)):
+                r_id = int(A[i, 1])
+                js = np.flatnonzero(M[i])
+                if len(js) == 1 and M[:, js[0]].sum() == 1:
+                    continue                                    # da la neo
+                ung = {int(B[j, 1]) for j in js}
+                if r_id in anh_xa and anh_xa[r_id] in ung:
+                    continue                                    # nhat quan voi anh xa da co
+                if r_id in anh_xa and anh_xa[r_id] not in ung:
+                    xung_dot.append((r_id, None, anh_xa[r_id], None))
+                    continue
+                # ref_id chua co anh xa: neu trong tap ung vien chi con DUNG 1 test_id chua bi chiem -> chot
+                con = [t for t in ung if t not in nguoc]
+                if len(con) == 1:
+                    them(r_id, con[0]); doi = True
+                else:
+                    chua_chot.append((f, r_id, sorted(ung)))
+
+    r: dict = {"n_box": n_box, "n_box_mo_ho_ban_dau": n_mo_ho_ban_dau, "n_box_chua_chot": len(chua_chot),
+               "n_track_ref": len({int(x) for x in a[:, 1]}), "n_track_test": len({int(x) for x in b[:, 1]})}
+    if xung_dot:
+        r.update(trang_thai="khac", phan_hoach_khop=False,
+                 ly_do=f"song anh ID KHONG co dinh tren sequence: {len(xung_dot)} xung dot "
+                       "(mot ID ung voi >1 ID ben kia) -> phan hoach track KHAC")
         return r
-    xau = [k for k, v in anh_xa.items() if len(v) != 1] + [k for k, v in nguoc.items() if len(v) != 1]
-    if xau:
-        r.update(phan_hoach_khop=False,
-                 ly_do=f"song anh ID KHONG co dinh tren sequence: {len(xau)} ID anh xa toi >1 ID ben kia"
-                 " (tracker da ghep khac)")
+    if chua_chot:
+        f0, rid0, ung0 = chua_chot[0]
+        r.update(trang_thai="mo_ho", phan_hoach_khop=None,
+                 ly_do=f"MO HO: {len(chua_chot)}/{n_box} box co nhieu ung vien hinh hoc trong tolerance va "
+                       f"rang buoc toan sequence khong phan biet duoc (vd frame {f0}, ref id {rid0} <-> "
+                       f"test id {ung0}). Hai file KHONG du du lieu de ket luan phan hoach.")
         return r
-    r.update(phan_hoach_khop=True, n_track=len(anh_xa),
-             chi_danh_so_lech=any(k != next(iter(v)) for k, v in anh_xa.items()))
-    if n_mo_ho:
-        r["ghi_chu"] = (f"{n_mo_ho} box co >1 ung vien hinh hoc trong tolerance -- song anh van co dinh "
-                        "nhung ket luan phan hoach o cac box do dua vao Hungarian, khong phai hinh hoc thuan")
+    r.update(trang_thai="khop", phan_hoach_khop=True, n_track=len(anh_xa),
+             chi_danh_so_lech=any(k != v for k, v in anh_xa.items()))
     return r
 
 
 # --------------------------------------------------------------------------- mot video
 def so_mot_video(ref: Path, test: Path) -> dict:
+    """So mot video. Bao RIENG tung dieu quan sat duoc; KHONG suy nguyen nhan.
+
+    `dat` (PASS day du) chi khi: khoa (frame,id) bang nhau, bbox/conf trong tolerance, phan hoach khop.
+    Trang thai phan hoach `mo_ho` KHONG phai PASS.
+    """
     a, b = doc_mot(ref), doc_mot(test)
     r: dict = {"video": ref.stem, "n_ref": len(a), "n_test": len(b)}
     if len(a) != len(b):
-        r.update(dat=False, ly_do=f"so hang khac nhau: {len(a)} vs {len(b)}")
+        r.update(dat=False, ly_do=f"so hang khac nhau: {len(a)} vs {len(b)}", phan_hoach="chua_xet")
         return r
     if len(a) == 0:
-        r.update(dat=True, max_bbox=0.0, max_conf=0.0, id_tho_khop=True, phan_hoach_khop=True)
+        r.update(dat=True, max_bbox=0.0, max_conf=0.0, id_tho_khop=True, phan_hoach="khop",
+                 phan_hoach_khop=True)
         return r
 
     ra = so_theo_id_tho(a, b)
     khoa_khop = bool(ra.get("id_tho_khop"))
-    a_dat = khoa_khop and ra["max_bbox"] <= TOL_BBOX and ra["max_conf"] <= TOL_CONF
-    r.update(max_bbox=ra["max_bbox"], max_conf=ra["max_conf"])
+    bbox_ok, conf_ok = ra["max_bbox"] <= TOL_BBOX, ra["max_conf"] <= TOL_CONF
+    a_dat = khoa_khop and bbox_ok and conf_ok
+    r.update(max_bbox=ra["max_bbox"], max_conf=ra["max_conf"], khoa_frame_id_khop=khoa_khop)
 
-    # (b) chay khi (a) KHONG dat TRON VEN. Luu y: hoan doi ID (1<->2) lam tap khoa (frame,id) VAN
-    # bang nhau nhung noi dung duoi khoa khac -> chi nhin (a) se bao nham "bbox lech"; (b) moi noi
-    # duoc do la doi cach danh so hay doi lien ket.
+    # (b) chay khi (a) khong dat TRON VEN (hoan doi ID lam tap khoa van bang nhau nhung noi dung khac)
     if a_dat:
-        rb = {"phan_hoach_khop": True, "max_bbox_hinh_hoc": ra["max_bbox"],
-              "max_conf_hinh_hoc": ra["max_conf"]}
+        rb = {"trang_thai": "khop", "phan_hoach_khop": True}
     else:
         rb = so_phan_hoach(a, b)
-    ph_ok = bool(rb.get("phan_hoach_khop"))
-    r.update(phan_hoach_khop=ph_ok, phan_hoach_ly_do=rb.get("ly_do", ""))
-    for k in ("n_frame_mo_ho_hinh_hoc", "chi_danh_so_lech", "ghi_chu", "max_bbox_hinh_hoc",
-              "max_conf_hinh_hoc"):
+    ph = rb.get("trang_thai", "loi_ghep")
+    r.update(phan_hoach=ph, phan_hoach_khop=rb.get("phan_hoach_khop"), phan_hoach_ly_do=rb.get("ly_do", ""))
+    for k in ("n_box_mo_ho_ban_dau", "n_box_chua_chot", "chi_danh_so_lech", "n_track_ref", "n_track_test"):
         if k in rb:
             r[k] = rb[k]
 
-    # id_tho_khop = khoa khop VA noi dung duoi khoa khop; neu (b) chi ra "chi danh so lech" thi (a)
-    # that bai vi DANH SO, khong phai vi bbox -> bao dung loai loi
-    danh_so_lech = ph_ok and (rb.get("chi_danh_so_lech") or not khoa_khop)
-    # id_tho_khop noi ve ID, KHONG noi ve bbox/conf: khoa (frame,id) khop va khong phai doi danh so
+    danh_so_lech = (ph == "khop") and (rb.get("chi_danh_so_lech") or not khoa_khop)
     r["id_tho_khop"] = bool(khoa_khop and not danh_so_lech)
-    bbox_de_xet = rb.get("max_bbox_hinh_hoc", r["max_bbox"]) if ph_ok else r["max_bbox"]
-    conf_de_xet = rb.get("max_conf_hinh_hoc", r["max_conf"]) if ph_ok else r["max_conf"]
-
-    r["dat"] = bool(a_dat and ph_ok)
+    r["dat"] = bool(a_dat and ph == "khop")
     if not r["dat"]:
         vi = []
-        if danh_so_lech:
-            vi.append("ID tho KHAC nhung PHAN HOACH tuong duong (song anh co dinh) => chi lech cach "
-                      f"danh so; bbox lech hinh hoc {bbox_de_xet:.3e}")
+        # --- quan sat, KHONG suy nguyen nhan ---
+        if not bbox_ok:
+            vi.append(f"bbox lech {ra['max_bbox']:.3e} > {TOL_BBOX:.0e}")
+        if not conf_ok:
+            vi.append(f"conf lech {ra['max_conf']:.3e} > {TOL_CONF:.0e}")
+        if not khoa_khop:
+            vi.append("khoa (frame,id): " + ra.get("ly_do", "khac"))
+        if ph == "khop":
+            if danh_so_lech:
+                vi.append("phan hoach: KHOP qua song anh co dinh (chi lech cach danh so)")
+            elif khoa_khop:
+                vi.append("ID va phan hoach: KHOP (khac biet chi o bbox/conf; nguyen nhan: CHUA XAC DINH "
+                          "tu hai file tracking -- can kiem detection dau vao rieng)")
+        elif ph == "mo_ho":
+            vi.append("phan hoach: MO HO -- " + rb.get("ly_do", ""))
+        elif ph == "khac":
+            vi.append("phan hoach: KHAC -- " + rb.get("ly_do", ""))
         else:
-            if bbox_de_xet > TOL_BBOX:
-                vi.append(f"bbox lech {bbox_de_xet:.3e} > {TOL_BBOX:.0e}")
-            if conf_de_xet > TOL_CONF:
-                vi.append(f"conf lech {conf_de_xet:.3e} > {TOL_CONF:.0e}")
-            if not khoa_khop:
-                vi.append("ID tho: " + ra.get("ly_do", "khac"))
-        if not ph_ok:
-            vi.append(f"phan hoach track KHAC: {r['phan_hoach_ly_do']}")
-        elif r["id_tho_khop"]:
-            # ID va lien ket y het, chi bbox/conf lech: khac biet nam o DAU VAO tracker (detector),
-            # khong phai o quyet dinh cua tracker
-            vi.append("[chan doan] lien ket ID y het -> khac biet nam o dau vao detector, khong o tracker")
+            vi.append("phan hoach: khong ghep duoc -- " + rb.get("ly_do", ""))
         r["ly_do"] = "; ".join(vi) or "khong dat"
     return r
 
@@ -270,15 +329,13 @@ def main() -> int:
         except FileNotFoundError as e:
             ket.append({"video": v, "dat": False, "ly_do": str(e)})
 
-    print(f"{'video':<28} {'hang':>7} {'max|d bbox|':>12} {'max|d conf|':>12}  ket qua")
-    print("-" * 78)
+    print(f"{'video':<28} {'hang':>7} {'max|d bbox|':>12} {'max|d conf|':>12} {'phan hoach':>10}  ket qua")
+    print("-" * 90)
     for r in ket:
         mb = f"{r['max_bbox']:.3e}" if "max_bbox" in r else "-"
         mc = f"{r['max_conf']:.3e}" if "max_conf" in r else "-"
-        print(f"{r['video']:<28} {r.get('n_ref', '-'):>7} {mb:>12} {mc:>12}  "
+        print(f"{r['video']:<28} {r.get('n_ref', '-'):>7} {mb:>12} {mc:>12} {r.get('phan_hoach', '-'):>10}  "
               f"{'DAT' if r.get('dat') else 'KHONG DAT: ' + r.get('ly_do', '?')}")
-        if r.get("ghi_chu"):
-            print(f"{'':<28} ghi chu: {r['ghi_chu']}")
 
     n_dat = sum(1 for r in ket if r.get("dat"))
     print("-" * 78)
