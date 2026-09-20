@@ -231,6 +231,13 @@ def stage_eval(exp: dict, rows: list[dict], videos: list[str], force: bool = Fal
     dataset_cls = exp.get("dataset_class") or run_trackeval.dataset_class_for(exp.get("dataset"), split)
     fps_exp = float(exp["fps"])
     n_fail = 0
+    # P1 (review ca93c1e): dau vao danh gia phai TON TAI truoc khi ta xet co tai su dung metric cu hay
+    # khong. Thieu `gt.txt`/`seqinfo.ini` ma van tra metric cu la tra ve con so KHONG con nguon goc.
+    # `ThieuDauVaoDanhGia` la FileNotFoundError -> nem ra ngoai, `main()` tra exit code != 0.
+    fp.check_eval_inputs(split, videos)
+    # TrackEval chi doc seqmap khi KHONG duoc truyen danh sach video (SEQ_INFO ghi de). Chi dua
+    # seqmap vao dau van tay dung luc no that su tham gia quyet dinh tap danh gia.
+    seqmap_used = not videos
     # --- TrackEval tung tracker ---
     for r in rows:
         out_dir = config.RESULTS_DIR / "trackeval" / split / r["dir"]
@@ -239,7 +246,7 @@ def stage_eval(exp: dict, rows: list[dict], videos: list[str], force: bool = Fal
         if tb_sec is not None:
             overrides["track_buffer"] = track_buffer_frames(float(tb_sec), fps_exp)
         cfg_r = run_tracking.load_tracker_cfg(r["yaml"], overrides)
-        new_fp = fp.run_fingerprint(exp, r, videos, cfg_r, dataset_cls)
+        new_fp = fp.run_fingerprint(exp, r, videos, cfg_r, dataset_cls, seqmap_used)
         have = ((out_dir / "combined_metrics.csv").exists() and (out_dir / "per_video_metrics.csv").exists()
                 and (out_dir / "raw_fields.json").exists())
         diff = fp.compare(fp.load(out_dir / "eval_meta.json"), new_fp)

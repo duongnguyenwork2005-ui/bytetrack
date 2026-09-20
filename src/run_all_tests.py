@@ -76,6 +76,9 @@ TESTS = [
     ("test_cache_provenance", [], None),
     ("test_trackeval_ext", [], None),
     ("test_evaluator_choice", [], None),
+    # review ca93c1e: guard dau vao danh gia (P1) + thong ke cong cu bao cao (P2)
+    ("test_eval_guard", [], None),
+    ("test_report_stats", [], None),
     ("test_bdd100k_adapter", [], None),
     ("test_bdd100k_coco", [], None),
     ("test_pf_ctrv", [], None),
