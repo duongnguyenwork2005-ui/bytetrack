@@ -65,9 +65,28 @@ Bằng chứng trên video thật `b23b2649-8349d2a1`:
 | Frame cuối **có annotation** | **94** |
 | `seqLength` đã ghi | **202** |
 
-Lấy độ dài từ frame annotation cuối sẽ cắt video còn 94 — và mọi FP mà tracker sinh ra ở frame 95–202
-sẽ **biến mất khỏi phép đánh giá**. Đó là lỗi làm đẹp số liệu. `seq_lengths_from_images()` lấy độ dài
-từ **timeline ảnh**; CLI trả mã lỗi 2 nếu thiếu ảnh.
+Lấy độ dài từ frame annotation cuối sẽ ghi `seqLength=94`, tức **sai độ dài thật** của sequence.
+
+Điều đã kiểm chứng trên `TrackEval 1.3.0` (`datasets/mot_challenge_2d_box.py`, dòng 222–224): loader
+**kiểm tra timestep nằm ngoài `seqLength`** rồi **ném `TrackEvalException`**
+(`"Tracking data contains the following invalid timesteps in seq ..."`). Vì vậy phát biểu đúng là:
+
+- độ dài 94 là **sai**; timeline phải giữ đến **202**;
+- nếu tracker có kết quả ở frame vượt độ dài đã khai, evaluator **có thể từ chối dữ liệu** (báo lỗi),
+  chứ **không** âm thầm bỏ qua.
+
+> Bản trước của tài liệu này viết rằng mọi FP sau frame 94 sẽ "biến mất khỏi phép đánh giá" và gọi đó
+> là "làm đẹp số liệu" — **đã rút lại** (review `ca93c1e`, mục 4): điều đó không được chứng minh, và
+> hành vi thực tế của loader là **báo lỗi**.
+
+`seq_lengths_from_images()` lấy độ dài từ **timeline ảnh**; CLI trả mã lỗi 2 nếu thiếu ảnh.
+
+## 4b. Quy mô ma trận
+
+**6 cấu hình/seed × 2 điều kiện = 12 run tổng cộng**, mỗi run chạy trên **200 video**.
+Sáu cấu hình/seed là: `cv`, `ekf`, `ukf`, `pf500-s0`, `pf500-s1`, `pf500-s2`.
+
+Pilot là **12 run riêng** trên **3 video** (`bdd_pilot_cocovid`), không nằm trong con số trên.
 
 ## 5. Quy ước thời gian — chỗ dễ đọc sai nhất
 

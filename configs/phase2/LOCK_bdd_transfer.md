@@ -21,7 +21,7 @@ và giải thích theo bằng chứng.
 |:--|:--|
 | Bộ lọc | **CV**, **EKF–CTRV**, **UKF–CTRV**, **PF–CTRV N=500** (seed **0, 1, 2**) |
 | Điều kiện confidence | **c25** (conf > 0,25) và **c10** (conf > 0,10) |
-| Tổng số lần chạy | **12** (6 tracker-run × 2 điều kiện) × **200 video** |
+| Quy mô | **6 cấu hình/seed × 2 điều kiện = 12 run tổng cộng**, mỗi run trên **200 video** |
 | Detector | `models/yolov8n.pt`, sha256 `f59b3d83…` — **cùng checkpoint** với UA-DETRAC |
 | Detection cache | `yolov8n-coco_conf0.05_all_bddcocovid` (conf 0,05, 80 lớp COCO, `max_det` 3000) — **một** cache cho **cả hai** điều kiện, lọc lúc load ⇒ mọi tracker thấy **cùng** detection |
 | Lớp đưa vào tracker | COCO `[1, 2, 3, 5, 7]` = bicycle, car, motorcycle, bus, truck |
@@ -33,6 +33,13 @@ và giải thích theo bằng chứng.
 **Vì sao dùng backend Ultralytics**: phạm vi backend NumPy đã kiểm chứng hiện chủ yếu là CV/EKF
 (UKF/PF chưa mở). Dùng NumPy cho một phần ma trận sẽ **đổi đồng thời backend và bộ lọc** trong cùng
 một phép so sánh — không làm.
+
+
+> **Đính chính câu chữ (sau review `ca93c1e`, không đổi cấu hình)**: dòng "Quy mô" ở trên trước đây
+> viết là *"12 (6 tracker-run × 2 điều kiện) × 200 video"*, dễ đọc nhầm thành 12 × 200 = 2400 run.
+> Con số đúng vẫn là **12 run**, mỗi run 200 video — **ma trận không thay đổi**. Bản máy đọc
+> `results/phase2/lock/lock_bdd_transfer.json` (`runs`, 12 phần tử) là bản có thẩm quyền và
+> **không bị sửa**.
 
 ## 3. Quy ước thời gian — điểm phải nói rõ khi báo cáo
 
