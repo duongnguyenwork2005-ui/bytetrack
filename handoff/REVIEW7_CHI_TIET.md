@@ -54,6 +54,16 @@ Chọn LF cho văn bản có lợi ích đo được: dấu vân tay GT **khớp
 (`src/make_lock.py`) — đã đối chiếu **200/200 video**. Đổi quy ước này làm trường `tracking` của 12
 run cũ lệch, nên cả 12 được đánh giá lại (mục 3); metric **không đổi**.
 
+> **Phạm vi ổn định giữa máy** (review `b623465` lưu ý đúng): chỉ các đuôi trong `TEXT_SUFFIXES`
+> được chuẩn hóa. `code_fingerprint()` hash module `.py` theo **byte thô**, mà cây nguồn hiện có
+> xuống dòng **lẫn lộn** — đã kiểm: `src/run_fingerprint.py` **281 CRLF / 0 LF**,
+> `src/bytetrack_np.py` **0 CRLF / 125 LF** (do `core.autocrlf=true` + `* text=auto`). Vì vậy
+> trường `code` **có thể lệch giữa Windows và Jetson Nano dù cùng commit**, và **không** được
+> phát biểu "dấu vân tay không đổi giữa hai máy" một cách chung chung. Đây là việc phải xử lý
+> **trước khi so provenance giữa hai máy** — xem `handoff/NANO_STATUS.md` mục "Điều kiện còn
+> thiếu". Chưa sửa trong đợt này vì đổi `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review
+> thành cũ, trong khi chưa chạy gì trên thiết bị.
+
 **Bằng chứng sau sửa**: `src/test_eval_guard.py` — **11/11 PASS**, mọi phép kiểm đi qua
 `stage_eval()` thật.
 
@@ -104,7 +114,7 @@ Cả 12 run chạy lại, lý do in ra: `tracking, gt, code` — `tracking` vì 
 
 | Đối chiếu | Kết quả |
 |:--|:--|
-| 2.400 file tracking (12 run × 200 video) | **0 lệch** |
+| 2.400 file tracking (12 run × 200 video) | **0 lệch** (hash **chuẩn hóa LF**, không phải so byte thô) |
 | 12 `run_meta.json` | **0 lệch** |
 | 56 giá trị metric | lệch tối đa **0,000e+00** |
 | 100 dòng `paired_pairs.csv` (Δ, CI thấp, CI cao) | lệch tối đa **0,000e+00** |

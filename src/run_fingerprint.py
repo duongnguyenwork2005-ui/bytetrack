@@ -24,10 +24,18 @@ Ghi ra `eval_meta.json` (canh ket qua TrackEval) va `occl_meta.json` (canh ket q
 `compare(old, new)` tra ve danh sach truong LECH -> runner in ly do chay lai.
 
 QUY UOC HASH (mot quy tac duy nhat, cong bo o day va o `HASH_CONVENTION`):
-    - file VAN BAN (.txt / .ini / .csv): sha256 cua noi dung da chuan hoa xuong dong ve LF.
-      Nho vay dau van tay KHONG doi giua Windows (CRLF) va Jetson Nano (LF), va hash GT trung
-      khop voi quy uoc cua ban khoa (`src/make_lock.py`) nen doi chieu duoc truc tiep.
-    - file NHI PHAN (.npz): sha256 cua byte nguyen ban.
+    - file VAN BAN theo `TEXT_SUFFIXES` (.txt / .ini / .csv): sha256 cua noi dung da CHUAN HOA
+      xuong dong ve LF. Nho vay hash GT trung khop quy uoc cua ban khoa (`src/make_lock.py`)
+      nen doi chieu duoc truc tiep, va phan NAY cua dau van tay on dinh giua Windows va Nano.
+    - MOI file khac (.npz, VA CA .py/.json/.yaml): sha256 cua BYTE NGUYEN BAN.
+
+PHAM VI ON DINH GIUA MAY (review b623465 luu y dung): chi cac duoi trong `TEXT_SUFFIXES` moi duoc
+chuan hoa. `code_fingerprint()` hash module `.py` theo BYTE THO, ma cay nguon hien co xuong dong
+LAN LON (vd `run_fingerprint.py` toan CRLF, `bytetrack_np.py` toan LF, do `core.autocrlf=true` +
+`* text=auto`). Vi vay truong `code` CO THE lech giua Windows va Jetson Nano du cung commit.
+=> KHONG duoc phat bieu "dau van tay khong doi giua hai may" mot cach chung chung.
+Xu ly viec nay thuoc moc Nano (xem `handoff/NANO_STATUS.md`); doi `TEXT_SUFFIXES` bay gio se lam
+12 `eval_meta.json` vua duoc review thanh cu, nen hoan lai den khi bat dau chay tren thiet bi.
 File THIEU tra ve sentinel `MISSING` -- KHAC voi file RONG HOP LE (rong co hash sha256 that su cua
 chuoi rong), nen hai tinh huong nay khong bao gio bi lan.
 """
