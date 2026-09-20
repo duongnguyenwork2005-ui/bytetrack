@@ -59,7 +59,10 @@ USER_PREFIXES = ("src/demo/", "outputs/")
 SKIP_EXACT = ("handoff/FILE_HASHES.csv", "handoff/INDEX.md", "handoff/versions.json",
               "handoff/patches/README.md", "handoff/patches/commits.txt")
 SKIP_PREFIXES = ("handoff/archive/", "handoff/phase2_review", "handoff/review_delta",
-                 "data/raw/", "data/extracted/", "models/", ".venv/", "env/")
+                 "data/raw/", "data/extracted/", "models/", ".venv/", "env/",
+                 # Ban LUU cua ket qua danh gia TRUOC mot vong sua: noi dung y het snapshot ma nguoi
+                 # review DA CO (base), nen gui lai chi lam phinh goi. Van commit cuc bo de doi chieu.
+                 "results/phase2/_PRE_")
 SKIP_SUFFIXES = (".zip", ".npz", ".pt", ".pth", ".mp4", ".avi", ".mkv", ".mov", ".parquet", ".diff")
 
 #: Phan loai file trong goi -> thu muc con trong ZIP.
