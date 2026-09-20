@@ -175,13 +175,23 @@ class _PredictTimer:
 
 def track_video(vd: det_cache.VideoDetections, cfg: IterableSimpleNamespace, dt_nominal: float,
                 elapsed_mode: str = "skip", seed: int | None = None, video: str = "",
-                registry: dict | None = None, log_sink: dict | None = None):
-    """Chay mot tracker moi tren toan bo frame cua cache. Tra ve (rows, cls_rows, timing).
+                registry: dict | None = None, log_sink: dict | None = None, on_frame=None):
+    """Chay mot tracker moi tren toan bo frame cua `vd`. Tra ve (rows, cls_rows, timing).
+
+    `vd` la bat ky doi tuong co `iter_frames()` -> (frame_idx, t_s, unreadable, arr(n,6)) va
+    `orig_shape` (H, W): `det_cache.VideoDetections` (replay tu cache) HOAC
+    `track_video_file.LiveVideoDetections` (detector chay truc tiep tren video). Ca hai duong
+    dung CHUNG vong lap nay -> cung cach tao tracker, truyen n_steps, cap nhat vong doi.
 
     log_sink (Moc 2, tuy chon): dict; neu co khoa "assoc_log": True thi tracker duoc boc
     AssociationLogMixin va sau khi chay `log_sink["assoc_log"]` = AssocLog; neu "pf_diag": True
     (tracker PF) thi `log_sink["pf_diag"]` = DataFrame chan doan particle; luon dat
     `log_sink["tracker"]` = tracker (de test doc trang thai cuoi).
+
+    on_frame (moc he thong PC, tuy chon): callable(frame_idx, out) goi SAU moi `tracker.update`
+    voi `out` = mang (n, 7+) [x1,y1,x2,y2,id,conf,cls,...] cua frame do -- de hien thi / ghi video.
+    Tra ve False de DUNG som (nguoi dung bam thoat); ket qua da tich luy van duoc tra ve.
+    Mac dinh None: hanh vi y het truoc.
     """
     log_sink = log_sink if log_sink is not None else {}
     tr = make_tracker(cfg, registry, assoc_log=bool(log_sink.get("assoc_log")))
@@ -216,16 +226,18 @@ def track_video(vd: det_cache.VideoDetections, cfg: IterableSimpleNamespace, dt_
         n_tracks = len(getattr(tr, "tracked_stracks", None) or getattr(tr, "tracks", []))
         timing.append((frame_idx, n_steps, n_tracks, len(arr),
                        t_pred * 1e3, (t_update - t_pred) * 1e3, t_update * 1e3))
-        if len(out) == 0:
-            continue
-        xyxy = out[:, :4].astype(np.float32)      # giong r.boxes.xyxy.cpu().numpy() cua baseline
-        ids = out[:, 4].astype(int)
-        confs = out[:, 5].astype(np.float32)
-        clss = out[:, 6].astype(int)
-        for (x1, y1, x2, y2), tid, cf, c in zip(xyxy, ids, confs, clss):
-            rows.append((frame_idx, int(tid), float(x1), float(y1),
-                         float(x2 - x1), float(y2 - y1), float(cf)))
-            cls_rows.append((frame_idx, int(tid), int(c)))
+        if len(out):
+            xyxy = out[:, :4].astype(np.float32)      # giong r.boxes.xyxy.cpu().numpy() cua baseline
+            ids = out[:, 4].astype(int)
+            confs = out[:, 5].astype(np.float32)
+            clss = out[:, 6].astype(int)
+            for (x1, y1, x2, y2), tid, cf, c in zip(xyxy, ids, confs, clss):
+                rows.append((frame_idx, int(tid), float(x1), float(y1),
+                             float(x2 - x1), float(y2 - y1), float(cf)))
+                cls_rows.append((frame_idx, int(tid), int(c)))
+        # callback SAU khi da ghi hang cua frame nay -> dung som van giu tron ket qua frame cuoi
+        if on_frame is not None and on_frame(int(frame_idx), out) is False:
+            break
     df = pd.DataFrame(rows, columns=TRK_COLS)
     df_cls = pd.DataFrame(cls_rows, columns=["frame", "id", "cls"])
     df_t = pd.DataFrame(timing, columns=["frame", "n_steps", "n_tracks", "n_dets",

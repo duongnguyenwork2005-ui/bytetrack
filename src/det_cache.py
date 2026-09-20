@@ -241,6 +241,24 @@ def _regions_hash(regions) -> str:
     return hashlib.sha1(json.dumps([list(map(float, r)) for r in regions]).encode()).hexdigest()[:12]
 
 
+def detect_frame(model, img: np.ndarray, spec: DetectorSpec) -> np.ndarray:
+    """MOT lan goi detector tren MOT anh theo dung `DetectorSpec`. Tra ve (n, 6) float32
+    [x1, y1, x2, y2, conf, cls] theo thu tu NMS.
+
+    DUNG CHUNG cho duong DUNG CACHE (`build_video_yolo`) va duong CHAY TRUC TIEP tren video
+    (`track_video_file.py`). Tach ra de hai duong goi DUNG mot dong ma -- neu detection khac nhau
+    giua live va cache thi nguyen nhan chi con o dau vao (anh), khong o cach goi detector.
+    """
+    kw = {"half": True} if spec.half else {}      # chi truyen khi bat (8.4: 'half' -> canh bao deprecated)
+    r = model.predict(img, conf=spec.conf, iou=spec.iou, imgsz=spec.imgsz, classes=spec.classes,
+                      max_det=spec.max_det, agnostic_nms=spec.agnostic_nms,
+                      augment=spec.augment, device=spec.device, verbose=False, **kw)[0]
+    det = r.boxes.data.cpu().numpy().astype(np.float32)      # (n, 6) theo thu tu NMS
+    if det.shape[1] != 6:
+        raise RuntimeError(f"Boxes.data co {det.shape[1]} cot, mong 6 (khong phai ket qua track?)")
+    return det
+
+
 def build_video_yolo(model, frames: list[FrameRef], regions, spec: DetectorSpec, orig_shape):
     """Chay YOLO tung frame, tra ve (arrays cho npz). Frame khong doc duoc -> unreadable=True."""
     import cv2
@@ -258,13 +276,7 @@ def build_video_yolo(model, frames: list[FrameRef], regions, spec: DetectorSpec,
             continue
         if spec.mask_ignored_regions:
             img = _mask_regions(img, regions)
-        kw = {"half": True} if spec.half else {}      # chi truyen khi bat (8.4: 'half' -> canh bao deprecated)
-        r = model.predict(img, conf=spec.conf, iou=spec.iou, imgsz=spec.imgsz, classes=spec.classes,
-                          max_det=spec.max_det, agnostic_nms=spec.agnostic_nms,
-                          augment=spec.augment, device=spec.device, verbose=False, **kw)[0]
-        det = r.boxes.data.cpu().numpy().astype(np.float32)      # (n, 6) theo thu tu NMS
-        if det.shape[1] != 6:
-            raise RuntimeError(f"Boxes.data co {det.shape[1]} cot, mong 6 (khong phai ket qua track?)")
+        det = detect_frame(model, img, spec)
         n_per[i] = len(det)
         truncated[i] = len(det) >= spec.max_det
         chunks.append(det)
@@ -396,6 +408,26 @@ def write_meta(cache_dir: Path, spec: DetectorSpec, mode: str = "append"):
 # ---------------------------------------------------------------------------
 # Doc cache
 # ---------------------------------------------------------------------------
+def filter_dets(arr: np.ndarray, conf_min: float, cls_set: "np.ndarray | None", max_det: int,
+                class_map: "dict[int, int] | None") -> np.ndarray:
+    """Loc detection cua MOT frame theo dieu kien thi nghiem -- DUNG CHUNG cho replay tu cache
+    (`VideoDetections.frame`) va chay truc tiep (`track_video_file.LiveVideoDetections`).
+
+    Thu tu: (1) conf > conf_min (NGAT, giong nms.py); (2) lop trong `cls_set` (mang da sap xep,
+    None = giu tat ca); (3) cat tien to `[:max_det]`; (4) anh xa lop `class_map` (COCO id -> id khac).
+    `arr` phai theo thu tu NMS (giam dan diem) de buoc (3) dung nghia.
+    """
+    if len(arr):
+        keep = arr[:, 4] > conf_min
+        if cls_set is not None:
+            keep &= np.isin(arr[:, 5].astype(np.int64), cls_set)
+        arr = arr[keep][:max_det]
+        if class_map is not None and len(arr):
+            arr = arr.copy()
+            arr[:, 5] = [class_map.get(int(c), c) for c in arr[:, 5]]
+    return np.ascontiguousarray(arr, dtype=np.float32)
+
+
 class VideoDetections:
     """Detection cua mot video, da loc theo dieu kien thi nghiem.
 
@@ -427,15 +459,7 @@ class VideoDetections:
 
     def frame(self, i: int) -> np.ndarray:
         arr = self._data[self.offsets[i]:self.offsets[i + 1]]
-        if len(arr):
-            keep = arr[:, 4] > self.conf_min                       # NGAT, giong nms.py
-            if self._cls_set is not None:
-                keep &= np.isin(arr[:, 5].astype(np.int64), self._cls_set)
-            arr = arr[keep][:self.max_det]                          # cat tien to
-            if self.class_map is not None and len(arr):
-                arr = arr.copy()
-                arr[:, 5] = [self.class_map.get(int(c), c) for c in arr[:, 5]]
-        return np.ascontiguousarray(arr, dtype=np.float32)
+        return filter_dets(arr, self.conf_min, self._cls_set, self.max_det, self.class_map)
 
     def iter_frames(self):
         for i in range(len(self.frame_idx)):
