@@ -42,4 +42,4 @@ stdout thật lưu `handoff/logs/review9/lich_su_that_bai/` + README tách *đã
 
 `test_nano_parity` 20/20, `test_track_video_file` 23/23 (tầng fixture + YOLO thật/GPU: live→cache→replay
 **bit-identical**), `test_run_tracking_replay` 10/10, `test_bytetrack_np_parity` 10/10. Full suite trên code
-chốt: `handoff/logs/review10/` — không commit/sửa source trong lúc chạy.
+chốt: **30/30 PASS, 0 FAIL** (`handoff/logs/review10/tests_20260920-2337.log`) — không commit/sửa source trong lúc chạy.
