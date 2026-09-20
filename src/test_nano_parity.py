@@ -16,9 +16,15 @@ Cac phep kiem:
   7. So hang khac nhau         -> KHONG DAT.
   8. Hai file RONG             -> DAT.
   9. Thieu file ben can kiem   -> KHONG DAT, khong nem ra ngoai.
+ 11. (F2, review 8bab154) Hai box co x GAN NHAU, chi lech 0,0002 px -> DAT (ban cu bao 400 px).
+ 12. (F2) Hai box TRUNG (x, y), khac (w, h); file test chi DAO THU TU dong -> DAT (ban cu bao 10 px).
+ 13. (F2) Doi so ID lam DAO THU TU ID (1<->2) nhung lien ket y het -> ID tho khac, phan hoach KHOP.
+ 14. (F2) Thuc su DOI LIEN KET o mot frame (hai track hoan doi box) -> phan hoach KHONG khop, FAIL.
+ 15. Khoa (frame, id) TRUNG trong mot file -> khong hop le de so, KHONG DAT.
 
-Phep kiem 5 la ly do khoa sap xep KHONG duoc chua `id`: neu sap theo (frame, id, x) thi hai file
-danh so khac nhau se bi sap khac thu tu, va phep so phan hoach mat y nghia.
+Cac ca 11-14 la ly do KHONG duoc ghep hang theo thu tu sap xep toa do: toa do duoc phep lech toi
+tolerance nen thu tu tuyet doi khong con la khoa. Muc (a) ghep bang khoa (frame, id); muc (b) ghep
+hinh hoc 1-1 theo tolerance trong tung frame va kiem song anh ID co dinh tren TOAN sequence.
 
     python src/test_nano_parity.py
 """
@@ -108,9 +114,10 @@ def main() -> int:  # noqa: C901
 
         # --- 6. ghep track KHAC han ---
         xau = list(GOC)
-        xau[6] = (4, 2, 130.0, 100.0, 50.0, 40.0, 0.93)     # frame 4 cua track 1 -> gan sang track 2
+        xau[6] = (4, 3, 130.0, 100.0, 50.0, 40.0, 0.93)     # frame 4: box cua track 1 -> track MOI id 3
         r = so(xau, "t6")
-        _check("doi mot detection sang track khac -> PHAN HOACH khong khop (bat duoc loi ghep)",
+        _check("track 1 bi cat sang ID moi (3) o frame 4 -> song anh ID khong co dinh -> PHAN HOACH "
+               "khong khop (bat duoc loi ghep)",
                (not r["dat"]) and (not r["phan_hoach_khop"]), f"{r.get('ly_do','')}")
 
         # --- 7. so hang khac nhau ---
@@ -135,6 +142,55 @@ def main() -> int:  # noqa: C901
             loi = str(e)
         _check("thieu file ben can kiem -> FileNotFoundError ro rang (CLI bat va bao KHONG DAT)",
                "khong co" in loi, loi[:120])
+
+        # --- 11. (F2) hai box x gan nhau, lech 0,0002 px -> phai DAT ---
+        ref2 = tmp / "ref_f2"
+        F2_REF = [(1, 1, 20.0, 100.0, 50.0, 40.0, 0.9), (1, 2, 40.0, 500.0, 60.0, 50.0, 0.8),
+                  (2, 1, 100.0, 100.0, 50.0, 40.0, 0.9), (2, 2, 100.0001, 500.0, 60.0, 50.0, 0.8)]
+        F2_TEST = [(1, 1, 20.0, 100.0, 50.0, 40.0, 0.9), (1, 2, 40.0, 500.0, 60.0, 50.0, 0.8),
+                   (2, 1, 100.0002, 100.0, 50.0, 40.0, 0.9), (2, 2, 99.9999, 500.0, 60.0, 50.0, 0.8)]
+        viet(ref2 / "v1.txt", F2_REF)
+        viet(tmp / "t11" / "v1.txt", F2_TEST)
+        r = np_.so_mot_video(ref2 / "v1.txt", tmp / "t11" / "v1.txt")
+        _check("(F2) hai box x gan nhau (100.0 / 100.0001), test lech 0,0002 px -> DAT, "
+               "max_bbox = 2e-4 (ban cu ghep nham hang, bao 400 px va conf lech 0,1)",
+               r["dat"] and abs(r["max_bbox"] - 2e-4) < 1e-9 and r["max_conf"] == 0.0,
+               f"max_bbox={r['max_bbox']:.3e} max_conf={r['max_conf']:.3e} ly_do={r.get('ly_do','')}")
+
+        # --- 12. (F2) hai box TRUNG (x, y), khac (w, h); test chi dao thu tu dong -> DAT ---
+        ref3 = tmp / "ref_f2b"
+        TRUNG = [(1, 1, 50.0, 50.0, 30.0, 30.0, 0.9), (1, 2, 50.0, 50.0, 40.0, 40.0, 0.8)]
+        viet(ref3 / "v1.txt", TRUNG)
+        viet(tmp / "t12" / "v1.txt", list(reversed(TRUNG)))
+        r = np_.so_mot_video(ref3 / "v1.txt", tmp / "t12" / "v1.txt")
+        _check("(F2) hai box trung (x,y) khac (w,h), test chi DAO THU TU dong -> DAT, lech 0 "
+               "(ban cu bao 10 px)",
+               r["dat"] and r["max_bbox"] == 0.0, f"max_bbox={r['max_bbox']} ly_do={r.get('ly_do','')}")
+
+        # --- 13. (F2) doi so ID lam DAO THU TU ID nhung lien ket y het ---
+        dao = {1: 2, 2: 1}
+        r = so([(f, dao[i], x, y, w, h, c) for f, i, x, y, w, h, c in GOC], "t13")
+        _check("(F2) hoan doi so ID (1<->2), lien ket y het -> ID tho KHAC nhung phan hoach KHOP, "
+               "bao 'chi lech cach danh so'",
+               (not r["dat"]) and (not r["id_tho_khop"]) and r["phan_hoach_khop"]
+               and r.get("chi_danh_so_lech") is True and "danh so" in r["ly_do"],
+               f"ly_do={r.get('ly_do','')}")
+
+        # --- 14. (F2) THUC SU doi lien ket o mot frame: hai track hoan doi box tai frame 3 ---
+        swap = list(GOC)
+        swap[4] = (3, 2, 120.0, 100.0, 50.0, 40.0, 0.92)    # box cua track 1 -> gan cho track 2
+        swap[5] = (3, 1, 620.0, 300.0, 60.0, 50.0, 0.82)    # box cua track 2 -> gan cho track 1
+        r = so(swap, "t14")
+        _check("(F2) hai track HOAN DOI box tai mot frame (lien ket that su khac) -> phan hoach "
+               "KHONG khop, song anh ID khong co dinh -> FAIL",
+               (not r["dat"]) and (not r["phan_hoach_khop"]) and "song anh" in r["phan_hoach_ly_do"],
+               f"ly_do={r.get('ly_do','')}")
+
+        # --- 15. khoa (frame, id) trung -> khong hop le ---
+        r = so(GOC + [(1, 1, 999.0, 999.0, 5.0, 5.0, 0.5)], "t15")
+        _check("khoa (frame,id) TRUNG trong file test -> khong hop le de so, KHONG DAT",
+               (not r["dat"]) and ("so hang" in r["ly_do"] or "TRUNG" in r["ly_do"]),
+               f"ly_do={r.get('ly_do','')}")
 
         # --- 10. tolerance duoc cong bo thanh hang so, khong an trong ham ---
         _check("tolerance la hang so module, cong bo duoc truoc khi so "
