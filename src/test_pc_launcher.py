@@ -48,6 +48,12 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+# Thong bao L-F4 co tieng Viet co dau; runner co the bat stdout cp1252 -> in an toan voi moi encoding
+for _luong in (sys.stdout, sys.stderr):
+    try:
+        _luong.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:  # noqa: BLE001
+        pass
 _RESULTS: list[tuple[str, bool]] = []
 ROOT = Path(__file__).resolve().parents[1]
 
