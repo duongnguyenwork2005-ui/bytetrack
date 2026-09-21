@@ -1,10 +1,12 @@
 """
 make_nano_transfer.py -- Dung goi CHUYEN SANG JETSON NANO (doc lap, KHONG phai review delta) va kiem goi.
 
-    python src/make_nano_transfer.py build   [--onnx-check <json>]    -> handoff/nano_transfer/ + handoff/nano_transfer.zip
-    python src/make_nano_transfer.py verify  [--zip handoff/nano_transfer.zip]
-        -> giai nen vao thu muc TAM SACH tren PC, chay: import backend np (CHAN torch/ultralytics) ->
-           test_nano_parity -> replay cache CV/EKF (CHAN torch/ultralytics) -> nano_parity voi pc-ref -> hash manifest.
+    python src/make_nano_transfer.py build   [--onnx-check <json>]    -> handoff/nano_transfer/ + handoff/nano_transfer_latest.zip
+    python src/make_nano_transfer.py verify  [--zip handoff/nano_transfer_latest.zip] [--python <interp>]
+        -> giai nen vao thu muc TAM SACH tren PC, chay THEO HUONG DAN TRONG GOI (duong dan tuong doi, cwd = goc goi):
+           manifest -> nano_env_check -> import backend np (CHAN torch/ultralytics) -> test_nano_parity ->
+           replay cache CV/EKF (CHAN) -> nano_parity voi pc-ref (+ bit-identical) -> doc ONNX -> doc JPG/mp4.
+           --python: interpreter khac (vd venv stack cu) de kiem phu thuoc thap hon.
            CHI xac minh goi du file/du phu thuoc; KHONG chung minh tuong thich Nano.
 
 Goi gom (giu cau truc thu muc de `config.PROJECT_ROOT` = goc goi):
@@ -14,7 +16,10 @@ Goi gom (giu cau truc thu muc de `config.PROJECT_ROOT` = goc goi):
     (JPG y nguyen + mp4 lossy + JSON nguon/khoang frame/fps) + seqinfo/ignored_regions, ket qua tham chieu PC
     CV/EKF chay tu chinh cache do bang backend NumPy (+ doi chieu voi backend ultralytics), NANO_START_HERE.md,
     PACKAGE_INFO.json (commit/HEAD/working tree/phien ban moi truong PC), MANIFEST_SHA256.txt (tung file).
-KHONG gom: env Conda/venv, dataset day du, lich su ket qua, engine TensorRT, checkpoint .pt, GT, .gitignore,
+Co them: models/yolov8n.pt (checkpoint dang dung -- goi TRIEN KHAI duoc phep, khac chinh sach goi review),
+requirements_nano.txt, src/nano_env_check.py, cache CAT dung doan smoke + tham chieu (NANO-smoke) va cache goc + tham
+chieu toan sequence (NANO-full).
+KHONG gom: env Conda/venv, .git, dataset day du, video dai, lich su ket qua, engine TensorRT, GT, ZIP cu, .gitignore,
 src/demo/**, live.bat, outputs/**.
 """
 from __future__ import annotations
@@ -34,12 +39,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PKG = ROOT / "handoff" / "nano_transfer"
-ZIP = ROOT / "handoff" / "nano_transfer.zip"
+ZIP = ROOT / "handoff" / "nano_transfer_latest.zip"
 PY = sys.executable
 
 VIDEO = "MVI_39031"
-CACHE_ID = "yolov8n-coco_conf0.05_all"
-SPLIT = "NANO-smoke"
+CACHE_ID = "yolov8n-coco_conf0.05_all"            # cache goc PC (toan bo 1470 frame)
+SMOKE_CACHE_ID = "nano_smoke_MVI_39031_f0001-0300" # cache CAT dung doan smoke (frame 1-300), cung DetectorSpec
+SPLIT = "NANO-smoke"                               # tham chieu tren doan smoke (cache cat)
+SPLIT_FULL = "NANO-full"                           # tham chieu tren toan bo sequence (cache goc)
 SMOKE_FRAMES = (1, 300)                       # img00001..img00300 (12,0 s @ 25 fps)
 FPS = 25
 ONNX_NAME = "yolov8n_640_op12.onnx"
@@ -120,13 +127,14 @@ def run(cmd: list[str], cwd: Path, env: dict | None = None, log: list[str] | Non
     return r
 
 
-def run_blocked(script_rel: str, args: list[str], cwd: Path, backend: str = "np", log: list[str] | None = None):
-    """Chay src/<script> trong tien trinh CHAN torch/ultralytics (bang chung khong can hai goi nay)."""
-    code = (BLOCK + f"import sys, runpy\nsys.path.insert(0, r{str(cwd / 'src')!r})\n"
-            f"sys.argv = [r{str(cwd / script_rel)!r}] + {args!r}\n"
-            f"runpy.run_path(r{str(cwd / script_rel)!r}, run_name='__main__')\n")
+def run_blocked(script_rel: str, args: list[str], cwd: Path, backend: str = "np", log: list[str] | None = None,
+                py: str = PY):
+    """Chay <script_rel> (tuong doi goc goi, cwd = goc goi) trong tien trinh CHAN torch/ultralytics."""
+    code = (BLOCK + "import sys, runpy\nsys.path.insert(0, 'src')\n"
+            f"sys.argv = [{script_rel!r}] + {args!r}\n"
+            f"runpy.run_path({script_rel!r}, run_name='__main__')\n")
     env = {**os.environ, "BYTETRACK_BACKEND": backend, "PYTHONIOENCODING": "utf-8"}
-    return run([PY, "-c", code], cwd, env, log)
+    return run([py, "-c", code], cwd, env, log)
 
 
 # ------------------------------------------------------------------------------------------ build
@@ -185,7 +193,18 @@ def build(onnx_check: Path | None) -> int:
         json.dumps(exp_info, indent=2, ensure_ascii=False), encoding="utf-8")
     files.append(f"models/export/{Path(ONNX_NAME).stem}.export.json")
 
-    # ---- 3. det cache (meta + npz + sidecar) ----
+    # ---- 2b. checkpoint .pt (goi TRIEN KHAI duoc phep chua; Nano can torch + loader rieng moi dung duoc) ----
+    if CHECKPOINT.is_file():
+        (PKG / "models").mkdir(exist_ok=True)
+        shutil.copy2(CHECKPOINT, PKG / "models" / CHECKPOINT.name)
+        files.append(f"models/{CHECKPOINT.name}")
+        exp_info["checkpoint_trong_goi"] = True
+        exp_info["checkpoint_ghi_chu"] = ("co trong goi de doi chieu/khi Nano co torch; ultralytics 8.4 can Python >= 3.8, "
+                                          "KHONG cai duoc tren Python 3.6 he thong -> duong detector chinh la ONNX -> TensorRT")
+        (PKG / "models" / "export" / f"{Path(ONNX_NAME).stem}.export.json").write_text(
+            json.dumps(exp_info, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    # ---- 3. det cache: (a) cache goc toan sequence, (b) cache CAT dung doan smoke (giu frame rong + time_s) ----
     cdir = ROOT / "data" / "interim" / "det_cache" / CACHE_ID
     for name in ("meta.json", f"{VIDEO}.npz", f"{VIDEO}.json"):
         p = cdir / name
@@ -198,6 +217,36 @@ def build(onnx_check: Path | None) -> int:
     meta = json.loads((cdir / "meta.json").read_text(encoding="utf-8"))
     if exp_info["checkpoint_sha256"] and meta.get("weights_sha256") != exp_info["checkpoint_sha256"]:
         sys.exit("DUNG: cache meta weights_sha256 khac checkpoint hien tai")
+    import numpy as np
+    z = np.load(cdir / f"{VIDEO}.npz")
+    a0, b0 = SMOKE_FRAMES
+    sel = (z["frame_idx"] >= a0) & (z["frame_idx"] <= b0)
+    idx = np.flatnonzero(sel)
+    assert len(idx) == b0 - a0 + 1 and idx[0] == 0 and np.all(np.diff(idx) == 1), "doan smoke phai la tien to lien tuc cua cache"
+    n_per = z["n_per_frame"][idx]
+    off = int(np.concatenate([[0], np.cumsum(z["n_per_frame"])])[idx[-1] + 1])
+    arrs = {"frame_idx": z["frame_idx"][idx], "n_per_frame": n_per, "unreadable": z["unreadable"][idx],
+            "truncated": z["truncated"][idx], "time_s": z["time_s"][idx], "data": z["data"][:off], "orig_shape": z["orig_shape"]}
+    assert int(n_per.sum()) == len(arrs["data"])
+    sdir = PKG / "data" / "interim" / "det_cache" / SMOKE_CACHE_ID
+    sdir.mkdir(parents=True)
+    shutil.copy2(cdir / "meta.json", sdir / "meta.json")            # CUNG DetectorSpec (copy nguyen van)
+    side_goc = json.loads((cdir / f"{VIDEO}.json").read_text(encoding="utf-8"))
+    np.savez_compressed(sdir / f"{VIDEO}.npz", **arrs)
+    side = {"video": VIDEO, "n_frames": int(len(idx)), "n_boxes": int(len(arrs["data"])),
+            "n_unreadable": int(arrs["unreadable"].sum()), "n_truncated": int(arrs["truncated"].sum()),
+            "created": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            "cat_tu": {"cache_id": CACHE_ID, "sidecar_goc": side_goc, "khoang_frame": [a0, b0],
+                       "n_frame_rong_giu_nguyen": int((n_per == 0).sum()),
+                       "time_s_dau_cuoi": [float(arrs["time_s"][0]), float(arrs["time_s"][-1])],
+                       "ghi_chu": "cat TIEN TO frame 1-300 tu cache goc; frame khong co detection van co mat (n_per_frame=0); "
+                                  "meta.json copy nguyen van (cung DetectorSpec/weights_sha256)"}}
+    for k in ("regions_hash", "n_regions", "part"):
+        if k in side_goc:
+            side[k] = side_goc[k]
+    (sdir / f"{VIDEO}.json").write_text(json.dumps(side, indent=2, ensure_ascii=False), encoding="utf-8")
+    for name in ("meta.json", f"{VIDEO}.npz", f"{VIDEO}.json"):
+        files.append((sdir / name).relative_to(PKG).as_posix())
 
     # ---- 4. doan smoke: JPG y nguyen + mp4 + seqinfo/regions ----
     img_dir = ROOT / "data" / "extracted" / "DETRAC-Images" / VIDEO
@@ -239,7 +288,8 @@ def build(onnx_check: Path | None) -> int:
         "mp4": {"file": mp4.relative_to(PKG).as_posix(), "codec": "mp4v (OpenCV VideoWriter, LOSSY)", "n_frame_doc_lai": n_mp4,
                 "fps_doc_lai": fps_mp4, "sha256": sha256_file(mp4),
                 "ghi_chu": "chi de tien --source; detection tu mp4 KHONG so duoc voi cache (nen lai + khong che vung bo qua)"},
-        "cache_lien_quan": {"cache_id": CACHE_ID, "pham_vi": "TOAN BO 1470 frame cua sequence (khong chi 1-300)",
+        "cache_lien_quan": {"cache_doan_smoke": SMOKE_CACHE_ID, "cache_goc_toan_sequence": CACHE_ID,
+                            "pham_vi": f"cache doan smoke = frame {a}-{b} (cat tien to tu cache goc 1470 frame, giu frame rong + time_s)",
                             "che_vung_bo_qua": bool(meta.get("mask_ignored_regions")),
                             "regions_file": f"data/smoke/{VIDEO}/ignored_regions.txt"},
     }
@@ -251,28 +301,42 @@ def build(onnx_check: Path | None) -> int:
     lenh = ["#!/usr/bin/env bash", "# Lenh da tao ban tham chieu PC (chay tai goc goi). Tren Nano: doi --tracker-name thanh nano-cv / nano-ekf.",
             "set -e", "cd \"$(dirname \"$0\")/..\""]
     parity_pc = {}
-    for ten, yaml in TRACKERS.items():
-        args = ["--cache-id", CACHE_ID, "--split-name", SPLIT, "--tracker-yaml", yaml, "--tracker-name", f"pc-ref-{ten}", *TRACK_ARGS]
-        r = run_blocked("src/run_tracking.py", args, PKG, "np", log)
-        if r.returncode != 0:
-            sys.exit(f"DUNG: run_tracking np ({ten}) exit {r.returncode}\n{r.stdout[-2000:]}\n{r.stderr[-2000:]}")
-        lenh.append("BYTETRACK_BACKEND=np python3 src/run_tracking.py " + subprocess.list2cmdline(args))
-        # doi chieu: backend ultralytics (co torch) cung dau vao -> phai y het
-        args_ul = ["--cache-id", CACHE_ID, "--split-name", SPLIT, "--tracker-yaml", yaml, "--tracker-name", f"pc-ul-{ten}", *TRACK_ARGS]
-        env = {**os.environ, "BYTETRACK_BACKEND": "ultralytics", "PYTHONIOENCODING": "utf-8"}
-        r2 = run([PY, str(PKG / "src" / "run_tracking.py"), *args_ul], PKG, env, log)
-        if r2.returncode != 0:
-            sys.exit(f"DUNG: run_tracking ultralytics ({ten}) exit {r2.returncode}\n{r2.stderr[-2000:]}")
-        pj = PKG / "reference" / f"parity_pc_np_vs_ul_{ten}.json"
-        r3 = run([PY, str(PKG / "src" / "nano_parity.py"), "--ref", str(PKG / "data/processed/trackers" / SPLIT / f"pc-ul-{ten}"),
-                  "--test", str(PKG / "data/processed/trackers" / SPLIT / f"pc-ref-{ten}"), "--json", str(pj)], PKG, None, log)
-        parity_pc[ten] = {"exit": r3.returncode, "json": pj.relative_to(PKG).as_posix()}
-        if r3.returncode != 0:
-            sys.exit(f"DUNG: backend np KHAC ultralytics ({ten}) -> khong dong goi tham chieu")
-        shutil.rmtree(PKG / "data/processed/trackers" / SPLIT / f"pc-ul-{ten}")
-    lenh += ["", "# Parity (tren Nano, sau khi chay 2 lenh tren voi --tracker-name nano-cv / nano-ekf):",
+    for split, cid in ((SPLIT, SMOKE_CACHE_ID), (SPLIT_FULL, CACHE_ID)):
+        lenh.append(f"# --- {split}: cache {cid} ---")
+        for ten, yaml in TRACKERS.items():
+            args = ["--cache-id", cid, "--split-name", split, "--tracker-yaml", yaml, "--tracker-name", f"pc-ref-{ten}", *TRACK_ARGS]
+            r = run_blocked("src/run_tracking.py", args, PKG, "np", log)
+            if r.returncode != 0:
+                sys.exit(f"DUNG: run_tracking np ({split}/{ten}) exit {r.returncode}\n{r.stdout[-2000:]}\n{r.stderr[-2000:]}")
+            lenh.append("BYTETRACK_BACKEND=np python3 src/run_tracking.py " + subprocess.list2cmdline(args))
+            # doi chieu: backend ultralytics (co torch) cung dau vao -> phai y het
+            args_ul = ["--cache-id", cid, "--split-name", split, "--tracker-yaml", yaml, "--tracker-name", f"pc-ul-{ten}", *TRACK_ARGS]
+            env = {**os.environ, "BYTETRACK_BACKEND": "ultralytics", "PYTHONIOENCODING": "utf-8"}
+            r2 = run([PY, str(PKG / "src" / "run_tracking.py"), *args_ul], PKG, env, log)
+            if r2.returncode != 0:
+                sys.exit(f"DUNG: run_tracking ultralytics ({split}/{ten}) exit {r2.returncode}\n{r2.stderr[-2000:]}")
+            pj = PKG / "reference" / f"parity_pc_np_vs_ul_{split}_{ten}.json"
+            r3 = run([PY, str(PKG / "src" / "nano_parity.py"), "--ref", str(PKG / "data/processed/trackers" / split / f"pc-ul-{ten}"),
+                      "--test", str(PKG / "data/processed/trackers" / split / f"pc-ref-{ten}"), "--json", str(pj)], PKG, None, log)
+            bit = (sha256_file(PKG / "data/processed/trackers" / split / f"pc-ul-{ten}" / "data" / f"{VIDEO}.txt")
+                   == sha256_file(PKG / "data/processed/trackers" / split / f"pc-ref-{ten}" / "data" / f"{VIDEO}.txt"))
+            parity_pc[f"{split}/{ten}"] = {"exit": r3.returncode, "bit_identical_data_txt": bit, "json": pj.relative_to(PKG).as_posix()}
+            if r3.returncode != 0:
+                sys.exit(f"DUNG: backend np KHAC ultralytics ({split}/{ten}) -> khong dong goi tham chieu")
+            shutil.rmtree(PKG / "data/processed/trackers" / split / f"pc-ul-{ten}")
+    lenh += ["", "# Parity (tren Nano, sau khi chay cac lenh tren voi --tracker-name nano-cv / nano-ekf):",
              f"python3 src/nano_parity.py --ref data/processed/trackers/{SPLIT}/pc-ref-cv  --test data/processed/trackers/{SPLIT}/nano-cv  --json reference/parity_nano_cv.json",
-             f"python3 src/nano_parity.py --ref data/processed/trackers/{SPLIT}/pc-ref-ekf --test data/processed/trackers/{SPLIT}/nano-ekf --json reference/parity_nano_ekf.json"]
+             f"python3 src/nano_parity.py --ref data/processed/trackers/{SPLIT}/pc-ref-ekf --test data/processed/trackers/{SPLIT}/nano-ekf --json reference/parity_nano_ekf.json",
+             f"python3 src/nano_parity.py --ref data/processed/trackers/{SPLIT_FULL}/pc-ref-cv  --test data/processed/trackers/{SPLIT_FULL}/nano-cv  --json reference/parity_nano_full_cv.json",
+             f"python3 src/nano_parity.py --ref data/processed/trackers/{SPLIT_FULL}/pc-ref-ekf --test data/processed/trackers/{SPLIT_FULL}/nano-ekf --json reference/parity_nano_full_ekf.json"]
+    # requirements toi thieu cho duong tracker-tu-cache (tu chuoi import THAT, khong phai requirements PC)
+    (PKG / "requirements_nano.txt").write_text(
+        "# Phu thuoc TOI THIEU cho duong tracker-tu-cache (chuoi import that, torch/ultralytics BI CHAN khi kiem).\n"
+        "# Python >= 3.8 (vermin tinh). KHONG phai requirements cua PC; phien ban PC chi de tham khao trong PACKAGE_INFO.json.\n"
+        "# Da kiem tren PC voi stack cu hon: numpy 1.24.4, pandas 1.5.3, pyyaml 6.0.1, lap 0.5.12 (khong scipy) -> parity DAT, bit-identical.\n"
+        "numpy\nlap>=0.4\npandas\npyyaml\n# tuy chon:\n# scipy        # chi khi use_lap=False (khong dung mac dinh)\n"
+        "# opencv-python  # buoc chay video/anh (khong can cho replay cache)\n", encoding="utf-8", newline="\n")
+    files.append("requirements_nano.txt")
     (PKG / "reference" / "lenh_tai_hien.sh").write_text("\n".join(lenh) + "\n", encoding="utf-8", newline="\n")
     for p in sorted((PKG / "data/processed").rglob("*")):
         if p.is_file():
@@ -295,18 +359,28 @@ def build(onnx_check: Path | None) -> int:
         "goi": "nano_transfer (doc lap, KHONG phai review delta)", "tao_luc": time.strftime("%Y-%m-%dT%H:%M:%S"),
         "nguon": {"repo": "D:/LABOTARY/bytetrack", "HEAD": git("rev-parse", "HEAD"), "HEAD_short": git("rev-parse", "--short", "HEAD"),
                   "branch": git("branch", "--show-current"), "subject": git("log", "-1", "--format=%s"),
+                  "commit_dong_goi": git("rev-parse", "--short", "HEAD"),
+                  "commit_code_cuoi": git("log", "-1", "--format=%h %s", "--", "src", "configs", "third_party"),
+                  "commit_code_cuoi_khong_tinh_builder": git("log", "-1", "--format=%h %s", "--", "src", "configs", "third_party",
+                                                             ":(exclude)src/make_nano_transfer.py", ":(exclude)src/nano_env_check.py"),
                   "tracked_da_sua_ngoai_file_rieng": dirty,
                   "ghi_chu_launcher": "L-F1..L-F4 (review 2d1a8df) da sua o 25c11b6/2e96bc7, CHUA duoc Codex nghiem thu"},
         "moi_truong_pc": env_versions(),
-        "phu_thuoc_python_toi_thieu_cho_replay": ["numpy", "scipy", "lap", "pandas", "pyyaml"],
-        "phu_thuoc_them_cho_video": ["opencv-python"],
-        "khong_can_cho_buoc_2_4": ["torch", "ultralytics"],
+        "python_toi_thieu": "3.8 (vermin 1.8.0 tinh tren chuoi import that: from __future__ import annotations x21, dataclasses, importlib.metadata)",
+        "phu_thuoc_python_toi_thieu_cho_replay": ["numpy", "lap", "pandas", "pyyaml"],
+        "phu_thuoc_tuy_chon": {"scipy": "chi khi use_lap=False (khong phai mac dinh)", "opencv-python": "buoc chay video/anh"},
+        "khong_can_cho_replay_parity": ["torch", "ultralytics", "scipy"],
+        "requirements": "requirements_nano.txt",
         "checkpoint": {k: exp_info[k] for k in ("checkpoint", "checkpoint_sha256", "checkpoint_bytes", "checkpoint_trong_goi")},
         "onnx": {k: exp_info[k] for k in ("onnx", "onnx_sha256", "onnx_bytes", "trang_thai")},
-        "det_cache": {"cache_id": CACHE_ID, "video": VIDEO, "meta": meta,
-                      "npz_sha256": sha256_file(cdir / f"{VIDEO}.npz"), "sidecar": json.loads((cdir / f"{VIDEO}.json").read_text(encoding="utf-8"))},
-        "tham_chieu_pc": {"split": SPLIT, "ten": [f"pc-ref-{t}" for t in TRACKERS], "backend": "np",
-                          "cau_hinh": "conf-min 0.25, classes 1 2 3 5 7, max-det 300, fps 25, track-buffer 1.2 s (30 buoc), elapsed steps",
+        "det_cache": {"cache_doan_smoke": {"cache_id": SMOKE_CACHE_ID, "video": VIDEO, "khoang_frame": [a0, b0],
+                                           "npz_sha256": sha256_file(sdir / f"{VIDEO}.npz"), "sidecar": side},
+                      "cache_goc_toan_sequence": {"cache_id": CACHE_ID, "video": VIDEO, "meta": meta,
+                                                  "npz_sha256": sha256_file(cdir / f"{VIDEO}.npz"), "sidecar": side_goc}},
+        "tham_chieu_pc": {"splits": {SPLIT: SMOKE_CACHE_ID, SPLIT_FULL: CACHE_ID}, "ten": [f"pc-ref-{t}" for t in TRACKERS],
+                          "backend": "np (torch/ultralytics BI CHAN khi tao)",
+                          "cau_hinh_hieu_luc": "conf-min 0.25, classes 1 2 3 5 7, max-det 300, fps 25, track-buffer 1.2 s (30 buoc), elapsed steps; "
+                                               "chi tiet trong run_meta.json (tracker_cfg, overrides, input_fingerprint)",
                           "doi_chieu_np_vs_ultralytics": parity_pc},
         "smoke": smoke_info,
         "trang_thai_nano": {"backend_np": "co, chay that tren PC", "engine_trt": "chua (build tren Nano)",
@@ -322,8 +396,10 @@ def build(onnx_check: Path | None) -> int:
         manifest_lines.append(f"{sha256_file(p)}  {p.relative_to(PKG).as_posix()}")
     (PKG / "MANIFEST_SHA256.txt").write_text("\n".join(manifest_lines) + "\n", encoding="utf-8", newline="\n")
     # file cam
+    # goi TRIEN KHAI duoc phep chua checkpoint .pt (khac chinh sach goi review); van cam engine PC, GT, file rieng
     xau = [p.relative_to(PKG).as_posix() for p in all_files if _skip(p.relative_to(PKG).as_posix())
-           or p.suffix in (".pt", ".engine") or p.name == "gt.txt"]
+           or p.suffix in (".engine", ".plan", ".trt") or p.name == "gt.txt"
+           or (p.suffix == ".pt" and p.name != CHECKPOINT.name)]
     assert not xau, xau
 
     # ---- 7. zip ----
@@ -347,14 +423,21 @@ def build(onnx_check: Path | None) -> int:
 
 
 # ------------------------------------------------------------------------------------------ verify
-def verify(zip_path: Path) -> int:
+def verify(zip_path: Path, py: str = PY, suffix: str = "") -> int:
     """Giai nen vao thu muc TAM SACH (khong phai repo), chay chuoi kiem. Ket qua ghi NGOAI goi
     (handoff/logs/nano_transfer/kiem_goi_sach.{log,json}) de hash cua zip da kiem = hash cua zip ban giao."""
     tmp = Path(tempfile.mkdtemp(prefix="nano_pkg_"))
     log: list[str] = [f"# kiem goi sach {time.strftime('%Y-%m-%dT%H:%M:%S')} zip={zip_path} sha256={sha256_file(zip_path)}",
-                      f"# giai nen vao {tmp} (thu muc tam, KHONG phai repo); moi buoc replay/parity CHAN torch va ultralytics",
+                      f"# giai nen vao {tmp} (thu muc tam, KHONG phai repo); cwd = goc goi, duong dan TUONG DOI nhu NANO_START_HERE.md",
+                      f"# interpreter: {py}; moi buoc replay/parity CHAN torch va ultralytics",
                       "# Y NGHIA: chi xac minh goi DU FILE + DU PHU THUOC Python tren PC; KHONG chung minh tuong thich Nano"]
-    kq = {"zip_sha256": sha256_file(zip_path), "zip_bytes": zip_path.stat().st_size, "buoc": {}}
+    kq = {"zip_sha256": sha256_file(zip_path), "zip_bytes": zip_path.stat().st_size, "interpreter": py, "buoc": {}}
+    ver = subprocess.run([py, "-c", "import sys, json\nout={'python': sys.version.split()[0]}\n"
+                          "for m in ('numpy','scipy','lap','pandas','yaml','cv2'):\n"
+                          "    try: out[m]=__import__(m).__version__\n    except Exception as e: out[m]='KHONG CO'\n"
+                          "print(json.dumps(out))"], capture_output=True, text=True).stdout.strip()
+    kq["phien_ban_dung_de_kiem"] = json.loads(ver) if ver.startswith("{") else ver
+    log.append(f"# phien ban: {ver}")
     ok_all = True
     try:
         with zipfile.ZipFile(zip_path) as z:
@@ -371,37 +454,46 @@ def verify(zip_path: Path) -> int:
         kq["buoc"]["0_manifest"] = {"n_file": n_manifest, "lech_hoac_thieu": bad}
         ok_all &= not bad
         log.append(f"0 manifest: {n_manifest} file, lech/thieu = {bad}")
-        # 1. import backend np, CHAN torch/ultralytics
-        code = (BLOCK + f"import sys, json\nsys.path.insert(0, r{str(g / 'src')!r})\nimport ul_backend\n"
+        # 1. nano_env_check (theo huong dan trong goi) + import backend np, CHAN torch/ultralytics
+        r = run([py, "src/nano_env_check.py", "--json", "reference/env_check_pc.json"], g, {**os.environ, "PYTHONIOENCODING": "utf-8"}, log)
+        kq["buoc"]["1a_nano_env_check"] = {"exit": r.returncode, "ket_luan": next((ln for ln in r.stdout.splitlines() if ln.startswith("KET LUAN")), "")}
+        ok_all &= r.returncode == 0
+        code = (BLOCK + "import sys, json\nsys.path.insert(0, 'src')\nimport ul_backend\n"
                 "fp = ul_backend.fingerprint()\nprint(json.dumps({'backend': ul_backend.backend_name(), 'torch': 'torch' in sys.modules, "
                 "'ul': 'ultralytics' in sys.modules, 'fp_keys': sorted(fp)[:6]}))\n")
-        r = run([PY, "-c", code], g, {**os.environ, "BYTETRACK_BACKEND": "np", "PYTHONIOENCODING": "utf-8"}, log)
-        kq["buoc"]["1_import_np"] = {"exit": r.returncode, "out": r.stdout.strip()[-300:], "err": r.stderr.strip()[-300:]}
+        r = run([py, "-c", code], g, {**os.environ, "BYTETRACK_BACKEND": "np", "PYTHONIOENCODING": "utf-8"}, log)
+        kq["buoc"]["1b_import_np"] = {"exit": r.returncode, "out": r.stdout.strip()[-300:], "err": r.stderr.strip()[-300:]}
         ok_all &= r.returncode == 0 and '"torch": false' in r.stdout
         # 2. test_nano_parity
-        r = run_blocked("src/test_nano_parity.py", [], g, "np", log)
+        r = run_blocked("src/test_nano_parity.py", [], g, "np", log, py=py)
         kq["buoc"]["2_test_nano_parity"] = {"exit": r.returncode, "ket_qua": next((ln for ln in r.stdout.splitlines() if "KET QUA" in ln), "")}
         ok_all &= r.returncode == 0
-        # 3. replay cache CV/EKF (CHAN torch/ultralytics) -> 4. parity voi pc-ref
-        for ten, yaml in TRACKERS.items():
-            args = ["--cache-id", CACHE_ID, "--split-name", SPLIT, "--tracker-yaml", yaml, "--tracker-name", f"kiem-{ten}", *TRACK_ARGS]
-            r = run_blocked("src/run_tracking.py", args, g, "np", log)
-            pj = g / "reference" / f"parity_kiem_goi_sach_{ten}.json"
-            r2 = run_blocked("src/nano_parity.py", ["--ref", f"data/processed/trackers/{SPLIT}/pc-ref-{ten}",
-                                                   "--test", f"data/processed/trackers/{SPLIT}/kiem-{ten}", "--json", str(pj)], g, "np", log)
-            pjd = json.loads(pj.read_text(encoding="utf-8")) if pj.is_file() else {}
-            kq["buoc"][f"3_4_replay_parity_{ten}"] = {"replay_exit": r.returncode, "parity_exit": r2.returncode,
-                                                     "n_dat": pjd.get("n_dat"), "n_video": pjd.get("n_video"),
-                                                     "video": [{k: v.get(k) for k in ("video", "n_ref", "n_test", "dat", "max_d_bbox", "max_d_conf")}
-                                                               for v in pjd.get("ket_qua", [])],
-                                                     "parity_json": pjd}
-            ok_all &= r.returncode == 0 and r2.returncode == 0
+        # 3. replay cache CV/EKF (CHAN torch/ultralytics) -> 4. parity voi pc-ref + bit-identical (cung may/cung dau vao)
+        for split, cid in ((SPLIT, SMOKE_CACHE_ID), (SPLIT_FULL, CACHE_ID)):
+            for ten, yaml in TRACKERS.items():
+                args = ["--cache-id", cid, "--split-name", split, "--tracker-yaml", yaml, "--tracker-name", f"kiem-{ten}", *TRACK_ARGS]
+                r = run_blocked("src/run_tracking.py", args, g, "np", log, py=py)
+                pj = g / "reference" / f"parity_kiem_goi_sach_{split}_{ten}.json"
+                r2 = run_blocked("src/nano_parity.py", ["--ref", f"data/processed/trackers/{split}/pc-ref-{ten}",
+                                                       "--test", f"data/processed/trackers/{split}/kiem-{ten}", "--json", str(pj)], g, "np", log, py=py)
+                pjd = json.loads(pj.read_text(encoding="utf-8")) if pj.is_file() else {}
+                f_ref = g / "data/processed/trackers" / split / f"pc-ref-{ten}" / "data" / f"{VIDEO}.txt"
+                f_kiem = g / "data/processed/trackers" / split / f"kiem-{ten}" / "data" / f"{VIDEO}.txt"
+                bit = f_ref.is_file() and f_kiem.is_file() and sha256_file(f_ref) == sha256_file(f_kiem)
+                kq["buoc"][f"3_4_replay_parity_{split}_{ten}"] = {"replay_exit": r.returncode, "parity_exit": r2.returncode,
+                                                                 "bit_identical_data_txt": bit,
+                                                                 "n_dat": pjd.get("n_dat"), "n_video": pjd.get("n_video"),
+                                                                 "video": [{k: v.get(k) for k in ("video", "n_ref", "n_test", "dat", "max_d_bbox", "max_d_conf")}
+                                                                           for v in pjd.get("ket_qua", [])],
+                                                                 "parity_json": pjd}
+                log.append(f"  bit-identical data/{VIDEO}.txt ({split}/{ten}): {bit}")
+                ok_all &= r.returncode == 0 and r2.returncode == 0
         # 5. ONNX doc duoc (onnx co tren PC; tren Nano se la trtexec)
         code = (f"import onnx, hashlib, json\np = r{str(g / 'models/export' / ONNX_NAME)!r}\nm = onnx.load(p)\nonnx.checker.check_model(m)\n"
                 "print(json.dumps({'ir': m.ir_version, 'opset': [(o.domain, o.version) for o in m.opset_import], 'n_node': len(m.graph.node), "
                 "'inputs': [(i.name, [d.dim_value for d in i.type.tensor_type.shape.dim]) for i in m.graph.input], "
                 "'sha256': hashlib.sha256(open(p, 'rb').read()).hexdigest()}))\n")
-        r = run([PY, "-c", code], g, None, log)
+        r = run([PY, "-c", code], g, None, log)            # onnx: goi cua env PC (tren Nano la trtexec)
         kq["buoc"]["5_onnx_doc_duoc"] = {"exit": r.returncode, "out": r.stdout.strip()[-400:]}
         ok_all &= r.returncode == 0
         # 6. doan smoke doc duoc bang cv2 (JPG + mp4)
@@ -409,17 +501,17 @@ def verify(zip_path: Path) -> int:
                 f"im = cv2.imread(fs[0]); cap = cv2.VideoCapture(d + '/{VIDEO}_f0001-0300.mp4'); n = 0\n"
                 "while True:\n    ok, _ = cap.read()\n    if not ok: break\n    n += 1\n"
                 "print(json.dumps({'n_jpg': len(fs), 'jpg_shape': list(im.shape), 'mp4_frames_doc': n}))\n")
-        r = run([PY, "-c", code], g, None, log)
+        r = run([PY, "-c", code], g, None, log)            # cv2: goi cua env PC
         kq["buoc"]["6_smoke_doc_duoc"] = {"exit": r.returncode, "out": r.stdout.strip()[-200:]}
         ok_all &= r.returncode == 0 and '"n_jpg": 300' in r.stdout and '"mp4_frames_doc": 300' in r.stdout
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     kq["ket_luan"] = "DAT: goi du file/du phu thuoc de replay + parity tren PC (KHONG chung minh tuong thich Nano)" if ok_all else "KHONG DAT"
     log.append(f"KET LUAN: {kq['ket_luan']}")
-    out = ROOT / "handoff" / "logs" / "nano_transfer" / "kiem_goi_sach.log"
+    out = ROOT / "handoff" / "logs" / "nano_transfer" / f"kiem_goi_sach{suffix}.log"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(log) + "\n", encoding="utf-8")
-    (ROOT / "handoff" / "logs" / "nano_transfer" / "kiem_goi_sach.json").write_text(json.dumps(kq, indent=2, ensure_ascii=False), encoding="utf-8")
+    (ROOT / "handoff" / "logs" / "nano_transfer" / f"kiem_goi_sach{suffix}.json").write_text(json.dumps(kq, indent=2, ensure_ascii=False), encoding="utf-8")
     print("\n".join(log[-12:]))
     print(f"-> {out}")
     return 0 if ok_all else 1
@@ -430,10 +522,12 @@ def main() -> int:
     ap.add_argument("mode", choices=["build", "verify"])
     ap.add_argument("--onnx-check", default=None, help="JSON doi chieu trong so ONNX vs re-export (build)")
     ap.add_argument("--zip", default=str(ZIP))
+    ap.add_argument("--python", default=PY, help="interpreter dung de kiem (vd venv stack cu)")
+    ap.add_argument("--log-suffix", default="", help="hau to ten file log kiem (vd _oldstack)")
     a = ap.parse_args()
     if a.mode == "build":
         return build(Path(a.onnx_check) if a.onnx_check else None)
-    return verify(Path(a.zip))
+    return verify(Path(a.zip), a.python, a.log_suffix)
 
 
 if __name__ == "__main__":

@@ -1,127 +1,134 @@
-# NANO_START_HERE — gói chuyển sang Jetson Nano (mốc 1: chạy CLI)
+# NANO_START_HERE — gói chuyển sang Jetson Nano (mốc 1: tracker CV/EKF từ cùng detection cache)
 
-Gói này **độc lập** với repository PC: giải nén ở bất kỳ đâu trên Nano, `cd` vào thư mục gói và chạy các lệnh
-dưới đây theo **đúng thứ tự**. Mỗi bước phải đạt mới sang bước sau. Mọi đường dẫn trong tài liệu là **tương đối
-từ thư mục gói**. Thông tin nguồn (commit, HEAD, phiên bản môi trường PC, hash) ở `PACKAGE_INFO.json`; hash
-SHA256 của **từng file** ở `MANIFEST_SHA256.txt`.
+Gói này **độc lập** với repository PC và với mọi gói review: giải nén ở bất kỳ đâu, `cd` vào thư mục gói
+(`nano_transfer/`) và chạy các lệnh dưới đây theo **đúng thứ tự**, **đường dẫn tương đối từ thư mục gói**.
+Mỗi bước phải đạt mới sang bước sau. Nguồn gói (commit code / commit đóng gói, phiên bản môi trường PC, hash
+đầu vào): `PACKAGE_INFO.json`; SHA256 **từng file**: `MANIFEST_SHA256.txt`.
 
-> Gói này **chưa được chạy trên Nano**. Việc kiểm trên PC (repo PC: `handoff/logs/nano_transfer/kiem_goi_sach.log`) chỉ xác nhận gói
-> **đủ file và đủ phụ thuộc Python** để chạy đường replay/parity trong một thư mục sạch; nó **không** chứng minh
-> tương thích Nano (Python/JetPack/aarch64). Không giả định phiên bản Python hay JetPack — bước 1 đo thật.
+> Gói **chưa được chạy trên Nano**. Kiểm trên PC (repo PC: `handoff/logs/nano_transfer/kiem_goi_sach*.log`) chỉ
+> xác nhận gói **đủ file và đủ phụ thuộc Python** để chạy đường replay/parity trong một thư mục sạch; nó **không**
+> chứng minh tương thích Nano (aarch64/JetPack). Không giả định phiên bản gì — bước 1 đo thật bằng
+> `src/nano_env_check.py`.
 
 ## 0. Cấu trúc gói
 
-| Thư mục / file | Nội dung | Dùng ở bước |
+| Thư mục / file | Nội dung | Bước |
 |:--|:--|:--|
-| `NANO_START_HERE.md`, `PACKAGE_INFO.json`, `MANIFEST_SHA256.txt` | tài liệu này; commit/HEAD/môi trường PC/hash đầu vào; hash từng file | 0 |
-| `src/` | mã nguồn (không gồm `src/demo/**` — file riêng của tác giả) | 2–6 |
-| `src/mot_datasets/` | adapter dataset (chỉ dùng `detrac` cho fps/vùng bỏ qua) | 3 |
-| `configs/` | YAML tracker đã khóa: `bytetrack_ekf_ctrv.yaml`, `bytetrack_ukf_ctrv.yaml` (+ cấu hình thí nghiệm, không cần cho mốc này) | 3 |
-| `third_party/ultralytics_trackers/` | bản **vendor** vòng lặp ByteTrack của ultralytics 8.4.141 (AGPL-3.0, `LICENSE`, `PROVENANCE.json` ghi sha256) — chạy **không cần torch/ultralytics** | 2–3 |
-| `scripts/nano/` | `00_check_stack.sh`, `01_build_engine.sh`, `02_benchmark_engine.sh`, `trt82_ops.txt`, `README.md` | 1, 5 |
-| `models/export/yolov8n_640_op12.onnx` + `.export.json` | ONNX export từ **chính** checkpoint `models/yolov8n.pt` của PC (hash checkpoint, hash ONNX, lệnh và tham số export, kết quả đối chiếu trọng số trong `.export.json`) | 5 |
-| `data/interim/det_cache/yolov8n-coco_conf0.05_all/{meta.json, MVI_39031.npz, MVI_39031.json}` | **detection cache** PC của sequence `MVI_39031` (1470 frame, YOLOv8n COCO, conf 0,05, mọi lớp, max_det 3000, đã che vùng bỏ qua) + metadata + sidecar | 3–4 |
-| `data/processed/trackers/NANO-smoke/pc-ref-cv/`, `pc-ref-ekf/` | **kết quả tham chiếu PC** (backend NumPy) chạy từ chính cache trên: `data/MVI_39031.txt`, `data_cls/`, `timing/`, `run_meta.json` | 4 |
-| `reference/` | lệnh tái hiện (`lenh_tai_hien.sh`), đối chiếu PC np ↔ ultralytics (`parity_pc_np_vs_ul_*.json`) | 3–4 |
-| `data/smoke/MVI_39031_f0001-0300/` (300 `.jpg`) + `MVI_39031_f0001-0300.mp4` + `MVI_39031_smoke.json` | **đoạn video smoke**: frame 1–300 của `MVI_39031` (UA-DETRAC test, 25 fps, 960×540, 12,0 s); JPG là bản **y nguyên** dữ liệu gốc, mp4 là bản mã hóa lại (**lossy**, chỉ để tiện `--source`) | 6 |
-| `data/smoke/MVI_39031/{seqinfo.ini, ignored_regions.txt}` | fps/kích thước và **vùng bỏ qua** đã dùng khi dựng cache (che xám trước detector) | 6 |
+| `NANO_START_HERE.md`, `PACKAGE_INFO.json`, `MANIFEST_SHA256.txt`, `requirements_nano.txt` | tài liệu; nguồn/hash; phụ thuộc **tối thiểu** (từ chuỗi import thật, không phải requirements PC) | 0–1 |
+| `src/` (không `src/demo/**`), `src/mot_datasets/` | mã tracker, backend NumPy (`ul_backend.py`, `bytetrack_np.py`, `tracker_ctrv.py`, `ekf_ctrv.py`…), `run_tracking.py` (replay cache), `nano_parity.py` + `test_nano_parity.py`, `nano_env_check.py` | 1–5 |
+| `configs/bytetrack_ekf_ctrv.yaml`, `bytetrack_ukf_ctrv.yaml` (+ YAML thí nghiệm, không cần) | cấu hình bộ lọc đã khóa; CV dùng `bytetrack.yaml` của bản vendor | 3 |
+| `third_party/ultralytics_trackers/` | bản **vendor** vòng lặp ByteTrack ultralytics 8.4.141 (**AGPL-3.0**, `LICENSE`, `PROVENANCE.json` sha256) — không cần torch/ultralytics | 2–3 |
+| `scripts/nano/` | `00_check_stack.sh`, `01_build_engine.sh`, `02_benchmark_engine.sh`, `trt82_ops.txt`, `README.md` | 1, 6 |
+| `data/interim/det_cache/nano_smoke_MVI_39031_f0001-0300/` | **cache đúng đoạn smoke** (frame 1–300, cắt *tiền tố* từ cache PC; **giữ frame rỗng** `n_per_frame=0` và `time_s`; `meta.json` copy nguyên văn = cùng DetectorSpec) | 3–4 |
+| `data/interim/det_cache/yolov8n-coco_conf0.05_all/` | cache PC **toàn sequence** `MVI_39031` (1470 frame) — parity mở rộng | 3–4 |
+| `data/processed/trackers/NANO-smoke/pc-ref-{cv,ekf}/` | **tham chiếu PC** từ cache đoạn smoke (backend NumPy, torch/ultralytics **bị chặn** khi tạo): `data/MVI_39031.txt`, `data_cls/`, `timing/`, `run_meta.json` (cấu hình hiệu lực, fingerprint) | 4 |
+| `data/processed/trackers/NANO-full/pc-ref-{cv,ekf}/` | tham chiếu PC từ cache toàn sequence | 4 |
+| `reference/` | `lenh_tai_hien.sh` (lệnh đã tạo tham chiếu), `parity_pc_np_vs_ul_*.json` (np ↔ ultralytics trên PC: y hệt) | 3–4 |
+| `data/smoke/MVI_39031_f0001-0300/` (300 `.jpg`), `MVI_39031_f0001-0300.mp4`, `MVI_39031_smoke.json`, `MVI_39031/{seqinfo.ini, ignored_regions.txt}` | **đoạn dữ liệu**: `MVI_39031` UA-DETRAC test, frame 1–300, 25 fps, 960×540, 12,0 s; JPG y nguyên byte; mp4 nén lại (**lossy**, chỉ để tiện `--source`); vùng bỏ qua đã che khi dựng cache | 6 |
+| `models/yolov8n.pt`, `models/export/yolov8n_640_op12.onnx`, `.export.json` | checkpoint đang dùng (sha256 khớp `weights_sha256` của cache) và ONNX export từ **chính** nó (đối chiếu trọng số 127/127 initializer, 262/262 node với bản re-export) | 6 |
 
-**Không có trong gói (cố ý)**: môi trường Conda/venv Windows, dataset đầy đủ, lịch sử kết quả, engine TensorRT
-(phải build **trên Nano**), checkpoint `.pt` (Nano không chạy được; hash ghi trong `.export.json`), nhãn GT.
+**Không có (cố ý)**: môi trường Conda/venv Windows, `.git`, dataset đầy đủ, video dài, lịch sử kết quả, engine
+TensorRT (build **trên Nano**), GT, file riêng.
 
-## 1. Kiểm môi trường (chạy đầu tiên, ghi lại nguyên văn)
+## 1. Môi trường trên Nano
+
+Thiết bị đã biết (do người dùng cung cấp, chưa kiểm lại từ PC): Jetson Nano 4 GB aarch64, Ubuntu 18.04.6 /
+L4T R32.7.5, **Python hệ thống 3.6.9**, numpy 1.19.5, scipy 0.19.1, pandas 0.22.0, **chưa có `lap`**, torch
+1.10.0 CUDA. **Giữ nguyên** Python hệ thống và torch.
+
+Yêu cầu **thực tế của mã** (không phải giả định): chuỗi import tracker-từ-cache cần **Python ≥ 3.8** (kiểm tĩnh
+`vermin`: 21 file `from __future__ import annotations` → 3.7, `dataclasses` → 3.7, `importlib.metadata` → 3.8) và
+các gói `numpy`, `lap` (`lap.lapjv` — bắt buộc, quyết định ghép cặp), `pandas`, `pyyaml`; **không** cần scipy
+(chỉ dùng khi `use_lap=False`), **không** cần torch/ultralytics. Đã kiểm trên PC với stack cũ hơn (numpy 1.24.4,
+pandas 1.5.3, lap 0.5.12, không scipy): parity ĐẠT, bit-identical.
+
+⇒ Python 3.6.9 **không chạy được** mã này; tạo **một môi trường riêng ≥ 3.8**, ví dụ (chọn một, ghi lại cách đã làm):
 
 ```bash
-bash scripts/nano/00_check_stack.sh                      # JetPack/L4T, CUDA, TensorRT, RAM, nvpmodel
-uname -m; cat /etc/nv_tegra_release; python3 -VV
-python3 -c "import numpy, scipy, lap, pandas, cv2; print(numpy.__version__, scipy.__version__, lap.__version__, pandas.__version__, cv2.__version__)"
+# (a) python3.8 của Ubuntu 18.04 (universe) + venv -- không đụng python3 hệ thống
+sudo apt-get install -y python3.8 python3.8-venv python3.8-dev build-essential
+python3.8 -m venv ~/nano_env && source ~/nano_env/bin/activate
+pip install --upgrade pip && pip install -r requirements_nano.txt      # lap có thể build từ nguồn (cần gcc + numpy)
+# (b) hoặc miniforge aarch64 (conda-forge): conda create -n nano python=3.8 numpy pandas pyyaml && pip install lap
 ```
 
-Phụ thuộc Python **bắt buộc** cho bước 2–4 (đường tracker từ cache): `numpy`, `scipy`, `lap`, `pandas`, `pyyaml`
-(bản PC ghi trong `PACKAGE_INFO.json`; **không** yêu cầu cùng phiên bản, nhưng phải import được). Bước 6 thêm
-`opencv-python` (đọc ảnh/video). **Không** cần torch/ultralytics cho bước 2–4. Bản vendor dùng
-`from __future__ import annotations` ⇒ cần **Python ≥ 3.7**; JetPack 4.6 mặc định Python 3.6 — nếu gặp, dùng
-miniforge aarch64 hoặc tương đương (ghi lại cách làm). Thiếu gì → ghi lại, **không** đoán.
+Rồi **đo thật**:
+
+```bash
+cd <thư mục gói>
+python src/nano_env_check.py --json reference/env_check_nano.json     # Python>=3.8, numpy/lap/pandas/yaml, backend np không kéo torch, cache đọc được
+bash scripts/nano/00_check_stack.sh                                   # JetPack/CUDA/TensorRT/RAM/nvpmodel (cho bước 6)
+```
+
+`nano_env_check.py` viết bằng cú pháp 3.6 nên chạy được cả trên Python hệ thống để **báo rõ** thiếu gì; exit 0 = đạt.
+Thiếu gói nào → ghi lại nguyên văn lỗi, **không** đoán.
 
 ## 2. Import backend NumPy (không kéo torch/ultralytics)
 
 ```bash
-cd <thư mục gói>
-BYTETRACK_BACKEND=np python3 -c "import sys; sys.path.insert(0,'src'); import ul_backend; print(ul_backend.fingerprint()); print('torch?', 'torch' in sys.modules, '| ultralytics?', 'ultralytics' in sys.modules)"
-```
-
-Đạt khi in được fingerprint và cả hai cờ là `False`. Kiểm tra phép so kết quả có chạy được trên máy:
-
-```bash
-python3 src/test_nano_parity.py        # tự tạo fixture, không cần dữ liệu; mong 20/20 PASS
+BYTETRACK_BACKEND=np python -c "import sys; sys.path.insert(0,'src'); import ul_backend; print(ul_backend.fingerprint()); print('torch?', 'torch' in sys.modules, '| ultralytics?', 'ultralytics' in sys.modules)"
+python src/test_nano_parity.py        # tự tạo fixture; mong 20/20 PASS
 ```
 
 ## 3. Replay cache (tracker CV và EKF từ detection PC)
 
-Lệnh **y hệt** lệnh đã tạo bản tham chiếu PC, chỉ đổi `--tracker-name` (`reference/lenh_tai_hien.sh`):
+Lệnh **y hệt** lệnh đã tạo tham chiếu (`reference/lenh_tai_hien.sh`), chỉ đổi `--tracker-name`:
 
 ```bash
-BYTETRACK_BACKEND=np python3 src/run_tracking.py --cache-id yolov8n-coco_conf0.05_all --split-name NANO-smoke \
+# đoạn smoke (300 frame)
+BYTETRACK_BACKEND=np python src/run_tracking.py --cache-id nano_smoke_MVI_39031_f0001-0300 --split-name NANO-smoke \
     --tracker-yaml bytetrack.yaml --tracker-name nano-cv --videos MVI_39031 \
     --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
-BYTETRACK_BACKEND=np python3 src/run_tracking.py --cache-id yolov8n-coco_conf0.05_all --split-name NANO-smoke \
+BYTETRACK_BACKEND=np python src/run_tracking.py --cache-id nano_smoke_MVI_39031_f0001-0300 --split-name NANO-smoke \
     --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name nano-ekf --videos MVI_39031 \
     --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+# toàn sequence (1470 frame): như trên với --cache-id yolov8n-coco_conf0.05_all --split-name NANO-full
 ```
 
 Kết quả: `data/processed/trackers/NANO-smoke/nano-{cv,ekf}/data/MVI_39031.txt` (+ `timing/`, `run_meta.json`).
-Cấu hình này = điều kiện **c25** của thí nghiệm (ngưỡng 0,25, lớp COCO 1 2 3 5 7, buffer 1,2 s = 30 frame @25 fps).
+Cấu hình = điều kiện **c25** của thí nghiệm (ngưỡng 0,25, lớp COCO 1 2 3 5 7, buffer 1,2 s = 30 frame @25 fps).
 
-## 4. Parity với bản tham chiếu PC — **quyết định có đi tiếp hay không**
-
-```bash
-python3 src/nano_parity.py --ref data/processed/trackers/NANO-smoke/pc-ref-cv  --test data/processed/trackers/NANO-smoke/nano-cv  --json reference/parity_nano_cv.json
-python3 src/nano_parity.py --ref data/processed/trackers/NANO-smoke/pc-ref-ekf --test data/processed/trackers/NANO-smoke/nano-ekf --json reference/parity_nano_ekf.json
-```
-
-Tolerance (công bố trước, in ở đầu mỗi lần chạy): bbox `|Δ| ≤ 1e-3` px, conf `|Δ| ≤ 1e-6`, **liên kết ID không có
-tolerance** (kiểm hai mức: ID thô và phân hoạch). `exit != 0` ⇒ **DỪNG**, gửi lại `parity_nano_*.json` +
-`run_meta.json` + kết quả bước 1; không đo tốc độ, không chạy detector khi tracker còn cho kết quả khác PC.
-Trên PC, backend NumPy và backend ultralytics cho kết quả **y hệt** (`reference/parity_pc_np_vs_ul_*.json`).
-
-## 5. Detector trên Nano — phần **phải triển khai trên thiết bị** (chưa có mã)
-
-Đã có: ONNX opset 12, static `1×3×640×640`, đầu ra `1×84×8400` (không NMS trong graph), tập op đã đối chiếu
-**trên giấy** với bảng TensorRT 8.2 (`scripts/nano/trt82_ops.txt`, `models/export/*.export.json`). Chưa có: engine,
-mã suy luận TensorRT, NMS NumPy, và **lớp nối detector vào vòng lặp tracking**.
+## 4. Parity với tham chiếu PC — **quyết định có đi tiếp hay không**
 
 ```bash
-bash scripts/nano/01_build_engine.sh models/export/yolov8n_640_op12.onnx yolov8n_fp16.engine   # trtexec --fp16, build TRÊN Nano
-bash scripts/nano/02_benchmark_engine.sh yolov8n_fp16.engine                                   # latency GPU của detector (chưa phải pipeline)
+python src/nano_parity.py --ref data/processed/trackers/NANO-smoke/pc-ref-cv  --test data/processed/trackers/NANO-smoke/nano-cv  --json reference/parity_nano_cv.json
+python src/nano_parity.py --ref data/processed/trackers/NANO-smoke/pc-ref-ekf --test data/processed/trackers/NANO-smoke/nano-ekf --json reference/parity_nano_ekf.json
+# mở rộng: NANO-full/pc-ref-* vs NANO-full/nano-*
+sha256sum data/processed/trackers/NANO-smoke/pc-ref-cv/data/MVI_39031.txt data/processed/trackers/NANO-smoke/nano-cv/data/MVI_39031.txt   # bit-identical?
 ```
 
-Điểm nối trong mã hiện tại (đọc trước khi viết): `src/det_cache.py::detect_frame(model, img, spec)` là **một** hàm
-detector dùng chung cho cache và live — hiện gọi `model.predict(...)` của ultralytics và trả `(n, 6) float32
-[x1, y1, x2, y2, conf, cls]` theo thứ tự NMS; `filter_dets()` lọc (conf_min, classes, max_det) **sau** đó;
-`run_tracking.track_video(vd, cfg, ...)` chỉ cần một đối tượng có interface như `VideoDetections` /
-`LiveVideoDetections` (`src/track_video_file.py`). Việc cần làm trên thiết bị: (a) preprocess letterbox 640 +
-BGR→RGB, chuẩn hóa /255 **giống ultralytics**; (b) TRT infer; (c) decode `84×8400` → xyxy + conf + cls, NMS
-(iou 0,7, conf 0,05, max_det 3000 — đúng `DetectorSpec` của cache) bằng NumPy; (d) một adapter tương đương
-`LiveVideoDetections` cấp frame cho `track_video`. Kết quả detector FP16/TRT **sẽ khác** cache PC (FP32 CUDA) —
-đó là điều **cần đo** ở bước 6, không phải lỗi; parity tracker (bước 4) mới là điều kiện phải bằng.
+Tiêu chí (công bố trước, in ở đầu mỗi lần chạy): bbox `|Δ| ≤ 1e-3` px, conf `|Δ| ≤ 1e-6`, **liên kết ID phải tương
+đương bằng một song ánh cố định trên toàn sequence** (kiểm hai mức: ID thô và phân hoạch); ghép **mơ hồ** → báo mơ hồ,
+**không** tính PASS. Trên PC, np ↔ ultralytics **bit-identical**. `exit != 0` ⇒ **DỪNG**: gửi lại `parity_nano_*.json`,
+`run_meta.json`, `env_check_nano.json`; xác định tầng khác biệt (dữ liệu → cấu hình → dependency (`lap`/numpy) →
+số học → liên kết ID) trước khi làm gì khác. Không đo tốc độ, không chạy detector khi tracker còn khác PC.
 
-## 6. Chạy đoạn video smoke bằng detector + ByteTrack CV/EKF
+## 5. Sau khi parity đạt — bàn giao mốc 1
 
-Sau khi có (5): chạy trên `data/smoke/MVI_39031_f0001-0300/` (JPG y nguyên, 25 fps; thứ tự theo số trong tên
-file) **và/hoặc** `data/smoke/MVI_39031_f0001-0300.mp4`. Ghi rõ dùng nguồn nào: cache PC được dựng từ **JPG đã
-che vùng bỏ qua** (`data/smoke/MVI_39031/ignored_regions.txt`); mp4 là bản nén lại nên detection **không** so
-được với cache. Báo cáo: số frame, fps vòng lặp (kèm điều kiện `nvpmodel`, clocks, nhiệt độ), và kết quả tracking
-so với `pc-ref-*` **chỉ** ở mức mô tả (khác detector ⇒ không kỳ vọng parity).
+Gửi lại: `reference/env_check_nano.json`, output `data/processed/trackers/NANO-*/nano-*` (+ `run_meta.json`),
+`reference/parity_nano_*.json`, nguyên văn các lệnh đã chạy và cách tạo môi trường (a/b). Chưa có số tốc độ nào ở mốc này.
 
-## 7. Những gì đã làm trên PC / chưa làm trên thiết bị
+## 6. Detector trên Nano — mốc 2, phần **phải triển khai trên thiết bị** (chưa có mã)
+
+Đã có: ONNX opset 12, static `1×3×640×640`, đầu ra `1×84×8400` (không NMS trong graph), tập op đối chiếu **trên
+giấy** với bảng TensorRT 8.2; checkpoint `.pt` (chỉ dùng được với torch + loader riêng; ultralytics 8.4 không cài
+trên Python 3.6). Chưa có: engine (`bash scripts/nano/01_build_engine.sh models/export/yolov8n_640_op12.onnx
+yolov8n_fp16.engine` — build **trên Nano**), mã suy luận TensorRT, NMS NumPy, **adapter nối detector vào vòng lặp**.
+
+Hợp đồng đầu ra detector phải kiểm riêng trước khi nối: `(n, 6) float32 [x1, y1, x2, y2, conf, cls]` theo thứ tự
+NMS trên ảnh gốc (letterbox 640, BGR→RGB, /255 như ultralytics; NMS iou 0,7, conf 0,05, max_det 3000 — đúng
+`DetectorSpec` của cache), `filter_dets()` lọc sau; `run_tracking.track_video(vd, cfg, ...)` chỉ cần đối tượng có
+interface như `VideoDetections` / `LiveVideoDetections` (`src/det_cache.py`, `src/track_video_file.py`). Chạy trên
+`data/smoke/MVI_39031_f0001-0300/` (JPG y nguyên) ± mp4; detection FP16/TRT **sẽ khác** cache PC — đó là điều cần
+đo, không phải lỗi; không kỳ vọng parity với `pc-ref-*` ở mốc này. Không công bố FPS Nano khi chưa đo thật.
+
+## 7. Đã làm / chưa làm
 
 | Hạng mục | Trạng thái |
 |:--|:--|
 | Backend ByteTrack NumPy (không torch) | ✅ chạy thật trên PC, bit-identical với backend ultralytics (`reference/parity_pc_np_vs_ul_*.json`) |
-| Cache + tham chiếu CV/EKF cho `MVI_39031` | ✅ trong gói |
-| Bộ so parity + test | ✅ `src/nano_parity.py`, `src/test_nano_parity.py` 20/20 trên PC |
-| ONNX từ checkpoint đang dùng | ✅ đã đối chiếu trọng số với bản re-export (`.export.json`) |
-| Engine TensorRT | ❌ phải build trên Nano |
-| Suy luận TRT + NMS NumPy + adapter vào vòng lặp | ❌ **chưa có mã** — mục 5 |
-| Chạy video thật trên Nano | ❌ chưa |
-| Số đo tốc độ Nano | ❌ chưa có; mọi FPS trong gói là PC |
+| Cache đoạn smoke + cache toàn sequence + tham chiếu CV/EKF | ✅ trong gói |
+| Bộ so parity + test, công cụ kiểm môi trường | ✅ `nano_parity.py` 20/20 trên PC; `nano_env_check.py` |
+| Yêu cầu Python/dependency của mã | ✅ đo tĩnh (3.8; numpy/lap/pandas/pyyaml) + kiểm stack cũ trên PC |
+| Chạy trên Nano (import / parity) | ❌ chưa — thiết bị không tới được từ PC lúc dựng gói |
+| Engine TensorRT / suy luận / adapter / video trên Nano / số đo tốc độ | ❌ chưa |
