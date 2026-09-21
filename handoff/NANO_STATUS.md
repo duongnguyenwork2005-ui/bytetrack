@@ -1,6 +1,6 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-20. Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-21 (mục 4b: gói chuyển). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
 ## 1. Thiết bị: KHÔNG tiếp cận được
@@ -92,6 +92,7 @@ cần đo**. Con số này **không** được dùng làm kết luận về CV/E
 | Python ≥ 3.7 trên Nano | ❓ chưa xác minh | Bản vendor dùng `from __future__ import annotations`; JetPack 4.6 mặc định **Python 3.6** ⇒ cần miniforge aarch64 hoặc tương đương |
 | `numpy` / `scipy` / `lap` cho aarch64 | ❓ chưa xác minh | `lap` phải build được; PC dùng 2.4.6 / 1.17.1 / 0.5.13 |
 | `pandas` cho aarch64 | ❓ chưa xác minh | `src/run_tracking.py` **có import `pandas`** để ghi `timing/*.csv` ⇒ đây là phụ thuộc bắt buộc của đường tracker-từ-cache, phải kiểm cùng scipy/lap |
+| `pyyaml` cho aarch64 | ❓ chưa xác minh | `src/ul_backend.py` nạp YAML tracker bằng `yaml.safe_load` ⇒ bắt buộc cho backend NumPy (đã kiểm: gói chuyển chạy replay trong tiến trình **chặn** torch/ultralytics chỉ cần numpy/scipy/lap/pandas/pyyaml) |
 | **Phạm vi ổn định hash giữa máy** | ⚠️ **đã biết, chưa xử lý** | `run_fingerprint.TEXT_SUFFIXES` chỉ chuẩn hóa `.txt`/`.ini`/`.csv`. Module `.py` hash theo **byte thô**, mà cây nguồn xuống dòng **lẫn lộn** — đã kiểm: `src/run_fingerprint.py` **281 CRLF / 0 LF**, `src/bytetrack_np.py` **0 CRLF / 125 LF**. ⇒ trường `code` **sẽ lệch giữa Windows và Nano dù cùng commit** |
 
 ### Về phạm vi ổn định hash
@@ -104,6 +105,10 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES`, **hoặc** ép `.py` về LF trong `.gitattributes`. **Chưa làm trong đợt này** vì đổi
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
+
+## 4b. Gói chuyển sang Nano (2026-09-21)
+
+`handoff/nano_transfer.zip` (dựng bằng `src/make_nano_transfer.py build`, kiểm bằng `verify`): mã + cấu hình + vendor + `scripts/nano/`, ONNX `yolov8n_640_op12.onnx` (đối chiếu trọng số với bản re-export từ `models/yolov8n.pt`: 127/127 initializer, 262/262 node giống hệt, chỉ khác metadata `date`), det cache `MVI_39031` (1470 frame), tham chiếu PC `pc-ref-{cv,ekf}` từ chính cache đó (backend NumPy; y hệt backend ultralytics), đoạn smoke frame 1–300 (JPG y nguyên + mp4 lossy), `NANO_START_HERE.md`, manifest SHA256. Kiểm gói trong thư mục sạch trên PC (`handoff/logs/nano_transfer/kiem_goi_sach.log`): manifest 516/516, import backend np chặn torch/ultralytics, `test_nano_parity` 20/20, replay CV/EKF + parity ĐẠT lệch 0 — **chỉ xác minh gói đủ**, không chứng minh tương thích Nano. Phần **chưa có mã**: suy luận TensorRT + NMS NumPy + adapter nối vào `run_tracking.track_video` (`NANO_START_HERE.md` mục 5).
 
 ## 5. Lệnh tiếp tục khi có thiết bị
 

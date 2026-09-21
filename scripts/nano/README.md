@@ -2,13 +2,16 @@
 
 **Trạng thái: CHƯA ĐO TRÊN THIẾT BỊ** (Nano chưa kết nối). Mọi con số FPS/bộ nhớ trong repo là trên PC (GTX 1650) và **không được suy ra** cho Nano.
 
+## 0. Gói chuyển sang Nano
+`python src/make_nano_transfer.py build` → `handoff/nano_transfer/` + `handoff/nano_transfer.zip` (mã, cấu hình, vendor, ONNX + hash, det cache `MVI_39031`, tham chiếu PC CV/EKF, đoạn smoke, `NANO_START_HERE.md`, manifest SHA256); `python src/make_nano_transfer.py verify` giải nén vào thư mục sạch trên PC và chạy replay/parity (chỉ kiểm đủ file/phụ thuộc, không chứng minh tương thích Nano).
+
 ## 1. Kiểm tra stack thực tế trên thiết bị (chạy đầu tiên)
 ```bash
 bash scripts/nano/00_check_stack.sh      # ghi results/phase2/profile/nano_stack.txt
 ```
 Nano gốc chỉ lên tối đa JetPack 4.6.x: L4T 32.7, Ubuntu 18.04, **CUDA 10.2, cuDNN 8.2, TensorRT 8.2, Python 3.6**. Hệ quả:
 - `ultralytics 8.4` (cần Python ≥ 3.8, torch ≥ 1.8 mới) **không chạy native** trên Nano gốc → không chạy `model.track`/`run_tracking.py` trực tiếp.
-- Lộ trình: export ONNX trên PC (opset ≤ 13, static shape) → build engine TensorRT FP16 **trên Nano** (`trtexec`) → inference bằng TensorRT Python API (`tensorrt` + `pycuda`, Python 3.6) → NMS numpy → tracker numpy (`ekf_ctrv.py`, `ukf_ctrv.py`, `pf_ctrv.py` chỉ dùng numpy; vòng lặp ByteTrack/SORT hiện phụ thuộc `ultralytics` — cần bản không phụ thuộc torch, **chưa làm**).
+- Lộ trình: export ONNX trên PC (opset ≤ 13, static shape) → build engine TensorRT FP16 **trên Nano** (`trtexec`) → inference bằng TensorRT Python API (`tensorrt` + `pycuda`, Python 3.6) → NMS numpy → tracker numpy (`ekf_ctrv.py`, `ukf_ctrv.py`, `pf_ctrv.py` chỉ dùng numpy; vòng lặp ByteTrack **đã có bản không phụ thuộc torch**: `BYTETRACK_BACKEND=np` + `third_party/ultralytics_trackers/` — chạy thật trên PC, chưa xác minh trên thiết bị). **Chưa có**: mã suy luận TensorRT + NMS NumPy + adapter nối detector vào `run_tracking.track_video` (xem `NANO_START_HERE.md` mục 5 trong gói chuyển).
 
 ## 2. Export ONNX trên PC (kiểm tra khả năng export sớm)
 ```bash
@@ -30,7 +33,7 @@ Chưa có (cần vòng lặp tracker không phụ thuộc torch). Khi có: đo d
 1. `bash scripts/nano/00_check_stack.sh` → dán `results/phase2/profile/nano_stack.txt` vào báo cáo (JetPack, L4T, CUDA, TensorRT, RAM, swap, `nvpmodel -q`).
 2. Chép `models/export/yolo11n_640_op12.onnx` và `yolov8n_640_op12.onnx` (đối chứng) sang Nano — **cả hai** qua kiểm tra op TRT 8.2, chỉ `yolo26n` bị loại vì op `Mod` (`results/phase2/export/*.json`); `01_build_engine.sh` FP16 từng file; ghi thời gian build và lỗi (nếu op nào không hỗ trợ → loại ứng viên đó, không thay bằng plugin trong phạm vi đề tài).
 3. `02_benchmark_engine.sh` với `--iterations 200 --warmUp 2000` ở `nvpmodel -m 0` + `jetson_clocks`; ghi `tegrastats` song song 60 s (nhiệt độ, RAM). Kết quả là **latency GPU của detector**, chưa phải toàn pipeline.
-4. Toàn pipeline (decode → preprocess → TRT → NMS → tracker) chỉ đo được sau khi có vòng lặp tracker không phụ thuộc torch (chưa làm); dùng cùng bộ đếm/đồng bộ như `src/profile_pipeline.py`, 450 frame sau 50 warm-up, video `MVI_39031`, 960×540→640, ghi JSON cùng schema `results/phase2/profile/*.json` để so với PC.
+4. Toàn pipeline (decode → preprocess → TRT → NMS → tracker) chỉ đo được sau khi có mã suy luận TRT + NMS + adapter vào vòng lặp (vòng lặp tracker không phụ thuộc torch **đã có**, phần nối detector **chưa**); dùng cùng bộ đếm/đồng bộ như `src/profile_pipeline.py`, 450 frame sau 50 warm-up, video `MVI_39031`, 960×540→640, ghi JSON cùng schema `results/phase2/profile/*.json` để so với PC.
 5. Mọi con số Nano phải kèm điều kiện chạy (mode, clocks, nhiệt độ, JetPack/TRT) — **không** dùng số PC (GTX 1650) thay thế.
 
 ## 4c. Giao thức đo **CV so với EKF trong cùng điều kiện** (bổ sung mốc 3 — chưa thực hiện)
