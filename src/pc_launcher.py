@@ -19,8 +19,13 @@ break -> generator close -> chot timing -> ghi du tracking/cache/timing). termin
 Moi luot chay tao thu muc rieng <out_base>/<ten_nguon>_<tracker>_<YYYYmmdd-HHMMSS>/ -> khong ghi de.
 Chi mot tac vu tai mot thoi diem.
 
-FPS hien thi = fps VONG LAP tinh den luc do (ke ca warm-up, ke ca ve/ghi/hien thi neu bat) -- lay tu
-progress file, KHONG phai fps tracker hay detector rieng; nhan ghi ro pham vi.
+FPS hien thi = fps VONG LAP (ke ca warm-up, ke ca ve/ghi/hien thi neu bat; KHONG gom khoi tao va ghi ket qua)
+-- lay tu progress file, KHONG phai fps tracker hay detector rieng; nhan ghi ro pham vi. O trang thai cuoi,
+worker ghi n_frame / wall_vong_lap da chot nen bang dung run_meta.thoi_gian.fps_vong_lap (L-F3).
+Dung khi dang TAM DUNG (SPACE trong cua so tracking) van toi duoc worker (L-F1). Thanh tien trinh chi theo
+frame that (timer indeterminate duoc dung truoc khi chuyen sang determinate, L-F2). Moi truong so tren form
+duoc kiem TRUOC khi khoi chay, loi ghi ro ten o (L-F4). Dong cua so khi dang chay: yeu cau dung roi cho bang
+after() (GUI van phan hoi), chi destroy sau khi worker ket thuc.
 """
 from __future__ import annotations
 
@@ -57,6 +62,34 @@ class DangChay(RuntimeError):
 
 class CauHinhSai(ValueError):
     """Dau vao khong hop le, phat hien TRUOC khi khoi chay worker."""
+
+
+#: (L-F4) ten o tren giao dien cho tung truong so -> thong bao loi chi ro o can sua
+TEN_O = {"conf_min": "conf-min (ngưỡng vào tracker)", "max_det": "max-det", "track_buffer_sec": "track-buffer (giây)",
+         "det_conf": "det-conf (ngưỡng detector)", "det_max_det": "det-max-det", "warmup_frames": "warm-up frames",
+         "max_frames": "Số frame tối đa", "seed": "Seed", "fps": "FPS"}
+
+
+def _so(cfg: dict, khoa: str, kieu, *, thap: float | None = None, cao: float | None = None,
+        bat_buoc: bool = True, mac_dinh: str | None = None) -> str:
+    """(L-F4) Doc mot truong so tu form: parse + kiem mien -> chuoi de dua vao argv.
+    Loi -> CauHinhSai ghi TEN O va gia tri da nhap. Truong khong bat buoc de trong -> tra ''."""
+    raw = cfg.get(khoa, mac_dinh)
+    raw = "" if raw is None else str(raw).strip()
+    if raw == "":
+        if bat_buoc:
+            raise CauHinhSai(f"Ô '{TEN_O.get(khoa, khoa)}' đang trống. Nhập một số.")
+        return ""
+    try:
+        v = kieu(raw)
+    except ValueError:
+        loai = "số nguyên" if kieu is int else "số"
+        raise CauHinhSai(f"Ô '{TEN_O.get(khoa, khoa)}' phải là {loai}"
+                         + (", hoặc để trống" if not bat_buoc else "") + f"; đã nhập: {raw!r}") from None
+    if (thap is not None and v < thap) or (cao is not None and v > cao):
+        mien = (f"≥ {thap:g}" if cao is None else (f"≤ {cao:g}" if thap is None else f"trong [{thap:g}, {cao:g}]"))
+        raise CauHinhSai(f"Ô '{TEN_O.get(khoa, khoa)}' phải {mien}; đã nhập: {raw!r}")
+    return str(v) if kieu is int else raw
 
 
 def thiet_bi_ho_tro() -> list[str]:
@@ -104,13 +137,11 @@ class LauncherController:
             raise CauHinhSai(f"Nguồn phải là file video {VIDEO_EXT} hoặc thư mục ảnh: {src.name}")
         fps = str(cfg.get("fps", "")).strip()
         if la_thu_muc and not fps:
-            raise CauHinhSai("Thư mục ảnh cần FPS.")
+            raise CauHinhSai("Thư mục ảnh cần FPS (ô 'FPS').")
         if fps:
-            try:
-                if float(fps) <= 0:
-                    raise ValueError
-            except ValueError:
-                raise CauHinhSai(f"FPS không hợp lệ: {fps!r}") from None
+            fps = _so(cfg, "fps", float, bat_buoc=False)
+            if float(fps) <= 0:
+                raise CauHinhSai(f"Ô 'FPS' phải > 0; đã nhập: {fps!r}")
         model = Path(str(cfg.get("model", MAC_DINH["model"])).strip())
         if not model.is_file():
             raise CauHinhSai(f"Checkpoint không tồn tại: {model}")
@@ -137,15 +168,21 @@ class LauncherController:
             k += 1
             run_dir = out_base / f"{ten}_{tracker_tag}_{time.strftime('%Y%m%d-%H%M%S')}_{k}"
 
+        # (L-F4) moi truong so duoc parse + kiem mien TRUOC khi khoi chay; loi chi ro o can sua.
+        # Gia tri hop le duoc truyen DUNG nhu da nhap (khong lam tron / khong doi nguong).
+        so = {k: _so(cfg, k, kieu, thap=th, cao=c, mac_dinh=MAC_DINH[k]) for k, kieu, th, c in (
+            ("conf_min", float, 0.0, 1.0), ("max_det", int, 1, None), ("track_buffer_sec", float, 0.0, None),
+            ("det_conf", float, 0.0, 1.0), ("det_max_det", int, 1, None), ("warmup_frames", int, 0, None))}
+        if float(so["track_buffer_sec"]) <= 0:
+            raise CauHinhSai(f"Ô '{TEN_O['track_buffer_sec']}' phải > 0; đã nhập: {so['track_buffer_sec']!r}")
+        max_frames = _so(cfg, "max_frames", int, thap=1, bat_buoc=False)
+        seed = _so(cfg, "seed", int, thap=0, bat_buoc=False)          # chi PF dung; de trong = mac dinh entry point
+
         argv = list(self.entry_prefix) + [
             "--source", str(src), "--model", str(model), "--device", device, "--tracker-yaml", yaml,
-            "--conf-min", str(cfg.get("conf_min", MAC_DINH["conf_min"])).strip(),
-            "--max-det", str(cfg.get("max_det", MAC_DINH["max_det"])).strip(),
-            "--track-buffer-sec", str(cfg.get("track_buffer_sec", MAC_DINH["track_buffer_sec"])).strip(),
+            "--conf-min", so["conf_min"], "--max-det", so["max_det"], "--track-buffer-sec", so["track_buffer_sec"],
             "--elapsed-mode", str(cfg.get("elapsed_mode", MAC_DINH["elapsed_mode"])).strip(),
-            "--det-conf", str(cfg.get("det_conf", MAC_DINH["det_conf"])).strip(),
-            "--det-max-det", str(cfg.get("det_max_det", MAC_DINH["det_max_det"])).strip(),
-            "--warmup-frames", str(cfg.get("warmup_frames", MAC_DINH["warmup_frames"])).strip(),
+            "--det-conf", so["det_conf"], "--det-max-det", so["det_max_det"], "--warmup-frames", so["warmup_frames"],
             "--out", str(run_dir),
             "--progress-file", str(run_dir / "progress.json"), "--progress-every", "10",
             "--stop-file", str(run_dir / "STOP.flag"),
@@ -156,8 +193,8 @@ class LauncherController:
             argv += ["--fps", fps]
         if manifest:
             argv += ["--frames-manifest", manifest]
-        if cfg.get("max_frames"):
-            argv += ["--max-frames", str(int(cfg["max_frames"]))]
+        if max_frames:
+            argv += ["--max-frames", max_frames]
         if cfg.get("show"):
             argv.append("--show")
         if cfg.get("save_video"):
@@ -168,8 +205,8 @@ class LauncherController:
             argv.append("--allow-truncated")
         for k_, v_ in (cfg.get("set") or {}).items():
             argv += ["--set", f"{k_}={v_}"]
-        if cfg.get("seed") not in (None, ""):
-            argv += ["--seed", str(int(cfg["seed"]))]
+        if seed:
+            argv += ["--seed", seed]
         return argv, run_dir
 
     # ------------------------------------------------------------------ vong doi worker
@@ -309,6 +346,7 @@ class LauncherController:
         tt = self.tien_trinh
         return {"trang_thai": self.trang_thai, "frame": tt.get("frame", 0),
                 "n_frames_khai_bao": tt.get("n_frames_khai_bao", 0), "fps_vong_lap_tam": tt.get("fps_vong_lap_tam"),
+                "tam_dung": bool(tt.get("tam_dung")) and self.trang_thai == "DANG_CHAY",
                 "exit_code": self.exit_code, "loi": self.loi, "run_dir": str(self.run_dir) if self.run_dir else None,
                 "n_log": len(self.log)}
 
@@ -346,6 +384,9 @@ def _build_app():  # noqa: C901
                           seed=tk.StringVar(), max_frames=tk.StringVar())
             self.b = {k: tk.BooleanVar(value=False) for k in ("show", "save_video", "save_cache", "allow_truncated")}
             self._n_log_hien = 0
+            self._dang_dong = False
+            self._thiet_bi: list[str] | None = None
+            self._thiet_bi_da_ap = False
             self._xay()
             self.protocol("WM_DELETE_WINDOW", self._dong)
             threading.Thread(target=self._nap_thiet_bi, daemon=True).start()
@@ -463,9 +504,16 @@ def _build_app():  # noqa: C901
                 self.v["out_base"].set(p)
 
         def _nap_thiet_bi(self):
-            ds = thiet_bi_ho_tro()
-            self.after(0, lambda: (self.cb_device.configure(values=ds), self.v["device"].set(ds[0]),
-                                   self.lb_device.configure(text="(0 = GPU CUDA)" if "0" in ds else "(không thấy CUDA)")))
+            # chay o thread nen (import torch cham); KHONG goi Tk tu thread -- chi ghi ket qua, _tick ap vao widget
+            self._thiet_bi = thiet_bi_ho_tro()
+
+        def _ap_thiet_bi(self):
+            ds = self._thiet_bi
+            if ds is None or self._thiet_bi_da_ap:
+                return
+            self._thiet_bi_da_ap = True
+            self.cb_device.configure(values=ds); self.v["device"].set(ds[0])
+            self.lb_device.configure(text="(0 = GPU CUDA)" if "0" in ds else "(không thấy CUDA)")
 
         # ---------------------------------------------------------- hanh dong
         def _cfg(self) -> dict:
@@ -484,6 +532,9 @@ def _build_app():  # noqa: C901
             except OSError as e:
                 messagebox.showerror("Không khởi chạy được worker", str(e))
                 return
+            except Exception as e:  # noqa: BLE001  (L-F4) khong de exception nao thoat khoi callback nut
+                messagebox.showerror("Lỗi không mong đợi khi bắt đầu", f"{type(e).__name__}: {e}")
+                return
             self._n_log_hien = 0
             self.txt.configure(state="normal"); self.txt.delete("1.0", "end"); self.txt.configure(state="disabled")
             self.bt_start.configure(state="disabled"); self.bt_stop.configure(state="normal")
@@ -499,16 +550,36 @@ def _build_app():  # noqa: C901
                 messagebox.showinfo("Kết quả", "Chưa có thư mục kết quả.")
 
         def _dong(self):
+            """Dong cua so. Dang chay -> yeu cau dung co kiem soat roi CHO BANG after() (GUI van phan hoi,
+            _tick van cap nhat trang thai); chi destroy sau khi xac nhan worker da ket thuc. Worker khong
+            phan hoi -> poll() terminate sau timeout_dung (duong cuoi) + canh bao ket qua co the thieu."""
+            if self._dang_dong:
+                return
             if self.ctl.dang_chay():
                 if not messagebox.askyesno("Đang chạy", "Worker đang chạy. Yêu cầu dừng có kiểm soát rồi đóng?"):
                     return
-                self.lb_tt.configure(text="ĐANG DỪNG…")
-                self.update_idletasks()
-                self.ctl.shutdown(cho_giay=self.ctl.timeout_dung)
+                self._dang_dong = True
+                self.ctl.request_stop()
+                self.bt_start.configure(state="disabled"); self.bt_stop.configure(state="disabled")
+                self.after(100, self._cho_dong)
+                return
+            self._dang_dong = True
+            self.destroy()
+
+        def _cho_dong(self):
+            if self.ctl.dang_chay():                       # _tick (200 ms) van poll + hien trang thai
+                self.after(100, self._cho_dong)
+                return
+            self.ctl.poll()
+            if self.ctl.da_terminate:
+                messagebox.showwarning("Worker không phản hồi",
+                                       "Đã phải terminate worker (đường cuối). Kết quả lượt này có thể chưa "
+                                       f"đầy đủ. Thư mục: {self.ctl.run_dir}")
             self.destroy()
 
         # ---------------------------------------------------------- cap nhat
         def _tick(self):
+            self._ap_thiet_bi()
             s = self.ctl.poll()
             tt = s["trang_thai"]
             nhan = {"SAN_SANG": "SẴN SÀNG", "DANG_KHOI_TAO": "ĐANG KHỞI TẠO (nạp mô hình)…", "DANG_CHAY": "ĐANG CHẠY",
@@ -517,15 +588,21 @@ def _build_app():  # noqa: C901
             self.lb_tt.configure(text=nhan)
             n, tot = s["frame"], s["n_frames_khai_bao"]
             if tt in ("DANG_CHAY", "DANG_DUNG") and tot > 0:
-                self.pb.configure(mode="determinate", maximum=tot, value=n)
+                if str(self.pb.cget("mode")) != "determinate":
+                    # (L-F2) dung timer autoincrement cua che do indeterminate TRUOC (stop() co the dua value
+                    # ve 0), roi moi dat maximum/value theo frame THAT tu worker
+                    self.pb.stop(); self.pb.configure(mode="determinate")
+                self.pb.configure(maximum=tot, value=n)
             elif tt in ("DANG_KHOI_TAO", "DANG_CHAY", "DANG_DUNG"):
                 if str(self.pb.cget("mode")) != "indeterminate":
                     self.pb.configure(mode="indeterminate"); self.pb.start(80)
             else:
                 self.pb.stop(); self.pb.configure(mode="determinate", maximum=max(tot, 1), value=n)
             fps = s["fps_vong_lap_tam"]
+            tam_dung = bool(s.get("tam_dung"))
             self.lb_pr.configure(text=(f"frame {n}" + (f" / {tot}" if tot else " (không biết tổng)"))
-                                 + (f"   |   {fps:.1f} fps vòng lặp (kể cả warm-up, vẽ/ghi/hiển thị nếu bật; không phải fps tracker)" if fps else "")
+                                 + ("   |   TẠM DỪNG (SPACE trong cửa sổ tracking)" if tam_dung else "")
+                                 + (f"   |   {fps:.1f} fps vòng lặp (kể cả warm-up, vẽ/ghi/hiển thị nếu bật; không gồm khởi tạo/ghi kết quả; không phải fps tracker)" if fps else "")
                                  + (f"   |   lỗi: {s['loi']}" if s["loi"] else "")
                                  + (f"   |   {s['run_dir']}" if s["run_dir"] and tt in ("HOAN_TAT", "DA_DUNG", "LOI") else ""))
             if len(self.ctl.log) > self._n_log_hien:
