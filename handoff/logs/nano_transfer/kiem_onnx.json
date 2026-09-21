@@ -1,0 +1,31 @@
+{
+  "checkpoint": "D:\\LABOTARY\\bytetrack\\models\\yolov8n.pt",
+  "checkpoint_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+  "checkpoint_bytes": 6549796,
+  "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+  "onnx_bytes": 12824061,
+  "re_export_sha256": "ffdd2414104ba43b73776e2bc3163214078f2e17355601c0c9e4bcad5936d8f2",
+  "initializer_giong_het": true,
+  "n_initializer": 127,
+  "graph_node_giong_het": true,
+  "n_node": 262,
+  "metadata_khac": [
+    "date"
+  ],
+  "ultralytics": "8.4.141",
+  "torch": "2.6.0+cu124",
+  "lenh_export": "python src/export_detector.py --weights models/yolov8n.pt --opset 12 --imgsz 640",
+  "tham_so_export": {
+    "format": "onnx",
+    "opset": 12,
+    "imgsz": 640,
+    "dynamic": false,
+    "simplify": false,
+    "half": false,
+    "nms": false,
+    "batch": 1
+  },
+  "onnx_version": "1.22.0",
+  "onnx": "models/export/yolov8n_640_op12.onnx",
+  "ghi_chu": "re-export vao thu muc scratch (khong ghi de ban trong repo) bang cung tham so export_detector.py; so tung initializer + node graph, bo qua metadata"
+}
