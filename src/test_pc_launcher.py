@@ -110,11 +110,14 @@ WRAPPER = textwrap.dedent('''
 
 
 def _cho(ctl, dk, timeout=60.0, buoc=0.05):
+    """Cho den khi dk(snapshot) dung. Sau khi thoa, POLL LAI mot lan roi moi tra ve: dieu kien kieu
+    `not ctl.dang_chay()` duoc danh gia SAU poll(), worker co the thoat giua hai lenh -> snapshot cu
+    (DANG_DUNG) chua phan anh trang thai cuoi (race lo duoi tai full suite, lich_su_that_bai/ vong 13)."""
     t0 = time.perf_counter()
     while time.perf_counter() - t0 < timeout:
         s = ctl.poll()
         if dk(s):
-            return s
+            return ctl.poll()
         time.sleep(buoc)
     return ctl.poll()
 
