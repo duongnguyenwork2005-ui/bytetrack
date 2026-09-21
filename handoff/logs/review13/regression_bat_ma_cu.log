@@ -1,0 +1,46 @@
+# regression test_pc_launcher (ban MOI, 17 phep) chay tren MA CU 2d1a8df (pc_launcher.py + track_video_file.py checkout tu 2d1a8df) - 2026-09-21T11:56:14
+  [PASS] 1. build_argv truyen DUNG nguon/checkpoint/YAML (co dau cach, MOT phan tu) + tham so hieu luc (conf-min, max-det, track-buffer, seed, --set), cac co, progress/stop-file trong thu muc luot
+  [PASS]    moi luot mot thu muc rieng (khong ghi de)
+  [PASS] 2. dau vao khong hop le -> CauHinhSai TRUOC khi khoi chay, khong co tien trinh
+  [PASS] 3. bat dau -> HOAN_TAT: exit 0, progress.json 'hoan_tat' frame 8/40, run_meta/data/timing/pipeline co du, launcher_argv.json ghi lai, log co dong worker
+  [PASS] 4. bat dau -> Dung (stop-file) -> DA_DUNG: run_meta dung_som + ly_do 'stop-file', 5 <= frame xu ly < 40, so dong timing == frame xu ly, pipeline moi dong huu han, manifest nguon 40 / da_xu_ly = frame xu ly, cache du -> replay (subprocess) parity DAT, khong con tien trinh
+  [PASS] 5. bat dau lan hai khi dang chay -> DangChay, tac vu dau van chay va dung duoc binh thuong
+  [PASS] 6. worker loi (cau hinh khong tuong thich, exit 2) -> trang thai LOI + thong bao tu progress.json; KHONG bao hoan tat
+  [PASS] 7. shutdown() khi dang chay -> yeu cau dung co kiem soat, worker tu ket thuc (DA_DUNG, run_meta dung_som), KHONG terminate, khong con tien trinh
+  [PASS] 8. worker bo qua yeu cau dung -> sau timeout launcher TERMINATE (duong cuoi), ghi ro vao log, trang thai LOI (khong bao hoan tat), khong con tien trinh
+  [PASS]    open_results() khong co run_dir -> False (khong mo gi)
+  [FAIL] 9. (L-F1) dang TAM DUNG (SPACE o frame 2) -> Dung: worker TU ket thuc (exit 0, KHONG terminate) truoc timeout, DA_DUNG, ly_do_dung='stop-file', KHONG doc them frame (n_frame_xu_ly == 2), timing/pipeline frame cuoi huu han, manifest da_xu_ly == 2, cache -> replay parity DAT
+         pause=True tt=LOI exit=1 terminate=True mat=3.11s meta=False n_xl=None replay=None parity=DAT
+KET QUA: 10/11 phep kiem tra PASS
+EXIT=1
+# regression 9-13 (ban sao test KHONG dung o FAIL dau) tren MA CU 2d1a8df - 2026-09-21T11:58:41
+  [PASS] 1. build_argv truyen DUNG nguon/checkpoint/YAML (co dau cach, MOT phan tu) + tham so hieu luc (conf-min, max-det, track-buffer, seed, --set), cac co, progress/stop-file trong thu muc luot
+  [PASS]    moi luot mot thu muc rieng (khong ghi de)
+  [PASS] 2. dau vao khong hop le -> CauHinhSai TRUOC khi khoi chay, khong co tien trinh
+  [PASS] 3. bat dau -> HOAN_TAT: exit 0, progress.json 'hoan_tat' frame 8/40, run_meta/data/timing/pipeline co du, launcher_argv.json ghi lai, log co dong worker
+  [PASS] 4. bat dau -> Dung (stop-file) -> DA_DUNG: run_meta dung_som + ly_do 'stop-file', 5 <= frame xu ly < 40, so dong timing == frame xu ly, pipeline moi dong huu han, manifest nguon 40 / da_xu_ly = frame xu ly, cache du -> replay (subprocess) parity DAT, khong con tien trinh
+  [PASS] 5. bat dau lan hai khi dang chay -> DangChay, tac vu dau van chay va dung duoc binh thuong
+  [PASS] 6. worker loi (cau hinh khong tuong thich, exit 2) -> trang thai LOI + thong bao tu progress.json; KHONG bao hoan tat
+  [PASS] 7. shutdown() khi dang chay -> yeu cau dung co kiem soat, worker tu ket thuc (DA_DUNG, run_meta dung_som), KHONG terminate, khong con tien trinh
+  [PASS] 8. worker bo qua yeu cau dung -> sau timeout launcher TERMINATE (duong cuoi), ghi ro vao log, trang thai LOI (khong bao hoan tat), khong con tien trinh
+  [PASS]    open_results() khong co run_dir -> False (khong mo gi)
+  [FAIL] 9. (L-F1) dang TAM DUNG (SPACE o frame 2) -> Dung: worker TU ket thuc (exit 0, KHONG terminate) truoc timeout, DA_DUNG, ly_do_dung='stop-file', KHONG doc them frame (n_frame_xu_ly == 2), timing/pipeline frame cuoi huu han, manifest da_xu_ly == 2, cache -> replay parity DAT
+         pause=True tt=LOI exit=1 terminate=True mat=3.11s meta=False n_xl=None replay=None parity=DAT
+  [FAIL] 9b. (L-F1) dang TAM DUNG -> shutdown(): DA_DUNG, KHONG terminate, run_meta co, khong con tien trinh
+         pause=True tt=LOI terminate=True
+  [PASS] 9c. phim q TRONG luc pause (khong co stop-file) -> DA_DUNG, ly_do_dung='phim q' (khong gan nham stop-file)
+  [FAIL] 10. (L-F3) tre 1 s SAU vong lap (save_video): progress cuoi fps_vong_lap_tam == run_meta.fps_vong_lap (bang nhau CHINH XAC, cung pham vi), t_vong_lap_s == wall_vong_lap_s < 1 s, wall_ghi_s >= 1 s; fps_toan_luot ghi RIENG (< fps_vong_lap) kem pham_vi
+         progress fps=3.1001 run_meta fps=30.8076 wall_vong_lap=0.130s wall_ghi=1.021s fps_toan_luot=None
+  [FAIL] 11. (L-F2) khoi tao: indeterminate; -> DANG_CHAY 10/100: determinate value 10; bom event loop 0,5 s voi worker giu nguyen frame -> thanh DUNG YEN (10); frame 37 -> value 37, maximum 100
+         mode indeterminate->determinate value 10.0->14.0->38.0 max=100.0
+  [FAIL] 12. (L-F4) 'abc'/'x'/'0'/'-1' vao max_frames / seed / conf_min / track_buffer -> hop thoai ghi TEN O, KHONG tao worker, KHONG exception thoat callback; sua hop le -> khoi chay binh thuong (HOAN_TAT 3 frame)
+         ('max_frames', 'abc'): exc=ValueError: invalid literal for int() with base 10: 'abc' hop=0 msg='' proc=False
+         ('seed', 'abc'): exc=ValueError: invalid literal for int() with base 10: 'abc' hop=0 msg='' proc=False
+         ('conf_min', 'x'): exc=None hop=0 msg='' proc=True
+         ('max_frames', '0'): exc=None hop=1 msg='Đang có một tác vụ chạy. Dừng nó trước khi bắt đầu tác vụ mới.' proc=True
+         ('track_buffer_sec', '-1'): exc=None hop=1 msg='Đang có một tác vụ chạy. Dừng nó trước khi bắt đầu tác vụ mới.' proc=True
+         hop le: khoi_chay=False tt=LOI frame=0
+  [FAIL] 13. (L-F1) dang TAM DUNG -> dong cua so: _dong() tra ve NGAY (cua so con, cho bang after), event loop van chay, worker tu ket thuc -> DA_DUNG, KHONG terminate, cua so dong sau khi worker ket thuc, khong con tien trinh, run_meta co
+         pause=True con_ngay=False n_update=1 da_dong=True tt=LOI terminate=True mat=3.10s
+KET QUA: 11/17 phep kiem tra PASS
+EXIT=1

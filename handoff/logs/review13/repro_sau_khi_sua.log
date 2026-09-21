@@ -1,0 +1,27 @@
+HEAD: 2d1a8df
+
+=== L-F1: dang SPACE (pause) -> request_stop(), timeout_dung=3 s (fixture) ===
+  marker vao vong pause: True sau 9.03s
+  trang_thai=DA_DUNG exit=0 da_terminate=False mat=1.02s
+  run_meta ton tai: True | data/: True | timing/: True
+  ket_qua: {'dung_som': True, 'ly_do_dung': 'stop-file', 'n_frame_xu_ly': 2}
+  log cuoi: [launcher] worker ket thuc: exit=0 -> DA_DUNG
+
+=== L-F1b: dang SPACE -> shutdown(cho_giay=3) ===
+  shutdown -> DA_DUNG da_terminate=False run_meta=True
+
+=== L-F3: chen 1 s tre quanh det_cache.save_video (sau vong lap) ===
+  trang_thai=HOAN_TAT run_meta.fps_vong_lap=30.6013 wall_vong_lap=0.1307s wall_ghi=1.0195s
+  progress cuoi: t_vong_lap_s=0.1307 fps_vong_lap_tam=30.6013 | cac khoa: ['cap_nhat', 'fps_toan_luot', 'fps_vong_lap_tam', 'frame', 'ly_do_dung', 'n_frames_khai_bao', 'out', 'pham_vi_fps', 'pham_vi_fps_toan_luot', 't_vong_lap_s', 'trang_thai', 'wall_ghi_s', 'wall_khoi_tao_s', 'wall_tong_s', 'wall_vong_lap_s']
+  LECH fps (progress vs run_meta): False
+
+=== L-F2: thanh tien trinh sau khi chuyen indeterminate -> determinate (Tk that, cua so an) ===
+  sau khoi tao: mode= indeterminate
+  chuyen sang DANG_CHAY frame 10/100: mode=determinate value=10.0
+  sau 0,5 s event loop, worker van frame 10: value=10.0  -> TU TANG: False
+
+=== L-F4: nhap 'abc' vao max_frames / seed roi bam Bat dau (callback _bat_dau that) ===
+  o max_frames='abc': khong exception | hop thoai: 1 | worker: False | trang_thai=SAN_SANG
+  o seed='abc': khong exception | hop thoai: 1 | worker: False | trang_thai=SAN_SANG
+
+xong

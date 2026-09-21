@@ -47,7 +47,7 @@ Phím khi `--show`: **q** thoát (kết quả, cache **và timing của frame cu
 | | `--save-video` / `--show` | tắt | |
 | | `--save-cache CACHE_ID` | tắt | ghi detection thô vào det cache → replay bằng `run_tracking.py` |
 | | `--warmup-frames` | `25` | số frame đầu bỏ khỏi **tổng kết** thời gian (CSV vẫn đủ) |
-| Điều phối | `--progress-file` / `--progress-every` / `--stop-file` | tắt | cho launcher: JSON tiến trình ghi giới hạn tần suất, nguyên tử; stop-file → dừng qua đường phím q (xem `LAUNCHER_PC.md`) |
+| Điều phối | `--progress-file` / `--progress-every` / `--stop-file` | tắt | cho launcher: JSON tiến trình ghi giới hạn tần suất, nguyên tử (trạng thái cuối: fps vòng lặp == `run_meta`, thêm `fps_toan_luot`); stop-file → dừng qua đường phím q, kể cả khi đang tạm dừng SPACE (xem `LAUNCHER_PC.md`) |
 
 ### Ngưỡng nào thực sự vào tracker
 

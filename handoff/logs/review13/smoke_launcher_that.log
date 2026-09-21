@@ -1,0 +1,20 @@
+# smoke vong 13 -- 2026-09-21T12:05:31 HEAD 2d1a8df (working tree co sua chua commit: pc_launcher.py, track_video_file.py, test_pc_launcher.py)
+# THAO TAC TU DONG: SPACE = PostMessage vao cua so cv2 that; nut = .invoke(); dong = _dong() (nut X). KHONG phai tay.
+
+== A. controller (khong GUI), YOLO/GPU that, 150 frame ==
+  cv: HOAN_TAT exit=0 12.4s frame=150/1470 | replay rc=0 parity=DAT n_ref=394 | fps cuoi progress=33.0844 run_meta=33.0844 BANG=True fps_toan_luot=28.835 | MVI_39031_cv_20260921-120531
+  ekf: HOAN_TAT exit=0 13.5s frame=150/1470 | replay rc=0 parity=DAT n_ref=395 | fps cuoi progress=29.4490 run_meta=29.4490 BANG=True fps_toan_luot=25.510 | MVI_39031_ekf_ctrv_20260921-120544
+
+== B. GUI that: EKF --show + cache -> SPACE -> Dung ==
+  nhan thiet bi sau do CUDA: '(0 = GPU CUDA)' values=('0', 'cpu') chon='0'
+  dang chay: (thanh, frame worker, mode) x10 = [(61, 61, 'determinate'), (71, 71, 'determinate'), (81, 81, 'determinate'), (91, 91, 'determinate'), (101, 101, 'determinate'), (111, 111, 'determinate'), (121, 121, 'determinate'), (131, 131, 'determinate'), (131, 131, 'determinate'), (141, 141, 'determinate')]  -> thanh == frame: True
+  SPACE (PostMessage) gui=True -> progress tam_dung=True sau 0.05s, frame=148
+  tam dung 2 s: (thanh, frame) x8 = [(148, 148), (148, 148), (148, 148), (148, 148), (148, 148), (148, 148), (148, 148), (148, 148)] -> dung yen: True
+  anh launcher_6_tam_dung_space.png (900x784) trang thai DANG_CHAY
+  Dung (invoke) khi tam dung -> DA_DUNG exit=0 terminate=False sau 1.16s (den khi worker ket thuc, gom ghi ket qua/cache) | ly_do_dung=stop-file n_frame_xu_ly=148 (frame luc tam dung 148) | replay rc=0 parity=DAT n_ref=387 | fps cuoi progress=17.0018 run_meta=17.0018 BANG=True | MVI_39031_ekf_ctrv_20260921-120600
+  anh launcher_7_da_dung_tu_tam_dung.png (900x784) trang thai DA_DUNG
+
+== C. GUI that: CV --show -> SPACE -> dong cua so (X) ==
+  SPACE gui=True -> tam_dung=True frame=42
+  _dong() tra ve ngay (cua so con)=1; event loop 61 lan; cua so dong=True sau 1.32s | worker: DA_DUNG terminate=False con_chay=False | run_meta ly_do_dung=stop-file n_frame_xu_ly=42 | MVI_39031_cv_20260921-120619
+  tasklist PID 20224: KHONG con

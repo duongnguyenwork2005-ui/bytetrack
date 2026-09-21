@@ -1,40 +1,39 @@
-# REVIEW_BRIEF — vòng 12: chốt mốc PC (`074ceca`) + launcher Tkinter
+# REVIEW_BRIEF — vòng 13: sửa L-F1…L-F4 của review `2d1a8df` (launcher PC)
 
 <!-- BASE_TARGET -->
 
-Review `074ceca`: **PASS WITH LIMITATIONS** cho mốc hệ thống PC Windows. Gói khớp chính xác 6.360.571 byte /
-`fa03d7ea…` → lưu `handoff/archive/review_delta_074ceca.zip`; **base review → `074ceca`**. Nano F1/F3 hoãn.
-Không tuning/train; 4 run `v2`, kết quả UA-DETRAC/BDD, GT, lock **không đổi**. Chi tiết:
-**`handoff/REVIEW12_CHI_TIET.md`**; hướng dẫn: **`handoff/LAUNCHER_PC.md`**.
+Review `2d1a8df`: **REQUEST CHANGES**. Base review **giữ `074ceca`**. Không tuning/train; tracker, cấu hình khóa, GT,
+kết quả UA-DETRAC/BDD, 4 run `v2` **không đổi**. Chi tiết: **`handoff/REVIEW13_CHI_TIET.md`**; hướng dẫn:
+**`handoff/LAUNCHER_PC.md`**. Mọi finding **tái hiện trước** rồi mới sửa (`logs/review13/repro_{truoc,sau}_khi_sua.log`).
 
-## Chốt mốc
-
-Assertion S1 phụ thuộc Windows (mục 6.4) đã sửa: kiểm **roundtrip theo nền tảng** — Windows truyền chuỗi `replay`
-với `shell=False` (CreateProcess → `CommandLineToArgvW`, không qua cmd) rồi so với `replay_argv`; POSIX `shlex.split`.
-Không đổi tracking/tolerance. `test_track_video_file` 27/27.
-
-## Launcher (`python src/pc_launcher.py`)
-
-Tkinter/ttk có sẵn; **không** viết lại detector/association/vòng lặp — chỉ điều phối `track_video_file.py` trong
-**worker process** (argv có cấu trúc, `shell=False`). `LauncherController` tách khỏi Tk (kiểm thử được);
-`LauncherApp` là widget mỏng, `poll()` mỗi 200 ms, GUI không bị chặn khi nạp mô hình.
-
-- Chọn video/thư mục ảnh (+FPS bắt buộc, frames manifest), checkpoint, bộ lọc **CV/EKF/UKF** (YAML đã khóa) hoặc
-  YAML khác, thiết bị **thực sự hỗ trợ** (`0` nếu thấy CUDA, `cpu`), thư mục gốc; show / lưu video / lưu cache; nâng
-  cao truyền **đúng** và ghi vào `run_meta` (mặc định = entry point). Mỗi lượt **một thư mục riêng**; **một** tác vụ.
-- Tiến trình theo **frame thực sự đã xử lý**/tổng; không biết tổng → chỉ số frame. FPS nhãn rõ *fps vòng lặp*.
-- **Dừng**: `STOP.flag` → worker hoàn tất frame hiện tại → **cùng đường với phím q** → ghi đủ tracking/cache/timing,
-  `dung_som` + `ly_do_dung="stop-file"`. Đóng cửa sổ → dừng có kiểm soát, chờ 30 s, còn sống mới terminate (ghi log).
-- Entry point thêm **tùy chọn** `--progress-file` (JSON giới hạn mỗi 10 frame hoặc ≥0,5 s, ghi nguyên tử) và
-  `--stop-file` (kiểm trong `on_frame` sau khi vẽ/ghi). Hành vi CLI cũ không đổi.
+| Finding | Trên `2d1a8df` | Sửa | Sau sửa |
+|:--|:--|:--|:--|
+| **L-F1** Dừng khi SPACE | terminate sau timeout, **mất** `run_meta`/data/timing | vòng pause kiểm **stop-file** → thoát **cùng đường phím q**; `ly_do_dung="stop-file"` (q vẫn `"phim q"`) | DA_DUNG exit 0, **không terminate**, không đọc thêm frame, replay parity ĐẠT |
+| **L-F2** thanh tự tăng | 10 → **14** khi worker đứng yên | `pb.stop()` **trước** khi chuyển determinate, rồi đặt value từ frame thật | 10 → **10**; frame 37 → 37 |
+| **L-F3** FPS cuối sai phạm vi | 27,36 vs **2,36** khi ghi chậm 1 s | progress cuối dùng `wall_vong_lap` **đã chốt** → **== `run_meta.fps_vong_lap`**; `fps_toan_luot` ghi riêng | **bằng nhau chính xác** |
+| **L-F4** nhập `abc` | `ValueError` thoát callback, 0 hộp thoại | kiểm **mọi** trường số trước khi chạy → `CauHinhSai` ghi **tên ô**; callback bắt mọi exception | hộp thoại đúng ô, không worker; sửa hợp lệ → chạy |
+| Đóng cửa sổ (ghi chú) | `shutdown()` chặn luồng Tk | `request_stop()` → chờ bằng **`after()`**, `destroy()` khi worker xong; không phản hồi → terminate + cảnh báo; **timeout không đổi** | SPACE → X: đóng sau 1,3 s, DA_DUNG, không còn tiến trình |
 
 ## Kiểm chứng
 
-| Loại | Kết quả |
-|:--|:--|
-| **Fixture** `test_pc_launcher` **10/10** — subprocess thật, entry point thật, chỉ giả lập detector/`imread`/GUI; mọi đường dẫn có dấu cách | build_argv đúng; đầu vào sai → không khởi chạy; hoàn tất; **dừng giữa chừng → replay parity ĐẠT**; hai tác vụ → `DangChay`; worker lỗi → LỖI (không "hoàn tất"); `shutdown()` dừng sạch; worker bỏ qua stop → terminate có log |
-| **Thật, không GUI** (`logs/review12/smoke_launcher_that.log`) | controller → YOLO/GPU 150 frame, **CV và EKF** → HOAN_TAT → cache → replay subprocess → **parity ĐẠT lệch 0** |
-| **Thật, cửa sổ Tk** (`handoff/anh/launcher_1..5_*.png`) | form điền bằng script, **Bắt đầu/Dừng bấm thật qua `invoke()`**, worker YOLO/GPU, dừng ở 153/1470 → ĐÃ DỪNG; ảnh chỉ chứa cửa sổ launcher |
+- **Regression** `test_pc_launcher` **17/17** (thêm 9/9b/9c, 10, 11, 12, 13; 11–13 dùng Tk thật ẩn; không display →
+  `[BO QUA]`, không tính PASS). Trên **mã cũ**: 9, 9b, 10, 11, 12, 13 **FAIL** (`regression_bat_ma_cu.log`).
+  `test_track_video_file` 27/27; `test_review_delta` 14/14.
+- **Smoke thật Windows** (`logs/review13/smoke_launcher_that.log`; YOLO/GPU, cửa sổ Tk + cv2 thật; **tự động**: SPACE =
+  `PostMessage`, nút = `.invoke()`, X = `_dong()`): CV/EKF 150 frame → replay parity ĐẠT lệch 0, fps cuối == run_meta;
+  thanh == frame worker 10/10, đứng yên khi tạm dừng; SPACE → Dừng → DA_DUNG 1,16 s, parity ĐẠT; SPACE → X → đóng sau
+  1,32 s, không terminate, PID không còn. Ảnh `handoff/anh/launcher_6/7_*.png`.
+- **Full suite**: lần 1 (`2e96bc7`) và lần 2 (`f685c67`) đều **30/31, FAIL thật** trong `test_pc_launcher` — lỗi của
+  **test** (in cp1252; race trong helper `_cho()`), log giữ ở `logs/review13/lich_su_that_bai/`, sửa `46daaa3`/`56ce2c1`.
+  Lần 3: **31/31 PASS** trên code chốt `56ce2c1` (`handoff/logs/review13/tests_20260921-1231.log`).
 
-Chưa smoke chuột tay; chưa camera/VFR/exe/Nano. **Full suite 31/31 PASS** trên code chốt `512712f`
-(`handoff/logs/review12/tests_20260921-0304.log`, không commit/sửa trong lúc chạy).
+## Commit (cục bộ, không push)
+
+`25c11b6` entry point (L-F1, L-F3) · `2e96bc7` launcher (L-F2, L-F4, đóng cửa sổ) + test 9–13 · `46daaa3`, `56ce2c1`
+sửa test · `f685c67` packager `--support` (gửi kèm file **không đổi**, hash base == target, không vào patch; vòng này
+`test_review_delta.py` **có đổi** nên đi đường patch thường) · sau đó: tài liệu/log/ảnh/output smoke.
+
+## Giới hạn
+
+Chưa smoke chuột/bàn phím **tay**; chưa camera/VFR/exe/Nano (F1/F3 hoãn). `fps_vong_lap` gồm thời gian tạm dừng SPACE
+(đúng phạm vi vòng lặp, nhãn ghi rõ). Nghiệm thu launcher chờ Codex.

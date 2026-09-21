@@ -1,0 +1,55 @@
+# test_pc_launcher + test_track_video_file tren MA DA SUA CUOI (working tree, ke ca hardening _nap_thiet_bi) - 2026-09-21T12:06:50
+  [PASS] 1. build_argv truyen DUNG nguon/checkpoint/YAML (co dau cach, MOT phan tu) + tham so hieu luc (conf-min, max-det, track-buffer, seed, --set), cac co, progress/stop-file trong thu muc luot
+  [PASS]    moi luot mot thu muc rieng (khong ghi de)
+  [PASS] 2. dau vao khong hop le -> CauHinhSai TRUOC khi khoi chay, khong co tien trinh
+  [PASS] 3. bat dau -> HOAN_TAT: exit 0, progress.json 'hoan_tat' frame 8/40, run_meta/data/timing/pipeline co du, launcher_argv.json ghi lai, log co dong worker
+  [PASS] 4. bat dau -> Dung (stop-file) -> DA_DUNG: run_meta dung_som + ly_do 'stop-file', 5 <= frame xu ly < 40, so dong timing == frame xu ly, pipeline moi dong huu han, manifest nguon 40 / da_xu_ly = frame xu ly, cache du -> replay (subprocess) parity DAT, khong con tien trinh
+  [PASS] 5. bat dau lan hai khi dang chay -> DangChay, tac vu dau van chay va dung duoc binh thuong
+  [PASS] 6. worker loi (cau hinh khong tuong thich, exit 2) -> trang thai LOI + thong bao tu progress.json; KHONG bao hoan tat
+  [PASS] 7. shutdown() khi dang chay -> yeu cau dung co kiem soat, worker tu ket thuc (DA_DUNG, run_meta dung_som), KHONG terminate, khong con tien trinh
+  [PASS] 8. worker bo qua yeu cau dung -> sau timeout launcher TERMINATE (duong cuoi), ghi ro vao log, trang thai LOI (khong bao hoan tat), khong con tien trinh
+  [PASS]    open_results() khong co run_dir -> False (khong mo gi)
+  [PASS] 9. (L-F1) dang TAM DUNG (SPACE o frame 2) -> Dung: worker TU ket thuc (exit 0, KHONG terminate) truoc timeout, DA_DUNG, ly_do_dung='stop-file', KHONG doc them frame (n_frame_xu_ly == 2), timing/pipeline frame cuoi huu han, manifest da_xu_ly == 2, cache -> replay parity DAT
+         pause=True tt=DA_DUNG exit=0 terminate=False mat=0.61s meta=True n_xl=2 replay=0 parity=DAT
+  [PASS] 9b. (L-F1) dang TAM DUNG -> shutdown(): DA_DUNG, KHONG terminate, run_meta co, khong con tien trinh
+         pause=True tt=DA_DUNG terminate=False
+  [PASS] 9c. phim q TRONG luc pause (khong co stop-file) -> DA_DUNG, ly_do_dung='phim q' (khong gan nham stop-file)
+  [PASS] 10. (L-F3) tre 1 s SAU vong lap (save_video): progress cuoi fps_vong_lap_tam == run_meta.fps_vong_lap (bang nhau CHINH XAC, cung pham vi), t_vong_lap_s == wall_vong_lap_s < 1 s, wall_ghi_s >= 1 s; fps_toan_luot ghi RIENG (< fps_vong_lap) kem pham_vi
+         progress fps=31.1331 run_meta fps=31.1331 wall_vong_lap=0.128s wall_ghi=1.021s fps_toan_luot=2.4244130148255674
+  [PASS] 11. (L-F2) khoi tao: indeterminate; -> DANG_CHAY 10/100: determinate value 10; bom event loop 0,5 s voi worker giu nguyen frame -> thanh DUNG YEN (10); frame 37 -> value 37, maximum 100
+         mode indeterminate->determinate value 10.0->10.0->37.0 max=100.0
+  [PASS] 12. (L-F4) 'abc'/'x'/'0'/'-1' vao max_frames / seed / conf_min / track_buffer -> hop thoai ghi TEN O, KHONG tao worker, KHONG exception thoat callback; sua hop le -> khoi chay binh thuong (HOAN_TAT 3 frame)
+         hop le: khoi_chay=True tt=HOAN_TAT frame=3
+  [PASS] 13. (L-F1) dang TAM DUNG -> dong cua so: _dong() tra ve NGAY (cua so con, cho bang after), event loop van chay, worker tu ket thuc -> DA_DUNG, KHONG terminate, cua so dong sau khi worker ket thuc, khong con tien trinh, run_meta co
+         pause=True con_ngay=True n_update=36 da_dong=True tt=DA_DUNG terminate=False mat=0.75s
+KET QUA: 17/17 phep kiem tra PASS
+EXIT test_pc_launcher=0
+  [PASS] adapter loc y het `filter_dets` / `VideoDetections.frame` (conf, lop, [:max_det])
+  [PASS] frame khong doc duoc -> unreadable=True, mang rong, VAN co trong cache arrays
+  [PASS] cache_arrays() -> npz -> VideoDetections doc lai: cung frame, cung unreadable, cung mang loc
+  [PASS] nguon khong hop le -> loi ro rang (khong ton tai / duoi la / khong anh / thieu fps)
+  [PASS] on_frame tra False o frame 2 -> dung som; timing co dung 2 frame, hang cua frame 2 VAN duoc giu
+  [PASS] F1. bo doc ~20 ms/frame -> decode_ms ~20 (truoc: ~0), frame_total bao phu, CSV du cot va tong stage + overhead == frame_total
+  [PASS] F2a. thong thuong: live exit 0, replay (lenh tu run_meta) exit 0, parity DAT lech 0
+  [PASS] F2b. --det-conf 0.5 --conf-min 0.1 -> live TU CHOI SOM exit 2 (cung guard check_compatible), khong tao cache
+  [PASS] F2c. --det-max-det 1, 1 det/frame, mac dinh -> live exit 3 (cham tran, KHONG ghi ket qua), y het VideoDetections tu choi
+  [PASS] F2c'. cung ca voi --allow-truncated -> live exit 0, meta ghi allow_truncated + replay_trang_thai, lenh replay CO --allow-truncated, replay exit 0, parity DAT
+  [PASS] F2d. max_det consumer (10) > producer (5) -> live exit 2
+  [PASS] Q1. bam q o frame 1 (warm-up 0): exit 0, dung_som, 1 dong pipeline DEU huu han (frame_total + overhead), show_ms cua frame cuoi > 0, n_frame_tong_ket == so dong huu han, sum(stage)+overhead == frame_total, manifest tach nguon 3 / da_xu_ly, replay cache tuong duong
+  [PASS] Q2. bam q o frame 2 (warm-up 0): exit 0, dung_som, 2 dong pipeline DEU huu han (frame_total + overhead), show_ms cua frame cuoi > 0, n_frame_tong_ket == so dong huu han, sum(stage)+overhead == frame_total, manifest tach nguon 3 / da_xu_ly, replay cache tuong duong
+  [PASS] S1. nguon 'traffic clip' + YAML 'cfg dir/ekf ctrv.yaml': live exit 0; replay_argv giu MOI gia tri la MOT phan tu; chuoi `replay` parse lai theo quy tac nen tang (`replay_quote`) ra DUNG replay_argv (roundtrip, khong phu thuoc kieu quote); replay tu replay_argv exit 0, parity DAT
+  [PASS] S2. cung nguon/YAML co dau cach + --allow-truncated: replay_argv co '--allow-truncated', replay exit 0, parity DAT
+  [PASS] F4a. 1.jpg 2.jpg 10.jpg -> theo SO: 1, 2, 10 (truoc: 1, 10, 2)
+  [PASS] F4b. 001 002 010 (zero-padding) -> nhu nhau
+  [PASS] F4c. img_7.jpg img_08.jpg img_10.jpg (cung tien to, padding lan lon) -> theo SO
+  [PASS] F4d. tien to khac nhau / khong co so / trung so -> ValueError co huong dan --frames-manifest
+  [PASS] F4e. --frames-manifest -> dung DUNG thu tu manifest (b2 truoc a1) du ten mo ho
+  [PASS] F4f. run ghi frames_manifest.json: quy uoc + `nguon` (file, frame, time_s) + `da_xu_ly` (chay het: 3/3)
+  [PASS] 6a. LIVE tren DETRAC MVI_39031 (120 frame, device=0) exit 0, co data/timing/pipeline/run_meta
+  [PASS] 6b. REPLAY tu cache vua luu bang run_tracking.py -> parity DAT, lech 0 (bit-identical)
+  [PASS] 7. detection tho live vs cache GOC thi nghiem: cung so det tung frame, cung lop; lech bbox 6.1e-05 px / conf 3.2e-05 (nhieu GPU, bao cao)
+  [PASS] 8. file .mp4 THAT + --save-video: exit 0, video ra 60 frame, run_meta du truong (nguon/detector_spec/loc/tracker/code/ket_qua/thoi_gian), fps doc tu metadata = 25
+  [PASS] 9. video toan frame DEN: exit 0, 0 hang tracking, timing van co DU 15 frame (vong doi cap nhat o frame rong)
+  [PASS] 10. checkpoint khong ton tai -> exit 2 + thong bao; nguon khong ton tai -> exit != 0
+KET QUA: 27/27 phep kiem tra PASS
+EXIT test_track_video_file=0
