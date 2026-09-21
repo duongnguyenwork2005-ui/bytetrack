@@ -1,0 +1,11 @@
+# vermin 1.8.0 (static) tren chuoi import tracker-tu-cache + run_tracking + nano_parity + test_nano_parity - 2026-09-21T17:00:47
+# chuoi import lay tu tien trinh THAT (chan torch/ultralytics), xem import_chain.json
+Minimum required versions: 3.8
+Incompatible versions:     2.x
+--- vi pham so voi 3.6 (dem):
+     21   '__future__.annotations' member requires !2, 3.7
+      2   'subprocess.check_output(text)' requires !2, 3.7
+      2   'dataclasses' module requires !2, 3.7
+      1   'importlib.metadata' module requires !2, 3.8
+--- importlib.metadata o dau:
+193:    import importlib.metadata as md

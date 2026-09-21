@@ -1,39 +1,52 @@
-# REVIEW_BRIEF — vòng 13: sửa L-F1…L-F4 của review `2d1a8df` (launcher PC)
+# REVIEW_BRIEF — vòng 14: nghiệm thu launcher PC (`a5eec39`) + gói chuyển Jetson Nano độc lập
 
 <!-- BASE_TARGET -->
 
-Review `2d1a8df`: **REQUEST CHANGES**. Base review **giữ `074ceca`**. Không tuning/train; tracker, cấu hình khóa, GT,
-kết quả UA-DETRAC/BDD, 4 run `v2` **không đổi**. Chi tiết: **`handoff/REVIEW13_CHI_TIET.md`**; hướng dẫn:
-**`handoff/LAUNCHER_PC.md`**. Mọi finding **tái hiện trước** rồi mới sửa (`logs/review13/repro_{truoc,sau}_khi_sua.log`).
+Review `a5eec39`: **PASS WITH LIMITATIONS** cho launcher PC (đóng L-F1…L-F4). Gói khớp **chính xác** 1.918.799 byte /
+`1c6b1336…` → lưu `handoff/archive/review_delta_a5eec39.zip`; **base review → `a5eec39`** (vòng 14). Nano F1/F3 và chạy trên
+thiết bị **chưa** nghiệm thu. Không tuning/train; tracker, cấu hình khóa, GT, kết quả UA-DETRAC/BDD, 4 run `v2` **không đổi**.
+Chi tiết: **`handoff/REVIEW14_CHI_TIET.md`**; hướng dẫn: **`NANO_START_HERE.md`** trong gói.
 
-| Finding | Trên `2d1a8df` | Sửa | Sau sửa |
-|:--|:--|:--|:--|
-| **L-F1** Dừng khi SPACE | terminate sau timeout, **mất** `run_meta`/data/timing | vòng pause kiểm **stop-file** → thoát **cùng đường phím q**; `ly_do_dung="stop-file"` (q vẫn `"phim q"`) | DA_DUNG exit 0, **không terminate**, không đọc thêm frame, replay parity ĐẠT |
-| **L-F2** thanh tự tăng | 10 → **14** khi worker đứng yên | `pb.stop()` **trước** khi chuyển determinate, rồi đặt value từ frame thật | 10 → **10**; frame 37 → 37 |
-| **L-F3** FPS cuối sai phạm vi | 27,36 vs **2,36** khi ghi chậm 1 s | progress cuối dùng `wall_vong_lap` **đã chốt** → **== `run_meta.fps_vong_lap`**; `fps_toan_luot` ghi riêng | **bằng nhau chính xác** |
-| **L-F4** nhập `abc` | `ValueError` thoát callback, 0 hộp thoại | kiểm **mọi** trường số trước khi chạy → `CauHinhSai` ghi **tên ô**; callback bắt mọi exception | hộp thoại đúng ô, không worker; sửa hợp lệ → chạy |
-| Đóng cửa sổ (ghi chú) | `shutdown()` chặn luồng Tk | `request_stop()` → chờ bằng **`after()`**, `destroy()` khi worker xong; không phản hồi → terminate + cảnh báo; **timeout không đổi** | SPACE → X: đóng sau 1,3 s, DA_DUNG, không còn tiến trình |
+## Thiết bị
 
-## Kiểm chứng
+Nano 4 GB aarch64, Ubuntu 18.04.6 / L4T R32.7.5, **Python hệ thống 3.6.9**, numpy 1.19.5, pandas 0.22.0, **chưa có `lap`**,
+torch 1.10.0 CUDA. Từ phiên này: ping unreachable, SSH timeout, không khóa SSH ⇒ **không tới được** → làm trên PC, kèm khối
+lệnh (phụ lục mục 5).
 
-- **Regression** `test_pc_launcher` **17/17** (thêm 9/9b/9c, 10, 11, 12, 13; 11–13 dùng Tk thật ẩn; không display →
-  `[BO QUA]`, không tính PASS). Trên **mã cũ**: 9, 9b, 10, 11, 12, 13 **FAIL** (`regression_bat_ma_cu.log`).
-  `test_track_video_file` 27/27; `test_review_delta` 14/14.
-- **Smoke thật Windows** (`logs/review13/smoke_launcher_that.log`; YOLO/GPU, cửa sổ Tk + cv2 thật; **tự động**: SPACE =
-  `PostMessage`, nút = `.invoke()`, X = `_dong()`): CV/EKF 150 frame → replay parity ĐẠT lệch 0, fps cuối == run_meta;
-  thanh == frame worker 10/10, đứng yên khi tạm dừng; SPACE → Dừng → DA_DUNG 1,16 s, parity ĐẠT; SPACE → X → đóng sau
-  1,32 s, không terminate, PID không còn. Ảnh `handoff/anh/launcher_6/7_*.png`.
-- **Full suite**: lần 1 (`2e96bc7`) và lần 2 (`f685c67`) đều **30/31, FAIL thật** trong `test_pc_launcher` — lỗi của
-  **test** (in cp1252; race trong helper `_cho()`), log giữ ở `logs/review13/lich_su_that_bai/`, sửa `46daaa3`/`56ce2c1`.
-  Lần 3: **31/31 PASS** trên code chốt `56ce2c1` (`handoff/logs/review13/tests_20260921-1231.log`).
+## Yêu cầu thực tế của mã (không giả định)
 
-## Commit (cục bộ, không push)
+- Chuỗi import thật của tracker-từ-cache (chặn torch/ultralytics): **numpy, lap, pandas, pyyaml**; scipy **không** được nạp.
+- `vermin` tĩnh: **Python ≥ 3.8** (21 file `from __future__ import annotations`, `dataclasses`, `importlib.metadata`) ⇒
+  3.6.9 hệ thống không chạy được; sửa cho 3.6 = đổi 21+ file → **không làm**; dùng **môi trường riêng ≥ 3.8** (python3.8 apt
+  + venv hoặc miniforge), giữ nguyên python3 hệ thống và torch.
+- Kiểm trên PC với stack cũ (numpy 1.24.4, pandas 1.5.3, lap 0.5.12, **không scipy**): replay + parity ĐẠT, **bit-identical**.
 
-`25c11b6` entry point (L-F1, L-F3) · `2e96bc7` launcher (L-F2, L-F4, đóng cửa sổ) + test 9–13 · `46daaa3`, `56ce2c1`
-sửa test · `f685c67` packager `--support` (gửi kèm file **không đổi**, hash base == target, không vào patch; vòng này
-`test_review_delta.py` **có đổi** nên đi đường patch thường) · sau đó: tài liệu/log/ảnh/output smoke.
+## Gói `handoff/nano_transfer_latest.zip` (`src/make_nano_transfer.py build`, `10d26fa`)
 
-## Giới hạn
+**63.764.728 byte**, sha256 `025187770c0876ad849ac32c27ba94b6aff934742f3592e80cf79ed8a99a8fd5`, 537 thành viên. Gồm: `src/`
+(không `demo`), `configs/`, vendor + `LICENSE`, `scripts/nano/`, `nano_env_check.py` (cú pháp 3.6), `requirements_nano.txt`;
+đoạn `MVI_39031` frame 1–300 @25 fps (300 JPG y nguyên + mp4 lossy); cache **cắt đúng đoạn** (`meta.json` nguyên văn, giữ
+frame rỗng/`time_s`) + cache gốc 1470 frame (34 frame rỗng giữ nguyên); tham chiếu PC `NANO-smoke`/`NANO-full`
+`pc-ref-{cv,ekf}` (np, chặn torch; == ultralytics bit-identical); `yolov8n.pt` + ONNX (đối chiếu trọng số) + hash;
+`PACKAGE_INFO.json` (commit đóng gói / commit code), `MANIFEST_SHA256.txt`. Không: env Windows, `.git`, dataset, engine, GT, file riêng.
 
-Chưa smoke chuột/bàn phím **tay**; chưa camera/VFR/exe/Nano (F1/F3 hoãn). `fps_vong_lap` gồm thời gian tạm dừng SPACE
-(đúng phạm vi vòng lặp, nhãn ghi rõ). Nghiệm thu launcher chờ Codex.
+## Kiểm gói (giải nén thư mục tạm ngoài repo, cwd = gốc gói, đường dẫn tương đối)
+
+| Bước | PC env | Stack cũ |
+|:--|:--|:--|
+| manifest 536/536; `nano_env_check` ĐẠT; import np `torch=false` | ✅ | ✅ |
+| `test_nano_parity` | 20/20 | 20/20 |
+| replay CV/EKF → parity vs `pc-ref` (smoke 545 hàng; full 5842/5845) | ĐẠT, **bit-identical** ×4 | ĐẠT, **bit-identical** ×4 |
+| ONNX đọc được; 300 JPG + 300 frame mp4 | ✅ | (env PC) |
+
+Chỉ chứng minh gói **đủ**, không chứng minh tương thích Nano. Tiêu chí parity giữ nguyên (bbox 1e-3, conf 1e-6, song ánh
+ID toàn sequence, mơ hồ không PASS).
+
+## Trạng thái Nano và commit
+
+Nano: **chưa chạy** (chưa import, chưa parity). Commit (cục bộ): `3c20fbe` review + base; `10d26fa` builder v2 +
+`nano_env_check` + START_HERE; sau đó log/tài liệu. Không chạy full suite (mã lõi không đổi). Delta từ `a5eec39` không chứa
+gói chuyển (untracked/ignored).
+
+**Bước tiếp theo**: chạy khối lệnh phụ lục mục 5 trên Nano, gửi `env_check_nano.json` + `parity_nano_*.json`; đạt mới sang
+detector TensorRT (build engine trên thiết bị).

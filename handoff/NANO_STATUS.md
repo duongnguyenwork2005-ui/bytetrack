@@ -1,9 +1,19 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-21 (mục 4b: gói chuyển). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-21 (mục 1: thông tin thiết bị; 4b: gói chuyển v2). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
-## 1. Thiết bị: KHÔNG tiếp cận được
+## 1. Thiết bị
+
+**2026-09-21 (vòng 14)** — người dùng cung cấp: Jetson Nano Dev Kit 4 GB, aarch64, Ubuntu 18.04.6 / L4T R32.7.5, Python hệ thống
+**3.6.9**, numpy 1.19.5, scipy 0.19.1, pandas 0.22.0, **chưa có `lap`**, torch 1.10.0 (`cuda.is_available()=True`), ~26 GB trống;
+SSH `jetson@10.11.53.239` đã đăng nhập được từ Windows (mật khẩu). `nvcc`/`trtexec` không thấy trong PATH — **chưa đủ** để kết luận
+CUDA/TensorRT chưa cài (kiểm `dpkg -l | grep -i tensorrt`, `/usr/src/tensorrt/bin/trtexec`, `/usr/local/cuda*/bin/nvcc`).
+Thử từ phiên Claude (`handoff/logs/review14/thu_ket_noi_nano.log`): ping unreachable, SSH BatchMode timeout, không có khóa SSH ⇒
+**không tới được lúc đó**; chưa kiểm được gì trên máy. Yêu cầu của mã: **Python ≥ 3.8** (vermin) ⇒ cần môi trường riêng
+(python3.8 apt + venv hoặc miniforge), giữ nguyên python3 hệ thống/torch — xem `scripts/nano/NANO_START_HERE.md` mục 1.
+
+### 1a. Lần thử trước (2026-09-20): KHÔNG tiếp cận được
 
 Bằng chứng: `handoff/logs/review8/thu_ket_noi_nano.log` (chạy 2026-09-20T08:02:47+07:00).
 
@@ -106,7 +116,14 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
 
-## 4b. Gói chuyển sang Nano (2026-09-21)
+## 4b. Gói chuyển sang Nano (2026-09-21, v2 `10d26fa`)
+
+`handoff/nano_transfer_latest.zip` 63.764.728 B sha256 `02518777…`: thêm so với v1 — cache **cắt đúng đoạn** frame 1–300
+(`nano_smoke_MVI_39031_f0001-0300`, giữ frame rỗng/`time_s`, `meta.json` nguyên văn) + tham chiếu `NANO-smoke`, cache gốc + tham chiếu
+`NANO-full`, `models/yolov8n.pt`, `requirements_nano.txt` (numpy/lap/pandas/pyyaml), `src/nano_env_check.py`; kiểm sạch trên 2 stack
+(PC; numpy 1.24/lap 0.5.12/không scipy) đều parity ĐẠT + bit-identical. Chi tiết `handoff/REVIEW14_CHI_TIET.md`.
+
+### 4b-cũ. Gói v1 (2026-09-21 sáng)
 
 `handoff/nano_transfer.zip` (dựng bằng `src/make_nano_transfer.py build`, kiểm bằng `verify`): mã + cấu hình + vendor + `scripts/nano/`, ONNX `yolov8n_640_op12.onnx` (đối chiếu trọng số với bản re-export từ `models/yolov8n.pt`: 127/127 initializer, 262/262 node giống hệt, chỉ khác metadata `date`), det cache `MVI_39031` (1470 frame), tham chiếu PC `pc-ref-{cv,ekf}` từ chính cache đó (backend NumPy; y hệt backend ultralytics), đoạn smoke frame 1–300 (JPG y nguyên + mp4 lossy), `NANO_START_HERE.md`, manifest SHA256. Kiểm gói trong thư mục sạch trên PC (`handoff/logs/nano_transfer/kiem_goi_sach.log`): manifest 516/516, import backend np chặn torch/ultralytics, `test_nano_parity` 20/20, replay CV/EKF + parity ĐẠT lệch 0 — **chỉ xác minh gói đủ**, không chứng minh tương thích Nano. Phần **chưa có mã**: suy luận TensorRT + NMS NumPy + adapter nối vào `run_tracking.track_video` (`NANO_START_HERE.md` mục 5).
 

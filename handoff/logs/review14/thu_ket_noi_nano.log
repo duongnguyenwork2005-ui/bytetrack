@@ -1,0 +1,11 @@
+# thu ket noi Nano - 2026-09-21T16:57:30
+PC IPv4: 10.11.53.64
+known_hosts co 10.11.53.239: 2 dong (nguoi dung da tung dang nhap)
+khoa SSH trong ~/.ssh: (khong co)
+$ ssh -o BatchMode=yes -o ConnectTimeout=8 jetson@10.11.53.239 "echo SSH_OK; uname -a"
+ssh: connect to host 10.11.53.239 port 22: Connection timed out
+$ ping -n 2 -w 2000 10.11.53.239
+Reply from 10.11.53.64: Destination host unreachable.
+Request timed out.
+    Packets: Sent = 2, Received = 1, Lost = 1 (50% loss),
+KET LUAN: thiet bi KHONG toi duoc tu phien nay (ping 100% loss, SSH timeout) -> lam tren PC, cung cap khoi lenh de nguoi dung chay tren Nano. Khong ghi mat khau.

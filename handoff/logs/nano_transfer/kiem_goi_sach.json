@@ -1,12 +1,17 @@
 {
-  "zip_sha256": "ec025e22d99fddbc3f315fbc0718ccc880233312ea825125cb0a5aa3aa5800f8",
-  "zip_bytes": 57712285,
+  "zip_sha256": "025187770c0876ad849ac32c27ba94b6aff934742f3592e80cf79ed8a99a8fd5",
+  "zip_bytes": 63764728,
+  "interpreter": "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
   "buoc": {
     "0_manifest": {
-      "n_file": 516,
+      "n_file": 536,
       "lech_hoac_thieu": []
     },
-    "1_import_np": {
+    "1a_nano_env_check": {
+      "exit": 0,
+      "ket_luan": "KET LUAN: DAT (1-4)"
+    },
+    "1b_import_np": {
       "exit": 0,
       "out": "{\"backend\": \"np\", \"torch\": false, \"ul\": false, \"fp_keys\": [\"backend\", \"hash_convention\", \"lap\", \"numpy\", \"scipy\", \"vendor_modules\"]}",
       "err": ""
@@ -15,9 +20,96 @@
       "exit": 0,
       "ket_qua": "KET QUA: 20/20 phep kiem tra PASS"
     },
-    "3_4_replay_parity_cv": {
+    "3_4_replay_parity_NANO-smoke_cv": {
       "replay_exit": 0,
       "parity_exit": 0,
+      "bit_identical_data_txt": true,
+      "n_dat": 1,
+      "n_video": 1,
+      "video": [
+        {
+          "video": "MVI_39031",
+          "n_ref": 545,
+          "n_test": 545,
+          "dat": true,
+          "max_d_bbox": null,
+          "max_d_conf": null
+        }
+      ],
+      "parity_json": {
+        "tolerance": {
+          "bbox": 0.001,
+          "conf": 1e-06,
+          "id": null
+        },
+        "ref": "data\\processed\\trackers\\NANO-smoke\\pc-ref-cv\\data",
+        "test": "data\\processed\\trackers\\NANO-smoke\\kiem-cv\\data",
+        "n_dat": 1,
+        "n_video": 1,
+        "ket_qua": [
+          {
+            "video": "MVI_39031",
+            "n_ref": 545,
+            "n_test": 545,
+            "max_bbox": 0.0,
+            "max_conf": 0.0,
+            "khoa_frame_id_khop": true,
+            "phan_hoach": "khop",
+            "phan_hoach_khop": true,
+            "phan_hoach_ly_do": "",
+            "id_tho_khop": true,
+            "dat": true
+          }
+        ]
+      }
+    },
+    "3_4_replay_parity_NANO-smoke_ekf": {
+      "replay_exit": 0,
+      "parity_exit": 0,
+      "bit_identical_data_txt": true,
+      "n_dat": 1,
+      "n_video": 1,
+      "video": [
+        {
+          "video": "MVI_39031",
+          "n_ref": 545,
+          "n_test": 545,
+          "dat": true,
+          "max_d_bbox": null,
+          "max_d_conf": null
+        }
+      ],
+      "parity_json": {
+        "tolerance": {
+          "bbox": 0.001,
+          "conf": 1e-06,
+          "id": null
+        },
+        "ref": "data\\processed\\trackers\\NANO-smoke\\pc-ref-ekf\\data",
+        "test": "data\\processed\\trackers\\NANO-smoke\\kiem-ekf\\data",
+        "n_dat": 1,
+        "n_video": 1,
+        "ket_qua": [
+          {
+            "video": "MVI_39031",
+            "n_ref": 545,
+            "n_test": 545,
+            "max_bbox": 0.0,
+            "max_conf": 0.0,
+            "khoa_frame_id_khop": true,
+            "phan_hoach": "khop",
+            "phan_hoach_khop": true,
+            "phan_hoach_ly_do": "",
+            "id_tho_khop": true,
+            "dat": true
+          }
+        ]
+      }
+    },
+    "3_4_replay_parity_NANO-full_cv": {
+      "replay_exit": 0,
+      "parity_exit": 0,
+      "bit_identical_data_txt": true,
       "n_dat": 1,
       "n_video": 1,
       "video": [
@@ -36,8 +128,8 @@
           "conf": 1e-06,
           "id": null
         },
-        "ref": "data\\processed\\trackers\\NANO-smoke\\pc-ref-cv\\data",
-        "test": "data\\processed\\trackers\\NANO-smoke\\kiem-cv\\data",
+        "ref": "data\\processed\\trackers\\NANO-full\\pc-ref-cv\\data",
+        "test": "data\\processed\\trackers\\NANO-full\\kiem-cv\\data",
         "n_dat": 1,
         "n_video": 1,
         "ket_qua": [
@@ -57,9 +149,10 @@
         ]
       }
     },
-    "3_4_replay_parity_ekf": {
+    "3_4_replay_parity_NANO-full_ekf": {
       "replay_exit": 0,
       "parity_exit": 0,
+      "bit_identical_data_txt": true,
       "n_dat": 1,
       "n_video": 1,
       "video": [
@@ -78,8 +171,8 @@
           "conf": 1e-06,
           "id": null
         },
-        "ref": "data\\processed\\trackers\\NANO-smoke\\pc-ref-ekf\\data",
-        "test": "data\\processed\\trackers\\NANO-smoke\\kiem-ekf\\data",
+        "ref": "data\\processed\\trackers\\NANO-full\\pc-ref-ekf\\data",
+        "test": "data\\processed\\trackers\\NANO-full\\kiem-ekf\\data",
         "n_dat": 1,
         "n_video": 1,
         "ket_qua": [
@@ -107,6 +200,15 @@
       "exit": 0,
       "out": "{\"n_jpg\": 300, \"jpg_shape\": [540, 960, 3], \"mp4_frames_doc\": 300}"
     }
+  },
+  "phien_ban_dung_de_kiem": {
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13",
+    "pandas": "2.3.3",
+    "yaml": "6.0.3",
+    "cv2": "5.0.0"
   },
   "ket_luan": "DAT: goi du file/du phu thuoc de replay + parity tren PC (KHONG chung minh tuong thich Nano)"
 }
