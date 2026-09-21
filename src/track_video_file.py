@@ -64,7 +64,10 @@ Phim khi --show: q thoat (ket qua da xu ly VAN duoc ghi day du), SPACE tam dung.
 DIEU PHOI cho launcher (tuy chon, chi anh huong dieu phoi, KHONG doi hanh vi tracking):
     --progress-file p.json   ghi JSON {trang_thai, frame, n_frames_khai_bao, fps_vong_lap_tam...} GIOI HAN
                              tan suat (moi --progress-every frame hoac >= 0,5 s), ghi nguyen tu (tmp + replace)
-    --stop-file stop.flag    file xuat hien -> hoan tat frame hien tai roi dung qua CUNG duong voi phim q
+    --stop-file stop.flag    file xuat hien -> hoan tat frame hien tai roi dung qua CUNG duong voi phim q;
+                             (L-F1) kiem CA trong vong tam dung SPACE -> khong doc them frame, van ghi du ket qua
+    Trang thai cuoi trong progress-file (hoan_tat/da_dung): fps_vong_lap_tam = n_frame / wall_vong_lap DA CHOT
+    (== run_meta.thoi_gian.fps_vong_lap, KHONG gom ghi ket qua); toc do toan luot ghi rieng `fps_toan_luot`.
 """
 from __future__ import annotations
 
@@ -472,20 +475,31 @@ def main() -> int:  # noqa: C901
     stop_path = Path(a.stop_file) if a.stop_file else None
     _tt = {"last_t": 0.0, "last_f": 0, "t0": None}
 
-    def ghi_tien_trinh(trang_thai_: str, frame: int = 0, n_khai_bao: int = 0, ep: bool = False, **them) -> None:
-        """Ghi JSON tien trinh, GIOI HAN: moi `--progress-every` frame HOAC >= 0,5 s, tru khi ep=True."""
+    def ghi_tien_trinh(trang_thai_: str, frame: int = 0, n_khai_bao: int = 0, ep: bool = False,
+                       t_vong_lap: float | None = None, **them) -> None:
+        """Ghi JSON tien trinh, GIOI HAN: moi `--progress-every` frame HOAC >= 0,5 s, tru khi ep=True.
+
+        `t_vong_lap`: (L-F3) khi vong lap DA KET THUC, truyen `wall_vong_lap` da chot de fps cuoi cung
+        pham vi voi `run_meta.thoi_gian.fps_vong_lap` (KHONG gom ghi MOT/CSV/cache/metadata sau vong lap).
+        Khi None (dang chay): tinh tu luc bat dau vong lap den bay gio.
+        """
         if progress_path is None:
             return
         now = time.perf_counter()
         if not ep and frame - _tt["last_f"] < a.progress_every and now - _tt["last_t"] < 0.5:
             return
         _tt["last_t"], _tt["last_f"] = now, frame
-        t_loop = (now - _tt["t0"]) if _tt["t0"] else 0.0
+        if t_vong_lap is not None:
+            t_loop = float(t_vong_lap)
+        else:
+            t_loop = (now - _tt["t0"]) if _tt["t0"] else 0.0
         d = {"trang_thai": trang_thai_, "frame": int(frame), "n_frames_khai_bao": int(n_khai_bao),
              "t_vong_lap_s": t_loop,
-             # fps cua VONG LAP tinh den luc nay (ke ca warm-up, ke ca ve/ghi/hien thi neu bat) -- KHONG phai fps tracker
+             # fps cua VONG LAP (ke ca warm-up, ke ca ve/ghi/hien thi neu bat) -- KHONG phai fps tracker;
+             # dang chay: tinh den luc nay; ket thuc: n_frame / wall_vong_lap da chot (== run_meta.fps_vong_lap)
              "fps_vong_lap_tam": (frame / t_loop if t_loop > 0 else None),
-             "pham_vi_fps": "vong lap ke ca warm-up va ve/ghi/hien thi; khong phai fps tracker hay detector rieng",
+             "pham_vi_fps": "vong lap ke ca warm-up va ve/ghi/hien thi; KHONG gom khoi tao va ghi ket qua sau "
+                            "vong lap; khong phai fps tracker hay detector rieng",
              "cap_nhat": time.strftime("%Y-%m-%dT%H:%M:%S"), **them}
         try:
             tmp_p = progress_path.with_suffix(progress_path.suffix + ".tmp")
@@ -583,15 +597,19 @@ def main() -> int:  # noqa: C901
     trang_thai = {"dung_som": False, "n_ve": 0, "ly_do_dung": None}
     wall_khoi_tao = time.perf_counter() - t_main
 
+    def _yeu_cau_dung() -> bool:
+        return stop_path is not None and stop_path.exists()
+
     def on_frame(frame_idx: int, out_arr: np.ndarray):
-        ok = _ve_hien_thi(frame_idx, out_arr)          # ve/ghi/hien thi (co the tra False khi bam q)
+        ok = _ve_hien_thi(frame_idx, out_arr)          # ve/ghi/hien thi (tra False khi bam q HOAC stop-file luc pause)
         ghi_tien_trinh("dang_chay", vd.n_frames, nguon.n_frames_khai_bao)
         if ok is False:
-            trang_thai["ly_do_dung"] = "phim q"
+            if trang_thai["ly_do_dung"] is None:       # _ve_hien_thi da ghi "stop-file" neu dung trong luc pause
+                trang_thai["ly_do_dung"] = "phim q"
             return False
         # Yeu cau dung tu launcher: hoan tat frame nay (da ve/ghi xong) roi dung qua CUNG duong voi phim q
         # -> track_video break -> generator close -> timing frame cuoi chot -> ghi du ket qua/cache.
-        if stop_path is not None and stop_path.exists():
+        if _yeu_cau_dung():
             trang_thai["dung_som"], trang_thai["ly_do_dung"] = True, "stop-file"
             return False
         return True
@@ -615,17 +633,27 @@ def main() -> int:  # noqa: C901
             cv2.imshow(cua_so, img)
             k = cv2.waitKey(1) & 0xFF
             if k == ord(" "):
+                # tam dung: bao cho launcher biet (ep ghi, khong cho toi ky ghi ke tiep)
+                ghi_tien_trinh("dang_chay", vd.n_frames, nguon.n_frames_khai_bao, ep=True, tam_dung=True)
                 while True:
                     k2 = cv2.waitKey(50) & 0xFF
                     if k2 == ord(" "):
+                        ghi_tien_trinh("dang_chay", vd.n_frames, nguon.n_frames_khai_bao, ep=True, tam_dung=False)
                         break
                     if k2 == ord("q"):
-                        trang_thai["dung_som"] = True
+                        trang_thai["dung_som"], trang_thai["ly_do_dung"] = True, "phim q"
+                        ghi_ve["show_ms"] = (pc() - t2) * 1e3
+                        return False
+                    # L-F1: yeu cau dung tu launcher (stop-file) trong luc TAM DUNG cung phai toi duoc:
+                    # thoat CUNG duong voi phim q (return False -> track_video break -> generator close ->
+                    # timing frame cuoi chot -> ghi du ket qua/cache). Khong doc them frame nao.
+                    if _yeu_cau_dung():
+                        trang_thai["dung_som"], trang_thai["ly_do_dung"] = True, "stop-file"
                         ghi_ve["show_ms"] = (pc() - t2) * 1e3
                         return False
             ghi_ve["show_ms"] = (pc() - t2) * 1e3
             if k == ord("q"):
-                trang_thai["dung_som"] = True
+                trang_thai["dung_som"], trang_thai["ly_do_dung"] = True, "phim q"
                 return False
         return True
 
@@ -649,7 +677,7 @@ def main() -> int:  # noqa: C901
     if loi_tran is not None:
         print(f"[LOI] {loi_tran}")
         print("[LOI] KHONG ghi ket qua: tracking da nhan detection bi cat (khong hop le theo chinh sach strict).")
-        ghi_tien_trinh("loi", vd.n_frames, nguon.n_frames_khai_bao, ep=True, loi=loi_tran)
+        ghi_tien_trinh("loi", vd.n_frames, nguon.n_frames_khai_bao, ep=True, t_vong_lap=wall_vong_lap, loi=loi_tran)
         return 3
 
     # ---- ghi ket qua ----
@@ -784,8 +812,14 @@ def main() -> int:  # noqa: C901
     print(f"[track_video] wall: khoi tao {wall_khoi_tao:.1f}s | vong lap {wall_vong_lap:.1f}s "
           f"({thoi_gian['fps_vong_lap']:.1f} fps, ke ca warm-up) | ghi {wall_ghi:.1f}s")
     print(f"[track_video] -> {out}")
+    # L-F3: trang thai cuoi dung n_frame + wall_vong_lap DA CHOT -> fps_vong_lap_tam == run_meta.thoi_gian.fps_vong_lap
+    # (KHONG gom ghi ket qua sau vong lap). Thoi gian ghi va toc do TOAN LUOT ghi rieng, ten rieng.
     ghi_tien_trinh("da_dung" if trang_thai["dung_som"] else "hoan_tat", len(df_p), nguon.n_frames_khai_bao,
-                   ep=True, out=str(out), ly_do_dung=trang_thai["ly_do_dung"])
+                   ep=True, t_vong_lap=wall_vong_lap, out=str(out), ly_do_dung=trang_thai["ly_do_dung"],
+                   wall_khoi_tao_s=wall_khoi_tao, wall_vong_lap_s=wall_vong_lap, wall_ghi_s=wall_ghi,
+                   wall_tong_s=thoi_gian["wall_tong_s"],
+                   fps_toan_luot=(len(df_p) / thoi_gian["wall_tong_s"] if thoi_gian["wall_tong_s"] > 0 else None),
+                   pham_vi_fps_toan_luot="n_frame / wall_tong (khoi tao + vong lap + ghi ket qua); khac fps_vong_lap")
     if cache_info:
         print(f"[track_video] det cache -> {det_cache.CACHE_ROOT / a.save_cache}  ({meta['replay_trang_thai']})")
     return 0
