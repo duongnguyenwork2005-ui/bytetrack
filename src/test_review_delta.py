@@ -21,6 +21,8 @@ Ba phep kiem hoi quy cho hai loi packager (review vong 3), moi phep dung REPO TA
  11. P2a - doi ten file code: ap patch len base phai cho ra DUNG target (ten moi co, ten cu BIEN MAT).
  12. P2b - hai file code moi TRUNG noi dung: ap patch len base phai co DU ca hai.
 Hai phep 11-12 so TOAN BO duong dan code/test/config voi target, khong chi exit code hay mot file.
+ 13. --support: file KHONG doi so voi base duoc gui kem o `support/` voi status `ho_tro` (hash base == target,
+     khong vao patch, khong tinh vao so file thay doi, co muc rieng trong DEPENDENCIES.md); file CO doi -> tu choi.
 
     python src/test_review_delta.py
 """
@@ -336,6 +338,26 @@ def main() -> int:
         test_p1_file_rieng_bi_bo_theo_doi()
         test_p2a_doi_ten()
         test_p2b_hai_file_trung_noi_dung()
+
+        # --- 13. --support: file khong doi gui kem, khong gia ghi thanh thay doi ---
+        r = run([PY, "src/make_review_delta.py", "--support", "src/khong_doi.py"], tmp)
+        with zipfile.ZipFile(z_path) as z:
+            names2 = set(z.namelist())
+            mj2 = json.loads(z.read("MANIFEST.json"))
+            rows2 = list(csv.DictReader(io.StringIO(z.read("MANIFEST.csv").decode("utf-8"))))
+            deps2 = z.read("DEPENDENCIES.md").decode("utf-8")
+            noi_dung = z.read("support/src/khong_doi.py").decode("utf-8") if "support/src/khong_doi.py" in names2 else ""
+            patch2 = z.read(next(n for n in names2 if n.startswith("patch/"))).decode("utf-8")
+        row = next((x for x in rows2 if x["path"] == "src/khong_doi.py"), None)
+        r_doi = run([PY, "src/make_review_delta.py", "--support", "src/tracker.py"], tmp)   # file CO doi
+        _check("--support file KHONG doi: nam o support/, status ho_tro, hash base == target, KHONG trong patch, "
+               "khong tinh vao so_file_trong_goi, co muc rieng trong DEPENDENCIES.md; file CO doi -> TU CHOI",
+               r.returncode == 0 and noi_dung == "GIU NGUYEN\n" and row is not None and row["status"] == "ho_tro"
+               and row["sha256_base"] == row["sha256_target"] != "" and row["trong_patch"] == "False"
+               and "src/khong_doi.py" not in patch2 and mj2["so_file_ho_tro"] == 1
+               and mj2["so_file_trong_goi"] == mj["so_file_trong_goi"] and "ho tro review" in deps2
+               and r_doi.returncode != 0 and "CO doi so voi base" in (r_doi.stdout + r_doi.stderr),
+               f"rc={r.returncode} row={row} rc_doi={r_doi.returncode} {(r_doi.stdout + r_doi.stderr)[-120:]}")
     except AssertionError:
         failed += 1
     finally:

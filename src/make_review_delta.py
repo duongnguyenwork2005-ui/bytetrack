@@ -63,6 +63,7 @@ SKIP_PREFIXES = ("handoff/archive/", "handoff/phase2_review", "handoff/review_de
                  # Ban LUU cua ket qua danh gia TRUOC mot vong sua: noi dung y het snapshot ma nguoi
                  # review DA CO (base), nen gui lai chi lam phinh goi. Van commit cuc bo de doi chieu.
                  "results/phase2/_PRE_")
+#: --support: file KHONG doi so voi base, gui kem trong `support/` (khong patch, khong tinh la thay doi)
 SKIP_SUFFIXES = (".zip", ".npz", ".pt", ".pth", ".mp4", ".avi", ".mkv", ".mov", ".parquet", ".diff")
 
 #: Phan loai file trong goi -> thu muc con trong ZIP.
@@ -290,7 +291,31 @@ def large_inputs_table() -> list[dict]:
     return rows
 
 
-def dependencies_md(base_info: dict, bo: list[dict], target: str) -> str:
+def collect_support(base: str, target: str, paths: list[str]) -> list[dict]:
+    """File HO TRO review (--support): KHONG doi giua base va target, gui kem de moi truong review co dung
+    ban hien hanh (vd. test cua packager). Khong nam trong patch, khong tinh la thay doi cua vong nay.
+    File co doi so voi base -> DUNG: no phai di theo duong thuong (patch + payload)."""
+    rows = []
+    for path in paths:
+        path = path.replace("\\", "/")
+        b_tgt = blob_at(target, path)
+        if b_tgt is None:
+            sys.exit(f"DUNG: --support {path} khong co trong target {target[:7]}")
+        if skip_reason(path):
+            sys.exit(f"DUNG: --support {path} thuoc dien bi loai ({skip_reason(path)})")
+        b_base = blob_at(base, path)
+        h_t, h_b = sha256_bytes(b_tgt), (sha256_bytes(b_base) if b_base is not None else "")
+        if h_t != h_b:
+            sys.exit(f"DUNG: --support {path} CO doi so voi base {base[:7]} -> no da/phai nam trong patch, "
+                     "khong dung --support")
+        rows.append({"status": "ho_tro", "path": path, "trong_patch": False, "trong_goi": f"support/{path}",
+                     "ly_do_khong_gom": "", "bytes": len(b_tgt), "sha256_base": h_b, "sha256_target": h_t,
+                     "ghi_chu": "KHONG doi so voi base (cung sha256); gui kem de ho tro review, KHONG phai "
+                                "thay doi cua vong nay"})
+    return rows
+
+
+def dependencies_md(base_info: dict, bo: list[dict], target: str, ho_tro: list[dict] | None = None) -> str:
     """Liet ke file PHU THUOC khong dong goi + vi tri trong snapshot goc + sha256."""
     lines = [
         "# Phu thuoc KHONG nam trong goi delta", "",
@@ -306,6 +331,15 @@ def dependencies_md(base_info: dict, bo: list[dict], target: str) -> str:
     for r in sorted(bo, key=lambda r: r["path"]):
         lines.append(f"| `{Path(r['path']).name}` | `{r['path']}` | `{(r['sha256_base'] or '-')[:12]}` | "
                      f"`{(r['sha256_target'] or '-')[:12]}` | {r['ly_do_khong_gom']} |")
+    if ho_tro:
+        lines += [
+            "", "## File ho tro review gui kem (`support/`) -- KHONG phai thay doi cua vong nay", "",
+            "Cac file nay **khong doi** giua base va target (sha256 base == target). Chung duoc gui kem de moi",
+            "truong review co dung ban hien hanh (vd. test cua packager); khong nam trong patch.", "",
+            "| file | vi tri trong ZIP | sha256 (base == target) |", "|:--|:--|:--|",
+        ]
+        for r in sorted(ho_tro, key=lambda r: r["path"]):
+            lines.append(f"| `{r['path']}` | `{r['trong_goi']}` | `{r['sha256_target'][:12]}` |")
     lines += [
         "", "## Dau vao lon giu tren may (khong bao gio dong goi)", "",
         "Bang thong ke + hash trong `data/large_inputs_hashes.csv` cua goi nay. Du lieu goc "
@@ -319,9 +353,10 @@ def dependencies_md(base_info: dict, bo: list[dict], target: str) -> str:
 # --------------------------------------------------------------------------------------- main
 
 
-def build(base_info: dict, target: str, dry: bool) -> int:
+def build(base_info: dict, target: str, dry: bool, support: list[str] | None = None) -> int:
     base = base_info["base_commit"]
     gom, bo = collect(base, target)
+    ho_tro = collect_support(base, target, support or [])
     if not gom and not bo:
         print(f"khong co thay doi nao giua {base[:7]} va {target[:7]}")
         return 1
@@ -335,7 +370,7 @@ def build(base_info: dict, target: str, dry: bool) -> int:
 
     tong = sum(r["bytes"] for r in gom)
     print(f"base {base[:7]} -> target {target[:7]}: gom {len(gom)} file ({tong/1e6:.2f} MB), "
-          f"bo qua {len(bo)} file")
+          f"bo qua {len(bo)} file" + (f", ho tro review (khong doi) {len(ho_tro)} file" if ho_tro else ""))
     for r in sorted(gom, key=lambda r: -r["bytes"])[:8]:
         print(f"    {r['bytes']:>9,} B  {r['path']}")
     if dry:
@@ -344,7 +379,7 @@ def build(base_info: dict, target: str, dry: bool) -> int:
             print(f"    {r['ly_do_khong_gom']:<52s} {r['path']}")
         return 0
 
-    manifest_rows = sorted(gom + bo, key=lambda r: (r.get("trong_goi") or "zzz", r["path"]))
+    manifest_rows = sorted(gom + bo + ho_tro, key=lambda r: (r.get("trong_goi") or "zzz", r["path"]))
     buf = io.StringIO()
     w = csv.DictWriter(buf, fieldnames=["status", "path", "trong_goi", "trong_patch",
                                         "ly_do_khong_gom", "trung_noi_dung_voi", "bytes",
@@ -364,10 +399,10 @@ def build(base_info: dict, target: str, dry: bool) -> int:
         "target_subject": git("log", "-1", "--format=%s", target).strip(),
         "tao_luc": dt.datetime.now().isoformat(timespec="seconds"),
         "commits": [ln for ln in git("log", "--format=%h %s", f"{base}..{target}").splitlines() if ln],
-        "so_file_trong_goi": len(gom), "so_file_bo_qua": len(bo),
+        "so_file_trong_goi": len(gom), "so_file_bo_qua": len(bo), "so_file_ho_tro": len(ho_tro),
         "so_duong_dan_trong_patch": sum(1 for r in gom + bo if r.get("trong_patch")),
         "thu_tu_doc": ["REVIEW_BRIEF.md", patch_name, "logs/", "data/", "DEPENDENCIES.md"],
-        "file_trong_goi": gom, "file_bo_qua": bo,
+        "file_trong_goi": gom, "file_bo_qua": bo, "file_ho_tro": ho_tro,
         "dau_vao_lon_giu_tren_may": large,
     }, ensure_ascii=False, indent=2) + "\n"
 
@@ -383,11 +418,11 @@ def build(base_info: dict, target: str, dry: bool) -> int:
         z.writestr("REVIEW_BRIEF.md", brief_text(base_info, target))
         z.writestr("MANIFEST.csv", manifest_csv)
         z.writestr("MANIFEST.json", manifest_json)
-        z.writestr("DEPENDENCIES.md", dependencies_md(base_info, bo, target))
+        z.writestr("DEPENDENCIES.md", dependencies_md(base_info, bo, target, ho_tro))
         z.writestr("data/large_inputs_hashes.csv", lbuf.getvalue())
         if patch:
             z.writestr(patch_name, patch)
-        for r in gom:
+        for r in gom + ho_tro:
             b = blob_at(target, r["path"])
             if b is None:                                   # khong nen xay ra (A/M luon co blob)
                 continue
@@ -421,6 +456,9 @@ def main() -> int:
     ap.add_argument("--round", type=int, help="so vong review (di kem --set-base)")
     ap.add_argument("--base-snapshot", help="duong dan goi day du tuong ung (di kem --set-base)")
     ap.add_argument("--base-note", help="mo ta base (di kem --set-base)")
+    ap.add_argument("--support", nargs="*", default=None, metavar="PATH",
+                    help="file KHONG doi so voi base gui kem trong support/ de ho tro review "
+                         "(khong vao patch, khong tinh la thay doi); file co doi -> tu choi")
     a = ap.parse_args()
 
     if a.set_base:
@@ -435,7 +473,7 @@ def main() -> int:
         info = {**info, "base_commit": full, "base_commit_short": full[:7]}
         print(f"(dung base ghi de {full[:7]}; {BASE_FILE.name} KHONG bi thay doi)")
     target = git("rev-parse", a.target).strip()
-    return build(info, target, a.dry_run)
+    return build(info, target, a.dry_run, a.support)
 
 
 if __name__ == "__main__":
