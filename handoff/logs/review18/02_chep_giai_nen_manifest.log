@@ -1,0 +1,14 @@
+# 2-3. chep + sha256 + giai nen + manifest - 2026-09-22T18:02:47
+$ scp handoff/nano_transfer_latest.zip nano:~/nano_transfer_v5.zip
+zip_v5_chua_co
+scp exit=1
+$ sha256sum nano_transfer_v5.zip
+ae5fd57b6fc99590cae7c4c1860ad3ce03a51c67133288f967fffd0e83331dac  nano_transfer_v5.zip
+SHA256_KHOP
+giai nen: 546 file tai /home/jetson/nano_run/v5/nano_transfer
+$ sha256sum -c MANIFEST_SHA256.txt --quiet
+MANIFEST_OK
+/home/jetson/nano_run/nano_transfer_v3
+/home/jetson/nano_run/v4
+/home/jetson/nano_run/v5
+exit=0

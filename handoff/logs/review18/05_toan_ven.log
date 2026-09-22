@@ -1,0 +1,28 @@
+# 5. xac minh toan ven: output moi trong v5, pc-ref bat bien, v3/v4 khong doi - 2026-09-22T18:05:55
+== output trong v5 (chi nano-* moi duoc tao):
+data/processed/trackers/NANO-full:
+nano-cv
+nano-ekf
+pc-ref-cv
+pc-ref-ekf
+
+data/processed/trackers/NANO-smoke:
+nano-cv
+nano-ekf
+pc-ref-cv
+pc-ref-ekf
+== pc-ref trong v5: so file va hash tong hop (truoc == bản đóng gói):
+pc_ref_sha256.txt == pc_ref_sha256_truoc.txt (BANG NHAU)
+== hash pc-ref HIEN TAI (sau chay) so voi ban dong goi:
+pc-ref SAU CHAY == ban dong goi (BAT BIEN)
+== v3/v4 khong doi (mtime + so file):
+  /home/jetson/nano_run/nano_transfer_v3: 610 file, sua gan nhat 2026-09-22+14:34:17.8524021310
+  /home/jetson/nano_run/v4/nano_transfer: 626 file, sua gan nhat 2026-09-22+14:57:22.3792377430
+== khong co file nao trong v3/v4 duoc sua sau 2026-09-22T19:03:23 (luc tao v5):
+(trong = khong co)
+== dia:
+/dev/mmcblk1p1   58G   30G   25G  55% /
+(khong co results_nano -> chua chay 03_e2e_nano.sh)
+(khong co engine trong v5)
+nano_smoke_MVI_39031_f0001-0300
+yolov8n-coco_conf0.05_all

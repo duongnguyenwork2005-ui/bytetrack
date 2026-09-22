@@ -1,0 +1,13 @@
+# vong 18: trien khai goi v5 tren Nano (chi Moc 1) - 2026-09-22T16:47:40 HEAD 365dc2c base a5eec39
+--- goi v5 tren PC:
+ae5fd57b6fc99590cae7c4c1860ad3ce03a51c67133288f967fffd0e83331dac *handoff/nano_transfer_latest.zip
+63801260
+--- 1. SSH bang khoa hien co (~/.ssh/id_ed25519_nano, alias nano -> jetson@10.11.59.212):
+$ ssh -o BatchMode=yes -o ConnectTimeout=10 nano "echo SSH_OK; hostname; cat /etc/nv_tegra_release | head -1; ls -d ~/nano_run/*"
+SSH_OK
+jetson-desktop
+# R32 (release), REVISION: 7.5, GCID: 36557527, BOARD: t210ref, EABI: aarch64, DATE: Tue Jun 11 23:12:44 UTC 2024
+/home/jetson/nano_run/nano_transfer_v3
+/home/jetson/nano_run/v4
+v5_chua_co
+exit=0
