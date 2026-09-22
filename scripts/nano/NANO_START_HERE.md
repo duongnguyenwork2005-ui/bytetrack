@@ -15,7 +15,7 @@ Mỗi bước phải đạt mới sang bước sau. Nguồn gói (commit code / 
 | Thư mục / file | Nội dung | Bước |
 |:--|:--|:--|
 | `NANO_START_HERE.md`, `PACKAGE_INFO.json`, `MANIFEST_SHA256.txt`, `requirements_nano.txt` | tài liệu; nguồn/hash; phụ thuộc **tối thiểu** (từ chuỗi import thật, không phải requirements PC) | 0–1 |
-| `src/` (không `src/demo/**`), `src/mot_datasets/` | mã tracker, backend NumPy (`ul_backend.py`, `bytetrack_np.py`, `tracker_ctrv.py`, `ekf_ctrv.py`…), `run_tracking.py` (replay cache), **`nano_run_cache.py`** (script chạy trên thiết bị: kiểm đầu vào, hash tham chiếu, chỉ ghi `nano-*`), `nano_parity.py` + `test_nano_parity.py`, `nano_env_check.py`, **`nano_detector.py`** (Python 3.6: TensorRT + tiền/hậu xử lý NumPy → det cache), `nano_det_compare.py`, `render_mot_video.py` | 1–6 |
+| `src/` (không `src/demo/**`), `src/mot_datasets/` | mã tracker, backend NumPy (`ul_backend.py`, `bytetrack_np.py`, `tracker_ctrv.py`, `ekf_ctrv.py`…), `run_tracking.py` (replay cache), **`nano_run_cache.py`** (script chạy trên thiết bị: preflight, hash tham chiếu, chỉ ghi `nano-*`), **`nano_preflight.py`** (hợp đồng đầu vào **dùng chung**, cú pháp 3.6), `nano_env_check.py`, `nano_parity.py` + `test_nano_parity.py`, `test_nano_run_cache.py`, **`nano_detector.py`** (Python 3.6: TensorRT + tiền/hậu xử lý NumPy → det cache), `nano_det_compare.py`, `render_mot_video.py` | 1–6 |
 | `configs/bytetrack_ekf_ctrv.yaml`, `bytetrack_ukf_ctrv.yaml` (+ YAML thí nghiệm, không cần) | cấu hình bộ lọc đã khóa; CV dùng `bytetrack.yaml` của bản vendor | 3 |
 | `third_party/ultralytics_trackers/` | bản **vendor** vòng lặp ByteTrack ultralytics 8.4.141 (**AGPL-3.0**, `LICENSE`, `PROVENANCE.json` sha256) — không cần torch/ultralytics | 2–3 |
 | `scripts/nano/` | `00_check_stack.sh`, `01_build_engine.sh`, `02_benchmark_engine.sh`, **`03_e2e_nano.sh`** (chuỗi mốc 2), `trt82_ops.txt`, `README.md` | 1, 6 |
@@ -60,8 +60,13 @@ python src/nano_env_check.py --json reference/env_check_nano.json     # Python>=
 bash scripts/nano/00_check_stack.sh                                   # JetPack/CUDA/TensorRT/RAM/nvpmodel (cho bước 6)
 ```
 
-`nano_env_check.py` viết bằng cú pháp 3.6 nên chạy được cả trên Python hệ thống để **báo rõ** thiếu gì; exit 0 = đạt.
-Thiếu gói nào → ghi lại nguyên văn lỗi, **không** đoán.
+`nano_env_check.py` viết bằng cú pháp 3.6 nên chạy được cả trên Python hệ thống để **báo rõ** thiếu gì; **exit 0 chỉ khi**
+Python ≥ 3.8, numpy/lap/pandas/yaml import được, backend np không kéo torch/ultralytics, **và** hợp đồng đầu vào
+(`src/nano_preflight.py`, dùng chung với `nano_run_cache.py`) đạt: **đúng hai** cache `nano_smoke_MVI_39031_f0001-0300` +
+`yolov8n-coco_conf0.05_all` (mỗi cache: `meta.json` parse được; `MVI_39031.npz` đọc được, đủ 7 mảng, Σ`n_per_frame` = số box,
+`frame_idx`/`time_s` tăng ngặt; `MVI_39031.json` parse được và khớp `video`/`n_frames`/`n_boxes`), **đủ bốn** file
+`NANO-{smoke,full}/pc-ref-{cv,ekf}/data/MVI_39031.txt` đọc được (≥ 1 dòng MOTChallenge hợp lệ), YAML, mã. "Có thư mục"
+**không** đủ. Thiếu gói nào → ghi lại nguyên văn lỗi, **không** đoán.
 
 ## 2. Import backend NumPy (không kéo torch/ultralytics)
 
@@ -76,9 +81,10 @@ python src/test_nano_parity.py        # tự tạo fixture; mong 20/20 PASS
 python src/nano_run_cache.py                 # mặc định --tag nano; --chi-smoke nếu chỉ muốn 300 frame
 ```
 
-Script làm đúng thứ tự: (0) kiểm **đầu vào** — 2 cache (meta/npz đủ mảng/sidecar), **đủ 4 tham chiếu PC**
-(`NANO-smoke/pc-ref-{cv,ekf}`, `NANO-full/pc-ref-{cv,ekf}`), YAML, mã, backend np import được với torch/ultralytics
-**bị chặn** — thiếu bất kỳ thứ gì → **báo lỗi, exit 2, không chạy**; (1) hash SHA256 toàn bộ cây `pc-ref-*` và đối chiếu
+Script làm đúng thứ tự: (0) **preflight** = cùng hợp đồng `nano_preflight.py` với `nano_env_check.py` (2 cache: meta parse,
+npz đủ mảng/đếm khớp/timeline, **sidecar parse được + đúng schema**; **đủ 4 tham chiếu PC** đọc được; YAML; mã) **và**
+`nano_env_check.py` phải exit 0 (nonzero = lỗi môi trường, tail ghi vào log/JSON) **và** backend np import được với
+torch/ultralytics **bị chặn** — thiếu/hỏng bất kỳ thứ gì → **exit 2, không gọi `run_tracking.py`, không tạo `<tag>-*`**; (1) hash SHA256 toàn bộ cây `pc-ref-*` và đối chiếu
 `reference/pc_ref_sha256.txt` do PC đóng gói; (2) smoke: CV rồi EKF từ `nano_smoke_MVI_39031_f0001-0300` → `nano_parity`
 với `pc-ref` + kiểm bit-identical; smoke không đạt → **dừng**, không chạy full; (3) full 1470 frame tương tự;
 (4) hash lại `pc-ref-*` → phải y hệt. Kết quả: `data/processed/trackers/NANO-{smoke,full}/nano-{cv,ekf}/`,

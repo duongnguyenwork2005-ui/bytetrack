@@ -6,10 +6,12 @@ Script RIENG cho thiet bi: CHI ghi output `nano-*`; KHONG bao gio tao lai `pc-re
     -> data/processed/trackers/NANO-smoke/<tag>-{cv,ekf}/ , NANO-full/<tag>-{cv,ekf}/
     -> reference/nano_run_<YYYYmmdd-HHMMSS>.{json,log}, reference/parity_<tag>_{smoke,full}_{cv,ekf}.json
 
-Thu tu (finding 2: kiem DAU VAO truoc, thieu -> LOI, khong chay):
-  0. Kiem: cache smoke + cache goc (meta.json, npz doc duoc va du mang, sidecar), DU BON tham chieu PC
-     (NANO-smoke/pc-ref-cv|ekf, NANO-full/pc-ref-cv|ekf: data/MVI_39031.txt doc duoc), YAML tracker, backend np import
-     duoc (CHAN torch/ultralytics tru khi --khong-chan).
+Thu tu (finding 2 + review 20207ec N15-P1/P2: kiem DAU VAO va MOI TRUONG truoc, thieu/hong -> exit 2, KHONG chay,
+KHONG tao <tag>-*):
+  0. Hop dong dau vao dung chung `nano_preflight.kiem_dau_vao` (cung validator voi nano_env_check.py): DUNG hai cache
+     (meta parse; npz du mang/dem khop/timeline; SIDECAR PARSE DUOC + dung schema), DU BON tham chieu PC doc duoc, YAML,
+     ma. `nano_env_check.py` phai exit 0 (nonzero = loi moi truong -> exit 2, ghi tail vao log/JSON). Backend np import
+     duoc voi torch/ultralytics BI CHAN (tru --khong-chan).
   1. Hash SHA256 toan bo cay pc-ref-* TRUOC khi chay (ghi reference/pc_ref_sha256_truoc.txt) va doi chieu voi
      reference/pc_ref_sha256.txt do PC dong goi (neu co) -> khac => LOI.
   2. Smoke (cache cat 300 frame): CV roi EKF -> parity voi pc-ref (tolerance cong bo trong nano_parity.py) + bit-identical.
@@ -88,51 +90,22 @@ def main() -> int:
     log: list[str] = [f"# nano_run_cache {ts} goc={goc} python={sys.executable} {sys.version.split()[0]} tag={a.tag}"]
     kq: dict = {"goc": str(goc), "python": sys.version, "executable": sys.executable, "tag": a.tag, "bat_dau": ts, "buoc": {}}
 
-    # ---- 0. kiem dau vao ----
-    import numpy as np
-    thieu = []
-    for ten, (cid, split) in CACHES.items():
-        cdir = goc / "data" / "interim" / "det_cache" / cid
-        for f in ("meta.json", f"{VIDEO}.npz", f"{VIDEO}.json"):
-            if not (cdir / f).is_file():
-                thieu.append(f"cache {ten}: {cdir / f}")
-        if (cdir / f"{VIDEO}.npz").is_file():
-            try:
-                z = np.load(cdir / f"{VIDEO}.npz")
-                can = ("frame_idx", "n_per_frame", "unreadable", "truncated", "time_s", "data", "orig_shape")
-                miss = [k for k in can if k not in z.files]
-                if miss:
-                    thieu.append(f"cache {ten}: npz thieu mang {miss}")
-                elif int(z["n_per_frame"].sum()) != len(z["data"]):
-                    thieu.append(f"cache {ten}: tong n_per_frame != len(data)")
-                else:
-                    kq["buoc"].setdefault("0_cache", {})[ten] = {"n_frame": int(len(z["frame_idx"])), "n_box": int(len(z["data"])),
-                                                                "n_frame_rong": int((z["n_per_frame"] == 0).sum())}
-            except Exception as e:  # noqa: BLE001
-                thieu.append(f"cache {ten}: npz khong doc duoc ({type(e).__name__}: {e})")
-        if (cdir / "meta.json").is_file():
-            try:
-                json.loads((cdir / "meta.json").read_text(encoding="utf-8"))
-            except Exception as e:  # noqa: BLE001
-                thieu.append(f"cache {ten}: meta.json khong doc duoc ({e})")
-        for t in TRACKERS:
-            p = goc / "data" / "processed" / "trackers" / split / f"pc-ref-{t}" / "data" / f"{VIDEO}.txt"
-            if not p.is_file():
-                thieu.append(f"tham chieu PC thieu: {p}")
-            else:
-                try:
-                    n = sum(1 for _ in open(p, encoding="utf-8"))
-                    kq["buoc"].setdefault("0_pc_ref", {})[f"{split}/pc-ref-{t}"] = {"n_hang": n}
-                except Exception as e:  # noqa: BLE001
-                    thieu.append(f"tham chieu PC khong doc duoc: {p} ({e})")
-    for t, y in TRACKERS.items():
-        if "/" in y and not (goc / y).is_file():
-            thieu.append(f"YAML tracker thieu: {y}")
-    for s in ("src/run_tracking.py", "src/nano_parity.py", "third_party/ultralytics_trackers/byte_tracker.py"):
-        if not (goc / s).is_file():
-            thieu.append(f"thieu ma: {s}")
-    r = run_py("src/nano_env_check.py", [], goc, False, log) if (goc / "src/nano_env_check.py").is_file() else None
-    kq["buoc"]["0_env_check_exit"] = (r.returncode if r else None)
+    # ---- 0. kiem dau vao (validator DUNG CHUNG voi nano_env_check.py) + moi truong ----
+    sys.path.insert(0, str(goc / "src"))
+    import nano_preflight
+    pf = nano_preflight.kiem_dau_vao(str(goc))
+    thieu = list(pf["loi"])
+    kq["buoc"]["0_cache"] = pf["cache"]
+    kq["buoc"]["0_pc_ref"] = pf["pc_ref"]
+    if (goc / "src/nano_env_check.py").is_file():
+        r = run_py("src/nano_env_check.py", [], goc, False, log)
+        tail = [ln for ln in (r.stdout + r.stderr).strip().splitlines() if "KHONG DAT" in ln or "KET LUAN" in ln][-8:]
+        kq["buoc"]["0_env_check"] = {"exit": r.returncode, "tail": tail}
+        if r.returncode != 0:                      # N15-P2: moi truong khong dat = loi dau vao -> exit 2, khong chay
+            thieu.append("nano_env_check.py exit %d: %s" % (r.returncode, " | ".join(tail)[:400]))
+    else:
+        kq["buoc"]["0_env_check"] = {"exit": None, "tail": ["thieu src/nano_env_check.py"]}
+        thieu.append("thieu src/nano_env_check.py")
     code = "import sys, json\nsys.path.insert(0, 'src')\nimport ul_backend\nprint(json.dumps({'backend': ul_backend.backend_name(), 'torch': 'torch' in sys.modules, 'ul': 'ultralytics' in sys.modules}))"
     r = subprocess.run([sys.executable, "-c", (BLOCK if not a.khong_chan else "") + code], cwd=str(goc), capture_output=True, text=True,
                        env={**os.environ, "BYTETRACK_BACKEND": "np"})

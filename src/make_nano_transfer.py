@@ -484,15 +484,62 @@ def verify(zip_path: Path, py: str = PY, suffix: str = "") -> int:
                                             "chay": {k: {kk: v.get(kk) for kk in ("replay_exit", "parity_exit", "dat", "n_ref", "n_test", "bit_identical_data_txt", "wall_s")}
                                                      for k, v in rj.get("buoc", {}).items() if k.startswith("2_")}}
         ok_all &= r.returncode == 0 and rj.get("ket_luan") == "DAT"
-        # 4b. thieu dau vao -> nano_run_cache phai bao LOI (exit 2), khong chay: doi ten tam 1 tham chieu
+        # 4b. NEGATIVE (review 20207ec): moi truong hop -> nano_run_cache exit 2, KHONG tao <tag>-*, khong chay tracker;
+        #     nano_env_check nonzero khi asset khong dung duoc. Cay pc-ref khong doi sau tat ca.
+        def _out(tag):
+            return sorted(str(q.relative_to(g)) for q in (g / "data/processed/trackers").glob(f"*/{tag}-*"))
+        def _khong_buoc2(tag):
+            fs = sorted((g / "reference").glob("nano_run_*.json"))
+            jj = json.loads(fs[-1].read_text(encoding="utf-8")) if fs else {}
+            return not any(k.startswith("2_") for k in jj.get("buoc", {}))
+        env_pkg = {**os.environ, "PYTHONIOENCODING": "utf-8"}
+        neg = {}
+        # (i) thieu 1 tham chieu
         pref = g / "data/processed/trackers" / SPLIT_FULL / "pc-ref-ekf" / "data" / f"{VIDEO}.txt"
         pref.rename(pref.with_suffix(".txt.tam"))
         try:
-            r = run([py, "src/nano_run_cache.py", "--tag", "kiem2"], g, {**os.environ, "PYTHONIOENCODING": "utf-8"}, log)
+            r = run([py, "src/nano_run_cache.py", "--tag", "neg1"], g, env_pkg, log)
         finally:
             pref.with_suffix(".txt.tam").rename(pref)
-        kq["buoc"]["4b_thieu_dau_vao_bao_loi"] = {"exit": r.returncode, "khong_tao_output": not (g / "data/processed/trackers" / SPLIT / "kiem2-cv").exists()}
-        ok_all &= r.returncode == 2 and not (g / "data/processed/trackers" / SPLIT / "kiem2-cv").exists()
+        neg["i_thieu_pc_ref"] = {"exit": r.returncode, "output": _out("neg1"), "khong_buoc_2": _khong_buoc2("neg1")}
+        # (ii) sidecar hong (N15-P1)
+        side = g / "data/interim/det_cache" / SMOKE_CACHE_ID / f"{VIDEO}.json"; goc_side = side.read_bytes()
+        side.write_text("{ bad json", encoding="utf-8")
+        try:
+            r = run([py, "src/nano_run_cache.py", "--tag", "neg2"], g, env_pkg, log)
+        finally:
+            side.write_bytes(goc_side)
+        neg["ii_sidecar_hong"] = {"exit": r.returncode, "output": _out("neg2"), "khong_buoc_2": _khong_buoc2("neg2")}
+        # (iii) thieu lap (N15-P2): goi gia `lap` nem ImportError dat truoc PYTHONPATH
+        fake = tmp / "fake_lap"; fake.mkdir(exist_ok=True)
+        (fake / "lap.py").write_text("raise ImportError('lap bi chan (kiem goi)')\n", encoding="utf-8")
+        env_nolap = {**env_pkg, "PYTHONPATH": str(fake) + os.pathsep + os.environ.get("PYTHONPATH", "")}
+        r0 = run([py, "src/nano_env_check.py"], g, env_nolap, log)
+        r = run([py, "src/nano_run_cache.py", "--tag", "neg3"], g, env_nolap, log)
+        neg["iii_thieu_lap"] = {"env_check_exit": r0.returncode, "exit": r.returncode, "output": _out("neg3"), "khong_buoc_2": _khong_buoc2("neg3")}
+        # (iv) nano_env_check doc lap: xoa NPZ + file tham chieu (N15-P3)
+        mv = []
+        for q in list((g / "data/interim/det_cache").glob(f"*/{VIDEO}.npz")) + list((g / "data/processed/trackers").glob(f"*/pc-ref-*/data/{VIDEO}.txt")):
+            q2 = q.with_suffix(q.suffix + ".tam"); q.rename(q2); mv.append((q, q2))
+        try:
+            r = run([py, "src/nano_env_check.py"], g, env_pkg, log)
+        finally:
+            for q, q2 in mv:
+                q2.rename(q)
+        neg["iv_env_check_thieu_npz_va_pc_ref"] = {"exit": r.returncode, "in_DAT_1_4": "DAT (1-4)" in r.stdout}
+        kq["buoc"]["4b_negative"] = neg
+        ok_all &= (neg["i_thieu_pc_ref"]["exit"] == 2 and neg["i_thieu_pc_ref"]["output"] == [] and neg["i_thieu_pc_ref"]["khong_buoc_2"]
+                   and neg["ii_sidecar_hong"]["exit"] == 2 and neg["ii_sidecar_hong"]["output"] == [] and neg["ii_sidecar_hong"]["khong_buoc_2"]
+                   and neg["iii_thieu_lap"]["env_check_exit"] != 0 and neg["iii_thieu_lap"]["exit"] == 2 and neg["iii_thieu_lap"]["output"] == []
+                   and neg["iii_thieu_lap"]["khong_buoc_2"]
+                   and neg["iv_env_check_thieu_npz_va_pc_ref"]["exit"] != 0 and not neg["iv_env_check_thieu_npz_va_pc_ref"]["in_DAT_1_4"])
+        # cay pc-ref sau tat ca negative == ban dong goi
+        chuan = set(ln.strip() for ln in (g / "reference/pc_ref_sha256.txt").read_text(encoding="utf-8").splitlines() if ln.strip())
+        hien = set(f"{sha256_file(q)}  {q.relative_to(g).as_posix()}" for split in (SPLIT, SPLIT_FULL) for t in TRACKERS
+                   for q in sorted((g / "data/processed/trackers" / split / f"pc-ref-{t}").rglob("*")) if q.is_file())
+        kq["buoc"]["4d_pc_ref_khong_doi_sau_negative"] = (hien == chuan)
+        ok_all &= hien == chuan
+        log.append(f"4b negative: {json.dumps(neg, ensure_ascii=False)} | pc-ref khong doi: {hien == chuan}")
         # 4c. nano_det_compare: cache cat vs cache goc (tien to) -> phai ghep 100%, IoU 1, dconf 0
         pj = g / "reference" / "det_compare_kiem.json"
         r = run([py, "src/nano_det_compare.py", "--a", SMOKE_CACHE_ID, "--b", CACHE_ID, "--video", VIDEO, "--max-frames", str(SMOKE_FRAMES[1]),

@@ -15,9 +15,12 @@ Kiem (moi muc DAT / KHONG DAT / BO QUA, khong doan):
   2. Goi bat buoc cho duong tracker-tu-cache: numpy, lap (lap.lapjv), pandas, yaml  (scipy: TUY CHON --
      chi dung khi use_lap=False; opencv: chi cho buoc chay video).
   3. Backend NumPy import duoc voi torch/ultralytics BI CHAN (khong keo hai goi nay).
-  4. Cache + ban tham chieu trong goi doc duoc (npz co du mang, frame rong duoc giu, time_s tang).
+  4. HOP DONG DAU VAO (src/nano_preflight.py, dung chung voi nano_run_cache.py -- review 20207ec N15-P3): DUNG hai cache
+     (meta.json parse duoc; MVI_39031.npz du mang, sum(n_per_frame)==len(data), frame_idx/time_s tang ngat; sidecar parse
+     duoc va khop schema) va DU BON file tham chieu PC doc duoc (>= 1 dong MOTChallenge hop le); YAML + ma. "Co thu muc"
+     KHONG du. Thieu/hong bat ky thu gi -> KHONG DAT.
   5. Thong tin he thong: uname, /etc/nv_tegra_release (neu co), CPU/RAM/dia trong, nvpmodel (neu co).
-Exit 0 khi 1-4 DAT; exit 1 neu co muc KHONG DAT.
+Exit 0 CHI khi 1-4 deu DAT; exit 1 neu co muc KHONG DAT.
 """
 import json
 import os
@@ -110,44 +113,21 @@ def main():
     else:
         ghi("3. backend np (chan torch/ultralytics)", "BO QUA", "Python < 3.8, khong import duoc ma nguon")
 
-    # 4. cache + tham chieu trong goi
+    # 4. HOP DONG DAU VAO: validator dung chung (src/nano_preflight.py) -- khong "co thu muc la du"
     try:
-        import numpy as np
-        cdir = os.path.join(ROOT, "data", "interim", "det_cache")
-        caches = sorted(d for d in os.listdir(cdir)) if os.path.isdir(cdir) else []
-        if not caches:
-            ghi("4. det cache trong goi", "KHONG DAT", "khong co %s" % cdir)
-        for cid in caches:
-            d = os.path.join(cdir, cid)
-            meta_ok = os.path.isfile(os.path.join(d, "meta.json"))
-            npzs = sorted(f for f in os.listdir(d) if f.endswith(".npz"))
-            for f in npzs:
-                z = np.load(os.path.join(d, f))
-                can = ("frame_idx", "n_per_frame", "unreadable", "truncated", "time_s", "data", "orig_shape")
-                thieu = [k for k in can if k not in z.files]
-                side = os.path.isfile(os.path.join(d, f[:-4] + ".json"))
-                if thieu or not meta_ok or not side:
-                    ghi("4. cache %s/%s" % (cid, f), "KHONG DAT", "thieu mang %s meta=%s sidecar=%s" % (thieu, meta_ok, side))
-                    continue
-                n = len(z["frame_idx"]); n_rong = int((z["n_per_frame"] == 0).sum())
-                tang = bool(np.all(np.diff(z["time_s"]) > 0)) if n > 1 else True
-                tong = int(z["n_per_frame"].sum()) == len(z["data"])
-                ok = tang and tong
-                ghi("4. cache %s/%s" % (cid, f), "DAT" if ok else "KHONG DAT",
-                    "%d frame (%d frame RONG giu nguyen), %d box, time_s tang=%s, tong n_per_frame==len(data)=%s"
-                    % (n, n_rong, len(z["data"]), tang, tong))
-        tdir = os.path.join(ROOT, "data", "processed", "trackers")
-        refs = []
-        if os.path.isdir(tdir):
-            for split in sorted(os.listdir(tdir)):
-                for name in sorted(os.listdir(os.path.join(tdir, split))):
-                    if name.startswith("pc-ref-"):
-                        dd = os.path.join(tdir, split, name, "data")
-                        n_txt = len([f for f in os.listdir(dd) if f.endswith(".txt")]) if os.path.isdir(dd) else 0
-                        refs.append("%s/%s (%d file)" % (split, name, n_txt))
-        ghi("4. ban tham chieu PC (pc-ref-*)", "DAT" if refs else "KHONG DAT", ", ".join(refs) or "khong co")
+        sys.path.insert(0, os.path.join(ROOT, "src"))
+        import nano_preflight
+        kq4 = nano_preflight.kiem_dau_vao(ROOT)
+        for dong in nano_preflight.mo_ta(kq4):
+            ghi("4. " + dong, "DAT" if kq4["dat"] else "INFO")
+        if kq4["dat"]:
+            ghi("4. hop dong dau vao (2 cache + 4 tham chieu PC + YAML + ma)", "DAT",
+                "%d/%d tham chieu doc duoc" % (sum(1 for v in kq4["pc_ref"].values() if v["ok"]), len(kq4["pc_ref"])))
+        else:
+            for i, l in enumerate(kq4["loi"], start=1):
+                ghi("4. dau vao #%d" % i, "KHONG DAT", l)
     except Exception as e:  # noqa: BLE001
-        ghi("4. det cache trong goi", "KHONG DAT", "%s: %s" % (type(e).__name__, e))
+        ghi("4. hop dong dau vao", "KHONG DAT", "%s: %s" % (type(e).__name__, e))
 
     # 5. he thong (chi ghi nhan)
     ht = {"uname": " ".join(platform.uname()), "may": platform.machine()}
