@@ -85,6 +85,7 @@ TESTS = [
     ("test_track_video_file", [], None),
     # moc launcher PC: dieu phoi worker, dung co kiem soat, replay tu metadata
     ("test_pc_launcher", [], None),
+    ("test_nano_detector", [], None),
     ("test_bdd100k_adapter", [], None),
     ("test_bdd100k_coco", [], None),
     ("test_pf_ctrv", [], None),

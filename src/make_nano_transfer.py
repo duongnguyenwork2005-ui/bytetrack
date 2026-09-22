@@ -337,7 +337,12 @@ def build(onnx_check: Path | None) -> int:
         "numpy\nlap>=0.4\npandas\npyyaml\n# tuy chon:\n# scipy        # chi khi use_lap=False (khong dung mac dinh)\n"
         "# opencv-python  # buoc chay video/anh (khong can cho replay cache)\n", encoding="utf-8", newline="\n")
     files.append("requirements_nano.txt")
+    lenh.insert(1, "# CHI DE TAI TAO THAM CHIEU TREN PC. TREN NANO: dung `python src/nano_run_cache.py` (chi ghi nano-*, khong dung pc-ref-*).")
     (PKG / "reference" / "lenh_tai_hien.sh").write_text("\n".join(lenh) + "\n", encoding="utf-8", newline="\n")
+    # hash cay tham chieu PC (bat bien) -> nano_run_cache doi chieu truoc/sau khi chay tren thiet bi
+    pc_dirs = [PKG / "data/processed/trackers" / split / f"pc-ref-{t}" for split in (SPLIT, SPLIT_FULL) for t in TRACKERS]
+    lines = [f"{sha256_file(q)}  {q.relative_to(PKG).as_posix()}" for d in pc_dirs for q in sorted(d.rglob('*')) if q.is_file()]
+    (PKG / "reference" / "pc_ref_sha256.txt").write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     for p in sorted((PKG / "data/processed").rglob("*")):
         if p.is_file():
             files.append(p.relative_to(PKG).as_posix())
@@ -468,26 +473,34 @@ def verify(zip_path: Path, py: str = PY, suffix: str = "") -> int:
         r = run_blocked("src/test_nano_parity.py", [], g, "np", log, py=py)
         kq["buoc"]["2_test_nano_parity"] = {"exit": r.returncode, "ket_qua": next((ln for ln in r.stdout.splitlines() if "KET QUA" in ln), "")}
         ok_all &= r.returncode == 0
-        # 3. replay cache CV/EKF (CHAN torch/ultralytics) -> 4. parity voi pc-ref + bit-identical (cung may/cung dau vao)
-        for split, cid in ((SPLIT, SMOKE_CACHE_ID), (SPLIT_FULL, CACHE_ID)):
-            for ten, yaml in TRACKERS.items():
-                args = ["--cache-id", cid, "--split-name", split, "--tracker-yaml", yaml, "--tracker-name", f"kiem-{ten}", *TRACK_ARGS]
-                r = run_blocked("src/run_tracking.py", args, g, "np", log, py=py)
-                pj = g / "reference" / f"parity_kiem_goi_sach_{split}_{ten}.json"
-                r2 = run_blocked("src/nano_parity.py", ["--ref", f"data/processed/trackers/{split}/pc-ref-{ten}",
-                                                       "--test", f"data/processed/trackers/{split}/kiem-{ten}", "--json", str(pj)], g, "np", log, py=py)
-                pjd = json.loads(pj.read_text(encoding="utf-8")) if pj.is_file() else {}
-                f_ref = g / "data/processed/trackers" / split / f"pc-ref-{ten}" / "data" / f"{VIDEO}.txt"
-                f_kiem = g / "data/processed/trackers" / split / f"kiem-{ten}" / "data" / f"{VIDEO}.txt"
-                bit = f_ref.is_file() and f_kiem.is_file() and sha256_file(f_ref) == sha256_file(f_kiem)
-                kq["buoc"][f"3_4_replay_parity_{split}_{ten}"] = {"replay_exit": r.returncode, "parity_exit": r2.returncode,
-                                                                 "bit_identical_data_txt": bit,
-                                                                 "n_dat": pjd.get("n_dat"), "n_video": pjd.get("n_video"),
-                                                                 "video": [{k: v.get(k) for k in ("video", "n_ref", "n_test", "dat", "max_d_bbox", "max_d_conf")}
-                                                                           for v in pjd.get("ket_qua", [])],
-                                                                 "parity_json": pjd}
-                log.append(f"  bit-identical data/{VIDEO}.txt ({split}/{ten}): {bit}")
-                ok_all &= r.returncode == 0 and r2.returncode == 0
+        # 3-4. CHINH script chay tren thiet bi: nano_run_cache.py (kiem dau vao, hash pc-ref truoc/sau, chi ghi kiem-*,
+        #      replay CV/EKF smoke -> full, parity + bit-identical; tu CHAN torch/ultralytics)
+        r = run([py, "src/nano_run_cache.py", "--tag", "kiem"], g, {**os.environ, "PYTHONIOENCODING": "utf-8"}, log)
+        runs = sorted((g / "reference").glob("nano_run_*.json"))
+        rj = json.loads(runs[-1].read_text(encoding="utf-8")) if runs else {}
+        kq["buoc"]["3_4_nano_run_cache"] = {"exit": r.returncode, "ket_luan": rj.get("ket_luan"),
+                                            "pc_ref_khop_ban_dong_goi": rj.get("buoc", {}).get("1_pc_ref_khop_ban_dong_goi"),
+                                            "pc_ref_khong_doi_sau_chay": rj.get("buoc", {}).get("4_pc_ref_khong_doi_sau_chay"),
+                                            "chay": {k: {kk: v.get(kk) for kk in ("replay_exit", "parity_exit", "dat", "n_ref", "n_test", "bit_identical_data_txt", "wall_s")}
+                                                     for k, v in rj.get("buoc", {}).items() if k.startswith("2_")}}
+        ok_all &= r.returncode == 0 and rj.get("ket_luan") == "DAT"
+        # 4b. thieu dau vao -> nano_run_cache phai bao LOI (exit 2), khong chay: doi ten tam 1 tham chieu
+        pref = g / "data/processed/trackers" / SPLIT_FULL / "pc-ref-ekf" / "data" / f"{VIDEO}.txt"
+        pref.rename(pref.with_suffix(".txt.tam"))
+        try:
+            r = run([py, "src/nano_run_cache.py", "--tag", "kiem2"], g, {**os.environ, "PYTHONIOENCODING": "utf-8"}, log)
+        finally:
+            pref.with_suffix(".txt.tam").rename(pref)
+        kq["buoc"]["4b_thieu_dau_vao_bao_loi"] = {"exit": r.returncode, "khong_tao_output": not (g / "data/processed/trackers" / SPLIT / "kiem2-cv").exists()}
+        ok_all &= r.returncode == 2 and not (g / "data/processed/trackers" / SPLIT / "kiem2-cv").exists()
+        # 4c. nano_det_compare: cache cat vs cache goc (tien to) -> phai ghep 100%, IoU 1, dconf 0
+        pj = g / "reference" / "det_compare_kiem.json"
+        r = run([py, "src/nano_det_compare.py", "--a", SMOKE_CACHE_ID, "--b", CACHE_ID, "--video", VIDEO, "--max-frames", str(SMOKE_FRAMES[1]),
+                 "--json", str(pj)], g, {**os.environ, "PYTHONIOENCODING": "utf-8"}, log)
+        dc = json.loads(pj.read_text(encoding="utf-8")) if pj.is_file() else {}
+        kq["buoc"]["4c_det_compare_tu_kiem"] = {"exit": r.returncode, "n_cap": dc.get("n_cap"), "ti_le_ghep_a": dc.get("ti_le_ghep_a"),
+                                                "iou_nho_nhat": dc.get("iou_nho_nhat"), "d_conf_lon_nhat": dc.get("d_conf_lon_nhat")}
+        ok_all &= r.returncode == 0 and dc.get("ti_le_ghep_a") == 1.0 and dc.get("ti_le_ghep_b") == 1.0 and (dc.get("d_conf_lon_nhat") or 0) == 0
         # 5. ONNX doc duoc (onnx co tren PC; tren Nano se la trtexec)
         code = (f"import onnx, hashlib, json\np = r{str(g / 'models/export' / ONNX_NAME)!r}\nm = onnx.load(p)\nonnx.checker.check_model(m)\n"
                 "print(json.dumps({'ir': m.ir_version, 'opset': [(o.domain, o.version) for o in m.opset_import], 'n_node': len(m.graph.node), "
@@ -504,6 +517,10 @@ def verify(zip_path: Path, py: str = PY, suffix: str = "") -> int:
         r = run([PY, "-c", code], g, None, log)            # cv2: goi cua env PC
         kq["buoc"]["6_smoke_doc_duoc"] = {"exit": r.returncode, "out": r.stdout.strip()[-200:]}
         ok_all &= r.returncode == 0 and '"n_jpg": 300' in r.stdout and '"mp4_frames_doc": 300' in r.stdout
+        r = run([PY, "src/render_mot_video.py", "--images", f"data/smoke/{VIDEO}_f0001-0300", "--mot", f"data/processed/trackers/{SPLIT}/pc-ref-cv/data/{VIDEO}.txt",
+                 "--cls", f"data/processed/trackers/{SPLIT}/pc-ref-cv/data_cls/{VIDEO}.csv", "--fps", "25", "--out", "reference/render_kiem.mp4"], g, None, log)
+        kq["buoc"]["6b_render_video"] = {"exit": r.returncode, "out": r.stdout.strip()[-120:], "mp4_bytes": ((g / "reference/render_kiem.mp4").stat().st_size if (g / "reference/render_kiem.mp4").is_file() else 0)}
+        ok_all &= r.returncode == 0 and kq["buoc"]["6b_render_video"]["mp4_bytes"] > 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     kq["ket_luan"] = "DAT: goi du file/du phu thuoc de replay + parity tren PC (KHONG chung minh tuong thich Nano)" if ok_all else "KHONG DAT"
