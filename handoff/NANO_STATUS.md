@@ -1,6 +1,6 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-22 (mục 4c: vòng 15 — script thiết bị + detector; gói v3). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-22 (mục 4d: vòng 16 — ĐÃ CHẠY THẬT trên Nano). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
 ## 1. Thiết bị
@@ -50,9 +50,9 @@ chế độ nguồn, clocks hay nhiệt độ.
 | Giao thức đo CV ↔ EKF | ✅ chốt trước | `scripts/nano/README.md` mục 4c |
 | **Bộ so kết quả Nano ↔ PC** | ✅ **mới, đã kiểm** | `src/nano_parity.py`, `src/test_nano_parity.py` **10/10** |
 | **Khung đo AB/BA** | ✅ **mới, đã tự kiểm trên PC** | `src/nano_bench_tracker.py` |
-| Build engine TensorRT trên Nano | ❌ chưa chạy (không có thiết bị) | — |
-| Đường detector trên Nano nối vào backend NumPy | ⚠️ **mã có, kiểm trên PC** (`nano_detector.py` + `test_nano_detector` 6/6, torch FP32 thay TRT); **chưa chạy TRT trên thiết bị** | `handoff/REVIEW15_CHI_TIET.md` mục 2 |
-| Số đo tốc độ trên Nano | ❌ **chưa có số nào**; mọi FPS trong repo là PC (GTX 1650) | — |
+| Build engine TensorRT trên Nano | ✅ **đã build** (485 s, FP16, `trtexec` 68,1 ms) | `handoff/REVIEW16_CHI_TIET.md` mục 3 |
+| Đường detector trên Nano nối vào backend NumPy | ✅ **đã chạy TRT thật** (Py 3.6 → det cache → tracker Py 3.8) | `handoff/REVIEW16_CHI_TIET.md` mục 4 |
+| Số đo tốc độ trên Nano | ✅ **có** (vòng 16, một lượt): detector 107,6 ms/frame, infer 73,3 ms; tracker replay ~148–244 fps | `handoff/REVIEW16_CHI_TIET.md` mục 4 |
 
 ## 3. Hai công cụ mới
 
@@ -115,6 +115,17 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES`, **hoặc** ép `.py` về LF trong `.gitattributes`. **Chưa làm trong đợt này** vì đổi
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
+
+## 4d. Vòng 16 (2026-09-22): **ĐÃ CHẠY THẬT TRÊN NANO** — chi tiết `handoff/REVIEW16_CHI_TIET.md`
+
+| Hạng mục | Kết quả thật |
+|:--|:--|
+| Thiết bị | Jetson Nano 4 GB, JetPack 4.6.5 / L4T 32.7.5, TensorRT 8.2.1.9, CUDA 10.2, Py 3.6.9 hệ thống; SSH khóa riêng `10.11.59.212` |
+| Môi trường tracker | Miniforge user-space → env `nano` Py 3.8.20, numpy 1.24.4, pandas 2.0.3, pyyaml 6.0.2, lap 0.5.13 (Python 3.6/torch hệ thống nguyên vẹn) |
+| Mốc 1 tracker-from-cache | **ĐẠT**: smoke 545/545 ×2, full 5842/5845 parity ĐẠT lệch 0; `pc-ref` bất biến; byte-identical sau chuẩn hóa LF |
+| Engine TensorRT | build trên Nano 485 s; `trtexec` GPU compute 68,1 ms mean (14,7 qps) |
+| Detector TRT + tracker (mốc 2) | chạy trọn (gói v4 `3a592ea0…`, sửa `0423616`: cudart + LD_PRELOAD): 107,6 ms/frame detector (decode 15,9 / pre 13,1 / infer 73,3 / post 5,2), det ghép 579/581 IoU 0,988 vs cache PC; tracker CV 548 / EKF 547 hàng |
+| Số đo tốc độ Nano | **có** (một lượt, MAXN, chưa `jetson_clocks`, phạm vi ghi rõ); chưa tối ưu |
 
 ## 4c. Vòng 15 (2026-09-22): script thiết bị + detector TensorRT — gói v3 `0b190b3`
 

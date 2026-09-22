@@ -1,0 +1,64 @@
+== date: 2026-09-22T14:14:34+08:00
+== hostname: jetson-desktop
+== L4T:
+# R32 (release), REVISION: 7.5, GCID: 36557527, BOARD: t210ref, EABI: aarch64, DATE: Tue Jun 11 23:12:44 UTC 2024
+== jetson_release:
+Software part of jetson-stats 4.3.2 - (c) 2024, Raffaello Bonghi
+Model: [1mNVIDIA Jetson Nano Developer Kit[0m - Jetpack [1m4.6.5[0m [L4T [1m32.7.5[0m]
+[92m[1mNV Power Mode[0m[0m[[1m0[0m]: [1mMAXN[0m
+[92m[1mSerial Number:[0m[0m [XXX Show with: jetson_release -s XXX]
+[92m[1mHardware:[0m[0m
+ - [1mP-Number[0m: p3448-0002
+ - [1mModule[0m: NVIDIA Jetson Nano module (16Gb eMMC)
+[92m[1mPlatform:[0m[0m
+ - [1mDistribution[0m: Ubuntu 18.04 Bionic Beaver
+ - [1mRelease[0m: 4.9.337-tegra
+[92m[1mjtop:[0m[0m
+ - [1mVersion[0m: 4.3.2
+ - [1mService[0m: [92mActive[0m
+[92m[1mLibraries:[0m[0m
+ - [1mCUDA[0m: 10.2.300
+ - [1mcuDNN[0m: 8.2.1.32
+ - [1mTensorRT[0m: 8.2.1.9
+ - [1mVPI[0m: 1.2.3
+ - [1mVulkan[0m: 1.2.70
+ - [1mOpenCV[0m: 4.1.1 - with CUDA: [91mNO[0m
+== python3: Python 3.6.9
+== CUDA:
+cuda
+cuda-10
+cuda-10.2
+== dpkg tensorrt/cudnn/cuda:
+cuda-toolkit-10-2 10.2.460-1
+libcudnn8 8.2.1.32-1+cuda10.2
+libcudnn8-dev 8.2.1.32-1+cuda10.2
+libnvinfer-bin 8.2.1-1+cuda10.2
+libnvinfer-dev 8.2.1-1+cuda10.2
+libnvinfer-doc 8.2.1-1+cuda10.2
+libnvinfer-plugin-dev 8.2.1-1+cuda10.2
+libnvinfer-plugin8 8.2.1-1+cuda10.2
+libnvinfer-samples 8.2.1-1+cuda10.2
+libnvinfer8 8.2.1-1+cuda10.2
+nvidia-tensorrt 4.6.6-b24
+python3-libnvinfer 8.2.1-1+cuda10.2
+python3-libnvinfer-dev 8.2.1-1+cuda10.2
+tensorrt 8.2.1.9-1+cuda10.2
+== trtexec:
+/usr/src/tensorrt/bin/trtexec
+&&&& RUNNING TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --help
+== python packages:
+tensorrt 8.2.1.9
+numpy 1.19.5
+cv2 3.2.0
+torch 1.10.0 True
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'pycuda'
+== nvpmodel:
+(can sudo)
+== memory:
+              total        used        free      shared  buff/cache   available
+Mem:           3955        1813         322          97        1820        1935
+Swap:          6073           1        6072
+== tegrastats (1 mau):
+RAM 1880/3956MB (lfb 44x4MB) SWAP 1/6074MB (cached 0MB) CPU [3%@1224,1%@1224,1%@1224,0%@1224] EMC_FREQ 0% GR3D_FREQ 0% PLL@40.5C CPU@42C PMIC@50C GPU@40C AO@51.5C thermal@41C

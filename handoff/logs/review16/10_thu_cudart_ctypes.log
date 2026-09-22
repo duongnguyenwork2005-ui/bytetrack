@@ -1,0 +1,20 @@
+# 2026-09-22T13:49:07 tai he thong + thu bo dem cudart (ctypes, khong torch)
+ 14:49:08 up  2:03,  2 users,  load average: 4.51, 7.01, 5.05
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+12083 jetson    20   0   10876   3888   3192 R  15.8  0.1   0:00.07 top
+    1 root      20   0  161208   3884   2844 S   0.0  0.1   0:04.66 systemd
+    2 root      20   0       0      0      0 S   0.0  0.0   0:00.08 kthreadd
+    4 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kworker/0:+
+    6 root      20   0       0      0      0 S   0.0  0.0   0:00.58 ksoftirqd/0
+RAM 1685/3956MB (lfb 1x4MB) SWAP 984/6074MB (cached 71MB) CPU [4%@1224,1%@1224,0%@1224,0%@1224] EMC_FREQ 0% GR3D_FREQ 0% PLL@42C CPU@44C PMIC@50C GPU@41.5C AO@53C thermal@42.75C
+RAM 1685/3956MB (lfb 1x4MB) SWAP 984/6074MB (cached 71MB) CPU [5%@1224,0%@1224,2%@1224,0%@1224] EMC_FREQ 0% GR3D_FREQ 0% PLL@42C CPU@44C PMIC@50C GPU@41C AO@53C thermal@42.75C
+/usr/local/cuda/lib64/libcudart.so
+/usr/local/cuda/lib64/libcudart.so.10.2
+import tensorrt 1.4 s
+deserialize+context 20.8 s
+lan 1: H2D 4.3 | execute 10517.4 | D2H 3.6 ms | ok=True | out mean 9.8677
+lan 2: H2D 4.3 | execute 148.5 | D2H 1.7 ms | ok=True | out mean 9.8677
+lan 3: H2D 2.8 | execute 78.5 | D2H 1.6 ms | ok=True | out mean 9.8677
+lan 4: H2D 2.7 | execute 78.5 | D2H 1.7 ms | ok=True | out mean 9.8677
+lan 5: H2D 2.8 | execute 67.9 | D2H 1.7 ms | ok=True | out mean 9.8677
+lan 6: H2D 2.6 | execute 67.9 | D2H 1.5 ms | ok=True | out mean 9.8677

@@ -1,0 +1,80 @@
+{
+  "python": "3.6.9 (default, Mar 10 2023, 16:46:00) \n[GCC 8.4.0]",
+  "executable": "/usr/bin/python3",
+  "phien_ban": {
+    "numpy": "1.19.5",
+    "lap": null,
+    "pandas": "0.22.0",
+    "yaml": "6.0.1",
+    "scipy": "0.19.1",
+    "cv2": "3.2.0"
+  },
+  "kiem": [
+    {
+      "muc": "1. Python >= 3.8",
+      "trang_thai": "KHONG DAT",
+      "chi_tiet": "3.6.9 -- chuoi import can 3.8 (from __future__ import annotations, dataclasses, importlib.metadata). Dung moi truong rieng >= 3.8 (venv tu python3.8 hoac miniforge); KHONG doi python3 he thong."
+    },
+    {
+      "muc": "2. numpy",
+      "trang_thai": "DAT",
+      "chi_tiet": "1.19.5"
+    },
+    {
+      "muc": "2. lap",
+      "trang_thai": "KHONG DAT",
+      "chi_tiet": "ModuleNotFoundError: No module named 'lap'"
+    },
+    {
+      "muc": "2. pandas",
+      "trang_thai": "DAT",
+      "chi_tiet": "0.22.0"
+    },
+    {
+      "muc": "2. yaml",
+      "trang_thai": "DAT",
+      "chi_tiet": "6.0.1"
+    },
+    {
+      "muc": "2. scipy (tuy chon)",
+      "trang_thai": "DAT",
+      "chi_tiet": "0.19.1"
+    },
+    {
+      "muc": "2. cv2 (tuy chon)",
+      "trang_thai": "DAT",
+      "chi_tiet": "3.2.0"
+    },
+    {
+      "muc": "3. backend np (chan torch/ultralytics)",
+      "trang_thai": "BO QUA",
+      "chi_tiet": "Python < 3.8, khong import duoc ma nguon"
+    },
+    {
+      "muc": "4. cache nano_smoke_MVI_39031_f0001-0300/MVI_39031.npz",
+      "trang_thai": "DAT",
+      "chi_tiet": "300 frame (0 frame RONG giu nguyen), 845 box, time_s tang=True, tong n_per_frame==len(data)=True"
+    },
+    {
+      "muc": "4. cache yolov8n-coco_conf0.05_all/MVI_39031.npz",
+      "trang_thai": "DAT",
+      "chi_tiet": "1470 frame (34 frame RONG giu nguyen), 10145 box, time_s tang=True, tong n_per_frame==len(data)=True"
+    },
+    {
+      "muc": "4. ban tham chieu PC (pc-ref-*)",
+      "trang_thai": "DAT",
+      "chi_tiet": "NANO-full/pc-ref-cv (1 file), NANO-full/pc-ref-ekf (1 file), NANO-smoke/pc-ref-cv (1 file), NANO-smoke/pc-ref-ekf (1 file)"
+    }
+  ],
+  "he_thong": {
+    "uname": "Linux jetson-desktop 4.9.337-tegra #1 SMP PREEMPT Tue Jun 11 16:07:05 PDT 2024 aarch64 aarch64",
+    "may": "aarch64",
+    "nv_tegra_release": "# R32 (release), REVISION: 7.5, GCID: 36557527, BOARD: t210ref, EABI: aarch64, DATE: Tue Jun 11 23:12:44 UTC 2024",
+    "meminfo_MemTotal": "MemTotal:        4050768 kB",
+    "df_goi": "/dev/mmcblk1p1   58G   29G   26G  54% /",
+    "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+    "python3_8": "(khong co python3.8 trong PATH)",
+    "conda": "(khong co conda/mamba)"
+  },
+  "dat": false
+}

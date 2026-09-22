@@ -1,0 +1,23 @@
+# 2026-09-22T13:22:12 MOC 1: nano_run_cache.py (env nano 3.8)
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_run_cache.py
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+$ src/nano_parity.py --ref data/processed/trackers/NANO-full/pc-ref-ekf --test data/processed/trackers/NANO-full/nano-ekf --json reference/parity_nano_full_ekf.json  (BYTETRACK_BACKEND=np, chan torch/ul=True)
+  exit=0
+  | can kiem  : data/processed/trackers/NANO-full/nano-ekf/data
+  | 
+  | video                           hang  max|d bbox|  max|d conf| phan hoach  ket qua
+  | ------------------------------------------------------------------------------------------
+  | MVI_39031                       5845    0.000e+00    0.000e+00       khop  DAT
+  | ------------------------------------------------------------------------------
+  | KET QUA: 1/1 video DAT
+  | -> reference/parity_nano_full_ekf.json
+full/ekf: replay exit 0 (11.1s) | parity exit 0 dat=True n=5845/5845 | bit-identical=False
+4. cay pc-ref sau khi chay y het truoc: True
+KET LUAN: DAT
+-> /home/jetson/nano_run/nano_transfer/reference/nano_run_20260922-142213.json
+exit=0
+
+real	0m33.906s
+user	0m34.984s
+sys	0m1.712s

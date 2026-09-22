@@ -1,0 +1,87 @@
+# 2026-09-22T13:24:15 MOC 2: 03_e2e_nano.sh (build engine FP16 tren Nano + detector TRT + tracker)
+$ bash scripts/nano/03_e2e_nano.sh ~/miniforge3/envs/nano/bin/python yolov8n_fp16.engine nano-trt
+[09/22/2026-14:32:25] [V] [TRT] Deleting timing cache: 1480 entries, 4882 hits
+[09/22/2026-14:32:26] [V] [TRT] Engine Layer Information:
+[09/22/2026-14:32:26] [I] [TRT] [MemUsageChange] TensorRT-managed allocation in building engine: CPU +6, GPU +16, now: CPU 6, GPU 16 (MiB)
+[09/22/2026-14:32:26] [I] [TRT] [MemUsageChange] Init CUDA: CPU +0, GPU +0, now: CPU 945, GPU 3475 (MiB)
+[09/22/2026-14:32:26] [I] [TRT] Loaded engine size: 12 MiB
+[09/22/2026-14:32:26] [V] [TRT] Using cublas as a tactic source
+[09/22/2026-14:32:26] [I] [TRT] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +0, now: CPU 945, GPU 3475 (MiB)
+[09/22/2026-14:32:26] [V] [TRT] Using cuDNN as a tactic source
+[09/22/2026-14:32:26] [I] [TRT] [MemUsageChange] Init cuDNN: CPU +0, GPU +0, now: CPU 945, GPU 3475 (MiB)
+[09/22/2026-14:32:26] [V] [TRT] Deserialization required 34386 microseconds.
+[09/22/2026-14:32:26] [I] [TRT] [MemUsageChange] TensorRT-managed allocation in engine deserialization: CPU +0, GPU +11, now: CPU 0, GPU 11 (MiB)
+[09/22/2026-14:32:26] [I] Engine built in 485.346 sec.
+[09/22/2026-14:32:26] [V] [TRT] Using cublas as a tactic source
+[09/22/2026-14:32:26] [I] [TRT] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +0, now: CPU 907, GPU 3487 (MiB)
+[09/22/2026-14:32:26] [V] [TRT] Using cuDNN as a tactic source
+[09/22/2026-14:32:26] [I] [TRT] [MemUsageChange] Init cuDNN: CPU +0, GPU +0, now: CPU 907, GPU 3487 (MiB)
+[09/22/2026-14:32:26] [V] [TRT] Total per-runner device persistent memory is 10743296
+[09/22/2026-14:32:26] [V] [TRT] Total per-runner host persistent memory is 108800
+[09/22/2026-14:32:26] [V] [TRT] Allocated activation device memory of size 12699648
+[09/22/2026-14:32:26] [I] [TRT] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +22, now: CPU 0, GPU 33 (MiB)
+[09/22/2026-14:32:26] [I] Using random values for input images
+[09/22/2026-14:32:26] [I] Created input binding for images with dimensions 1x3x640x640
+[09/22/2026-14:32:26] [I] Using random values for output output0
+[09/22/2026-14:32:26] [I] Created output binding for output0 with dimensions 1x84x8400
+[09/22/2026-14:32:26] [I] Starting inference
+[09/22/2026-14:32:29] [I] Warmup completed 2 queries over 200 ms
+[09/22/2026-14:32:29] [I] Timing trace has 46 queries over 3.15468 s
+[09/22/2026-14:32:29] [I] 
+[09/22/2026-14:32:29] [I] === Trace details ===
+[09/22/2026-14:32:29] [I] Trace averages of 10 runs:
+[09/22/2026-14:32:29] [I] Average on 10 runs - GPU latency: 67.7825 ms - Host latency: 68.536 ms (end to end 68.5464 ms, enqueue 9.07279 ms)
+[09/22/2026-14:32:29] [I] Average on 10 runs - GPU latency: 67.7602 ms - Host latency: 68.5132 ms (end to end 68.5235 ms, enqueue 9.05157 ms)
+[09/22/2026-14:32:29] [I] Average on 10 runs - GPU latency: 67.8165 ms - Host latency: 68.5675 ms (end to end 68.5776 ms, enqueue 9.11373 ms)
+[09/22/2026-14:32:29] [I] Average on 10 runs - GPU latency: 67.7678 ms - Host latency: 68.5187 ms (end to end 68.529 ms, enqueue 9.29243 ms)
+[09/22/2026-14:32:29] [I] 
+[09/22/2026-14:32:29] [I] === Performance summary ===
+[09/22/2026-14:32:29] [I] Throughput: 14.5815 qps
+[09/22/2026-14:32:29] [I] Latency: min = 68.062 ms, max = 72.0583 ms, mean = 68.5691 ms, median = 68.1716 ms, percentile(99%) = 72.0583 ms
+[09/22/2026-14:32:29] [I] End-to-End Host Latency: min = 68.0728 ms, max = 72.0684 ms, mean = 68.5793 ms, median = 68.182 ms, percentile(99%) = 72.0684 ms
+[09/22/2026-14:32:29] [I] Enqueue Time: min = 7.96049 ms, max = 11.2778 ms, mean = 9.13207 ms, median = 9.04312 ms, percentile(99%) = 11.2778 ms
+[09/22/2026-14:32:29] [I] H2D Latency: min = 0.470947 ms, max = 0.482178 ms, mean = 0.474831 ms, median = 0.474487 ms, percentile(99%) = 0.482178 ms
+[09/22/2026-14:32:29] [I] GPU Compute Time: min = 67.3091 ms, max = 71.3066 ms, mean = 67.8168 ms, median = 67.4188 ms, percentile(99%) = 71.3066 ms
+[09/22/2026-14:32:29] [I] D2H Latency: min = 0.275269 ms, max = 0.283447 ms, mean = 0.277472 ms, median = 0.277054 ms, percentile(99%) = 0.283447 ms
+[09/22/2026-14:32:29] [I] Total Host Walltime: 3.15468 s
+[09/22/2026-14:32:29] [I] Total GPU Compute Time: 3.11957 s
+[09/22/2026-14:32:29] [I] Explanations of the performance metrics are printed in the verbose logs.
+[09/22/2026-14:32:29] [V] 
+[09/22/2026-14:32:29] [V] === Explanations of the performance metrics ===
+[09/22/2026-14:32:29] [V] Total Host Walltime: the host walltime from when the first query (after warmups) is enqueued to when the last query is completed.
+[09/22/2026-14:32:29] [V] GPU Compute Time: the GPU latency to execute the kernels for a query.
+[09/22/2026-14:32:29] [V] Total GPU Compute Time: the summation of the GPU Compute Time of all the queries. If this is significantly shorter than Total Host Walltime, the GPU may be under-utilized because of host-side overheads or data transfers.
+[09/22/2026-14:32:29] [V] Throughput: the observed throughput computed by dividing the number of queries by the Total Host Walltime. If this is significantly lower than the reciprocal of GPU Compute Time, the GPU may be under-utilized because of host-side overheads or data transfers.
+[09/22/2026-14:32:29] [V] Enqueue Time: the host latency to enqueue a query. If this is longer than GPU Compute Time, the GPU may be under-utilized.
+[09/22/2026-14:32:29] [V] H2D Latency: the latency for host-to-device data transfers for input tensors of a single query.
+[09/22/2026-14:32:29] [V] D2H Latency: the latency for device-to-host data transfers for output tensors of a single query.
+[09/22/2026-14:32:29] [V] Latency: the summation of H2D Latency, GPU Compute Time, and D2H Latency. This is the latency to infer a single query.
+[09/22/2026-14:32:29] [V] End-to-End Host Latency: the duration from when the H2D of a query is called to when the D2H of the same query is completed, which includes the latency to wait for the completion of the previous query. This is the latency of a query if multiple queries are enqueued consecutively.
+[09/22/2026-14:32:29] [I] 
+&&&& PASSED TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --onnx=models/export/yolov8n_640_op12.onnx --saveEngine=yolov8n_fp16.engine --workspace=1024 --verbose --fp16
+== 1b. benchmark engine (latency GPU detector, KHONG phai pipeline)
+[09/22/2026-14:33:20] [I] 
+[09/22/2026-14:33:20] [I] === Performance summary ===
+[09/22/2026-14:33:20] [I] Throughput: 14.6623 qps
+[09/22/2026-14:33:20] [I] Latency: min = 66.8877 ms, max = 168.641 ms, mean = 68.2003 ms, median = 67.2236 ms, percentile(99%) = 86.4404 ms
+[09/22/2026-14:33:20] [I] End-to-End Host Latency: min = 66.8877 ms, max = 168.641 ms, mean = 68.2003 ms, median = 67.2236 ms, percentile(99%) = 86.4404 ms
+[09/22/2026-14:33:20] [I] Enqueue Time: min = 0.924805 ms, max = 1.83984 ms, mean = 1.24155 ms, median = 1.23486 ms, percentile(99%) = 1.59863 ms
+[09/22/2026-14:33:20] [I] H2D Latency: min = 0 ms, max = 0 ms, mean = 0 ms, median = 0 ms, percentile(99%) = 0 ms
+[09/22/2026-14:33:20] [I] GPU Compute Time: min = 66.8877 ms, max = 168.641 ms, mean = 68.2003 ms, median = 67.2236 ms, percentile(99%) = 86.4404 ms
+[09/22/2026-14:33:20] [I] D2H Latency: min = 0 ms, max = 0 ms, mean = 0 ms, median = 0 ms, percentile(99%) = 0 ms
+[09/22/2026-14:33:20] [I] Total Host Walltime: 13.6404 s
+[09/22/2026-14:33:20] [I] Total GPU Compute Time: 13.6401 s
+[09/22/2026-14:33:20] [I] Explanations of the performance metrics are printed in the verbose logs.
+[09/22/2026-14:33:20] [I] 
+&&&& PASSED TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --loadEngine=yolov8n_fp16.engine --iterations=200 --warmUp=1000 --avgRuns=10 --useCudaGraph --noDataTransfers=false
+-> results/phase2/profile/nano_yolov8n_fp16_trtexec.log (xem 'GPU Compute Time' mean/median/percentile, 'Throughput', 'H2D/D2H')
+== 2. detector TensorRT -> cache nano_trt_MVI_39031_f0001-0300
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ImportError: /usr/lib/aarch64-linux-gnu/libgomp.so.1: cannot allocate memory in static TLS block
+[LOI] python3 he thong thieu tensorrt/numpy/cv2
+exit=1
+
+real	9m12.513s
+user	0m41.568s
+sys	1m26.252s

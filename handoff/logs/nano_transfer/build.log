@@ -1,4 +1,4 @@
-# build nano_transfer 2026-09-22T12:11:28 HEAD 0b190b3
+# build nano_transfer 2026-09-22T13:53:26 HEAD 0423616
 $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe -c "
 import sys
 class _Block:
@@ -19,13 +19,13 @@ runpy.run_path('src/run_tracking.py', run_name='__main__')
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
   exit=0
   | [run_tracking] cache=nano_smoke_MVI_39031_f0001-0300 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
-  |   pc-ref-cv                    MVI_39031        300 frame ->     545 bbox   12 track  predict 0.09 ms/frame  assoc 0.44  (0.2s, 1520 fps)
+  |   pc-ref-cv                    MVI_39031        300 frame ->     545 bbox   12 track  predict 0.08 ms/frame  assoc 0.42  (0.2s, 1600 fps)
   |   pc-ref-cv                      1 video moi,   0 tai su dung
 $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe D:\LABOTARY\bytetrack\handoff\nano_transfer\src\run_tracking.py --cache-id nano_smoke_MVI_39031_f0001-0300 --split-name NANO-smoke --tracker-yaml bytetrack.yaml --tracker-name pc-ul-cv --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
   exit=0
   | [run_tracking] cache=nano_smoke_MVI_39031_f0001-0300 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
-  |   pc-ul-cv                     MVI_39031        300 frame ->     545 bbox   12 track  predict 0.09 ms/frame  assoc 0.59  (0.2s, 1229 fps)
+  |   pc-ul-cv                     MVI_39031        300 frame ->     545 bbox   12 track  predict 0.08 ms/frame  assoc 0.57  (0.2s, 1291 fps)
   |   pc-ul-cv                       1 video moi,   0 tai su dung
 $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe D:\LABOTARY\bytetrack\handoff\nano_transfer\src\nano_parity.py --ref D:\LABOTARY\bytetrack\handoff\nano_transfer\data\processed\trackers\NANO-smoke\pc-ul-cv --test D:\LABOTARY\bytetrack\handoff\nano_transfer\data\processed\trackers\NANO-smoke\pc-ref-cv --json D:\LABOTARY\bytetrack\handoff\nano_transfer\reference\parity_pc_np_vs_ul_NANO-smoke_cv.json
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
@@ -56,13 +56,13 @@ runpy.run_path('src/run_tracking.py', run_name='__main__')
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
   exit=0
   | [run_tracking] cache=nano_smoke_MVI_39031_f0001-0300 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
-  |   pc-ref-ekf                   MVI_39031        300 frame ->     545 bbox   12 track  predict 0.09 ms/frame  assoc 0.40  (0.2s, 1671 fps)
+  |   pc-ref-ekf                   MVI_39031        300 frame ->     545 bbox   12 track  predict 0.09 ms/frame  assoc 0.40  (0.2s, 1631 fps)
   |   pc-ref-ekf                     1 video moi,   0 tai su dung
 $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe D:\LABOTARY\bytetrack\handoff\nano_transfer\src\run_tracking.py --cache-id nano_smoke_MVI_39031_f0001-0300 --split-name NANO-smoke --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name pc-ul-ekf --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
   exit=0
   | [run_tracking] cache=nano_smoke_MVI_39031_f0001-0300 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
-  |   pc-ul-ekf                    MVI_39031        300 frame ->     545 bbox   12 track  predict 0.09 ms/frame  assoc 0.57  (0.2s, 1275 fps)
+  |   pc-ul-ekf                    MVI_39031        300 frame ->     545 bbox   12 track  predict 0.09 ms/frame  assoc 0.61  (0.2s, 1203 fps)
   |   pc-ul-ekf                      1 video moi,   0 tai su dung
 $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe D:\LABOTARY\bytetrack\handoff\nano_transfer\src\nano_parity.py --ref D:\LABOTARY\bytetrack\handoff\nano_transfer\data\processed\trackers\NANO-smoke\pc-ul-ekf --test D:\LABOTARY\bytetrack\handoff\nano_transfer\data\processed\trackers\NANO-smoke\pc-ref-ekf --json D:\LABOTARY\bytetrack\handoff\nano_transfer\reference\parity_pc_np_vs_ul_NANO-smoke_ekf.json
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
@@ -93,13 +93,13 @@ runpy.run_path('src/run_tracking.py', run_name='__main__')
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
   exit=0
   | [run_tracking] cache=yolov8n-coco_conf0.05_all tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
-  |   pc-ref-cv                    MVI_39031       1470 frame ->   5,842 bbox   72 track  predict 0.09 ms/frame  assoc 0.58  (1.2s, 1265 fps)
+  |   pc-ref-cv                    MVI_39031       1470 frame ->   5,842 bbox   72 track  predict 0.09 ms/frame  assoc 0.56  (1.1s, 1309 fps)
   |   pc-ref-cv                      1 video moi,   0 tai su dung
 $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe D:\LABOTARY\bytetrack\handoff\nano_transfer\src\run_tracking.py --cache-id yolov8n-coco_conf0.05_all --split-name NANO-full --tracker-yaml bytetrack.yaml --tracker-name pc-ul-cv --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
   exit=0
   | [run_tracking] cache=yolov8n-coco_conf0.05_all tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
-  |   pc-ul-cv                     MVI_39031       1470 frame ->   5,842 bbox   72 track  predict 0.09 ms/frame  assoc 0.59  (1.2s, 1248 fps)
+  |   pc-ul-cv                     MVI_39031       1470 frame ->   5,842 bbox   72 track  predict 0.09 ms/frame  assoc 0.59  (1.2s, 1238 fps)
   |   pc-ul-cv                       1 video moi,   0 tai su dung
 $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe D:\LABOTARY\bytetrack\handoff\nano_transfer\src\nano_parity.py --ref D:\LABOTARY\bytetrack\handoff\nano_transfer\data\processed\trackers\NANO-full\pc-ul-cv --test D:\LABOTARY\bytetrack\handoff\nano_transfer\data\processed\trackers\NANO-full\pc-ref-cv --json D:\LABOTARY\bytetrack\handoff\nano_transfer\reference\parity_pc_np_vs_ul_NANO-full_cv.json
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
@@ -130,13 +130,13 @@ runpy.run_path('src/run_tracking.py', run_name='__main__')
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
   exit=0
   | [run_tracking] cache=yolov8n-coco_conf0.05_all tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
-  |   pc-ref-ekf                   MVI_39031       1470 frame ->   5,845 bbox   70 track  predict 0.16 ms/frame  assoc 0.59  (1.3s, 1149 fps)
+  |   pc-ref-ekf                   MVI_39031       1470 frame ->   5,845 bbox   70 track  predict 0.17 ms/frame  assoc 0.61  (1.3s, 1099 fps)
   |   pc-ref-ekf                     1 video moi,   0 tai su dung
 $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe D:\LABOTARY\bytetrack\handoff\nano_transfer\src\run_tracking.py --cache-id yolov8n-coco_conf0.05_all --split-name NANO-full --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name pc-ul-ekf --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
   exit=0
   | [run_tracking] cache=yolov8n-coco_conf0.05_all tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
-  |   pc-ul-ekf                    MVI_39031       1470 frame ->   5,845 bbox   70 track  predict 0.16 ms/frame  assoc 0.63  (1.3s, 1090 fps)
+  |   pc-ul-ekf                    MVI_39031       1470 frame ->   5,845 bbox   70 track  predict 0.17 ms/frame  assoc 0.65  (1.4s, 1065 fps)
   |   pc-ul-ekf                      1 video moi,   0 tai su dung
 $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe D:\LABOTARY\bytetrack\handoff\nano_transfer\src\nano_parity.py --ref D:\LABOTARY\bytetrack\handoff\nano_transfer\data\processed\trackers\NANO-full\pc-ul-ekf --test D:\LABOTARY\bytetrack\handoff\nano_transfer\data\processed\trackers\NANO-full\pc-ref-ekf --json D:\LABOTARY\bytetrack\handoff\nano_transfer\reference\parity_pc_np_vs_ul_NANO-full_ekf.json
   (cwd D:\LABOTARY\bytetrack\handoff\nano_transfer)
@@ -148,4 +148,4 @@ $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe D:\LABOTARY\bytetrack\h
   | KET QUA: 1/1 video DAT
   | -> D:\LABOTARY\bytetrack\handoff\nano_transfer\reference\parity_pc_np_vs_ul_NANO-full_ekf.json
 
-ZIP 63792494 B sha256 4dc0530aec7946e1437bbb767d755057d691e634c159c9cca53161feb0164396
+ZIP 63792855 B sha256 3a592ea01cb7cad14514084b9a2c793cd6d2aaf76693a1137579b1ea559dfba0

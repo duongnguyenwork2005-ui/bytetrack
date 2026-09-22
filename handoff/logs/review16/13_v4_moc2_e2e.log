@@ -1,0 +1,66 @@
+# 2026-09-22T13:55:56 v4: MOC 2 03_e2e_nano.sh (engine co san -> benchmark -> detector TRT cudart -> det_compare -> tracker -> parity mo ta -> render)
+[det_compare] MVI_39031: frame chung 300 | box a=845 b=865 cap=837 (ghep a 0.9905, b 0.9676) | IoU tb 0.9828664096452857 | |dconf| tb 0.010413078673566684 max 0.23222903162240982 | trung lop 0.9904420549581839 | chenh box/frame tb 0.06666666666666667 (bang nhau 266 frame)
+-> results_nano/nano-trt/det_compare_raw.json
+== 4. tracker tu cache TRT
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[run_tracking] cache=nano_trt_MVI_39031_f0001-0300 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  nano-trt-cv                  MVI_39031        300 frame ->     548 bbox   12 track  predict 0.59 ms/frame  assoc 2.78  (1.2s, 244 fps)
+  nano-trt-cv                    1 video moi,   0 tai su dung
+==============================================================================
+TOLERANCE DA CONG BO (truoc khi so):
+  bbox       : |delta| <= 1e-03 pixel moi toa do
+  confidence : |delta| <= 1e-06
+  lien ket ID: KHONG co tolerance -- (a) khoa (frame,id) phai bang nhau; (b) phan hoach track tuong duong qua song anh ID co dinh
+==============================================================================
+tham chieu: data/processed/trackers/NANO-smoke/pc-ref-cv/data
+can kiem  : data/processed/trackers/NANO-e2e/nano-trt-cv/data
+
+video                           hang  max|d bbox|  max|d conf| phan hoach  ket qua
+------------------------------------------------------------------------------------------
+MVI_39031                        545            -            -   chua_xet  KHONG DAT: so hang khac nhau: 545 vs 548
+------------------------------------------------------------------------------
+KET QUA: 0/1 video DAT
+
+=> KHONG duoc do toc do khi ket qua tracking con khac: so do se khong so sanh duoc.
+-> results_nano/nano-trt/so_tracking_vs_pc_ref_cv.json
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[run_tracking] cache=nano_trt_MVI_39031_f0001-0300 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  nano-trt-ekf                 MVI_39031        300 frame ->     547 bbox   12 track  predict 0.63 ms/frame  assoc 2.88  (1.3s, 236 fps)
+  nano-trt-ekf                   1 video moi,   0 tai su dung
+==============================================================================
+TOLERANCE DA CONG BO (truoc khi so):
+  bbox       : |delta| <= 1e-03 pixel moi toa do
+  confidence : |delta| <= 1e-06
+  lien ket ID: KHONG co tolerance -- (a) khoa (frame,id) phai bang nhau; (b) phan hoach track tuong duong qua song anh ID co dinh
+==============================================================================
+tham chieu: data/processed/trackers/NANO-smoke/pc-ref-ekf/data
+can kiem  : data/processed/trackers/NANO-e2e/nano-trt-ekf/data
+
+video                           hang  max|d bbox|  max|d conf| phan hoach  ket qua
+------------------------------------------------------------------------------------------
+MVI_39031                        545            -            -   chua_xet  KHONG DAT: so hang khac nhau: 545 vs 547
+------------------------------------------------------------------------------
+KET QUA: 0/1 video DAT
+
+=> KHONG duoc do toc do khi ket qua tracking con khac: so do se khong so sanh duoc.
+-> results_nano/nano-trt/so_tracking_vs_pc_ref_ekf.json
+== 5. video minh hoa
+Traceback (most recent call last):
+  File "src/render_mot_video.py", line 74, in <module>
+    raise SystemExit(main())
+  File "src/render_mot_video.py", line 31, in main
+    import cv2
+ModuleNotFoundError: No module named 'cv2'
+(render bo qua: can opencv trong venv)
+== XONG: xem results_nano/nano-trt/ (e2e.log, detector_timing.json, det_compare_*.json, run_meta_*.json, so_tracking_vs_pc_ref_*.json)
+exit=0
+
+real	1m24.487s
+user	0m38.548s
+sys	0m8.112s

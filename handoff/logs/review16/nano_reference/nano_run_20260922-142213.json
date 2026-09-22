@@ -1,0 +1,100 @@
+{
+  "goc": "/home/jetson/nano_run/nano_transfer",
+  "python": "3.8.20 | packaged by conda-forge | (default, Sep 30 2024, 17:47:05) \n[GCC 13.3.0]",
+  "executable": "/home/jetson/miniforge3/envs/nano/bin/python",
+  "tag": "nano",
+  "bat_dau": "20260922-142213",
+  "buoc": {
+    "0_cache": {
+      "smoke": {
+        "n_frame": 300,
+        "n_box": 845,
+        "n_frame_rong": 0
+      },
+      "full": {
+        "n_frame": 1470,
+        "n_box": 10145,
+        "n_frame_rong": 34
+      }
+    },
+    "0_pc_ref": {
+      "NANO-smoke/pc-ref-cv": {
+        "n_hang": 545
+      },
+      "NANO-smoke/pc-ref-ekf": {
+        "n_hang": 545
+      },
+      "NANO-full/pc-ref-cv": {
+        "n_hang": 5842
+      },
+      "NANO-full/pc-ref-ekf": {
+        "n_hang": 5845
+      }
+    },
+    "0_env_check_exit": 0,
+    "0_import_np": {
+      "exit": 0,
+      "out": "{\"backend\": \"np\", \"torch\": false, \"ul\": false}",
+      "err": ""
+    },
+    "1_pc_ref_khop_ban_dong_goi": true,
+    "2_smoke_cv": {
+      "replay_exit": 0,
+      "wall_s": 3.17,
+      "parity_exit": 0,
+      "dat": true,
+      "n_ref": 545,
+      "n_test": 545,
+      "max_d_bbox": null,
+      "max_d_conf": null,
+      "phan_hoach": "khop",
+      "ly_do": null,
+      "bit_identical_data_txt": false,
+      "output": "data/processed/trackers/NANO-smoke/nano-cv"
+    },
+    "2_smoke_ekf": {
+      "replay_exit": 0,
+      "wall_s": 3.05,
+      "parity_exit": 0,
+      "dat": true,
+      "n_ref": 545,
+      "n_test": 545,
+      "max_d_bbox": null,
+      "max_d_conf": null,
+      "phan_hoach": "khop",
+      "ly_do": null,
+      "bit_identical_data_txt": false,
+      "output": "data/processed/trackers/NANO-smoke/nano-ekf"
+    },
+    "2_full_cv": {
+      "replay_exit": 0,
+      "wall_s": 9.82,
+      "parity_exit": 0,
+      "dat": true,
+      "n_ref": 5842,
+      "n_test": 5842,
+      "max_d_bbox": null,
+      "max_d_conf": null,
+      "phan_hoach": "khop",
+      "ly_do": null,
+      "bit_identical_data_txt": false,
+      "output": "data/processed/trackers/NANO-full/nano-cv"
+    },
+    "2_full_ekf": {
+      "replay_exit": 0,
+      "wall_s": 11.13,
+      "parity_exit": 0,
+      "dat": true,
+      "n_ref": 5845,
+      "n_test": 5845,
+      "max_d_bbox": null,
+      "max_d_conf": null,
+      "phan_hoach": "khop",
+      "ly_do": null,
+      "bit_identical_data_txt": false,
+      "output": "data/processed/trackers/NANO-full/nano-ekf"
+    },
+    "4_pc_ref_khong_doi_sau_chay": true
+  },
+  "ket_luan": "DAT"
+}

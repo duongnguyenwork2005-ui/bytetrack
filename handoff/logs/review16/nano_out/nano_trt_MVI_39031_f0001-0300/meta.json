@@ -1,0 +1,37 @@
+{
+  "backend": "tensorrt",
+  "weights": "/home/jetson/nano_run/v4/nano_transfer/yolov8n_fp16.engine",
+  "weights_sha256": "e01b99cb82c9de76d2135aceea6c99999b1f4b2b632d6ae178a5de5d1eff8914",
+  "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+  "imgsz": 640,
+  "conf": 0.05,
+  "iou": 0.7,
+  "classes": null,
+  "max_det": 3000,
+  "half": true,
+  "agnostic_nms": false,
+  "augment": false,
+  "batch": 1,
+  "device": "jetson-nano-trt",
+  "mask_ignored_regions": true,
+  "dataset": "video_file",
+  "part": "images",
+  "letterbox": "auto=False 640x640 (ONNX static); cache PC .pt dung rect auto=True",
+  "gt_jitter": 0.0,
+  "gt_dropout": 0.0,
+  "gt_seed": 0,
+  "gt_conf_range": [
+    0.3,
+    0.95
+  ],
+  "versions": {
+    "numpy": "1.19.5",
+    "opencv": "3.2.0",
+    "python": "3.6.9",
+    "tensorrt": "8.2.1.9",
+    "bo_dem": "cudart"
+  },
+  "git_commit": null,
+  "created": "2026-09-22T14:57:10",
+  "ghi_chu": "cache do nano_detector.py (Python 3.6, TensorRT) tao; khong co spec_sha256 (legacy) -> open_cache chap nhan; KHONG ky vong bit-identical voi cache PC (FP16 + letterbox 640x640)"
+}

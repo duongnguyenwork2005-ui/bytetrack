@@ -1,0 +1,11 @@
+# 2026-09-22T13:33:58 chan doan libgomp TLS
+== import tensorrt, numpy, cv2:
+ImportError: /usr/lib/aarch64-linux-gnu/libgomp.so.1: cannot allocate memory in static TLS block
+== import cv2 truoc:
+OK 3.2.0
+== LD_PRELOAD libgomp:
+OK 8.2.1.9 3.2.0 1.10.0
+== LD_PRELOAD + import nano_detector + TRTEngine (deserialize engine, 1 infer):
+engine: {'tensorrt': '8.2.1.9', 'bindings': [{'name': 'images', 'input': True, 'shape': (1, 3, 640, 640), 'dtype': 'float32'}, {'name': 'output0', 'input': False, 'shape': (1, 84, 8400), 'dtype': 'float32'}], 'bo_dem': 'torch'}
+out (1, 84, 8400) float32 183942.9 ms
+lan 2 5766.6 ms

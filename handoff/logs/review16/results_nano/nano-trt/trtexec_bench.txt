@@ -1,0 +1,15 @@
+[09/22/2026-14:56:20] [I] 
+[09/22/2026-14:56:20] [I] === Performance summary ===
+[09/22/2026-14:56:20] [I] Throughput: 14.6803 qps
+[09/22/2026-14:56:20] [I] Latency: min = 67.0337 ms, max = 141.187 ms, mean = 68.1166 ms, median = 67.272 ms, percentile(99%) = 81.41 ms
+[09/22/2026-14:56:20] [I] End-to-End Host Latency: min = 67.0337 ms, max = 141.187 ms, mean = 68.1166 ms, median = 67.272 ms, percentile(99%) = 81.41 ms
+[09/22/2026-14:56:20] [I] Enqueue Time: min = 0.998047 ms, max = 1.87927 ms, mean = 1.23085 ms, median = 1.21216 ms, percentile(99%) = 1.64941 ms
+[09/22/2026-14:56:20] [I] H2D Latency: min = 0 ms, max = 0 ms, mean = 0 ms, median = 0 ms, percentile(99%) = 0 ms
+[09/22/2026-14:56:20] [I] GPU Compute Time: min = 67.0337 ms, max = 141.187 ms, mean = 68.1166 ms, median = 67.272 ms, percentile(99%) = 81.41 ms
+[09/22/2026-14:56:20] [I] D2H Latency: min = 0 ms, max = 0 ms, mean = 0 ms, median = 0 ms, percentile(99%) = 0 ms
+[09/22/2026-14:56:20] [I] Total Host Walltime: 13.6237 s
+[09/22/2026-14:56:20] [I] Total GPU Compute Time: 13.6233 s
+[09/22/2026-14:56:20] [I] Explanations of the performance metrics are printed in the verbose logs.
+[09/22/2026-14:56:20] [I] 
+&&&& PASSED TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --loadEngine=yolov8n_fp16.engine --iterations=200 --warmUp=1000 --avgRuns=10 --useCudaGraph --noDataTransfers=false
+-> results/phase2/profile/nano_yolov8n_fp16_trtexec.log (xem 'GPU Compute Time' mean/median/percentile, 'Throughput', 'H2D/D2H')

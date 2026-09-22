@@ -1,0 +1,19 @@
+# 2026-09-22T13:41:28 chan doan toc do TRTEngine (bo dem torch)
+              total        used        free      shared  buff/cache   available
+Mem:           3955        1532        1807           7         616        2629
+torch cuda init 27.9 s
+TRTEngine init 150.1 s
+lan 1: H2D 748.8 ms | execute+sync 120895.5 ms | D2H 48077.7 ms | ok=True
+lan 2: H2D 12114.2 ms | execute+sync 17278.3 ms | D2H 6475.2 ms | ok=True
+lan 3: H2D 599.3 ms | execute+sync 370.5 ms | D2H 9.0 ms | ok=True
+lan 4: H2D 2.8 ms | execute+sync 79.5 ms | D2H 894.6 ms | ok=True
+== execute_v2 (dong bo, stream mac dinh) x3:
+  execute_v2 744.4 ms ok=True
+  execute_v2 85.6 ms ok=True
+  execute_v2 77.9 ms ok=True
+== goi e(x) day du x3:
+  e(x) 566.7 ms
+  e(x) 75.9 ms
+  e(x) 365.0 ms
+              total        used        free      shared  buff/cache   available
+Mem:           3955        1635        1830           3         490        2642
