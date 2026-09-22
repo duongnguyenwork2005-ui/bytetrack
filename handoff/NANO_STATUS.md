@@ -1,6 +1,6 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-21 (mục 1: thông tin thiết bị; 4b: gói chuyển v2). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-22 (mục 4c: vòng 15 — script thiết bị + detector; gói v3). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
 ## 1. Thiết bị
@@ -51,7 +51,7 @@ chế độ nguồn, clocks hay nhiệt độ.
 | **Bộ so kết quả Nano ↔ PC** | ✅ **mới, đã kiểm** | `src/nano_parity.py`, `src/test_nano_parity.py` **10/10** |
 | **Khung đo AB/BA** | ✅ **mới, đã tự kiểm trên PC** | `src/nano_bench_tracker.py` |
 | Build engine TensorRT trên Nano | ❌ chưa chạy (không có thiết bị) | — |
-| Đường detector trên Nano nối vào backend NumPy | ❌ **chưa làm** | — |
+| Đường detector trên Nano nối vào backend NumPy | ⚠️ **mã có, kiểm trên PC** (`nano_detector.py` + `test_nano_detector` 6/6, torch FP32 thay TRT); **chưa chạy TRT trên thiết bị** | `handoff/REVIEW15_CHI_TIET.md` mục 2 |
 | Số đo tốc độ trên Nano | ❌ **chưa có số nào**; mọi FPS trong repo là PC (GTX 1650) | — |
 
 ## 3. Hai công cụ mới
@@ -115,6 +115,16 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES`, **hoặc** ép `.py` về LF trong `.gitattributes`. **Chưa làm trong đợt này** vì đổi
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
+
+## 4c. Vòng 15 (2026-09-22): script thiết bị + detector TensorRT — gói v3 `0b190b3`
+
+Thiết bị vẫn **không tới được** (`handoff/logs/review15/thu_ket_noi_nano.log`, `quet_mang.log`: ping/SSH timeout; host `.179` duy nhất mở SSH
+có host key khác Nano). **Chưa chạy gì trên Nano.** Đã làm trên PC: `src/nano_run_cache.py` (chỉ ghi `nano-*`, kiểm đầu vào, hash `pc-ref`
+trước/sau — hai finding review `7a2feb6`); `src/nano_detector.py` (Python 3.6 hệ thống: TensorRT + tiền/hậu xử lý NumPy → det cache đúng
+định dạng PC; tracker ở venv ≥ 3.8 replay — hai tiến trình vì binding TRT chỉ có cho Py 3.6); `test_nano_detector` 6/6 (letterbox pixel-identical,
+NMS lệch 0 với ultralytics trên cùng đầu ra thô); `nano_det_compare.py`, `render_mot_video.py`, `scripts/nano/03_e2e_nano.sh`; baseline e2e PC
+(torch FP32 + letterbox 640×640: det ghép 99,7 %, IoU 0,996; tracking không parity với `pc-ref` — dự kiến). Gói v3 `nano_transfer_latest.zip`
+63.792.494 B sha256 `4dc0530a…`, verify 2 stack ĐẠT. Chi tiết `handoff/REVIEW15_CHI_TIET.md`; khối lệnh mục 5.
 
 ## 4b. Gói chuyển sang Nano (2026-09-21, v2 `10d26fa`)
 

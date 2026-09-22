@@ -1,0 +1,35 @@
+# e2e PC baseline 2026-09-22T12:09:59 goi=D:\LABOTARY\bytetrack\handoff\nano_transfer_latest.zip giai nen C:\Users\Mikuno\AppData\Local\Temp\e2e_pc_nu5_ivv6\nano_transfer
+# detector: TorchPtInfer FP32 cuda (GTX 1650), letterbox 640x640 auto=False, che vung bo qua; KHONG phai TensorRT/Nano
+cache pc_torchpt640_MVI_39031_f0001-0300: 300 frame, 867 box, wall 7.1s; tb sau warm-up (PC): {"decode_ms": 2.81, "pre_ms": 4.82, "infer_ms": 14.74, "post_ms": 0.49, "n_frame_tong_ket": 295, "warmup_bo": 5, "tong_ms_moi_frame": 22.86}
+$ src/run_tracking.py --cache-id pc_torchpt640_MVI_39031_f0001-0300 --split-name NANO-e2e-pc --tracker-yaml bytetrack.yaml --tracker-name pc-torchpt-cv --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps -> exit 0
+  |   pc-torchpt-cv                  1 video moi,   0 tai su dung
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+$ src/nano_parity.py --ref data/processed/trackers/NANO-smoke/pc-ref-cv --test data/processed/trackers/NANO-e2e-pc/pc-torchpt-cv --json C:\Users\Mikuno\AppData\Local\Temp\e2e_pc_nu5_ivv6\nano_transfer\reference\so_tracking_torchpt640_vs_pc_ref_cv.json -> exit 1
+  | ------------------------------------------------------------------------------
+  | KET QUA: 0/1 video DAT
+  | 
+  | => KHONG duoc do toc do khi ket qua tracking con khac: so do se khong so sanh duoc.
+  | -> C:\Users\Mikuno\AppData\Local\Temp\e2e_pc_nu5_ivv6\nano_transfer\reference\so_tracking_torchpt640_vs_pc_ref_cv.json
+$ src/run_tracking.py --cache-id pc_torchpt640_MVI_39031_f0001-0300 --split-name NANO-e2e-pc --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name pc-torchpt-ekf --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps -> exit 0
+  |   pc-torchpt-ekf                 1 video moi,   0 tai su dung
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+$ src/nano_parity.py --ref data/processed/trackers/NANO-smoke/pc-ref-ekf --test data/processed/trackers/NANO-e2e-pc/pc-torchpt-ekf --json C:\Users\Mikuno\AppData\Local\Temp\e2e_pc_nu5_ivv6\nano_transfer\reference\so_tracking_torchpt640_vs_pc_ref_ekf.json -> exit 1
+  | ------------------------------------------------------------------------------
+  | KET QUA: 0/1 video DAT
+  | 
+  | => KHONG duoc do toc do khi ket qua tracking con khac: so do se khong so sanh duoc.
+  | -> C:\Users\Mikuno\AppData\Local\Temp\e2e_pc_nu5_ivv6\nano_transfer\reference\so_tracking_torchpt640_vs_pc_ref_ekf.json
+$ src/nano_det_compare.py --a nano_smoke_MVI_39031_f0001-0300 --b pc_torchpt640_MVI_39031_f0001-0300 --video MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --json C:\Users\Mikuno\AppData\Local\Temp\e2e_pc_nu5_ivv6\nano_transfer\reference\det_compare_torchpt640_vs_pc_c25.json -> exit 0
+  | [det_compare] MVI_39031: frame chung 300 | box a=581 b=586 cap=579 (ghep a 0.9966, b 0.9881) | IoU tb 0.9961245147469542 | |dconf| tb 0.007840301654911206 max 0.12214428186416626 | trung lop 0.9965457685664939 | chenh box/frame tb 0.016666666666666666 (bang nhau 291 frame)
+  | -> C:\Users\Mikuno\AppData\Local\Temp\e2e_pc_nu5_ivv6\nano_transfer\reference\det_compare_torchpt640_vs_pc_c25.json
+$ src/nano_det_compare.py --a nano_smoke_MVI_39031_f0001-0300 --b pc_torchpt640_MVI_39031_f0001-0300 --video MVI_39031 --json C:\Users\Mikuno\AppData\Local\Temp\e2e_pc_nu5_ivv6\nano_transfer\reference\det_compare_torchpt640_vs_pc_raw.json -> exit 0
+  | [det_compare] MVI_39031: frame chung 300 | box a=845 b=867 cap=836 (ghep a 0.9893, b 0.9642) | IoU tb 0.9942749652423357 | |dconf| tb 0.0100803494845566 max 0.22595790773630142 | trung lop 0.9940191387559809 | chenh box/frame tb 0.07333333333333333 (bang nhau 260 frame)
+  | -> C:\Users\Mikuno\AppData\Local\Temp\e2e_pc_nu5_ivv6\nano_transfer\reference\det_compare_torchpt640_vs_pc_raw.json
+$ render -> exit 0 [render] 300 frame, 549 box -> reference/pc-torchpt-cv.mp4
+KET QUA: {"tracking_cv_vs_pc_ref": {"n_ref": 545, "n_test": 549, "dat": false, "max_d_bbox": null, "max_d_conf": null, "phan_hoach": "chua_xet", "ly_do": "so hang khac nhau: 545 vs 549"}, "tracking_ekf_vs_pc_ref": {"n_ref": 545, "n_test": 546, "dat": false, "max_d_bbox": null, "max_d_conf": null, "phan_hoach": "chua_xet", "ly_do": "so hang khac nhau: 545 vs 546"}, "det_compare_c25": {"n_box_a": 581, "n_box_b": 586, "n_cap": 579, "ti_le_ghep_a": 0.9965576592082617, "ti_le_ghep_b": 0.9880546075085325, "iou_trung_binh": 0.9961245147469542, "iou_nho_nhat": 0.9235291481018066, "d_conf_trung_binh": 0.007840301654911206, "d_conf_lon_nhat": 0.12214428186416626, "ti_le_trung_lop": 0.9965457685664939, "chenh_so_box_moi_frame": {"trung_binh": 0.016666666666666666, "abs_trung_binh": 0.03, "max": 1, "min": -1, "frame_bang_nhau": 291}}, "det_compare_raw": {"n_box_a": 845, "n_box_b": 867, "n_cap": 836, "ti_le_ghep_a": 0.9893491124260355, "ti_le_ghep_b": 0.9642445213379469, "iou_trung_binh": 0.9942749652423357, "iou_nho_nhat": 0.8174676299095154, "d_conf_trung_binh": 0.0100803494845566, "d_conf_lon_nhat": 0.22595790773630142, "ti_le_trung_lop": 0.9940191387559809, "chenh_so_box_moi_frame": {"trung_binh": 0.07333333333333333, "abs_trung_binh": 0.13333333333333333, "max": 1, "min": -1, "frame_bang_nhau": 260}}}

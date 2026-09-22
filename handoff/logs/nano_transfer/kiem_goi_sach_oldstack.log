@@ -1,11 +1,11 @@
-# kiem goi sach 2026-09-21T20:14:46 zip=D:\LABOTARY\bytetrack\handoff\nano_transfer_latest.zip sha256=025187770c0876ad849ac32c27ba94b6aff934742f3592e80cf79ed8a99a8fd5
-# giai nen vao C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3 (thu muc tam, KHONG phai repo); cwd = goc goi, duong dan TUONG DOI nhu NANO_START_HERE.md
+# kiem goi sach 2026-09-22T12:11:48 zip=D:\LABOTARY\bytetrack\handoff\nano_transfer_latest.zip sha256=4dc0530aec7946e1437bbb767d755057d691e634c159c9cca53161feb0164396
+# giai nen vao C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r (thu muc tam, KHONG phai repo); cwd = goc goi, duong dan TUONG DOI nhu NANO_START_HERE.md
 # interpreter: C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe; moi buoc replay/parity CHAN torch va ultralytics
 # Y NGHIA: chi xac minh goi DU FILE + DU PHU THUOC Python tren PC; KHONG chung minh tuong thich Nano
 # phien ban: {"python": "3.11.9", "numpy": "1.24.4", "scipy": "KHONG CO", "lap": "0.5.12", "pandas": "1.5.3", "yaml": "6.0.1", "cv2": "KHONG CO"}
-0 manifest: 536 file, lech/thieu = []
+0 manifest: 543 file, lech/thieu = []
 $ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe src/nano_env_check.py --json reference/env_check_pc.json
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
+  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer)
   exit=0
   |   [DAT      ] 4. cache yolov8n-coco_conf0.05_all/MVI_39031.npz  -- 1470 frame (34 frame RONG giu nguyen), 10145 box, time_s tang=True, tong n_per_frame==len(data)=True
   |   [DAT      ] 4. ban tham chieu PC (pc-ref-*)  -- NANO-full/pc-ref-cv (1 file), NANO-full/pc-ref-ekf (1 file), NANO-smoke/pc-ref-cv (1 file), NANO-smoke/pc-ref-ekf (1 file)
@@ -31,7 +31,7 @@ import ul_backend
 fp = ul_backend.fingerprint()
 print(json.dumps({'backend': ul_backend.backend_name(), 'torch': 'torch' in sys.modules, 'ul': 'ultralytics' in sys.modules, 'fp_keys': sorted(fp)[:6]}))
 "
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
+  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer)
   exit=0
   | {"backend": "np", "torch": false, "ul": false, "fp_keys": ["backend", "hash_convention", "lap", "numpy", "scipy", "vendor_modules"]}
 $ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe -c "
@@ -51,7 +51,7 @@ sys.path.insert(0, 'src')
 sys.argv = ['src/test_nano_parity.py'] + []
 runpy.run_path('src/test_nano_parity.py', run_name='__main__')
 "
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
+  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer)
   exit=0
   |          conf lech 2.000e-05 > 1e-06; ID va phan hoach: KHOP (khac biet chi o bbox/conf; nguyen nhan: CHUA XAC DINH tu hai file tracking -- can kiem detection dau vao rieng)
   |   [PASS] (F3) frame 1 mo ho nhung frame 2 co neo 1->8, 2->9: rang buoc toan sequence GIAI duoc -> phan hoach KHOP (chi lech danh so), khong con mo ho
@@ -59,221 +59,40 @@ runpy.run_path('src/test_nano_parity.py', run_name='__main__')
   |   [PASS] tolerance la hang so module, cong bo duoc truoc khi so (bbox=1e-03, conf=1e-06, id=None)
   | 
   | KET QUA: 20/20 phep kiem tra PASS
-$ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe -c "
-import sys
-class _Block:
-    def find_module(self, name, path=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            return self
-    def load_module(self, name):
-        raise ImportError(\"CHAN (kiem goi nano): \" + name)
-    def find_spec(self, name, path=None, target=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            raise ImportError(\"CHAN (kiem goi nano): \" + name)
-sys.meta_path.insert(0, _Block())
-import sys, runpy
-sys.path.insert(0, 'src')
-sys.argv = ['src/run_tracking.py'] + ['--cache-id', 'nano_smoke_MVI_39031_f0001-0300', '--split-name', 'NANO-smoke', '--tracker-yaml', 'bytetrack.yaml', '--tracker-name', 'kiem-cv', '--videos', 'MVI_39031', '--conf-min', '0.25', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '25', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
-runpy.run_path('src/run_tracking.py', run_name='__main__')
-"
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
+$ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe src/nano_run_cache.py --tag kiem
+  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer)
   exit=0
-  |   kiem-cv                      MVI_39031        300 frame ->     545 bbox   12 track  predict 0.10 ms/frame  assoc 0.59  (0.2s, 1201 fps)
-  |   kiem-cv                        1 video moi,   0 tai su dung
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-$ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe -c "
-import sys
-class _Block:
-    def find_module(self, name, path=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            return self
-    def load_module(self, name):
-        raise ImportError(\"CHAN (kiem goi nano): \" + name)
-    def find_spec(self, name, path=None, target=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            raise ImportError(\"CHAN (kiem goi nano): \" + name)
-sys.meta_path.insert(0, _Block())
-import sys, runpy
-sys.path.insert(0, 'src')
-sys.argv = ['src/nano_parity.py'] + ['--ref', 'data/processed/trackers/NANO-smoke/pc-ref-cv', '--test', 'data/processed/trackers/NANO-smoke/kiem-cv', '--json', 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_pkg_qo8fzvw3\\nano_transfer\\reference\\parity_kiem_goi_sach_NANO-smoke_cv.json']
-runpy.run_path('src/nano_parity.py', run_name='__main__')
-"
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
+  |   | KET QUA: 1/1 video DAT
+  |   | -> reference\parity_kiem_full_ekf.json
+  | full/ekf: replay exit 0 (2.7s) | parity exit 0 dat=True n=5845/5845 | bit-identical=True
+  | 4. cay pc-ref sau khi chay y het truoc: True
+  | KET LUAN: DAT
+  | -> C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer\reference\nano_run_20260922-121152.json
+$ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe src/nano_run_cache.py --tag kiem2
+  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer)
+  exit=2
+  |   |   [he thong ] may: AMD64
+  |   | KET LUAN: DAT (1-4)
+  | import backend np: exit=0 {"backend": "np", "torch": false, "ul": false} 
+  | [LOI] thieu dau vao:
+  |   - tham chieu PC thieu: C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer\data\processed\trackers\NANO-full\pc-ref-ekf\data\MVI_39031.txt
+  | -> C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer\reference\nano_run_20260922-121202.json
+$ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe src/nano_det_compare.py --a nano_smoke_MVI_39031_f0001-0300 --b yolov8n-coco_conf0.05_all --video MVI_39031 --max-frames 300 --json C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer\reference\det_compare_kiem.json
+  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer)
   exit=0
-  | video                           hang  max|d bbox|  max|d conf| phan hoach  ket qua
-  | ------------------------------------------------------------------------------------------
-  | MVI_39031                        545    0.000e+00    0.000e+00       khop  DAT
-  | ------------------------------------------------------------------------------
-  | KET QUA: 1/1 video DAT
-  | -> C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer\reference\parity_kiem_goi_sach_NANO-smoke_cv.json
-  bit-identical data/MVI_39031.txt (NANO-smoke/cv): True
-$ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe -c "
-import sys
-class _Block:
-    def find_module(self, name, path=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            return self
-    def load_module(self, name):
-        raise ImportError(\"CHAN (kiem goi nano): \" + name)
-    def find_spec(self, name, path=None, target=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            raise ImportError(\"CHAN (kiem goi nano): \" + name)
-sys.meta_path.insert(0, _Block())
-import sys, runpy
-sys.path.insert(0, 'src')
-sys.argv = ['src/run_tracking.py'] + ['--cache-id', 'nano_smoke_MVI_39031_f0001-0300', '--split-name', 'NANO-smoke', '--tracker-yaml', 'configs/bytetrack_ekf_ctrv.yaml', '--tracker-name', 'kiem-ekf', '--videos', 'MVI_39031', '--conf-min', '0.25', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '25', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
-runpy.run_path('src/run_tracking.py', run_name='__main__')
-"
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
-  exit=0
-  |   kiem-ekf                     MVI_39031        300 frame ->     545 bbox   12 track  predict 0.10 ms/frame  assoc 0.63  (0.3s, 1125 fps)
-  |   kiem-ekf                       1 video moi,   0 tai su dung
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-$ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe -c "
-import sys
-class _Block:
-    def find_module(self, name, path=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            return self
-    def load_module(self, name):
-        raise ImportError(\"CHAN (kiem goi nano): \" + name)
-    def find_spec(self, name, path=None, target=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            raise ImportError(\"CHAN (kiem goi nano): \" + name)
-sys.meta_path.insert(0, _Block())
-import sys, runpy
-sys.path.insert(0, 'src')
-sys.argv = ['src/nano_parity.py'] + ['--ref', 'data/processed/trackers/NANO-smoke/pc-ref-ekf', '--test', 'data/processed/trackers/NANO-smoke/kiem-ekf', '--json', 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_pkg_qo8fzvw3\\nano_transfer\\reference\\parity_kiem_goi_sach_NANO-smoke_ekf.json']
-runpy.run_path('src/nano_parity.py', run_name='__main__')
-"
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
-  exit=0
-  | video                           hang  max|d bbox|  max|d conf| phan hoach  ket qua
-  | ------------------------------------------------------------------------------------------
-  | MVI_39031                        545    0.000e+00    0.000e+00       khop  DAT
-  | ------------------------------------------------------------------------------
-  | KET QUA: 1/1 video DAT
-  | -> C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer\reference\parity_kiem_goi_sach_NANO-smoke_ekf.json
-  bit-identical data/MVI_39031.txt (NANO-smoke/ekf): True
-$ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe -c "
-import sys
-class _Block:
-    def find_module(self, name, path=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            return self
-    def load_module(self, name):
-        raise ImportError(\"CHAN (kiem goi nano): \" + name)
-    def find_spec(self, name, path=None, target=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            raise ImportError(\"CHAN (kiem goi nano): \" + name)
-sys.meta_path.insert(0, _Block())
-import sys, runpy
-sys.path.insert(0, 'src')
-sys.argv = ['src/run_tracking.py'] + ['--cache-id', 'yolov8n-coco_conf0.05_all', '--split-name', 'NANO-full', '--tracker-yaml', 'bytetrack.yaml', '--tracker-name', 'kiem-cv', '--videos', 'MVI_39031', '--conf-min', '0.25', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '25', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
-runpy.run_path('src/run_tracking.py', run_name='__main__')
-"
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
-  exit=0
-  |   kiem-cv                      MVI_39031       1470 frame ->   5,842 bbox   72 track  predict 0.11 ms/frame  assoc 0.94  (1.8s, 835 fps)
-  |   kiem-cv                        1 video moi,   0 tai su dung
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-$ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe -c "
-import sys
-class _Block:
-    def find_module(self, name, path=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            return self
-    def load_module(self, name):
-        raise ImportError(\"CHAN (kiem goi nano): \" + name)
-    def find_spec(self, name, path=None, target=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            raise ImportError(\"CHAN (kiem goi nano): \" + name)
-sys.meta_path.insert(0, _Block())
-import sys, runpy
-sys.path.insert(0, 'src')
-sys.argv = ['src/nano_parity.py'] + ['--ref', 'data/processed/trackers/NANO-full/pc-ref-cv', '--test', 'data/processed/trackers/NANO-full/kiem-cv', '--json', 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_pkg_qo8fzvw3\\nano_transfer\\reference\\parity_kiem_goi_sach_NANO-full_cv.json']
-runpy.run_path('src/nano_parity.py', run_name='__main__')
-"
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
-  exit=0
-  | video                           hang  max|d bbox|  max|d conf| phan hoach  ket qua
-  | ------------------------------------------------------------------------------------------
-  | MVI_39031                       5842    0.000e+00    0.000e+00       khop  DAT
-  | ------------------------------------------------------------------------------
-  | KET QUA: 1/1 video DAT
-  | -> C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer\reference\parity_kiem_goi_sach_NANO-full_cv.json
-  bit-identical data/MVI_39031.txt (NANO-full/cv): True
-$ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe -c "
-import sys
-class _Block:
-    def find_module(self, name, path=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            return self
-    def load_module(self, name):
-        raise ImportError(\"CHAN (kiem goi nano): \" + name)
-    def find_spec(self, name, path=None, target=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            raise ImportError(\"CHAN (kiem goi nano): \" + name)
-sys.meta_path.insert(0, _Block())
-import sys, runpy
-sys.path.insert(0, 'src')
-sys.argv = ['src/run_tracking.py'] + ['--cache-id', 'yolov8n-coco_conf0.05_all', '--split-name', 'NANO-full', '--tracker-yaml', 'configs/bytetrack_ekf_ctrv.yaml', '--tracker-name', 'kiem-ekf', '--videos', 'MVI_39031', '--conf-min', '0.25', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '25', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
-runpy.run_path('src/run_tracking.py', run_name='__main__')
-"
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
-  exit=0
-  |   kiem-ekf                     MVI_39031       1470 frame ->   5,845 bbox   70 track  predict 0.18 ms/frame  assoc 0.96  (1.9s, 769 fps)
-  |   kiem-ekf                       1 video moi,   0 tai su dung
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-  | fatal: not a git repository (or any of the parent directories): .git
-$ C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe -c "
-import sys
-class _Block:
-    def find_module(self, name, path=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            return self
-    def load_module(self, name):
-        raise ImportError(\"CHAN (kiem goi nano): \" + name)
-    def find_spec(self, name, path=None, target=None):
-        if name.split(\".\")[0] in (\"torch\", \"ultralytics\"):
-            raise ImportError(\"CHAN (kiem goi nano): \" + name)
-sys.meta_path.insert(0, _Block())
-import sys, runpy
-sys.path.insert(0, 'src')
-sys.argv = ['src/nano_parity.py'] + ['--ref', 'data/processed/trackers/NANO-full/pc-ref-ekf', '--test', 'data/processed/trackers/NANO-full/kiem-ekf', '--json', 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_pkg_qo8fzvw3\\nano_transfer\\reference\\parity_kiem_goi_sach_NANO-full_ekf.json']
-runpy.run_path('src/nano_parity.py', run_name='__main__')
-"
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
-  exit=0
-  | video                           hang  max|d bbox|  max|d conf| phan hoach  ket qua
-  | ------------------------------------------------------------------------------------------
-  | MVI_39031                       5845    0.000e+00    0.000e+00       khop  DAT
-  | ------------------------------------------------------------------------------
-  | KET QUA: 1/1 video DAT
-  | -> C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer\reference\parity_kiem_goi_sach_NANO-full_ekf.json
-  bit-identical data/MVI_39031.txt (NANO-full/ekf): True
+  | [det_compare] MVI_39031: frame chung 300 | box a=845 b=845 cap=845 (ghep a 1.0, b 1.0) | IoU tb 1.0 | |dconf| tb 0.0 max 0.0 | trung lop 1.0 | chenh box/frame tb 0.0 (bang nhau 300 frame)
+  | -> C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer\reference\det_compare_kiem.json
 $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe -c "import onnx, hashlib, json
-p = r'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_pkg_qo8fzvw3\\nano_transfer\\models\\export\\yolov8n_640_op12.onnx'
+p = r'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_pkg_hmddkp4r\\nano_transfer\\models\\export\\yolov8n_640_op12.onnx'
 m = onnx.load(p)
 onnx.checker.check_model(m)
 print(json.dumps({'ir': m.ir_version, 'opset': [(o.domain, o.version) for o in m.opset_import], 'n_node': len(m.graph.node), 'inputs': [(i.name, [d.dim_value for d in i.type.tensor_type.shape.dim]) for i in m.graph.input], 'sha256': hashlib.sha256(open(p, 'rb').read()).hexdigest()}))
 "
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
+  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer)
   exit=0
   | {"ir": 7, "opset": [["", 12]], "n_node": 262, "inputs": [["images", [1, 3, 640, 640]]], "sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451"}
 $ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe -c "import cv2, json, glob
-d = r'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_pkg_qo8fzvw3\\nano_transfer\\data\\smoke'
+d = r'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_pkg_hmddkp4r\\nano_transfer\\data\\smoke'
 fs = sorted(glob.glob(d + '/MVI_39031_f0001-0300/*.jpg'))
 im = cv2.imread(fs[0]); cap = cv2.VideoCapture(d + '/MVI_39031_f0001-0300.mp4'); n = 0
 while True:
@@ -282,7 +101,11 @@ while True:
     n += 1
 print(json.dumps({'n_jpg': len(fs), 'jpg_shape': list(im.shape), 'mp4_frames_doc': n}))
 "
-  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_qo8fzvw3\nano_transfer)
+  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer)
   exit=0
   | {"n_jpg": 300, "jpg_shape": [540, 960, 3], "mp4_frames_doc": 300}
+$ C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe src/render_mot_video.py --images data/smoke/MVI_39031_f0001-0300 --mot data/processed/trackers/NANO-smoke/pc-ref-cv/data/MVI_39031.txt --cls data/processed/trackers/NANO-smoke/pc-ref-cv/data_cls/MVI_39031.csv --fps 25 --out reference/render_kiem.mp4
+  (cwd C:\Users\Mikuno\AppData\Local\Temp\nano_pkg_hmddkp4r\nano_transfer)
+  exit=0
+  | [render] 300 frame, 545 box -> reference/render_kiem.mp4
 KET LUAN: DAT: goi du file/du phu thuoc de replay + parity tren PC (KHONG chung minh tuong thich Nano)

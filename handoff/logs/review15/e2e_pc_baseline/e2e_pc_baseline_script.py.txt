@@ -1,0 +1,70 @@
+# -*- coding: utf-8 -*-
+"""Baseline E2E tren PC trong ban giai nen SACH cua nano_transfer_latest.zip:
+detector = NanoDetector(TorchPtInfer FP32, GPU) voi letterbox 640x640 (nhu duong ONNX/TRT), che vung bo qua
+-> det cache -> run_tracking CV/EKF (np, chan torch) -> so voi pc-ref (MO TA) + det_compare voi cache PC.
+KHONG phai TensorRT, KHONG phai so Nano; chi de biet 'hieu ung letterbox 640x640' truoc khi co FP16 tren thiet bi."""
+import json, os, shutil, subprocess, sys, tempfile, time, zipfile
+from pathlib import Path
+ROOT = Path(r"D:\LABOTARY\bytetrack")
+OUT = ROOT / "handoff/logs/review15/e2e_pc_baseline"; OUT.mkdir(parents=True, exist_ok=True)
+tmp = Path(tempfile.mkdtemp(prefix="e2e_pc_"))
+with zipfile.ZipFile(ROOT / "handoff/nano_transfer_latest.zip") as z:
+    z.extractall(tmp)
+g = tmp / "nano_transfer"
+sys.path.insert(0, str(g / "src"))
+import nano_detector as nd
+import torch
+log = [f"# e2e PC baseline {time.strftime('%FT%T')} goi={ROOT/'handoff/nano_transfer_latest.zip'} giai nen {g}",
+       f"# detector: TorchPtInfer FP32 {'cuda' if torch.cuda.is_available() else 'cpu'} (GTX 1650), letterbox 640x640 auto=False, che vung bo qua; KHONG phai TensorRT/Nano"]
+infer = nd.TorchPtInfer(str(g / "models/yolov8n.pt"), device="cuda" if torch.cuda.is_available() else "cpu")
+det = nd.NanoDetector(infer, 640, 0.05, 0.7, 3000)
+anh = nd.liet_ke_anh(str(g / "data/smoke/MVI_39031_f0001-0300"))
+regions = nd.doc_regions(str(g / "data/smoke/MVI_39031/ignored_regions.txt"))
+img0 = __import__("cv2").imread(anh[0])
+for _ in range(3): det.detect(img0)
+det.t = {"pre_ms": 0.0, "infer_ms": 0.0, "post_ms": 0.0, "n": 0}
+t0 = time.perf_counter()
+arr, timing, tong = nd.chay_nguon(det, anh, 25.0, regions, None, 5, log_every=100)
+wall = time.perf_counter() - t0
+cid = "pc_torchpt640_MVI_39031_f0001-0300"
+meta = {"backend": "torch-pt-fp32-letterbox640", "weights": "models/yolov8n.pt", "weights_sha256": nd.sha256_file(str(g / "models/yolov8n.pt")),
+        "imgsz": 640, "conf": 0.05, "iou": 0.7, "classes": None, "max_det": 3000, "half": False, "agnostic_nms": False, "augment": False, "batch": 1,
+        "device": "pc-gtx1650", "mask_ignored_regions": True, "dataset": "video_file", "part": "images", "letterbox": "auto=False 640x640",
+        "versions": {"torch": torch.__version__}, "git_commit": None, "created": time.strftime("%FT%T")}
+info = nd.ghi_cache(str(g / "data/interim/det_cache" / cid), "MVI_39031", arr["frame_idx"], arr["time_s"], arr["n_per"], arr["unreadable"], arr["truncated"],
+                    arr["data"], arr["orig_shape"], meta, {"fps": 25.0, "wall_vong_lap_s": wall, "tong_ket_ms": tong})
+log.append(f"cache {cid}: {info['n_frames']} frame, {info['n_boxes']} box, wall {wall:.1f}s; tb sau warm-up (PC): {json.dumps({k:(round(v,2) if isinstance(v,float) else v) for k,v in tong.items()})}")
+BLOCK = "import sys\nclass _B:\n    def find_spec(self, n, p=None, t=None):\n        if n.split('.')[0] in ('torch','ultralytics'): raise ImportError('CHAN '+n)\nsys.meta_path.insert(0,_B())\n"
+def run(script, args):
+    code = BLOCK + f"import sys, runpy\nsys.path.insert(0,'src')\nsys.argv=[{script!r}]+{args!r}\nrunpy.run_path({script!r}, run_name='__main__')\n"
+    r = subprocess.run([sys.executable, "-c", code], cwd=str(g), capture_output=True, text=True, encoding="utf-8", errors="replace",
+                       env={**os.environ, "BYTETRACK_BACKEND": "np", "PYTHONIOENCODING": "utf-8"})
+    log.append(f"$ {script} {' '.join(args)} -> exit {r.returncode}"); log.extend("  | " + l for l in (r.stdout + r.stderr).strip().splitlines()[-5:])
+    return r
+kq = {"cache": info, "tong_ket_ms_pc": tong, "wall_s": wall}
+for ten, yaml in (("cv", "bytetrack.yaml"), ("ekf", "configs/bytetrack_ekf_ctrv.yaml")):
+    run("src/run_tracking.py", ["--cache-id", cid, "--split-name", "NANO-e2e-pc", "--tracker-yaml", yaml, "--tracker-name", f"pc-torchpt-{ten}",
+                                "--videos", "MVI_39031", "--conf-min", "0.25", "--classes", "1", "2", "3", "5", "7", "--max-det", "300", "--fps", "25",
+                                "--track-buffer-sec", "1.2", "--elapsed-mode", "steps"])
+    pj = g / "reference" / f"so_tracking_torchpt640_vs_pc_ref_{ten}.json"
+    run("src/nano_parity.py", ["--ref", f"data/processed/trackers/NANO-smoke/pc-ref-{ten}", "--test", f"data/processed/trackers/NANO-e2e-pc/pc-torchpt-{ten}", "--json", str(pj)])
+    d = json.loads(pj.read_text(encoding="utf-8")); v = d["ket_qua"][0]
+    kq[f"tracking_{ten}_vs_pc_ref"] = {k: v.get(k) for k in ("n_ref", "n_test", "dat", "max_d_bbox", "max_d_conf", "phan_hoach", "ly_do")}
+    shutil.copy(pj, OUT / pj.name)
+for nhan, extra in (("c25", ["--conf-min", "0.25", "--classes", "1", "2", "3", "5", "7", "--max-det", "300"]), ("raw", [])):
+    pj = g / "reference" / f"det_compare_torchpt640_vs_pc_{nhan}.json"
+    run("src/nano_det_compare.py", ["--a", "nano_smoke_MVI_39031_f0001-0300", "--b", cid, "--video", "MVI_39031", *extra, "--json", str(pj)])
+    d = json.loads(pj.read_text(encoding="utf-8"))
+    kq[f"det_compare_{nhan}"] = {k: d.get(k) for k in ("n_box_a", "n_box_b", "n_cap", "ti_le_ghep_a", "ti_le_ghep_b", "iou_trung_binh", "iou_nho_nhat", "d_conf_trung_binh", "d_conf_lon_nhat", "ti_le_trung_lop", "chenh_so_box_moi_frame")}
+    shutil.copy(pj, OUT / pj.name)
+r = subprocess.run([sys.executable, "src/render_mot_video.py", "--images", "data/smoke/MVI_39031_f0001-0300", "--mot", "data/processed/trackers/NANO-e2e-pc/pc-torchpt-cv/data/MVI_39031.txt",
+                    "--cls", "data/processed/trackers/NANO-e2e-pc/pc-torchpt-cv/data_cls/MVI_39031.csv", "--fps", "25", "--out", "reference/pc-torchpt-cv.mp4"], cwd=str(g), capture_output=True, text=True)
+log.append(f"$ render -> exit {r.returncode} {r.stdout.strip()[-80:]}")
+kq["render_mp4_bytes"] = (g / "reference/pc-torchpt-cv.mp4").stat().st_size if (g / "reference/pc-torchpt-cv.mp4").is_file() else 0
+for ten in ("cv", "ekf"):
+    shutil.copy(g / "data/processed/trackers/NANO-e2e-pc" / f"pc-torchpt-{ten}" / "run_meta.json", OUT / f"run_meta_pc-torchpt-{ten}.json")
+(OUT / "e2e_pc_baseline.json").write_text(json.dumps(kq, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
+log.append("KET QUA: " + json.dumps({k: v for k, v in kq.items() if k.startswith(("tracking", "det_compare"))}, ensure_ascii=False, default=str))
+(OUT / "e2e_pc_baseline.log").write_text("\n".join(log) + "\n", encoding="utf-8")
+print("\n".join(log[-12:]))
+shutil.rmtree(tmp, ignore_errors=True)
