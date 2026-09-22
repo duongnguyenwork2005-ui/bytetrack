@@ -33,12 +33,15 @@ else
 fi
 echo "== 1b. benchmark engine (latency GPU detector, KHONG phai pipeline)"; bash scripts/nano/02_benchmark_engine.sh "$ENGINE" 2>&1 | tail -15 | tee "$OUT/trtexec_bench.txt"
 
-# 2. detector TensorRT -> det cache (Python 3.6 he thong: tensorrt + numpy + cv2 (+ torch lam bo dem))
+# 2. detector TensorRT -> det cache (Python 3.6 he thong: tensorrt + numpy + cv2; bo dem GPU = ctypes libcudart, KHONG torch)
+# LD_PRELOAD libgomp: tranh "cannot allocate memory in static TLS block" khi import cv2 sau tensorrt (do that vong 16).
 echo "== 2. detector TensorRT -> cache $CID"
-python3 -c "import tensorrt, numpy, cv2; print('tensorrt', tensorrt.__version__, 'numpy', numpy.__version__, 'cv2', cv2.__version__)" || { echo "[LOI] python3 he thong thieu tensorrt/numpy/cv2"; exit 1; }
+GOMP=/usr/lib/aarch64-linux-gnu/libgomp.so.1; [ -f "$GOMP" ] && export LD_PRELOAD=$GOMP
+python3 -c "import tensorrt, numpy, cv2; print('tensorrt', tensorrt.__version__, 'numpy', numpy.__version__, 'cv2', cv2.__version__)" || { echo "[LOI] python3 he thong thieu tensorrt/numpy/cv2 (thu LD_PRELOAD=$GOMP)"; exit 1; }
 rm -rf "data/interim/det_cache/$CID"
 python3 src/nano_detector.py --engine "$ENGINE" --onnx-sha256 "$ONNX_SHA" --images "$IMG" --fps 25 --video-name MVI_39031 \
-    --cache-id "$CID" --regions "$REG" --timing-json "$OUT/detector_timing.json" || { echo "[LOI] detector that bai"; exit 1; }
+    --cache-id "$CID" --regions "$REG" --bo-dem cudart --timing-json "$OUT/detector_timing.json" || { echo "[LOI] detector that bai"; exit 1; }
+unset LD_PRELOAD
 
 # 3. so detection voi cache PC (mo ta, khong dat/khong dat)
 echo "== 3. det_compare: cache TRT vs cache PC (dieu kien vao tracker c25) va (tho conf 0.05)"

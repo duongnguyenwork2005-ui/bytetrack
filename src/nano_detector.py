@@ -3,8 +3,10 @@
 nano_detector.py -- Detector YOLOv8 (ONNX/TensorRT) cho Jetson Nano: tien xu ly + suy luan + hau xu ly NumPy,
 ghi DETECTION CACHE dung dinh dang cua `det_cache.py` de tracker (Python >= 3.8, backend NumPy) replay.
 
-    # tren Nano, Python HE THONG 3.6 (noi co `tensorrt` cua JetPack; torch 1.10 CUDA dung lam bo dem GPU):
-    python3 src/nano_detector.py --engine yolov8n_fp16.engine --images data/smoke/MVI_39031_f0001-0300 --fps 25 \
+    # tren Nano, Python HE THONG 3.6 (noi co `tensorrt` cua JetPack). Bo dem GPU mac dinh: ctypes libcudart (khong torch).
+    # LD_PRELOAD libgomp: tranh loi "cannot allocate memory in static TLS block" khi import cv2 sau tensorrt (Jetson).
+    LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1 python3 src/nano_detector.py --engine yolov8n_fp16.engine \
+        --images data/smoke/MVI_39031_f0001-0300 --fps 25 \
         --cache-id nano_trt_MVI_39031_f0001-0300 [--regions data/smoke/MVI_39031/ignored_regions.txt] [--max-frames N]
     # sau do (venv >= 3.8):
     BYTETRACK_BACKEND=np python src/run_tracking.py --cache-id nano_trt_MVI_39031_f0001-0300 --split-name NANO-e2e ...
@@ -201,10 +203,12 @@ class NanoDetector(object):
 
 
 class TRTEngine(object):
-    """Chay engine TensorRT (build TREN Nano bang trtexec). Bo dem GPU: torch (neu co) hoac pycuda.
-    Input binding 'images' (1,3,640,640) float32; output 'output0' (1,84,8400) float32 (engine FP16 van I/O FP32)."""
+    """Chay engine TensorRT (build TREN Nano bang trtexec).
+    Bo dem GPU (`bo_dem`): "cudart" (MAC DINH: ctypes libcudart, khong torch/pycuda) | "torch" | "pycuda".
+    Do that tren Nano 4 GB (vong 16): import torch ~1 GB RAM -> swap, execute lech tu 80 ms toi >100 s; duong cudart
+    on dinh 68-78 ms (= trtexec). Input 'images' (1,3,640,640) float32; output 'output0' (1,84,8400) float32."""
 
-    def __init__(self, engine_path, dung_torch=None):
+    def __init__(self, engine_path, dung_torch=None, bo_dem=None):
         import tensorrt as trt
         self.trt = trt
         self.logger = trt.Logger(trt.Logger.WARNING)
@@ -224,14 +228,32 @@ class TRTEngine(object):
         self.out_shape = self.bindings_info[self.out_idx]["shape"]
         self.in_dtype = np.dtype(self.bindings_info[self.in_idx]["dtype"])
         self.out_dtype = np.dtype(self.bindings_info[self.out_idx]["dtype"])
-        if dung_torch is None:
-            try:
-                import torch  # noqa: F401
-                dung_torch = True
-            except Exception:  # noqa: BLE001
-                dung_torch = False
-        self.dung_torch = dung_torch
-        if dung_torch:
+        if bo_dem is None:
+            bo_dem = "torch" if dung_torch else ("pycuda" if dung_torch is False else "cudart")
+        self.bo_dem = bo_dem
+        self.dung_torch = bo_dem == "torch"
+        if bo_dem == "cudart":
+            import ctypes, ctypes.util
+            duong = None
+            for cand in ("/usr/local/cuda/lib64/libcudart.so", "/usr/local/cuda/lib64/libcudart.so.10.2",
+                         ctypes.util.find_library("cudart")):
+                if cand and os.path.exists(cand):
+                    duong = cand; break
+            if duong is None:
+                duong = ctypes.util.find_library("cudart")
+            if duong is None:
+                raise RuntimeError("khong tim thay libcudart (dat CUDA lib64 vao LD_LIBRARY_PATH hoac dung bo_dem='torch')")
+            self.cudart = ctypes.CDLL(duong)
+            self.ctypes = ctypes
+            self.d_in = ctypes.c_void_p(); self.d_out = ctypes.c_void_p()
+            n_in = int(np.prod(self.in_shape)) * self.in_dtype.itemsize
+            n_out = int(np.prod(self.out_shape)) * self.out_dtype.itemsize
+            self._chk(self.cudart.cudaMalloc(ctypes.byref(self.d_in), n_in), "cudaMalloc in")
+            self._chk(self.cudart.cudaMalloc(ctypes.byref(self.d_out), n_out), "cudaMalloc out")
+            self.h_out = np.empty(int(np.prod(self.out_shape)), self.out_dtype)
+            self.bindings = [0] * self.engine.num_bindings
+            self.bindings[self.in_idx] = int(self.d_in.value); self.bindings[self.out_idx] = int(self.d_out.value)
+        elif self.dung_torch:
             import torch
             self.torch = torch
             self.d_in = torch.empty(int(np.prod(self.in_shape)), dtype=getattr(torch, self.in_dtype.name), device="cuda")
@@ -250,9 +272,19 @@ class TRTEngine(object):
             self.bindings = [0] * self.engine.num_bindings
             self.bindings[self.in_idx] = int(self.d_in); self.bindings[self.out_idx] = int(self.d_out)
 
+    def _chk(self, rc, ten):
+        if rc != 0:
+            raise RuntimeError("%s: cudaError %d" % (ten, rc))
+
     def __call__(self, x):
         x = np.ascontiguousarray(x, dtype=self.in_dtype).reshape(-1)
-        if self.dung_torch:
+        if self.bo_dem == "cudart":
+            ct = self.ctypes
+            self._chk(self.cudart.cudaMemcpy(self.d_in, x.ctypes.data_as(ct.c_void_p), x.nbytes, 1), "cudaMemcpy H2D")
+            ok = self.ctx.execute_v2(bindings=self.bindings)              # dong bo
+            self._chk(self.cudart.cudaMemcpy(self.h_out.ctypes.data_as(ct.c_void_p), self.d_out, self.h_out.nbytes, 2), "cudaMemcpy D2H")
+            out = self.h_out
+        elif self.dung_torch:
             torch = self.torch
             with torch.cuda.stream(self.stream):
                 self.d_in.copy_(torch.from_numpy(x))
@@ -272,7 +304,7 @@ class TRTEngine(object):
 
     def info(self):
         import tensorrt as trt
-        return {"tensorrt": trt.__version__, "bindings": self.bindings_info, "bo_dem": "torch" if self.dung_torch else "pycuda"}
+        return {"tensorrt": trt.__version__, "bindings": self.bindings_info, "bo_dem": self.bo_dem}
 
 
 class TorchPtInfer(object):
@@ -413,7 +445,8 @@ def main():
     ap.add_argument("--max-frames", type=int, default=None)
     ap.add_argument("--warmup", type=int, default=5, help="so frame dau bo khi tong ket thoi gian")
     ap.add_argument("--timing-json", default=None)
-    ap.add_argument("--no-torch", action="store_true", help="ep dung pycuda thay vi torch cho bo dem GPU")
+    ap.add_argument("--bo-dem", choices=["cudart", "torch", "pycuda"], default="cudart",
+                    help="bo dem GPU: cudart (mac dinh, ctypes libcudart, khong torch) | torch | pycuda")
     a = ap.parse_args()
 
     goc = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
@@ -429,7 +462,7 @@ def main():
     regions = doc_regions(a.regions) if a.regions else []
 
     t0 = time.perf_counter()
-    eng = TRTEngine(a.engine, dung_torch=(False if a.no_torch else None))
+    eng = TRTEngine(a.engine, bo_dem=a.bo_dem)
     det = NanoDetector(eng, a.imgsz, a.conf, a.iou, a.max_det, None, False)
     # lam nong
     import cv2
