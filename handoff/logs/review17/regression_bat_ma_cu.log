@@ -1,0 +1,18 @@
+# regression test_nano_run_cache (ban sao KHONG dung o FAIL dau) tren MA CU 20207ec (nano_run_cache.py + nano_env_check.py checkout tu 20207ec, KHONG co nano_preflight.py) - 2026-09-22T15:09:16
+  [PASS] 0. goi tam dung xong: 2 cache tong hop (3/5 frame, co frame rong) + 4 pc-ref that tu run_tracking (np) + pc_ref_sha256.txt
+  [PASS] 1. dau vao hop le --tag kiem: exit 0, KET LUAN DAT, 4 parity DAT (smoke/full x CV/EKF), 4 thu muc kiem-*, hash cay pc-ref-* truoc == sau (tinh doc lap), khop ban dong goi
+  [PASS] 2. thieu NANO-full/pc-ref-ekf/data/MVI_39031.txt -> exit 2, KHONG co bad1-*, khong buoc 2_*, log neu duong dan
+         exit=2 out=[]
+  [FAIL] 3. (N15-P1) sidecar smoke '{ bad json' -> exit 2 TRUOC khi chay tracker (khong buoc 2_*), KHONG co bad2-*, log neu 'sidecar'
+         exit=1 out=['data/processed/trackers/NANO-smoke/bad2-cv', 'data/processed/trackers/NANO-smoke/bad2-ekf']
+  [FAIL] 4. (N15-P2) thieu `lap` (goi gia nem ImportError): nano_env_check nonzero; nano_run_cache exit 2, khong chay tracker, KHONG co bad3-*, JSON co tail cua env_check neu 'lap'
+         env_check exit=1 run exit=1 out=[] tail=
+  [FAIL] 5. (N15-P3) nano_env_check: xoa 2 NPZ + 4 file tham chieu -> nonzero, KHONG in 'DAT (1-4)'; chi thieu NPZ -> nonzero; khoi phuc -> exit 0 + 'DAT (1-4)'
+         a=0 b=0 c=0
+  [FAIL] 6. sidecar sai schema (n_frames=99 != 3): nano_env_check nonzero; nano_run_cache exit 2, KHONG co bad4-*
+         a=0 b=0
+  [PASS] 7. --tag pc-ref-x -> exit 2, khong tao gi
+         exit=2
+  [PASS]    cay pc-ref-* sau TOAN BO cac phep kiem y het ban dau
+KET QUA: 5/9 phep kiem tra PASS
+EXIT=1

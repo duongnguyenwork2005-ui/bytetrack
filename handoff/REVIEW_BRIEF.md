@@ -1,43 +1,45 @@
-# REVIEW_BRIEF — vòng 16: chạy thật trên Jetson Nano — mốc 1 ĐẠT (parity lệch 0), mốc 2 chạy trọn (TensorRT FP16 → tracker)
+# REVIEW_BRIEF — vòng 17: xử lý review `20207ec` — preflight chặn đầu vào/môi trường không hợp lệ trước khi tracker chạy
 
 <!-- BASE_TARGET -->
 
-Base review **giữ `a5eec39`**. `CODEX_REVIEW_7a2feb6.md` chưa nhận được. Không tuning/train; tracker, cấu hình khóa, GT,
-kết quả UA-DETRAC/BDD, 4 run `v2` **không đổi**; `pc-ref-*` **không tạo lại**. Chi tiết: **`handoff/REVIEW16_CHI_TIET.md`**.
+Base review **giữ `a5eec39`**. `handoff/CODEX_REVIEW_20207ec.md` đã lưu. Không tuning/train; tracker, cấu hình khóa, GT, kết
+quả UA-DETRAC/BDD, 4 run `v2`, `pc-ref-*`, file riêng **không đổi**. Chi tiết: **`handoff/REVIEW17_CHI_TIET.md`**.
 
-## Thiết bị (đo thật, `logs/review16/`)
+**Thứ tự thời gian**: review `20207ec` viết trên delta vòng 15. Ở vòng 16 Nano **đã được chạy thật** theo yêu cầu (gói v3/v4:
+mốc 1 parity ĐẠT lệch 0, mốc 2 chạy trọn — `REVIEW16_CHI_TIET.md`). Vòng này chỉ siết cổng preflight, không đổi tracker; gói
+**v5 chưa chuyển sang Nano** (chờ nghiệm thu).
 
-Jetson Nano 4 GB, JetPack **4.6.5** / L4T 32.7.5, TensorRT 8.2.1.9 (+binding Py 3.6), CUDA 10.2, `trtexec`, torch 1.10 CUDA,
-cv2 3.2.0, không `lap`. SSH bằng khóa riêng (IP `10.11.59.212`); `sudo` cần mật khẩu → không apt. Môi trường riêng
-**Miniforge** user-space → env `nano` **Python 3.8.20**, numpy 1.24.4, pandas 2.0.3, pyyaml 6.0.2, **lap 0.5.13** (wheel);
-Python 3.6/torch hệ thống nguyên vẹn. Gói v3 `4dc0530a…` → manifest OK; `nano_env_check` ĐẠT (1–4); `test_nano_parity` 20/20.
+## Tái hiện trên `20207ec` (`logs/review17/repro_truoc_khi_sua.log`)
 
-## Mốc 1 — tracker CV/EKF từ cache: **ĐẠT trên Nano**
+N15-P1 sidecar `{ bad json` → exit 1, `badside-{cv,ekf}` dở dang · N15-P2 interpreter không `lap` → env_check exit 1 nhưng
+`nano_run_cache` vẫn vào smoke · N15-P3 xóa 2 NPZ + 4 tham chiếu → `nano_env_check` **`DAT (1-4)`, exit 0** (cả khi chỉ xóa NPZ).
 
-`python src/nano_run_cache.py` (chỉ ghi `nano-*`, chặn torch/ultralytics): smoke 545/545 ×2 và full **5842 / 5845** parity
-**ĐẠT**, `max|Δbbox| = max|Δconf| = 0,0`, ID thô + phân hoạch khớp; hash `pc-ref-*` khớp bản đóng gói và **không đổi sau
-chạy**. Sau chuẩn hóa CRLF→LF (pandas `os.linesep`), cả 4 output **byte-identical** với `pc-ref`. Lặp lại trên gói v4: ĐẠT.
+## Sửa (`eeb1daf`)
 
-## Mốc 2 — TensorRT → tracker: chạy trọn
+- **`src/nano_preflight.py`** (mới, cú pháp 3.6, chỉ numpy): **một** hợp đồng dùng chung — đúng hai cache theo tên (`meta.json`
+  parse + khóa; NPZ đủ 7 mảng, Σ`n_per_frame` = N, `frame_idx`/`time_s` tăng ngặt; **sidecar parse + schema**), **đủ bốn** file
+  `pc-ref` đọc được (≥ 1 dòng MOTChallenge hợp lệ), YAML, mã. "Có thư mục" không đủ.
+- `nano_env_check.py`: mục 4 dùng validator → exit 0 **chỉ khi** tất cả đạt (vẫn chạy được bằng Python 3.6).
+- `nano_run_cache.py`: bước 0 = validator + `nano_env_check` **nonzero → exit 2** (tail vào log/JSON) + import np chặn torch;
+  không hash/không tracker/không `<tag>-*` khi thiếu. Giữ hash `pc-ref-*` trước/sau.
+- `make_nano_transfer.py verify`: thêm 4 negative case + kiểm `pc-ref-*` không đổi sau tất cả.
 
-- Engine FP16 build **trên Nano** (485 s); `trtexec`: GPU compute **68,1 ms** mean (14,7 qps).
-- Chặn 1: `libgomp static TLS` khi import cv2 sau tensorrt → `LD_PRELOAD` libgomp. Chặn 2: bộ đệm GPU bằng torch → swap 984 MB,
-  execute 80 ms … >100 s. Đường **ctypes libcudart** ổn định **68–78 ms**. Sửa tối thiểu `0423616` (detector + script; không
-  đụng tracker; `test_nano_detector` 6/6) → gói **v4** `handoff/nano_transfer_latest.zip` **63.792.855 B** sha256
-  `3a592ea01cb7cad14514084b9a2c793cd6d2aaf76693a1137579b1ea559dfba0`, manifest OK trên Nano.
-- `03_e2e_nano.sh` (v4) exit 0: detector TRT FP16 300 frame, 865 box; **decode 15,9 / pre 13,1 / infer 73,3 / post 5,2 =
-  107,6 ms/frame** (9,2 fps vòng detector, Python 3.6 tuần tự, MAXN, chưa `jetson_clocks`). So cache PC mức vào tracker:
-  **579/581 ghép**, IoU 0,988, |Δconf| 0,0085 (baseline PC FP32 letterbox-640: IoU 0,996 → FP16 thêm ≈0,008). Tracker CV
-  548 hàng/12 track, EKF 547 — khác `pc-ref` 545 như dự kiến (khác detector; mốc 1 chứng minh tracker đúng). Video render
-  trên PC từ MOT Nano (venv thiếu cv2).
+## Kiểm chứng
 
-## Còn thiếu / giới hạn
+- **`test_nano_run_cache` 9/9** (entry point thật, thư mục dạng gói tạm, 4 `pc-ref` tạo bằng `run_tracking` np): hợp lệ → 4 parity
+  ĐẠT + hash trước==sau; thiếu pc-ref / sidecar hỏng / thiếu `lap` (gói giả) / sidecar sai schema / tag `pc-ref` → exit 2, không
+  output, không tracker; `nano_env_check` thiếu NPZ+tham chiếu → nonzero, không `DAT (1-4)`. Trên **mã cũ**: phép 3, 4, 5, 6
+  **FAIL** (`regression_bat_ma_cu.log`). Đăng ký `run_all_tests`.
+- `test_nano_parity` 20/20, `test_review_delta` 14/14, `test_nano_detector` 6/6; **full suite 33/33** trên `eeb1daf`
+  (`logs/review17/tests_20260922-1512.log`), không commit trong lúc chạy.
+- **Gói v5** `handoff/nano_transfer_latest.zip`: **63.801.260 B**, sha256
+  `ae5fd57b6fc99590cae7c4c1860ad3ce03a51c67133288f967fffd0e83331dac`, dựng tại `eeb1daf`. Verify **chính ZIP** trong thư mục tạm,
+  **2 stack** (PC; numpy 1.24/lap 0.5.12/không scipy): đường hợp lệ parity ĐẠT bit-identical ×4, `pc-ref` không đổi; (i) thiếu
+  pc-ref, (ii) sidecar hỏng, (iii) thiếu `lap`, (iv) env_check thiếu NPZ+pc-ref → đúng exit 2 / nonzero, không output, không
+  `DAT (1-4)`; cây `pc-ref-*` == bản đóng gói sau tất cả → **ĐẠT**.
 
-`CODEX_REVIEW_7a2feb6.md`; cv2 trong env 3.8 (render tại chỗ); flag `bit_identical` nên chuẩn hóa LF; số đo một lượt, chưa
-tối ưu, chưa gộp thành FPS e2e (hai tiến trình qua file).
+## Trạng thái Nano / bước tiếp theo
 
-## Commit / bước tiếp theo
-
-`0423616` sửa detector; sau đó log/tài liệu. Bước tiếp theo: tối ưu nút thắt thật (infer 73 ms FP16 trên Maxwell là trần
-của yolov8n 640; decode+pre 29 ms có thể giảm bằng cv2 4.x/`jetson_clocks`), đo AB/BA CV↔EKF từ cùng cache trên Nano
-(`nano_bench_tracker.py`), ghép hai tiến trình nếu cần live.
+Gói v5 **chưa chạy trên Nano**; bằng chứng thiết bị hiện có là vòng 16 (v3/v4). Commit: `eeb1daf` mã + test; sau đó log/tài liệu.
+Delta từ `a5eec39` không chứa ZIP Nano. Sau nghiệm thu: chuyển v5 sang `~/nano_run/v5`, chạy `nano_env_check` → `nano_run_cache`
+(mốc 1) xác nhận lại với preflight mới.

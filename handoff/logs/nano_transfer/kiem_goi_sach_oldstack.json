@@ -1,10 +1,10 @@
 {
-  "zip_sha256": "4dc0530aec7946e1437bbb767d755057d691e634c159c9cca53161feb0164396",
-  "zip_bytes": 63792494,
+  "zip_sha256": "ae5fd57b6fc99590cae7c4c1860ad3ce03a51c67133288f967fffd0e83331dac",
+  "zip_bytes": 63801260,
   "interpreter": "C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_old/Scripts/python.exe",
   "buoc": {
     "0_manifest": {
-      "n_file": 543,
+      "n_file": 545,
       "lech_hoac_thieu": []
     },
     "1a_nano_env_check": {
@@ -33,7 +33,7 @@
           "n_ref": 545,
           "n_test": 545,
           "bit_identical_data_txt": true,
-          "wall_s": 0.96
+          "wall_s": 0.98
         },
         "2_smoke_ekf": {
           "replay_exit": 0,
@@ -42,7 +42,7 @@
           "n_ref": 545,
           "n_test": 545,
           "bit_identical_data_txt": true,
-          "wall_s": 0.98
+          "wall_s": 0.99
         },
         "2_full_cv": {
           "replay_exit": 0,
@@ -51,7 +51,7 @@
           "n_ref": 5842,
           "n_test": 5842,
           "bit_identical_data_txt": true,
-          "wall_s": 2.49
+          "wall_s": 2.5
         },
         "2_full_ekf": {
           "replay_exit": 0,
@@ -60,14 +60,33 @@
           "n_ref": 5845,
           "n_test": 5845,
           "bit_identical_data_txt": true,
-          "wall_s": 2.74
+          "wall_s": 2.67
         }
       }
     },
-    "4b_thieu_dau_vao_bao_loi": {
-      "exit": 2,
-      "khong_tao_output": true
+    "4b_negative": {
+      "i_thieu_pc_ref": {
+        "exit": 2,
+        "output": [],
+        "khong_buoc_2": true
+      },
+      "ii_sidecar_hong": {
+        "exit": 2,
+        "output": [],
+        "khong_buoc_2": true
+      },
+      "iii_thieu_lap": {
+        "env_check_exit": 1,
+        "exit": 2,
+        "output": [],
+        "khong_buoc_2": true
+      },
+      "iv_env_check_thieu_npz_va_pc_ref": {
+        "exit": 1,
+        "in_DAT_1_4": false
+      }
     },
+    "4d_pc_ref_khong_doi_sau_negative": true,
     "4c_det_compare_tu_kiem": {
       "exit": 0,
       "n_cap": 845,

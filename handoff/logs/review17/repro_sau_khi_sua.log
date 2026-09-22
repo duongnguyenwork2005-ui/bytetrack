@@ -1,0 +1,21 @@
+# tai hien SAU khi sua (cung script; src da sua chep de len ban giai nen goi v4) -- 2026-09-22T15:06:36
+# dung src DA SUA: D:/LABOTARY/bytetrack/src
+# goi: D:\LABOTARY\bytetrack\handoff\nano_transfer_latest.zip | giai nen: C:\Users\Mikuno\AppData\Local\Temp\n15_ho0u8nqw\nano_transfer | python: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe
+
+=== N15-P1: sidecar { bad json ===
+exit = 2 | output badside-*: []
+  tail:   - cache smoke: sidecar MVI_39031.json khong parse duoc (JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)) |   - nano_env_check.py exit 1:   [KHONG DAT] 4. dau vao  -- cache smoke: sidecar MVI_39031.json khong parse duoc (JSONDecodeError: Expecting proper
+
+=== N15-P2: python KHONG co lap -> C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_nolap/Scripts/python.exe ===
+nano_env_check exit = 1 | ['KET LUAN: KHONG DAT: 2. lap; 3. backend np (chan torch/ultralytics)']
+nano_run_cache exit = 2 | output nolap-*: []
+  tail: [LOI] thieu dau vao: |   - nano_env_check.py exit 1:   [KHONG DAT] 2. lap  -- ModuleNotFoundError: No module named 'lap' |   [KHONG DAT] 3. backend np (chan torch/ultralytics)  -- ^^^^^^^^^^^^^^^^^^^ | KET LUAN: KHONG DAT: 2. lap; 3. backend np (chan torch/ultralytics) | -> C:\Users\Mikuno\AppData\L
+
+=== N15-P3: xoa 2 NPZ + 4 file pc-ref data/MVI_39031.txt -> nano_env_check.py ===
+nano_env_check exit = 1 | ['[INFO     ] 4. tham chieu PC: NANO-full/pc-ref-cv (0 hang), NANO-full/pc-ref-ekf (0 hang), NANO-smoke/pc-ref-cv (0 hang), NANO-smoke/pc-ref-ekf (0 hang)', '[KHONG DAT] 4. dau vao  -- cache smoke: thieu C:\\Users\\Mikuno\\AppData\\Local\\Temp\\n15_ho0u8nqw\\nano_transfer\\data\\interim\\det_cache\\nano_smoke_MVI_39031_f0001-0300\\MVI_39031.npz', '[KHONG DAT] 4. dau vao  -- cache full: thieu C:\\Users\\Mikuno\\AppData\\Local\\Temp\\n15_ho0u8nqw\\nano_transfer\\data\\interim\\det_cache\\yolov8n-coco_conf0.05_all\\MVI_39031.npz', '[KHONG DAT] 4. dau vao  -- tham chieu PC thieu: C:\\Users\\Mikuno\\AppData\\Local\\Temp\\n15_ho0u8nqw\\nano_transfer\\data\\processed\\trackers\\NANO-smoke\\pc-ref-cv\\data\\MVI_39031.txt', '[KHONG DAT] 4. dau vao  -- tham chieu PC thieu: C:\\Users\\Mikuno\\AppData\\Local\\Temp\\n15_ho0u8nqw\\nano_transfer\\data\\processed\\trackers\\NANO-smoke\\pc-ref-ekf\\data\\MVI_39031.txt', '[KHONG DAT] 4. dau vao  -- tham chieu PC thieu: C:\\Users\\Mikuno\\AppData\\Local\\Temp\\n15_ho0u8nqw\\nano_transfer\\data\\processed\\trackers\\NANO-full\\pc-ref-cv\\data\\MVI_39031.txt']
+
+=== N15-P3b: chi xoa 2 NPZ ===
+nano_env_check exit = 1 | ['KET LUAN: KHONG DAT: 4. dau vao; 4. dau vao']
+
+=== duong hop le: nano_run_cache --tag ok ===
+exit = 0 | ['$ src/nano_parity.py --ref data/processed/trackers/NANO-full/pc-ref-ekf --test data/processed/trackers/NANO-full/ok-ekf --json reference\\parity_ok_full_ekf.json  (BYTETRACK_BACKEND=np, chan torch/ul=True)', '4. cay pc-ref sau khi chay y het truoc: True', 'KET LUAN: DAT'] | output: ['data\\processed\\trackers\\NANO-full\\ok-cv', 'data\\processed\\trackers\\NANO-full\\ok-ekf', 'data\\processed\\trackers\\NANO-smoke\\ok-cv', 'data\\processed\\trackers\\NANO-smoke\\ok-ekf']

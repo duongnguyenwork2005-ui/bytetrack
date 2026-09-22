@@ -1,6 +1,6 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-22 (mục 4d: vòng 16 — ĐÃ CHẠY THẬT trên Nano). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-22 (mục 4e: vòng 17 — preflight; 4d: vòng 16 — đã chạy thật trên Nano). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
 ## 1. Thiết bị
@@ -115,6 +115,13 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES`, **hoặc** ép `.py` về LF trong `.gitattributes`. **Chưa làm trong đợt này** vì đổi
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
+
+## 4e. Vòng 17 (2026-09-22): preflight theo review `20207ec` — gói v5 `ae5fd57b…` (chưa chuyển sang Nano)
+
+`src/nano_preflight.py` là hợp đồng đầu vào **dùng chung** cho `nano_env_check.py` (Python 3.6 chạy được) và `nano_run_cache.py`:
+đúng 2 cache (meta/NPZ/sidecar parse + schema + timeline), đủ 4 `pc-ref`, YAML, mã; env_check nonzero hoặc thiếu/hỏng → `exit 2`
+trước khi tracker chạy, không tạo `nano-*`. `test_nano_run_cache` 9/9, full suite 33/33, verify gói v5 hai stack ĐẠT với 4 negative
+case. Chi tiết `handoff/REVIEW17_CHI_TIET.md`.
 
 ## 4d. Vòng 16 (2026-09-22): **ĐÃ CHẠY THẬT TRÊN NANO** — chi tiết `handoff/REVIEW16_CHI_TIET.md`
 

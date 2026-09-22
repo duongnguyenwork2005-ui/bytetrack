@@ -1,0 +1,20 @@
+# tai hien N15-P1/P2/P3 TRUOC khi sua -- 2026-09-22T15:03:28 -- nano_run_cache.py/nano_env_check.py tai HEAD 343fa91 == 20207ec (git diff rong)
+# goi: D:\LABOTARY\bytetrack\handoff\nano_transfer_latest.zip | giai nen: C:\Users\Mikuno\AppData\Local\Temp\n15_9_5ehg6h\nano_transfer | python: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe
+
+=== N15-P1: sidecar { bad json ===
+exit = 1 | output badside-*: ['data\\processed\\trackers\\NANO-smoke\\badside-cv', 'data\\processed\\trackers\\NANO-smoke\\badside-ekf']
+  tail: 4. cay pc-ref sau khi chay y het truoc: True | KET LUAN: KHONG DAT | -> C:\Users\Mikuno\AppData\Local\Temp\n15_9_5ehg6h\nano_transfer\reference\nano_run_20260922-150329.json
+
+=== N15-P2: python KHONG co lap -> C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/venv_nolap/Scripts/python.exe ===
+nano_env_check exit = 1 | ['KET LUAN: KHONG DAT: 2. lap; 3. backend np (chan torch/ultralytics)']
+nano_run_cache exit = 1 | output nolap-*: []
+  tail: 4. cay pc-ref sau khi chay y het truoc: True | KET LUAN: KHONG DAT | -> C:\Users\Mikuno\AppData\Local\Temp\n15_9_5ehg6h\nano_transfer\reference\nano_run_20260922-150336.json
+
+=== N15-P3: xoa 2 NPZ + 4 file pc-ref data/MVI_39031.txt -> nano_env_check.py ===
+nano_env_check exit = 0 | ['[DAT      ] 4. ban tham chieu PC (pc-ref-*)  -- NANO-full/pc-ref-cv (0 file), NANO-full/pc-ref-ekf (0 file), NANO-smoke/pc-ref-cv (0 file), NANO-smoke/pc-ref-ekf (0 file)', 'KET LUAN: DAT (1-4)']
+
+=== N15-P3b: chi xoa 2 NPZ ===
+nano_env_check exit = 0 | ['KET LUAN: DAT (1-4)']
+
+=== duong hop le: nano_run_cache --tag ok ===
+exit = 0 | ['$ src/nano_parity.py --ref data/processed/trackers/NANO-full/pc-ref-ekf --test data/processed/trackers/NANO-full/ok-ekf --json reference\\parity_ok_full_ekf.json  (BYTETRACK_BACKEND=np, chan torch/ul=True)', '4. cay pc-ref sau khi chay y het truoc: True', 'KET LUAN: DAT'] | output: ['data\\processed\\trackers\\NANO-full\\ok-cv', 'data\\processed\\trackers\\NANO-full\\ok-ekf', 'data\\processed\\trackers\\NANO-smoke\\ok-cv', 'data\\processed\\trackers\\NANO-smoke\\ok-ekf']
