@@ -1,6 +1,6 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-24 (mục 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-24 (mục 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
 ## 1. Thiết bị
@@ -132,11 +132,23 @@ chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin 
   vào split khác; MAXN, governor schedutil, nhiệt tegrastats 40–44 °C, swap 0; 12/12 lượt exit 0, không loại lượt nào.
   `update` (tổng `tracker.update()`, ms/frame): CV trung vị **4,695** (4,657–4,774), EKF **5,468** (5,414–5,512).
   Hiệu **EKF − CV theo cặp**: trung vị **+0,752 ms/frame**, IQR **[+0,710; +0,818]** (theo công cụ; theo `quantiles inclusive`:
-  [+0,737; +0,794]), 6/6 cặp dương (+0,640 … +0,855) ≈ **+16 %** chi phí tracker. Phần `predict` chiếm +0,622 ms (6/6 cặp),
+  [+0,737; +0,794]; IQR chỉ mô tả độ phân tán của 6 hiệu số, **không** phải khoảng tin cậy), 6/6 cặp dương (+0,640 … +0,855)
+  ≈ **+16 %** chi phí tracker. Phần `predict` chiếm +0,622 ms (6/6 cặp),
   `assoc`/cập nhật +0,139 ms. Parity đại diện `bench-{cv,ekf}-r{1,6}` so với `NANO-full/pc-ref` ĐẠT lệch 0; `pc-ref-*` và `nano-*` của
   Mốc 1 không đổi. **Phạm vi**: chỉ tracker từ cache, không phải end-to-end; công cụ không lưu tần số CPU theo lượt; lúc đo có
   `update-manager`/`packagekitd`/`gnome-software` chạy nền.
 - **Chưa dựng lại**: thư mục v3/v4 (bằng chứng đã có trên PC), engine TensorRT và Mốc 2 (bằng chứng vòng 16 nằm trên PC).
+- **Đóng benchmark** (24/9, chỉ đọc trên Nano, không đo mới; chi tiết `handoff/REVIEW20_CHI_TIET.md`):
+  - **Sao lưu** về `handoff/logs/review20/sao_luu_nano/`: 95 file gói v5 (Mốc 1, 12 lượt bench + warm-up, `pc-ref`, manifest)
+    và 3 log dựng env, kèm danh sách env. SHA256 và số byte khớp nguồn 95/95 và 3/3 (`08_kiem_sao_luu.log`).
+  - **Tính lại từ timing CSV thô** (`09_tinh_lai_tu_raw.log`, script độc lập `tinh_lai_bench.py`): 1470 → 1420 frame/lượt, ghép
+    đúng 6 cặp AB/BA, mọi số khớp JSON của công cụ (lệch 0). Output `data/` của **cả 12 lượt** + warm-up + Mốc 1 cùng hash với
+    `pc-ref` (LF) theo cấu hình (`09a_hash_output_12_luot.log`).
+  - **Thẻ** (thẻ 1, `mmcblk1p1` rw, 27G/58G, ext4 `errors_count` 0, dmesg không có lỗi I/O). Sau benchmark Nano khởi động lại
+    **hai lần**: 10:13:40 tắt sạch; ≈10:36 tắt **không sạch**, ext4 phục hồi journal (18 orphan inode), vẫn `errors_count` 0.
+    Nguyên nhân không có trong log (journal không lưu lâu dài). Băm lại nguồn sau đó: 95/95 và 3/3 không đổi (`08b_*.log`).
+    Ngày 24/9 không có thay đổi gói nào (dpkg/apt 0).
+  - Không có log tegrastats thô (công cụ chỉ lưu tóm tắt nhiệt).
 
 ## 4e. Vòng 17 (2026-09-22): preflight theo review `20207ec` — gói v5 `ae5fd57b…` (chưa chuyển sang Nano)
 

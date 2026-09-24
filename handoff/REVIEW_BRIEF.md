@@ -1,45 +1,46 @@
-# REVIEW_BRIEF — vòng 17: xử lý review `20207ec` — preflight chặn đầu vào/môi trường không hợp lệ trước khi tracker chạy
+# REVIEW_BRIEF — vòng 18–20: Nano v5 — Mốc 1 ĐẠT, benchmark tracker CV↔EKF từ cache, đóng benchmark (sao lưu + tính lại)
 
 <!-- BASE_TARGET -->
 
-Base review **giữ `a5eec39`**. `handoff/CODEX_REVIEW_20207ec.md` đã lưu. Không tuning/train; tracker, cấu hình khóa, GT, kết
-quả UA-DETRAC/BDD, 4 run `v2`, `pc-ref-*`, file riêng **không đổi**. Chi tiết: **`handoff/REVIEW17_CHI_TIET.md`**.
+Base review **giữ `a5eec39`**. Delta từ đó gồm vòng 17 (preflight, chờ nghiệm thu) và các vòng **18–20: chỉ thêm log, bằng chứng và tài liệu**.
+Từ `eeb1daf` đến nay **không có dòng mã nào đổi** (`git diff eeb1daf HEAD` chỉ chạm `handoff/`, `CODEX_HANDOFF.md`). Tracker, YAML khóa, GT,
+kết quả UA-DETRAC/BDD và `pc-ref-*` không đổi. Chi tiết: **`handoff/REVIEW20_CHI_TIET.md`**, `handoff/NANO_STATUS.md` mục 4f.
 
-**Thứ tự thời gian**: review `20207ec` viết trên delta vòng 15. Ở vòng 16 Nano **đã được chạy thật** theo yêu cầu (gói v3/v4:
-mốc 1 parity ĐẠT lệch 0, mốc 2 chạy trọn — `REVIEW16_CHI_TIET.md`). Vòng này chỉ siết cổng preflight, không đổi tracker; gói
-**v5 chưa chuyển sang Nano** (chờ nghiệm thu).
+## Diễn biến
 
-## Tái hiện trên `20207ec` (`logs/review17/repro_truoc_khi_sua.log`)
+- **Vòng 18** (22/9): gói v5 `ae5fd57b…` trên Nano thật → **Mốc 1 ĐẠT** (`logs/review18/`).
+- **Vòng 19**: benchmark lần 1 **thất bại 0/6 cặp** do lỗi gọi lệnh (thiếu `BYTETRACK_BACKEND=np`; warm-up `--pairs 2` bị từ chối).
+  Sau đó `apt upgrade` hỏng DTB; máy boot bằng **thẻ 1** (bản sao cũ), mất dữ liệu 22/9.
+- **Vòng 20** (24/9): dựng lại env, **Mốc 1 lại ĐẠT** (4/4 parity lệch 0); benchmark lần 2 (`logs/review20/bench_lan2/`).
+- **Đóng benchmark** (chỉ đọc trên Nano): sao lưu 95 + 3 file (SHA256 + byte khớp), tính lại từ CSV thô, kiểm thẻ.
 
-N15-P1 sidecar `{ bad json` → exit 1, `badside-{cv,ekf}` dở dang · N15-P2 interpreter không `lap` → env_check exit 1 nhưng
-`nano_run_cache` vẫn vào smoke · N15-P3 xóa 2 NPZ + 4 tham chiếu → `nano_env_check` **`DAT (1-4)`, exit 0** (cả khi chỉ xóa NPZ).
+## Benchmark tracker-from-cache (`MVI_39031`, 1470 frame, bỏ 50 frame đầu → 1420 frame đo, warm-up tách riêng)
 
-## Sửa (`eeb1daf`)
+6 cặp (3 AB + 3 BA), 12/12 lượt exit 0, không loại lượt nào. `update` = tổng `tracker.update()` (ms/frame):
 
-- **`src/nano_preflight.py`** (mới, cú pháp 3.6, chỉ numpy): **một** hợp đồng dùng chung — đúng hai cache theo tên (`meta.json`
-  parse + khóa; NPZ đủ 7 mảng, Σ`n_per_frame` = N, `frame_idx`/`time_s` tăng ngặt; **sidecar parse + schema**), **đủ bốn** file
-  `pc-ref` đọc được (≥ 1 dòng MOTChallenge hợp lệ), YAML, mã. "Có thư mục" không đủ.
-- `nano_env_check.py`: mục 4 dùng validator → exit 0 **chỉ khi** tất cả đạt (vẫn chạy được bằng Python 3.6).
-- `nano_run_cache.py`: bước 0 = validator + `nano_env_check` **nonzero → exit 2** (tail vào log/JSON) + import np chặn torch;
-  không hash/không tracker/không `<tag>-*` khi thiếu. Giữ hash `pc-ref-*` trước/sau.
-- `make_nano_transfer.py verify`: thêm 4 negative case + kiểm `pc-ref-*` không đổi sau tất cả.
+| | CV (6 lượt) | EKF (6 lượt) | **EKF − CV theo cặp** |
+|:--|:--|:--|:--|
+| update tb | 4,695 (4,657–4,774) | 5,468 (5,414–5,512) | trung vị **+0,752**, min/max +0,640/+0,855, **6/6 dương**, ≈ +16 % |
+| predict | 0,618 | 1,239 | +0,622 (6/6) |
+| assoc = update − predict | 4,077 | 4,221 | +0,139 (6/6) |
+| wall/lượt (gồm `conda run`) | 9,6–9,9 s | 10,7–10,9 s | +1,07 s |
 
-## Kiểm chứng
+Q1–Q3 của d_update: [+0,710; +0,818] (exclusive, như công cụ), [+0,737; +0,794] (inclusive). **IQR chỉ mô tả độ phân tán
+của 6 hiệu số**, không phải khoảng tin cậy hay kiểm định. `logs/review20/tinh_lai_bench.py` tính lại độc lập từ `timing/*.csv`: khớp JSON, lệch 0.
 
-- **`test_nano_run_cache` 9/9** (entry point thật, thư mục dạng gói tạm, 4 `pc-ref` tạo bằng `run_tracking` np): hợp lệ → 4 parity
-  ĐẠT + hash trước==sau; thiếu pc-ref / sidecar hỏng / thiếu `lap` (gói giả) / sidecar sai schema / tag `pc-ref` → exit 2, không
-  output, không tracker; `nano_env_check` thiếu NPZ+tham chiếu → nonzero, không `DAT (1-4)`. Trên **mã cũ**: phép 3, 4, 5, 6
-  **FAIL** (`regression_bat_ma_cu.log`). Đăng ký `run_all_tests`.
-- `test_nano_parity` 20/20, `test_review_delta` 14/14, `test_nano_detector` 6/6; **full suite 33/33** trên `eeb1daf`
-  (`logs/review17/tests_20260922-1512.log`), không commit trong lúc chạy.
-- **Gói v5** `handoff/nano_transfer_latest.zip`: **63.801.260 B**, sha256
-  `ae5fd57b6fc99590cae7c4c1860ad3ce03a51c67133288f967fffd0e83331dac`, dựng tại `eeb1daf`. Verify **chính ZIP** trong thư mục tạm,
-  **2 stack** (PC; numpy 1.24/lap 0.5.12/không scipy): đường hợp lệ parity ĐẠT bit-identical ×4, `pc-ref` không đổi; (i) thiếu
-  pc-ref, (ii) sidecar hỏng, (iii) thiếu `lap`, (iv) env_check thiếu NPZ+pc-ref → đúng exit 2 / nonzero, không output, không
-  `DAT (1-4)`; cây `pc-ref-*` == bản đóng gói sau tất cả → **ĐẠT**.
+**Tính đúng**: output của cả 12 lượt, warm-up và Mốc 1 cùng hash với `pc-ref` (LF) theo từng cấu hình. Parity `r1`/`r6` ĐẠT lệch 0.
+`pc-ref-*` và `nano-*` Mốc 1 có hash trước == sau. Cờ `bit_identical_data_txt=False` chỉ do CRLF (pandas trên Windows) so với LF (Nano).
 
-## Trạng thái Nano / bước tiếp theo
+**Điều kiện**: MAXN, `schedutil`, không `jetson_clocks`; nhiệt max 42–44 °C; swap 0; desktop + `update-manager`/`packagekitd` chạy nền.
 
-Gói v5 **chưa chạy trên Nano**; bằng chứng thiết bị hiện có là vòng 16 (v3/v4). Commit: `eeb1daf` mã + test; sau đó log/tài liệu.
-Delta từ `a5eec39` không chứa ZIP Nano. Sau nghiệm thu: chuyển v5 sang `~/nano_run/v5`, chạy `nano_env_check` → `nano_run_cache`
-(mốc 1) xác nhận lại với preflight mới.
+## Thẻ SD và sao lưu
+
+Thẻ 1 `mmcblk1p1` rw, 27G/58G, ext4 `errors_count` 0, không lỗi I/O. **Sau** benchmark có hai lần khởi động lại (10:13 sạch;
+≈10:36 không sạch → ext4 phục hồi journal, vẫn 0 lỗi; nguyên nhân không có trong log). Băm lại nguồn sau đó: không đổi. Không có thay đổi gói.
+
+## Giới hạn
+
+Tracker từ cache, **không phải FPS end-to-end**, không cộng detector; một sequence, 6 cặp; không có xung nhịp CPU theo lượt hay
+tegrastats thô; thẻ 1 từng lỗi fsck; không suy sang HOTA/IDF1. TensorRT/Mốc 2 chưa dựng lại trên thẻ 1 (bằng chứng vòng 16 trên PC).
+
+Không sửa mã trong đợt này nên không chạy lại full suite (33/33 trên `eeb1daf`). Delta không chứa ZIP Nano, cache NPZ, weights hay video.
