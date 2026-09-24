@@ -44,3 +44,5 @@ Tracker từ cache, **không phải FPS end-to-end**, không cộng detector; m�
 tegrastats thô; thẻ 1 từng lỗi fsck; không suy sang HOTA/IDF1. TensorRT/Mốc 2 chưa dựng lại trên thẻ 1 (bằng chứng vòng 16 trên PC).
 
 Không sửa mã trong đợt này nên không chạy lại full suite (33/33 trên `eeb1daf`). Delta không chứa ZIP Nano, cache NPZ, weights hay video.
+**Áp patch**: dùng `git -c core.autocrlf=false -c core.eol=lf apply`. `make_review_delta` làm patch mất CR của file `-text` mang CRLF;
+7 file như vậy được đánh dấu `binary` để tránh lỗi này (phụ lục mục 9, chưa sửa mã).

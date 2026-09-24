@@ -40,9 +40,9 @@ install/upgrade/remove, `apt/history.log` 0 lần chạy).
 - Đối chiếu với bản đã commit ở `127a066`: `nano_reference/` 8 file, `bench_lan2/` 13 file → 0 khác.
 - **Sau lần tắt không sạch**: băm lại nguồn trên Nano → 95/95 và 3/3 **không đổi** so với danh sách lấy trước đó (`08b_*.log`).
 - 7 file mang CRLF (`pc-ref-{cv,ekf}` data, 4 `parity_pc_np_vs_ul_*.json`, `PACKAGE_INFO.json`, vì đóng gói từ PC). Repo dùng
-  `* text=auto` nên Git sẽ đổi chúng sang LF. `sao_luu_nano/.gitattributes` (`* -text`, chỉ trong thư mục này) giữ nguyên byte. Sau
-  khi stage, blob trong index khớp SHA256 nguồn 95/95 và 3/3. Nếu giải nén delta bằng công cụ có đổi kết thúc dòng, hãy so theo
-  blob Git hoặc payload ZIP.
+  `* text=auto` nên Git sẽ đổi chúng sang LF. `sao_luu_nano/.gitattributes` (`* -text`, chỉ trong thư mục này) giữ nguyên byte, và
+  đánh dấu riêng 7 file này là `binary` (xem mục 9). Sau khi stage, blob trong index khớp SHA256 nguồn 95/95 và 3/3; payload trong
+  ZIP delta cũng khớp.
 - **Không sao lưu**: cache NPZ và engine (đã nằm trong gói v5, hash trong `MANIFEST_SHA256.txt`); output `data/` của 8 lượt
   r2–r5 (hash ở mục 5 cho thấy chúng giống hệt r1/r6 theo cấu hình). Không có **log tegrastats thô** để sao lưu: công cụ chỉ lưu tóm
   tắt (`n_mau`, `nhiet_max_C`, `nhiet_tb_C`) trong JSON.
@@ -164,6 +164,27 @@ cấu hình theo yêu cầu). Nghỉ 20 s giữa các lượt; tegrastats 500 ms
 `handoff/logs/review20/`: `07_tinh_trang_the_sd.log`, `07b_the_sd_sau_khoi_dong_lai.log`, `08_kiem_sao_luu.log`,
 `08b_hash_nguon_sau_khoi_dong_lai.log`, `09_tinh_lai_tu_raw.{log,json}`, `09a_hash_output_12_luot.log`, `10_kiem_doc_duoc.log`,
 `tinh_lai_bench.py` (script phân tích độc lập, không nằm trong `src/`, không được test suite import), `sao_luu_nano/` (mục 2, kèm
-`.gitattributes` cục bộ). Commit bằng chứng: `cf4261f`.
+`.gitattributes` cục bộ). Commit bằng chứng: `cf4261f`, `df1f2f7` (đánh dấu `binary` 7 file CRLF).
 Tài liệu: phụ lục này, `handoff/NANO_STATUS.md` (mục 4f), `CODEX_HANDOFF.md` (hàng 16), `handoff/REVIEW_BRIEF.md`.
 Không sửa mã nên không chạy lại full suite; lần gần nhất là 33/33 trên `eeb1daf`, và mã `src/` không đổi kể từ đó.
+
+## 9. Phát hiện khi dựng delta: patch mất byte CR (chưa sửa mã, có cách tránh)
+
+`src/make_review_delta.py` sinh patch qua hàm `git()`, dùng `subprocess.check_output(..., text=True)`. Chế độ universal newlines
+đổi `
+` thành `
+`, nên **patch mất byte CR** của mọi file `-text` mang CRLF. Payload trong ZIP không bị ảnh hưởng vì
+`blob_at()` đọc bytes. Trước vòng này mọi blob thay đổi đều là LF (`text=auto`), nên lỗi chưa lộ ra. Lần dựng thử đầu tiên, áp patch
+lên worktree base cho 7 file CRLF ra LF.
+
+**Cách tránh trong đợt này, không sửa mã** (commit `df1f2f7`): đánh dấu `binary` đúng 7 file đó trong
+`sao_luu_nano/.gitattributes`, để `git diff --binary` mã hóa chúng bằng base85 ASCII. Không sửa công cụ, vì sửa mã phải chạy lại
+full suite và làm rộng phạm vi review. Đề xuất cho vòng sau: đọc patch dạng bytes và thêm regression test cho file CRLF.
+
+**Kiểm áp patch** trên worktree `a5eec39` sạch, rồi so toàn cây với target:
+
+| Cách áp | Kết quả |
+|:--|:--|
+| `git -c core.autocrlf=false -c core.eol=lf apply --whitespace=nowarn <patch>` (tương đương Linux) | chỉ khác `…/nano_trt_MVI_39031_f0001-0300/MVI_39031.npz` (bị loại có chủ đích, hash trong `DEPENDENCIES.md`) |
+| Windows mặc định (`autocrlf=true`), áp **hai bước**: `--include='*.gitattributes'` trước, rồi `--exclude='*.gitattributes'` | thêm `sao_luu_nano/.gitattributes` khác, chỉ ở EOL của chính nó |
+| Windows mặc định, áp một bước | ~100 file trong `sao_luu_nano/` khác EOL, vì lúc áp `.gitattributes` mới chưa có hiệu lực. **Không dùng cách này** |
