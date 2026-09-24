@@ -1,3 +1,8 @@
 # Ban sao lu tu Nano: giu NGUYEN byte de SHA256/so byte trong nguon_sha256_*.txt / nguon_byte_*.txt
-# khop voi blob git (7 file mang CRLF vi dong goi tu PC, vd pc-ref, PACKAGE_INFO.json). Chi ap dung trong thu muc nay.
+# khop voi blob git. Chi ap dung trong thu muc nay.
 * -text
+# 7 file mang CRLF (dong goi tu PC): danh dau binary de `git diff --binary` ma hoa base85,
+# giu nguyen byte CR trong patch delta (make_review_delta doc diff o che do text -> mat CR).
+goi_v5/PACKAGE_INFO.json binary
+goi_v5/data/processed/trackers/NANO-full/pc-ref-*/data/MVI_39031.txt binary
+goi_v5/reference/parity_pc_np_vs_ul_*.json binary
