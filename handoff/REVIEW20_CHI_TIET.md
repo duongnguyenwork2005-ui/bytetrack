@@ -171,9 +171,7 @@ Không sửa mã nên không chạy lại full suite; lần gần nhất là 33/
 ## 9. Phát hiện khi dựng delta: patch mất byte CR (chưa sửa mã, có cách tránh)
 
 `src/make_review_delta.py` sinh patch qua hàm `git()`, dùng `subprocess.check_output(..., text=True)`. Chế độ universal newlines
-đổi `
-` thành `
-`, nên **patch mất byte CR** của mọi file `-text` mang CRLF. Payload trong ZIP không bị ảnh hưởng vì
+đổi `\r\n` thành `\n`, nên **patch mất byte CR** của mọi file `-text` mang CRLF. Payload trong ZIP không bị ảnh hưởng vì
 `blob_at()` đọc bytes. Trước vòng này mọi blob thay đổi đều là LF (`text=auto`), nên lỗi chưa lộ ra. Lần dựng thử đầu tiên, áp patch
 lên worktree base cho 7 file CRLF ra LF.
 
