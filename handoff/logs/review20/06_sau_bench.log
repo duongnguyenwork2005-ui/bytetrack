@@ -1,0 +1,37 @@
+# SAU benchmark: parity dai dien + bat bien + trang thai - 2026-09-24T08:48:52 gio PC
+$ nano_parity --ref NANO-full/pc-ref-cv --test NANO-bench/bench-cv-r1
+MVI_39031                       5842    0.000e+00    0.000e+00       khop  DAT
+KET QUA: 1/1 video DAT
+$ nano_parity --ref NANO-full/pc-ref-cv --test NANO-bench/bench-cv-r6
+MVI_39031                       5842    0.000e+00    0.000e+00       khop  DAT
+KET QUA: 1/1 video DAT
+$ nano_parity --ref NANO-full/pc-ref-ekf --test NANO-bench/bench-ekf-r1
+MVI_39031                       5845    0.000e+00    0.000e+00       khop  DAT
+KET QUA: 1/1 video DAT
+$ nano_parity --ref NANO-full/pc-ref-ekf --test NANO-bench/bench-ekf-r6
+MVI_39031                       5845    0.000e+00    0.000e+00       khop  DAT
+KET QUA: 1/1 video DAT
+== bat bien:
+pc-ref-* (24 file): TRUOC == SAU
+pc-ref-* == ban dong goi (reference/pc_ref_sha256.txt)
+Moc 1 nano-* (24 file): TRUOC == SAU
+split hien co: NANO-bench NANO-bench-warmup NANO-full NANO-smoke 
+NANO-bench: bench-cv-r1 bench-cv-r2 bench-cv-r3 bench-cv-r4 bench-cv-r5 bench-cv-r6 bench-ekf-r1 bench-ekf-r2 bench-ekf-r3 bench-ekf-r4 bench-ekf-r5 bench-ekf-r6 
+== trang thai SAU:
+# sau benchmark 2026-09-24T09:49:21+08:00
+NV Power Mode: MAXN
+0
+AO-therm=52 CPU-therm=43 GPU-therm=41 PLL-therm=42 PMIC-Die=50 thermal-fan-est=44 
+RAM 1361/3956MB (lfb 128x4MB) SWAP 0/6074MB (cached 0MB) CPU [3%@1224,1%@1224,0%@1224,0%@1224] EMC_FREQ 0% GR3D_FREQ 0% PLL@41.5C CPU@42.5C PMIC@50C GPU@40.5C AO@52.5C thermal@41.75C
+              total        used        free      shared  buff/cache   available
+Mem:           3955        1233         785          42        1937        2516
+Swap:          6073           0        6073
+%CPU %MEM COMMAND
+ 1.9  3.3 update-manager
+ 1.7  2.6 compiz
+ 1.5  0.4 packagekitd
+ 1.2  4.6 gnome-software
+ 0.8  1.3 Xorg
+== dpkg hom nay (update-manager co nang cap gi khong):
+0
+0

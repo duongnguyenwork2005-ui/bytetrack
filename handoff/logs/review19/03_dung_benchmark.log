@@ -1,0 +1,73 @@
+23559 bash -c pgrep -af "bench_v5|nano_bench_tracker|NANO-bench" 2>/dev/null || echo "(khong con tien trinh benchmark)"; pgrep -x tegrastats >/dev/null && echo "tegrastats con chay" || echo "(tegrastats khong chay)"; echo "--- tail log:"; tail -4 ~/nano_run/v5/nano_transfer/results_nano/bench_cv_ekf/bench_run.log 2>/dev/null; echo "--- ket qua da co:"; ls ~/nano_run/v5/nano_transfer/results_nano/bench_cv_ekf/ 2>/dev/null; echo "--- split tracker:"; ls ~/nano_run/v5/nano_transfer/data/processed/trackers/
+(tegrastats khong chay)
+--- tail log:
+
+-> results_nano/bench_cv_ekf/bench_cv_vs_ekf.json  (luu MOI luot, khong loai luot nao)
+bench exit=1
+### XONG 2026-09-22T19:29:03+08:00
+--- ket qua da co:
+00_trang_thai_truoc.txt
+bench_cv_vs_ekf.json
+bench_run.log
+--- split tracker:
+NANO-full
+NANO-smoke
+=== bench_run.log (40 dong dau):
+### WARM-UP (tach hoan toan khoi so lieu chinh) 2026-09-22T19:24:33+08:00
+ERROR conda.cli.main_run:execute(148): `conda run python src/nano_bench_tracker.py --cache-id yolov8n-coco_conf0.05_all --split-name NANO-bench-warmup --videos MVI_39031 --a cv:bytetrack.yaml --b ekf:configs/bytetrack_ekf_ctrv.yaml --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps --pairs 2 --warmup-frames 50 --nghi-giay 10 --tegrastats-ms 500 --tag warmup --out results_nano/bench_cv_ekf/warmup` failed. (See above for error)
+[LOI] giao thuc yeu cau it nhat 5 cap, nhan duoc --pairs 2
+warmup exit=2
+### BENCH CHINH: 6 cap (3 AB + 3 BA) = 12 luot 2026-09-22T19:24:39+08:00
+ERROR conda.cli.main_run:execute(148): `conda run python src/nano_bench_tracker.py --cache-id yolov8n-coco_conf0.05_all --split-name NANO-bench --videos MVI_39031 --a cv:bytetrack.yaml --b ekf:configs/bytetrack_ekf_ctrv.yaml --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps --pairs 6 --warmup-frames 50 --nghi-giay 20 --tegrastats-ms 500 --tag bench --out results_nano/bench_cv_ekf` failed. (See above for error)
+==============================================================================
+GIAO THUC DA CHOT TRUOC KHI DO (scripts/nano/README.md muc 4c)
+  cau hinh A          : cv  (bytetrack.yaml)
+  cau hinh B          : ekf  (configs/bytetrack_ekf_ctrv.yaml)
+  so cap              : 6  (3 cap A->B, 3 cap B->A)
+  warm-up             : bo 50 frame dau MOI video
+  sequence            : 1 video -- MVI_39031
+  dai luong bao cao   : TRUNG VI + IQR cua hieu so THEO CAP (ekf - cv)
+  luu moi luot        : co (khong loai luot nao khoi du lieu tho)
+==============================================================================
+thiet bi: Jetson (co /etc/nv_tegra_release)
+
+[cap 1/6] thu tu cv -> ekf
+    cv     THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+    from lost_association import LostAwareAssociation  # noqa: E402
+  File "/home/jetson/nano_run
+    ekf    THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+    from lost_association import LostAwareAssociation  # noqa: E402
+  File "/home/jetson/nano_run
+[cap 2/6] thu tu cv -> ekf
+    cv     THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+    from lost_association import LostAwareAssociation  # noqa: E402
+  File "/home/jetson/nano_run
+    ekf    THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+    from lost_association import LostAwareAssociation  # noqa: E402
+  File "/home/jetson/nano_run
+[cap 3/6] thu tu cv -> ekf
+    cv     THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+    from lost_association import LostAwareAssociation  # noqa: E402
+  File "/home/jetson/nano_run
+    ekf    THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+    from lost_association import LostAwareAssociation  # noqa: E402
+  File "/home/jetson/nano_run
+[cap 4/6] thu tu ekf -> cv
+
+=== dong co LOI/exit:
+4:warmup exit=2
+20:    cv     THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+23:    ekf    THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+27:    cv     THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+30:    ekf    THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+34:    cv     THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+37:    ekf    THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+41:    ekf    THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+44:    cv     THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+48:    ekf    THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+51:    cv     THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+55:    ekf    THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+58:    cv     THAT BAI exit=1: _transfer/src/tracker_ctrv.py", line 62, in <module>
+62:! chi 0/6 cap hoan chinh (cap thieu mot nua KHONG duoc dung)
+63:KHONG co cap hoan chinh nao -> khong bao cao so do.
+66:bench exit=1

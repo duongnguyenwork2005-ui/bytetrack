@@ -1,0 +1,42 @@
+# vong 19: benchmark tracker CV<->EKF tu cache tren Nano (goi v5) - 2026-09-22T18:23:02
+HEAD PC truoc do: 06bdaff
+--- 2. doc cong cu: nano_bench_tracker.py --help (tren Nano, trong goi v5)
+usage: nano_bench_tracker.py [-h] --cache-id CACHE_ID --split-name SPLIT_NAME
+                             --videos VIDEOS [VIDEOS ...] --a A --b B
+                             [--conf-min CONF_MIN]
+                             [--classes [CLASSES [CLASSES ...]]]
+                             [--max-det MAX_DET] [--fps FPS]
+                             [--track-buffer-sec TRACK_BUFFER_SEC]
+                             [--elapsed-mode {skip,steps}] [--pairs PAIRS]
+                             [--warmup-frames WARMUP_FRAMES]
+                             [--nghi-giay NGHI_GIAY]
+                             [--tegrastats-ms TEGRASTATS_MS] [--tag TAG]
+                             [--out OUT]
+
+Do tracker tu cache tren Nano (giao thuc muc 4c)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --cache-id CACHE_ID
+  --split-name SPLIT_NAME
+  --videos VIDEOS [VIDEOS ...]
+  --a A                 cau hinh A dang ten:duong_dan_yaml (vd
+                        cv:bytetrack.yaml)
+  --b B                 cau hinh B dang ten:duong_dan_yaml
+  --conf-min CONF_MIN
+  --classes [CLASSES [CLASSES ...]]
+  --max-det MAX_DET
+  --fps FPS
+  --track-buffer-sec TRACK_BUFFER_SEC
+  --elapsed-mode {skip,steps}
+  --pairs PAIRS         so CAP (chia doi cho AB va BA). Giao thuc yeu cau it
+                        nhat 5; mac dinh 6 = 3+3
+  --warmup-frames WARMUP_FRAMES
+                        bo bao nhieu frame dau MOI video truoc khi do
+  --nghi-giay NGHI_GIAY
+                        cho giua cac luot de nhiet do on dinh (ghi lai trong
+                        ket qua)
+  --tegrastats-ms TEGRASTATS_MS
+  --tag TAG
+  --out OUT
+exit=0

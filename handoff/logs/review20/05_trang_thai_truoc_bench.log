@@ -1,0 +1,30 @@
+# trang thai TRUOC benchmark lan 2 - 2026-09-24T08:41:01 gio PC
+# trang thai truoc benchmark 2026-09-24T09:41:01+08:00
+hostname: jetson-desktop | # R32 (release), REVISION: 7.5, GCID: 36557527, BOARD: t210ref, EABI: aarch64, DATE: Tue Jun 11 23:12:44 UTC 2024
+the SD: the 1 (inode dung 304022)
+python 3.8.20 | numpy 1.24.4 | lap 0.5.13 | pandas 2.0.3 | pyyaml 6.0.2
+zip: ae5fd57b6fc99590cae7c4c1860ad3ce03a51c67133288f967fffd0e83331dac  /home/jetson/nano_transfer_v5.zip
+commit dong goi: eeb1daf | code cuoi: eeb1daf
+sha256 script: 03d1d5e2ed450889a785cae1af999e546e7b80f527a4d595fe14f6e36cbb29de  bench_v5_lan2.sh
+-- nvpmodel -q:
+NV Power Mode: MAXN
+0
+-- jetson_clocks --show:
+SOC family:tegra210  Machine:NVIDIA Jetson Nano Developer Kit
+Error: Run this script(/usr/bin/jetson_clocks) as a root user
+-- nhiet do:
+AO-therm=50 CPU-therm=41 GPU-therm=41 PLL-therm=39 PMIC-Die=50 thermal-fan-est=39 
+-- tegrastats:
+RAM 1359/3956MB (lfb 139x4MB) SWAP 0/6074MB (cached 0MB) CPU [2%@1224,0%@1224,1%@1224,1%@1224] EMC_FREQ 0% GR3D_FREQ 0% PLL@38.5C CPU@40.5C PMIC@50C GPU@40.5C AO@50C thermal@39.25C
+-- RAM/swap:
+              total        used        free      shared  buff/cache   available
+Mem:           3955        1232         798          42        1924        2517
+Swap:          6073           0        6073
+-- top CPU:
+%CPU %MEM COMMAND
+ 3.9  3.3 update-manager
+ 2.9  0.4 packagekitd
+ 2.5  2.6 compiz
+ 2.4  4.6 gnome-software
+ 1.2  1.3 Xorg
+moc1 nano-* file: 24 | pc-ref file: 24

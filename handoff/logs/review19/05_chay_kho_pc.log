@@ -1,0 +1,44 @@
+# CHAY KHO tren PC (khong phai Nano, so do KHONG bao cao): goi v5 giai nen tam, venv_old khong torch/ultralytics, nghi 0 s - 2026-09-23T18:14:29
+### WARM-UP (tach khoi so lieu chinh): 1 luot CV + 1 luot EKF, split NANO-bench-warmup 2026-09-23T18:14:29+07:00
+  warmup-cv                    MVI_39031       1470 frame ->   5,842 bbox   72 track  predict 0.12 ms/frame  assoc 0.97  (1.8s, 800 fps)
+  warmup-cv                      1 video moi,   0 tai su dung
+warmup cv exit=0 wall= s
+  warmup-ekf                   MVI_39031       1470 frame ->   5,845 bbox   70 track  predict 0.19 ms/frame  assoc 0.98  (1.9s, 755 fps)
+  warmup-ekf                     1 video moi,   0 tai su dung
+warmup ekf exit=0 wall= s
+### BENCH CHINH: 6 cap (3 AB + 3 BA) = 12 luot, nghi 20 s giua luot 2026-09-23T18:14:35+07:00
+  cau hinh A          : cv  (bytetrack.yaml)
+  cau hinh B          : ekf  (configs/bytetrack_ekf_ctrv.yaml)
+  so cap              : 6  (3 cap A->B, 3 cap B->A)
+  dai luong bao cao   : TRUNG VI + IQR cua hieu so THEO CAP (ekf - cv)
+[cap 1/6] thu tu cv -> ekf
+    cv     update 1.062 ms/frame (trung vi 0.916), 1420 frame do, wall 2.5s, tegrastats 0 mau
+    ekf    update 1.188 ms/frame (trung vi 0.985), 1420 frame do, wall 2.7s, tegrastats 0 mau
+[cap 2/6] thu tu cv -> ekf
+    cv     update 1.060 ms/frame (trung vi 0.894), 1420 frame do, wall 2.5s, tegrastats 0 mau
+    ekf    update 1.192 ms/frame (trung vi 0.988), 1420 frame do, wall 2.6s, tegrastats 0 mau
+[cap 3/6] thu tu cv -> ekf
+    cv     update 1.055 ms/frame (trung vi 0.887), 1420 frame do, wall 2.5s, tegrastats 0 mau
+    ekf    update 1.186 ms/frame (trung vi 0.989), 1420 frame do, wall 2.6s, tegrastats 0 mau
+[cap 4/6] thu tu ekf -> cv
+    ekf    update 1.167 ms/frame (trung vi 0.962), 1420 frame do, wall 2.6s, tegrastats 0 mau
+    cv     update 1.084 ms/frame (trung vi 0.911), 1420 frame do, wall 2.5s, tegrastats 0 mau
+[cap 5/6] thu tu ekf -> cv
+    ekf    update 1.165 ms/frame (trung vi 0.951), 1420 frame do, wall 2.6s, tegrastats 0 mau
+    cv     update 1.065 ms/frame (trung vi 0.906), 1420 frame do, wall 2.5s, tegrastats 0 mau
+[cap 6/6] thu tu ekf -> cv
+    ekf    update 1.203 ms/frame (trung vi 1.000), 1420 frame do, wall 2.7s, tegrastats 0 mau
+    cv     update 1.056 ms/frame (trung vi 0.890), 1420 frame do, wall 2.5s, tegrastats 0 mau
+HIEU SO ekf - cv (update_ms/frame), 6 cap:
+  trung vi = +0.1285 ms
+  IQR      = [+0.0956, +0.1352]
+-> results_nano\bench_cv_ekf\lan2\bench_cv_vs_ekf.json  (luu MOI luot, khong loai luot nao)
+bench exit=0
+### XONG 2026-09-23T18:15:06+07:00
+--- output:
+NANO-bench
+NANO-bench-warmup
+NANO-full
+NANO-smoke
+bench-cv-r1 bench-cv-r2 bench-cv-r3 bench-cv-r4 bench-cv-r5 bench-cv-r6 bench-ekf-r1 bench-ekf-r2 bench-ekf-r3 bench-ekf-r4 bench-ekf-r5 bench-ekf-r6 
+bench_cv_vs_ekf.json

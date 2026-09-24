@@ -1,6 +1,6 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-22 (mục 4e: vòng 17 — preflight; 4d: vòng 16 — đã chạy thật trên Nano). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-24 (mục 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
 ## 1. Thiết bị
@@ -115,6 +115,28 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES`, **hoặc** ép `.py` về LF trong `.gitattributes`. **Chưa làm trong đợt này** vì đổi
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
+
+## 4f. Vòng 18–20 (2026-09-22 → 24): Mốc 1 v5 ĐẠT; mất dữ liệu do đổi thẻ SD; dựng lại; benchmark tracker CV↔EKF từ cache
+
+- **Vòng 18** (22/9): gói v5 (`ae5fd57b…`) → Mốc 1 **ĐẠT** trên Nano (`handoff/logs/review18/`).
+- **Vòng 19** (22–23/9): benchmark lần 1 **thất bại, 0/6 cặp**. Lệnh thiếu `BYTETRACK_BACKEND=np` nên backend mặc định là ultralytics và
+  không có gói ultralytics (lỗi gọi, **không** phải lỗi code); warm-up `--pairs 2` bị công cụ từ chối (tối thiểu 5 cặp). Sau đó máy
+  hỏng boot vì `apt upgrade` (DTB trên eMMC). Máy boot lại bằng **thẻ 1**: bản sao cũ, trạng thái đến 21/9 16:16, fsck có nhiều lỗi.
+  Toàn bộ dữ liệu 22/9 (`~/nano_run`, `~/miniforge3`) **không có trên thẻ này**; nhiều khả năng còn trên thẻ 2
+  (`handoff/logs/review19/08_xac_dinh_the_sd.log`).
+- **Vòng 20** (24/9, IP `10.11.56.132`, vẫn **thẻ 1**): dựng lại Miniforge user-space + env `nano`, ghim **đúng phiên bản cũ**
+  (Py 3.8.20, numpy 1.24.4, pandas 2.0.3, pyyaml 6.0.2, lap 0.5.13), không sudo; gói v5 → `~/nano_run/v5`, manifest OK;
+  **Mốc 1 lại ĐẠT**: 4/4 parity, `max|Δ| = 0`, 4 output byte-identical với `pc-ref` (chuẩn hóa LF).
+- **Benchmark tracker-from-cache** (`handoff/logs/review20/bench_lan2/`): cache `yolov8n-coco_conf0.05_all`, `MVI_39031` 1470 frame,
+  điều kiện c25 như Mốc 1; `nano_bench_tracker.py --pairs 6` (3 AB + 3 BA), bỏ 50 frame warm-up mỗi lượt, warm-up riêng 1 CV + 1 EKF
+  vào split khác; MAXN, governor schedutil, nhiệt tegrastats 40–44 °C, swap 0; 12/12 lượt exit 0, không loại lượt nào.
+  `update` (tổng `tracker.update()`, ms/frame): CV trung vị **4,695** (4,657–4,774), EKF **5,468** (5,414–5,512).
+  Hiệu **EKF − CV theo cặp**: trung vị **+0,752 ms/frame**, IQR **[+0,710; +0,818]** (theo công cụ; theo `quantiles inclusive`:
+  [+0,737; +0,794]), 6/6 cặp dương (+0,640 … +0,855) ≈ **+16 %** chi phí tracker. Phần `predict` chiếm +0,622 ms (6/6 cặp),
+  `assoc`/cập nhật +0,139 ms. Parity đại diện `bench-{cv,ekf}-r{1,6}` so với `NANO-full/pc-ref` ĐẠT lệch 0; `pc-ref-*` và `nano-*` của
+  Mốc 1 không đổi. **Phạm vi**: chỉ tracker từ cache, không phải end-to-end; công cụ không lưu tần số CPU theo lượt; lúc đo có
+  `update-manager`/`packagekitd`/`gnome-software` chạy nền.
+- **Chưa dựng lại**: thư mục v3/v4 (bằng chứng đã có trên PC), engine TensorRT và Mốc 2 (bằng chứng vòng 16 nằm trên PC).
 
 ## 4e. Vòng 17 (2026-09-22): preflight theo review `20207ec` — gói v5 `ae5fd57b…` (chưa chuyển sang Nano)
 

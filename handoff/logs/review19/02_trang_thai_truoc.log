@@ -1,0 +1,44 @@
+# 1. trang thai TRUOC khi do - 2026-09-22T18:23:52
+# trang thai truoc benchmark 2026-09-22T19:23:54+08:00
+hostname: jetson-desktop
+uname: Linux jetson-desktop 4.9.337-tegra #1 SMP PREEMPT Tue Jun 11 16:07:05 PDT 2024 aarch64 aarch64 aarch64 GNU/Linux
+L4T: # R32 (release), REVISION: 7.5, GCID: 36557527, BOARD: t210ref, EABI: aarch64, DATE: Tue Jun 11 23:12:44 UTC 2024
+-- interpreter:
+python 3.8.20 /home/jetson/miniforge3/envs/nano/bin/python
+numpy 1.24.4 | lap 0.5.13 | pandas 2.0.3 | pyyaml 6.0.2
+python3 he thong: Python 3.6.9
+-- goi:
+zip sha256: ae5fd57b6fc99590cae7c4c1860ad3ce03a51c67133288f967fffd0e83331dac  /home/jetson/nano_transfer_v5.zip
+commit dong goi: eeb1daf | HEAD: eeb1daf | branch: phase2-mixed-traffic
+commit code cuoi: eeb1daf Review 20207ec (N15-P1/P2/P3): mot hop dong preflight dung chung (nano_preflight.py) cho nano_env_check + nano_run_cache; regression test_nano_run_cache
+onnx: a66a5e03b6c6efec | checkpoint: f59b3d833e2ff32e
+-- nguon/clocks (CHI DOC, khong sudo):
+nvpmodel -q:
+NVPM WARN: fan mode is not set!
+NV Power Mode: MAXN
+0
+NVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13
+jetson_clocks --show:
+SOC family:tegra210  Machine:NVIDIA Jetson Nano Developer Kit
+Error: Run this script(/usr/bin/jetson_clocks) as a root user
+-- nhiet do (sysfs, deg C):
+  AO-therm=50   CPU-therm=41   GPU-therm=39   PLL-therm=39   PMIC-Die=50   thermal-fan-est=40 
+-- tegrastats 2 mau:
+RAM 1808/3956MB (lfb 5x2MB) SWAP 853/6074MB (cached 90MB) CPU [2%@1224,0%@1224,1%@1224,0%@1224] EMC_FREQ 0% GR3D_FREQ 0% PLL@39.5C CPU@41C PMIC@50C GPU@39C AO@50C thermal@40C
+RAM 1808/3956MB (lfb 5x2MB) SWAP 853/6074MB (cached 90MB) CPU [2%@1224,0%@1224,0%@1224,0%@1224] EMC_FREQ 0% GR3D_FREQ 0% PLL@39C CPU@41C PMIC@50C GPU@41C AO@50C thermal@40C
+-- RAM/swap:
+              total        used        free      shared  buff/cache   available
+Mem:           3955        1742         890         106        1323        2353
+Swap:          6073         853        5220
+NAME       TYPE        SIZE   USED PRIO
+/swapfile  file          4G     4M   -1
+/dev/zram0 partition 494.5M 212.4M    5
+-- tien trinh CPU cao nhat:
+%CPU %MEM COMMAND
+ 2.3  1.4 nautilus
+ 1.7  2.1 compiz
+ 1.3  0.1 avahi-daemon
+ 1.0  5.4 chromium-browse
+ 0.8  0.7 Xorg
+-- dia:
+/dev/mmcblk1p1   58G   30G   26G  54% /

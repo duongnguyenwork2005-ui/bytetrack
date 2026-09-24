@@ -1,0 +1,96 @@
+# nano_run_cache 20260924-093948 goc=/home/jetson/nano_run/v5/nano_transfer python=/home/jetson/miniforge3/envs/nano/bin/python 3.8.20 tag=nano
+$ src/nano_env_check.py   (BYTETRACK_BACKEND=np, chan torch/ul=False)
+  exit=0
+  |   [he thong ] nvpmodel: NVPM WARN: fan mode is not set!
+  | NV Power Mode: MAXN
+  | 0
+  | NVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13
+  | NVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap
+  |   [he thong ] python3_8: /home/jetson/miniforge3/envs/nano/bin/python3.8
+  |   [he thong ] conda: /home/jetson/miniforge3/condabin/conda
+  | KET LUAN: DAT (1-4)
+import backend np: exit=0 {"backend": "np", "torch": false, "ul": false} 
+0. dau vao: DU (2 cache, 4 tham chieu PC, YAML, ma, backend np)
+1. hash pc-ref (24 file) khop ban PC dong goi: True
+$ src/run_tracking.py --cache-id nano_smoke_MVI_39031_f0001-0300 --split-name NANO-smoke --tracker-yaml bytetrack.yaml --tracker-name nano-cv --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps  (BYTETRACK_BACKEND=np, chan torch/ul=True)
+  exit=0
+  | [run_tracking] cache=nano_smoke_MVI_39031_f0001-0300 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  |   nano-cv                      MVI_39031        300 frame ->     545 bbox   12 track  predict 0.57 ms/frame  assoc 2.71  (1.2s, 251 fps)
+  |   nano-cv                        1 video moi,   0 tai su dung
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+$ src/nano_parity.py --ref data/processed/trackers/NANO-smoke/pc-ref-cv --test data/processed/trackers/NANO-smoke/nano-cv --json reference/parity_nano_smoke_cv.json  (BYTETRACK_BACKEND=np, chan torch/ul=True)
+  exit=0
+  | can kiem  : data/processed/trackers/NANO-smoke/nano-cv/data
+  | 
+  | video                           hang  max|d bbox|  max|d conf| phan hoach  ket qua
+  | ------------------------------------------------------------------------------------------
+  | MVI_39031                        545    0.000e+00    0.000e+00       khop  DAT
+  | ------------------------------------------------------------------------------
+  | KET QUA: 1/1 video DAT
+  | -> reference/parity_nano_smoke_cv.json
+smoke/cv: replay exit 0 (3.1s) | parity exit 0 dat=True n=545/545 | bit-identical=False
+$ src/run_tracking.py --cache-id nano_smoke_MVI_39031_f0001-0300 --split-name NANO-smoke --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name nano-ekf --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps  (BYTETRACK_BACKEND=np, chan torch/ul=True)
+  exit=0
+  | [run_tracking] cache=nano_smoke_MVI_39031_f0001-0300 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  |   nano-ekf                     MVI_39031        300 frame ->     545 bbox   12 track  predict 0.61 ms/frame  assoc 2.80  (1.2s, 242 fps)
+  |   nano-ekf                       1 video moi,   0 tai su dung
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+$ src/nano_parity.py --ref data/processed/trackers/NANO-smoke/pc-ref-ekf --test data/processed/trackers/NANO-smoke/nano-ekf --json reference/parity_nano_smoke_ekf.json  (BYTETRACK_BACKEND=np, chan torch/ul=True)
+  exit=0
+  | can kiem  : data/processed/trackers/NANO-smoke/nano-ekf/data
+  | 
+  | video                           hang  max|d bbox|  max|d conf| phan hoach  ket qua
+  | ------------------------------------------------------------------------------------------
+  | MVI_39031                        545    0.000e+00    0.000e+00       khop  DAT
+  | ------------------------------------------------------------------------------
+  | KET QUA: 1/1 video DAT
+  | -> reference/parity_nano_smoke_ekf.json
+smoke/ekf: replay exit 0 (3.0s) | parity exit 0 dat=True n=545/545 | bit-identical=False
+$ src/run_tracking.py --cache-id yolov8n-coco_conf0.05_all --split-name NANO-full --tracker-yaml bytetrack.yaml --tracker-name nano-cv --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps  (BYTETRACK_BACKEND=np, chan torch/ul=True)
+  exit=0
+  | [run_tracking] cache=yolov8n-coco_conf0.05_all tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  |   nano-cv                      MVI_39031       1470 frame ->   5,842 bbox   72 track  predict 0.61 ms/frame  assoc 3.97  (7.9s, 187 fps)
+  |   nano-cv                        1 video moi,   0 tai su dung
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+$ src/nano_parity.py --ref data/processed/trackers/NANO-full/pc-ref-cv --test data/processed/trackers/NANO-full/nano-cv --json reference/parity_nano_full_cv.json  (BYTETRACK_BACKEND=np, chan torch/ul=True)
+  exit=0
+  | can kiem  : data/processed/trackers/NANO-full/nano-cv/data
+  | 
+  | video                           hang  max|d bbox|  max|d conf| phan hoach  ket qua
+  | ------------------------------------------------------------------------------------------
+  | MVI_39031                       5842    0.000e+00    0.000e+00       khop  DAT
+  | ------------------------------------------------------------------------------
+  | KET QUA: 1/1 video DAT
+  | -> reference/parity_nano_full_cv.json
+full/cv: replay exit 0 (9.7s) | parity exit 0 dat=True n=5842/5842 | bit-identical=False
+$ src/run_tracking.py --cache-id yolov8n-coco_conf0.05_all --split-name NANO-full --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name nano-ekf --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps  (BYTETRACK_BACKEND=np, chan torch/ul=True)
+  exit=0
+  | [run_tracking] cache=yolov8n-coco_conf0.05_all tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  |   nano-ekf                     MVI_39031       1470 frame ->   5,845 bbox   70 track  predict 1.20 ms/frame  assoc 4.11  (8.9s, 164 fps)
+  |   nano-ekf                       1 video moi,   0 tai su dung
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+  | fatal: not a git repository (or any of the parent directories): .git
+$ src/nano_parity.py --ref data/processed/trackers/NANO-full/pc-ref-ekf --test data/processed/trackers/NANO-full/nano-ekf --json reference/parity_nano_full_ekf.json  (BYTETRACK_BACKEND=np, chan torch/ul=True)
+  exit=0
+  | can kiem  : data/processed/trackers/NANO-full/nano-ekf/data
+  | 
+  | video                           hang  max|d bbox|  max|d conf| phan hoach  ket qua
+  | ------------------------------------------------------------------------------------------
+  | MVI_39031                       5845    0.000e+00    0.000e+00       khop  DAT
+  | ------------------------------------------------------------------------------
+  | KET QUA: 1/1 video DAT
+  | -> reference/parity_nano_full_ekf.json
+full/ekf: replay exit 0 (10.7s) | parity exit 0 dat=True n=5845/5845 | bit-identical=False
+4. cay pc-ref sau khi chay y het truoc: True
+KET LUAN: DAT
