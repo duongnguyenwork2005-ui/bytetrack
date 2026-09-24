@@ -1,0 +1,49 @@
+# 07. tinh trang the SD tren Nano (CHI DOC) - 2026-09-24T09:35:30 gio PC
+gio Nano: 2026-09-24T10:35:30+08:00 | uptime: up 21 minutes | boot 2026-09-24 10:13:56
+== findmnt /:
+TARGET SOURCE         FSTYPE OPTIONS
+/      /dev/mmcblk1p1 ext4   rw,relatime,data=ordered
+== /proc/mounts (ro/rw):
+/dev/mmcblk1p1 / ext4 rw,relatime,data=ordered 0 0
+== df -h / ; df -i /:
+/dev/mmcblk1p1   58G   27G   29G  49% /
+/dev/mmcblk1p1 3817472 304188 3513284    8% /
+== ext4 sysfs (dem loi ext4 tu luc mount):
+  errors_count = 0
+  first_error_time = 0
+  last_error_time = 0
+  lifetime_write_kbytes = 175590819
+== dmesg | mmc/ext4 (30 dong cuoi):
+[    0.000000] Kernel command line: tegraid=21.1.2.0.0 ddr_die=4096M@2048M section=512M memtype=0 vpr_resize usb_port_owner_info=0 lane_owner_info=0 emc_max_dvfs=0 touch_id=0@63 video=tegrafb no_console_suspend=1 console=ttyS0,115200n8 debug_uartport=lsport,4 earlyprintk=uart8250-32bit,0x70006000 maxcpus=4 usbcore.old_scheme_first=1 lp0_vec=0x1000@0xff780000 core_edp_mv=1075 core_edp_ma=4000 gpt tegra_fbmem=0x800000@0x92cb4000 is_hdmi_initialised=1  earlycon=uart8250,mmio32,0x70006000  root=/dev/mmcblk0p1 rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 sdhci_tegra.en_boot_part_access=1 quiet root=/dev/mmcblk1p1 rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 sdhci_tegra.en_boot_part_access=1 
+[    0.613769] vddio-sdmmc-ap: 1800 <--> 3300 mV at 3300 mV 
+[    0.621151] vddio-sdmmc3-ap: 1800 <--> 3300 mV at 2800 mV 
+[    0.642959] tegra210_dvfs: no clock found for sdmmc2_ddr
+[    0.642979] tegra210_dvfs: no clock found for sdmmc4_ddr
+[    0.643034] tegra210_dvfs: no clock found for sdmmc1_ddr
+[    0.643051] tegra210_dvfs: no clock found for sdmmc3_ddr
+[    1.467203] mmc0: SDHCI controller on sdhci-tegra.3 [sdhci-tegra.3] using ADMA 64-bit with 64 bit addr
+[    1.479238] mmc1: SDHCI controller on sdhci-tegra.2 [sdhci-tegra.2] using ADMA 64-bit with 64 bit addr
+[    1.526137] mmc0: new HS400 Enhanced strobe MMC card at address 0001
+[    1.526471] mmcblk0: mmc0:0001 DG4016 14.7 GiB 
+[    1.526583] mmcblk0boot0: mmc0:0001 DG4016 partition 1 4.00 MiB
+[    1.526703] mmcblk0boot1: mmc0:0001 DG4016 partition 2 4.00 MiB
+[    1.530857] mmcblk0rpmb: mmc0:0001 DG4016 partition 3 4.00 MiB
+[    1.533472]  mmcblk0: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12 p13 p14 p15 p16 p17
+[    1.579154] mmc1: host does not support reading read-only switch, assuming write-enable
+[    1.586889] mmcblk mmc0:0001: Card claimed for testing.
+[    1.619453] Root device found: mmcblk1p1
+[    1.744702] mmc1: hw tuning done ...
+[    1.744740] mmc1: new ultra high speed SDR104 SDXC card at address 0001
+[    1.745165] mmcblk1: mmc1:0001 acer 58.2 GiB 
+[    1.762144]  mmcblk1: p1
+[    1.824541] Found dev node: /dev/mmcblk1p1
+[    1.886321] EXT4-fs (mmcblk1p1): mounted filesystem with ordered data mode. Opts: (null)
+[    1.888179] Rootfs mounted over mmcblk1p1
+[    3.970040] EXT4-fs (mmcblk1p1): re-mounted. Opts: (null)
+[   31.871307] vddio-sdmmc-ap: disabling
+[   32.017449] EXT4-fs (mmcblk0p1): mounted filesystem with ordered data mode. Opts: (null)
+dmesg exit=0
+== journalctl -k lan boot nay | mmc/ext4 loi (neu dmesg bi chan):
+(het)
+== the dang cam: inode dung 304188 (the 1 fsck 267687; the 2 287966)
+ssh exit=0

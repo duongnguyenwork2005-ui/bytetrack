@@ -1,0 +1,616 @@
+{
+  "giao_thuc": {
+    "pairs": 6,
+    "warmup_frames": 50,
+    "videos": [
+      "MVI_39031"
+    ],
+    "A": "cv",
+    "B": "ekf",
+    "dai_luong": "trung vi + IQR cua hieu so theo cap (B - A)"
+  },
+  "la_jetson": true,
+  "thiet_bi_ban_dau": {
+    "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+    "cpu_governor": "schedutil",
+    "nhiet_do_C": {
+      "AO-therm": 50.5,
+      "CPU-therm": 41.0,
+      "GPU-therm": 39.5,
+      "PLL-therm": 40.0,
+      "PMIC-Die": 50.0,
+      "thermal-fan-est": 40.0
+    },
+    "thoi_diem": "2026-09-24T09:42:08"
+  },
+  "luots": [
+    {
+      "luot": 1,
+      "cau_hinh": "cv",
+      "tracker_name": "bench-cv-r1",
+      "exit": 0,
+      "wall_s": 9.64,
+      "tegrastats": {
+        "n_mau": 19,
+        "nhiet_max_C": 42.0,
+        "nhiet_tb_C": 40.3
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.0,
+          "CPU-therm": 41.0,
+          "GPU-therm": 39.5,
+          "PLL-therm": 40.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 40.0
+        },
+        "thoi_diem": "2026-09-24T09:42:08"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 50.5,
+          "CPU-therm": 42.0,
+          "GPU-therm": 39.0,
+          "PLL-therm": 40.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 40.25
+        },
+        "thoi_diem": "2026-09-24T09:42:18"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 4.657098905635503,
+      "update_ms_trung_vi": 4.0610825000158,
+      "predict_ms_tb": 0.6133217788750456,
+      "predict_ms_trung_vi": 0.6034449999674507,
+      "cap": 1,
+      "thu_tu_trong_cap": 1
+    },
+    {
+      "luot": 1,
+      "cau_hinh": "ekf",
+      "tracker_name": "bench-ekf-r1",
+      "exit": 0,
+      "wall_s": 10.899,
+      "tegrastats": {
+        "n_mau": 21,
+        "nhiet_max_C": 42.5,
+        "nhiet_tb_C": 40.5
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 50.5,
+          "CPU-therm": 41.5,
+          "GPU-therm": 39.0,
+          "PLL-therm": 39.5,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 40.0
+        },
+        "thoi_diem": "2026-09-24T09:42:38"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.0,
+          "CPU-therm": 41.5,
+          "GPU-therm": 39.5,
+          "PLL-therm": 40.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 40.25
+        },
+        "thoi_diem": "2026-09-24T09:42:49"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 5.511677070422804,
+      "update_ms_trung_vi": 4.658811500007687,
+      "predict_ms_tb": 1.24619832605936,
+      "predict_ms_trung_vi": 0.9808529999872917,
+      "cap": 1,
+      "thu_tu_trong_cap": 2
+    },
+    {
+      "luot": 2,
+      "cau_hinh": "cv",
+      "tracker_name": "bench-cv-r2",
+      "exit": 0,
+      "wall_s": 9.698,
+      "tegrastats": {
+        "n_mau": 19,
+        "nhiet_max_C": 42.5,
+        "nhiet_tb_C": 40.6
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 50.5,
+          "CPU-therm": 41.0,
+          "GPU-therm": 39.0,
+          "PLL-therm": 39.5,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 40.25
+        },
+        "thoi_diem": "2026-09-24T09:43:09"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.0,
+          "CPU-therm": 42.5,
+          "GPU-therm": 39.5,
+          "PLL-therm": 40.5,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.0
+        },
+        "thoi_diem": "2026-09-24T09:43:19"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 4.68601616760601,
+      "update_ms_trung_vi": 4.086409999956686,
+      "predict_ms_tb": 0.617539390844007,
+      "predict_ms_trung_vi": 0.6063260000246373,
+      "cap": 2,
+      "thu_tu_trong_cap": 1
+    },
+    {
+      "luot": 2,
+      "cau_hinh": "ekf",
+      "tracker_name": "bench-ekf-r2",
+      "exit": 0,
+      "wall_s": 10.779,
+      "tegrastats": {
+        "n_mau": 21,
+        "nhiet_max_C": 43.0,
+        "nhiet_tb_C": 41.0
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.0,
+          "CPU-therm": 41.5,
+          "GPU-therm": 39.0,
+          "PLL-therm": 40.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 40.5
+        },
+        "thoi_diem": "2026-09-24T09:43:39"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.5,
+          "CPU-therm": 42.0,
+          "GPU-therm": 39.5,
+          "PLL-therm": 40.5,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.0
+        },
+        "thoi_diem": "2026-09-24T09:43:50"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 5.444479046480676,
+      "update_ms_trung_vi": 4.577367000024424,
+      "predict_ms_tb": 1.229785895773596,
+      "predict_ms_trung_vi": 0.9655794999616774,
+      "cap": 2,
+      "thu_tu_trong_cap": 2
+    },
+    {
+      "luot": 3,
+      "cau_hinh": "cv",
+      "tracker_name": "bench-cv-r3",
+      "exit": 0,
+      "wall_s": 9.696,
+      "tegrastats": {
+        "n_mau": 19,
+        "nhiet_max_C": 42.0,
+        "nhiet_tb_C": 40.8
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.0,
+          "CPU-therm": 41.5,
+          "GPU-therm": 39.5,
+          "PLL-therm": 40.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.75
+        },
+        "thoi_diem": "2026-09-24T09:44:10"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.0,
+          "CPU-therm": 41.5,
+          "GPU-therm": 39.5,
+          "PLL-therm": 41.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 40.75
+        },
+        "thoi_diem": "2026-09-24T09:44:19"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 4.692606257041747,
+      "update_ms_trung_vi": 4.107281000017338,
+      "predict_ms_tb": 0.6180657570427498,
+      "predict_ms_trung_vi": 0.608819999968091,
+      "cap": 3,
+      "thu_tu_trong_cap": 1
+    },
+    {
+      "luot": 3,
+      "cau_hinh": "ekf",
+      "tracker_name": "bench-ekf-r3",
+      "exit": 0,
+      "wall_s": 10.868,
+      "tegrastats": {
+        "n_mau": 21,
+        "nhiet_max_C": 43.5,
+        "nhiet_tb_C": 41.3
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.0,
+          "CPU-therm": 41.5,
+          "GPU-therm": 40.0,
+          "PLL-therm": 40.5,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 40.5
+        },
+        "thoi_diem": "2026-09-24T09:44:39"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.5,
+          "CPU-therm": 42.5,
+          "GPU-therm": 40.0,
+          "PLL-therm": 41.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.25
+        },
+        "thoi_diem": "2026-09-24T09:44:50"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 5.498432361269233,
+      "update_ms_trung_vi": 4.579858499994316,
+      "predict_ms_tb": 1.2480749422530113,
+      "predict_ms_trung_vi": 0.9772129999419121,
+      "cap": 3,
+      "thu_tu_trong_cap": 2
+    },
+    {
+      "luot": 4,
+      "cau_hinh": "ekf",
+      "tracker_name": "bench-ekf-r4",
+      "exit": 0,
+      "wall_s": 10.73,
+      "tegrastats": {
+        "n_mau": 21,
+        "nhiet_max_C": 43.0,
+        "nhiet_tb_C": 41.5
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.5,
+          "CPU-therm": 41.5,
+          "GPU-therm": 42.5,
+          "PLL-therm": 40.5,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 40.75
+        },
+        "thoi_diem": "2026-09-24T09:45:10"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.5,
+          "CPU-therm": 42.5,
+          "GPU-therm": 40.0,
+          "PLL-therm": 41.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.5
+        },
+        "thoi_diem": "2026-09-24T09:45:21"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 5.413961254223875,
+      "update_ms_trung_vi": 4.566172500005905,
+      "predict_ms_tb": 1.2265253795737383,
+      "predict_ms_trung_vi": 0.9684599999673082,
+      "cap": 4,
+      "thu_tu_trong_cap": 1
+    },
+    {
+      "luot": 4,
+      "cau_hinh": "cv",
+      "tracker_name": "bench-cv-r4",
+      "exit": 0,
+      "wall_s": 9.881,
+      "tegrastats": {
+        "n_mau": 19,
+        "nhiet_max_C": 44.0,
+        "nhiet_tb_C": 41.6
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.0,
+          "CPU-therm": 42.0,
+          "GPU-therm": 40.0,
+          "PLL-therm": 40.5,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 40.75
+        },
+        "thoi_diem": "2026-09-24T09:45:41"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 52.0,
+          "CPU-therm": 43.0,
+          "GPU-therm": 40.0,
+          "PLL-therm": 41.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.25
+        },
+        "thoi_diem": "2026-09-24T09:45:51"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 4.774429734509116,
+      "update_ms_trung_vi": 4.1748005000386,
+      "predict_ms_tb": 0.6330968549292092,
+      "predict_ms_trung_vi": 0.6155859999807944,
+      "cap": 4,
+      "thu_tu_trong_cap": 2
+    },
+    {
+      "luot": 5,
+      "cau_hinh": "ekf",
+      "tracker_name": "bench-ekf-r5",
+      "exit": 0,
+      "wall_s": 10.861,
+      "tegrastats": {
+        "n_mau": 21,
+        "nhiet_max_C": 44.0,
+        "nhiet_tb_C": 41.5
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.5,
+          "CPU-therm": 42.0,
+          "GPU-therm": 40.0,
+          "PLL-therm": 40.5,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.0
+        },
+        "thoi_diem": "2026-09-24T09:46:11"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.5,
+          "CPU-therm": 43.0,
+          "GPU-therm": 40.0,
+          "PLL-therm": 41.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.75
+        },
+        "thoi_diem": "2026-09-24T09:46:22"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 5.490883873944991,
+      "update_ms_trung_vi": 4.630790999954115,
+      "predict_ms_tb": 1.2633621394368026,
+      "predict_ms_trung_vi": 0.99225900004285,
+      "cap": 5,
+      "thu_tu_trong_cap": 1
+    },
+    {
+      "luot": 5,
+      "cau_hinh": "cv",
+      "tracker_name": "bench-cv-r5",
+      "exit": 0,
+      "wall_s": 9.834,
+      "tegrastats": {
+        "n_mau": 19,
+        "nhiet_max_C": 43.5,
+        "nhiet_tb_C": 41.7
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.5,
+          "CPU-therm": 42.0,
+          "GPU-therm": 40.0,
+          "PLL-therm": 40.5,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.0
+        },
+        "thoi_diem": "2026-09-24T09:46:42"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 52.0,
+          "CPU-therm": 43.0,
+          "GPU-therm": 40.5,
+          "PLL-therm": 41.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.5
+        },
+        "thoi_diem": "2026-09-24T09:46:52"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 4.75712576760519,
+      "update_ms_trung_vi": 4.210413500004506,
+      "predict_ms_tb": 0.6261294816900952,
+      "predict_ms_trung_vi": 0.610505999986799,
+      "cap": 5,
+      "thu_tu_trong_cap": 2
+    },
+    {
+      "luot": 6,
+      "cau_hinh": "ekf",
+      "tracker_name": "bench-ekf-r6",
+      "exit": 0,
+      "wall_s": 10.767,
+      "tegrastats": {
+        "n_mau": 21,
+        "nhiet_max_C": 44.0,
+        "nhiet_tb_C": 41.9
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 51.5,
+          "CPU-therm": 42.0,
+          "GPU-therm": 40.0,
+          "PLL-therm": 41.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.0
+        },
+        "thoi_diem": "2026-09-24T09:47:12"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 52.0,
+          "CPU-therm": 43.5,
+          "GPU-therm": 40.5,
+          "PLL-therm": 41.5,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 42.0
+        },
+        "thoi_diem": "2026-09-24T09:47:23"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 5.443094431687772,
+      "update_ms_trung_vi": 4.604581500018412,
+      "predict_ms_tb": 1.2318214119717033,
+      "predict_ms_trung_vi": 0.9734275000141679,
+      "cap": 6,
+      "thu_tu_trong_cap": 1
+    },
+    {
+      "luot": 6,
+      "cau_hinh": "cv",
+      "tracker_name": "bench-cv-r6",
+      "exit": 0,
+      "wall_s": 9.708,
+      "tegrastats": {
+        "n_mau": 19,
+        "nhiet_max_C": 43.5,
+        "nhiet_tb_C": 41.7
+      },
+      "thiet_bi_truoc": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 52.0,
+          "CPU-therm": 42.5,
+          "GPU-therm": 40.0,
+          "PLL-therm": 41.0,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 42.5
+        },
+        "thoi_diem": "2026-09-24T09:47:43"
+      },
+      "thiet_bi_sau": {
+        "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "nhiet_do_C": {
+          "AO-therm": 52.0,
+          "CPU-therm": 43.5,
+          "GPU-therm": 40.5,
+          "PLL-therm": 41.5,
+          "PMIC-Die": 50.0,
+          "thermal-fan-est": 41.75
+        },
+        "thoi_diem": "2026-09-24T09:47:53"
+      },
+      "n_frame_do": 1420,
+      "update_ms_tb": 4.697017819717235,
+      "update_ms_trung_vi": 4.065142500053298,
+      "predict_ms_tb": 0.6181242549295073,
+      "predict_ms_trung_vi": 0.6012849999592618,
+      "cap": 6,
+      "thu_tu_trong_cap": 2
+    }
+  ],
+  "hieu_so_theo_cap": [
+    {
+      "cap": 1,
+      "thu_tu": "AB",
+      "d_update_ms": 0.8545781647873012,
+      "d_predict_ms": 0.6328765471843145
+    },
+    {
+      "cap": 2,
+      "thu_tu": "AB",
+      "d_update_ms": 0.7584628788746652,
+      "d_predict_ms": 0.6122465049295891
+    },
+    {
+      "cap": 3,
+      "thu_tu": "AB",
+      "d_update_ms": 0.8058261042274868,
+      "d_predict_ms": 0.6300091852102615
+    },
+    {
+      "cap": 4,
+      "thu_tu": "BA",
+      "d_update_ms": 0.6395315197147591,
+      "d_predict_ms": 0.5934285246445291
+    },
+    {
+      "cap": 5,
+      "thu_tu": "BA",
+      "d_update_ms": 0.7337581063398009,
+      "d_predict_ms": 0.6372326577467075
+    },
+    {
+      "cap": 6,
+      "thu_tu": "BA",
+      "d_update_ms": 0.7460766119705369,
+      "d_predict_ms": 0.613697157042196
+    }
+  ],
+  "tong_hop": {
+    "n_cap": 6,
+    "trung_vi_d_update_ms": 0.752269745422601,
+    "iqr": [
+      0.7102014596835404,
+      0.8180141193674404
+    ],
+    "min": 0.6395315197147591,
+    "max": 0.8545781647873012
+  }
+}

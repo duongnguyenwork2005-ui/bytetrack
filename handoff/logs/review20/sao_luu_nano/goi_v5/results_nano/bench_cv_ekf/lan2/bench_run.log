@@ -1,0 +1,57 @@
+### WARM-UP (tach khoi so lieu chinh): 1 luot CV + 1 luot EKF, split NANO-bench-warmup 2026-09-24T09:41:30+08:00
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[run_tracking] cache=yolov8n-coco_conf0.05_all tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  warmup-cv                    MVI_39031       1470 frame ->   5,842 bbox   72 track  predict 0.62 ms/frame  assoc 4.05  (8.0s, 183 fps)
+  warmup-cv                      1 video moi,   0 tai su dung
+warmup cv exit=0 wall=15899 ms
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[run_tracking] cache=yolov8n-coco_conf0.05_all tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  warmup-ekf                   MVI_39031       1470 frame ->   5,845 bbox   70 track  predict 1.23 ms/frame  assoc 4.20  (9.1s, 161 fps)
+  warmup-ekf                     1 video moi,   0 tai su dung
+warmup ekf exit=0 wall=16946 ms
+### BENCH CHINH: 6 cap (3 AB + 3 BA) = 12 luot, nghi 20 s giua luot 2026-09-24T09:42:03+08:00
+==============================================================================
+GIAO THUC DA CHOT TRUOC KHI DO (scripts/nano/README.md muc 4c)
+  cau hinh A          : cv  (bytetrack.yaml)
+  cau hinh B          : ekf  (configs/bytetrack_ekf_ctrv.yaml)
+  so cap              : 6  (3 cap A->B, 3 cap B->A)
+  warm-up             : bo 50 frame dau MOI video
+  sequence            : 1 video -- MVI_39031
+  dai luong bao cao   : TRUNG VI + IQR cua hieu so THEO CAP (ekf - cv)
+  luu moi luot        : co (khong loai luot nao khoi du lieu tho)
+==============================================================================
+thiet bi: Jetson (co /etc/nv_tegra_release)
+
+[cap 1/6] thu tu cv -> ekf
+    cv     update 4.657 ms/frame (trung vi 4.061), 1420 frame do, wall 9.6s, tegrastats 19 mau
+    ekf    update 5.512 ms/frame (trung vi 4.659), 1420 frame do, wall 10.9s, tegrastats 21 mau
+[cap 2/6] thu tu cv -> ekf
+    cv     update 4.686 ms/frame (trung vi 4.086), 1420 frame do, wall 9.7s, tegrastats 19 mau
+    ekf    update 5.444 ms/frame (trung vi 4.577), 1420 frame do, wall 10.8s, tegrastats 21 mau
+[cap 3/6] thu tu cv -> ekf
+    cv     update 4.693 ms/frame (trung vi 4.107), 1420 frame do, wall 9.7s, tegrastats 19 mau
+    ekf    update 5.498 ms/frame (trung vi 4.580), 1420 frame do, wall 10.9s, tegrastats 21 mau
+[cap 4/6] thu tu ekf -> cv
+    ekf    update 5.414 ms/frame (trung vi 4.566), 1420 frame do, wall 10.7s, tegrastats 21 mau
+    cv     update 4.774 ms/frame (trung vi 4.175), 1420 frame do, wall 9.9s, tegrastats 19 mau
+[cap 5/6] thu tu ekf -> cv
+    ekf    update 5.491 ms/frame (trung vi 4.631), 1420 frame do, wall 10.9s, tegrastats 21 mau
+    cv     update 4.757 ms/frame (trung vi 4.210), 1420 frame do, wall 9.8s, tegrastats 19 mau
+[cap 6/6] thu tu ekf -> cv
+    ekf    update 5.443 ms/frame (trung vi 4.605), 1420 frame do, wall 10.8s, tegrastats 21 mau
+    cv     update 4.697 ms/frame (trung vi 4.065), 1420 frame do, wall 9.7s, tegrastats 19 mau
+
+HIEU SO ekf - cv (update_ms/frame), 6 cap:
+  trung vi = +0.7523 ms
+  IQR      = [+0.7102, +0.8180]
+  min/max  = +0.6395 / +0.8546
+
+-> results_nano/bench_cv_ekf/lan2/bench_cv_vs_ekf.json  (luu MOI luot, khong loai luot nao)
+bench exit=0
+### XONG 2026-09-24T09:48:13+08:00

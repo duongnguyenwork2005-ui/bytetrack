@@ -1,0 +1,234 @@
+{
+  "goi": "nano_transfer (doc lap, KHONG phai review delta)",
+  "tao_luc": "2026-09-22T15:20:02",
+  "nguon": {
+    "repo": "D:/LABOTARY/bytetrack",
+    "HEAD": "eeb1daf59f3c07a3c346b6e96beda9c58b973887",
+    "HEAD_short": "eeb1daf",
+    "branch": "phase2-mixed-traffic",
+    "subject": "Review 20207ec (N15-P1/P2/P3): mot hop dong preflight dung chung (nano_preflight.py) cho nano_env_check + nano_run_cache; regression test_nano_run_cache",
+    "commit_dong_goi": "eeb1daf",
+    "commit_code_cuoi": "eeb1daf Review 20207ec (N15-P1/P2/P3): mot hop dong preflight dung chung (nano_preflight.py) cho nano_env_check + nano_run_cache; regression test_nano_run_cache",
+    "commit_code_cuoi_khong_tinh_builder": "eeb1daf Review 20207ec (N15-P1/P2/P3): mot hop dong preflight dung chung (nano_preflight.py) cho nano_env_check + nano_run_cache; regression test_nano_run_cache",
+    "tracked_da_sua_ngoai_file_rieng": [],
+    "ghi_chu_launcher": "L-F1..L-F4 (review 2d1a8df) da sua o 25c11b6/2e96bc7, CHUA duoc Codex nghiem thu"
+  },
+  "moi_truong_pc": {
+    "python": "3.11.9",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13",
+    "pandas": "2.3.3",
+    "yaml": "6.0.3",
+    "cv2": "5.0.0",
+    "onnx": "1.22.0",
+    "ultralytics": "8.4.141",
+    "torch": "2.6.0+cu124"
+  },
+  "python_toi_thieu": "3.8 (vermin 1.8.0 tinh tren chuoi import that: from __future__ import annotations x21, dataclasses, importlib.metadata)",
+  "phu_thuoc_python_toi_thieu_cho_replay": [
+    "numpy",
+    "lap",
+    "pandas",
+    "pyyaml"
+  ],
+  "phu_thuoc_tuy_chon": {
+    "scipy": "chi khi use_lap=False (khong phai mac dinh)",
+    "opencv-python": "buoc chay video/anh"
+  },
+  "khong_can_cho_replay_parity": [
+    "torch",
+    "ultralytics",
+    "scipy"
+  ],
+  "requirements": "requirements_nano.txt",
+  "checkpoint": {
+    "checkpoint": "models/yolov8n.pt",
+    "checkpoint_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "checkpoint_bytes": 6549796,
+    "checkpoint_trong_goi": true
+  },
+  "onnx": {
+    "onnx": "models/export/yolov8n_640_op12.onnx",
+    "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+    "onnx_bytes": 12824061,
+    "trang_thai": "SAN SANG de build engine tren Nano (ket luan cuoi cung phai qua trtexec tren thiet bi)"
+  },
+  "det_cache": {
+    "cache_doan_smoke": {
+      "cache_id": "nano_smoke_MVI_39031_f0001-0300",
+      "video": "MVI_39031",
+      "khoang_frame": [
+        1,
+        300
+      ],
+      "npz_sha256": "f5a76e44fd61d4065aa3169eefdb0e59681409b661c752c666d479386db5fb6f",
+      "sidecar": {
+        "video": "MVI_39031",
+        "n_frames": 300,
+        "n_boxes": 845,
+        "n_unreadable": 0,
+        "n_truncated": 0,
+        "created": "2026-09-22T15:19:35",
+        "cat_tu": {
+          "cache_id": "yolov8n-coco_conf0.05_all",
+          "sidecar_goc": {
+            "video": "MVI_39031",
+            "n_frames": 1470,
+            "n_boxes": 10145,
+            "n_unreadable": 0,
+            "n_truncated": 0,
+            "created": "2026-09-15T10:21:44",
+            "regions_hash": "933408ac9f2e",
+            "n_regions": 3,
+            "seconds": 30.3,
+            "part": "test"
+          },
+          "khoang_frame": [
+            1,
+            300
+          ],
+          "n_frame_rong_giu_nguyen": 0,
+          "time_s_dau_cuoi": [
+            0.0,
+            11.96
+          ],
+          "ghi_chu": "cat TIEN TO frame 1-300 tu cache goc; frame khong co detection van co mat (n_per_frame=0); meta.json copy nguyen van (cung DetectorSpec/weights_sha256)"
+        },
+        "regions_hash": "933408ac9f2e",
+        "n_regions": 3,
+        "part": "test"
+      }
+    },
+    "cache_goc_toan_sequence": {
+      "cache_id": "yolov8n-coco_conf0.05_all",
+      "video": "MVI_39031",
+      "meta": {
+        "backend": "ultralytics",
+        "weights": "D:\\LABOTARY\\bytetrack\\models\\yolov8n.pt",
+        "weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+        "imgsz": 640,
+        "conf": 0.05,
+        "iou": 0.7,
+        "classes": null,
+        "max_det": 3000,
+        "half": false,
+        "agnostic_nms": false,
+        "augment": false,
+        "batch": 1,
+        "device": "0",
+        "mask_ignored_regions": true,
+        "dataset": "detrac",
+        "part": "test",
+        "gt_jitter": 0.0,
+        "gt_dropout": 0.0,
+        "gt_seed": 0,
+        "gt_conf_range": [
+          0.3,
+          0.95
+        ],
+        "versions": {
+          "ultralytics": "8.4.141",
+          "torch": "2.6.0+cu124",
+          "cuda": "12.4",
+          "cudnn": 90100,
+          "gpu": "NVIDIA GeForce GTX 1650"
+        },
+        "git_commit": "84b5c0c",
+        "created": "2026-09-15T10:21:13"
+      },
+      "npz_sha256": "f7f5713715c796c830eea67e6f91bf471e23105d293b1c9e41c1ab2aee05d0d5",
+      "sidecar": {
+        "video": "MVI_39031",
+        "n_frames": 1470,
+        "n_boxes": 10145,
+        "n_unreadable": 0,
+        "n_truncated": 0,
+        "created": "2026-09-15T10:21:44",
+        "regions_hash": "933408ac9f2e",
+        "n_regions": 3,
+        "seconds": 30.3,
+        "part": "test"
+      }
+    }
+  },
+  "tham_chieu_pc": {
+    "splits": {
+      "NANO-smoke": "nano_smoke_MVI_39031_f0001-0300",
+      "NANO-full": "yolov8n-coco_conf0.05_all"
+    },
+    "ten": [
+      "pc-ref-cv",
+      "pc-ref-ekf"
+    ],
+    "backend": "np (torch/ultralytics BI CHAN khi tao)",
+    "cau_hinh_hieu_luc": "conf-min 0.25, classes 1 2 3 5 7, max-det 300, fps 25, track-buffer 1.2 s (30 buoc), elapsed steps; chi tiet trong run_meta.json (tracker_cfg, overrides, input_fingerprint)",
+    "doi_chieu_np_vs_ultralytics": {
+      "NANO-smoke/cv": {
+        "exit": 0,
+        "bit_identical_data_txt": true,
+        "json": "reference/parity_pc_np_vs_ul_NANO-smoke_cv.json"
+      },
+      "NANO-smoke/ekf": {
+        "exit": 0,
+        "bit_identical_data_txt": true,
+        "json": "reference/parity_pc_np_vs_ul_NANO-smoke_ekf.json"
+      },
+      "NANO-full/cv": {
+        "exit": 0,
+        "bit_identical_data_txt": true,
+        "json": "reference/parity_pc_np_vs_ul_NANO-full_cv.json"
+      },
+      "NANO-full/ekf": {
+        "exit": 0,
+        "bit_identical_data_txt": true,
+        "json": "reference/parity_pc_np_vs_ul_NANO-full_ekf.json"
+      }
+    }
+  },
+  "smoke": {
+    "video": "MVI_39031",
+    "nguon": "UA-DETRAC test, data/extracted/DETRAC-Images/MVI_39031/ (1470 frame)",
+    "khoang_frame": [
+      1,
+      300
+    ],
+    "n_frame": 300,
+    "fps": 25,
+    "thoi_luong_s": 12.0,
+    "kich_thuoc": [
+      960,
+      540
+    ],
+    "jpg": {
+      "thu_muc": "data/smoke/MVI_39031_f0001-0300",
+      "ghi_chu": "ban Y NGUYEN byte cua dataset; thu tu theo SO trong ten file",
+      "sha256_frame_dau": "14adc898eb746bfcaacc877905e0f8a82841a6b84ea8566679de29be2a495585",
+      "sha256_frame_cuoi": "78180720df13c7567ca2f47acde4c676c052462223795dc2b3e7cdfac2094293"
+    },
+    "mp4": {
+      "file": "data/smoke/MVI_39031_f0001-0300.mp4",
+      "codec": "mp4v (OpenCV VideoWriter, LOSSY)",
+      "n_frame_doc_lai": 300,
+      "fps_doc_lai": 25.0,
+      "sha256": "ee3e16f32c8847e6ce446bec82aef972c0350e30d98bb43894abe167a2d827ba",
+      "ghi_chu": "chi de tien --source; detection tu mp4 KHONG so duoc voi cache (nen lai + khong che vung bo qua)"
+    },
+    "cache_lien_quan": {
+      "cache_doan_smoke": "nano_smoke_MVI_39031_f0001-0300",
+      "cache_goc_toan_sequence": "yolov8n-coco_conf0.05_all",
+      "pham_vi": "cache doan smoke = frame 1-300 (cat tien to tu cache goc 1470 frame, giu frame rong + time_s)",
+      "che_vung_bo_qua": true,
+      "regions_file": "data/smoke/MVI_39031/ignored_regions.txt"
+    }
+  },
+  "trang_thai_nano": {
+    "backend_np": "co, chay that tren PC",
+    "engine_trt": "chua (build tren Nano)",
+    "detector_trt_noi_vong_lap": "CHUA CO MA (xem NANO_START_HERE.md muc 5)",
+    "chay_video_tren_nano": "chua",
+    "so_do_toc_do_nano": "chua co"
+  },
+  "kiem_goi_sach": "ket qua kiem goi trong thu muc sach tren PC nam NGOAI goi (de hash zip khong doi sau khi kiem): repo PC handoff/logs/nano_transfer/kiem_goi_sach.{log,json}; CHI xac minh du file/phu thuoc, KHONG chung minh tuong thich Nano"
+}
