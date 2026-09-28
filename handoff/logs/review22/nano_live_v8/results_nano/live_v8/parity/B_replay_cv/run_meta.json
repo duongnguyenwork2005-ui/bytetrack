@@ -1,0 +1,122 @@
+{
+  "tracker_backend": "np",
+  "code": {
+    "git_commit": "?",
+    "modules": {
+      "run_tracking.py": "5bd131fe958bdf04",
+      "run_experiment.py": "9952441194b7e70f",
+      "tracker_ctrv.py": "c2f493997f602f59",
+      "sort_tracker.py": "a4ab4b26867989eb",
+      "ekf_ctrv.py": "b516781efa01f473",
+      "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+      "ukf_ctrv.py": "2d59daf4794d8039",
+      "pf_ctrv.py": "e82b8d8db7942b24",
+      "lost_recovery.py": "38f30192b492fa80",
+      "lost_association.py": "469c2782cba41e01",
+      "time_units.py": "c13b6e20fe003f6d",
+      "det_cache.py": "b6ee46898c7db2bd",
+      "occlusion_eval.py": "1b892596be674b9e",
+      "boot_stats.py": "e9245f6729659f8f",
+      "run_trackeval.py": "519d3f9165803fde",
+      "trackeval_ext.py": "3dcf6582548adcfa",
+      "assoc_log.py": "0915453e70f75eb2",
+      "ul_backend.py": "7381910281d8a273",
+      "bytetrack_np.py": "8d37ec565230603b",
+      "run_state.py": "2bc38e3a86fbf50b"
+    },
+    "backend": {
+      "backend": "np",
+      "hash_convention": "sha256 cua noi dung da chuan hoa xuong dong ve LF",
+      "vendor_modules": {
+        "ultralytics_trackers/basetrack.py": "9ef094b9a54ff2f5",
+        "ultralytics_trackers/byte_tracker.py": "e4efea1f8187296b",
+        "ultralytics_trackers/np_compat.py": "a151538a7adc389a",
+        "ultralytics_trackers/utils/matching.py": "4d33a6c878458be9",
+        "ultralytics_trackers/utils/kalman_filter.py": "90b078b7aa32418b",
+        "ultralytics_trackers/utils/stracks.py": "c4cf83cda7be4c89"
+      },
+      "numpy": "1.24.4",
+      "scipy": null,
+      "lap": "0.5.13"
+    }
+  },
+  "cache_id": "live_trt_cv_20260928133338",
+  "cache_meta": {
+    "backend": "tensorrt",
+    "weights": "/home/jetson/nano_run/engine/yolov8n_fp16.engine",
+    "weights_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+    "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+    "imgsz": 640,
+    "conf": 0.05,
+    "iou": 0.7,
+    "classes": null,
+    "max_det": 3000,
+    "half": true,
+    "agnostic_nms": false,
+    "augment": false,
+    "batch": 1,
+    "device": "jetson-nano-trt-live",
+    "mask_ignored_regions": false,
+    "dataset": "video_file",
+    "part": "image_dir",
+    "letterbox": "auto=False 640x640 (ONNX static)",
+    "versions": {
+      "bo_dem": "cudart",
+      "numpy": "1.19.5",
+      "opencv": "3.2.0",
+      "python": "3.6.9",
+      "tensorrt": "8.2.1.9"
+    },
+    "created": "2026-09-28T13:34:36",
+    "ghi_chu": "cache do nano_live.py ghi: DUNG cac frame da vao tracker cua luong truc tiep (detection tho truoc loc); legacy (khong spec_sha256)"
+  },
+  "tracker_yaml": "bytetrack.yaml",
+  "tracker_yaml_sha256_12": "395701d947a7",
+  "tracker_cfg": {
+    "tracker_type": "bytetrack",
+    "track_high_thresh": 0.25,
+    "track_low_thresh": 0.1,
+    "new_track_thresh": 0.25,
+    "track_buffer": 30,
+    "match_thresh": 0.8,
+    "fuse_score": true
+  },
+  "overrides": {
+    "track_buffer": 30
+  },
+  "conf_min": 0.25,
+  "classes": [
+    1,
+    2,
+    3,
+    5,
+    7
+  ],
+  "class_map": null,
+  "max_det": 300,
+  "fps": 25.0,
+  "dt_nominal_s": 0.04,
+  "track_buffer_frames": 30,
+  "track_buffer_sec": 1.2,
+  "elapsed_mode": "steps",
+  "seed": null,
+  "git_commit": null,
+  "created": "2026-09-28T13:34:38",
+  "input_fingerprint": "dc54ed346b76d9b0c6fd0fcbdb2a556f4bec007c30c7d4f96c88d0041b6f67b5",
+  "status": "complete",
+  "started_at": "2026-09-28T13:34:38",
+  "resumed": [
+    {
+      "at": "2026-09-28T13:34:40",
+      "git_commit": null,
+      "n_videos_ran": 1,
+      "n_videos_reused": 0
+    }
+  ],
+  "finished_at": "2026-09-28T13:34:40",
+  "n_videos_ran": 1,
+  "n_videos_reused": 0,
+  "videos": [
+    "MVI_39031"
+  ]
+}

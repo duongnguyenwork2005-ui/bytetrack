@@ -1,0 +1,473 @@
+{
+  "trang_thai": "hoan_tat",
+  "ma_thoat": 0,
+  "chi_tiet": "300 frame, ly do EOS: het_nguon",
+  "hoan_tat": true,
+  "dem": {
+    "n_frames_khai_bao": 300,
+    "max_frames": null,
+    "n_frame_nhan": 300,
+    "n_frame_da_xu_ly": 300,
+    "n_frame_vao_tracker_doc_duoc": 300,
+    "n_frame_bay_khi_dung_khong_xu_ly": 0,
+    "n_unreadable": 0,
+    "n_truncated": 0,
+    "n_hang_mot": 1272,
+    "n_track": 14
+  },
+  "che_do": {
+    "gia_lap": false,
+    "detector": "tensorrt",
+    "che_do_doi_chieu_regions": false,
+    "regions_sha256": null,
+    "render": false,
+    "can_gt": false
+  },
+  "hello_con": {
+    "bindings": [
+      {
+        "dtype": "float32",
+        "input": true,
+        "name": "images",
+        "shape": [
+          1,
+          3,
+          640,
+          640
+        ]
+      },
+      {
+        "dtype": "float32",
+        "input": false,
+        "name": "output0",
+        "shape": [
+          1,
+          84,
+          8400
+        ]
+      }
+    ],
+    "bo_dem": "cudart",
+    "classes": null,
+    "conf": 0.05,
+    "detector": "tensorrt",
+    "engine": "/home/jetson/nano_run/engine/yolov8n_fp16.engine",
+    "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+    "fps": 25.0,
+    "hang_doi": 4,
+    "imgsz": 640,
+    "iou": 0.7,
+    "lam_nong": 3,
+    "letterbox": "auto=False 640x640 (ONNX static)",
+    "max_det": 3000,
+    "max_frames": null,
+    "n_frames_khai_bao": 300,
+    "n_regions": 0,
+    "nguon": {
+      "duong_dan": "/home/jetson/nano_run/v8/nano_transfer/data/smoke/MVI_39031_f0001-0300",
+      "fps": 25.0,
+      "fps_metadata": null,
+      "loai": "image_dir",
+      "n_frames_khai_bao": 300,
+      "quy_uoc": "sap theo GIA TRI SO o cuoi ten file; time_s = (idx-1)/fps",
+      "sha256": null,
+      "ten": "MVI_39031_f0001-0300"
+    },
+    "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+    "orig_shape": [
+      540,
+      960
+    ],
+    "phien_ban_proto": 2,
+    "pid": 11071,
+    "regions": null,
+    "regions_sha256": null,
+    "t_khoi_tao_s": 8.010722281999733,
+    "versions": {
+      "bo_dem": "cudart",
+      "numpy": "1.19.5",
+      "opencv": "3.2.0",
+      "python": "3.6.9",
+      "tensorrt": "8.2.1.9"
+    }
+  },
+  "eos_con": {
+    "cho_bat_dau_ms": 18.50975599973026,
+    "hang_doi": 4,
+    "ly_do": "het_nguon",
+    "max_in_flight": 2,
+    "n_frame_gui": 300,
+    "n_frames_khai_bao": 300,
+    "t_nhan_bat_dau_monotonic": 6598.754828164
+  },
+  "con": {
+    "returncode": 0,
+    "cach_ket_thuc": "tu_thoat",
+    "bi_kill_vi_treo": false
+  },
+  "lenh_con": [
+    "/usr/bin/python3",
+    "/home/jetson/nano_run/v8/nano_transfer/src/nano_detect_stream.py",
+    "--source",
+    "/home/jetson/nano_run/v8/nano_transfer/data/smoke/MVI_39031_f0001-0300",
+    "--imgsz",
+    "640",
+    "--conf",
+    "0.05",
+    "--iou",
+    "0.7",
+    "--max-det",
+    "3000",
+    "--hang-doi",
+    "4",
+    "--lam-nong",
+    "3",
+    "--bo-dem",
+    "cudart",
+    "--fps",
+    "25.0",
+    "--engine",
+    "/home/jetson/nano_run/engine/yolov8n_fp16.engine",
+    "--onnx-sha256",
+    "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451"
+  ],
+  "cau_hinh": {
+    "tracker_yaml": "bytetrack.yaml",
+    "tracker_yaml_sha256_12": "395701d947a7",
+    "tracker_cfg": {
+      "tracker_type": "bytetrack",
+      "track_high_thresh": 0.25,
+      "track_low_thresh": 0.1,
+      "new_track_thresh": 0.25,
+      "track_buffer": 30,
+      "match_thresh": 0.8,
+      "fuse_score": true
+    },
+    "overrides": {
+      "track_buffer": 30
+    },
+    "conf_min": 0.25,
+    "classes": [
+      1,
+      2,
+      3,
+      5,
+      7
+    ],
+    "class_map": null,
+    "max_det": 300,
+    "fps": 25.0,
+    "dt_nominal_s": 0.04,
+    "track_buffer_frames": 30,
+    "track_buffer_sec": 1.2,
+    "elapsed_mode": "steps",
+    "det_conf": 0.05,
+    "det_iou": 0.7,
+    "det_max_det": 3000,
+    "imgsz": 640,
+    "hang_doi": 4,
+    "allow_truncated": false,
+    "cho_phep_frame_hong": false,
+    "gia_lap_cham_tracker_ms": 0.0
+  },
+  "thoi_gian": {
+    "khoi_tao_s": 8.653922089999469,
+    "chuan_bi_cha_s": 0.01803839300009713,
+    "xu_ly_s": 32.654514378000385,
+    "ket_thuc_s": 0.836359979000008,
+    "ghi_s": 0.10407566600042628,
+    "fps_xu_ly": 9.187091148478768,
+    "moc_monotonic": {
+      "gui_bat_dau": 6598.75461566,
+      "ket_thuc_xu_ly": 6631.409133476
+    },
+    "kiem_cua_so_do": {
+      "frame_dau_bat_dau_doc_mono": 6598.75494426,
+      "frame_cuoi_xong_tracker_mono": 6631.390312097,
+      "tre_tu_bat_dau_den_doc_frame_dau_ms": 0.3286000001025968,
+      "moi_frame_trong_cua_so": true,
+      "khoang_bao_phu_s": 32.63536783699965
+    },
+    "tom_tat_sau_warmup": {
+      "decode_ms": {
+        "n": 275,
+        "trung_vi": 15.928982000332326,
+        "tb": 14.220703327251117,
+        "p90": 16.572223999901325,
+        "min": 11.119104000499647,
+        "max": 24.541636999856564
+      },
+      "mask_ms": {
+        "n": 275,
+        "trung_vi": 0.0009369996405439451,
+        "tb": 0.0009322509008184584,
+        "p90": 0.001094000253942795,
+        "min": 0.0006769996616640128,
+        "max": 0.001562999386806041
+      },
+      "pre_ms": {
+        "n": 275,
+        "trung_vi": 13.363260000005539,
+        "tb": 12.924238541821648,
+        "p90": 13.573835999522998,
+        "min": 11.89875399995799,
+        "max": 14.343902000291564
+      },
+      "infer_ms": {
+        "n": 275,
+        "trung_vi": 73.6380830003327,
+        "tb": 74.0162216763499,
+        "p90": 76.24547300019913,
+        "min": 73.31979799982946,
+        "max": 76.99324500026705
+      },
+      "h2d_ms": {
+        "n": 275,
+        "trung_vi": 2.5305660001322394,
+        "tb": 2.5791486981920158,
+        "p90": 2.7341120003256947,
+        "min": 2.4353040007554227,
+        "max": 4.628415999832214
+      },
+      "exec_ms": {
+        "n": 275,
+        "trung_vi": 68.38288600010856,
+        "tb": 68.72025786545154,
+        "p90": 70.97673600037524,
+        "min": 68.23788400015474,
+        "max": 71.44773200070631
+      },
+      "d2h_ms": {
+        "n": 275,
+        "trung_vi": 1.6406020004069433,
+        "tb": 1.6627692000110983,
+        "p90": 1.741177000440075,
+        "min": 1.5227869998852839,
+        "max": 4.118199000004097
+      },
+      "post_ms": {
+        "n": 275,
+        "trung_vi": 7.283932000063942,
+        "tb": 7.302992920022834,
+        "p90": 8.413692000431183,
+        "min": 5.104414000015822,
+        "max": 11.762554000597447
+      },
+      "cho_credit_ms": {
+        "n": 275,
+        "trung_vi": 0.002343999767617788,
+        "tb": 0.0023328109058308078,
+        "p90": 0.0025529998310958035,
+        "min": 0.0017189995560329407,
+        "max": 0.002812999809975736
+      },
+      "cho_doc_ms": {
+        "n": 275,
+        "trung_vi": 101.53425699991203,
+        "tb": 101.80370022540129,
+        "p90": 105.67245600032038,
+        "min": 94.59465700001601,
+        "max": 111.89913799989881
+      },
+      "truyen_ms": {
+        "n": 275,
+        "trung_vi": 0.37151700053073,
+        "tb": 0.549208236377374,
+        "p90": 1.5867480005908874,
+        "min": 0.2988070000355947,
+        "max": 2.8583319999597734
+      },
+      "loc_ms": {
+        "n": 275,
+        "trung_vi": 0.6199070003276574,
+        "tb": 0.6710064654874838,
+        "p90": 0.7081899993863772,
+        "min": 0.5608430001302622,
+        "max": 1.9061279999732506
+      },
+      "xu_ly_ms": {
+        "n": 275,
+        "trung_vi": 5.927294000684924,
+        "tb": 6.262956210931324,
+        "p90": 8.014779000404815,
+        "min": 3.9920510007505072,
+        "max": 17.091242999413225
+      },
+      "frame_total_cha_ms": {
+        "n": 275,
+        "trung_vi": 108.27516399967863,
+        "tb": 108.77884770177016,
+        "p90": 113.20041199996922,
+        "min": 101.04383500038239,
+        "max": 120.17980699965847
+      },
+      "tre_ms": {
+        "n": 275,
+        "trung_vi": 114.8673140005485,
+        "tb": 116.14815202909416,
+        "p90": 121.9891099999586,
+        "min": 109.87117900003796,
+        "max": 129.85685700004979
+      },
+      "t_update_ms": {
+        "n": 275,
+        "trung_vi": 5.574057000558241,
+        "tb": 5.917256799984898,
+        "p90": 7.644668000466481,
+        "min": 3.6682420004581218,
+        "max": 16.701131999980134
+      },
+      "khoang_giua_frame_ms": {
+        "n": 274,
+        "trung_vi": 108.28258399988044,
+        "tb": 108.78285088686087,
+        "p90": 113.21468299956905,
+        "min": 101.07930499998474,
+        "max": 120.19230600071751
+      },
+      "fps_on_dinh": 9.191853286223251,
+      "n_frame_tong_ket": 275,
+      "warmup_bo": 25
+    },
+    "dinh_nghia": {
+      "khoi_tao_s": "spawn con -> nhan HELLO (Python con, import, nap engine, lam nong)",
+      "chuan_bi_cha_s": "nhan HELLO -> ngay truoc khi gui BAT DAU (cau hinh tracker, telemetry); con CHUA doc frame nao",
+      "xu_ly_s": "ngay truoc khi gui BAT DAU -> track_video tra ve (frame cuoi da qua tracker, nhan EOS hoac dung); con chi doc frame 1 SAU khi nhan BAT DAU -> moi frame dem nam trong cua so",
+      "fps_xu_ly": "so frame da xu ly / xu_ly_s",
+      "ket_thuc_s": "sau vong lap -> con da thoat (xa frame dang bay khi dung, cho/reap con, dung telemetry)",
+      "ghi_s": "ghi MOT/CSV/cache sau vong lap (do truoc khi ghi run_meta)",
+      "fps_on_dinh": "(N - W) / (t_xong[N] - t_xong[W]) theo moc xong tracker o cha, bo W frame warm-up"
+    },
+    "ghi_chu": "vong 22 thay wall_vong_lap_s/fps_vong_lap cua vong 21 (timer vong 21 bat dau SAU khi con da doc/infer frame dau -- review 9f210e2 N21-F1)"
+  },
+  "thiet_bi": {
+    "truoc": {
+      "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+      "cpu_governor": "schedutil",
+      "nhiet_do_C": {
+        "AO-therm": 45.0,
+        "CPU-therm": 37.0,
+        "GPU-therm": 35.5,
+        "PLL-therm": 33.5,
+        "PMIC-Die": 50.0,
+        "thermal-fan-est": 34.75
+      },
+      "thoi_diem": "2026-09-28T13:43:05",
+      "xung": {
+        "cpu0": 1479000,
+        "cpu1": 1479000,
+        "cpu2": 1479000,
+        "cpu3": 1479000,
+        "gpu_cur_freq": 76800000
+      },
+      "meminfo_kB": {
+        "MemTotal": "4050768 kB",
+        "MemAvailable": "2590420 kB",
+        "SwapTotal": "6219676 kB",
+        "SwapFree": "6203712 kB"
+      }
+    },
+    "sau": {
+      "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+      "cpu_governor": "schedutil",
+      "nhiet_do_C": {
+        "AO-therm": 46.0,
+        "CPU-therm": 36.5,
+        "GPU-therm": 34.5,
+        "PLL-therm": 34.5,
+        "PMIC-Die": 50.0,
+        "thermal-fan-est": 36.5
+      },
+      "thoi_diem": "2026-09-28T13:43:47",
+      "xung": {
+        "cpu0": 1479000,
+        "cpu1": 1479000,
+        "cpu2": 1479000,
+        "cpu3": 1479000,
+        "gpu_cur_freq": 921600000
+      },
+      "meminfo_kB": {
+        "MemTotal": "4050768 kB",
+        "MemAvailable": "2585064 kB",
+        "SwapTotal": "6219676 kB",
+        "SwapFree": "6203708 kB"
+      }
+    },
+    "tegrastats": {
+      "co_tegrastats": true,
+      "n_mau": 65,
+      "ram_dung_MB_max": 2680,
+      "swap_dung_MB_max": 16,
+      "cpu_MHz_min_max": [
+        1224,
+        1479
+      ],
+      "cpu_pct_tb": 16.5,
+      "gr3d_pct_tb_max": [
+        64.9,
+        99
+      ],
+      "nhiet_max_C": {
+        "PLL": 35.0,
+        "CPU": 38.5,
+        "PMIC": 50.0,
+        "GPU": 36.0,
+        "AO": 49.0,
+        "thermal": 37.0
+      }
+    },
+    "tegrastats_log": "tegrastats.log"
+  },
+  "cache": {
+    "cache_id": null,
+    "cache_root": "/home/jetson/nano_run/v8/nano_transfer/data/interim/det_cache",
+    "cache_dir": null,
+    "info": null
+  },
+  "replay_argv": [
+    "python",
+    "src/run_tracking.py",
+    "--cache-id",
+    "<cache>",
+    "--split-name",
+    "<split>",
+    "--tracker-yaml",
+    "bytetrack.yaml",
+    "--tracker-name",
+    "<ten>",
+    "--videos",
+    "MVI_39031",
+    "--conf-min",
+    "0.25",
+    "--classes",
+    "1",
+    "2",
+    "3",
+    "5",
+    "7",
+    "--max-det",
+    "300",
+    "--fps",
+    "25",
+    "--track-buffer-sec",
+    "1.2",
+    "--elapsed-mode",
+    "steps"
+  ],
+  "provenance": {
+    "file_ma_sha256_lf": {
+      "nano_live.py": "2994c1fc9b06bc0780c16bd84aca355ae4b62d30db593934ef5ee99efae6e91a",
+      "nano_detect_stream.py": "2d06ec8ac53ce5c0d17cb266a6bb29251c9b8c16711ce522dec4b00e70e5e103",
+      "nano_stream_proto.py": "b820dc6b0903a68c4cb83162c5e49dadd0e3c59d823e2df7c2ba80fce59cf964",
+      "nano_detector.py": "85a712e1ba92a037fd84b12f178ad4fbca49bd817f0e06bbc30a6b086df7d6f4",
+      "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+      "det_cache.py": "5e22037a758a06f99227272d5ad685c36c52a70e912abda84ee0459eea287d2f"
+    },
+    "git_commit": null,
+    "tracker_backend": "np",
+    "package_info": {},
+    "package_info_sha256": "e11eedefd9e7c1a4c289dbb81900c632b579614c1586f0326700db7d7e3c7404"
+  },
+  "python": "3.8.20",
+  "created": "2026-09-28T13:43:47"
+}

@@ -1,0 +1,34 @@
+# 03. trien khai goi v8 len Nano - 2026-09-28T13:30:45+08:00 (gio Nano) | boot 2026-09-28 11:53:15 | the /dev/mmcblk1p1
+zip: f4da9f08146ecd969f94f725c6e195355cb5032aac5ae509f2c7c49ec0f774f3  /home/jetson/nano_transfer_v8.zip  63858472 B
+MANIFEST: tat ca khop (554 dong)
+py3.6 compile: OK
+py3.8 compile: OK
+KET LUAN: DAT (1-4)
+engine dung lai: c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a (vong 21: c32690cd...)
+# 03b. test tren Nano (v8) - 2026-09-28T13:30:54+08:00
+== test_nano_parity: KET QUA: 20/20 phep kiem tra PASS
+== test_nano_run_cache: KET QUA: 9/9 phep kiem tra PASS
+== test_nano_stream --python-detector /usr/bin/python3
+cha: 3.8.20 | con: /usr/bin/python3 | backend np
+  [PASS] 1. giao thuc: FRAME (ke ca n=0, co unreadable), HELLO/EOS, EOF sach -> None; EOF giua chung / magic sai -> loi
+  [PASS] 2. CV: exit 0, hoan_tat, 40 frame, timing co ca frame rong (11-13), replay tu cache khop
+  [PASS] 3. EKF: exit 0, hoan_tat, 40 frame, timing co ca frame rong (11-13), replay tu cache khop
+  [PASS] 4. video .mp4: so frame == khai bao, time_s == (idx-1)/fps, hoan_tat
+  [PASS] 5. stop-file: exit 4, da_dung, 0 < frame < N, cache == frame da xu ly, replay khop, con thoat 0 voi EOS dung
+  [PASS] 5b. SIGINT vao tien trinh cha: exit 4, da_dung, con thoat 0
+  [PASS] 6. con loi o frame 10 (thoat 3, khong EOS): exit 3, loi_tien_trinh_con, KHONG hoan_tat, 9 frame da xu ly duoc ghi
+  [PASS] 7. con bi kill giua chung: exit 3, loi_tien_trinh_con, KHONG hoan_tat
+  [PASS] 8. con bo frame 7: exit 3, loi_mat_frame (mong 7 nhan 8), 6 frame da xu ly
+  [PASS] 9. anh hong (frame 5 rac, frame 6 BMP bi cat): mac dinh exit 3 loi_dau_vao; --cho-phep-frame-hong -> exit 0, unreadable 2, con KHONG chet, replay khop
+  [PASS] 10. loi truoc vong lap -> exit 2: nguon/engine khong co, thu muc da co ket qua, con loi khoi tao (ERROR truoc HELLO) -> con da duoc reap
+  [PASS] 11. cua so K=2 + tracker cham: du N frame (khong bo), max_in_flight <= 2, con phai cho credit
+  [PASS] 12. cham tran det_max_det o frame 15: mac dinh exit 3; --allow-truncated -> exit 0, replay (--allow-truncated) khop
+  [PASS] 13. --regions (che do doi chieu): metadata ghi co + sha256 file vung, van hoan_tat
+  [SKIP] 14. detector that TorchPtInfer (PC): khong co models/yolov8n.pt / anh DETRAC, hoac dang chay tren Nano
+  [PASS] 15a. N21-F1 cha chuan bi cham 1 s: con CHO BAT DAU, moi frame trong cua so do, FPS khong bi thoi phong (hoan tat)
+  [PASS] 15b. N21-F1 nhu 15a nhung DUNG SOM (stop-file): ma 4, 0 < frame < N, bat bien cua so do van dung
+  [PASS] 16. N21-F2 cache-root ngoai mac dinh (co dau cach): replay_argv mang root THAT, chay NGUYEN -> parity DAT + byte
+  [PASS] 17a. N21-F3 loi cau hinh phat hien TRUOC spawn: YAML thieu/hong/tracker_type la, --set sai dang/khoa la/sai kieu, --hang-doi 0 -> ma 2, KHONG khoi dong detector, khong run_meta
+  [PASS] 17b. loi o cha SAU spawn, TRUOC xu ly (chuan bi): ma 2, run_meta loi_chuan_bi, con da duoc dung/reap
+  [PASS] 17c. loi o cha GIUA vong lap (frame 5): ma 3 loi_cha, KHONG hoan tat, 4 frame da nhan duoc ghi (pipeline), con da duoc dung/reap
+KET QUA: 20/20 phep kiem tra PASS, 1 SKIP

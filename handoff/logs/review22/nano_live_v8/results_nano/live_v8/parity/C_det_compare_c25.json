@@ -1,0 +1,58 @@
+{
+  "iou_ghep_toi_thieu": 0.5,
+  "n_frame_chung": 300,
+  "frame_chi_a": 0,
+  "frame_chi_b": 0,
+  "n_box_a": 581,
+  "n_box_b": 584,
+  "n_cap": 578,
+  "khong_ghep_a": 3,
+  "khong_ghep_b": 6,
+  "ti_le_ghep_a": 0.9948364888123924,
+  "ti_le_ghep_b": 0.9897260273972602,
+  "iou_trung_binh": 0.9885274637941671,
+  "iou_nho_nhat": 0.9081010818481445,
+  "d_conf_trung_binh": 0.008644708197009604,
+  "d_conf_lon_nhat": 0.18792304396629333,
+  "ti_le_trung_lop": 0.9930795847750865,
+  "chenh_so_box_moi_frame": {
+    "trung_binh": 0.01,
+    "abs_trung_binh": 0.03,
+    "max": 1,
+    "min": -1,
+    "frame_bang_nhau": 291
+  },
+  "a": "/home/jetson/nano_run/v8/nano_transfer/data/interim/det_cache/nano_smoke_MVI_39031_f0001-0300",
+  "b": "/home/jetson/nano_run/v8/nano_transfer/data/interim/det_cache/live_trt_regions_20260928133338",
+  "video": "MVI_39031",
+  "loc": {
+    "conf_min": 0.25,
+    "classes": [
+      1,
+      2,
+      3,
+      5,
+      7
+    ],
+    "max_det": 300
+  },
+  "meta_a": {
+    "backend": "ultralytics",
+    "imgsz": 640,
+    "conf": 0.05,
+    "iou": 0.7,
+    "half": false,
+    "letterbox": null,
+    "device": "0"
+  },
+  "meta_b": {
+    "backend": "tensorrt",
+    "imgsz": 640,
+    "conf": 0.05,
+    "iou": 0.7,
+    "half": true,
+    "letterbox": "auto=False 640x640 (ONNX static)",
+    "device": "jetson-nano-trt-live"
+  },
+  "ghi_chu": "MO TA sai khac detector (khong phai dat/khong dat). Khac FP16/letterbox -> khong ky vong bit-identical."
+}
