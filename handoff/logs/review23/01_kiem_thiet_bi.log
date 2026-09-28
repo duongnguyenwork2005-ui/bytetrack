@@ -1,0 +1,22 @@
+# 01. kiem tra thiet bi truoc chay dai (CHI DOC) - 2026-09-28T14:23:01+08:00 (gio Nano)
+host jetson-desktop | ip 10.11.56.132 | # R32 (release), REVISION: 7.5, GCID: 36557527, BOARD: t210r
+boot 2026-09-28 11:53:15 | up 2 hours, 29 minutes
+== reboot gan day:
+reboot   system boot  4.9.337-tegra    Mon Sep 28 11:53:21 2026   still running
+jetson   :0           :0               Thu Sep 24 12:56:24 2026 - crash                    (3+22:56)
+reboot   system boot  4.9.337-tegra    Sat Jan  1 09:00:12 2000   still running
+shutdown system down  4.9.337-tegra    Thu Sep 24 12:56:02 2026 - Sat Jan  1 09:00:12 2000 (-9763+03:55)
+== the: /dev/mmcblk1p1 rw,relatime,data=ordered | ext4 errors_count 0
+== dung luong:
+/dev/mmcblk1p1   58G   27G   28G  50% /
+/dev/mmcblk1p1 3817472 306787 3510685    9% /
+== RAM/swap:
+Mem:           3955        1611        1179          30        1165        2570
+Swap:          6073          15        6058
+== nguon/xung/nhiet: NV Power Mode: MAXN | governor schedutil | cpu 1224000 | AO-therm=37 CPU-therm=29 GPU-therm=26 PLL-therm=27 PMIC-Die=50 thermal-fan-est=28 
+== python: con 3.6.9 | cha 3.8.20 1.24.4 2.0.3 0.5.13
+TensorRT 8.2.1.9 cv2 3.2.0 numpy 1.19.5
+== engine: c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a 12626138 B
+== nano_run: engine v5 v6 v7 v8 
+== v8 PACKAGE_INFO commit: b0c645b
+== anh MVI_39031 tren Nano: /home/jetson/nano_run/v8/nano_transfer/data/smoke/MVI_39031 /home/jetson/nano_run/v8/nano_transfer/data/smoke/MVI_39031_f0001-0300 /home/jetson/nano_run/v8/nano_transfer/data/smoke/MVI_39031_f0001-0300.mp4 /home/jetson/nano_run/v8/nano_transfer/data/smoke/MVI_39031_smoke.json 
