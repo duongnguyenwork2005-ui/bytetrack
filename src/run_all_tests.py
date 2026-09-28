@@ -89,6 +89,8 @@ TESTS = [
     ("test_nano_run_cache", [], None),
     # vong 21: luong truc tiep hai tien trinh (video/anh -> detector -> pipe co gioi han -> tracker)
     ("test_nano_stream", [], None),
+    # vong 23: render hau ky bbox/ID/lop + bo kiem video (can opencv; khong co -> SKIP ben trong)
+    ("test_render_mot_video", [], None),
     ("test_bdd100k_adapter", [], None),
     ("test_bdd100k_coco", [], None),
     ("test_pf_ctrv", [], None),
