@@ -1,6 +1,6 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-24 (mục 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-28 (mục 4g: vòng 21 — luồng trực tiếp video → TensorRT → tracker chạy thật, parity, FPS toàn luồng; 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
 ## 1. Thiết bị
@@ -115,6 +115,22 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES`, **hoặc** ép `.py` về LF trong `.gitattributes`. **Chưa làm trong đợt này** vì đổi
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
+
+## 4g. Vòng 21 (2026-09-28): luồng TRỰC TIẾP video → TensorRT → tracker chạy thật trên Nano — chi tiết `handoff/REVIEW21_CHI_TIET.md`
+
+- Hai tiến trình: con `src/nano_detect_stream.py` (Python 3.6 hệ thống, TensorRT FP16, cudart) gửi **từng frame** qua pipe có cửa sổ
+  credit K = 4 cho cha `src/nano_live.py` (env `nano` 3.8, backend np, `run_tracking.track_video` dùng chung với replay). Khởi động
+  `scripts/nano/04_live_nano.sh cv|ekf <out>`; dừng `touch <out>/STOP` hoặc Ctrl+C (mã 4). Mã 0 hoàn tất, 2 lỗi trước vòng lặp,
+  3 lỗi giữa luồng (ghi phần đã xử lý, không "hoàn tất").
+- Gói **v7** `6dc4100d…` ở `~/nano_run/v7` (v5/v6 giữ nguyên); engine `~/nano_run/engine/yolov8n_fp16.engine` (build trên máy 483 s,
+  `c32690cd…`). Gói v6 lộ hai lỗi trên thiết bị (OpenCV 3.2 **abort cả tiến trình** với BMP hỏng; test giết con trước HELLO) → sửa ở v7.
+- Test thiết bị: `test_nano_parity` 20/20, `test_nano_run_cache` 9/9, `test_nano_stream` 14/14 (con 3.6 ↔ cha 3.8, kể cả SIGINT).
+- Parity **10/10**: giả lập trên 300 JPG thật == `pc-ref` smoke; **TensorRT thật CV/EKF: live == replay từ cache, byte giống hệt**;
+  biên (ảnh đen, mp4 300/300, stop-file, SIGINT, `kill -9` con, engine sai) đúng mã thoát. Detection TRT lượt CV == lượt EKF (bit).
+- FPS toàn luồng (điều kiện công bố trước, 6 lượt, 300 JPG, không render, không `--regions`): **CV 9,29 (9,11–9,36), EKF 9,37
+  (9,29–9,44)**; trễ/frame trung vị ~114–119 ms. Detector ~106 ms/frame (infer ~74) quyết định thông lượng; tracker chạy song song.
+- **Mất nguồn** khoảng 11:52 (tắt không sạch, ext4 phục hồi journal, `errors_count` 0); kết quả dùng để kết luận đều tạo sau đó.
+  Nguồn điện là rủi ro cho các lần đo dài.
 
 ## 4f. Vòng 18–20 (2026-09-22 → 24): Mốc 1 v5 ĐẠT; mất dữ liệu do đổi thẻ SD; dựng lại; benchmark tracker CV↔EKF từ cache
 
