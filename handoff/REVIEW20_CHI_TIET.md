@@ -10,6 +10,15 @@ ghi ở đâu; SSH dùng khóa.
 
 Giờ trong log: **giờ Nano = giờ PC + 1 h** (Nano UTC+8, PC UTC+7).
 
+> **Đính chính vòng 21** (theo `handoff/CODEX_REVIEW_45e086a.md`, R20-P3; không đổi số liệu nào):
+> (1) `wall_s` của 12 lượt đo quanh subprocess `[sys.executable, "src/run_tracking.py", …]` trong
+> `nano_bench_tracker.chay_mot_luot()`, gồm khởi động Python con, import, đọc cache, tracking và ghi kết quả; **không** gồm
+> khởi động `conda run` của tiến trình benchmark cha. Wall của hai lượt warm-up đo bằng `date` quanh `conda run … run_tracking.py`
+> nên **có** gồm `conda run`, là phạm vi khác. (2) Câu về thống kê được thay bằng: chưa thực hiện kiểm định hoặc xây dựng khoảng
+> tin cậy; IQR chỉ mô tả độ phân tán của 6 hiệu số. (3) `assoc = update − predict` gồm ghép cặp, cập nhật bộ lọc và vòng đời
+> track, không chỉ ghép đối tượng. Log/script bằng chứng vòng 20 (`09_tinh_lai_tu_raw.log`, `tinh_lai_bench.py`) giữ nguyên byte
+> nên còn câu cũ trong tiêu đề mục 3 của log.
+
 ## 1. Dòng thời gian ngày 24/9 (giờ Nano)
 
 | Giờ | Sự kiện | Bằng chứng |
@@ -71,10 +80,10 @@ so với công cụ.
   lượt; `n_tracks` giống hệt trong 6 lượt cùng cấu hình; `t_assoc_ms` = `t_update_ms − t_predict_ms` (sai khác trung bình ≤ 9e-16).
 - Thứ tự chạy theo mốc thời gian tăng ngặt; cặp 1–3 là **AB** (CV → EKF), cặp 4–6 là **BA** (EKF → CV). 12/12 lượt exit 0,
   không loại lượt nào.
-- Warm-up tách riêng (không vào số liệu): CV exit 0, wall 15,9 s; EKF exit 0, wall 16,9 s (lượt nguội chậm hơn rõ so với 9,6–10,9 s của
-  lượt chính).
+- Warm-up tách riêng (không vào số liệu): CV exit 0, wall 15,9 s; EKF exit 0, wall 16,9 s. Hai wall này đo bằng `date` quanh
+  `conda run … run_tracking.py` nên **gồm** khởi động `conda run`; không so trực tiếp với wall 9,6–10,9 s của lượt chính (phạm vi khác).
 
-### 4a. 12 lượt (ms/frame trên 1420 frame; wall gồm khởi động `conda run`)
+### 4a. 12 lượt (ms/frame trên 1420 frame; wall = subprocess `run_tracking.py`: khởi động Python con, import, đọc cache, tracking, ghi kết quả; không gồm `conda run` của tiến trình cha)
 
 | Chạy | Cặp | Cấu hình | update tb | update trung vị | predict tb | assoc tb | wall (s) | tegrastats nhiệt max / tb (°C) |
 |--:|:--|:--|--:|--:|--:|--:|--:|:--|
@@ -117,10 +126,11 @@ predict 1,239, assoc 4,221.
 | tỷ lệ update | +16,0 % | [+14,9; +17,5] % | [+15,5; +16,9] % | +13,4 / +18,4 % | 6/6 |
 
 Cách đọc: trên sequence và cấu hình này, EKF-CTRV tốn thêm khoảng **0,75 ms/frame** chi phí `tracker.update()` so với KF-CV, tức
-khoảng **+16 %**. Phần lớn đến từ bước predict (+0,62 ms); phần còn lại (+0,14 ms) nằm trong ghép cặp và cập nhật. Cả 6 cặp cùng dấu,
-ở cả thứ tự AB và BA. Hai cách tính tứ phân vị cho kết quả khác nhau vì n = 6. **IQR ở đây chỉ mô tả độ phân tán của 6 hiệu số**:
-nó không phải khoảng tin cậy, và 6 cặp không đủ để nói "có ý nghĩa thống kê". d_wall ≈ 1,07 s/lượt cùng cỡ với 1470 × 0,75 ms ≈ 1,1 s.
-Đây chỉ là kiểm tra độ nhất quán; wall còn gồm khởi động `conda run`, import và I/O.
+khoảng **+16 %**. Phần lớn đến từ bước predict (+0,62 ms); phần còn lại (+0,14 ms, `assoc = update − predict`) gồm ghép cặp, cập nhật
+bộ lọc và vòng đời track. Cả 6 cặp cùng dấu, ở cả thứ tự AB và BA. Hai cách tính tứ phân vị cho kết quả khác nhau vì n = 6. Báo cáo
+này chưa thực hiện kiểm định hoặc xây dựng khoảng tin cậy; **IQR chỉ mô tả độ phân tán của 6 hiệu số**. d_wall ≈ 1,07 s/lượt cùng cỡ
+với 1470 × 0,75 ms ≈ 1,1 s. Đây chỉ là kiểm tra độ nhất quán; wall còn gồm khởi động Python con, import, đọc cache và ghi kết quả
+(không gồm `conda run` của tiến trình cha).
 
 ## 5. Tính đúng của output và bất biến
 

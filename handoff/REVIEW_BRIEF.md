@@ -23,10 +23,10 @@ kết quả UA-DETRAC/BDD và `pc-ref-*` không đổi. Chi tiết: **`handoff/R
 | update tb | 4,695 (4,657–4,774) | 5,468 (5,414–5,512) | trung vị **+0,752**, min/max +0,640/+0,855, **6/6 dương**, ≈ +16 % |
 | predict | 0,618 | 1,239 | +0,622 (6/6) |
 | assoc = update − predict | 4,077 | 4,221 | +0,139 (6/6) |
-| wall/lượt (gồm `conda run`) | 9,6–9,9 s | 10,7–10,9 s | +1,07 s |
+| wall/lượt (subprocess `run_tracking.py`, không gồm `conda run` của tiến trình cha) | 9,6–9,9 s | 10,7–10,9 s | +1,07 s |
 
 Q1–Q3 của d_update: [+0,710; +0,818] (exclusive, như công cụ), [+0,737; +0,794] (inclusive). **IQR chỉ mô tả độ phân tán
-của 6 hiệu số**, không phải khoảng tin cậy hay kiểm định. `logs/review20/tinh_lai_bench.py` tính lại độc lập từ `timing/*.csv`: khớp JSON, lệch 0.
+của 6 hiệu số**; chưa thực hiện kiểm định hoặc xây dựng khoảng tin cậy. `logs/review20/tinh_lai_bench.py` tính lại độc lập từ `timing/*.csv`: khớp JSON, lệch 0.
 
 **Tính đúng**: output của cả 12 lượt, warm-up và Mốc 1 cùng hash với `pc-ref` (LF) theo từng cấu hình. Parity `r1`/`r6` ĐẠT lệch 0.
 `pc-ref-*` và `nano-*` Mốc 1 có hash trước == sau. Cờ `bit_identical_data_txt=False` chỉ do CRLF (pandas trên Windows) so với LF (Nano).
