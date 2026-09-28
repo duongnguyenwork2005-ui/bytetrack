@@ -1,0 +1,13 @@
+# repro N21-F1/F2/F3 SAU khi sua - working tree (ma sua chua commit) - 2026-09-28T12:27:30+07:00
+# may: win32, time.monotonic: GetTickCount64(), do phan giai 15.625 ms
+[F1] exit 0 trang_thai hoan_tat frame 8
+     xu_ly_s bao cao = 0.170783 s | tu bat dau doc frame 1 den xong tracker frame cuoi = 0.172000 s
+     FPS bao cao = 46.84 | FPS theo khoang bao phu = 46.51
+     cua so do (monotonic): gui BAT DAU 1127707.656000 -> ket thuc 1127707.828000 | frame 1 bat dau doc 1127707.656000 (>= BAT DAU: True), frame cuoi xong 1127707.828000 (<= ket thuc: True) | chuan_bi_cha_s 1.008
+[F2] live exit 0; NPZ o root tuy chon: True
+     replay_argv: ['python', 'src/nano_replay.py', '--cache-root', 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\repro_n21_yx1wrtvq\\custom root\\det cache', '--', '--cache-id', 'review_custom', '--split-name', '<split>', '--tracker-yaml', 'bytetrack.yaml', '--tracker-name', '<ten>', '--videos', 'seq', '--conf-min', '0.25', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '10', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
+     chay NGUYEN replay_argv -> exit 0 []
+     nano_parity live vs replay: exit 0 ['KET QUA: 1/1 video DAT']
+[F3_yaml_thieu] exit 2 | detector.pid co: False | run_meta co: False | dong cuoi: [LOI] YAML tracker 'C:\Users\Mikuno\AppData\Local\Temp\repro_n21_yx1wrtvq\khong_co.yaml' khong dung duoc: FileNotFoundError: khong co file cau hinh tr
+[F3_yaml_hong] exit 2 | detector.pid co: False | run_meta co: False | dong cuoi: [LOI] YAML tracker 'C:\Users\Mikuno\AppData\Local\Temp\repro_n21_yx1wrtvq\hong.yaml' khong dung duoc: ParserError: while parsing a flow sequence
+[F3_set_sai] exit 2 | detector.pid co: False | run_meta co: False | dong cuoi: [LOI] --set 'khong_co_dau_bang' sai dang key=value

@@ -1,0 +1,11 @@
+# repro N21-F1/F2/F3 TRUOC khi sua - MA 9f210e2 (clone tam; script repro vong 22) - 2026-09-28T12:27:21+07:00
+# may: win32, time.monotonic: GetTickCount64(), do phan giai 15.625 ms
+[F1] exit 0 trang_thai hoan_tat frame 8
+     wall_vong_lap_s bao cao = 0.067354 s | tu bat dau doc frame 1 den xong tracker frame cuoi = 1.094000 s
+     FPS bao cao = 118.78 | FPS theo khoang bao phu = 7.31
+[F2] live exit 0; NPZ o root tuy chon: True
+     replay_argv: ['python', 'src/run_tracking.py', '--cache-id', 'review_custom', '--split-name', '<split>', '--tracker-yaml', 'bytetrack.yaml', '--tracker-name', '<ten>', '--videos', 'seq', '--conf-min', '0.25', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '10', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
+     chay NGUYEN replay_argv -> exit 1 ['FileNotFoundError: Khong co C:\\Users\\Mikuno\\AppData\\Local\\Temp\\tmp.ClpMVc5dvZ\\r\\data\\interim\\det_cache\\review_custom\\meta.json']
+[F3_yaml_thieu] exit 1 | detector.pid co: True | run_meta co: False | dong cuoi: FileNotFoundError: khong co file cau hinh tracker: C:\Users\Mikuno\AppData\Local\Temp\repro_n21_xpbjpysp\khong_co.yaml
+[F3_yaml_hong] exit 1 | detector.pid co: True | run_meta co: False | dong cuoi:     ^
+[F3_set_sai] exit 0 | detector.pid co: True | run_meta co: True | dong cuoi: [nano_live] 8 frame xu ly, 16 hang MOT, vong lap 0.01s (1079.81 fps), khoi tao 0.2s, ghi 0.01s -> C:\Users\Mikuno\AppData\Local\Temp\repro_n21_xpbjpys

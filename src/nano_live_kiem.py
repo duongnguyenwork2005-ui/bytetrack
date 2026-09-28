@@ -24,6 +24,7 @@ import csv
 import hashlib
 import json
 import os
+import shutil
 import signal
 import statistics
 import subprocess
@@ -93,6 +94,14 @@ def replay(out: Path, split: str, ten: str) -> int:
     return subprocess.run(argv, cwd=ROOT, env=ENV).returncode
 
 
+def chep_replay(split: str, ten: str, dich: Path) -> None:
+    """Chep KET QUA REPLAY (data/ data_cls/ timing/ run_meta...) canh ket qua live de ban giao/doi chieu byte
+    (review 9f210e2 muc 5-6: nguoi review so truc tiep live vs replay ma khong can NPZ)."""
+    src = ROOT / "data/processed/trackers" / split / ten
+    if src.is_dir():
+        shutil.copytree(src, dich)
+
+
 def cho_pid(out: Path, timeout=120.0) -> int | None:
     t0 = time.time()
     while time.time() - t0 < timeout:
@@ -153,6 +162,8 @@ def cmd_parity(a) -> int:
         rc = live(o, *base, *eng, "--tracker", t, "--save-cache", cids[t])
         m = meta(o)
         rrc = replay(o, split, f"replay-{t}") if rc == 0 else None
+        if rrc == 0:
+            chep_replay(split, f"replay-{t}", out / f"B_replay_{t}")
         p = parity(ROOT / "data/processed/trackers" / split / f"replay-{t}", o, out / f"B_parity_{t}.json") \
             if rrc == 0 else {"exit": None}
         ghi(f"B. TensorRT {t.upper()}: live == replay tu cache cung cau hinh (tolerance cong bo, khong noi)",
@@ -213,6 +224,8 @@ def cmd_parity(a) -> int:
     m = meta(o)
     n = m.get("dem", {}).get("n_frame_da_xu_ly", -1)
     rrc = replay(o, split, "replay-dung") if rc == 4 else None
+    if rrc == 0:
+        chep_replay(split, "replay-dung", out / "D3_replay_dung")
     pp = parity(ROOT / "data/processed/trackers" / split / "replay-dung", o, out / "D3_parity.json") if rrc == 0 else {"exit": None}
     ghi("D3. stop-file giua luong: exit 4, da_dung, 0 < frame < 300, con thoat 0 (EOS dung), replay phan da xu ly khop",
         rc == 4 and m.get("trang_thai") == "da_dung" and 0 < n < 300 and m.get("con", {}).get("returncode") == 0
