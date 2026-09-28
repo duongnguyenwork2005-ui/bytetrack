@@ -1,44 +1,47 @@
-# REVIEW_BRIEF — vòng 23: chạy đầy đủ 1.470 frame trên Nano, kiểm ổn định, render video trên thiết bị
+# REVIEW_BRIEF — vòng 24: đóng N23-F1, kiểm lại hai video render trên Nano
 
 <!-- BASE_TARGET -->
 
-Base **`c4b39fe`** (review `handoff/CODEX_REVIEW_c4b39fe.md`, PASS WITH LIMITATIONS). Tracker, runner, luồng trực tiếp, YAML khóa,
-UA-DETRAC/BDD, benchmark vòng 20 và bằng chứng vòng 21–22 không đổi. Chi tiết: **`handoff/REVIEW23_CHI_TIET.md`**.
+Base **giữ `c4b39fe`** (review `handoff/CODEX_REVIEW_1d5ffaa.md`: tracking PASS WITH LIMITATIONS, bộ kiểm render REQUEST CHANGES).
+Chỉ đổi bộ kiểm render và test. Tracking, runner, luồng trực tiếp, YAML khóa, UA-DETRAC/BDD, benchmark và bốn lượt Nano giữ nguyên,
+không chạy lại. Chi tiết: **`handoff/REVIEW24_CHI_TIET.md`**.
 
-## Đầu vào và mã chạy
+## N23-F1
 
-Nano không đổi IP, không khởi động lại, ext4 0 lỗi; engine `c32690cd…` dùng lại; mã chạy là gói **v8** (7 file lõi có hash
-bằng `c4b39fe`). 1.470 JPG gốc `MVI_39031` chép sang Nano: SHA256 **1470/1470** khớp PC, đúng thứ tự.
+- **Tái hiện** bằng script Codex (không sửa) trên `1d5ffaa`: video `f999` trên 27 frame có box vẫn exit 0, `dat` true. Nguyên nhân
+  đúng như review: `ky_vong` và `nen` chung số frame nên mặt nạ loại vùng chữ.
+- **Sửa** (`9b1805c`): số frame kiểm **độc lập trên mọi frame**: (a) tỷ lệ lỗi trên điểm chữ `f<i>`, ngưỡng cũ 0,5/40; (b) nhận dạng
+  giữa `f<i>`, mọi chuỗi cách một chữ số và bản không số. Giữ phép bbox/màu ID, tên lớp, cú pháp 3.6.
+- **Sau sửa**: script Codex exit 0 (video đúng exit 0; video sai exit 1, bắt đúng 27 frame, không báo nhầm 3 frame đúng).
+  `test_render_mot_video` 13/13; test mới trên mã cũ chỉ 7/11. Full suite PC trên mã cuối: **35/35**
+  (`logs/review24/tests_20260928-1820.log`). Lần chạy trước đó 34/35 vì `test_pc_launcher` phép 9 vượt timeout 3 s (3,23 s); mã launcher
+  không đổi, chạy riêng 3 lần đều 17/17. Log lần FAIL được giữ lại.
 
-## Bốn lượt 1.470 frame (CV → EKF → EKF → CV; điều kiện và driver commit trước `b7da4f3`)
+## Hai video Nano (Python 3.6.9 + OpenCV 3.2.0 hệ thống)
 
-Mỗi lượt đều: live exit 0 và hoàn tất; con thoát 0; replay bằng chính `replay_argv` exit 0; `nano_parity` exit 0; **MOT live == replay
-từng byte**. Tính lại độc lập trên PC (`logs/review23/05_*`) từ 77 file bản sao (sha256/byte khớp nguồn):
+Hash video/MOT/lớp khớp bằng chứng vòng 23. Bộ kiểm mã cuối (gói v11), cùng tham số vòng 23:
 
-- Frame 1–1470 xử lý **đúng một lần**, kể cả 11 frame không còn detection sau lọc. Nhận = xử lý = EOS = 1.470.
-- So từng hàng không ánh xạ ID: cùng số hàng (CV 8.780 / EKF 8.765), ID trùng, lệch bbox/conf 0.
-- Tính xác định: det cache 4 lượt giống hệt; MOT cùng cấu hình giống hệt.
-- Mọi frame đếm nằm trong cửa sổ đo; FPS tính lại khớp metadata.
-- MemAvailable +3 MB qua 4 lượt, RAM tối đa 2.667 MB, nhiệt ≤ 38 °C, không còn tiến trình con.
+| | CV lượt 1 | EKF lượt 2 |
+|:--|:--|:--|
+| frame / FPS / kích thước | 300 / 25 / 960×540 | 300 / 25 / 960×540 |
+| số frame hiển thị | **300/300 đúng** | **300/300 đúng** |
+| bbox/màu ID | 1.272 box, 0 lỗi | 1.270 box, 0 lỗi |
+| tên lớp (mẫu mỗi 5 frame) | 255/255 | 255/255 |
+| exit | 0 | 0 |
 
-| | `fps_xu_ly` (2 lượt) | `tracker.update()` | decode | trễ trung vị |
-|:--|:--|:--|:--|:--|
-| CV | 9,22 (9,14–9,31) | 6,76 ms | ~11,5 ms | 115–117 ms |
-| EKF | 9,05 (9,04–9,05) | 7,96 ms | ~16,3 ms | 120 ms |
+Kiểm bổ sung tên lớp trên **mọi box**: 1.271/1.272 và 1.269/1.270. Box còn lại (frame 90, ID 30, `car`) có nét chữ 1 px bị mp4v làm
+mờ nên car/bus chỉ chênh 0,3 mức. Render lại từ cùng MOT/lớp cho file **byte-giống**, nên video đúng và được giữ nguyên.
 
-Hai lượt EKF rơi vào mức decode chậm của OpenCV 3.2 (ngược vòng 22), nên chênh FPS không cho phép xếp hạng CV/EKF. Detector (infer
-~73,7 ms) quyết định thông lượng. Mô tả, không kiểm định, không suy ra HOTA/IDF1.
+**Phát hiện thêm**: bộ kiểm vẽ lại chữ, mà OpenCV 5.0 (PC) vẽ `putText` khác 3.2 (khung chữ nhật trùng), nên chạy khác phiên bản cho
+kết quả vô nghĩa. Đã chốt: OpenCV render (`<video>.json`) khác OpenCV kiểm → exit 2 `KHONG KIEM DUOC` (`4f1fa2f`).
 
-## Render video trên Nano (hậu kỳ)
+## Đính chính vòng 23 (không đổi số)
 
-- `render_mot_video.py` sửa tối thiểu để chạy bằng Python 3.6 hệ thống (có OpenCV), không cài gói. Bộ kiểm mới
-  `kiem_video_render.py` vẽ lại từng frame bằng chính hàm vẽ: vị trí bbox, màu ID, số frame, tên lớp. `test_render_mot_video` 7/7.
-- Gói v9 `ea1fb21f…` (mã tracking == v8). Trên Nano, 300 frame CV và EKF: render ~17,4 s; **kiểm trên Nano ĐẠT**: 300/300 frame,
-  25 fps, 0 frame lỗi, 255/255 nhãn lớp mẫu đúng.
-- **Hiển thị trực tiếp chưa làm**: có màn hình HDMI nhưng tiến trình tracker không có OpenCV, cần kênh hiển thị riêng. Camera chưa làm.
+Bốn lượt tracking, mỗi lượt khoảng 158–163 giây xử lý, trong phiên khoảng 13 phút 33 giây, có nghỉ và replay giữa lượt; chưa phải
+chạy nhiều giờ. Nhiệt: CPU tối đa 38 °C, GPU tối đa 35,5 °C. MemAvailable +3 MB: không thấy tích lũy, chưa loại trừ mọi rò rỉ.
+Video là render **hậu kỳ**, không phải hiển thị trực tiếp.
 
-## Kiểm thử và giới hạn
+## Giới hạn
 
-Full suite PC: `**35/35 PASS** (`logs/review23/tests_20260928-1349.log`, trên `cf8b760`)`. Chạy liên tục ~14 phút trên một sequence, chưa phải vận hành nhiều giờ. Chưa rõ nguyên nhân hai mức
-decode. Delta từ `c4b39fe` gồm MOT live + replay, CSV timing, metadata và telemetry; không có ảnh, engine, video hay ZIP; 4 NPZ cache
-mới được khai báo hash.
+Sai từ hai chữ số trở lên chỉ dựa vào phép tỷ lệ. Tên lớp mặc định lấy mẫu. Reviewer cần OpenCV 3.2.0 để kiểm lại video (không nằm
+trong delta). Hiển thị trực tiếp và camera chưa làm.

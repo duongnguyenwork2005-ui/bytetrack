@@ -1,5 +1,12 @@
 # Phụ lục vòng 23 — chạy đầy đủ 1.470 frame trên Nano, kiểm ổn định, render video trên thiết bị
 
+> **Đính chính vòng 24** (review `1d5ffaa`, chi tiết `handoff/REVIEW24_CHI_TIET.md`) — số liệu không đổi:
+> (1) Bộ kiểm render ở mục 3 **chưa kiểm số frame hiển thị trên frame có box** (N23-F1); hai video có box ở cả 300 frame nên số frame
+> chưa được kiểm. Vòng 24 kiểm lại trên Nano bằng bộ kiểm đã sửa: số frame 300/300 đúng, bbox/ID 0 lỗi, 255/255 nhãn mẫu, exit 0.
+> (2) Mục 5: không phải "chạy liên tục ~14 phút" mà là **bốn lượt tracking, mỗi lượt khoảng 158–163 giây xử lý, trong phiên khoảng
+> 13 phút 33 giây, có nghỉ và replay giữa lượt**. (3) Nhiệt: **CPU tối đa 38 °C, GPU tối đa 35,5 °C** — không viết "mọi cảm biến
+> ≤ 38 °C". (4) MemAvailable +3 MB: không thấy tích lũy giữa các lượt; không suy ra đã loại trừ mọi rò rỉ bộ nhớ.
+
 Tóm tắt: `handoff/REVIEW_BRIEF.md`. Review trước: `handoff/CODEX_REVIEW_c4b39fe.md` (PASS WITH LIMITATIONS, đóng N21-F1/F2/F3).
 Base review **chuyển sang `c4b39fe`** (gói `review_delta_c4b39fe.zip` 5.036.951 B, sha256 `536dee94…` khớp báo cáo); 9 NPZ không bàn
 giao được khai báo tiếp trong `DEPENDENCIES.md`. Đầu vòng: HEAD `c4b39fe`, 0 commit sau đó, working tree chỉ có file riêng
@@ -61,11 +68,11 @@ con còn chạy sau mọi lượt; boot không đổi; ext4 0 lỗi; số frame 
 - Sửa tối thiểu `src/render_mot_video.py` để chạy bằng **Python 3.6 hệ thống** (có OpenCV 3.2): bỏ `from __future__ import annotations`,
   tách `doc_mot`/`doc_lop`/`ve_frame` dùng chung; ghi `<out>.json` (số frame, fps, kích thước, số box, sha256). Không tạo môi trường mới,
   không cài gói. Mới: `src/kiem_video_render.py` (cú pháp 3.6) — số frame/FPS/kích thước; **mọi frame** vẽ lại bằng chính `ve_frame` và so
-  trên các điểm vẽ (khung bbox, màu theo ID, số frame); **tên lớp**: mỗi box ở mỗi 5 frame, chọn ứng viên tên lớp gần frame giải mã nhất.
+  trên các điểm vẽ (khung bbox, màu theo ID, số frame — *đính chính vòng 24: trên frame có box, số frame không thực sự được so*); **tên lớp**: mỗi box ở mỗi 5 frame, chọn ứng viên tên lớp gần frame giải mã nhất.
   Regression `src/test_render_mot_video.py` **7/7** (đúng → ĐẠT; MOT lệch 25 px, sai FPS, thiếu frame, sai tên lớp → KHÔNG ĐẠT; cú pháp 3.6).
 - Gói **v9** `ea1fb21f…` (63.864.847 B) → `~/nano_run/v9`, manifest 556/556; mã tracking v9 == v8 (7/7 file). Trên Nano, từ MOT/lớp của
   lượt 1 CV và lượt 2 EKF, 300 frame đầu: render 17,3 s / 17,6 s, video mp4v 960×540 25 fps ~20,4 MB (`5f55fcb4…`, `c7d40019…`).
-  **Kiểm trên Nano: ĐẠT** — 300/300 frame, 25 fps, kích thước khớp, 0 frame lỗi vị trí (tỷ lệ lỗi tối đa 0,32 / ngưỡng 0,5), 255/255 box
+  **Kiểm trên Nano: ĐẠT** (bộ kiểm vòng 23, chưa gồm số frame trên frame có box — xem đính chính vòng 24) — 300/300 frame, 25 fps, kích thước khớp, 0 frame lỗi vị trí (tỷ lệ lỗi tối đa 0,32 / ngưỡng 0,5), 255/255 box
   mẫu đúng tên lớp (car 252, truck 3). Video không đưa vào repo/delta (bản sao để xem: `handoff/logs/review23/video_khong_commit/`, không commit).
 - **Hiển thị trực tiếp: chưa làm.** Nano có màn hình HDMI 1920×1080 đang kết nối, nhưng tiến trình tracker không có OpenCV và giao thức chưa
   có kênh trả kết quả về tiến trình có ảnh; cần thiết kế riêng. Camera không thuộc mốc này.
@@ -76,7 +83,8 @@ con còn chạy sau mọi lượt; boot không đổi; ext4 0 lỗi; số frame 
 
 ## 5. Giới hạn
 
-Một sequence (1.470 frame), 2 lượt/cấu hình, ~14 phút chạy liên tục — chưa phải kiểm vận hành nhiều giờ. Hai mức decode của OpenCV 3.2 chưa
+Một sequence (1.470 frame), 2 lượt/cấu hình: bốn lượt tracking, mỗi lượt khoảng 158–163 giây xử lý, trong phiên khoảng 13 phút
+33 giây, có nghỉ và replay giữa lượt (đính chính vòng 24) — chưa phải kiểm vận hành nhiều giờ. Hai mức decode của OpenCV 3.2 chưa
 rõ nguyên nhân. Reviewer không có engine/ảnh/NPZ để tự chạy lại TensorRT; bằng chứng thiết bị là log + CSV + MOT + hash. Khi chính tracker
 ném ngoại lệ, runner chưa trả MOT đã tích lũy (giới hạn cũ, không đổi). Hiển thị trực tiếp và camera chưa làm.
 

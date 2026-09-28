@@ -1,6 +1,6 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-28 (mục 4i: vòng 23 — chạy đủ 1.470 frame, 4 lượt, render video trên Nano; 4h: vòng 22 — sửa N21-F1/F2/F3, parity + đo lại trên Nano; 4g: vòng 21 — luồng trực tiếp video → TensorRT → tracker chạy thật, parity, FPS toàn luồng; 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-28 (mục 4j: vòng 24 — đóng N23-F1 bộ kiểm số frame, kiểm lại 2 video render trên Nano, chốt phiên bản OpenCV của bộ kiểm; 4i: vòng 23 — chạy đủ 1.470 frame, 4 lượt, render video trên Nano; 4h: vòng 22 — sửa N21-F1/F2/F3, parity + đo lại trên Nano; 4g: vòng 21 — luồng trực tiếp video → TensorRT → tracker chạy thật, parity, FPS toàn luồng; 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
 ## 1. Thiết bị
@@ -116,15 +116,32 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
 
+## 4j. Vòng 24 (2026-09-28): đóng N23-F1, kiểm lại hai video render trên Nano — chi tiết `handoff/REVIEW24_CHI_TIET.md`
+
+- `src/kiem_video_render.py` sửa: số frame hiển thị kiểm **độc lập trên mọi frame** (tỷ lệ lỗi trên điểm chữ, ngưỡng cũ + nhận dạng
+  ứng viên cách một chữ số); chốt **OpenCV render (`<video>.json`) == OpenCV kiểm**, khác → exit 2 `KHONG KIEM DUOC`. Script Codex
+  exit 0; `test_render_mot_video` 13/13.
+- Gói **v10** `a3bb5841…` (`9b1805c`) và **v11** `6f80806d…` (mã cuối) ở `~/nano_run/v10`, `~/nano_run/v11`; so với v9 chỉ khác 3 file
+  render/kiểm. Không chạy lại tracking, không build engine, không đổi môi trường hệ thống.
+- Hai video vòng 23 (hash video/MOT/lớp khớp), `/usr/bin/python3` 3.6.9 + OpenCV 3.2.0: CV và EKF đều 300 frame, 25 fps, 960×540;
+  **số frame 300/300 đúng**; bbox/ID 0 lỗi (1.272 / 1.270 box); tên lớp mẫu mỗi 5 frame 255/255; exit 0. Bổ sung kiểm mọi box:
+  1.271/1.272 và 1.269/1.270 — frame 90 ID 30 (`car`) không phân định được do nén mp4v. Render lại từ cùng MOT/lớp **byte-giống** →
+  giữ nguyên video.
+- Bộ kiểm vẽ lại chữ nên chỉ hợp lệ với cùng OpenCV đã render: OpenCV 5.0 trên PC vẽ `putText` khác 3.2 (khung chữ nhật trùng) →
+  chạy trên PC nay trả exit 2.
+
 ## 4i. Vòng 23 (2026-09-28): đầy đủ 1.470 frame + render trên Nano — chi tiết `handoff/REVIEW23_CHI_TIET.md`
 
 - 1.470 JPG gốc `MVI_39031` ở `~/nano_run/data_full/MVI_39031` (SHA256 1470/1470 khớp PC). Mã chạy gói **v8** (== `c4b39fe`), engine
   `~/nano_run/engine/yolov8n_fp16.engine` (`c32690cd…`). Driver `handoff/logs/review23/chay_dai_1470.sh` (chạy từ gốc v8).
 - 4 lượt CV → EKF → EKF → CV: exit 0, hoàn tất, frame 1–1470 đúng một lần, MOT live == replay từng byte, parity ĐẠT, con thoát 0,
-  không rò bộ nhớ (MemAvailable +3 MB), không khởi động lại. FPS toàn luồng CV 9,22 (9,14–9,31), EKF 9,05 (9,04–9,05); decode hai mức
+  không thấy tích lũy bộ nhớ giữa các lượt (MemAvailable +3 MB; chưa loại trừ mọi rò rỉ), không khởi động lại. Phạm vi: bốn lượt,
+  mỗi lượt khoảng 158–163 giây xử lý, trong phiên khoảng 13 phút 33 giây, có nghỉ và replay giữa lượt; nhiệt CPU tối đa 38 °C, GPU
+  tối đa 35,5 °C (diễn đạt đính chính ở vòng 24). FPS toàn luồng CV 9,22 (9,14–9,31), EKF 9,05 (9,04–9,05); decode hai mức
   (~11,5/16,3 ms) rơi vào hai lượt EKF → không xếp hạng.
 - Render **hậu kỳ** trên Nano: `/usr/bin/python3 src/render_mot_video.py` (gói **v9** `ea1fb21f…`, `~/nano_run/v9`) + kiểm
-  `src/kiem_video_render.py` ĐẠT (300/300 frame, 25 fps, bbox/ID/lớp đúng). Hiển thị trực tiếp khi tracking và camera: chưa làm
+  `src/kiem_video_render.py` ĐẠT (300/300 frame, 25 fps, bbox/ID/lớp đúng) — *vòng 24: bộ kiểm này chưa kiểm số frame trên frame
+  có box (N23-F1); kiểm lại ở 4j*. Hiển thị trực tiếp khi tracking và camera: chưa làm
   (màn hình HDMI đã kết nối).
 
 ## 4h. Vòng 22 (2026-09-28): sửa N21-F1/F2/F3 (review `9f210e2`) — chi tiết `handoff/REVIEW22_CHI_TIET.md`
