@@ -1,6 +1,6 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-28 (mục 4g: vòng 21 — luồng trực tiếp video → TensorRT → tracker chạy thật, parity, FPS toàn luồng; 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-28 (mục 4h: vòng 22 — sửa N21-F1/F2/F3, parity + đo lại trên Nano; 4g: vòng 21 — luồng trực tiếp video → TensorRT → tracker chạy thật, parity, FPS toàn luồng; 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
 ## 1. Thiết bị
@@ -115,6 +115,16 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES`, **hoặc** ép `.py` về LF trong `.gitattributes`. **Chưa làm trong đợt này** vì đổi
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
+
+## 4h. Vòng 22 (2026-09-28): sửa N21-F1/F2/F3 (review `9f210e2`) — chi tiết `handoff/REVIEW22_CHI_TIET.md`
+
+- **Giao thức 2**: con gửi HELLO rồi **chờ lệnh BẮT ĐẦU**; cha chuẩn bị xong, bật timer rồi mới gửi → mọi frame được đếm nằm trong cửa
+  sổ đo. Thời gian mới: `khoi_tao_s`, `chuan_bi_cha_s`, `xu_ly_s`/`fps_xu_ly`, `ket_thuc_s`, `ghi_s` (thay `wall_vong_lap_s`/`fps_vong_lap`).
+- Replay cache ở `--cache-root` riêng: `src/nano_replay.py` (lệnh trong `replay_argv`). Cấu hình sai (YAML, `--set`, tham số) → mã 2,
+  không khởi động detector; lỗi sau spawn luôn dừng/reap con.
+- Gói **v8** `f4da9f08…` ở `~/nano_run/v8`, engine dùng lại `~/nano_run/engine/yolov8n_fp16.engine`. Test thiết bị 20/20, 9/9, 20/20;
+  parity 10/10 (TRT live == replay byte, MOT replay bàn giao). Đo lại: **CV 9,13 (9,07–9,19), EKF 9,36 (9,20–9,42) FPS**; decode có hai
+  mức ~11,3/16,3 ms làm lệch giữa các lượt → không xếp hạng CV/EKF. Số vòng 21 giữ, có đính chính (lệch 0,21–0,28 %).
 
 ## 4g. Vòng 21 (2026-09-28): luồng TRỰC TIẾP video → TensorRT → tracker chạy thật trên Nano — chi tiết `handoff/REVIEW21_CHI_TIET.md`
 

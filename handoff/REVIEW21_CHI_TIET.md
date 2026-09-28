@@ -1,5 +1,11 @@
 # Phụ lục vòng 21 — chốt review `45e086a`, sửa R20-P2/P3, luồng trực tiếp video → TensorRT → tracker trên Nano
 
+> **Đính chính vòng 22** (review `9f210e2`, N21-F1; số dưới đây **giữ nguyên** làm lịch sử): `wall_vong_lap_s`/`fps_vong_lap`
+> của vòng 21 bắt đầu **sau** khi tiến trình con đã đọc/infer phần đầu của luồng, nên FPS hơi cao (0,21–0,28 %). Tính lại từ
+> timestamp sẵn có, phạm vi "frame 1 bắt đầu đọc → frame 300 xong tracker": CV 9,0960 / 9,3435 / 9,2697; EKF 9,3520 / 9,4157 /
+> 9,2629 (`handoff/logs/review22/06_*`). Đo lại với ranh giới sửa: `handoff/REVIEW22_CHI_TIET.md`. Lệnh replay khi dùng
+> `--cache-root` riêng (N21-F2) và kiểm cấu hình trước spawn (N21-F3) cũng đã sửa ở vòng 22.
+
 Tóm tắt: `handoff/REVIEW_BRIEF.md`. Review: `handoff/CODEX_REVIEW_45e086a.md` (PASS WITH LIMITATIONS cho benchmark tracker-from-cache
 vòng 20). Base review **chuyển sang `45e086a`**. Trạng thái đầu vòng: HEAD `45e086a`, 0 commit sau đó, working tree chỉ có file riêng
 của người dùng (`logs/review21/00_trang_thai_dau.log`). Benchmark vòng 20, kết quả/lock UA-DETRAC, BDD và `pc-ref-*` **không đổi**.
