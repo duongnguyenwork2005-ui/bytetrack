@@ -1,0 +1,48 @@
+# regression R20-P2 chay voi MA CU (45e086a:src/make_review_delta.py) - 2026-09-28T10:27:37+07:00
+packager duoc kiem: C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\ma_cu\make_review_delta.py (sha256 d544af7c23d51c29)
+  [PASS] thieu REVIEW_BRIEF.md -> TU CHOI dung goi
+         Thieu handoff\REVIEW_BRIEF.md - viet bao cao ngan cua vong nay truoc khi dong goi
+  [PASS] dung goi delta thanh cong
+                    11 B  configs/exp.yaml
+         
+         ZIP: C:\Users\Mikuno\AppData\Local\Temp\delta_test_nspql7ge\handoff\review_delta_latest.zip (0.01 MB, 11 file); testzip: OK
+         file bat buoc thieu: khong
+         file CAM co trong ZIP: 0 []
+         thu tu doc: REVIEW_BRIEF.md -> patch/delta_946e343..e993016.diff -> logs/ + data/ -> DEPENDENCIES.md
+  [PASS] base lay tu review_base.json va KHONG tu chuyen sang HEAD sau khi dung goi
+         base=946e343 target=e993016 trong file=946e343
+  [PASS] file rieng cua nguoi dung KHONG co trong goi
+  [PASS] du lieu lon / nhi phan / patch toan bo lich su KHONG co trong goi
+  [PASS] code/test/config/log/ket qua moi CO trong goi, dung ban target
+         thieu=set()
+  [PASS] file KHONG doi giua base va target KHONG vao goi
+  [PASS] MANIFEST ghi du base/target + them/sua + sha256 khop noi dung thuc trong ZIP
+         lech=[] status=['sua', 'them']
+  [PASS] patch trong goi ap duoc len DUNG cay base va cho ra noi dung target
+  [PASS] file bi bo qua van duoc liet ke kem ly do trong MANIFEST va DEPENDENCIES.md
+         .gitignore -> file rieng cua nguoi dung; data/interim/cache.npz -> du lieu nhi phan hoac patc; handoff/patches/moc_full.diff -> du lieu nhi phan hoac patc; handoff/phase2_review_latest.zip -> dataset/weights/goi ZIP kh; live.bat -> file rieng cua nguoi dung; models/w.pt -> dataset/weights/goi ZIP kh; src/demo/buffer90_moi.py -> file rieng cua nguoi dung
+  [PASS] P1: file rieng bi `git rm --cached` -> KHONG co diff/marker trong goi, file van con tren dia
+         marker trong goi=False; duong dan trong patch=False
+  [PASS] P2a: doi ten -> ap patch cho DUNG target (ten moi co, ten cu bien mat)
+         thua=[] thieu=[]
+  [PASS] P2b: hai file code trung noi dung -> ap patch co DU ca hai; dedup chi ap cho log
+         thieu sau khi ap=[]; ca hai trong files/=True; so log trong goi=1
+  [PASS] --support file KHONG doi: nam o support/, status ho_tro, hash base == target, KHONG trong patch, khong tinh vao so_file_trong_goi, co muc rieng trong DEPENDENCIES.md; file CO doi -> TU CHOI
+         rc=0 row={'status': 'ho_tro', 'path': 'src/khong_doi.py', 'trong_goi': 'support/src/khong_doi.py', 'trong_patch': 'False', 'ly_do_khong_gom': '', 'trung_noi_dung_voi': '', 'bytes': '11', 'sha256_base': '414043d98113c6dc776f721bf00b4bfd14933a4dfcd9e696ecb8eb02d1d77e82', 'sha256_target': '414043d98113c6dc776f721bf00b4bfd14933a4dfcd9e696ecb8eb02d1d77e82'} rc_doi=1 DUNG: --support src/tracker.py CO doi so voi base 946e343 -> no da/phai nam trong patch, khong dung --support
+  [FAIL] 14. patch trong ZIP == `git diff --binary` tho, tung byte (CR giu nguyen)
+         patch 1907 B CR 0 | tho 1916 B CR 10
+  [FAIL] 15. ap patch len base sach (exit 0) -> them/sua/xoa CRLF, tron LF/CRLF/CR le, binary: byte + sha256 khop target va MANIFEST
+         apply exit 128 error: corrupt patch at p.diff:47
+         6 duong dan; lech: ['handoff/logs/anh.bin: 272 B vs target 275 B', 'handoff/logs/moi.png: thieu B vs target 13 B', 'handoff/logs/moi_crlf.log: thieu B vs target 15 B', 'handoff/logs/tron.txt: thieu B vs target 24 B', 'src/cu_crlf.py: 14 B vs target 21 B', 'src/xoa_crlf.py: van con sau khi ap (phai bi xoa)']
+  [FAIL] 16. --kiem-roundtrip: goi that exit 0; goi co patch bi mat CR -> exit != 0
+         that: rc=2 
+         hong: rc=2         [--base-note BASE_NOTE] [--support [PATH ...]]
+         make_review_delta.py: error: unrecognized arguments: --kiem-roundtrip C:\Users\Mikuno\AppData\Local\Temp\delta_crlf_q687qr4n\handoff\goi_hong.zip
+  [PASS] 17. file rieng `src/demo/` KHONG co trong ZIP lan duong dan trong patch
+  [FAIL] 18. --giu-khai-bao: DEPENDENCIES liet ke file + sha256 tai base; khai bao MANG SANG lan doi base sau
+         rc set-base=2 dung goi=0 set-base 2=0; khai bao=[]
+                                  [--base-note BASE_NOTE] [--support [PATH ...]]
+         make_review_delta.py: error: unrecognized arguments: --giu-khai-bao handoff/logs/anh.bin
+
+KET QUA: 15/19 phep kiem tra PASS
+exit=1

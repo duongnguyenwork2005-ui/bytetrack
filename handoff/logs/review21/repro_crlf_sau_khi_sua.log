@@ -1,0 +1,13 @@
+# repro R20-P2 SAU khi sua - 2026-09-28T10:28:16+07:00
+# repro R20-P2 - packager: D:\LABOTARY\bytetrack\src\make_review_delta.py sha256 61ab5c0d47dbb3d3
+file target: 15 B, CR 2, sha256 f7aec59d740d8714
+git diff tho      : 139 B, CR 2
+make_patch()      : kieu bytes, 139 B, CR 2, bytes == diff tho: True
+git apply exit    : 0 p.diff:7: trailing whitespace.
+dong1
+p.diff:8: trailing whitespace.
+dong22
+warning: 2 lines add whitespace errors.
+file sau khi ap   : 15 B, CR 2, sha256 f7aec59d740d8714
+KET QUA: KHOP target
+exit=0

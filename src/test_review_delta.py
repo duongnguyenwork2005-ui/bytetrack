@@ -24,7 +24,17 @@ Hai phep 11-12 so TOAN BO duong dan code/test/config voi target, khong chi exit 
  13. --support: file KHONG doi so voi base duoc gui kem o `support/` voi status `ho_tro` (hash base == target,
      khong vao patch, khong tinh vao so file thay doi, co muc rieng trong DEPENDENCIES.md); file CO doi -> tu choi.
 
+R20-P2 (review 45e086a) -- patch phai GIU NGUYEN BYTE; repo tam rieng, moi lenh git qua
+`-c core.autocrlf=false -c core.eol=lf` (khong `git config`, khong `.gitattributes`, khong danh dau binary):
+ 14. patch trong ZIP == stdout `git diff --binary` tung byte.
+ 15. ap len base sach: THEM file CRLF, SUA file CRLF, XOA file CRLF, file TRON LF/CRLF + CR le + khong LF cuoi,
+     SUA + THEM file binary -> byte/sha256 khop target va MANIFEST.
+ 16. `--kiem-roundtrip` dat voi goi that va BAT duoc goi co patch bi mat CR.
+ 17. file rieng (`src/demo/`) khong lot vao ZIP lan patch.
+ 18. `--giu-khai-bao`: khai bao file khong ban giao, in trong DEPENDENCIES.md, mang sang lan doi base sau.
+
     python src/test_review_delta.py
+    python src/test_review_delta.py --packager <ban cu>/make_review_delta.py   # cung fixture voi ma cu
 """
 from __future__ import annotations
 
@@ -42,6 +52,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PY = sys.executable
+#: Ban packager duoc kiem (mac dinh: ban hien tai). `--packager <file>` de chay CUNG fixture voi ma cu.
+PACKAGER = ROOT / "src" / "make_review_delta.py"
 _RESULTS: list[tuple[str, bool]] = []
 
 
@@ -73,7 +85,7 @@ def make_repo(d: Path) -> str:
     run(["git", "config", "user.email", "t@t"], d)
     run(["git", "config", "user.name", "t"], d)
     (d / "src").mkdir(parents=True, exist_ok=True)
-    shutil.copy2(ROOT / "src" / "make_review_delta.py", d / "src" / "make_review_delta.py")
+    shutil.copy2(PACKAGER, d / "src" / "make_review_delta.py")
 
     # ----- trang thai BASE -----
     write(d, "src/tracker.py", "x = 1\n")
@@ -155,7 +167,7 @@ def test_p1_file_rieng_bi_bo_theo_doi() -> None:
         run(["git", "config", "user.email", "t@t"], d)
         run(["git", "config", "user.name", "t"], d)
         (d / "src").mkdir(parents=True, exist_ok=True)
-        shutil.copy2(ROOT / "src" / "make_review_delta.py", d / "src" / "make_review_delta.py")
+        shutil.copy2(PACKAGER, d / "src" / "make_review_delta.py")
         write(d, "src/tracker.py", "x = 1\n")
         write(d, "src/demo/private.py", f"# {MARKER}\nbi_mat = 1\n")
         run(["git", "add", "-A", "-f"], d)
@@ -189,7 +201,7 @@ def test_p2a_doi_ten() -> None:
         run(["git", "config", "user.email", "t@t"], d)
         run(["git", "config", "user.name", "t"], d)
         (d / "src").mkdir(parents=True, exist_ok=True)
-        shutil.copy2(ROOT / "src" / "make_review_delta.py", d / "src" / "make_review_delta.py")
+        shutil.copy2(PACKAGER, d / "src" / "make_review_delta.py")
         write(d, "src/old_util.py", "def f():\n    return 1\n")
         write(d, "configs/exp.yaml", "conf: 0.25\n")
         run(["git", "add", "-A"], d)
@@ -219,7 +231,7 @@ def test_p2b_hai_file_trung_noi_dung() -> None:
         run(["git", "config", "user.email", "t@t"], d)
         run(["git", "config", "user.name", "t"], d)
         (d / "src").mkdir(parents=True, exist_ok=True)
-        shutil.copy2(ROOT / "src" / "make_review_delta.py", d / "src" / "make_review_delta.py")
+        shutil.copy2(PACKAGER, d / "src" / "make_review_delta.py")
         write(d, "src/goc.py", "x = 0\n")
         run(["git", "add", "-A"], d)
         run(["git", "commit", "-qm", "base"], d)
@@ -250,7 +262,157 @@ def test_p2b_hai_file_trung_noi_dung() -> None:
         shutil.rmtree(d, ignore_errors=True)
 
 
+# ------------------------------------------------------------------ 14-18: R20-P2 (review 45e086a)
+#: Moi lenh git cua fixture CRLF: tat chuyen doi dong o CHINH lenh (khong `git config`, khong `.gitattributes`)
+#: -> blob giu nguyen byte bat ke `core.autocrlf` he thong.
+GIT_RAW = ["git", "-c", "core.autocrlf=false", "-c", "core.eol=lf"]
+_ENV_T = {**os.environ, "GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t",
+          "GIT_COMMITTER_NAME": "t", "GIT_COMMITTER_EMAIL": "t@t"}
+
+
+def graw(cwd: Path, *args) -> bytes:
+    r = subprocess.run(GIT_RAW + list(args), cwd=cwd, capture_output=True, env=_ENV_T)
+    assert r.returncode == 0, f"git {args}: {r.stderr.decode('utf-8', 'replace')}"
+    return r.stdout
+
+
+def wbytes(base: Path, rel: str, data: bytes) -> None:
+    p = base / rel
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_bytes(data)
+
+
+def _soft(ket_qua: list, name: str, ok: bool, detail: str = "") -> None:
+    """Ghi + in ket qua KHONG dung ngay: chay ma cu van thay DU cac phep 14-18 FAIL o dau."""
+    ket_qua.append((name, bool(ok)))
+    _RESULTS.append((name, bool(ok)))
+    print(f"  [{'PASS' if ok else 'FAIL'}] {name}")
+    for line in str(detail).strip().splitlines()[-6:]:
+        print(f"         {line}")
+
+
+BIN_BASE = b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR" + bytes(range(256))
+BIN_TGT = b"\x89PNG\r\n\x1a\n\x00\x00\x01\rIHDR" + bytes(range(255, -1, -1)) + b"\r\n\x00"
+
+
+def test_crlf_roundtrip() -> None:
+    """14-18: patch GIU NGUYEN BYTE cho file CRLF (them/sua/xoa), noi dung tron LF/CRLF/CR le, file binary."""
+    d = Path(tempfile.mkdtemp(prefix="delta_crlf_"))
+    kq: list = []
+    try:
+        graw(d, "init", "-q", "-b", "main")
+        (d / "src").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(PACKAGER, d / "src" / "make_review_delta.py")
+        wbytes(d, "src/cu_crlf.py", b"a = 1\r\nb = 2\r\n")                 # CRLF co san -> SUA
+        wbytes(d, "src/xoa_crlf.py", b"bo = True\r\n")                     # CRLF co san -> XOA
+        wbytes(d, "handoff/logs/anh.bin", BIN_BASE)                        # binary co san -> SUA
+        wbytes(d, "src/khong_doi.py", b"GIU\n")
+        graw(d, "add", "-A"); graw(d, "commit", "-qm", "base")
+        base = graw(d, "rev-parse", "HEAD").decode().strip()
+
+        wbytes(d, "handoff/logs/moi_crlf.log", b"dong1\r\ndong22\r\n")            # THEM file CRLF (15 B)
+        wbytes(d, "src/cu_crlf.py", b"a = 1\r\nb = 3\r\nc = 4\r\n")                # SUA file CRLF
+        wbytes(d, "handoff/logs/tron.txt", b"lf\ncrlf\r\nle\rcr\nket thuc\r")      # TRON LF/CRLF + CR le, khong LF cuoi
+        wbytes(d, "handoff/logs/anh.bin", BIN_TGT)                                 # SUA binary
+        wbytes(d, "handoff/logs/moi.png", b"\x89PNG\r\n\x1a\n\x00\r\n\x00\x01")   # THEM binary
+        wbytes(d, "src/demo/rieng_crlf.py", b"# rieng\r\nbi_mat = 1\r\n")         # file RIENG -> phai bi loai
+        (d / "src" / "xoa_crlf.py").unlink()
+        graw(d, "add", "-A", "-f"); graw(d, "commit", "-qm", "vong sua crlf")
+        target = graw(d, "rev-parse", "HEAD").decode().strip()
+
+        with dung_goi(d, base) as z:
+            names = set(z.namelist())
+            mj = json.loads(z.read("MANIFEST.json"))
+            pname = next(n for n in names if n.startswith("patch/"))
+            patch = z.read(pname)
+        rows = [r for r in mj["file_trong_goi"] + mj["file_bo_qua"] if r.get("trong_patch")]
+        paths = sorted(r["path"] for r in rows)
+        tho = graw(d, "diff", "--no-renames", "--binary", f"{base}..{target}", "--", *paths)
+
+        # --- 14. patch trong ZIP == stdout git diff (byte) ---
+        _soft(kq, "14. patch trong ZIP == `git diff --binary` tho, tung byte (CR giu nguyen)",
+              patch == tho and b"\r" in patch,
+              f"patch {len(patch)} B CR {patch.count(bytes([13]))} | tho {len(tho)} B CR {tho.count(bytes([13]))}")
+
+        # --- 15. ap len base sach -> moi duong dan trong patch khop target theo byte/sha256 ---
+        w = Path(tempfile.mkdtemp(prefix="delta_crlf_ap_"))
+        try:
+            graw(w, "clone", "-q", str(d), "r")
+            r_ = w / "r"
+            graw(r_, "checkout", "-q", base)
+            (r_ / "p.diff").write_bytes(patch)
+            ap = subprocess.run(GIT_RAW + ["apply", "--whitespace=nowarn", "p.diff"], cwd=r_, capture_output=True)
+            lech = []
+            for p in paths:
+                tgt = subprocess.run(GIT_RAW + ["show", f"{target}:{p}"], cwd=d, capture_output=True)
+                f = r_ / p
+                if tgt.returncode != 0:                       # bi xoa o target
+                    if f.exists():
+                        lech.append(f"{p}: van con sau khi ap (phai bi xoa)")
+                    continue
+                got = f.read_bytes() if f.exists() else None
+                row = next(x for x in rows if x["path"] == p)
+                if got != tgt.stdout or hashlib.sha256(got or b"").hexdigest() != row["sha256_target"]:
+                    lech.append(f"{p}: {len(got) if got is not None else 'thieu'} B vs target {len(tgt.stdout)} B")
+            _soft(kq, "15. ap patch len base sach (exit 0) -> them/sua/xoa CRLF, tron LF/CRLF/CR le, binary: "
+                      "byte + sha256 khop target va MANIFEST",
+                  ap.returncode == 0 and not lech and len(paths) == 6,
+                  f"apply exit {ap.returncode} {ap.stderr.decode('utf-8', 'replace').strip()[:200]}\n"
+                  f"{len(paths)} duong dan; lech: {lech}")
+        finally:
+            shutil.rmtree(w, ignore_errors=True)
+
+        # --- 16. --kiem-roundtrip: dat voi goi that; BAT duoc patch bi mat CR ---
+        zp = d / "handoff" / "review_delta_latest.zip"
+        rt = run([PY, "src/make_review_delta.py", "--kiem-roundtrip", str(zp)], d)
+        hong = d / "handoff" / "goi_hong.zip"
+        with zipfile.ZipFile(zp) as zi, zipfile.ZipFile(hong, "w") as zo:
+            for n in zi.namelist():
+                b = zi.read(n)
+                zo.writestr(n, b.replace(b"\r\n", b"\n") if n == pname else b)   # gia lap loi cu
+        rt_hong = run([PY, "src/make_review_delta.py", "--kiem-roundtrip", str(hong)], d)
+        _soft(kq, "16. --kiem-roundtrip: goi that exit 0; goi co patch bi mat CR -> exit != 0",
+              rt.returncode == 0 and rt_hong.returncode != 0,
+              f"that: rc={rt.returncode} {rt.stdout.strip()[-160:]}\nhong: rc={rt_hong.returncode} "
+              f"{(rt_hong.stdout + rt_hong.stderr).strip()[-200:]}")
+
+        # --- 17. file rieng khong lot (ten ZIP + duong dan trong patch) ---
+        view = patch.decode("utf-8", "replace")
+        _soft(kq, "17. file rieng `src/demo/` KHONG co trong ZIP lan duong dan trong patch",
+              not any("src/demo/" in n for n in names) and "src/demo/" not in view and b"bi_mat" not in patch)
+
+        # --- 18. --giu-khai-bao: khai bao file khong ban giao, mang sang khi doi base, in DEPENDENCIES ---
+        wbytes(d, "src/khong_doi.py", b"GIU 2\n")
+        graw(d, "add", "-A"); graw(d, "commit", "-qm", "vong sau")
+        r1 = run([PY, "src/make_review_delta.py", "--set-base", target, "--round", "2",
+                  "--giu-khai-bao", "handoff/logs/anh.bin"], d)
+        r2 = run([PY, "src/make_review_delta.py"], d)
+        with zipfile.ZipFile(zp) as z:
+            deps = z.read("DEPENDENCIES.md").decode("utf-8")
+        moi = graw(d, "rev-parse", "HEAD").decode().strip()
+        r3 = run([PY, "src/make_review_delta.py", "--set-base", moi, "--round", "3"], d)    # KHONG co --giu-khai-bao
+        bj = json.loads((d / "handoff" / "review_base.json").read_text(encoding="utf-8"))
+        kb = bj.get("khai_bao_khong_ban_giao", [])
+        h = hashlib.sha256(BIN_TGT).hexdigest()
+        _soft(kq, "18. --giu-khai-bao: DEPENDENCIES liet ke file + sha256 tai base; khai bao MANG SANG lan doi base sau",
+              r1.returncode == 0 and r2.returncode == 0 and r3.returncode == 0 and "handoff/logs/anh.bin" in deps
+              and h in deps and len(kb) == 1 and kb[0]["sha256"] == h,
+              f"rc set-base={r1.returncode} dung goi={r2.returncode} set-base 2={r3.returncode}; "
+              f"khai bao={kb}\n{(r1.stdout + r1.stderr).strip()[-160:]}")
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+    assert all(ok for _, ok in kq), "14-18"
+
+
 def main() -> int:
+    global PACKAGER
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--packager", default=None, help="chay CUNG fixture voi ban make_review_delta.py khac (vd. ma cu)")
+    a = ap.parse_args()
+    if a.packager:
+        PACKAGER = Path(a.packager).resolve()
+    print(f"packager duoc kiem: {PACKAGER} (sha256 {hashlib.sha256(PACKAGER.read_bytes()).hexdigest()[:16]})")
     failed = 0
     tmp = Path(tempfile.mkdtemp(prefix="delta_test_"))
     try:
@@ -358,6 +520,9 @@ def main() -> int:
                and mj2["so_file_trong_goi"] == mj["so_file_trong_goi"] and "ho tro review" in deps2
                and r_doi.returncode != 0 and "CO doi so voi base" in (r_doi.stdout + r_doi.stderr),
                f"rc={r.returncode} row={row} rc_doi={r_doi.returncode} {(r_doi.stdout + r_doi.stderr)[-120:]}")
+
+        # --- 14-18. R20-P2 (review 45e086a): patch giu nguyen byte ---
+        test_crlf_roundtrip()
     except AssertionError:
         failed += 1
     finally:

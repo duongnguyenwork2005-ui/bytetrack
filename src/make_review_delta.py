@@ -24,11 +24,23 @@ REVIEW_BRIEF.md tren dia KHONG ghi cung base/target (viet xong -> commit -> moi 
 luon lac hau mot commit). Dat `<!-- BASE_TARGET -->` o cho can, script dien gia tri THUC luc dong goi.
     DEPENDENCIES.md                 file phu thuoc KHONG dong goi + vi tri trong snapshot goc + sha256
 
-KHONG GOM: cache detection (*.npz), ket qua cu khong doi, toan bo lich su log, dataset, weights, video,
-goi ZIP khac, va FILE RIENG CUA NGUOI DUNG (`.gitignore`, `src/demo/**`, `live.bat`, `outputs/**`).
+KHONG GOM: cache detection (*.npz), ket qua cu khong doi, toan bo lich su log, dataset, weights, engine
+TensorRT, video, goi ZIP khac, va FILE RIENG CUA NGUOI DUNG (`.gitignore`, `src/demo/**`, `live.bat`, `outputs/**`).
 
-    python src/make_review_delta.py                 # dung goi delta cho vong hien tai
+PATCH GIU NGUYEN BYTE (review 45e086a, R20-P2): patch la **bytes** doc thang tu stdout cua `git diff --binary`
+den luc ghi ZIP -- khong di qua che do text (universal newlines tung bien CRLF thanh LF va CR le thanh xuong
+dong). Viec kiem duong dan trong patch dung mot BAN XEM giai ma rieng; bytes goc khong bi bien doi.
+Sau khi dung goi, ROUNDTRIP duoc kiem tu dong: ap patch cua ZIP len base trong index TAM cua mot clone tam
+(`apply --cached`, khong qua worktree/chuyen doi dong) va so blob tung duong dan voi target.
+
+    python src/make_review_delta.py                 # dung goi delta cho vong hien tai (+ kiem roundtrip)
     python src/make_review_delta.py --dry-run       # chi in ra se gom nhung gi
+    python src/make_review_delta.py --kiem-roundtrip [goi.zip]    # chi kiem roundtrip mot goi da dung
+
+File thuoc snapshot base nhung KHONG BAO GIO duoc ban giao (vd. NPZ bi loai co chu y) duoc khai bao khi doi base
+va luon in trong DEPENDENCIES.md cua cac goi sau:
+
+    python src/make_review_delta.py --set-base <commit> --round <n> --giu-khai-bao <duong/dan>...
 """
 from __future__ import annotations
 
@@ -38,8 +50,12 @@ import datetime as dt
 import hashlib
 import io
 import json
+import os
+import shutil
+import stat
 import subprocess
 import sys
+import tempfile
 import zipfile
 from pathlib import Path
 
@@ -64,7 +80,7 @@ SKIP_PREFIXES = ("handoff/archive/", "handoff/phase2_review", "handoff/review_de
                  # review DA CO (base), nen gui lai chi lam phinh goi. Van commit cuc bo de doi chieu.
                  "results/phase2/_PRE_")
 #: --support: file KHONG doi so voi base, gui kem trong `support/` (khong patch, khong tinh la thay doi)
-SKIP_SUFFIXES = (".zip", ".npz", ".pt", ".pth", ".mp4", ".avi", ".mkv", ".mov", ".parquet", ".diff")
+SKIP_SUFFIXES = (".zip", ".npz", ".pt", ".pth", ".engine", ".mp4", ".avi", ".mkv", ".mov", ".parquet", ".diff")
 
 #: Phan loai file trong goi -> thu muc con trong ZIP.
 CODE_PREFIXES = ("src/", "configs/", "scripts/", "third_party/", "data/fixtures/")
@@ -78,7 +94,13 @@ PLACEHOLDER = "<!-- BASE_TARGET -->"
 
 
 def git(*args) -> str:
+    """Dau ra git dang TEXT -- chi cho ten file, commit, log. KHONG dung cho noi dung patch/file."""
     return subprocess.check_output(["git", *args], cwd=ROOT, text=True, encoding="utf-8", errors="replace")
+
+
+def git_bytes(*args) -> bytes:
+    """Dau ra git dang BYTES nguyen ven (khong universal newlines) -- dung cho patch."""
+    return subprocess.check_output(["git", *args], cwd=ROOT)
 
 
 def brief_text(base_info: dict, target: str) -> str:
@@ -153,12 +175,24 @@ def load_base() -> dict:
     return json.loads(BASE_FILE.read_text(encoding="utf-8"))
 
 
-def set_base(commit: str, rnd: int, snapshot: str | None, mo_ta: str | None) -> None:
+def set_base(commit: str, rnd: int, snapshot: str | None, mo_ta: str | None,
+             giu_khai_bao: list[str] | None = None) -> None:
     full = git("rev-parse", commit).strip()
     cur = json.loads(BASE_FILE.read_text(encoding="utf-8")) if BASE_FILE.exists() else {}
     lich_su = cur.get("lich_su", [])
     if cur.get("base_commit"):
         lich_su.append({k: cur.get(k) for k in ("vong", "base_commit", "base_snapshot", "cap_nhat_luc")})
+    # File thuoc snapshot base nhung KHONG BAO GIO duoc ban giao: khai bao cu duoc MANG SANG, khai bao moi
+    # lay sha256/bytes tai CHINH base moi. Neu khong khai bao, doi base se xoa dau vet cua chung khoi goi sau.
+    khai_bao = {k["path"]: k for k in cur.get("khai_bao_khong_ban_giao", [])}
+    for path in giu_khai_bao or []:
+        path = path.replace("\\", "/")
+        b = blob_at(full, path)
+        if b is None:
+            sys.exit(f"DUNG: --giu-khai-bao {path} khong co trong base {full[:7]}")
+        khai_bao[path] = {"path": path, "bytes": len(b), "sha256": sha256_bytes(b),
+                          "ly_do": skip_reason(path) or "khai bao tay: khong dong goi",
+                          "khai_bao_tu_base": full[:7], "vong": rnd}
     BASE_FILE.parent.mkdir(parents=True, exist_ok=True)
     BASE_FILE.write_text(json.dumps({
         "vong": rnd,
@@ -169,9 +203,11 @@ def set_base(commit: str, rnd: int, snapshot: str | None, mo_ta: str | None) -> 
         "cap_nhat_luc": dt.datetime.now().isoformat(timespec="seconds"),
         "ghi_chu": ("Base KHONG tu dong chay theo HEAD. Chi cap nhat khi nguoi review xac nhan da doc "
                     "mot snapshot moi (chay lai voi --set-base)."),
+        "khai_bao_khong_ban_giao": sorted(khai_bao.values(), key=lambda k: k["path"]),
         "lich_su": lich_su,
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"da ghi base = {full[:7]} (vong {rnd}) -> {BASE_FILE.relative_to(ROOT)}")
+    print(f"da ghi base = {full[:7]} (vong {rnd}) -> {BASE_FILE.relative_to(ROOT)}"
+          + (f"; khai bao khong ban giao: {len(khai_bao)} file" if khai_bao else ""))
 
 
 # --------------------------------------------------------------------------------------- thu thap
@@ -241,7 +277,9 @@ def collect(base: str, target: str) -> tuple[list[dict], list[dict]]:
 def _paths_trong_diff(patch: str) -> set[str]:
     """Moi duong dan xuat hien trong tung phan cua diff (khong chi ten thanh vien ZIP)."""
     out = set()
-    for ln in patch.splitlines():
+    # split("\n"), KHONG splitlines(): splitlines cat ca o CR le / \x0b / \x1c... ben trong noi dung file
+    for ln in patch.split("\n"):
+        ln = ln[:-1] if ln.endswith("\r") else ln
         if ln.startswith("diff --git "):
             for tok in ln[len("diff --git "):].split():
                 out.add(tok[2:] if tok[:2] in ("a/", "b/") else tok)
@@ -253,18 +291,20 @@ def _paths_trong_diff(patch: str) -> set[str]:
     return out
 
 
-def make_patch(base: str, target: str, paths: list[str]) -> str:
-    """Patch cho DUNG cac duong dan thuoc tap thay doi logic.
+def make_patch(base: str, target: str, paths: list[str]) -> bytes:
+    """Patch (BYTES nguyen ven tu stdout git) cho DUNG cac duong dan thuoc tap thay doi logic.
 
-    Sau khi sinh, kiem tra lai TUNG duong dan ben trong diff: neu co bat ky duong dan nao thuoc dien
-    bi loai (file rieng cua nguoi dung, du lieu lon...) thi dung han - khong dong goi.
+    Sau khi sinh, kiem tra lai TUNG duong dan ben trong diff (tren ban xem giai ma rieng, khong dong vao
+    bytes goc): neu co bat ky duong dan nao thuoc dien bi loai (file rieng cua nguoi dung, du lieu lon...)
+    thi dung han - khong dong goi.
     """
     if not paths:
-        return ""
+        return b""
     # --binary: file nhi phan nho (anh man hinh .png) duoc ma hoa day du trong patch -> `git apply` ap duoc
     # tren cay base sach; khong co no, git chi ghi "Binary files differ" va patch KHONG ap duoc.
-    patch = git("diff", "--no-renames", "--binary", f"{base}..{target}", "--", *paths)
-    lot = sorted(q for q in _paths_trong_diff(patch) if skip_reason(q))
+    # BYTES (R20-P2): che do text tung bien CRLF -> LF va CR le -> xuong dong (hong so dong cua hunk).
+    patch = git_bytes("diff", "--no-renames", "--binary", f"{base}..{target}", "--", *paths)
+    lot = sorted(q for q in _paths_trong_diff(patch.decode("utf-8", "replace")) if skip_reason(q))
     if lot:
         sys.exit("DUNG: patch chua duong dan thuoc dien bi loai: " + ", ".join(lot[:10]))
     return patch
@@ -331,6 +371,16 @@ def dependencies_md(base_info: dict, bo: list[dict], target: str, ho_tro: list[d
     for r in sorted(bo, key=lambda r: r["path"]):
         lines.append(f"| `{Path(r['path']).name}` | `{r['path']}` | `{(r['sha256_base'] or '-')[:12]}` | "
                      f"`{(r['sha256_target'] or '-')[:12]}` | {r['ly_do_khong_gom']} |")
+    khai_bao = base_info.get("khai_bao_khong_ban_giao") or []
+    if khai_bao:
+        lines += [
+            "", "## File thuoc snapshot base nhung CHUA TUNG duoc ban giao (khai bao giu nguyen qua cac lan doi base)", "",
+            "Cac file nay nam trong cay base nhung da bi loai co chu y o goi truoc; nguoi review **khong** co chung.",
+            "Khong dung chung de tai dung ca repository. sha256 tinh tai base luc khai bao.", "",
+            "| file | bytes | sha256 | khai bao tu base | ly do |", "|:--|--:|:--|:--|:--|",
+        ]
+        for k in khai_bao:
+            lines.append(f"| `{k['path']}` | {k['bytes']:,} | `{k['sha256']}` | `{k['khai_bao_tu_base']}` | {k['ly_do']} |")
     if ho_tro:
         lines += [
             "", "## File ho tro review gui kem (`support/`) -- KHONG phai thay doi cua vong nay", "",
@@ -348,6 +398,77 @@ def dependencies_md(base_info: dict, bo: list[dict], target: str, ho_tro: list[d
         f"Target commit: `{target[:7]}`. Moi hash trong goi tinh bang sha256.", "",
     ]
     return "\n".join(lines)
+
+
+# --------------------------------------------------------------------------------------- roundtrip
+
+
+def _rmtree(p: Path) -> None:
+    """Xoa thu muc tam ke ca object git chi-doc (Windows)."""
+    def _chmod_lai(fn, path, _exc):
+        os.chmod(path, stat.S_IWRITE)
+        fn(path)
+    shutil.rmtree(p, onerror=_chmod_lai)
+
+
+def kiem_roundtrip(zip_path: Path = ZIP) -> int:
+    """Ap patch TRONG ZIP len base va so blob tung duong dan voi target -- theo BYTE (blob id).
+
+    Clone `--shared --no-checkout` vao thu muc tam; `GIT_INDEX_FILE` tam + `read-tree <base>` +
+    `apply --cached` (chi index: khong worktree, khong chuyen doi dong/thuoc tinh). Repo that khong bi dong
+    vao index/config/worktree. Duong dan xoa -> phai vang mat; duong dan bi loai khong nam trong patch.
+    """
+    with zipfile.ZipFile(zip_path) as z:
+        mj = json.loads(z.read("MANIFEST.json"))
+        ten_patch = [n for n in z.namelist() if n.startswith("patch/") and n.endswith(".diff")]
+        patch = z.read(ten_patch[0]) if ten_patch else b""
+    base, target = mj["base_commit"], mj["target_commit"]
+    rows = [r for r in mj["file_trong_goi"] + mj["file_bo_qua"] if r.get("trong_patch")]
+    print(f"[roundtrip] {zip_path.name}: base {base[:7]} -> target {target[:7]}, patch {len(patch):,} B, "
+          f"{len(rows)} duong dan trong patch")
+    tmp = Path(tempfile.mkdtemp(prefix="delta_roundtrip_"))
+    loi = []
+    try:
+        clone = tmp / "r"
+        cfg = ["-c", "core.autocrlf=false", "-c", "core.eol=lf"]
+        subprocess.run(["git", *cfg, "clone", "-q", "--shared", "--no-checkout", str(ROOT), str(clone)],
+                       check=True, capture_output=True)
+        env = {**os.environ, "GIT_INDEX_FILE": str(tmp / "index_tam")}
+
+        def g(*args, **kw):
+            return subprocess.run(["git", *cfg, *args], cwd=clone, env=env, capture_output=True, **kw)
+
+        r = g("read-tree", base)
+        if r.returncode:
+            raise RuntimeError(f"read-tree {base[:7]}: {r.stderr.decode('utf-8', 'replace')}")
+        if patch:
+            (tmp / "p.diff").write_bytes(patch)
+            r = g("apply", "--cached", "--whitespace=nowarn", str(tmp / "p.diff"))
+            if r.returncode:
+                loi.append(f"git apply --cached exit {r.returncode}: {r.stderr.decode('utf-8', 'replace').strip()[:300]}")
+        idx = {}
+        for rec in g("ls-files", "-s", "-z").stdout.split(b"\0"):
+            if rec:
+                meta, path = rec.split(b"\t", 1)
+                idx[path.decode("utf-8")] = meta.split()[1].decode()
+        for row in rows:
+            p = row["path"]
+            want = subprocess.run(["git", "rev-parse", "-q", "--verify", f"{target}:{p}"], cwd=ROOT,
+                                  capture_output=True, text=True).stdout.strip() or None
+            got = idx.get(p)
+            if want != got:
+                loi.append(f"{p}: blob sau khi ap {got} != target {want}")
+            elif got is not None and row.get("sha256_target"):
+                b = subprocess.run(["git", "cat-file", "blob", got], cwd=clone, capture_output=True).stdout
+                if sha256_bytes(b) != row["sha256_target"]:
+                    loi.append(f"{p}: sha256 sau khi ap khac MANIFEST")
+    finally:
+        _rmtree(tmp)
+    print(f"[roundtrip] {len(rows) - len(loi)}/{len(rows)} duong dan khop target theo blob/sha256"
+          + ("" if not loi else "; LOI:"))
+    for e in loi[:20]:
+        print(f"    {e}")
+    return 1 if loi else 0
 
 
 # --------------------------------------------------------------------------------------- main
@@ -443,7 +564,9 @@ def build(base_info: dict, target: str, dry: bool, support: list[str] | None = N
     print(f"file bat buoc thieu: {thieu or 'khong'}")
     print(f"file CAM co trong ZIP: {len(xau)} {xau[:5]}")
     print(f"thu tu doc: REVIEW_BRIEF.md -> {patch_name} -> logs/ + data/ -> DEPENDENCIES.md")
-    return 1 if (thieu or xau) else 0
+    if thieu or xau:
+        return 1
+    return kiem_roundtrip(ZIP)
 
 
 def main() -> int:
@@ -459,13 +582,21 @@ def main() -> int:
     ap.add_argument("--support", nargs="*", default=None, metavar="PATH",
                     help="file KHONG doi so voi base gui kem trong support/ de ho tro review "
                          "(khong vao patch, khong tinh la thay doi); file co doi -> tu choi")
+    ap.add_argument("--giu-khai-bao", nargs="*", default=None, metavar="PATH",
+                    help="(di kem --set-base) file thuoc base nhung KHONG ban giao; giu khai bao trong DEPENDENCIES.md")
+    ap.add_argument("--kiem-roundtrip", nargs="?", const=str(ZIP), default=None, metavar="ZIP",
+                    help="chi kiem roundtrip patch cua mot goi da dung (mac dinh review_delta_latest.zip)")
     a = ap.parse_args()
 
+    if a.kiem_roundtrip:
+        return kiem_roundtrip(Path(a.kiem_roundtrip))
     if a.set_base:
         if a.round is None:
             sys.exit("--set-base can di kem --round <n>")
-        set_base(a.set_base, a.round, a.base_snapshot, a.base_note)
+        set_base(a.set_base, a.round, a.base_snapshot, a.base_note, a.giu_khai_bao)
         return 0
+    if a.giu_khai_bao:
+        sys.exit("--giu-khai-bao chi dung cung --set-base")
 
     info = load_base()
     if a.base:
