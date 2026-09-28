@@ -1,0 +1,448 @@
+{
+  "trang_thai": "hoan_tat",
+  "ma_thoat": 0,
+  "chi_tiet": "30 frame, ly do EOS: het_nguon",
+  "hoan_tat": true,
+  "dem": {
+    "n_frames_khai_bao": 30,
+    "max_frames": null,
+    "n_frame_nhan": 30,
+    "n_frame_da_xu_ly": 30,
+    "n_frame_vao_tracker_doc_duoc": 30,
+    "n_frame_bay_khi_dung_khong_xu_ly": 0,
+    "n_unreadable": 0,
+    "n_truncated": 0,
+    "n_hang_mot": 0,
+    "n_track": 0
+  },
+  "che_do": {
+    "gia_lap": false,
+    "detector": "tensorrt",
+    "che_do_doi_chieu_regions": false,
+    "regions_sha256": null,
+    "render": false,
+    "can_gt": false
+  },
+  "hello_con": {
+    "bindings": [
+      {
+        "dtype": "float32",
+        "input": true,
+        "name": "images",
+        "shape": [
+          1,
+          3,
+          640,
+          640
+        ]
+      },
+      {
+        "dtype": "float32",
+        "input": false,
+        "name": "output0",
+        "shape": [
+          1,
+          84,
+          8400
+        ]
+      }
+    ],
+    "bo_dem": "cudart",
+    "classes": null,
+    "conf": 0.05,
+    "detector": "tensorrt",
+    "engine": "/home/jetson/nano_run/engine/yolov8n_fp16.engine",
+    "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+    "fps": 25.0,
+    "hang_doi": 4,
+    "imgsz": 640,
+    "iou": 0.7,
+    "lam_nong": 3,
+    "letterbox": "auto=False 640x640 (ONNX static)",
+    "max_det": 3000,
+    "max_frames": null,
+    "n_frames_khai_bao": 30,
+    "n_regions": 0,
+    "nguon": {
+      "duong_dan": "/home/jetson/nano_run/v7/nano_transfer/results_nano/live_v7/parity/D_anh_den_src",
+      "fps": 25.0,
+      "fps_metadata": null,
+      "loai": "image_dir",
+      "n_frames_khai_bao": 30,
+      "quy_uoc": "sap theo GIA TRI SO o cuoi ten file; time_s = (idx-1)/fps",
+      "sha256": null,
+      "ten": "D_anh_den_src"
+    },
+    "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+    "orig_shape": [
+      540,
+      960
+    ],
+    "phien_ban_proto": 1,
+    "pid": 7663,
+    "regions": null,
+    "regions_sha256": null,
+    "t_khoi_tao_s": 7.817568534999964,
+    "versions": {
+      "bo_dem": "cudart",
+      "numpy": "1.19.5",
+      "opencv": "3.2.0",
+      "python": "3.6.9",
+      "tensorrt": "8.2.1.9"
+    }
+  },
+  "eos_con": {
+    "hang_doi": 4,
+    "ly_do": "het_nguon",
+    "max_in_flight": 2,
+    "n_frame_gui": 30,
+    "n_frames_khai_bao": 30
+  },
+  "con": {
+    "returncode": 0,
+    "cach_ket_thuc": "tu_thoat",
+    "bi_kill_vi_treo": false
+  },
+  "lenh_con": [
+    "/usr/bin/python3",
+    "/home/jetson/nano_run/v7/nano_transfer/src/nano_detect_stream.py",
+    "--source",
+    "/home/jetson/nano_run/v7/nano_transfer/results_nano/live_v7/parity/D_anh_den_src",
+    "--imgsz",
+    "640",
+    "--conf",
+    "0.05",
+    "--iou",
+    "0.7",
+    "--max-det",
+    "3000",
+    "--hang-doi",
+    "4",
+    "--lam-nong",
+    "3",
+    "--bo-dem",
+    "cudart",
+    "--fps",
+    "25.0",
+    "--engine",
+    "/home/jetson/nano_run/engine/yolov8n_fp16.engine",
+    "--onnx-sha256",
+    "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451"
+  ],
+  "cau_hinh": {
+    "tracker_yaml": "bytetrack.yaml",
+    "tracker_yaml_sha256_12": "395701d947a7",
+    "tracker_cfg": {
+      "tracker_type": "bytetrack",
+      "track_high_thresh": 0.25,
+      "track_low_thresh": 0.1,
+      "new_track_thresh": 0.25,
+      "track_buffer": 30,
+      "match_thresh": 0.8,
+      "fuse_score": true
+    },
+    "overrides": {
+      "track_buffer": 30
+    },
+    "conf_min": 0.25,
+    "classes": [
+      1,
+      2,
+      3,
+      5,
+      7
+    ],
+    "class_map": null,
+    "max_det": 300,
+    "fps": 25.0,
+    "dt_nominal_s": 0.04,
+    "track_buffer_frames": 30,
+    "track_buffer_sec": 1.2,
+    "elapsed_mode": "steps",
+    "det_conf": 0.05,
+    "det_iou": 0.7,
+    "det_max_det": 3000,
+    "imgsz": 640,
+    "hang_doi": 4,
+    "allow_truncated": false,
+    "cho_phep_frame_hong": false,
+    "gia_lap_cham_tracker_ms": 0.0
+  },
+  "thoi_gian": {
+    "wall_khoi_tao_s": 8.338908559999936,
+    "wall_vong_lap_s": 2.618048599999838,
+    "wall_ghi_s": 0.022344945999975607,
+    "fps_vong_lap": 11.45891638528095,
+    "tom_tat_sau_warmup": {
+      "decode_ms": {
+        "n": 5,
+        "trung_vi": 2.1821499999532534,
+        "tb": 2.209275399991384,
+        "p90": 2.307463999841275,
+        "min": 2.1538690000397764,
+        "max": 2.307463999841275
+      },
+      "mask_ms": {
+        "n": 5,
+        "trung_vi": 0.0009380000847158954,
+        "tb": 0.0009167999905912438,
+        "p90": 0.0009899999895424116,
+        "min": 0.00072900002123788,
+        "max": 0.0009899999895424116
+      },
+      "pre_ms": {
+        "n": 5,
+        "trung_vi": 10.5685609999,
+        "tb": 10.459768800001257,
+        "p90": 10.645436999993763,
+        "min": 9.976837999829513,
+        "max": 10.645436999993763
+      },
+      "infer_ms": {
+        "n": 5,
+        "trung_vi": 73.80581300003541,
+        "tb": 73.90944919998219,
+        "p90": 74.10909600002924,
+        "min": 73.77763599993159,
+        "max": 74.10909600002924
+      },
+      "h2d_ms": {
+        "n": 5,
+        "trung_vi": 2.745643000025666,
+        "tb": 2.793997999970088,
+        "p90": 3.040281000039613,
+        "min": 2.711267999984557,
+        "max": 3.040281000039613
+      },
+      "exec_ms": {
+        "n": 5,
+        "trung_vi": 68.39400600006229,
+        "tb": 68.38321380005254,
+        "p90": 68.42556800006605,
+        "min": 68.31015100010518,
+        "max": 68.42556800006605
+      },
+      "d2h_ms": {
+        "n": 5,
+        "trung_vi": 1.681418000089252,
+        "tb": 1.746303399977478,
+        "p90": 2.0852739999099867,
+        "min": 1.5840210000988009,
+        "max": 2.0852739999099867
+      },
+      "post_ms": {
+        "n": 5,
+        "trung_vi": 3.4576800001104857,
+        "tb": 3.5825452000608493,
+        "p90": 3.887058000145771,
+        "min": 3.4236170001804567,
+        "max": 3.887058000145771
+      },
+      "cho_credit_ms": {
+        "n": 5,
+        "trung_vi": 0.0025000001642183634,
+        "tb": 0.0024895999558793847,
+        "p90": 0.0029170000743761193,
+        "min": 0.0020829997993132565,
+        "max": 0.0029170000743761193
+      },
+      "cho_doc_ms": {
+        "n": 5,
+        "trung_vi": 89.18305299994245,
+        "tb": 89.14128179999352,
+        "p90": 89.33237700011887,
+        "min": 88.94992599994112,
+        "max": 89.33237700011887
+      },
+      "truyen_ms": {
+        "n": 5,
+        "trung_vi": 0.3647949999958655,
+        "tb": 0.3605647999847861,
+        "p90": 0.38911699994059745,
+        "min": 0.33401199993932096,
+        "max": 0.38911699994059745
+      },
+      "loc_ms": {
+        "n": 5,
+        "trung_vi": 0.05062499985797331,
+        "tb": 0.05036480001763266,
+        "p90": 0.053073000117365154,
+        "min": 0.04713600014838448,
+        "max": 0.053073000117365154
+      },
+      "xu_ly_ms": {
+        "n": 5,
+        "trung_vi": 1.1882370001785603,
+        "tb": 1.2153310000030615,
+        "p90": 1.3581859998339496,
+        "min": 1.1576120000427181,
+        "max": 1.3581859998339496
+      },
+      "frame_total_cha_ms": {
+        "n": 5,
+        "trung_vi": 90.56774999999107,
+        "tb": 91.2638796000465,
+        "p90": 94.27751500015802,
+        "min": 90.40623800001413,
+        "max": 94.27751500015802
+      },
+      "tre_ms": {
+        "n": 5,
+        "trung_vi": 92.15734400004294,
+        "tb": 92.81191080008284,
+        "p90": 95.75570200013317,
+        "min": 91.91213400004017,
+        "max": 95.75570200013317
+      },
+      "t_update_ms": {
+        "n": 5,
+        "trung_vi": 0.9434959999907733,
+        "tb": 0.9739546000218979,
+        "p90": 1.1108410001270386,
+        "min": 0.9195900001941482,
+        "max": 1.1108410001270386
+      },
+      "khoang_giua_frame_ms": {
+        "n": 4,
+        "trung_vi": 90.52329600001485,
+        "tb": 91.43801600004053,
+        "p90": 94.28449400002137,
+        "min": 90.42097800011106,
+        "max": 94.28449400002137
+      },
+      "fps_on_dinh": 10.955700650707904,
+      "n_frame_tong_ket": 5,
+      "warmup_bo": 25
+    },
+    "pham_vi": "xem docstring src/nano_live.py (PHAM VI DO); khong render; khong gom khoi tao/ghi"
+  },
+  "thiet_bi": {
+    "truoc": {
+      "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+      "cpu_governor": "schedutil",
+      "nhiet_do_C": {
+        "AO-therm": 42.5,
+        "CPU-therm": 33.0,
+        "GPU-therm": 30.5,
+        "PLL-therm": 31.0,
+        "PMIC-Die": 50.0,
+        "thermal-fan-est": 32.75
+      },
+      "thoi_diem": "2026-09-28T12:12:20",
+      "xung": {
+        "cpu0": 1479000,
+        "cpu1": 1479000,
+        "cpu2": 1479000,
+        "cpu3": 1479000,
+        "gpu_cur_freq": 76800000
+      },
+      "meminfo_kB": {
+        "MemTotal": "4050768 kB",
+        "MemAvailable": "2637588 kB",
+        "SwapTotal": "6219676 kB",
+        "SwapFree": "6203692 kB"
+      }
+    },
+    "sau": {
+      "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+      "cpu_governor": "schedutil",
+      "nhiet_do_C": {
+        "AO-therm": 42.5,
+        "CPU-therm": 33.5,
+        "GPU-therm": 31.5,
+        "PLL-therm": 31.5,
+        "PMIC-Die": 50.0,
+        "thermal-fan-est": 34.0
+      },
+      "thoi_diem": "2026-09-28T12:12:32",
+      "xung": {
+        "cpu0": 1224000,
+        "cpu1": 1224000,
+        "cpu2": 1224000,
+        "cpu3": 1224000,
+        "gpu_cur_freq": 921600000
+      },
+      "meminfo_kB": {
+        "MemTotal": "4050768 kB",
+        "MemAvailable": "2636396 kB",
+        "SwapTotal": "6219676 kB",
+        "SwapFree": "6203692 kB"
+      }
+    },
+    "tegrastats": {
+      "co_tegrastats": true,
+      "n_mau": 5,
+      "ram_dung_MB_max": 2678,
+      "swap_dung_MB_max": 16,
+      "cpu_MHz_min_max": [
+        1224,
+        1479
+      ],
+      "cpu_pct_tb": 13.4,
+      "gr3d_pct_tb_max": [
+        56.4,
+        99
+      ],
+      "nhiet_max_C": {
+        "PLL": 32.0,
+        "CPU": 35.5,
+        "PMIC": 50.0,
+        "GPU": 32.5,
+        "AO": 45.5,
+        "thermal": 34.0
+      }
+    },
+    "tegrastats_log": "tegrastats.log"
+  },
+  "cache": {
+    "cache_id": null,
+    "cache_root": "/home/jetson/nano_run/v7/nano_transfer/data/interim/det_cache",
+    "info": null
+  },
+  "replay_argv": [
+    "python",
+    "src/run_tracking.py",
+    "--cache-id",
+    "<cache>",
+    "--split-name",
+    "<split>",
+    "--tracker-yaml",
+    "bytetrack.yaml",
+    "--tracker-name",
+    "<ten>",
+    "--videos",
+    "den",
+    "--conf-min",
+    "0.25",
+    "--classes",
+    "1",
+    "2",
+    "3",
+    "5",
+    "7",
+    "--max-det",
+    "300",
+    "--fps",
+    "25",
+    "--track-buffer-sec",
+    "1.2",
+    "--elapsed-mode",
+    "steps"
+  ],
+  "provenance": {
+    "file_ma_sha256_lf": {
+      "nano_live.py": "a619c8c309a4cb2d598f53802ad6684ba97a6e51509377f468a273c8d7c85119",
+      "nano_detect_stream.py": "7d3bce582f9fd73d9ba1a710e8d0818afd7da3b4e5002b2969d64cc9d573e1e2",
+      "nano_stream_proto.py": "f6344073f23b43ce841781db29dd7093a3e8d6c0be7404194117ed1bced84ec1",
+      "nano_detector.py": "85a712e1ba92a037fd84b12f178ad4fbca49bd817f0e06bbc30a6b086df7d6f4",
+      "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+      "det_cache.py": "5e22037a758a06f99227272d5ad685c36c52a70e912abda84ee0459eea287d2f"
+    },
+    "git_commit": null,
+    "tracker_backend": "np",
+    "package_info": {},
+    "package_info_sha256": "aada5b116ea997428e67a2560e136b50f81d1081c59c64d91998576cc35c23f7"
+  },
+  "python": "3.8.20",
+  "created": "2026-09-28T12:12:32"
+}

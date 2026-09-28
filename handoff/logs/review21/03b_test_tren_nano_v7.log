@@ -1,0 +1,24 @@
+# 03b. test tren Nano (v7 6dc4100d) - 2026-09-28T12:07:09+08:00
+== test_nano_parity
+KET QUA: 20/20 phep kiem tra PASS
+== test_nano_run_cache
+KET QUA: 9/9 phep kiem tra PASS
+== test_nano_stream --python-detector /usr/bin/python3
+cha: 3.8.20 | con: /usr/bin/python3 | backend np
+  [PASS] 1. giao thuc: FRAME (ke ca n=0, co unreadable), HELLO/EOS, EOF sach -> None; EOF giua chung / magic sai -> loi
+  [PASS] 2. CV: exit 0, hoan_tat, 40 frame, timing co ca frame rong (11-13), replay tu cache khop
+  [PASS] 3. EKF: exit 0, hoan_tat, 40 frame, timing co ca frame rong (11-13), replay tu cache khop
+  [PASS] 4. video .mp4: so frame == khai bao, time_s == (idx-1)/fps, hoan_tat
+  [PASS] 5. stop-file: exit 4, da_dung, 0 < frame < N, cache == frame da xu ly, replay khop, con thoat 0 voi EOS dung
+  [PASS] 5b. SIGINT vao tien trinh cha: exit 4, da_dung, con thoat 0
+  [PASS] 6. con loi o frame 10 (thoat 3, khong EOS): exit 3, loi_tien_trinh_con, KHONG hoan_tat, 9 frame da xu ly duoc ghi
+  [PASS] 7. con bi kill giua chung: exit 3, loi_tien_trinh_con, KHONG hoan_tat
+  [PASS] 8. con bo frame 7: exit 3, loi_mat_frame (mong 7 nhan 8), 6 frame da xu ly
+  [PASS] 9. anh hong (frame 5 rac, frame 6 BMP bi cat): mac dinh exit 3 loi_dau_vao; --cho-phep-frame-hong -> exit 0, unreadable 2, con KHONG chet, replay khop
+  [PASS] 10. loi truoc vong lap -> exit 2: nguon/engine khong co, thu muc da co ket qua, con loi khoi tao (ERROR truoc HELLO)
+  [PASS] 11. cua so K=2 + tracker cham: du N frame (khong bo), max_in_flight <= 2, con phai cho credit
+  [PASS] 12. cham tran det_max_det o frame 15: mac dinh exit 3; --allow-truncated -> exit 0, replay (--allow-truncated) khop
+  [PASS] 13. --regions (che do doi chieu): metadata ghi co + sha256 file vung, van hoan_tat
+  [SKIP] 14. detector that TorchPtInfer (PC): khong co models/yolov8n.pt / anh DETRAC, hoac dang chay tren Nano
+KET QUA: 14/14 phep kiem tra PASS, 1 SKIP
+exit=0

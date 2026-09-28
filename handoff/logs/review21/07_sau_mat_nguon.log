@@ -1,0 +1,31 @@
+# 07. sau lan mat nguon trong luc do (CHI DOC) - 2026-09-28T12:19:14+08:00 | boot 2026-09-28 11:53:15 | up 25 minutes
+the: /dev/mmcblk1p1 rw,relatime,data=ordered | df: /dev/mmcblk1p1 58G 27G 28G 49% /
+ext4 errors_count: 0
+== dmesg EXT4/recovery:
+[    5.192738] EXT4-fs (mmcblk1p1): 15 orphan inodes deleted
+[    5.192741] EXT4-fs (mmcblk1p1): recovery complete
+[    5.221320] EXT4-fs (mmcblk1p1): mounted filesystem with ordered data mode. Opts: (null)
+[    7.646198] EXT4-fs (mmcblk1p1): re-mounted. Opts: (null)
+[   62.415443] EXT4-fs (mmcblk0p1): recovery complete
+== last -x:
+jetson   pts/0        10.11.52.82      Mon Sep 28 12:16:57 2026   still logged in
+jetson   :0           :0               Mon Sep 28 11:53:57 2026   still logged in
+runlevel (to lvl 5)   4.9.337-tegra    Mon Sep 28 11:53:53 2026   still running
+reboot   system boot  4.9.337-tegra    Mon Sep 28 11:53:21 2026   still running
+jetson   pts/1        10.11.52.82      Mon Sep 28 11:08:49 2026 - Mon Sep 28 11:09:00 2026  (00:00)
+jetson   :0           :0               Thu Sep 24 12:56:24 2026 - crash                    (3+22:56)
+== bench: dieu_kien_da_cong_bo.sha256 luot01_cv_r1 luot02_ekf_r1 luot03_ekf_r2 luot04_cv_r2 luot05_cv_r3 
+xong? cat: results_nano/live_v7/bench_xong.txt: No such file or directory
+== bench.log (luot):
+5
+  luot 1 cv: exit 0 hoan_tat fps 9.114772449591301
+  luot 2 ekf: exit 0 hoan_tat fps 9.373721991430525
+  luot 3 ekf: exit 0 hoan_tat fps 9.442502299590153
+  luot 4 cv: exit 0 hoan_tat fps 9.364385783884055
+  luot 4 cv: exit 0 hoan_tat fps 9.364385783884055
+(nghi 20.0 s)
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/bench/luot05_cv_r3 --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker cv --warmup-frames 25 --hang-doi 4 --tegrastats-ms 500
+== engine: c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a
+== manifest v7:
+MANIFEST v7 khop
+== parity: doc duoc, dat_tat_ca= True 13

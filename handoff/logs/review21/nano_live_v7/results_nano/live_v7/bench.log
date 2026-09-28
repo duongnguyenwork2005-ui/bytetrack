@@ -1,0 +1,157 @@
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/bench/luot01_cv_r1 --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker cv --warmup-frames 25 --hang-doi 4 --tegrastats-ms 500
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.5s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/bench/luot01_cv_r1/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1272 hang MOT, vong lap 32.91s (9.11 fps), khoi tao 8.5s, ghi 0.10s -> results_nano/live_v7/bench/luot01_cv_r1
+  luot 1 cv: exit 0 hoan_tat fps 9.114772449591301
+(nghi 20.0 s)
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/bench/luot02_ekf_r1 --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker ekf --warmup-frames 25 --hang-doi 4 --tegrastats-ms 500
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.4s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/bench/luot02_ekf_r1/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1270 hang MOT, vong lap 32.00s (9.37 fps), khoi tao 8.4s, ghi 0.11s -> results_nano/live_v7/bench/luot02_ekf_r1
+  luot 2 ekf: exit 0 hoan_tat fps 9.373721991430525
+(nghi 20.0 s)
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/bench/luot03_ekf_r2 --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker ekf --warmup-frames 25 --hang-doi 4 --tegrastats-ms 500
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 9.3s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/bench/luot03_ekf_r2/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1270 hang MOT, vong lap 31.77s (9.44 fps), khoi tao 9.3s, ghi 0.11s -> results_nano/live_v7/bench/luot03_ekf_r2
+  luot 3 ekf: exit 0 hoan_tat fps 9.442502299590153
+(nghi 20.0 s)
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/bench/luot04_cv_r2 --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker cv --warmup-frames 25 --hang-doi 4 --tegrastats-ms 500
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.6s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/bench/luot04_cv_r2/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1272 hang MOT, vong lap 32.04s (9.36 fps), khoi tao 8.6s, ghi 0.10s -> results_nano/live_v7/bench/luot04_cv_r2
+  luot 4 cv: exit 0 hoan_tat fps 9.364385783884055
+(nghi 20.0 s)
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/bench/luot05_cv_r3 --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker cv --warmup-frames 25 --hang-doi 4 --tegrastats-ms 500
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 9.0s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/bench/luot05_cv_r3/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1272 hang MOT, vong lap 32.29s (9.29 fps), khoi tao 9.0s, ghi 0.10s -> results_nano/live_v7/bench/luot05_cv_r3
+  luot 5 cv: exit 0 hoan_tat fps 9.290289855041747
+(nghi 20.0 s)
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/bench/luot06_ekf_r3 --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker ekf --warmup-frames 25 --hang-doi 4 --tegrastats-ms 500
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.7s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/bench/luot06_ekf_r3/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1270 hang MOT, vong lap 32.31s (9.29 fps), khoi tao 8.7s, ghi 0.10s -> results_nano/live_v7/bench/luot06_ekf_r3
+  luot 6 ekf: exit 0 hoan_tat fps 9.286187833116195
+{
+ "cv": {
+  "n_luot_hop_le": 3,
+  "fps_vong_lap": {
+   "trung_vi": 9.290289855041747,
+   "min": 9.114772449591301,
+   "max": 9.364385783884055
+  },
+  "fps_on_dinh": {
+   "trung_vi": 9.275756777967242,
+   "min": 9.057639635257228,
+   "max": 9.324359265177332
+  },
+  "tre_ms_tv": {
+   "trung_vi": 114.80960500011861,
+   "min": 114.57107299997915,
+   "max": 118.59995000008894
+  },
+  "infer_ms_tv": {
+   "trung_vi": 74.1041689998383,
+   "min": 73.6043439999321,
+   "max": 74.15592999996079
+  },
+  "t_update_ms_tv": {
+   "trung_vi": 5.671928000083426,
+   "min": 5.651832000012291,
+   "max": 5.763812999930451
+  },
+  "decode_ms_tv": {
+   "trung_vi": 11.524228000098447,
+   "min": 11.51632599999175,
+   "max": 16.311007000012978
+  },
+  "pre_ms_tv": {
+   "trung_vi": 13.332966999996643,
+   "min": 13.331095000012283,
+   "max": 13.502683999831788
+  },
+  "post_ms_tv": {
+   "trung_vi": 7.295409000107611,
+   "min": 7.2029030000067,
+   "max": 7.372976000169729
+  },
+  "wall_khoi_tao_s": {
+   "trung_vi": 8.551037707999967,
+   "min": 8.498792631000015,
+   "max": 8.975474184999939
+  }
+ },
+ "ekf": {
+  "n_luot_hop_le": 3,
+  "fps_vong_lap": {
+   "trung_vi": 9.373721991430525,
+   "min": 9.286187833116195,
+   "max": 9.442502299590153
+  },
+  "fps_on_dinh": {
+   "trung_vi": 9.370898236552575,
+   "min": 9.26563220320517,
+   "max": 9.402730662021753
+  },
+  "tre_ms_tv": {
+   "trung_vi": 114.36722799999188,
+   "min": 114.1747829999531,
+   "max": 115.78022599996984
+  },
+  "infer_ms_tv": {
+   "trung_vi": 74.05943300000217,
+   "min": 73.7194680000357,
+   "max": 74.06338600003437
+  },
+  "t_update_ms_tv": {
+   "trung_vi": 6.478792000052636,
+   "min": 6.391502000042237,
+   "max": 6.5610009999090835
+  },
+  "decode_ms_tv": {
+   "trung_vi": 11.490896000168505,
+   "min": 11.429876000192962,
+   "max": 11.559155999975701
+  },
+  "pre_ms_tv": {
+   "trung_vi": 13.359039999841116,
+   "min": 13.293333000092389,
+   "max": 13.467336000076102
+  },
+  "post_ms_tv": {
+   "trung_vi": 7.313868999972328,
+   "min": 7.260428999870783,
+   "max": 7.393521999802033
+  },
+  "wall_khoi_tao_s": {
+   "trung_vi": 8.701586612000028,
+   "min": 8.436411109000119,
+   "max": 9.29931296299992
+  }
+ }
+}

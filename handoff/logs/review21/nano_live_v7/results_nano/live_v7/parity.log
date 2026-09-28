@@ -1,0 +1,128 @@
+== A. gia lap tren 300 JPG that + cache smoke -> phai trung pc-ref smoke
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/parity/A_gialap_cv --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --gia-lap-cache data/interim/det_cache/nano_smoke_MVI_39031_f0001-0300 --gia-lap-video MVI_39031 --tracker cv
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] gia_lap | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 1.7s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/parity/A_gialap_cv/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 545 hang MOT, vong lap 4.59s (65.40 fps), khoi tao 1.7s, ghi 0.07s -> results_nano/live_v7/parity/A_gialap_cv
+  [DAT] A. gia lap CV (300 JPG that, cache smoke) == pc-ref smoke
+         {"exit": 0, "trang_thai": "hoan_tat", "parity": {"exit": 0, "dong_cuoi": "-> results_nano/live_v7/parity/A_parity_cv.json", "byte_giong_het_LF": true, "sha256_LF_test": "e3aa27bb4f77732b"}}
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/parity/A_gialap_ekf --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --gia-lap-cache data/interim/det_cache/nano_smoke_MVI_39031_f0001-0300 --gia-lap-video MVI_39031 --tracker ekf
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] gia_lap | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 1.7s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/parity/A_gialap_ekf/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 545 hang MOT, vong lap 3.47s (86.38 fps), khoi tao 1.7s, ghi 0.07s -> results_nano/live_v7/parity/A_gialap_ekf
+  [DAT] A. gia lap EKF (300 JPG that, cache smoke) == pc-ref smoke
+         {"exit": 0, "trang_thai": "hoan_tat", "parity": {"exit": 0, "dong_cuoi": "-> results_nano/live_v7/parity/A_parity_ekf.json", "byte_giong_het_LF": true, "sha256_LF_test": "f22f615ab3621593"}}
+== B. TensorRT that: live -> save-cache -> replay run_tracking -> nano_parity
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/parity/B_trt_cv --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker cv --save-cache live_trt_cv_20260928120942
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.4s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/parity/B_trt_cv/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1272 hang MOT, vong lap 31.66s (9.47 fps), khoi tao 8.4s, ghi 0.13s -> results_nano/live_v7/parity/B_trt_cv
+$ /home/jetson/miniforge3/envs/nano/bin/python src/run_tracking.py --cache-id live_trt_cv_20260928120942 --split-name NANO-live-20260928120942 --tracker-yaml bytetrack.yaml --tracker-name replay-cv --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[run_tracking] cache=live_trt_cv_20260928120942 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-cv                    MVI_39031        300 frame ->   1,272 bbox   14 track  predict 0.65 ms/frame  assoc 4.26  (1.7s, 173 fps)
+  replay-cv                      1 video moi,   0 tai su dung
+  [DAT] B. TensorRT CV: live == replay tu cache cung cau hinh (tolerance cong bo, khong noi)
+         {"exit_live": 0, "trang_thai": "hoan_tat", "dem": {"n_frames_khai_bao": 300, "max_frames": null, "n_frame_nhan": 300, "n_frame_da_xu_ly": 300, "n_frame_vao_tracker_doc_duoc": 300, "n_frame_bay_khi_dung_khong_xu_ly": 0, "n_unreadable": 0, "n_truncated": 0, "n_hang_mot": 1272, "n_track": 14}, "exit_replay": 0, "parity": {"exit": 0, "dong_cuoi": "-> results_nano/live_v7/parity/B_parity_cv.json", "byte_giong_het_LF": true, "sha256_LF_test": "15ab38b4c303f5a2"}, "fps_vong_lap": 9.474990892357656, "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a"}
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/parity/B_trt_ekf --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker ekf --save-cache live_trt_ekf_20260928120942
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.0s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/parity/B_trt_ekf/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1270 hang MOT, vong lap 31.70s (9.46 fps), khoi tao 8.0s, ghi 0.14s -> results_nano/live_v7/parity/B_trt_ekf
+$ /home/jetson/miniforge3/envs/nano/bin/python src/run_tracking.py --cache-id live_trt_ekf_20260928120942 --split-name NANO-live-20260928120942 --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name replay-ekf --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[run_tracking] cache=live_trt_ekf_20260928120942 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-ekf                   MVI_39031        300 frame ->   1,270 bbox   15 track  predict 1.18 ms/frame  assoc 4.37  (1.9s, 156 fps)
+  replay-ekf                     1 video moi,   0 tai su dung
+  [DAT] B. TensorRT EKF: live == replay tu cache cung cau hinh (tolerance cong bo, khong noi)
+         {"exit_live": 0, "trang_thai": "hoan_tat", "dem": {"n_frames_khai_bao": 300, "max_frames": null, "n_frame_nhan": 300, "n_frame_da_xu_ly": 300, "n_frame_vao_tracker_doc_duoc": 300, "n_frame_bay_khi_dung_khong_xu_ly": 0, "n_unreadable": 0, "n_truncated": 0, "n_hang_mot": 1270, "n_track": 15}, "exit_replay": 0, "parity": {"exit": 0, "dong_cuoi": "-> results_nano/live_v7/parity/B_parity_ekf.json", "byte_giong_het_LF": true, "sha256_LF_test": "238dbb2ae5c6d948"}, "fps_vong_lap": 9.463672495262545, "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a"}
+== C. MO TA: detection TRT (che do doi chieu --regions) vs cache PC; TRT lan CV vs lan EKF
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/parity/C_trt_regions_cv --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker cv --regions data/smoke/MVI_39031/ignored_regions.txt --save-cache live_trt_regions_20260928120942
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 9.5s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/parity/C_trt_regions_cv/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 550 hang MOT, vong lap 31.46s (9.54 fps), khoi tao 9.5s, ghi 0.10s -> results_nano/live_v7/parity/C_trt_regions_cv
+  [MO TA] C. detection TRT(regions) vs cache PC PyTorch (c25) -- khac detector, KHONG la tieu chi
+         {"exit_live": 0, "exit": 0, "tom_tat": ["[det_compare] MVI_39031: frame chung 300 | box a=581 b=584 cap=578 (ghep a 0.9948, b 0.9897) | IoU tb 0.9885274637941671 | |dconf| tb 0.008644708197009604 max 0.18792304396629333 | trung lop 0.9930795847750865 | chenh box/frame tb 0.01 (bang nhau 291 frame)", "-> results_nano/live_v7/parity/C_det_compare_c25.json"]}
+  [MO TA] C. detection TRT(regions) vs cache PC PyTorch (tho) -- khac detector, KHONG la tieu chi
+         {"exit_live": 0, "exit": 0, "tom_tat": ["[det_compare] MVI_39031: frame chung 300 | box a=845 b=869 cap=838 (ghep a 0.9917, b 0.9643) | IoU tb 0.9832221240445367 | |dconf| tb 0.011975578376956657 max 0.5311410054564476 | trung lop 0.9880668257756563 | chenh box/frame tb 0.08 (bang nhau 262 frame)", "-> results_nano/live_v7/parity/C_det_compare_tho.json"]}
+  [MO TA] C. detection TRT lan CV vs lan EKF (cung engine, cung anh)
+         {"giong_het_bit": true, "n_box": [2938, 2938], "max_abs_lech": 0.0}
+== D. bien
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/parity/D1_anh_den --progress-every 100 --source results_nano/live_v7/parity/D_anh_den_src --fps 25 --video-name den --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker cv
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir den: 30 frame khai bao, fps 25, khoi tao 8.3s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/parity/D1_anh_den/STOP hoac Ctrl+C
+[nano_live] HOAN_TAT (ma 0): 30 frame, ly do EOS: het_nguon
+[nano_live] 30 frame xu ly, 0 hang MOT, vong lap 2.62s (11.46 fps), khoi tao 8.3s, ghi 0.02s -> results_nano/live_v7/parity/D1_anh_den
+  [DAT] D1. 30 anh den (frame rong): exit 0, 0 hang MOT, timing du 30 frame (vong doi van cap nhat)
+         {"exit": 0, "dem": {"n_frames_khai_bao": 30, "max_frames": null, "n_frame_nhan": 30, "n_frame_da_xu_ly": 30, "n_frame_vao_tracker_doc_duoc": 30, "n_frame_bay_khi_dung_khong_xu_ly": 0, "n_unreadable": 0, "n_truncated": 0, "n_hang_mot": 0, "n_track": 0}, "n_timing": 30}
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/parity/D2_mp4 --progress-every 100 --source data/smoke/MVI_39031_f0001-0300.mp4 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker cv
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | video_file MVI_39031: 300 frame khai bao, fps 25, khoi tao 9.6s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/parity/D2_mp4/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1266 hang MOT, vong lap 29.50s (10.17 fps), khoi tao 9.6s, ghi 0.10s -> results_nano/live_v7/parity/D2_mp4
+  [DAT] D2. mp4 smoke (cv2 3.2 FFMPEG): exit 0, het nguon, so frame == khai bao 300
+         {"exit": 0, "trang_thai": "hoan_tat", "dem": {"n_frames_khai_bao": 300, "max_frames": null, "n_frame_nhan": 300, "n_frame_da_xu_ly": 300, "n_frame_vao_tracker_doc_duoc": 300, "n_frame_bay_khi_dung_khong_xu_ly": 0, "n_unreadable": 0, "n_truncated": 0, "n_hang_mot": 1266, "n_track": 14}, "eos": {"hang_doi": 4, "ly_do": "het_nguon", "max_in_flight": 2, "n_frame_gui": 300, "n_frames_khai_bao": 300}, "fps_vong_lap": 10.169410620695349}
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/parity/D3_stop_file --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker cv --save-cache live_trt_dung_20260928120942
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.8s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/parity/D3_stop_file/STOP hoac Ctrl+C
+[nano_live] DA_DUNG (ma 4): dung theo yeu cau (stop-file)
+[nano_live] 56 frame xu ly, 91 hang MOT, vong lap 6.00s (9.33 fps), khoi tao 8.8s, ghi 0.04s -> results_nano/live_v7/parity/D3_stop_file
+$ /home/jetson/miniforge3/envs/nano/bin/python src/run_tracking.py --cache-id live_trt_dung_20260928120942 --split-name NANO-live-20260928120942 --tracker-yaml bytetrack.yaml --tracker-name replay-dung --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[run_tracking] cache=live_trt_dung_20260928120942 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-dung                  MVI_39031         56 frame ->      91 bbox    3 track  predict 0.58 ms/frame  assoc 2.79  (0.2s, 232 fps)
+  replay-dung                    1 video moi,   0 tai su dung
+  [DAT] D3. stop-file giua luong: exit 4, da_dung, 0 < frame < 300, con thoat 0 (EOS dung), replay phan da xu ly khop
+         {"exit": 4, "n_xu_ly": 56, "bay_khi_dung": 1, "con": {"returncode": 0, "cach_ket_thuc": "tu_thoat", "bi_kill_vi_treo": false}, "eos": {"hang_doi": 4, "ly_do": "dung_theo_yeu_cau", "max_in_flight": 1, "n_frame_gui": 57, "n_frames_khai_bao": 300}, "parity": {"exit": 0, "dong_cuoi": "-> results_nano/live_v7/parity/D3_parity.json", "byte_giong_het_LF": true, "sha256_LF_test": "fd410cf417daabec"}}
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/parity/D4_sigint --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker cv
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.0s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/parity/D4_sigint/STOP hoac Ctrl+C
+
+[nano_live] nhan tin hieu 2 -> dung co kiem soat sau frame hien tai
+[nano_live] DA_DUNG (ma 4): dung theo yeu cau (tin_hieu)
+[nano_live] 50 frame xu ly, 79 hang MOT, vong lap 5.12s (9.76 fps), khoi tao 8.0s, ghi 0.03s -> results_nano/live_v7/parity/D4_sigint
+  [DAT] D4. SIGINT (Ctrl+C) vao tien trinh cha: exit 4, da_dung, con thoat 0
+         {"exit": 4, "n_xu_ly": 50, "con": {"returncode": 0, "cach_ket_thuc": "tu_thoat", "bi_kill_vi_treo": false}}
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/parity/D5_kill_con --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --tracker cv
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.4s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/live_v7/parity/D5_kill_con/STOP hoac Ctrl+C
+[nano_live] LOI_TIEN_TRINH_CON (ma 3): pipe dong (EOF) khong co EOS: tien trinh detector ket thuc bat thuong
+[nano_live] 49 frame xu ly, 77 hang MOT, vong lap 5.26s (9.31 fps), khoi tao 8.4s, ghi 0.04s -> results_nano/live_v7/parity/D5_kill_con
+  [DAT] D5. kill -9 tien trinh con (PID tu detector.pid): exit 3, loi_tien_trinh_con, KHONG hoan_tat
+         {"exit": 3, "pid_con": 7787, "trang_thai": "loi_tien_trinh_con", "dem": {"n_frames_khai_bao": 300, "max_frames": null, "n_frame_nhan": 49, "n_frame_da_xu_ly": 49, "n_frame_vao_tracker_doc_duoc": 49, "n_frame_bay_khi_dung_khong_xu_ly": 0, "n_unreadable": 0, "n_truncated": 0, "n_hang_mot": 77, "n_track": 3}, "con": {"returncode": -9, "cach_ket_thuc": "tu_thoat", "bi_kill_vi_treo": false}}
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_live.py --out results_nano/live_v7/parity/D6_engine_sai --progress-every 100 --source data/smoke/MVI_39031_f0001-0300 --fps 25 --video-name MVI_39031 --engine khong_co.engine --tracker cv
+[LOI] khong co engine: khong_co.engine
+  [DAT] D6. engine sai duong dan: exit 2, khong co ket qua
+         {"exit": 2}
+
+KET QUA: 10/10 phep kiem DAT (3 phep mo ta) -> results_nano/live_v7/parity

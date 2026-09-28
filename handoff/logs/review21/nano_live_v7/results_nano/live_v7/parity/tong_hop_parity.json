@@ -1,0 +1,254 @@
+{
+  "thoi_diem": "2026-09-28T12:14:08",
+  "split_replay": "NANO-live-20260928120942",
+  "cache_ids": {
+    "cv": "live_trt_cv_20260928120942",
+    "ekf": "live_trt_ekf_20260928120942"
+  },
+  "ket_qua": [
+    {
+      "phep": "A. gia lap CV (300 JPG that, cache smoke) == pc-ref smoke",
+      "dat": true,
+      "chi_tiet": {
+        "exit": 0,
+        "trang_thai": "hoan_tat",
+        "parity": {
+          "exit": 0,
+          "dong_cuoi": "-> results_nano/live_v7/parity/A_parity_cv.json",
+          "byte_giong_het_LF": true,
+          "sha256_LF_test": "e3aa27bb4f77732b"
+        }
+      }
+    },
+    {
+      "phep": "A. gia lap EKF (300 JPG that, cache smoke) == pc-ref smoke",
+      "dat": true,
+      "chi_tiet": {
+        "exit": 0,
+        "trang_thai": "hoan_tat",
+        "parity": {
+          "exit": 0,
+          "dong_cuoi": "-> results_nano/live_v7/parity/A_parity_ekf.json",
+          "byte_giong_het_LF": true,
+          "sha256_LF_test": "f22f615ab3621593"
+        }
+      }
+    },
+    {
+      "phep": "B. TensorRT CV: live == replay tu cache cung cau hinh (tolerance cong bo, khong noi)",
+      "dat": true,
+      "chi_tiet": {
+        "exit_live": 0,
+        "trang_thai": "hoan_tat",
+        "dem": {
+          "n_frames_khai_bao": 300,
+          "max_frames": null,
+          "n_frame_nhan": 300,
+          "n_frame_da_xu_ly": 300,
+          "n_frame_vao_tracker_doc_duoc": 300,
+          "n_frame_bay_khi_dung_khong_xu_ly": 0,
+          "n_unreadable": 0,
+          "n_truncated": 0,
+          "n_hang_mot": 1272,
+          "n_track": 14
+        },
+        "exit_replay": 0,
+        "parity": {
+          "exit": 0,
+          "dong_cuoi": "-> results_nano/live_v7/parity/B_parity_cv.json",
+          "byte_giong_het_LF": true,
+          "sha256_LF_test": "15ab38b4c303f5a2"
+        },
+        "fps_vong_lap": 9.474990892357656,
+        "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a"
+      }
+    },
+    {
+      "phep": "B. TensorRT EKF: live == replay tu cache cung cau hinh (tolerance cong bo, khong noi)",
+      "dat": true,
+      "chi_tiet": {
+        "exit_live": 0,
+        "trang_thai": "hoan_tat",
+        "dem": {
+          "n_frames_khai_bao": 300,
+          "max_frames": null,
+          "n_frame_nhan": 300,
+          "n_frame_da_xu_ly": 300,
+          "n_frame_vao_tracker_doc_duoc": 300,
+          "n_frame_bay_khi_dung_khong_xu_ly": 0,
+          "n_unreadable": 0,
+          "n_truncated": 0,
+          "n_hang_mot": 1270,
+          "n_track": 15
+        },
+        "exit_replay": 0,
+        "parity": {
+          "exit": 0,
+          "dong_cuoi": "-> results_nano/live_v7/parity/B_parity_ekf.json",
+          "byte_giong_het_LF": true,
+          "sha256_LF_test": "238dbb2ae5c6d948"
+        },
+        "fps_vong_lap": 9.463672495262545,
+        "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a"
+      }
+    },
+    {
+      "phep": "C. detection TRT(regions) vs cache PC PyTorch (c25) -- khac detector, KHONG la tieu chi",
+      "dat": null,
+      "chi_tiet": {
+        "exit_live": 0,
+        "exit": 0,
+        "tom_tat": [
+          "[det_compare] MVI_39031: frame chung 300 | box a=581 b=584 cap=578 (ghep a 0.9948, b 0.9897) | IoU tb 0.9885274637941671 | |dconf| tb 0.008644708197009604 max 0.18792304396629333 | trung lop 0.9930795847750865 | chenh box/frame tb 0.01 (bang nhau 291 frame)",
+          "-> results_nano/live_v7/parity/C_det_compare_c25.json"
+        ]
+      }
+    },
+    {
+      "phep": "C. detection TRT(regions) vs cache PC PyTorch (tho) -- khac detector, KHONG la tieu chi",
+      "dat": null,
+      "chi_tiet": {
+        "exit_live": 0,
+        "exit": 0,
+        "tom_tat": [
+          "[det_compare] MVI_39031: frame chung 300 | box a=845 b=869 cap=838 (ghep a 0.9917, b 0.9643) | IoU tb 0.9832221240445367 | |dconf| tb 0.011975578376956657 max 0.5311410054564476 | trung lop 0.9880668257756563 | chenh box/frame tb 0.08 (bang nhau 262 frame)",
+          "-> results_nano/live_v7/parity/C_det_compare_tho.json"
+        ]
+      }
+    },
+    {
+      "phep": "C. detection TRT lan CV vs lan EKF (cung engine, cung anh)",
+      "dat": null,
+      "chi_tiet": {
+        "giong_het_bit": true,
+        "n_box": [
+          2938,
+          2938
+        ],
+        "max_abs_lech": 0.0
+      }
+    },
+    {
+      "phep": "D1. 30 anh den (frame rong): exit 0, 0 hang MOT, timing du 30 frame (vong doi van cap nhat)",
+      "dat": true,
+      "chi_tiet": {
+        "exit": 0,
+        "dem": {
+          "n_frames_khai_bao": 30,
+          "max_frames": null,
+          "n_frame_nhan": 30,
+          "n_frame_da_xu_ly": 30,
+          "n_frame_vao_tracker_doc_duoc": 30,
+          "n_frame_bay_khi_dung_khong_xu_ly": 0,
+          "n_unreadable": 0,
+          "n_truncated": 0,
+          "n_hang_mot": 0,
+          "n_track": 0
+        },
+        "n_timing": 30
+      }
+    },
+    {
+      "phep": "D2. mp4 smoke (cv2 3.2 FFMPEG): exit 0, het nguon, so frame == khai bao 300",
+      "dat": true,
+      "chi_tiet": {
+        "exit": 0,
+        "trang_thai": "hoan_tat",
+        "dem": {
+          "n_frames_khai_bao": 300,
+          "max_frames": null,
+          "n_frame_nhan": 300,
+          "n_frame_da_xu_ly": 300,
+          "n_frame_vao_tracker_doc_duoc": 300,
+          "n_frame_bay_khi_dung_khong_xu_ly": 0,
+          "n_unreadable": 0,
+          "n_truncated": 0,
+          "n_hang_mot": 1266,
+          "n_track": 14
+        },
+        "eos": {
+          "hang_doi": 4,
+          "ly_do": "het_nguon",
+          "max_in_flight": 2,
+          "n_frame_gui": 300,
+          "n_frames_khai_bao": 300
+        },
+        "fps_vong_lap": 10.169410620695349
+      }
+    },
+    {
+      "phep": "D3. stop-file giua luong: exit 4, da_dung, 0 < frame < 300, con thoat 0 (EOS dung), replay phan da xu ly khop",
+      "dat": true,
+      "chi_tiet": {
+        "exit": 4,
+        "n_xu_ly": 56,
+        "bay_khi_dung": 1,
+        "con": {
+          "returncode": 0,
+          "cach_ket_thuc": "tu_thoat",
+          "bi_kill_vi_treo": false
+        },
+        "eos": {
+          "hang_doi": 4,
+          "ly_do": "dung_theo_yeu_cau",
+          "max_in_flight": 1,
+          "n_frame_gui": 57,
+          "n_frames_khai_bao": 300
+        },
+        "parity": {
+          "exit": 0,
+          "dong_cuoi": "-> results_nano/live_v7/parity/D3_parity.json",
+          "byte_giong_het_LF": true,
+          "sha256_LF_test": "fd410cf417daabec"
+        }
+      }
+    },
+    {
+      "phep": "D4. SIGINT (Ctrl+C) vao tien trinh cha: exit 4, da_dung, con thoat 0",
+      "dat": true,
+      "chi_tiet": {
+        "exit": 4,
+        "n_xu_ly": 50,
+        "con": {
+          "returncode": 0,
+          "cach_ket_thuc": "tu_thoat",
+          "bi_kill_vi_treo": false
+        }
+      }
+    },
+    {
+      "phep": "D5. kill -9 tien trinh con (PID tu detector.pid): exit 3, loi_tien_trinh_con, KHONG hoan_tat",
+      "dat": true,
+      "chi_tiet": {
+        "exit": 3,
+        "pid_con": 7787,
+        "trang_thai": "loi_tien_trinh_con",
+        "dem": {
+          "n_frames_khai_bao": 300,
+          "max_frames": null,
+          "n_frame_nhan": 49,
+          "n_frame_da_xu_ly": 49,
+          "n_frame_vao_tracker_doc_duoc": 49,
+          "n_frame_bay_khi_dung_khong_xu_ly": 0,
+          "n_unreadable": 0,
+          "n_truncated": 0,
+          "n_hang_mot": 77,
+          "n_track": 3
+        },
+        "con": {
+          "returncode": -9,
+          "cach_ket_thuc": "tu_thoat",
+          "bi_kill_vi_treo": false
+        }
+      }
+    },
+    {
+      "phep": "D6. engine sai duong dan: exit 2, khong co ket qua",
+      "dat": true,
+      "chi_tiet": {
+        "exit": 2
+      }
+    }
+  ],
+  "dat_tat_ca": true
+}

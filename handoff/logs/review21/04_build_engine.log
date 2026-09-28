@@ -1,0 +1,15 @@
+# build engine FP16 - 2026-09-28T11:52:32+08:00 | onnx a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451
+_op12.onnx sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451
+lenh: /usr/src/tensorrt/bin/trtexec --onnx=models/export/yolov8n_640_op12.onnx --saveEngine=/home/jetson/nano_run/engine/yolov8n_fp16.engine --workspace=1024 --verbose --fp16
+ket qua: exit=0 giay=483
+&&&& PASSED TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --onnx=models/export/yolov8n_640_op12.onnx --saveEngine=/home/jetson/nano_run/engine/yolov8n_fp16.engine --workspace=1024 
+engine: 12626138 B sha256 c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a
+== 02_benchmark_engine.sh (latency GPU cua engine, CHI mo ta, khong phai luong):
+[09/28/2026-12:06:59] [I] Throughput: 14.565 qps
+[09/28/2026-12:06:59] [I] Latency: min = 67.7363 ms, max = 85.8621 ms, mean = 68.6561 ms, median = 67.96 ms, percentile(99%) = 84.2275 ms
+[09/28/2026-12:06:59] [I] End-to-End Host Latency: min = 67.7363 ms, max = 85.8621 ms, mean = 68.6561 ms, median = 67.96 ms, percentile(99%) = 84.2275 ms
+[09/28/2026-12:06:59] [I] H2D Latency: min = 0 ms, max = 0 ms, mean = 0 ms, median = 0 ms, percentile(99%) = 0 ms
+[09/28/2026-12:06:59] [I] GPU Compute Time: min = 67.7363 ms, max = 85.8621 ms, mean = 68.6561 ms, median = 67.96 ms, percentile(99%) = 84.2275 ms
+[09/28/2026-12:06:59] [I] D2H Latency: min = 0 ms, max = 0 ms, mean = 0 ms, median = 0 ms, percentile(99%) = 0 ms
+[09/28/2026-12:06:59] [I] Total GPU Compute Time: 13.7312 s
+&&&& PASSED TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/nano_run/engine/yolov8n_fp16.engine --iterations=200 --warmUp=1000 --avgRuns=10 --useCudaGraph --noDataTransfers=false

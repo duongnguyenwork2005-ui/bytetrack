@@ -1,0 +1,21 @@
+# 06b. khoi dong lai ngoai y muon trong phien 28/9 (CHI DOC) - 2026-09-28T12:15:01+08:00
+== last -x:
+jetson   :0           :0               Mon Sep 28 11:53:57 2026   still logged in
+runlevel (to lvl 5)   4.9.337-tegra    Mon Sep 28 11:53:53 2026   still running
+reboot   system boot  4.9.337-tegra    Mon Sep 28 11:53:21 2026   still running
+jetson   pts/1        10.11.52.82      Mon Sep 28 11:08:49 2026 - Mon Sep 28 11:09:00 2026  (00:00)
+jetson   :0           :0               Thu Sep 24 12:56:24 2026 - crash                    (3+22:56)
+runlevel (to lvl 5)   4.9.337-tegra    Thu Sep 24 12:56:21 2026 - Mon Sep 28 11:53:53 2026 (3+22:57)
+reboot   system boot  4.9.337-tegra    Sat Jan  1 09:00:12 2000   still running
+shutdown system down  4.9.337-tegra    Thu Sep 24 12:56:02 2026 - Sat Jan  1 09:00:12 2000 (-9763+03:55)
+== dmesg EXT4 / recovery:
+[    5.192738] EXT4-fs (mmcblk1p1): 15 orphan inodes deleted
+[    5.192741] EXT4-fs (mmcblk1p1): recovery complete
+[    5.221320] EXT4-fs (mmcblk1p1): mounted filesystem with ordered data mode. Opts: (null)
+[    7.646198] EXT4-fs (mmcblk1p1): re-mounted. Opts: (null)
+[   62.415443] EXT4-fs (mmcblk0p1): recovery complete
+== ext4 errors_count: 0
+== journal persistent: khong
+== dpkg/apt hom nay: dpkg 0 | apt 0
+== ~/nano_run: engine v5 v6 v7 
+== bench dang chay: 7988
