@@ -14,9 +14,14 @@ Codec mp4v co mat mat -> khong so bang nhau tung byte. Voi moi frame i (ve lai b
   (2) TEN LOP (mau moi `--buoc-lop` frame): voi TUNG box, ve lai frame voi moi ung vien ten lop (5 lop COCO + khong ten) va
       chon ung vien gan frame giai ma nhat trong vung chu cua box -> phai trung ten lop ky vong.
 
+DIEU KIEN TIEN QUYET: cac phep tren VE LAI chu bang `cv2.putText` va so tung diem -> chi co nghia khi OpenCV dang chay ve chu
+GIONG OpenCV da render. Kiem vong 24: OpenCV 5.0 ve font Hershey khac OpenCV 3.2 toi ~250 muc tren diem chu (khung chu nhat
+trung tung diem). Neu `<video>.json` (render_mot_video ghi) co "opencv" KHAC `cv2.__version__` -> exit 2 KHONG KIEM DUOC, khong
+chay phep nao; `--cho-phep-khac-opencv` van chay du phep de chan doan nhung exit van 2, `dat` = false.
+
     python src/kiem_video_render.py --video out.mp4 --images DIR --mot MOT.txt [--cls CLS.csv] --fps 25 [--max-frames N]
-        [--buoc-lop 5] [--json ket_qua.json]
-exit 0 = DAT moi phep; 1 = co phep KHONG DAT; 2 = khong mo duoc video / thieu dau vao.
+        [--buoc-lop 5] [--json ket_qua.json] [--cho-phep-khac-opencv]
+exit 0 = DAT moi phep; 1 = co phep KHONG DAT; 2 = khong mo duoc video / thieu dau vao / OpenCV render khac OpenCV kiem.
 """
 import argparse
 import json
@@ -79,6 +84,17 @@ def _mae(a, b, mask):
     return float(np.abs(a[mask].astype(np.int16) - b[mask].astype(np.int16)).mean())
 
 
+def doc_opencv_render(video: str):
+    """Phien ban OpenCV da RENDER video, doc tu `<video>.json` cua render_mot_video; None neu khong co / khong doc duoc."""
+    p = Path(video + ".json")
+    if not p.is_file():
+        return None
+    try:
+        return json.loads(p.read_text(encoding="utf-8")).get("opencv")
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--video", required=True); ap.add_argument("--images", required=True)
@@ -86,8 +102,23 @@ def main() -> int:
     ap.add_argument("--fps", type=float, required=True); ap.add_argument("--max-frames", type=int, default=None)
     ap.add_argument("--buoc-lop", type=int, default=5, help="kiem ten lop tren moi N frame")
     ap.add_argument("--json", default=None)
+    ap.add_argument("--cho-phep-khac-opencv", action="store_true",
+                    help="van chay cac phep khi OpenCV render (<video>.json) KHAC OpenCV dang chay -- chi de chan doan, exit van 2")
     a = ap.parse_args()
     import cv2
+    cv_render = doc_opencv_render(a.video)
+    khac_cv = cv_render is not None and cv_render != cv2.__version__
+    ly_do_khac = ("video render bang OpenCV %s, bo kiem chay OpenCV %s: cv2.putText ve chu khac giua cac phien ban -> so diem "
+                  "ve lai khong co y nghia; chay bo kiem bang CUNG phien ban OpenCV da render" % (cv_render, cv2.__version__)
+                  if khac_cv else None)
+    print("  OpenCV kiem %s | OpenCV render %s" % (cv2.__version__, cv_render if cv_render else "(khong co <video>.json)"))
+    if khac_cv and not a.cho_phep_khac_opencv:
+        print("[KHONG KIEM DUOC] " + ly_do_khac)
+        if a.json:
+            Path(a.json).write_text(json.dumps({"video": a.video, "dat": False, "khong_kiem_duoc": ly_do_khac,
+                                                "opencv": cv2.__version__, "opencv_render": cv_render},
+                                               ensure_ascii=False, indent=2), encoding="utf-8")
+        return 2
     anh = rmv.liet_ke(Path(a.images))
     if a.max_frames:
         anh = anh[:a.max_frames]
@@ -190,13 +221,16 @@ def main() -> int:
           "n_frame_kiem_so": n_frame_kiem_so, "ti_le_loi_so_max": ti_le_so_max,
           "ti_le_loi_max": ti_le_max, "loi_diem_ve_max": loi_kv_max, "nguong": {"ti_le": TI_LE, "tran": TRAN},
           "loi_so": loi_so[:50], "loi_khung": loi_khung[:50], "loi_lop": loi_lop[:50], "phep": {k: v[0] for k, v in phep.items()},
-          "dat": all(v[0] for v in phep.values()), "opencv": cv2.__version__}
+          "dat": all(v[0] for v in phep.values()) and not khac_cv, "opencv": cv2.__version__, "opencv_render": cv_render}
+    if khac_cv:
+        kq["khong_kiem_duoc"] = ly_do_khac
+        print("[KHONG KIEM DUOC] " + ly_do_khac + " (--cho-phep-khac-opencv: cac phep tren chi de chan doan)")
     print("KET QUA: %s | %d frame (%d kiem so frame, ti le max %.3f), %d box (ti le khung max %.3f), %d box kiem lop, nhan lop mau %s" %
           ("DAT" if kq["dat"] else "KHONG DAT", i, n_frame_kiem_so, ti_le_so_max, n_box, ti_le_max, n_box_kiem_lop,
            json.dumps(dem_lop, ensure_ascii=False)))
     if a.json:
         Path(a.json).write_text(json.dumps(kq, ensure_ascii=False, indent=2), encoding="utf-8")
-    return 0 if kq["dat"] else 1
+    return 2 if khac_cv else (0 if kq["dat"] else 1)
 
 
 if __name__ == "__main__":

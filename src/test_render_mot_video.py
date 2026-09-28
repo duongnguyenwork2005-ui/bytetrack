@@ -16,6 +16,9 @@ Review 1d5ffaa, N23-F1 -- so frame hien thi phai duoc kiem DOC LAP tren MOI fram
   9. MAT so frame tren frame co box -> exit 1.
  10. so frame LECH MOT (f<i+1>) tren frame co box -> exit 1 (nhan dang ung vien, khong chi ti le diem).
  11. so frame sai CHI tren 3 frame KHONG co box (11-13) -> exit 1 (giu kiem frame khong box).
+Vong 24 -- bo kiem ve lai chu nen chi co nghia voi CUNG phien ban OpenCV da render (<out>.json ghi "opencv"):
+ 12. cung phien ban -> JSON ghi opencv_render, DAT; <out>.json ghi phien ban KHAC -> exit 2 KHONG KIEM DUOC, khong chay phep.
+ 13. phien ban KHAC + --cho-phep-khac-opencv -> chay du phep (chan doan) nhung exit van 2, dat = false.
 
     python src/test_render_mot_video.py
 """
@@ -169,6 +172,32 @@ def main() -> int:
             check(ten + " -> exit 1: phep so frame KHONG DAT, phep khung bbox/ID van DAT",
                   rr.returncode == 1 and so_ok is False and khung_ok is True and not kq.get("dat"),
                   f"exit {rr.returncode} so_frame={so_ok} khung={khung_ok} loi_so={kq.get('loi_so', [])[:2]}")
+
+        js12 = tmp / "kq_12_cung.json"
+        r12a = chay(base + ["--mot", str(tmp / "mot.txt"), "--fps", "25", "--json", str(js12)])
+        k12a = json.loads(js12.read_text(encoding="utf-8")) if js12.exists() else {}
+        khac = tmp / "khac_cv.mp4"
+        shutil.copyfile(vid, khac)
+        sc = json.loads(Path(str(vid) + ".json").read_text(encoding="utf-8"))
+        sc["opencv"] = "0.0.0-khac"
+        Path(str(khac) + ".json").write_text(json.dumps(sc), encoding="utf-8")
+        base_k = ["src/kiem_video_render.py", "--video", str(khac), "--images", str(anh), "--mot", str(tmp / "mot.txt"),
+                  "--cls", str(tmp / "cls.csv"), "--fps", "25", "--buoc-lop", "3"]
+        js12b = tmp / "kq_12_khac.json"
+        r12b = chay(base_k + ["--json", str(js12b)])
+        k12b = json.loads(js12b.read_text(encoding="utf-8")) if js12b.exists() else {}
+        check("12. OpenCV render == kiem -> DAT + ghi opencv_render; <out>.json ghi OpenCV KHAC -> exit 2 KHONG KIEM DUOC, khong chay phep",
+              r12a.returncode == 0 and k12a.get("opencv_render") == cv2.__version__ and k12a.get("dat") is True
+              and r12b.returncode == 2 and "KHONG KIEM DUOC" in r12b.stdout and k12b.get("dat") is False
+              and k12b.get("opencv_render") == "0.0.0-khac" and "phep" not in k12b,
+              f"cung: exit {r12a.returncode} {k12a.get('opencv_render')} | khac: exit {r12b.returncode} {k12b}\n{r12b.stdout[-300:]}")
+        js13 = tmp / "kq_13.json"
+        r13 = chay(base_k + ["--json", str(js13), "--cho-phep-khac-opencv"])
+        k13 = json.loads(js13.read_text(encoding="utf-8")) if js13.exists() else {}
+        check("13. OpenCV KHAC + --cho-phep-khac-opencv -> chay du phep (chan doan) nhung exit van 2, dat=false",
+              r13.returncode == 2 and k13.get("dat") is False and bool(k13.get("khong_kiem_duoc"))
+              and len(k13.get("phep", {})) == 7 and all(k13["phep"].values()),
+              f"exit {r13.returncode} dat={k13.get('dat')} phep={k13.get('phep')}\n{r13.stdout[-300:]}")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     n_ok = sum(1 for _, s in _R if s == "PASS")
