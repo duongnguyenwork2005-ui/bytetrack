@@ -25,6 +25,13 @@ nam trong CACHE_ROOT / data/processed/trackers voi ten TEST_* va duoc xoa sau kh
  12. Cham tran det_max_det: mac dinh exit 3; --allow-truncated -> exit 0 va replay (co --allow-truncated) khop.
  13. --regions (che do doi chieu) -> metadata ghi co + sha256 file vung.
  14. (chi PC, neu co models/yolov8n.pt + anh DETRAC) detector THAT TorchPtInfer 8 frame -> replay khop.
+Review 9f210e2 (fixture lam cham / gay loi bang cach va module luc chay, chi kich hoat SAU khi co detector.pid):
+ 15. N21-F1: cha chuan bi CHAM 1 s sau HELLO -> con CHO lenh BAT DAU (cho_bat_dau_ms ~1000), moi frame dem nam trong
+     cua so do (moc monotonic), xu_ly_s >= khoang bao phu frame dau->frame cuoi; ca hoan tat va dung som.
+ 16. N21-F2: --save-cache voi --cache-root NGOAI mac dinh, CO dau cach -> chay NGUYEN replay_argv (chi thay
+     interpreter/split/ten) exit 0 -> nano_parity DAT + byte giong het.
+ 17. N21-F3: YAML thieu/hong/tracker_type la, --set sai dang/khoa la/sai kieu, tham so sai -> ma 2, KHONG khoi dong
+     detector; loi o cha SAU spawn (chuan bi -> ma 2; giua vong lap -> ma 3) van dung/reap con, co run_meta.
 
     python src/test_nano_stream.py [--python-detector /usr/bin/python3]
 """
@@ -329,11 +336,13 @@ def t10_loi_truoc(tmp: Path, anh: Path, cache: Path):
     kq["engine"] = r.returncode
     kq["da_co_ket_qua"] = chay(tmp / "e2e_cv", anh, cache, "--tracker", "cv").returncode   # thu muc cua phep 2
     out = tmp / "e4"
-    kq["con_khoi_tao"] = chay(out, anh, tmp / "cache_khong_co", "--tracker", "cv").returncode
+    kq["con_khoi_tao"] = chay(out, anh, cache, "--tracker", "cv", video="khong_co_video").returncode
     m = meta(out)
-    check("10. loi truoc vong lap -> exit 2: nguon/engine khong co, thu muc da co ket qua, con loi khoi tao (ERROR truoc HELLO)",
-          set(kq.values()) == {2} and m.get("trang_thai") == "loi_khoi_tao" and not (tmp / "e1").exists(),
-          f"{kq} meta={m.get('trang_thai')} {str(m.get('chi_tiet'))[:120]}")
+    check("10. loi truoc vong lap -> exit 2: nguon/engine khong co, thu muc da co ket qua, con loi khoi tao (ERROR truoc HELLO)"
+          " -> con da duoc reap",
+          set(kq.values()) == {2} and m.get("trang_thai") == "loi_khoi_tao" and not (tmp / "e1").exists()
+          and m.get("con", {}).get("returncode") is not None,
+          f"{kq} meta={m.get('trang_thai')} con={m.get('con')} {str(m.get('chi_tiet'))[:120]}")
 
 
 def t11_cua_so(tmp: Path, anh: Path, cache: Path):
@@ -401,6 +410,115 @@ def t14_torch(tmp: Path):
           f"exit {r.returncode} {m.get('trang_thai')} {m.get('chi_tiet')}\n{why}\n{r.stdout[-300:]}")
 
 
+BOC = ("import sys, time, runpy, pathlib\nsys.path.insert(0, 'src')\nimport run_tracking as rt, det_cache as dc\n"
+       "OUT = pathlib.Path(sys.argv[sys.argv.index('--out') + 1])\n{va}\n"
+       "sys.argv = ['src/nano_live.py'] + sys.argv[1:]\nrunpy.run_path('src/nano_live.py', run_name='__main__')\n")
+VA_CHAM = ("_f = rt.load_tracker_cfg\ndef _p(*a, **k):\n    if (OUT / 'detector.pid').exists():\n        time.sleep(1.0)\n"
+           "    return _f(*a, **k)\nrt.load_tracker_cfg = _p")
+VA_LOI_CHUAN_BI = ("_f = rt.load_tracker_cfg\ndef _p(*a, **k):\n    if (OUT / 'detector.pid').exists():\n"
+                   "        raise RuntimeError('gia lap loi chuan bi o cha sau spawn')\n    return _f(*a, **k)\n"
+                   "rt.load_tracker_cfg = _p")
+VA_LOI_VONG_LAP = ("_f = dc.filter_dets\n_n = [0]\ndef _p(*a, **k):\n    _n[0] += 1\n    if _n[0] == 5:\n"
+                   "        raise RuntimeError('gia lap loi o cha tai frame 5')\n    return _f(*a, **k)\ndc.filter_dets = _p")
+
+
+def chay_boc(va: str, out: Path, src: Path, cache: Path, *extra, nen=False):
+    """Chay nano_live qua wrapper va module (lam cham / gay loi) -- CHI kiem thu."""
+    cmd = [PY, "-c", BOC.format(va=va), "--source", str(src), "--fps", str(FPS), "--video-name", "seq",
+           "--gia-lap-cache", str(cache), "--gia-lap-video", "seq", "--out", str(out), "--warmup-frames", "5",
+           "--progress-every", "0", "--timeout-con-s", "60", *extra]
+    if PY_DET:
+        cmd += ["--python-detector", PY_DET]
+    if nen:
+        return subprocess.Popen(cmd, cwd=ROOT, env=ENV, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    return subprocess.run(cmd, cwd=ROOT, env=ENV, capture_output=True, text=True, encoding="utf-8", errors="replace")
+
+
+def _cua_so_ok(m: dict, tol=0.035) -> tuple[bool, str]:
+    th = m.get("thoi_gian", {})
+    cs = th.get("kiem_cua_so_do") or {}
+    eos = m.get("eos_con") or {}
+    bp = cs.get("khoang_bao_phu_s") or 0.0
+    n = m.get("dem", {}).get("n_frame_da_xu_ly") or 0
+    ok = ((th.get("chuan_bi_cha_s") or 0) >= 0.95 and (eos.get("cho_bat_dau_ms") or 0) >= 900
+          and cs.get("moi_frame_trong_cua_so") is True and (th.get("xu_ly_s") or 0) >= bp - tol
+          and (th.get("fps_xu_ly") or 1e9) <= n / max(bp - tol, 1e-3))
+    return ok, (f"chuan_bi_cha_s={th.get('chuan_bi_cha_s')} cho_bat_dau_ms={eos.get('cho_bat_dau_ms')} "
+                f"xu_ly_s={th.get('xu_ly_s')} bao_phu={bp} fps_xu_ly={th.get('fps_xu_ly')} n={n} cua_so={cs}")
+
+
+def t15_cua_so_do(tmp: Path, anh: Path, cache: Path):
+    out = tmp / "f1_hoan_tat"
+    r = chay_boc(VA_CHAM, out, anh, cache, "--tracker", "cv")
+    m = meta(out)
+    ok, why = _cua_so_ok(m) if m else (False, "khong co meta")
+    check("15a. N21-F1 cha chuan bi cham 1 s: con CHO BAT DAU, moi frame trong cua so do, FPS khong bi thoi phong (hoan tat)",
+          r.returncode == 0 and m.get("trang_thai") == "hoan_tat" and ok, f"exit {r.returncode}\n{why}")
+    out = tmp / "f1_dung"
+    p = chay_boc(VA_CHAM, out, anh, cache, "--tracker", "cv", "--gia-lap-cham-ms", "50", nen=True)
+    cho_hello(out)
+    time.sleep(1.6)
+    (out / "STOP").write_text("dung", encoding="utf-8")
+    p.communicate(timeout=120)
+    m = meta(out)
+    ok, why = _cua_so_ok(m) if m else (False, "khong co meta")
+    n = m.get("dem", {}).get("n_frame_da_xu_ly", -1)
+    check("15b. N21-F1 nhu 15a nhung DUNG SOM (stop-file): ma 4, 0 < frame < N, bat bien cua so do van dung",
+          p.returncode == 4 and m.get("trang_thai") == "da_dung" and 0 < n < N and ok, f"exit {p.returncode} n={n}\n{why}")
+
+
+def t16_cache_root(tmp: Path, anh: Path, cache: Path):
+    root = tmp / "custom root" / "det cache"
+    out = tmp / "f2"
+    r = chay(out, anh, cache, "--tracker", "ekf", "--save-cache", f"{TAG}_root", "--cache-root", str(root))
+    m = meta(out)
+    argv = m.get("replay_argv", [])
+    dung_root = (len(argv) > 3 and argv[1] == "src/nano_replay.py" and argv[2] == "--cache-root"
+                 and Path(argv[3]) == root.resolve() and " " in argv[3])
+    ok_rep, why = replay_va_so(out, "rep-root") if r.returncode == 0 else (False, "khong replay")
+    check("16. N21-F2 cache-root ngoai mac dinh (co dau cach): replay_argv mang root THAT, chay NGUYEN -> parity DAT + byte",
+          r.returncode == 0 and (root / f"{TAG}_root" / "seq.npz").exists()
+          and not (det_cache.CACHE_ROOT / f"{TAG}_root").exists() and dung_root and ok_rep,
+          f"exit {r.returncode} argv[:4]={argv[:4]}\n{why}")
+
+
+def t17_cau_hinh(tmp: Path, anh: Path, cache: Path):
+    (tmp / "hong.yaml").write_text("tracker_type: [khong: dong\n", encoding="utf-8")
+    (tmp / "la.yaml").write_text("tracker_type: khong_ton_tai\ntrack_high_thresh: 0.25\n", encoding="utf-8")
+    ca = {"yaml_thieu": ["--tracker-yaml", str(tmp / "khong_co.yaml")],
+          "yaml_hong": ["--tracker-yaml", str(tmp / "hong.yaml")],
+          "tracker_type_la": ["--tracker-yaml", str(tmp / "la.yaml")],
+          "set_khong_bang": ["--tracker", "cv", "--set", "khong_co_dau_bang"],
+          "set_khoa_la": ["--tracker", "cv", "--set", "khong_co_khoa=1"],
+          "set_sai_kieu": ["--tracker", "cv", "--set", "track_high_thresh=abc"],
+          "hang_doi_0": ["--tracker", "cv", "--hang-doi", "0"]}
+    kq = {}
+    for ten, extra in ca.items():
+        out = tmp / f"f3_{ten}"
+        r = chay(out, anh, cache, *extra)
+        kq[ten] = (r.returncode, (out / "detector.pid").exists(), (out / "run_meta.json").exists())
+    check("17a. N21-F3 loi cau hinh phat hien TRUOC spawn: YAML thieu/hong/tracker_type la, --set sai dang/khoa la/sai kieu, "
+          "--hang-doi 0 -> ma 2, KHONG khoi dong detector, khong run_meta",
+          all(v == (2, False, False) for v in kq.values()), kq)
+    out = tmp / "f3_sau_spawn_chuan_bi"
+    r = chay_boc(VA_LOI_CHUAN_BI, out, anh, cache, "--tracker", "cv")
+    m = meta(out)
+    check("17b. loi o cha SAU spawn, TRUOC xu ly (chuan bi): ma 2, run_meta loi_chuan_bi, con da duoc dung/reap",
+          r.returncode == 2 and (out / "detector.pid").exists() and m.get("trang_thai") == "loi_chuan_bi"
+          and m.get("con", {}).get("returncode") is not None,
+          f"exit {r.returncode} {m.get('trang_thai')} con={m.get('con')}")
+    out = tmp / "f3_sau_spawn_vong_lap"
+    r = chay_boc(VA_LOI_VONG_LAP, out, anh, cache, "--tracker", "cv")
+    m = meta(out)
+    import pandas as pd
+    n_pl = len(pd.read_csv(out / "pipeline" / "seq.csv")) if (out / "pipeline" / "seq.csv").exists() else -1
+    check("17c. loi o cha GIUA vong lap (frame 5): ma 3 loi_cha, KHONG hoan tat, 4 frame da nhan duoc ghi (pipeline), "
+          "con da duoc dung/reap",
+          r.returncode == 3 and m.get("trang_thai") == "loi_cha" and not m.get("hoan_tat") and n_pl == 4
+          and m.get("con", {}).get("returncode") is not None,
+          f"exit {r.returncode} {m.get('trang_thai')} pipeline={n_pl} con={m.get('con')}")
+
+
 def main() -> int:
     global PY_DET
     ap = argparse.ArgumentParser()
@@ -423,6 +541,9 @@ def main() -> int:
         t12_cham_tran(tmp, anh)
         t13_regions(tmp, anh, cache)
         t14_torch(tmp)
+        t15_cua_so_do(tmp, anh, cache)
+        t16_cache_root(tmp, anh, cache)
+        t17_cau_hinh(tmp, anh, cache)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
         for p in det_cache.CACHE_ROOT.glob(f"{TAG}_*"):

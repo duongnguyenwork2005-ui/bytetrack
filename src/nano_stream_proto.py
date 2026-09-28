@@ -13,8 +13,10 @@ KENH:
       EOS    (3)  payload JSON: so frame da gui, ly do ket thuc, max_in_flight...
       ERROR  (4)  payload JSON: thong bao loi (con gui truoc khi thoat voi ma khac 0 neu kip)
   cha -> con (stdin cua con): moi byte la mot lenh
+      b"G"   BAT DAU (phien ban 2, review 9f210e2 N21-F1): sau HELLO con CHO lenh nay moi doc frame dau tien.
+             Cha chi gui G SAU KHI da chuan bi xong va DA BAT timer -> moi frame duoc dem nam trong cua so do.
       b"+"   CREDIT: cha da XU LY XONG mot frame -> con duoc gui them mot frame (cua so co gioi han)
-      b"S"   yeu cau DUNG: con gui EOS (ly_do dung_theo_yeu_cau) roi thoat 0
+      b"S"   yeu cau DUNG: con gui EOS (ly_do dung_theo_yeu_cau) roi thoat 0 (ke ca khi chua nhan G)
 
 HEADER (HDR): magic, loai, co (bit0 unreadable, bit1 truncated), frame_idx (1-based), n_det, time_s,
   thoi gian (ms) cua con: decode, mask, pre, infer, h2d, exec, d2h, post, cho_credit;
@@ -27,11 +29,11 @@ import struct
 import numpy as np
 
 MAGIC = b"NDS1"
-PHIEN_BAN = 1
+PHIEN_BAN = 2          # 2: them lenh BAT DAU (G) sau HELLO
 HELLO, FRAME, EOS, ERROR = 1, 2, 3, 4
 TEN_LOAI = {HELLO: "HELLO", FRAME: "FRAME", EOS: "EOS", ERROR: "ERROR"}
 CO_UNREADABLE, CO_TRUNCATED = 1, 2
-LENH_CREDIT, LENH_DUNG = b"+", b"S"
+LENH_BAT_DAU, LENH_CREDIT, LENH_DUNG = b"G", b"+", b"S"
 
 TRUONG_MS = ("decode_ms", "mask_ms", "pre_ms", "infer_ms", "h2d_ms", "exec_ms", "d2h_ms", "post_ms", "cho_credit_ms")
 TRUONG_MOC = ("t_bat_dau", "t_gui")

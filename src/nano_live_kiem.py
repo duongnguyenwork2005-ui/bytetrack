@@ -159,7 +159,7 @@ def cmd_parity(a) -> int:
             rc == 0 and m.get("trang_thai") == "hoan_tat" and m.get("dem", {}).get("n_frame_da_xu_ly") == 300 and rrc == 0
             and p["exit"] == 0 and p.get("byte_giong_het_LF"),
             {"exit_live": rc, "trang_thai": m.get("trang_thai"), "dem": m.get("dem"), "exit_replay": rrc, "parity": p,
-             "fps_vong_lap": m.get("thoi_gian", {}).get("fps_vong_lap"), "engine_sha256": m.get("hello_con", {}).get("engine_sha256")})
+             "fps_xu_ly": m.get("thoi_gian", {}).get("fps_xu_ly"), "engine_sha256": m.get("hello_con", {}).get("engine_sha256")})
 
     log("== C. MO TA: detection TRT (che do doi chieu --regions) vs cache PC; TRT lan CV vs lan EKF")
     o = out / "C_trt_regions_cv"
@@ -201,7 +201,7 @@ def cmd_parity(a) -> int:
     ghi("D2. mp4 smoke (cv2 3.2 FFMPEG): exit 0, het nguon, so frame == khai bao 300",
         rc == 0 and m.get("dem", {}).get("n_frame_da_xu_ly") == m.get("dem", {}).get("n_frames_khai_bao") == 300,
         {"exit": rc, "trang_thai": m.get("trang_thai"), "dem": m.get("dem"), "eos": m.get("eos_con"),
-         "fps_vong_lap": m.get("thoi_gian", {}).get("fps_vong_lap")})
+         "fps_xu_ly": m.get("thoi_gian", {}).get("fps_xu_ly")})
 
     o = out / "D3_stop_file"
     p = live(o, *base, *eng, "--tracker", "cv", "--save-cache", f"live_trt_dung_{tag}", nen=True)
@@ -287,17 +287,20 @@ def cmd_bench(a) -> int:
         teg = m.get("thiet_bi", {}).get("tegrastats", {})
         rows.append({"luot": i, "cau_hinh": t, "exit": rc, "trang_thai": m.get("trang_thai"),
                      "n_frame": m.get("dem", {}).get("n_frame_da_xu_ly"), "n_tong_ket": tt.get("n_frame_tong_ket"),
-                     "wall_khoi_tao_s": th.get("wall_khoi_tao_s"), "wall_vong_lap_s": th.get("wall_vong_lap_s"),
-                     "fps_vong_lap": th.get("fps_vong_lap"), "fps_on_dinh": tt.get("fps_on_dinh"),
+                     "khoi_tao_s": th.get("khoi_tao_s"), "chuan_bi_cha_s": th.get("chuan_bi_cha_s"),
+                     "xu_ly_s": th.get("xu_ly_s"), "ket_thuc_s": th.get("ket_thuc_s"),
+                     "fps_xu_ly": th.get("fps_xu_ly"), "fps_on_dinh": tt.get("fps_on_dinh"),
+                     "moi_frame_trong_cua_so": (th.get("kiem_cua_so_do") or {}).get("moi_frame_trong_cua_so"),
                      **{f"{k}_tv": tv(k) for k in ("decode_ms", "pre_ms", "infer_ms", "h2d_ms", "exec_ms", "d2h_ms",
                                                     "post_ms", "cho_credit_ms", "truyen_ms", "cho_doc_ms", "loc_ms",
                                                     "t_update_ms", "xu_ly_ms", "tre_ms", "khoang_giua_frame_ms")},
-                     "tre_ms_p90": (tt.get("tre_ms") or {}).get("p90"), "wall_ghi_s": th.get("wall_ghi_s"),
+                     "tre_ms_p90": (tt.get("tre_ms") or {}).get("p90"), "ghi_s": th.get("ghi_s"),
                      "ram_MB_max": teg.get("ram_dung_MB_max"), "swap_MB_max": teg.get("swap_dung_MB_max"),
                      "cpu_MHz": teg.get("cpu_MHz_min_max"), "gr3d_pct_tb_max": teg.get("gr3d_pct_tb_max"),
                      "nhiet_max_C": teg.get("nhiet_max_C"), "xung_truoc": m.get("thiet_bi", {}).get("truoc", {}).get("xung"),
                      "thu_muc": o.name})
-        log(f"  luot {i} {t}: exit {rc} {m.get('trang_thai')} fps {th.get('fps_vong_lap')}")
+        log(f"  luot {i} {t}: exit {rc} {m.get('trang_thai')} fps_xu_ly {th.get('fps_xu_ly')} "
+            f"trong cua so {(th.get('kiem_cua_so_do') or {}).get('moi_frame_trong_cua_so')}")
     with (out / "bang_luot.csv").open("w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader()
@@ -311,12 +314,12 @@ def cmd_bench(a) -> int:
     for t in sorted(set(a.thu_tu)):
         rr = [r for r in rows if r["cau_hinh"] == t and r["exit"] == 0]
         theo[t] = {"n_luot_hop_le": len(rr)}
-        for k in ("fps_vong_lap", "fps_on_dinh", "tre_ms_tv", "infer_ms_tv", "t_update_ms_tv", "decode_ms_tv",
-                  "pre_ms_tv", "post_ms_tv", "wall_khoi_tao_s"):
+        for k in ("fps_xu_ly", "fps_on_dinh", "tre_ms_tv", "infer_ms_tv", "t_update_ms_tv", "decode_ms_tv",
+                  "pre_ms_tv", "post_ms_tv", "khoi_tao_s", "chuan_bi_cha_s"):
             theo[t][k] = tv3(rr, k)
     tong = {"thoi_diem": time.strftime("%Y-%m-%dT%H:%M:%S"), "dieu_kien": str(dk), "thu_tu": a.thu_tu, "nghi_s": a.nghi_s,
             "warmup": a.warmup, "hang_doi": a.hang_doi, "source": a.source, "luot": rows, "theo_cau_hinh": theo,
-            "ghi_chu": "khong loai luot nao; FPS toan luong do truc tiep (khong cong so vong 16/20); khong render"}
+            "ghi_chu": "khong loai luot nao; FPS toan luong do truc tiep (khong cong so vong 16/20); khong render; fps_xu_ly theo cua so BAT DAU (giao thuc 2, review 9f210e2 N21-F1)"}
     (out / "tong_hop_bench.json").write_text(json.dumps(tong, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
     log(json.dumps(theo, ensure_ascii=False, indent=1, default=str))
     return 0 if all(r["exit"] == 0 for r in rows) else 1

@@ -12,6 +12,9 @@ liet_ke_anh, mask_regions) -- khong nhan ban tien/hau xu ly.
 KENH: stdout GOC cua tien trinh duoc nhan ban (os.dup) lam kenh giao thuc, sau do fd 1 bi tro sang stderr -> moi
 chuoi in ra stdout cua thu vien C (TensorRT, OpenCV) KHONG the lam hong giao thuc. Log -> stderr.
 
+BAT DAU (giao thuc 2, review 9f210e2 N21-F1): sau HELLO con CHO byte `G` tu cha roi moi doc frame dau tien -> cha chuan
+bi xong (cau hinh, telemetry) va bat timer TRUOC khi bat ky frame nao duoc doc. Byte `S` truoc `G` -> EOS 0 frame, thoat 0.
+
 CUA SO CREDIT (`--hang-doi K`): con chi gui frame khi so frame DA GUI ma cha CHUA XU LY XONG < K; nguoc lai CHO
 byte credit tu stdin. -> bo dem giua hai tien trinh co gioi han K frame; che do video offline KHONG BO frame.
 Byte `S` tu cha = dung co kiem soat: gui EOS (dung_theo_yeu_cau) roi thoat 0. stdin dong (cha chet) -> thoat.
@@ -171,6 +174,7 @@ class KenhDieuKhien(object):
         self.max_bay = 0
         self.dung = False
         self.cha_dong = False
+        self.bat_dau = False
         self.co_select = not sys.platform.startswith("win")
 
     def _xu_ly(self, b):
@@ -183,6 +187,8 @@ class KenhDieuKhien(object):
                 self.dang_bay = max(0, self.dang_bay - 1)
             elif ch == proto.LENH_DUNG:
                 self.dung = True
+            elif ch == proto.LENH_BAT_DAU:
+                self.bat_dau = True
 
     def kiem_khong_chan(self):
         if not self.co_select or self.cha_dong:
@@ -194,6 +200,13 @@ class KenhDieuKhien(object):
             self._xu_ly(os.read(self.fd, 64))
             if self.cha_dong:
                 return
+
+    def cho_bat_dau(self):
+        """Chan cho lenh BAT DAU (hoac dung / cha dong stdin). Tra ms da cho."""
+        t0 = time.perf_counter()
+        while not self.bat_dau and not self.dung and not self.cha_dong:
+            self._xu_ly(os.read(self.fd, 64))
+        return (time.perf_counter() - t0) * 1e3
 
     def cho_cho_trong(self):
         """Chan cho den khi cua so con cho (hoac co lenh dung / cha dong stdin). Tra ms da cho."""
@@ -304,8 +317,14 @@ def main():
 
     kenh = KenhDieuKhien(a.hang_doi)
     n_gui, ly_do = 0, "het_nguon"
+    cho_bat_dau_ms = kenh.cho_bat_dau()
+    t_nhan_bat_dau = time.monotonic()
+    log("nhan BAT DAU sau %.1f ms (dung=%s, cha_dong=%s)" % (cho_bat_dau_ms, kenh.dung, kenh.cha_dong))
+    if kenh.cha_dong and not kenh.dung:
+        nguon.dong()
+        return 4
     try:
-        for idx, t_s, img, dec_ms, t_moc in nguon:
+        for idx, t_s, img, dec_ms, t_moc in (nguon if not kenh.dung else []):
             kenh.kiem_khong_chan()
             if kenh.dung or kenh.cha_dong:
                 ly_do = "dung_theo_yeu_cau" if kenh.dung else "cha_dong_stdin"
@@ -347,7 +366,9 @@ def main():
             kenh.dang_bay += 1
             kenh.max_bay = max(kenh.max_bay, kenh.dang_bay)
         else:
-            if a.max_frames and n_gui >= a.max_frames:
+            if kenh.dung:
+                ly_do = "dung_theo_yeu_cau"
+            elif a.max_frames and n_gui >= a.max_frames:
                 ly_do = "max_frames"
     except (BrokenPipeError, OSError) as e:
         log("kenh toi cha bi dong (%s) -> thoat" % e)
@@ -364,7 +385,8 @@ def main():
         return 3
     nguon.dong()
     eos = {"n_frame_gui": n_gui, "ly_do": ly_do, "n_frames_khai_bao": nguon.n_frames_khai_bao,
-           "max_in_flight": kenh.max_bay, "hang_doi": a.hang_doi}
+           "max_in_flight": kenh.max_bay, "hang_doi": a.hang_doi, "cho_bat_dau_ms": cho_bat_dau_ms,
+           "t_nhan_bat_dau_monotonic": t_nhan_bat_dau}
     try:
         gui(proto.dong_goi_json(proto.EOS, eos))
         out.close()

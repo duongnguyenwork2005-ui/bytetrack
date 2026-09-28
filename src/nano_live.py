@@ -43,11 +43,17 @@ PHAM VI DO (moi frame; tom tat bo --warmup-frames frame dau):
   cha : cho_doc_ms (chan doc pipe), truyen_ms (t_nhan_cha - t_gui_con, monotonic), loc_ms, t_update_ms
         (tracker.update, tu timing/), xu_ly_ms (tu khi dua frame vao tracker den khi quay lai adapter),
         tre_ms (tu truoc khi doc frame o con den xong tracker o cha)
-  wall_khoi_tao_s  = spawn con -> nhan HELLO (Python con + import + nap engine + lam nong)
-  wall_vong_lap_s  = nhan HELLO -> ket thuc track_video (moi frame, ke ca warm-up)
-  wall_ghi_s       = ghi MOT/CSV/cache SAU vong lap (do truoc khi ghi run_meta)
-  fps_vong_lap     = so frame da xu ly / wall_vong_lap_s
-  fps_on_dinh      = (N - W) / (t_xong[N] - t_xong[W])  (bo W frame warm-up, theo moc xong tracker o cha)
+  (review 9f210e2, N21-F1) Giao thuc 2: sau HELLO con CHO lenh BAT DAU; cha chuan bi xong, BAT timer ROI moi gui
+  BAT DAU -> con chi doc frame 1 sau do => MOI frame duoc dem nam trong cua so do. `run_meta.thoi_gian`:
+  khoi_tao_s      = spawn con -> nhan HELLO (Python con + import + nap engine + lam nong)
+  chuan_bi_cha_s  = nhan HELLO -> ngay truoc khi gui BAT DAU (cau hinh tracker, telemetry); chua frame nao duoc doc
+  xu_ly_s         = ngay truoc khi gui BAT DAU -> track_video tra ve (frame cuoi qua tracker, nhan EOS hoac dung)
+  fps_xu_ly       = so frame da xu ly / xu_ly_s
+  ket_thuc_s      = sau vong lap -> con da thoat (xa frame dang bay khi dung, cho/reap con, dung telemetry)
+  ghi_s           = ghi MOT/CSV/cache SAU vong lap (do truoc khi ghi run_meta)
+  fps_on_dinh     = (N - W) / (t_xong[N] - t_xong[W])  (bo W frame warm-up, theo moc xong tracker o cha)
+  kiem_cua_so_do  = tu moc monotonic: frame dau bat dau doc >= luc gui BAT DAU va frame cuoi xong <= het cua so
+  (vong 21 dung wall_vong_lap_s/fps_vong_lap: timer bat dau SAU khi con da doc frame dau -> so cu giu lam lich su)
 Khong render/hien thi trong mot nay.
 
     BYTETRACK_BACKEND=np python src/nano_live.py --source data/smoke/MVI_39031_f0001-0300 --fps 25 \\
@@ -401,6 +407,102 @@ def provenance() -> dict:
     return d
 
 
+# --------------------------------------------------------------------------- kiem tra truoc khi spawn
+def kiem_truoc_khi_chay(a) -> tuple[list[str], dict]:
+    """(review 9f210e2, N21-F3) MOI dau vao kiem duoc thi kiem TRUOC khi khoi dong detector: tham so, nguon, engine,
+    YAML tracker (ton tai + doc duoc + tracker_type hop le), override `--set` (dang key=value, khoa CO trong YAML,
+    kieu gia tri), class_map, cache/regions/stop-file. Tra (loi, thong tin). Loi -> ma 2, KHONG spawn."""
+    loi: list[str] = []
+    out = Path(a.out)
+    if (out / "run_meta.json").exists():
+        loi.append(f"{out} da co run_meta.json -> dung thu muc MOI cho moi lan chay")
+    if not Path(a.source).exists():
+        loi.append(f"nguon khong ton tai: {a.source}")
+    so = [("--fps", a.fps, lambda v: v is None or v > 0), ("--max-frames", a.max_frames, lambda v: v is None or v >= 1),
+          ("--hang-doi", a.hang_doi, lambda v: v >= 1), ("--lam-nong", a.lam_nong, lambda v: v >= 0),
+          ("--warmup-frames", a.warmup_frames, lambda v: v >= 0), ("--tegrastats-ms", a.tegrastats_ms, lambda v: v >= 0),
+          ("--progress-every", a.progress_every, lambda v: v >= 0), ("--timeout-con-s", a.timeout_con_s, lambda v: v > 0),
+          ("--imgsz", a.imgsz, lambda v: v > 0 and v % 32 == 0), ("--det-conf", a.det_conf, lambda v: 0 <= v <= 1),
+          ("--det-iou", a.det_iou, lambda v: 0 < v <= 1), ("--conf-min", a.conf_min, lambda v: 0 <= v <= 1),
+          ("--max-det", a.max_det, lambda v: v >= 1), ("--det-max-det", a.det_max_det, lambda v: v >= 1),
+          ("--track-buffer-sec", a.track_buffer_sec, lambda v: v is None or v > 0)]
+    loi += [f"{ten} = {v!r} khong hop le" for ten, v, ok in so if not ok(v)]
+    if a.gia_lap_cache:
+        if not Path(a.gia_lap_cache).is_dir():
+            loi.append(f"khong co thu muc cache gia lap: {a.gia_lap_cache}")
+    elif a.torch_pt:
+        if not Path(a.torch_pt).is_file():
+            loi.append(f"khong co model .pt: {a.torch_pt}")
+    elif not (a.engine and Path(a.engine).is_file()):
+        loi.append(f"khong co engine: {a.engine}")
+    if a.python_detector and not (Path(a.python_detector).is_file() or shutil.which(a.python_detector)):
+        loi.append(f"khong co interpreter cho detector: {a.python_detector}")
+    if a.ld_preload and not Path(a.ld_preload).is_file():
+        loi.append(f"khong co file LD_PRELOAD: {a.ld_preload}")
+    if a.regions and not Path(a.regions).is_file():
+        loi.append(f"khong co file regions: {a.regions}")
+    classes = None if a.all_classes else a.classes
+    loi += det_cache.check_compatible({"conf": a.det_conf, "classes": None, "max_det": a.det_max_det},
+                                      a.conf_min, classes, a.max_det)
+    try:
+        class_map = run_tracking.parse_class_map(a.class_map)
+    except Exception as e:  # noqa: BLE001
+        class_map = None
+        loi.append(f"--class-map '{a.class_map}' sai: {type(e).__name__}: {e}")
+    cache_root = (Path(a.cache_root) if a.cache_root else det_cache.CACHE_ROOT).resolve()
+    if a.save_cache and (cache_root / a.save_cache).exists():
+        loi.append(f"cache {cache_root / a.save_cache} da ton tai -> dung --save-cache khac")
+    stop_path = Path(a.stop_file) if a.stop_file else out / "STOP"
+    if stop_path.exists():
+        loi.append(f"stop-file {stop_path} da ton tai truoc khi chay -> xoa di hoac dung --stop-file khac")
+    yaml = None
+    if bool(a.tracker) == bool(a.tracker_yaml):
+        loi.append("can DUNG MOT trong --tracker cv|ekf hoac --tracker-yaml")
+    else:
+        yaml = a.tracker_yaml or TRACKER_YAML[a.tracker]
+        try:
+            run_tracking.resolve_tracker_yaml(yaml)
+            base = run_tracking.cfg_to_dict(run_tracking.load_tracker_cfg(yaml, {}))
+        except Exception as e:  # noqa: BLE001
+            base = None
+            loi.append(f"YAML tracker '{yaml}' khong dung duoc: {type(e).__name__}: {str(e).splitlines()[0][:200]}")
+        if base is not None:
+            if base.get("tracker_type") not in run_tracking.tracker_registry():
+                loi.append(f"YAML '{yaml}': tracker_type {base.get('tracker_type')!r} khong co trong registry")
+            for it in a.set or []:
+                k, eq, v = it.partition("=")
+                if not eq or not re.fullmatch(r"[A-Za-z_]\w*", k) or v == "":
+                    loi.append(f"--set '{it}' sai dang key=value")
+                    continue
+                if k not in base:
+                    loi.append(f"--set {k}: khoa khong co trong YAML '{yaml}' (co: {', '.join(sorted(base))})")
+                    continue
+                goc, moi = base[k], run_tracking.parse_set([it])[k]
+                sai_kieu = (isinstance(goc, bool) and not isinstance(moi, bool)) or (
+                    isinstance(goc, (int, float)) and not isinstance(goc, bool)
+                    and (isinstance(moi, bool) or not isinstance(moi, (int, float))))
+                if sai_kieu:
+                    loi.append(f"--set {k}={v}: kieu {type(moi).__name__} khong khop gia tri YAML {goc!r}")
+            if not loi:
+                try:                       # dung thu cau hinh hieu luc voi fps tam (fps that den tu HELLO)
+                    ov = run_tracking.parse_set(a.set)
+                    if a.track_buffer_sec is not None:
+                        ov["track_buffer"] = track_buffer_frames(a.track_buffer_sec, a.fps or 25.0)
+                    run_tracking.load_tracker_cfg(yaml, ov)
+                except Exception as e:  # noqa: BLE001
+                    loi.append(f"cau hinh tracker + override khong dung duoc: {type(e).__name__}: {e}")
+    return loi, {"yaml": yaml, "classes": classes, "class_map": class_map, "cache_root": cache_root,
+                 "stop_path": stop_path}
+
+
+class LoiTruocXuLy(Exception):
+    """Loi sau khi spawn nhung TRUOC khi xu ly frame (con khoi tao hong, giao thuc, chuan bi o cha) -> ma 2."""
+
+    def __init__(self, trang_thai: str, chi_tiet):
+        super().__init__(str(chi_tiet))
+        self.trang_thai, self.chi_tiet = trang_thai, chi_tiet
+
+
 # --------------------------------------------------------------------------- CLI
 def main() -> int:  # noqa: C901
     ap = argparse.ArgumentParser(description="Luong truc tiep tren Nano: video/anh -> TensorRT -> tracker CV/EKF")
@@ -457,37 +559,16 @@ def main() -> int:  # noqa: C901
     a = ap.parse_args()
 
     out = Path(a.out)
-    # ---------------- kiem tra truoc (loi -> exit 2, khong ket qua) ----------------
-    loi = []
-    if (out / "run_meta.json").exists():
-        loi.append(f"{out} da co run_meta.json -> dung thu muc MOI cho moi lan chay")
-    if not Path(a.source).exists():
-        loi.append(f"nguon khong ton tai: {a.source}")
-    if not (a.gia_lap_cache or a.torch_pt) and not (a.engine and Path(a.engine).is_file()):
-        loi.append(f"khong co engine: {a.engine}")
-    if bool(a.tracker) == bool(a.tracker_yaml):
-        loi.append("can DUNG MOT trong --tracker cv|ekf hoac --tracker-yaml")
-    classes = None if a.all_classes else a.classes
-    loi += det_cache.check_compatible({"conf": a.det_conf, "classes": None, "max_det": a.det_max_det},
-                                      a.conf_min, classes, a.max_det)
-    cache_root = Path(a.cache_root) if a.cache_root else det_cache.CACHE_ROOT
-    if a.save_cache and (cache_root / a.save_cache).exists():
-        loi.append(f"cache {cache_root / a.save_cache} da ton tai -> dung --save-cache khac")
-    if a.regions and not Path(a.regions).is_file():
-        loi.append(f"khong co file regions: {a.regions}")
+    # ---------------- (1) kiem tra TRUOC khi spawn (N21-F3): loi -> ma 2, KHONG khoi dong detector ----------------
+    loi, tt0 = kiem_truoc_khi_chay(a)
     if loi:
         for e in loi:
             print(f"[LOI] {e}")
         return MA_LOI_DAU_VAO
-    yaml = a.tracker_yaml or TRACKER_YAML[a.tracker]
-    class_map = run_tracking.parse_class_map(a.class_map)
+    yaml, classes, class_map = tt0["yaml"], tt0["classes"], tt0["class_map"]
+    cache_root, stop_path = tt0["cache_root"], tt0["stop_path"]
     out.mkdir(parents=True, exist_ok=True)
-    stop_path = Path(a.stop_file) if a.stop_file else out / "STOP"
-    if stop_path.exists():
-        print(f"[LOI] stop-file {stop_path} da ton tai truoc khi chay -> xoa di hoac dung --stop-file khac")
-        return MA_LOI_DAU_VAO
 
-    # ---------------- tien trinh con ----------------
     jetson = _la_jetson()
     py_det = a.python_detector or ("/usr/bin/python3" if jetson else sys.executable)
     cmd = [py_det, str(SRC / "nano_detect_stream.py"), "--source", str(Path(a.source).resolve()),
@@ -520,81 +601,136 @@ def main() -> int:  # noqa: C901
             except (ValueError, OSError):
                 pass
 
+    # ---------------- (2) spawn: MOI duong ra deu di qua `finally` (dung/reap con, dung telemetry) ----------------
     truoc = trang_thai_thiet_bi()
+    con = teg = vd = hello = cfg = None
+    teg_tt: dict = {"co_tegrastats": False, "ghi_chu": "chua bat"}
+    thoat: dict = {}
+    loi_truoc: LoiTruocXuLy | None = None
+    loi_cha: str | None = None
+    df = df_cls = df_t = None
+    n_bay_khi_dung = 0
+    dem = {"n": 0, "dung_som": False, "ly_do_dung": None}
+    ten, fps, dt_nominal, overrides, yaml_sha = None, None, None, {}, None
+    tg = {"khoi_tao_s": None, "chuan_bi_cha_s": None, "xu_ly_s": None, "ket_thuc_s": None}
+    moc: dict = {}
+    da_bat_dau = False              # True tu luc gui BAT DAU: loi truoc do -> ma 2, sau do -> ma 3
     t_spawn = time.perf_counter()
-    con = TienTrinhCon(cmd, env, out / "detector_stderr.log", out / "detector.pid", a.timeout_con_s)
     try:
-        hello_msg = con.doc()
-    except proto.LoiGiaoThuc as e:
-        hello_msg = {"loai": proto.ERROR, "obj": {"loi": f"giao thuc: {e}"}}
-    if hello_msg is None or hello_msg["loai"] != proto.HELLO:
-        thoat = con.ket_thuc(5)
-        chi_tiet = (hello_msg or {}).get("obj") if hello_msg else "con thoat truoc HELLO (EOF)"
-        print(f"[LOI] tien trinh detector khong khoi tao duoc: {chi_tiet}; con {thoat}")
+        con = TienTrinhCon(cmd, env, out / "detector_stderr.log", out / "detector.pid", a.timeout_con_s)
+        try:
+            hello_msg = con.doc()
+        except proto.LoiGiaoThuc as e:
+            raise LoiTruocXuLy("loi_khoi_tao", f"giao thuc: {e}")
+        if hello_msg is None:
+            raise LoiTruocXuLy("loi_khoi_tao", "con thoat truoc HELLO (EOF)")
+        if hello_msg["loai"] != proto.HELLO:
+            raise LoiTruocXuLy("loi_khoi_tao", hello_msg.get("obj") or hello_msg["ten_loai"])
+        hello = hello_msg["obj"]
+        if hello.get("phien_ban_proto") != proto.PHIEN_BAN:
+            raise LoiTruocXuLy("loi_khoi_tao", f"phien ban giao thuc con {hello.get('phien_ban_proto')} != cha {proto.PHIEN_BAN}")
+        t_hello = time.perf_counter()
+        tg["khoi_tao_s"] = t_hello - t_spawn
+
+        # ---- chuan bi o cha (CHUA co frame nao duoc doc: con dang cho lenh BAT DAU) ----
+        try:
+            fps = float(hello["fps"])
+            ten = a.video_name or hello["nguon"]["ten"]
+            dt_nominal = 1.0 / fps
+            overrides = run_tracking.parse_set(a.set)
+            if a.track_buffer_sec is not None:
+                overrides["track_buffer"] = track_buffer_frames(a.track_buffer_sec, fps)
+            cfg = run_tracking.load_tracker_cfg(yaml, overrides)
+            yaml_sha = hashlib.sha256(Path(run_tracking.resolve_tracker_yaml(yaml)).read_bytes()).hexdigest()[:12]
+        except Exception as e:  # noqa: BLE001
+            raise LoiTruocXuLy("loi_chuan_bi", f"{type(e).__name__}: {e}")
+        print(f"[nano_live] {hello['detector']} | {hello['nguon']['loai']} {ten}: {hello['n_frames_khai_bao']} frame khai bao, "
+              f"fps {fps:g}, khoi tao {tg['khoi_tao_s']:.1f}s | tracker {cfg.tracker_type} ({yaml}) conf>{a.conf_min} "
+              f"classes={classes} max_det={a.max_det} track_buffer={cfg.track_buffer} elapsed={a.elapsed_mode} "
+              f"| cua so K={a.hang_doi} | dung: touch {stop_path} hoac Ctrl+C")
+        vd = NanoStreamDetections(con, hello, a.conf_min, classes, a.max_det, class_map, a.det_max_det,
+                                  a.allow_truncated, a.cho_phep_frame_hong, a.gia_lap_cham_tracker_ms)
+
+        def on_frame(frame_idx: int, _out) -> bool:
+            dem["n"] += 1
+            if a.progress_every and dem["n"] % a.progress_every == 0:
+                print(f"  frame {frame_idx}/{hello['n_frames_khai_bao']}")
+            if stop_ev.is_set() or stop_path.exists():
+                dem["dung_som"], dem["ly_do_dung"] = True, ("tin_hieu" if stop_ev.is_set() else "stop-file")
+                return False
+            return True
+
+        teg = NhatKyTegrastats(out / "tegrastats.log", a.tegrastats_ms if jetson else 0)
+
+        # ---- CUA SO XU LY (N21-F1): bat timer ROI MOI gui BAT DAU -> moi frame duoc dem nam trong cua so ----
+        t_bd = time.perf_counter()
+        moc["gui_bat_dau"] = time.monotonic()
+        tg["chuan_bi_cha_s"] = t_bd - t_hello
+        if not con.gui(proto.LENH_BAT_DAU):
+            raise LoiTruocXuLy("loi_khoi_tao", "khong gui duoc lenh BAT DAU (pipe toi con da dong)")
+        da_bat_dau = True
+        try:
+            df, df_cls, df_t = run_tracking.track_video(vd, cfg, dt_nominal, a.elapsed_mode, None, ten,
+                                                        on_frame=on_frame)
+        finally:
+            tg["xu_ly_s"] = time.perf_counter() - t_bd
+            moc["ket_thuc_xu_ly"] = time.monotonic()
+    except LoiTruocXuLy as e:
+        loi_truoc = e
+    except Exception:  # noqa: BLE001   -- loi o CHA: van don dep; truoc BAT DAU -> ma 2, trong vong lap -> ma 3
+        import traceback
+        if da_bat_dau:
+            loi_cha = traceback.format_exc(limit=8)
+        else:
+            loi_truoc = LoiTruocXuLy("loi_chuan_bi", traceback.format_exc(limit=8))
+    finally:
+        t_kt = time.perf_counter()
+        if teg is not None:
+            teg_tt = teg.dung()
+        if con is not None:
+            if dem["dung_som"] and loi_cha is None and vd is not None and vd.loi is None:
+                con.gui(proto.LENH_DUNG)
+                while True:                       # xa frame dang bay toi EOS/EOF (dem, KHONG xu ly)
+                    try:
+                        m = con.doc()
+                    except proto.LoiGiaoThuc:
+                        break
+                    if m is None or m["loai"] == proto.ERROR:
+                        break
+                    if m["loai"] == proto.FRAME:
+                        n_bay_khi_dung += 1
+                    elif m["loai"] == proto.EOS:
+                        vd.eos = m.get("obj") or {}
+                        break
+            elif loi_truoc is not None or loi_cha is not None or (vd is not None and vd.loi is not None):
+                con.gui(proto.LENH_DUNG)          # con dang cho BAT DAU / dang chay -> xin dung truoc khi dong stdin
+            ok_eos = vd is not None and (vd.eos is not None or dem["dung_som"])
+            thoat = con.ket_thuc(15 if ok_eos else 5)
+        tg["ket_thuc_s"] = time.perf_counter() - t_kt
+
+    # ---------------- loi truoc khi xu ly frame: ma 2, khong ket qua tracking ----------------
+    if loi_truoc is not None:
+        print(f"[LOI] {loi_truoc.trang_thai}: {loi_truoc.chi_tiet}; con {thoat}")
         (out / "run_meta.json").write_text(json.dumps(
-            {"trang_thai": "loi_khoi_tao", "ma_thoat": MA_LOI_DAU_VAO, "chi_tiet": chi_tiet, "con": thoat,
-             "lenh_con": cmd, "created": time.strftime("%Y-%m-%dT%H:%M:%S")}, ensure_ascii=False, indent=2),
+            {"trang_thai": loi_truoc.trang_thai, "ma_thoat": MA_LOI_DAU_VAO, "hoan_tat": False,
+             "chi_tiet": loi_truoc.chi_tiet, "con": thoat, "lenh_con": cmd, "hello_con": hello,
+             "thoi_gian": {k: v for k, v in tg.items() if v is not None},
+             "created": time.strftime("%Y-%m-%dT%H:%M:%S")}, ensure_ascii=False, indent=2, default=str),
             encoding="utf-8")
         return MA_LOI_DAU_VAO
-    hello = hello_msg["obj"]
-    wall_khoi_tao = time.perf_counter() - t_spawn
-    fps = float(hello["fps"])
-    ten = a.video_name or hello["nguon"]["ten"]
-
-    # ---------------- cau hinh hieu luc (NHU run_tracking.main) ----------------
-    dt_nominal = 1.0 / fps
-    overrides = run_tracking.parse_set(a.set)
-    if a.track_buffer_sec is not None:
-        overrides["track_buffer"] = track_buffer_frames(a.track_buffer_sec, fps)
-    cfg = run_tracking.load_tracker_cfg(yaml, overrides)
-    yaml_sha = hashlib.sha256(Path(run_tracking.resolve_tracker_yaml(yaml)).read_bytes()).hexdigest()[:12]
-    print(f"[nano_live] {hello['detector']} | {hello['nguon']['loai']} {ten}: {hello['n_frames_khai_bao']} frame khai bao, "
-          f"fps {fps:g}, khoi tao {wall_khoi_tao:.1f}s | tracker {cfg.tracker_type} ({yaml}) conf>{a.conf_min} "
-          f"classes={classes} max_det={a.max_det} track_buffer={cfg.track_buffer} elapsed={a.elapsed_mode} "
-          f"| cua so K={a.hang_doi} | dung: touch {stop_path} hoac Ctrl+C")
-
-    vd = NanoStreamDetections(con, hello, a.conf_min, classes, a.max_det, class_map, a.det_max_det,
-                              a.allow_truncated, a.cho_phep_frame_hong, a.gia_lap_cham_tracker_ms)
-    dem = {"n": 0, "dung_som": False, "ly_do_dung": None}
-
-    def on_frame(frame_idx: int, _out) -> bool:
-        dem["n"] += 1
-        if a.progress_every and dem["n"] % a.progress_every == 0:
-            print(f"  frame {frame_idx}/{hello['n_frames_khai_bao']}")
-        if stop_ev.is_set() or stop_path.exists():
-            dem["dung_som"], dem["ly_do_dung"] = True, ("tin_hieu" if stop_ev.is_set() else "stop-file")
-            return False
-        return True
-
-    teg = NhatKyTegrastats(out / "tegrastats.log", a.tegrastats_ms if jetson else 0)
-    t_vl = time.perf_counter()
-    df, df_cls, df_t = run_tracking.track_video(vd, cfg, dt_nominal, a.elapsed_mode, None, ten, on_frame=on_frame)
-    wall_vong_lap = time.perf_counter() - t_vl
-    teg_tt = teg.dung()
-
-    # ---------------- ket thuc tien trinh con ----------------
-    n_bay_khi_dung = 0
-    if dem["dung_som"]:
-        con.gui(proto.LENH_DUNG)
-        while True:                       # xa frame dang bay toi EOS/EOF (dem, KHONG xu ly)
-            try:
-                m = con.doc()
-            except proto.LoiGiaoThuc:
-                break
-            if m is None or m["loai"] == proto.ERROR:
-                break
-            if m["loai"] == proto.FRAME:
-                n_bay_khi_dung += 1
-            elif m["loai"] == proto.EOS:
-                vd.eos = m.get("obj") or {}
-                break
-    thoat = con.ket_thuc(15 if (vd.eos is not None or dem["dung_som"]) else 5)
 
     # ---------------- trang thai ----------------
+    import pandas as pd
+    if df is None:                      # loi o cha giua vong lap: track_video khong tra ket qua
+        df = pd.DataFrame(columns=run_tracking.TRK_COLS)
+        df_cls = pd.DataFrame(columns=["frame", "id", "cls"])
+        df_t = pd.DataFrame(columns=["frame", "n_steps", "n_tracks", "n_dets", "t_predict_ms", "t_assoc_ms", "t_update_ms"])
     n_xu_ly = len(vd.raw["frame_idx"])
-    if vd.loi is not None:
+    if loi_cha is not None:
+        trang_thai, ma, chi_tiet = "loi_cha", MA_LOI_LUONG, loi_cha
+    elif vd.loi is not None:
         trang_thai, ma, chi_tiet = vd.loi["trang_thai"], MA_LOI_LUONG, vd.loi["chi_tiet"]
-        if thoat["bi_kill_vi_treo"]:
+        if thoat.get("bi_kill_vi_treo"):
             trang_thai, chi_tiet = "loi_tien_trinh_con_treo", f"khong nhan thong diep > {a.timeout_con_s}s -> kill; {chi_tiet}"
     elif dem["dung_som"]:
         trang_thai, ma, chi_tiet = "da_dung", MA_DA_DUNG, f"dung theo yeu cau ({dem['ly_do_dung']})"
@@ -605,8 +741,8 @@ def main() -> int:  # noqa: C901
                                                                         a.max_frames)
         if int(vd.eos.get("n_frame_gui", -1)) != vd.n_nhan:
             trang_thai, ma, chi_tiet = "loi_mat_frame", MA_LOI_LUONG, f"EOS bao {vd.eos.get('n_frame_gui')} frame, nhan {vd.n_nhan}"
-        elif thoat["returncode"] != 0:
-            trang_thai, ma, chi_tiet = "loi_tien_trinh_con", MA_LOI_LUONG, f"con thoat ma {thoat['returncode']} sau EOS"
+        elif thoat.get("returncode") != 0:
+            trang_thai, ma, chi_tiet = "loi_tien_trinh_con", MA_LOI_LUONG, f"con thoat ma {thoat.get('returncode')} sau EOS"
         elif mong and vd.n_nhan != mong:
             trang_thai, ma, chi_tiet = ("thieu_frame_so_voi_khai_bao", MA_LOI_LUONG,
                                         f"xu ly {vd.n_nhan} frame, khai bao {mong} (nguon ket thuc som / dem khai bao sai)")
@@ -615,7 +751,6 @@ def main() -> int:  # noqa: C901
 
     # ---------------- ghi ket qua (LUON ghi phan da xu ly) ----------------
     t_ghi = time.perf_counter()
-    import pandas as pd
     for sub in ("data", "data_cls", "timing", "pipeline"):
         (out / sub).mkdir(exist_ok=True)
     df.to_csv(out / "data" / f"{ten}.txt", header=False, index=False)
@@ -641,21 +776,36 @@ def main() -> int:  # noqa: C901
             arr["unreadable"], arr["truncated"], arr["data"], hello["orig_shape"], meta_cache,
             {"source": hello["nguon"]["duong_dan"], "fps": fps, "tu_luong_truc_tiep": str(out.resolve()),
              "trang_thai_luot": trang_thai})
-    wall_ghi = time.perf_counter() - t_ghi
+    tg["ghi_s"] = time.perf_counter() - t_ghi
 
-    replay = ["python", "src/run_tracking.py", "--cache-id", a.save_cache or "<cache>", "--split-name", "<split>",
-              "--tracker-yaml", yaml, "--tracker-name", "<ten>", "--videos", ten, "--conf-min", str(a.conf_min)]
-    replay += ["--all-classes"] if classes is None else ["--classes", *[str(c) for c in classes]]
-    replay += ["--max-det", str(a.max_det), "--fps", f"{fps:g}", "--track-buffer-sec", str(a.track_buffer_sec),
-               "--elapsed-mode", a.elapsed_mode]
+    # (N21-F2) replay phai tim DUNG noi cache duoc ghi: root mac dinh -> run_tracking.py; root khac -> wrapper
+    # nano_replay.py voi DUONG DAN TUYET DOI (mot phan tu argv, giu dau cach). Placeholder <split>/<ten> la phan tu rieng.
+    rt = ["--cache-id", a.save_cache or "<cache>", "--split-name", "<split>", "--tracker-yaml", yaml,
+          "--tracker-name", "<ten>", "--videos", ten, "--conf-min", str(a.conf_min)]
+    rt += ["--all-classes"] if classes is None else ["--classes", *[str(c) for c in classes]]
+    rt += ["--max-det", str(a.max_det), "--fps", f"{fps:g}", "--track-buffer-sec", str(a.track_buffer_sec),
+           "--elapsed-mode", a.elapsed_mode]
     if a.class_map:
-        replay += ["--class-map", a.class_map]
+        rt += ["--class-map", a.class_map]
     if a.set:
-        replay += ["--set", *a.set]
+        rt += ["--set", *a.set]
     if a.allow_truncated:
-        replay.append("--allow-truncated")
+        rt.append("--allow-truncated")
+    if cache_root == det_cache.CACHE_ROOT.resolve():
+        replay = ["python", "src/run_tracking.py", *rt]
+    else:
+        replay = ["python", "src/nano_replay.py", "--cache-root", str(cache_root), "--", *rt]
 
     tt = tom_tat_thoi_gian(vd.pipeline, df_t, a.warmup_frames)
+    xong = [r for r in vd.pipeline if "t_xong_cha" in r]
+    cua_so = None
+    if xong and moc.get("gui_bat_dau") is not None and moc.get("ket_thuc_xu_ly") is not None:
+        dau, cuoi = min(r["t_bat_dau_con"] for r in xong), max(r["t_xong_cha"] for r in xong)
+        cua_so = {"frame_dau_bat_dau_doc_mono": dau, "frame_cuoi_xong_tracker_mono": cuoi,
+                  "tre_tu_bat_dau_den_doc_frame_dau_ms": (dau - moc["gui_bat_dau"]) * 1e3,
+                  "moi_frame_trong_cua_so": bool(dau >= moc["gui_bat_dau"] and cuoi <= moc["ket_thuc_xu_ly"]),
+                  "khoang_bao_phu_s": cuoi - dau}
+    xu_ly = tg["xu_ly_s"]
     meta = {
         "trang_thai": trang_thai, "ma_thoat": ma, "chi_tiet": chi_tiet, "hoan_tat": trang_thai == "hoan_tat",
         "dem": {"n_frames_khai_bao": hello["n_frames_khai_bao"], "max_frames": a.max_frames, "n_frame_nhan": vd.n_nhan,
@@ -675,21 +825,32 @@ def main() -> int:  # noqa: C901
                      "det_max_det": a.det_max_det, "imgsz": a.imgsz, "hang_doi": a.hang_doi,
                      "allow_truncated": a.allow_truncated, "cho_phep_frame_hong": a.cho_phep_frame_hong,
                      "gia_lap_cham_tracker_ms": a.gia_lap_cham_tracker_ms},
-        "thoi_gian": {"wall_khoi_tao_s": wall_khoi_tao, "wall_vong_lap_s": wall_vong_lap, "wall_ghi_s": wall_ghi,
-                      "fps_vong_lap": (n_xu_ly / wall_vong_lap if wall_vong_lap > 0 else None),
-                      "tom_tat_sau_warmup": tt,
-                      "pham_vi": "xem docstring src/nano_live.py (PHAM VI DO); khong render; khong gom khoi tao/ghi"},
+        "thoi_gian": {**tg, "fps_xu_ly": (n_xu_ly / xu_ly if xu_ly else None), "moc_monotonic": moc,
+                      "kiem_cua_so_do": cua_so, "tom_tat_sau_warmup": tt,
+                      "dinh_nghia": {
+                          "khoi_tao_s": "spawn con -> nhan HELLO (Python con, import, nap engine, lam nong)",
+                          "chuan_bi_cha_s": "nhan HELLO -> ngay truoc khi gui BAT DAU (cau hinh tracker, telemetry); "
+                                            "con CHUA doc frame nao",
+                          "xu_ly_s": "ngay truoc khi gui BAT DAU -> track_video tra ve (frame cuoi da qua tracker, nhan EOS"
+                                     " hoac dung); con chi doc frame 1 SAU khi nhan BAT DAU -> moi frame dem nam trong cua so",
+                          "fps_xu_ly": "so frame da xu ly / xu_ly_s",
+                          "ket_thuc_s": "sau vong lap -> con da thoat (xa frame dang bay khi dung, cho/reap con, dung telemetry)",
+                          "ghi_s": "ghi MOT/CSV/cache sau vong lap (do truoc khi ghi run_meta)",
+                          "fps_on_dinh": "(N - W) / (t_xong[N] - t_xong[W]) theo moc xong tracker o cha, bo W frame warm-up"},
+                      "ghi_chu": "vong 22 thay wall_vong_lap_s/fps_vong_lap cua vong 21 (timer vong 21 bat dau SAU khi con da "
+                                 "doc/infer frame dau -- review 9f210e2 N21-F1)"},
         "thiet_bi": {"truoc": truoc, "sau": trang_thai_thiet_bi(), "tegrastats": teg_tt,
                      "tegrastats_log": "tegrastats.log" if teg_tt.get("co_tegrastats") else None},
-        "cache": {"cache_id": a.save_cache, "cache_root": str(cache_root), "info": cache_info},
+        "cache": {"cache_id": a.save_cache, "cache_root": str(cache_root),
+                  "cache_dir": str(cache_root / a.save_cache) if a.save_cache else None, "info": cache_info},
         "replay_argv": replay, "provenance": provenance(), "python": sys.version.split()[0],
         "created": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }
     (out / "run_meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
-    fps_vl = meta["thoi_gian"]["fps_vong_lap"] or 0.0
-    print(f"[nano_live] {trang_thai.upper()} (ma {ma}): {chi_tiet}")
-    print(f"[nano_live] {n_xu_ly} frame xu ly, {len(df)} hang MOT, vong lap {wall_vong_lap:.2f}s ({fps_vl:.2f} fps), "
-          f"khoi tao {wall_khoi_tao:.1f}s, ghi {wall_ghi:.2f}s -> {out}")
+    fps_x = meta["thoi_gian"]["fps_xu_ly"] or 0.0
+    print(f"[nano_live] {trang_thai.upper()} (ma {ma}): {str(chi_tiet).strip().splitlines()[-1] if chi_tiet else ''}")
+    print(f"[nano_live] {n_xu_ly} frame xu ly, {len(df)} hang MOT, xu ly {xu_ly or 0:.2f}s ({fps_x:.2f} fps), "
+          f"khoi tao {tg['khoi_tao_s']:.1f}s, chuan bi cha {tg['chuan_bi_cha_s'] or 0:.2f}s, ghi {tg['ghi_s']:.2f}s -> {out}")
     return ma
 
 
