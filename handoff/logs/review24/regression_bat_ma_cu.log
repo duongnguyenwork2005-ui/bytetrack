@@ -1,0 +1,23 @@
+# test_render_mot_video MOI (vong 24) chay voi MA CU 1d5ffaa (clone tam, chi thay file test) - 2026-09-28T17:26:47+07:00
+  [PASS] 1. render 30 frame: exit 0, <out>.json dung (30 frame, 25 fps, 320x240, 54 box), doc lai du 30 frame
+  [PASS] 2. bo kiem voi dau vao dung -> exit 0 (DAT)
+         KET QUA: DAT | 30 frame, 54 box, ti le loi max 0.266, 18 box kiem lop, nhan lop mau {"car": 9, "truck": 9}
+  [PASS] 3. MOT lech +25 px -> exit 1 (bbox sai cho bi bat)
+         KET QUA: KHONG DAT | 30 frame, 54 box, ti le loi max 1.898, 18 box kiem lop, nhan lop mau {"car": 9, "truck": 9}
+  [PASS] 4. fps khai bao khac video -> exit 1
+         KET QUA: KHONG DAT | 30 frame, 54 box, ti le loi max 0.266, 18 box kiem lop, nhan lop mau {"car": 9, "truck": 9}
+  [PASS] 5. video thieu frame (20) khi kiem 30 anh -> exit 1
+         KET QUA: KHONG DAT | 20 frame, 34 box, ti le loi max 0.266, 6 box kiem lop, nhan lop mau {"car": 3, "truck": 3}
+  [PASS] 6. ten lop sai (car -> truck cho track 1) -> exit 1, phep ten lop KHONG DAT
+         KET QUA: KHONG DAT | 30 frame, 54 box, ti le loi max 0.333, 18 box kiem lop, nhan lop mau {"truck": 18}
+  [PASS] 7. render_mot_video.py + kiem_video_render.py dung cu phap Python 3.6
+  [FAIL] 8. so frame 'f999' tren 27 frame co box (kich ban Codex) -> exit 1: phep so frame KHONG DAT, phep khung bbox/ID van DAT
+         exit 0 so_frame=None khung=None loi_so=[]
+  [FAIL] 9. MAT so frame tren frame co box -> exit 1: phep so frame KHONG DAT, phep khung bbox/ID van DAT
+         exit 0 so_frame=None khung=None loi_so=[]
+  [FAIL] 10. so frame LECH MOT (f<i+1>) tren frame co box -> exit 1: phep so frame KHONG DAT, phep khung bbox/ID van DAT
+         exit 0 so_frame=None khung=None loi_so=[]
+  [FAIL] 11. so frame sai CHI tren frame KHONG co box (11-13) -> exit 1: phep so frame KHONG DAT, phep khung bbox/ID van DAT
+         exit 1 so_frame=None khung=None loi_so=[]
+KET QUA: 7/11 phep kiem tra PASS
+exit=0

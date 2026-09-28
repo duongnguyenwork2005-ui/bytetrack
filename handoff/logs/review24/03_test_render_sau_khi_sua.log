@@ -1,0 +1,45 @@
+# 03. test_render_mot_video tren ma sua 9b1805c - 2026-09-28T17:29:07+07:00
+  [PASS] 1. render 30 frame: exit 0, <out>.json dung (30 frame, 25 fps, 320x240, 54 box), doc lai du 30 frame
+         exit 0 info={'video': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test__v750amb\\out.mp4', 'n_frame': 30, 'fps': 25.0, 'kich_thuoc_wh': [320, 240], 'n_box': 54, 'codec': 'mp4v', 'images': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test__v750amb\\anh', 'mot': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test__v750amb\\mot.txt', 'mot_sha256': '438b51790eaf5b47cfd6ae452bce58e8bc584a190fc22c23069e97541aaa0b4b', 'cls': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test__v750amb\\cls.csv', 'cls_sha256': '6ddb3786f1422baaedb337002e7bcd1a1dbbcdc293890d05a91eec8f6dfcfbfc', 'anh_dau': 'img00001.jpg', 'anh_cuoi': 'img00030.jpg', 'opencv': '5.0.0', 'video_sha256': 'b79308ce42b92ad48dcc6b34336c30bda38e065e830baa85cce7d7e4ca4979c4', 'loai': 'render HAU KY tu anh + MOT (khong phai hien thi trong luc tracking)'} doc lai 30
+         [render] 30 frame, 54 box -> C:\Users\Mikuno\AppData\Local\Temp\render_test__v750amb\out.mp4
+  [PASS] 2. bo kiem voi dau vao dung -> exit 0 (DAT)
+           [DAT] kich thuoc == anh goc ([320, 240])
+           [DAT] so frame hien thi dung (moi frame, doc lap) (30 frame kiem, 0 sai)
+           [DAT] khung bbox/mau ID dung cho (frame co box) (27 frame co box, 0 loi)
+           [DAT] ten lop dung (mau moi 3 frame) (18 box kiem, 0 sai)
+         KET QUA: DAT | 30 frame (30 kiem so frame, ti le max 0.246), 54 box (ti le khung max 0.266), 18 box kiem lop, nhan lop mau {"car": 9, "truck": 9}
+  [PASS] 3. MOT lech +25 px -> exit 1 (bbox sai cho bi bat)
+              frame 7: loi diem ve 30.0 vs khong ve 17.2 (ti le 1.74)
+              frame 8: loi diem ve 30.2 vs khong ve 17.3 (ti le 1.74)
+              frame 9: loi diem ve 30.2 vs khong ve 17.0 (ti le 1.78)
+              frame 10: loi diem ve 30.3 vs khong ve 16.9 (ti le 1.79)
+         KET QUA: KHONG DAT | 30 frame (30 kiem so frame, ti le max 0.246), 54 box (ti le khung max 1.898), 18 box kiem lop, nhan lop mau {"car": 9, "truck": 9}
+  [PASS] 4. fps khai bao khac video -> exit 1
+         kiem, 0 sai)
+           [DAT] khung bbox/mau ID dung cho (frame co box) (27 frame co box, 0 loi)
+           [DAT] ten lop dung (mau moi 3 frame) (18 box kiem, 0 sai)
+         KET QUA: KHONG DAT | 30 frame (30 kiem so frame, ti le max 0.246), 54 box (ti le khung max 0.266), 18 box kiem lop, nhan lop mau {"car": 9, "truck": 9}
+  [PASS] 5. video thieu frame (20) khi kiem 30 anh -> exit 1
+         e kiem, 0 sai)
+           [DAT] khung bbox/mau ID dung cho (frame co box) (17 frame co box, 0 loi)
+           [DAT] ten lop dung (mau moi 5 frame) (6 box kiem, 0 sai)
+         KET QUA: KHONG DAT | 20 frame (20 kiem so frame, ti le max 0.246), 34 box (ti le khung max 0.266), 6 box kiem lop, nhan lop mau {"car": 3, "truck": 3}
+  [PASS] 6. ten lop sai (car -> truck cho track 1) -> exit 1, phep ten lop KHONG DAT
+         19 id 1: ky vong lop 7, gan nhat 2 (sai so 14.1 vs 5.2)
+              frame 22 id 1: ky vong lop 7, gan nhat 2 (sai so 13.9 vs 5.6)
+              frame 25 id 1: ky vong lop 7, gan nhat 2 (sai so 13.7 vs 4.8)
+              frame 28 id 1: ky vong lop 7, gan nhat 2 (sai so 14.4 vs 5.6)
+         KET QUA: KHONG DAT | 30 frame (30 kiem so frame, ti le max 0.246), 54 box (ti le khung max 0.333), 18 box kiem lop, nhan lop mau {"truck": 18}
+  [PASS] 7. render_mot_video.py + kiem_video_render.py dung cu phap Python 3.6
+         []
+  [PASS] 8. so frame 'f999' tren 27 frame co box (kich ban Codex) -> exit 1: phep so frame KHONG DAT, phep khung bbox/ID van DAT
+         exit 1 so_frame=False khung=True loi_so=["frame 1: so frame hien thi khong khop 'f1' (loi 40.8 vs khong so 76.2; gan nhat 'f19' trong 31 ung vien)", "frame 2: so frame hien thi khong khop 'f2' (loi 34.7 vs khong so 75.8; gan nhat 'f92' trong 31 ung vien)"]
+  [PASS] 9. MAT so frame tren frame co box -> exit 1: phep so frame KHONG DAT, phep khung bbox/ID van DAT
+         exit 1 so_frame=False khung=True loi_so=["frame 1: so frame hien thi khong khop 'f1' (loi 91.7 vs khong so 3.8; gan nhat None trong 31 ung vien)", "frame 2: so frame hien thi khong khop 'f2' (loi 90.3 vs khong so 3.9; gan nhat None trong 31 ung vien)"]
+  [PASS] 10. so frame LECH MOT (f<i+1>) tren frame co box -> exit 1: phep so frame KHONG DAT, phep khung bbox/ID van DAT
+         exit 1 so_frame=False khung=True loi_so=["frame 1: so frame hien thi khong khop 'f1' (loi 30.2 vs khong so 85.6; gan nhat 'f2' trong 31 ung vien)", "frame 2: so frame hien thi khong khop 'f2' (loi 36.3 vs khong so 75.7; gan nhat 'f3' trong 31 ung vien)"]
+  [PASS] 11. so frame sai CHI tren frame KHONG co box (11-13) -> exit 1: phep so frame KHONG DAT, phep khung bbox/ID van DAT
+         exit 1 so_frame=False khung=True loi_so=["frame 11: so frame hien thi khong khop 'f11' (loi 44.1 vs khong so 74.3; gan nhat 'f119' trong 49 ung vien)", "frame 12: so frame hien thi khong khop 'f12' (loi 40.5 vs khong so 74.7; gan nhat 'f129' trong 50 ung vien)"]
+
+KET QUA: 11/11 phep kiem tra PASS
+exit=0

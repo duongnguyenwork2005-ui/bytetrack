@@ -1,0 +1,87 @@
+# 01. script Codex CODEX_REPRO_1d5ffaa_render_counter.py tren MA CU 1d5ffaa - 2026-09-28T17:22:46+07:00
+$ python handoff/CODEX_REPRO_1d5ffaa_render_counter.py   (tu goc repo)
+Evidence directory: C:\Users\Mikuno\AppData\Local\Temp\codex_n23_counter_fpqy57k_
+[
+  {
+    "mode": "correct",
+    "wrong_counter_frames": 0,
+    "exit": 0,
+    "checker": {
+      "video": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_n23_counter_fpqy57k_\\correct.mp4",
+      "n_frame_giai_ma": 30,
+      "n_anh": 30,
+      "fps_video": 25.0,
+      "kich_thuoc_wh": [
+        320,
+        240
+      ],
+      "n_box": 54,
+      "n_frame_co_box": 27,
+      "n_box_kiem_lop": 18,
+      "dem_nhan_lop_mau": {
+        "car": 9,
+        "truck": 9
+      },
+      "ti_le_loi_max": 0.2662171706137298,
+      "loi_diem_ve_max": 16.998463901689707,
+      "nguong": {
+        "ti_le": 0.5,
+        "tran": 40.0
+      },
+      "loi_khung": [],
+      "loi_lop": [],
+      "phep": {
+        "so frame giai ma == so anh": true,
+        "CAP_PROP_FRAME_COUNT == so anh": true,
+        "fps video == --fps": true,
+        "kich thuoc == anh goc": true,
+        "moi frame: khung bbox/mau ID/so frame dung cho": true,
+        "ten lop dung (mau moi 3 frame)": true
+      },
+      "dat": true,
+      "opencv": "5.0.0"
+    }
+  },
+  {
+    "mode": "wrong_counter",
+    "wrong_counter_frames": 27,
+    "exit": 0,
+    "checker": {
+      "video": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_n23_counter_fpqy57k_\\wrong_counter.mp4",
+      "n_frame_giai_ma": 30,
+      "n_anh": 30,
+      "fps_video": 25.0,
+      "kich_thuoc_wh": [
+        320,
+        240
+      ],
+      "n_box": 54,
+      "n_frame_co_box": 27,
+      "n_box_kiem_lop": 18,
+      "dem_nhan_lop_mau": {
+        "car": 9,
+        "truck": 9
+      },
+      "ti_le_loi_max": 0.2662171706137298,
+      "loi_diem_ve_max": 16.881720430107528,
+      "nguong": {
+        "ti_le": 0.5,
+        "tran": 40.0
+      },
+      "loi_khung": [],
+      "loi_lop": [],
+      "phep": {
+        "so frame giai ma == so anh": true,
+        "CAP_PROP_FRAME_COUNT == so anh": true,
+        "fps video == --fps": true,
+        "kich thuoc == anh goc": true,
+        "moi frame: khung bbox/mau ID/so frame dung cho": true,
+        "ten lop dung (mau moi 3 frame)": true
+      },
+      "dat": true,
+      "opencv": "5.0.0"
+    }
+  }
+]
+REGRESSION: FAIL: wrong counter video was not rejected
+exit=1
