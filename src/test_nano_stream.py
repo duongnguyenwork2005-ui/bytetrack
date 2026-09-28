@@ -18,7 +18,8 @@ nam trong CACHE_ROOT / data/processed/trackers voi ten TEST_* va duoc xoa sau kh
   6. Con loi giua chung (thoat ma 3, khong EOS) -> exit 3, loi_tien_trinh_con, KHONG hoan_tat, phan da xu ly van ghi.
   7. Con bi kill giua chung -> exit 3, loi_tien_trinh_con.
   8. Con bo mot frame -> exit 3, loi_mat_frame.
-  9. Anh hong: mac dinh exit 3 (loi_dau_vao); --cho-phep-frame-hong -> exit 0, unreadable ghi nhan, replay khop.
+  9. Anh hong (rac + BMP bi cat -- OpenCV 3.2 tung abort ca tien trinh): mac dinh exit 3 (loi_dau_vao);
+    --cho-phep-frame-hong -> exit 0, unreadable ghi nhan, con khong chet, replay khop.
  10. Loi truoc vong lap -> exit 2: nguon khong co, engine khong co, thu muc da co ket qua, con loi khoi tao.
  11. Cua so co gioi han: --hang-doi 2 + tracker cham -> du frame (khong bo), max_in_flight <= 2, con co cho credit.
  12. Cham tran det_max_det: mac dinh exit 3; --allow-truncated -> exit 0 va replay (co --allow-truncated) khop.
@@ -90,7 +91,10 @@ def tao_anh(d: Path, n: int = N, hong: int | None = None) -> Path:
         img = np.full((96, 160, 3), 40 + (i % 50), np.uint8)
         p = d / f"img{i:05d}.bmp"
         if hong == i:
-            p.write_bytes(b"khong phai anh")
+            p.write_bytes(b"khong phai anh")                  # rac
+        elif hong is not None and hong + 1 == i:
+            ghi_bmp(p, img)
+            p.write_bytes(p.read_bytes()[:60])                 # BMP bi cat (OpenCV 3.2 tung ABORT ca tien trinh)
         else:
             ghi_bmp(p, img)
     return d
@@ -150,6 +154,17 @@ def replay_va_so(out: Path, ten: str) -> tuple[bool, str]:
     b = (out / "data" / f"{video}.txt").read_bytes().replace(b"\r\n", b"\n")
     return (p.returncode == 0 and a == b and len(a) > 0,
             f"parity exit {p.returncode}; byte giong het {a == b} ({len(a)} B); {p.stdout.strip().splitlines()[-1:]}")
+
+
+def cho_hello(out: Path, timeout=120.0) -> bool:
+    """Doi con gui HELLO (khoi tao xong) -- tren Nano Python 3.6 + cv2 khoi dong cham hon PC nhieu."""
+    t0 = time.time()
+    while time.time() - t0 < timeout:
+        p = out / "detector_stderr.log"
+        if p.exists() and b"HELLO" in p.read_bytes():
+            return True
+        time.sleep(0.05)
+    return False
 
 
 def cho_pid(out: Path, timeout=30.0) -> int | None:
@@ -227,7 +242,8 @@ def t5_dung_som(tmp: Path, anh: Path, cache: Path):
     out = tmp / "dung"
     p = chay(out, anh, cache, "--tracker", "cv", "--save-cache", f"{TAG}_dung", "--gia-lap-cham-ms", "50", nen=True)
     pid = cho_pid(out)
-    time.sleep(0.8)
+    cho_hello(out)
+    time.sleep(0.6)
     (out / "STOP").write_text("dung", encoding="utf-8")
     so = p.communicate(timeout=120)[0].decode("utf-8", "replace")
     m = meta(out)
@@ -247,8 +263,8 @@ def t5_dung_som(tmp: Path, anh: Path, cache: Path):
         return
     out = tmp / "sigint"
     p = chay(out, anh, cache, "--tracker", "cv", "--gia-lap-cham-ms", "50", nen=True)
-    cho_pid(out)
-    time.sleep(0.8)
+    cho_hello(out)
+    time.sleep(0.6)
     os.kill(p.pid, signal.SIGINT)
     p.communicate(timeout=120)
     m = meta(out)
@@ -270,13 +286,14 @@ def t6_7_8_loi(tmp: Path, anh: Path, cache: Path):
     out = tmp / "con_kill"
     p = chay(out, anh, cache, "--tracker", "cv", "--gia-lap-cham-ms", "50", nen=True)
     pid = cho_pid(out)
-    time.sleep(0.8)
+    hello = cho_hello(out)
+    time.sleep(0.6)
     if pid:
         os.kill(pid, signal.SIGKILL if hasattr(signal, "SIGKILL") else signal.SIGTERM)
     p.communicate(timeout=120)
     m = meta(out)
     check("7. con bi kill giua chung: exit 3, loi_tien_trinh_con, KHONG hoan_tat",
-          pid is not None and p.returncode == 3 and m.get("trang_thai") == "loi_tien_trinh_con" and not m.get("hoan_tat")
+          pid is not None and hello and p.returncode == 3 and m.get("trang_thai") == "loi_tien_trinh_con" and not m.get("hoan_tat")
           and 0 <= m["dem"]["n_frame_da_xu_ly"] < N,
           f"exit {p.returncode} {m.get('trang_thai')} {m.get('dem')} {m.get('chi_tiet')}")
 
@@ -298,8 +315,9 @@ def t9_anh_hong(tmp: Path, cache: Path):
     r2 = chay(out, anh, cache, "--tracker", "cv", "--cho-phep-frame-hong", "--save-cache", f"{TAG}_hong")
     m2 = meta(out)
     ok_rep, why = replay_va_so(out, "rep-hong") if r2.returncode == 0 else (False, "khong replay")
-    check("9. anh hong frame 5: mac dinh exit 3 loi_dau_vao; --cho-phep-frame-hong -> exit 0, unreadable 1, replay khop",
-          ok1 and r2.returncode == 0 and m2["dem"]["n_unreadable"] == 1 and m2["dem"]["n_frame_da_xu_ly"] == N and ok_rep,
+    check("9. anh hong (frame 5 rac, frame 6 BMP bi cat): mac dinh exit 3 loi_dau_vao; --cho-phep-frame-hong -> exit 0, "
+          "unreadable 2, con KHONG chet, replay khop",
+          ok1 and r2.returncode == 0 and m2["dem"]["n_unreadable"] == 2 and m2["dem"]["n_frame_da_xu_ly"] == N and ok_rep,
           f"mac dinh: exit {r.returncode} {m.get('trang_thai')}; cho phep: exit {r2.returncode} {m2.get('dem')}\n{why}")
 
 

@@ -51,6 +51,29 @@ def sha256_file(p):
     return nd.sha256_file(p)
 
 
+def tep_anh_hop_le(p):
+    """Kiem chu ky + kich thuoc TRUOC khi giao cho cv2. Ly do (do tren Nano, vong 21): bo giai ma BMP cua OpenCV 3.2
+    (Python 3.6 he thong) ABORT CA TIEN TRINH (std::out_of_range) voi file BMP cut cut/rac, thay vi tra None.
+    Tep khong qua kiem -> coi la frame KHONG DOC DUOC (cung duong voi imread tra None)."""
+    try:
+        n = os.path.getsize(p)
+        with open(p, "rb") as f:
+            h = f.read(26)
+    except OSError:
+        return False
+    duoi = os.path.splitext(p)[1].lower()
+    if duoi in (".jpg", ".jpeg"):
+        return n >= 4 and h[:2] == b"\xff\xd8"
+    if duoi == ".png":
+        return n >= 33 and h[:8] == b"\x89PNG\r\n\x1a\n"
+    if duoi == ".bmp":
+        if n < 54 or h[:2] != b"BM":
+            return False
+        khai_bao = int.from_bytes(h[2:6], "little")
+        return khai_bao <= n
+    return n > 0
+
+
 class Nguon(object):
     """Lap (idx, time_s, img|None, decode_ms). Thu muc anh: thu tu theo SO trong ten; video: thu tu container."""
 
@@ -64,7 +87,7 @@ class Nguon(object):
             if not fps:
                 raise ValueError("thu muc anh khong co fps: can --fps")
             self.fps = float(fps)
-            img0 = cv2.imread(self.paths[0])
+            img0 = cv2.imread(self.paths[0]) if tep_anh_hop_le(self.paths[0]) else None
             if img0 is None:
                 raise ValueError("khong doc duoc anh dau tien %s" % self.paths[0])
             self.orig_shape = [int(img0.shape[0]), int(img0.shape[1])]
@@ -98,7 +121,9 @@ class Nguon(object):
                 n += 1
                 t_moc = time.monotonic()
                 t0 = pc()
-                img = self.cv2.imread(p)
+                img = self.cv2.imread(p) if tep_anh_hop_le(p) else None
+                if img is None:
+                    log("frame %d: khong doc duoc %s" % (i, os.path.basename(p)))
                 yield i, (i - 1) / self.fps, img, (pc() - t0) * 1e3, t_moc
             return
         idx = 0
