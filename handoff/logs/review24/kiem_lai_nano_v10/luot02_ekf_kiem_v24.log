@@ -1,0 +1,11 @@
+# 2026-09-28T18:42:33+08:00 | cwd /home/jetson/nano_run/v10/nano_transfer
+$ /usr/bin/python3 src/kiem_video_render.py --video /home/jetson/nano_run/v9/nano_transfer/results_nano/render_v23/luot02_ekf_f0001-0300.mp4 --images /home/jetson/nano_run/data_full/MVI_39031 --mot /home/jetson/nano_run/v8/nano_transfer/results_nano/dai_v23/luot02_ekf/data/MVI_39031.txt --cls /home/jetson/nano_run/v8/nano_transfer/results_nano/dai_v23/luot02_ekf/data_cls/MVI_39031.csv --fps 25 --max-frames 300 --buoc-lop 5 --json /home/jetson/nano_run/v10/nano_transfer/results_nano/kiem_lai_v24/luot02_ekf_kiem_v24.json
+  [DAT] so frame giai ma == so anh (300 vs 300)
+  [DAT] CAP_PROP_FRAME_COUNT == so anh (300 vs 300)
+  [DAT] fps video == --fps (25 vs 25)
+  [DAT] kich thuoc == anh goc ([960, 540])
+  [DAT] so frame hien thi dung (moi frame, doc lap) (300 frame kiem, 0 sai)
+  [DAT] khung bbox/mau ID dung cho (frame co box) (300 frame co box, 0 loi)
+  [DAT] ten lop dung (mau moi 5 frame) (255 box kiem, 0 sai)
+KET QUA: DAT | 300 frame (300 kiem so frame, ti le max 0.164), 1270 box (ti le khung max 0.307), 255 box kiem lop, nhan lop mau {"car": 252, "truck": 3}
+# exit=0 wall_ms=82152
