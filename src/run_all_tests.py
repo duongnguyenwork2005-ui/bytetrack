@@ -87,6 +87,8 @@ TESTS = [
     ("test_pc_launcher", [], None),
     ("test_nano_detector", [], None),
     ("test_nano_run_cache", [], None),
+    # vong 21: luong truc tiep hai tien trinh (video/anh -> detector -> pipe co gioi han -> tracker)
+    ("test_nano_stream", [], None),
     ("test_bdd100k_adapter", [], None),
     ("test_bdd100k_coco", [], None),
     ("test_pf_ctrv", [], None),

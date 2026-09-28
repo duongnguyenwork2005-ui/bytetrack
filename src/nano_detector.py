@@ -222,6 +222,7 @@ class TRTEngine(object):
             self.bindings_info.append({"name": self.engine.get_binding_name(i), "input": self.engine.binding_is_input(i),
                                        "shape": tuple(self.engine.get_binding_shape(i)),
                                        "dtype": trt.nptype(self.engine.get_binding_dtype(i)).__name__})
+        self.t_last = {}          # nhanh cudart: h2d/exec/d2h (ms) cua lan goi gan nhat
         self.in_idx = [i for i, b in enumerate(self.bindings_info) if b["input"]][0]
         self.out_idx = [i for i, b in enumerate(self.bindings_info) if not b["input"]][0]
         self.in_shape = self.bindings_info[self.in_idx]["shape"]
@@ -280,9 +281,15 @@ class TRTEngine(object):
         x = np.ascontiguousarray(x, dtype=self.in_dtype).reshape(-1)
         if self.bo_dem == "cudart":
             ct = self.ctypes
+            t0 = time.perf_counter()
             self._chk(self.cudart.cudaMemcpy(self.d_in, x.ctypes.data_as(ct.c_void_p), x.nbytes, 1), "cudaMemcpy H2D")
+            t1 = time.perf_counter()
             ok = self.ctx.execute_v2(bindings=self.bindings)              # dong bo
+            t2 = time.perf_counter()
             self._chk(self.cudart.cudaMemcpy(self.h_out.ctypes.data_as(ct.c_void_p), self.d_out, self.h_out.nbytes, 2), "cudaMemcpy D2H")
+            t3 = time.perf_counter()
+            # ca ba lenh deu DONG BO (cudaMemcpy + execute_v2) -> moi khoang da gom GPU hoan tat
+            self.t_last = {"h2d_ms": (t1 - t0) * 1e3, "exec_ms": (t2 - t1) * 1e3, "d2h_ms": (t3 - t2) * 1e3}
             out = self.h_out
         elif self.dung_torch:
             torch = self.torch

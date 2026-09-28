@@ -137,6 +137,34 @@ Số đo được phép công bố: `trtexec` (GPU detector), `detector_timing.j
 tracker (`timing/`), kèm `nvpmodel`/`tegrastats`/nhiệt độ — ghi rõ phạm vi từng số; **không** cộng gộp thành "FPS
 end-to-end" khi hai tiến trình chạy tuần tự qua file.
 
+## 6b. Luồng TRỰC TIẾP (vòng 21) — video/ảnh → TensorRT → tracker, xử lý **từng frame**
+
+Hai tiến trình (TensorRT chỉ có binding Python 3.6, tracker cần ≥ 3.8): con `src/nano_detect_stream.py` (Python 3.6 hệ
+thống, `LD_PRELOAD` libgomp) đọc frame → TensorRT FP16 → hậu xử lý NumPy → gửi detection của frame đó qua pipe
+(`src/nano_stream_proto.py`); cha `src/nano_live.py` (env ≥ 3.8, `BYTETRACK_BACKEND=np`) lọc (`det_cache.filter_dets`) →
+`run_tracking.track_video` (cùng vòng lặp với replay cache) → MOT + timing + pipeline + `run_meta.json`. Cửa sổ credit
+`--hang-doi K` (mặc định 4): tối đa K frame đã gửi chưa xử lý xong, chế độ offline **không bỏ frame**.
+
+```bash
+PYV=~/miniforge3/envs/nano/bin/python          # gọi TRỰC TIẾP, không `conda run`
+# 0. engine (một lần, ~8 phút): bash scripts/nano/01_build_engine.sh models/export/yolov8n_640_op12.onnx yolov8n_fp16.engine --fp16
+# KHỞI ĐỘNG (một lượt):
+bash scripts/nano/04_live_nano.sh cv  results_nano/live/thu-cv                     # 300 JPG smoke, EKF: thay cv -> ekf
+bash scripts/nano/04_live_nano.sh ekf results_nano/live/mp4-ekf --source data/smoke/MVI_39031_f0001-0300.mp4
+# DỪNG có kiểm soát (từ terminal khác, hoặc Ctrl+C ở terminal đang chạy):
+touch results_nano/live/thu-cv/STOP
+# KIỂM CHỨNG trước khi đo (A gia lập == pc-ref; B TRT live == replay; C mô tả; D biên):
+bash scripts/nano/05_parity_live.sh yolov8n_fp16.engine results_nano/live_v6/parity
+# ĐO toàn luồng (chỉ sau khi 05 ĐẠT; điều kiện phải được công bố trước trong file):
+bash scripts/nano/06_bench_live.sh reference/dieu_kien_do_toan_luong.md yolov8n_fp16.engine results_nano/live_v6/bench
+```
+
+Mã thoát `nano_live.py`: **0** hoàn tất · **2** lỗi trước vòng lặp (không có kết quả) · **3** lỗi giữa luồng (con chết,
+EOF không EOS, mất frame, ảnh hỏng, chạm trần `det_max_det`, thiếu frame so với khai báo) — kết quả ghi đủ phần đã xử
+lý nhưng **không** "hoàn tất" · **4** dừng theo yêu cầu. Không cần GT; `--regions` (vùng bỏ qua từ nhãn) chỉ dùng cho
+chế độ đối chiếu và được ghi trong metadata. Phạm vi từng timer: docstring `src/nano_live.py`. Không render trong mốc này
+(video minh họa: `render_mot_video.py` sau khi chạy).
+
 ## 7. Đã làm / chưa làm
 
 | Hạng mục | Trạng thái |
