@@ -56,8 +56,17 @@ def mau_id(tid: int):
     return ((tid * 37) % 256, (tid * 91) % 256, (tid * 53) % 256)
 
 
-def ve_frame(cv2, img, box_frame, lop: dict, i: int):
-    """Ve bbox + "<id> <lop>" + so frame len `img` (tai cho). Tra so box da ve. Dung CHUNG cho render va kiem."""
+SO_FRAME_GOC = (8, 20)                                   # vi tri chu "f<so frame>" (goc trai tren)
+
+
+def ve_so_frame(cv2, img, chu: str):
+    """Ve chu so frame (vd "f12") DUNG kieu cua video render. Dung CHUNG cho render va bo kiem."""
+    cv2.putText(img, chu, SO_FRAME_GOC, cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2, cv2.LINE_AA)
+
+
+def ve_frame(cv2, img, box_frame, lop: dict, i: int, ve_so: bool = True):
+    """Ve bbox + "<id> <lop>" (+ so frame, VE SAU CUNG) len `img` (tai cho). Tra so box da ve. Dung CHUNG cho render
+    va kiem; `ve_so=False` chi dung trong bo kiem (ban khong co so frame)."""
     for tid, x, y, bw, bh, _conf in box_frame:
         c = mau_id(tid)
         cv2.rectangle(img, (int(x), int(y)), (int(x + bw), int(y + bh)), c, 2)
@@ -65,7 +74,8 @@ def ve_frame(cv2, img, box_frame, lop: dict, i: int):
         ten = COCO.get(ten, str(ten)) if ten is not None else ""
         cv2.putText(img, "%d%s" % (tid, (" " + ten) if ten else ""), (int(x), max(12, int(y) - 4)),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, c, 1, cv2.LINE_AA)
-    cv2.putText(img, "f%d" % i, (8, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2, cv2.LINE_AA)
+    if ve_so:
+        ve_so_frame(cv2, img, "f%d" % i)
     return len(box_frame)
 
 

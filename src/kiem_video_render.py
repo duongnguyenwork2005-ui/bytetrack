@@ -2,10 +2,15 @@
 kiem_video_render.py -- Kiem video do `render_mot_video.py` tao ra: DUNG so frame, DUNG FPS/kich thuoc, bbox/ID ve DUNG CHO
 tren DUNG frame, ten lop DUNG. Cu phap Python 3.6 (chay bang Python he thong cua Jetson, co cv2).
 
-Codec mp4v co mat mat -> khong so bang nhau tung byte. Voi moi frame i (ve lai bang CHINH `render_mot_video.ve_frame`):
-  (1) KHUNG + SO FRAME (moi frame): tap diem = noi (anh + ve day du) khac (anh + chi so frame); tren tap do, sai so trung binh
-      cua frame GIAI MA so voi ban ky vong phai <= TI_LE x sai so so voi ban khong ve, va <= TRAN. Box lech cho, sai frame,
-      sai mau (mau theo ID) deu day ti le len. Frame khong box: kiem phan so frame.
+Codec mp4v co mat mat -> khong so bang nhau tung byte. Voi moi frame i (ve lai bang CHINH `render_mot_video.ve_frame` /
+`ve_so_frame`):
+  (0) SO FRAME HIEN THI -- DOC LAP, tren MOI frame (ke ca frame co box; review 1d5ffaa N23-F1):
+      (a) tren cac diem cua chu "f<i>" ky vong: sai so so voi ban ky vong <= TI_LE x sai so so voi ban KHONG co so frame,
+          va <= TRAN (bat so frame bi mat / sai lon);
+      (b) nhan dang: ve lai tren CHINH nen cua frame moi ung vien cach "f<i>" MOT phep sua chu so (thay / xoa / chen) va
+          ban khong so frame; tren hop cac diem cua moi ung vien, ban giai ma phai GAN "f<i>" NHAT (bat lech mot chu so).
+  (1) KHUNG BBOX + MAU ID (frame co box): tap diem = noi (anh + ve day du) khac (anh + chi so frame); sai so cua frame giai ma
+      so voi ban ky vong phai <= TI_LE x sai so so voi ban khong ve, va <= TRAN. Box lech cho, sai mau theo ID deu bi bat.
   (2) TEN LOP (mau moi `--buoc-lop` frame): voi TUNG box, ve lai frame voi moi ung vien ten lop (5 lop COCO + khong ten) va
       chon ung vien gan frame giai ma nhat trong vung chu cua box -> phai trung ten lop ky vong.
 
@@ -26,6 +31,48 @@ import render_mot_video as rmv  # noqa: E402
 TI_LE = 0.5        # sai so tren diem ve so voi ban ky vong phai <= 50 % so voi ban khong ve
 TRAN = 40.0        # va <= 40 (thang 0-255, trung binh tri tuyet doi 3 kenh) -- du rong cho mat mat mp4v
 UNG_VIEN_LOP = [None, 1, 2, 3, 5, 7]
+CAT_SO = (36, 8)   # vung cat goc trai tren de ve lai ung vien so frame: cao 36 px, rong = 8 + chu dai nhat + le
+
+
+def ung_vien_so(i: int) -> list:
+    """'f<i>' va moi chuoi cach dung MOT phep sua chu so (thay / xoa / chen) + None (khong so frame)."""
+    s = str(i)
+    kq = {s}
+    for k in range(len(s)):
+        for d in "0123456789":
+            kq.add(s[:k] + d + s[k + 1:])
+        kq.add(s[:k] + s[k + 1:])
+    for k in range(len(s) + 1):
+        for d in "0123456789":
+            kq.add(s[:k] + d + s[k:])
+    return [None] + sorted("f" + x for x in kq)
+
+
+def kiem_so_frame(cv2, fr, khong_so, i: int):
+    """Kiem chu so frame cua frame giai ma `fr`; `khong_so` = anh goc + bbox/nhan (KHONG so frame).
+    Tra (dat, loi_kv, loi_ref, chon, n_ung_vien)."""
+    uv = ung_vien_so(i)
+    dai = max(cv2.getTextSize(u, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)[0][0] for u in uv if u)
+    h, w = min(CAT_SO[0], fr.shape[0]), min(rmv.SO_FRAME_GOC[0] + dai + CAT_SO[1], fr.shape[1])
+    nen = np.ascontiguousarray(khong_so[:h, :w])
+    anh_uv = {}
+    for u in uv:
+        im = nen.copy()
+        if u:
+            rmv.ve_so_frame(cv2, im, u)
+        anh_uv[u] = im
+    mong = "f%d" % i
+    m_mong = np.any(anh_uv[mong] != nen, axis=2)
+    frc = fr[:h, :w]
+    loi_kv, loi_ref = _mae(frc, anh_uv[mong], m_mong), _mae(frc, nen, m_mong)
+    hop = np.zeros((h, w), bool)
+    for u, im in anh_uv.items():
+        if u:
+            hop |= np.any(im != nen, axis=2)
+    sai = {u: _mae(frc, im, hop) for u, im in anh_uv.items()}
+    chon = min(sai, key=sai.get)
+    dat = loi_kv <= TI_LE * max(loi_ref, 1e-6) and loi_kv <= TRAN and chon == mong
+    return dat, loi_kv, loi_ref, chon, len(uv)
 
 
 def _mae(a, b, mask):
@@ -52,8 +99,9 @@ def main() -> int:
     n_khai_bao = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
     boxes = rmv.doc_mot(a.mot)
     lop = rmv.doc_lop(a.cls)
-    loi_khung, loi_lop = [], []
-    n_box = n_frame_co_box = n_box_kiem_lop = 0
+    loi_khung, loi_lop, loi_so = [], [], []
+    n_box = n_frame_co_box = n_box_kiem_lop = n_frame_kiem_so = 0
+    ti_le_so_max = 0.0
     dem_lop = {}
     ti_le_max = loi_kv_max = 0.0
     i = 0
@@ -76,17 +124,23 @@ def main() -> int:
         rmv.ve_frame(cv2, nen, [], {}, i)                        # chi so frame
         n_box += len(bf)
         n_frame_co_box += 1 if bf else 0
-        # (1) khung + so frame
+        # (0) so frame hien thi -- DOC LAP, moi frame (N23-F1)
+        khong_so = goc.copy()
+        rmv.ve_frame(cv2, khong_so, bf, lop, i, ve_so=False)
+        dat_so, lkv, lref, chon, n_uv = kiem_so_frame(cv2, fr, khong_so, i)
+        n_frame_kiem_so += 1
+        ti_le_so_max = max(ti_le_so_max, lkv / max(lref, 1e-6))
+        if not dat_so:
+            loi_so.append("frame %d: so frame hien thi khong khop 'f%d' (loi %.1f vs khong so %.1f; gan nhat %r trong %d ung vien)"
+                          % (i, i, lkv, lref, chon, n_uv))
+        # (1) khung bbox + mau ID (frame co box)
         mask = np.any(ky_vong != nen, axis=2)
         if mask.any():
             loi_kv, loi_ref = _mae(fr, ky_vong, mask), _mae(fr, nen, mask)
-        else:
-            mask = np.any(nen != goc, axis=2)
-            loi_kv, loi_ref = _mae(fr, nen, mask), _mae(fr, goc, mask)
-        ti_le = loi_kv / max(loi_ref, 1e-6)
-        ti_le_max, loi_kv_max = max(ti_le_max, ti_le), max(loi_kv_max, loi_kv)
-        if ti_le > TI_LE or loi_kv > TRAN:
-            loi_khung.append("frame %d: loi diem ve %.1f vs khong ve %.1f (ti le %.2f)" % (i, loi_kv, loi_ref, ti_le))
+            ti_le = loi_kv / max(loi_ref, 1e-6)
+            ti_le_max, loi_kv_max = max(ti_le_max, ti_le), max(loi_kv_max, loi_kv)
+            if ti_le > TI_LE or loi_kv > TRAN:
+                loi_khung.append("frame %d: loi diem ve %.1f vs khong ve %.1f (ti le %.2f)" % (i, loi_kv, loi_ref, ti_le))
         # (2) ten lop: chon ung vien gan nhat trong vung chu cua tung box
         if bf and a.buoc_lop and (i - 1) % a.buoc_lop == 0:
             for tid, *_r in bf:
@@ -121,21 +175,25 @@ def main() -> int:
         "CAP_PROP_FRAME_COUNT == so anh": (n_khai_bao == len(anh), "%d vs %d" % (n_khai_bao, len(anh))),
         "fps video == --fps": (abs(fps_video - a.fps) < 1e-3, "%g vs %g" % (fps_video, a.fps)),
         "kich thuoc == anh goc": (wh_video == [w0, h0], str(wh_video)),
-        "moi frame: khung bbox/mau ID/so frame dung cho": (not loi_khung, "%d frame loi" % len(loi_khung)),
+        "so frame hien thi dung (moi frame, doc lap)": (not loi_so and n_frame_kiem_so == i and i > 0,
+                                                        "%d frame kiem, %d sai" % (n_frame_kiem_so, len(loi_so))),
+        "khung bbox/mau ID dung cho (frame co box)": (not loi_khung, "%d frame co box, %d loi" % (n_frame_co_box, len(loi_khung))),
         "ten lop dung (mau moi %d frame)" % a.buoc_lop: (not loi_lop and n_box_kiem_lop > 0 or not boxes,
                                                          "%d box kiem, %d sai" % (n_box_kiem_lop, len(loi_lop))),
     }
     for ten, (ok, ct) in phep.items():
         print("  [%s] %s (%s)" % ("DAT" if ok else "KHONG DAT", ten, ct))
-    for e in (loi_khung + loi_lop)[:10]:
+    for e in (loi_so + loi_khung + loi_lop)[:10]:
         print("     " + e)
     kq = {"video": a.video, "n_frame_giai_ma": i, "n_anh": len(anh), "fps_video": fps_video, "kich_thuoc_wh": wh_video,
           "n_box": n_box, "n_frame_co_box": n_frame_co_box, "n_box_kiem_lop": n_box_kiem_lop, "dem_nhan_lop_mau": dem_lop,
+          "n_frame_kiem_so": n_frame_kiem_so, "ti_le_loi_so_max": ti_le_so_max,
           "ti_le_loi_max": ti_le_max, "loi_diem_ve_max": loi_kv_max, "nguong": {"ti_le": TI_LE, "tran": TRAN},
-          "loi_khung": loi_khung[:50], "loi_lop": loi_lop[:50], "phep": {k: v[0] for k, v in phep.items()},
+          "loi_so": loi_so[:50], "loi_khung": loi_khung[:50], "loi_lop": loi_lop[:50], "phep": {k: v[0] for k, v in phep.items()},
           "dat": all(v[0] for v in phep.values()), "opencv": cv2.__version__}
-    print("KET QUA: %s | %d frame, %d box, ti le loi max %.3f, %d box kiem lop, nhan lop mau %s" %
-          ("DAT" if kq["dat"] else "KHONG DAT", i, n_box, ti_le_max, n_box_kiem_lop, json.dumps(dem_lop, ensure_ascii=False)))
+    print("KET QUA: %s | %d frame (%d kiem so frame, ti le max %.3f), %d box (ti le khung max %.3f), %d box kiem lop, nhan lop mau %s" %
+          ("DAT" if kq["dat"] else "KHONG DAT", i, n_frame_kiem_so, ti_le_so_max, n_box, ti_le_max, n_box_kiem_lop,
+           json.dumps(dem_lop, ensure_ascii=False)))
     if a.json:
         Path(a.json).write_text(json.dumps(kq, ensure_ascii=False, indent=2), encoding="utf-8")
     return 0 if kq["dat"] else 1

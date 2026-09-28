@@ -11,6 +11,11 @@ test_render_mot_video.py -- Kiem `render_mot_video.py` (render HAU KY bbox/ID/lo
   6. Bo kiem voi TEN LOP sai (cls car -> truck cho mot track) -> exit 1 (phep ten lop KHONG DAT).
   7. `render_mot_video.py` va `kiem_video_render.py` dung cu phap Python 3.6 (khong `from __future__ import annotations`,
      khong walrus, khong f-string long nhau) -- kiem bang `ast` voi feature_version=(3, 6).
+Review 1d5ffaa, N23-F1 -- so frame hien thi phai duoc kiem DOC LAP tren MOI frame (bbox/ID/lop/fps/do dai giu dung):
+  8. so frame thay bang 'f999' tren 27 frame CO box (kich ban cua Codex) -> exit 1, phep so frame KHONG DAT, phep khung DAT.
+  9. MAT so frame tren frame co box -> exit 1.
+ 10. so frame LECH MOT (f<i+1>) tren frame co box -> exit 1 (nhan dang ung vien, khong chi ti le diem).
+ 11. so frame sai CHI tren 3 frame KHONG co box (11-13) -> exit 1 (giu kiem frame khong box).
 
     python src/test_render_mot_video.py
 """
@@ -56,6 +61,23 @@ def tao(tmp: Path, cv2, n=30):
     (tmp / "mot.txt").write_text("\n".join(mot) + "\n", encoding="utf-8")
     (tmp / "cls.csv").write_text("\n".join(cls) + "\n", encoding="utf-8")
     return d
+
+
+def ghi_video_sua(tmp: Path, anh: Path, cv2, ten: str, sua) -> Path:
+    """Video 25 fps cung anh/bbox/ID/lop voi render dung; `sua(i, co_box, goc, frame)` doi RIENG vung so frame."""
+    import render_mot_video as rmv
+    boxes = rmv.doc_mot(tmp / "mot.txt")
+    lop = rmv.doc_lop(tmp / "cls.csv")
+    out = tmp / (ten + ".mp4")
+    wr = cv2.VideoWriter(str(out), cv2.VideoWriter_fourcc(*"mp4v"), 25, (320, 240))
+    for i, p in enumerate(rmv.liet_ke(anh), 1):
+        goc = cv2.imread(str(p))
+        fr = goc.copy()
+        rmv.ve_frame(cv2, fr, boxes.get(i, []), lop, i)
+        sua(i, bool(boxes.get(i)), goc, fr)
+        wr.write(fr)
+    wr.release()
+    return out
 
 
 def chay(args):
@@ -118,6 +140,35 @@ def main() -> int:
             except SyntaxError as e:
                 loi36.append(f"{f}: {e}")
         check("7. render_mot_video.py + kiem_video_render.py dung cu phap Python 3.6", not loi36, loi36)
+
+        def xoa_so(goc, fr):
+            fr[:24, :120] = goc[:24, :120]                # chi vung so frame; nhan doi tuong nam duoi
+
+        def viet(fr, chu):                                 # cung kieu chu voi render; KHONG goi ma dang kiem
+            cv2.putText(fr, chu, (8, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2, cv2.LINE_AA)
+
+        ca = {
+            "8. so frame 'f999' tren 27 frame co box (kich ban Codex)":
+                lambda i, cb, g, fr: (xoa_so(g, fr), viet(fr, "f999")) if cb else None,
+            "9. MAT so frame tren frame co box":
+                lambda i, cb, g, fr: xoa_so(g, fr) if cb else None,
+            "10. so frame LECH MOT (f<i+1>) tren frame co box":
+                lambda i, cb, g, fr: (xoa_so(g, fr), viet(fr, "f%d" % (i + 1))) if cb else None,
+            "11. so frame sai CHI tren frame KHONG co box (11-13)":
+                lambda i, cb, g, fr: (xoa_so(g, fr), viet(fr, "f999")) if not cb else None,
+        }
+        for ten, sua in ca.items():
+            v = ghi_video_sua(tmp, anh, cv2, "sua_%s" % ten.split(".")[0], sua)
+            js = tmp / ("kq_%s.json" % ten.split(".")[0])
+            rr = chay(["src/kiem_video_render.py", "--video", str(v), "--images", str(anh), "--mot", str(tmp / "mot.txt"),
+                       "--cls", str(tmp / "cls.csv"), "--fps", "25", "--buoc-lop", "3", "--json", str(js)])
+            kq = json.loads(js.read_text(encoding="utf-8")) if js.exists() else {"phep": {}}
+            ph = kq["phep"]
+            so_ok = next((val for k, val in ph.items() if k.startswith("so frame hien thi")), None)
+            khung_ok = next((val for k, val in ph.items() if k.startswith("khung bbox")), None)
+            check(ten + " -> exit 1: phep so frame KHONG DAT, phep khung bbox/ID van DAT",
+                  rr.returncode == 1 and so_ok is False and khung_ok is True and not kq.get("dat"),
+                  f"exit {rr.returncode} so_frame={so_ok} khung={khung_ok} loi_so={kq.get('loi_so', [])[:2]}")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     n_ok = sum(1 for _, s in _R if s == "PASS")
