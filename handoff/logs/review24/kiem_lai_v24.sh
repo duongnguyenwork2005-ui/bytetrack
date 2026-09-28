@@ -6,9 +6,10 @@
 #   C. bo sung: kiem ten lop TREN MOI box (--buoc-lop 1) -> <luot>_kiem_v24_lop_moi_box.json/.log
 #   D. doi chieu refactor render: render lai bang render_mot_video v10 ra FILE MOI (render_v10_doi_chieu/), so sha256 voi
 #      video vong 23 (video cu giu nguyen).
-# Chay:  setsid nohup bash kiem_lai_v24.sh > kiem_lai_v24.out 2>&1 < /dev/null &   (xong -> $OUT/XONG co exit tung buoc)
+# Chay:  [GOI=v11] setsid nohup bash kiem_lai_v24.sh > kiem_lai_v24.out 2>&1 < /dev/null &   (xong -> $OUT/XONG co exit tung buoc)
 set -u
-V10=$HOME/nano_run/v10/nano_transfer
+GOI=${GOI:-v10}                                   # goi ma: v10 (9b1805c) hoac v11 (ma cuoi, chot phien ban OpenCV)
+V10=$HOME/nano_run/$GOI/nano_transfer
 V9R=$HOME/nano_run/v9/nano_transfer/results_nano/render_v23
 V8D=$HOME/nano_run/v8/nano_transfer/results_nano/dai_v23
 IMG=$HOME/nano_run/data_full/MVI_39031
