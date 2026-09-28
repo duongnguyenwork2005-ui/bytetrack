@@ -1,0 +1,52 @@
+# phan tich 4 luot chay dai (vong 23) tu nano_dai_v23\results_nano\dai_v23 -- 4 luot
+
+## 1. Hoan tat, dem frame, live vs replay (so thang, khong anh xa ID)
+luot | trang thai | nhan/xu ly/EOS | 1..1470 dung 1 lan | frame 0 det (loc/tho) | hang MOT | ID | byte MOT/cls | bbox/conf max | ID tung hang
+luot01_cv | hoan_tat ma 0 | 1470/1470/1470 | True | 11/0 | 8780 | 74 | True/True | 0e+00/0e+00 | True
+luot02_ekf | hoan_tat ma 0 | 1470/1470/1470 | True | 11/0 | 8765 | 78 | True/True | 0e+00/0e+00 | True
+luot03_ekf | hoan_tat ma 0 | 1470/1470/1470 | True | 11/0 | 8765 | 78 | True/True | 0e+00/0e+00 | True
+luot04_cv | hoan_tat ma 0 | 1470/1470/1470 | True | 11/0 | 8780 | 74 | True/True | 0e+00/0e+00 | True
+
+## 2. Thoi gian (tinh lai tu CSV/moc goc; tom tat bo 25 frame dau)
+luot | fps_xu_ly | fps_on_dinh | xu_ly_s | bao phu s | trong cua so | khoi tao s | ket thuc s | ghi s | decode | pre | infer | post | cho doc | update | tre tv (p90)
+luot01_cv | 9.3103 | 9.3106 | 157.889 | 157.800 | True | 8.44 | 0.73 | 0.70 | 11.46 | 13.35 | 73.78 | 7.67 | 98.89 | 6.735 | 115.3 (122.5)
+luot02_ekf | 9.0488 | 9.0451 | 162.452 | 162.365 | True | 9.52 | 0.73 | 0.70 | 16.31 | 13.41 | 73.71 | 7.78 | 101.01 | 7.929 | 120.0 (128.3)
+luot03_ekf | 9.0449 | 9.0480 | 162.523 | 162.436 | True | 8.14 | 0.73 | 0.69 | 16.25 | 13.30 | 73.71 | 7.74 | 101.11 | 7.999 | 120.3 (127.7)
+luot04_cv | 9.1367 | 9.1411 | 160.890 | 160.802 | True | 8.22 | 0.73 | 0.74 | 11.87 | 13.34 | 73.72 | 7.77 | 100.82 | 6.780 | 116.9 (126.7)
+
+## 3. Tai nguyen truoc/sau moi luot (tai_nguyen.csv) + tegrastats
+1 cv truoc 2026-09-28T14:28:33+08:00 MemAvailable 2627884 kB swap 15 MB CPU 29 GPU 27 C con dang chay 0 ext4 0 boot 2026-09-28T11:53:15
+1 cv sau   2026-09-28T14:31:22+08:00 MemAvailable 2630668 kB swap 16 MB CPU 34 GPU 31 C con dang chay 0 ext4 0 boot 2026-09-28T11:53:15
+2 ekf truoc 2026-09-28T14:31:57+08:00 MemAvailable 2630772 kB swap 16 MB CPU 33 GPU 30 C con dang chay 0 ext4 0 boot 2026-09-28T11:53:15
+2 ekf sau   2026-09-28T14:34:53+08:00 MemAvailable 2630292 kB swap 16 MB CPU 35 GPU 33 C con dang chay 0 ext4 0 boot 2026-09-28T11:53:15
+3 ekf truoc 2026-09-28T14:35:28+08:00 MemAvailable 2630380 kB swap 16 MB CPU 33 GPU 31 C con dang chay 0 ext4 0 boot 2026-09-28T11:53:15
+3 ekf sau   2026-09-28T14:38:23+08:00 MemAvailable 2631452 kB swap 16 MB CPU 35 GPU 33 C con dang chay 0 ext4 0 boot 2026-09-28T11:53:15
+4 cv truoc 2026-09-28T14:38:58+08:00 MemAvailable 2630892 kB swap 16 MB CPU 33 GPU 31 C con dang chay 0 ext4 0 boot 2026-09-28T11:53:15
+4 cv sau   2026-09-28T14:41:51+08:00 MemAvailable 2630560 kB swap 16 MB CPU 35 GPU 33 C con dang chay 0 ext4 0 boot 2026-09-28T11:53:15
+luot01_cv: tegrastats RAM max 2667 MB, swap max 16 MB, CPU MHz [1224, 1479], nhiet max CPU 37.0 GPU 34.0
+luot02_ekf: tegrastats RAM max 2667 MB, swap max 16 MB, CPU MHz [1224, 1479], nhiet max CPU 38.0 GPU 34.5
+luot03_ekf: tegrastats RAM max 2667 MB, swap max 16 MB, CPU MHz [1224, 1479], nhiet max CPU 37.5 GPU 35.5
+luot04_cv: tegrastats RAM max 2667 MB, swap max 16 MB, CPU MHz [1224, 1479], nhiet max CPU 37.5 GPU 35.0
+MemAvailable truoc moi luot: [2627884, 2630772, 2630380, 2630892] (chenh dau-cuoi +3008 kB)
+tien trinh con con chay sau moi luot: ['0', '0', '0', '0'] | ext4 errors: ['0'] | boot: ['2026-09-28T11:53:15']
+
+## 4. Tinh xac dinh giua cac luot
+cv: MOT sha256 ['5017f37bf2837e14', '5017f37bf2837e14'] -> GIONG HET
+ekf: MOT sha256 ['645bba3a31905d87', '645bba3a31905d87'] -> GIONG HET
+det cache (npz) sha256 ca 4 luot: ['8eb7ab80c4e07b0f', '8eb7ab80c4e07b0f', '8eb7ab80c4e07b0f', '8eb7ab80c4e07b0f'] -> GIONG HET
+
+## 5. Theo cau hinh (trung vi, min-max; 2 luot/cau hinh -- mo ta)
+cv fps_xu_ly: 9.2235 (9.1367-9.3103)
+cv fps_on_dinh: 9.2258 (9.1411-9.3106)
+cv t_update_ms: 6.7573 (6.7348-6.7798)
+cv tre_ms: 116.0849 (115.2535-116.9163)
+cv decode_ms: 11.6651 (11.4635-11.8667)
+cv infer_ms: 73.7499 (73.7232-73.7767)
+ekf fps_xu_ly: 9.0469 (9.0449-9.0488)
+ekf fps_on_dinh: 9.0466 (9.0451-9.0480)
+ekf t_update_ms: 7.9637 (7.9289-7.9985)
+ekf tre_ms: 120.1785 (120.0234-120.3337)
+ekf decode_ms: 16.2849 (16.2549-16.3150)
+ekf infer_ms: 73.7109 (73.7084-73.7134)
+
+KET QUA: DAT []

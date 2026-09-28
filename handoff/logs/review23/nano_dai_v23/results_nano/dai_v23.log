@@ -1,0 +1,110 @@
+### chay_dai_1470 2026-09-28T14:28:32+08:00 | nguon /home/jetson/nano_run/data_full/MVI_39031 (1470 anh) | engine c32690cdb9f14d5f | thu tu: cv ekf ekf cv | nghi 20 s
+### zone1=CPU-therm zone2=GPU-therm
+=== luot 1 cv 2026-09-28T14:28:33+08:00
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 1470 frame khai bao, fps 25, khoi tao 8.4s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/dai_v23/luot01_cv/STOP hoac Ctrl+C
+  frame 250/1470
+  frame 500/1470
+  frame 750/1470
+  frame 1000/1470
+  frame 1250/1470
+[nano_live] HOAN_TAT (ma 0): 1470 frame, ly do EOS: het_nguon
+[nano_live] 1470 frame xu ly, 8780 hang MOT, xu ly 157.89s (9.31 fps), khoi tao 8.4s, chuan bi cha 0.03s, ghi 0.70s -> results_nano/dai_v23/luot01_cv
+luot 1 cv live exit=0
+luot 1 con pid 12357: da thoat
+$ /home/jetson/miniforge3/envs/nano/bin/python src/run_tracking.py --cache-id dai_luot01_cv_20260928142832 --split-name NANO-dai-20260928142832 --tracker-yaml bytetrack.yaml --tracker-name replay-luot01_cv --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[run_tracking] cache=dai_luot01_cv_20260928142832 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot01_cv             MVI_39031       1470 frame ->   8,780 bbox   74 track  predict 0.68 ms/frame  assoc 5.38  (10.3s, 143 fps)
+  replay-luot01_cv               1 video moi,   0 tai su dung
+luot 1 replay exit=0
+------------------------------------------------------------------------------
+KET QUA: 1/1 video DAT
+-> results_nano/dai_v23/parity_luot01_cv.json
+luot 1 parity exit=0
+luot 1 MOT live vs replay: BYTE GIONG HET
+(nghi 20 s)
+=== luot 2 ekf 2026-09-28T14:31:57+08:00
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 1470 frame khai bao, fps 25, khoi tao 9.5s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/dai_v23/luot02_ekf/STOP hoac Ctrl+C
+  frame 250/1470
+  frame 500/1470
+  frame 750/1470
+  frame 1000/1470
+  frame 1250/1470
+[nano_live] HOAN_TAT (ma 0): 1470 frame, ly do EOS: het_nguon
+[nano_live] 1470 frame xu ly, 8765 hang MOT, xu ly 162.45s (9.05 fps), khoi tao 9.5s, chuan bi cha 0.02s, ghi 0.70s -> results_nano/dai_v23/luot02_ekf
+luot 2 ekf live exit=0
+luot 2 con pid 12526: da thoat
+$ /home/jetson/miniforge3/envs/nano/bin/python src/run_tracking.py --cache-id dai_luot02_ekf_20260928142832 --split-name NANO-dai-20260928142832 --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name replay-luot02_ekf --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[run_tracking] cache=dai_luot02_ekf_20260928142832 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot02_ekf            MVI_39031       1470 frame ->   8,765 bbox   78 track  predict 1.75 ms/frame  assoc 5.58  (12.1s, 121 fps)
+  replay-luot02_ekf              1 video moi,   0 tai su dung
+luot 2 replay exit=0
+------------------------------------------------------------------------------
+KET QUA: 1/1 video DAT
+-> results_nano/dai_v23/parity_luot02_ekf.json
+luot 2 parity exit=0
+luot 2 MOT live vs replay: BYTE GIONG HET
+(nghi 20 s)
+=== luot 3 ekf 2026-09-28T14:35:28+08:00
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 1470 frame khai bao, fps 25, khoi tao 8.1s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/dai_v23/luot03_ekf/STOP hoac Ctrl+C
+  frame 250/1470
+  frame 500/1470
+  frame 750/1470
+  frame 1000/1470
+  frame 1250/1470
+[nano_live] HOAN_TAT (ma 0): 1470 frame, ly do EOS: het_nguon
+[nano_live] 1470 frame xu ly, 8765 hang MOT, xu ly 162.52s (9.04 fps), khoi tao 8.1s, chuan bi cha 0.02s, ghi 0.69s -> results_nano/dai_v23/luot03_ekf
+luot 3 ekf live exit=0
+luot 3 con pid 12758: da thoat
+$ /home/jetson/miniforge3/envs/nano/bin/python src/run_tracking.py --cache-id dai_luot03_ekf_20260928142832 --split-name NANO-dai-20260928142832 --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name replay-luot03_ekf --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[run_tracking] cache=dai_luot03_ekf_20260928142832 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot03_ekf            MVI_39031       1470 frame ->   8,765 bbox   78 track  predict 1.77 ms/frame  assoc 5.65  (12.3s, 120 fps)
+  replay-luot03_ekf              1 video moi,   0 tai su dung
+luot 3 replay exit=0
+------------------------------------------------------------------------------
+KET QUA: 1/1 video DAT
+-> results_nano/dai_v23/parity_luot03_ekf.json
+luot 3 parity exit=0
+luot 3 MOT live vs replay: BYTE GIONG HET
+(nghi 20 s)
+=== luot 4 cv 2026-09-28T14:38:58+08:00
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 1470 frame khai bao, fps 25, khoi tao 8.2s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch results_nano/dai_v23/luot04_cv/STOP hoac Ctrl+C
+  frame 250/1470
+  frame 500/1470
+  frame 750/1470
+  frame 1000/1470
+  frame 1250/1470
+[nano_live] HOAN_TAT (ma 0): 1470 frame, ly do EOS: het_nguon
+[nano_live] 1470 frame xu ly, 8780 hang MOT, xu ly 160.89s (9.14 fps), khoi tao 8.2s, chuan bi cha 0.02s, ghi 0.74s -> results_nano/dai_v23/luot04_cv
+luot 4 cv live exit=0
+luot 4 con pid 12888: da thoat
+$ /home/jetson/miniforge3/envs/nano/bin/python src/run_tracking.py --cache-id dai_luot04_cv_20260928142832 --split-name NANO-dai-20260928142832 --tracker-yaml bytetrack.yaml --tracker-name replay-luot04_cv --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[run_tracking] cache=dai_luot04_cv_20260928142832 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot04_cv             MVI_39031       1470 frame ->   8,780 bbox   74 track  predict 0.68 ms/frame  assoc 5.36  (10.2s, 144 fps)
+  replay-luot04_cv               1 video moi,   0 tai su dung
+luot 4 replay exit=0
+------------------------------------------------------------------------------
+KET QUA: 1/1 video DAT
+-> results_nano/dai_v23/parity_luot04_cv.json
+luot 4 parity exit=0
+luot 4 MOT live vs replay: BYTE GIONG HET
+### XONG 2026-09-28T14:42:05+08:00 | boot 2026-09-28 11:53:15 | ext4 errors 0 | con dang chay 0
