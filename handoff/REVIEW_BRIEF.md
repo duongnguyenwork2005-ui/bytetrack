@@ -1,45 +1,44 @@
-# REVIEW_BRIEF — vòng 22: sửa N21-F1/F2/F3, kiểm chứng và đo lại luồng trực tiếp trên Nano
+# REVIEW_BRIEF — vòng 23: chạy đầy đủ 1.470 frame trên Nano, kiểm ổn định, render video trên thiết bị
 
 <!-- BASE_TARGET -->
 
-Base **`45e086a`** (review `handoff/CODEX_REVIEW_9f210e2.md`). Mã lõi tracking, benchmark vòng 20, UA-DETRAC/BDD và dữ liệu vòng 21
-không đổi. Chi tiết: **`handoff/REVIEW22_CHI_TIET.md`**.
+Base **`c4b39fe`** (review `handoff/CODEX_REVIEW_c4b39fe.md`, PASS WITH LIMITATIONS). Tracker, runner, luồng trực tiếp, YAML khóa,
+UA-DETRAC/BDD, benchmark vòng 20 và bằng chứng vòng 21–22 không đổi. Chi tiết: **`handoff/REVIEW23_CHI_TIET.md`**.
 
-## Ba finding — tái hiện trước/sau qua entry point thật (`logs/review22/01_*`, `02_*`)
+## Đầu vào và mã chạy
 
-| | Mã `9f210e2` | Sau sửa |
-|:--|:--|:--|
-| **F1** cha chuẩn bị chậm 1 s | cửa sổ 0,067 s, frame thật trải 1,094 s (118,8 vs 7,31 FPS) | 0,1708 s vs 0,172 s; frame 1 đọc sau BẮT ĐẦU |
-| **F2** `--cache-root` riêng | `replay_argv` → exit 1 (`FileNotFoundError`) | exit 0, `nano_parity` ĐẠT |
-| **F3** YAML thiếu/hỏng | detector đã chạy, exit 1, không `run_meta`; `--set` sai được nhận | mã 2, không khởi động detector |
+Nano không đổi IP, không khởi động lại, ext4 0 lỗi; engine `c32690cd…` dùng lại; mã chạy là gói **v8** (7 file lõi có hash
+bằng `c4b39fe`). 1.470 JPG gốc `MVI_39031` chép sang Nano: SHA256 **1470/1470** khớp PC, đúng thứ tự.
 
-- **F1**: giao thức 2 — con gửi HELLO rồi chờ lệnh BẮT ĐẦU; cha chuẩn bị, bật timer rồi mới gửi. Thời gian tách `khoi_tao_s`,
-  `chuan_bi_cha_s`, `xu_ly_s`/`fps_xu_ly`, `ket_thuc_s`, `ghi_s`, kèm kiểm cửa sổ bằng mốc `monotonic`.
-- **F2**: `nano_replay.py` đặt `det_cache.CACHE_ROOT` rồi gọi chính `run_tracking.main()`; `replay_argv` mang root tuyệt đối.
-- **F3**: kiểm YAML/`tracker_type`/`--set` (dạng, khóa, kiểu)/tham số trước spawn. Sau spawn `try/finally` luôn reap con; lỗi trước BẮT
-  ĐẦU → mã 2, giữa vòng lặp → mã 3, ghi phần đã có.
-- Regression `test_nano_stream` 15–17: PC **20/20**; trên mã cũ 15–17 **FAIL**. Full suite PC: `**34/34 PASS** (`logs/review22/tests_20260928-1246.log`, trên `b0c645b`)`.
+## Bốn lượt 1.470 frame (CV → EKF → EKF → CV; điều kiện và driver commit trước `b7da4f3`)
 
-## Nano thật (gói v8 `f4da9f08…`, engine `c32690cd…` dùng lại, không khởi động lại suốt đợt)
+Mỗi lượt đều: live exit 0 và hoàn tất; con thoát 0; replay bằng chính `replay_argv` exit 0; `nano_parity` exit 0; **MOT live == replay
+từng byte**. Tính lại độc lập trên PC (`logs/review23/05_*`) từ 77 file bản sao (sha256/byte khớp nguồn):
 
-- Test thiết bị 20/20, 9/9, **20/20** (con 3.6 ↔ cha 3.8, kể cả SIGINT và 15–17).
-- **Parity 10/10**: TensorRT CV/EKF live == replay, byte giống hệt; dừng, SIGINT, `kill -9` con, engine sai → đúng mã thoát.
-- **MOT replay bàn giao** cạnh MOT live để Codex tự so byte: `nano_live_v8/…/parity/B_replay_{cv,ekf}`, `D3_replay_dung`.
+- Frame 1–1470 xử lý **đúng một lần**, kể cả 11 frame không còn detection sau lọc. Nhận = xử lý = EOS = 1.470.
+- So từng hàng không ánh xạ ID: cùng số hàng (CV 8.780 / EKF 8.765), ID trùng, lệch bbox/conf 0.
+- Tính xác định: det cache 4 lượt giống hệt; MOT cùng cấu hình giống hệt.
+- Mọi frame đếm nằm trong cửa sổ đo; FPS tính lại khớp metadata.
+- MemAvailable +3 MB qua 4 lượt, RAM tối đa 2.667 MB, nhiệt ≤ 38 °C, không còn tiến trình con.
 
-## Đo lại (điều kiện công bố trước `b0c645b`; 6 lượt, không loại lượt, cả 6 có mọi frame trong cửa sổ)
+| | `fps_xu_ly` (2 lượt) | `tracker.update()` | decode | trễ trung vị |
+|:--|:--|:--|:--|:--|
+| CV | 9,22 (9,14–9,31) | 6,76 ms | ~11,5 ms | 115–117 ms |
+| EKF | 9,05 (9,04–9,05) | 7,96 ms | ~16,3 ms | 120 ms |
 
-| | `fps_xu_ly` (3 lượt) | `tracker.update()` | infer |
-|:--|:--|:--|:--|
-| CV | **9,13** (9,07–9,19) | 5,57–5,78 ms | ~73,7 ms |
-| EKF | **9,36** (9,20–9,42) | 6,34–6,48 ms | ~73,7 ms |
+Hai lượt EKF rơi vào mức decode chậm của OpenCV 3.2 (ngược vòng 22), nên chênh FPS không cho phép xếp hạng CV/EKF. Detector (infer
+~73,7 ms) quyết định thông lượng. Mô tả, không kiểm định, không suy ra HOTA/IDF1.
 
-Decode OpenCV 3.2 có hai mức (~11,3 / ~16,3 ms). Tỷ lệ frame ở mức chậm dao động 3–95 % giữa các lượt và rơi vào cả 3 lượt CV, nên
-chênh lệch CV/EKF **không** được diễn giải là EKF nhanh hơn. Detector vẫn quyết định thông lượng.
+## Render video trên Nano (hậu kỳ)
 
-**Đính chính vòng 21** (giữ số cũ): tính lại từ timestamp có sẵn, frame 1 bắt đầu đọc → frame 300 xong: CV 9,10/9,34/9,27,
-EKF 9,35/9,42/9,26 (lệch 0,21–0,28 %). Kết luận ~9,3 FPS vẫn đứng.
+- `render_mot_video.py` sửa tối thiểu để chạy bằng Python 3.6 hệ thống (có OpenCV), không cài gói. Bộ kiểm mới
+  `kiem_video_render.py` vẽ lại từng frame bằng chính hàm vẽ: vị trí bbox, màu ID, số frame, tên lớp. `test_render_mot_video` 7/7.
+- Gói v9 `ea1fb21f…` (mã tracking == v8). Trên Nano, 300 frame CV và EKF: render ~17,4 s; **kiểm trên Nano ĐẠT**: 300/300 frame,
+  25 fps, 0 frame lỗi, 255/255 nhãn lớp mẫu đúng.
+- **Hiển thị trực tiếp chưa làm**: có màn hình HDMI nhưng tiến trình tracker không có OpenCV, cần kênh hiển thị riêng. Camera chưa làm.
 
-## Giới hạn
+## Kiểm thử và giới hạn
 
-300 frame smoke, một sequence, không camera/render. Nguyên nhân hai mức decode và lần mất nguồn 28/9 chưa rõ. Delta từ `45e086a` đã kiểm
-roundtrip theo byte/hash; NPZ (vòng 16, cache live) khai báo, không bàn giao.
+Full suite PC: `**35/35 PASS** (`logs/review23/tests_20260928-1349.log`, trên `cf8b760`)`. Chạy liên tục ~14 phút trên một sequence, chưa phải vận hành nhiều giờ. Chưa rõ nguyên nhân hai mức
+decode. Delta từ `c4b39fe` gồm MOT live + replay, CSV timing, metadata và telemetry; không có ảnh, engine, video hay ZIP; 4 NPZ cache
+mới được khai báo hash.

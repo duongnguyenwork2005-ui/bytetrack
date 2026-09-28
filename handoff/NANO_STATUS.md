@@ -1,6 +1,6 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-28 (mục 4h: vòng 22 — sửa N21-F1/F2/F3, parity + đo lại trên Nano; 4g: vòng 21 — luồng trực tiếp video → TensorRT → tracker chạy thật, parity, FPS toàn luồng; 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-28 (mục 4i: vòng 23 — chạy đủ 1.470 frame, 4 lượt, render video trên Nano; 4h: vòng 22 — sửa N21-F1/F2/F3, parity + đo lại trên Nano; 4g: vòng 21 — luồng trực tiếp video → TensorRT → tracker chạy thật, parity, FPS toàn luồng; 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
 ## 1. Thiết bị
@@ -115,6 +115,17 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES`, **hoặc** ép `.py` về LF trong `.gitattributes`. **Chưa làm trong đợt này** vì đổi
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
+
+## 4i. Vòng 23 (2026-09-28): đầy đủ 1.470 frame + render trên Nano — chi tiết `handoff/REVIEW23_CHI_TIET.md`
+
+- 1.470 JPG gốc `MVI_39031` ở `~/nano_run/data_full/MVI_39031` (SHA256 1470/1470 khớp PC). Mã chạy gói **v8** (== `c4b39fe`), engine
+  `~/nano_run/engine/yolov8n_fp16.engine` (`c32690cd…`). Driver `handoff/logs/review23/chay_dai_1470.sh` (chạy từ gốc v8).
+- 4 lượt CV → EKF → EKF → CV: exit 0, hoàn tất, frame 1–1470 đúng một lần, MOT live == replay từng byte, parity ĐẠT, con thoát 0,
+  không rò bộ nhớ (MemAvailable +3 MB), không khởi động lại. FPS toàn luồng CV 9,22 (9,14–9,31), EKF 9,05 (9,04–9,05); decode hai mức
+  (~11,5/16,3 ms) rơi vào hai lượt EKF → không xếp hạng.
+- Render **hậu kỳ** trên Nano: `/usr/bin/python3 src/render_mot_video.py` (gói **v9** `ea1fb21f…`, `~/nano_run/v9`) + kiểm
+  `src/kiem_video_render.py` ĐẠT (300/300 frame, 25 fps, bbox/ID/lớp đúng). Hiển thị trực tiếp khi tracking và camera: chưa làm
+  (màn hình HDMI đã kết nối).
 
 ## 4h. Vòng 22 (2026-09-28): sửa N21-F1/F2/F3 (review `9f210e2`) — chi tiết `handoff/REVIEW22_CHI_TIET.md`
 
