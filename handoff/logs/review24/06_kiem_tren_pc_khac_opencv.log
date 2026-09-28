@@ -1,0 +1,32 @@
+# 06. Chay bo kiem MA CUOI tren PC (OpenCV 5.0.0) voi video Nano luot01_cv (render OpenCV 3.2.0, sidecar render_v23) - 2026-09-28T17:59:00+07:00
+# video sha256 5f55fcb49d169eb8 | sidecar opencv:   "opencv": "3.2.0",
+
+## mac_dinh
+$ python src/kiem_video_render.py --video C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/pc_khac_cv/luot01_cv_f0001-0300.mp4 --images data/extracted/DETRAC-Images/MVI_39031 --mot handoff/logs/review23/nano_dai_v23/results_nano/dai_v23/luot01_cv/data/MVI_39031.txt --cls handoff/logs/review23/nano_dai_v23/results_nano/dai_v23/luot01_cv/data_cls/MVI_39031.csv --fps 25 --max-frames 300 --buoc-lop 5 --json handoff/logs/review24/kiem_tren_pc_khac_opencv/mac_dinh.json 
+  OpenCV kiem 5.0.0 | OpenCV render 3.2.0
+[KHONG KIEM DUOC] video render bang OpenCV 3.2.0, bo kiem chay OpenCV 5.0.0: cv2.putText ve chu khac giua cac phien ban -> so diem ve lai khong co y nghia; chay bo kiem bang CUNG phien ban OpenCV da render
+exit=2
+
+## chan_doan
+$ python src/kiem_video_render.py --video C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/pc_khac_cv/luot01_cv_f0001-0300.mp4 --images data/extracted/DETRAC-Images/MVI_39031 --mot handoff/logs/review23/nano_dai_v23/results_nano/dai_v23/luot01_cv/data/MVI_39031.txt --cls handoff/logs/review23/nano_dai_v23/results_nano/dai_v23/luot01_cv/data_cls/MVI_39031.csv --fps 25 --max-frames 300 --buoc-lop 5 --json handoff/logs/review24/kiem_tren_pc_khac_opencv/chan_doan.json --cho-phep-khac-opencv
+  OpenCV kiem 5.0.0 | OpenCV render 3.2.0
+  [DAT] so frame giai ma == so anh (300 vs 300)
+  [DAT] CAP_PROP_FRAME_COUNT == so anh (300 vs 300)
+  [DAT] fps video == --fps (25 vs 25)
+  [DAT] kich thuoc == anh goc ([960, 540])
+  [KHONG DAT] so frame hien thi dung (moi frame, doc lap) (300 frame kiem, 299 sai)
+  [DAT] khung bbox/mau ID dung cho (frame co box) (300 frame co box, 0 loi)
+  [KHONG DAT] ten lop dung (mau moi 5 frame) (255 box kiem, 255 sai)
+     frame 1: so frame hien thi khong khop 'f1' (loi 53.3 vs khong so 105.0; gan nhat 'f4' trong 31 ung vien)
+     frame 2: so frame hien thi khong khop 'f2' (loi 52.3 vs khong so 124.6; gan nhat 'f9' trong 31 ung vien)
+     frame 3: so frame hien thi khong khop 'f3' (loi 50.2 vs khong so 116.1; gan nhat 'f3' trong 31 ung vien)
+     frame 5: so frame hien thi khong khop 'f5' (loi 47.0 vs khong so 123.9; gan nhat 'f5' trong 31 ung vien)
+     frame 6: so frame hien thi khong khop 'f6' (loi 45.9 vs khong so 132.3; gan nhat 'f0' trong 31 ung vien)
+     frame 7: so frame hien thi khong khop 'f7' (loi 46.7 vs khong so 120.4; gan nhat 'f7' trong 31 ung vien)
+     frame 8: so frame hien thi khong khop 'f8' (loi 46.9 vs khong so 133.9; gan nhat 'f8' trong 31 ung vien)
+     frame 9: so frame hien thi khong khop 'f9' (loi 44.2 vs khong so 133.9; gan nhat 'f0' trong 31 ung vien)
+     frame 10: so frame hien thi khong khop 'f10' (loi 60.1 vs khong so 94.3; gan nhat 'f40' trong 50 ung vien)
+     frame 11: so frame hien thi khong khop 'f11' (loi 61.8 vs khong so 88.8; gan nhat 'f14' trong 49 ung vien)
+[KHONG KIEM DUOC] video render bang OpenCV 3.2.0, bo kiem chay OpenCV 5.0.0: cv2.putText ve chu khac giua cac phien ban -> so diem ve lai khong co y nghia; chay bo kiem bang CUNG phien ban OpenCV da render (--cho-phep-khac-opencv: cac phep tren chi de chan doa
+KET QUA: KHONG DAT | 300 frame (300 kiem so frame, ti le max 0.866), 1272 box (ti le khung max 0.442), 255 box kiem lop, nhan lop mau {"car": 252, "truck": 3}
+exit=2

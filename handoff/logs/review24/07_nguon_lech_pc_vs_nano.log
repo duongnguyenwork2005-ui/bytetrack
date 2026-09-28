@@ -1,0 +1,27 @@
+# 07. Tach nguon lech bo kiem PC (OpenCV 5.0.0) vs Nano (OpenCV 3.2.0) - 2026-09-28T17:59:41+07:00
+# PNG Nano: giai_ma_png_nano.py tren Nano (/usr/bin/python3, OpenCV 3.2.0), 11 frame luot01_cv; hash pixel: nguon_lech_pc_vs_nano/xuat_png_nano.json (PNG 28 MB khong commit)
+$ python handoff/logs/review24/so_nguon_lech_pc_nano.py <png_nano> <video luot01_cv> data/extracted/DETRAC-Images/MVI_39031 <MOT> <CLS> nguon_lech_pc_vs_nano/so_nguon_lech.json
+OpenCV PC 5.0.0 vs Nano 3.2.0
+frame | (a) giai ma mp4: max/MAE/ti le diem    | (b) imread JPEG                        | (c) net ve (cung anh goc Nano)        
+    1 |   4 /  0.6507 / 0.94053                |   0 /  0.0000 / 0.00000                | 232 /  0.0607 / 0.00149               
+    2 |   3 /  0.6598 / 0.95620                |   0 /  0.0000 / 0.00000                | 239 /  0.3152 / 0.00282               
+   12 |   3 /  0.6855 / 0.96517                |   0 /  0.0000 / 0.00000                | 243 /  0.3380 / 0.00304               
+   13 |   4 /  0.7066 / 0.95686                |   0 /  0.0000 / 0.00000                | 233 /  0.0811 / 0.00130               
+   50 |   4 /  0.6860 / 0.95958                |   0 /  0.0000 / 0.00000                | 238 /  0.1180 / 0.00201               
+   89 |   4 /  0.6665 / 0.96012                |   0 /  0.0000 / 0.00000                | 234 /  0.1444 / 0.00281               
+   90 |   4 /  0.6633 / 0.95941                |   0 /  0.0000 / 0.00000                | 236 /  0.1667 / 0.00354               
+   91 |   4 /  0.6697 / 0.96124                |   0 /  0.0000 / 0.00000                | 237 /  0.1561 / 0.00347               
+  150 |   4 /  0.6675 / 0.95763                |   0 /  0.0000 / 0.00000                | 239 /  0.1765 / 0.00383               
+  262 |   4 /  0.6695 / 0.95665                |   0 /  0.0000 / 0.00000                | 251 /  0.7875 / 0.01025               
+  300 |   4 /  0.6739 / 0.95686                |   0 /  0.0000 / 0.00000                | 237 /  0.2569 / 0.00587               
+MAE so voi ban ve ky vong (Nano): giai ma Nano [3.5681, 3.2586, 3.2778, 2.6826, 3.214, 3.2646, 3.3589, 3.2648, 3.3204, 3.651, 3.3519] | giai ma PC [3.5239, 3.212, 3.1886, 2.5415, 3.1364, 3.206, 3.2933, 3.1941, 3.2497, 3.5596, 3.2486]
+exit=0
+
+## phan loai diem lech net ve (khung chu nhat vs chu putText), 3 frame
+frame 1: diem lech 774 | trong net khung chu nhat (PC) 0 | ngoai -> chu (putText) 774 | diem ve Nano 2423, PC 2316
+   vung so frame [0:30,0:80]: diem ve Nano 207, PC 139, lech 193
+frame 90: diem lech 1835 | trong net khung chu nhat (PC) 0 | ngoai -> chu (putText) 1835 | diem ve Nano 3660, PC 3342
+   vung so frame [0:30,0:80]: diem ve Nano 467, PC 270, lech 434
+frame 262: diem lech 5315 | trong net khung chu nhat (PC) 0 | ngoai -> chu (putText) 5315 | diem ve Nano 8593, PC 6197
+   vung so frame [0:30,0:80]: diem ve Nano 691, PC 344, lech 666
+exit=0
