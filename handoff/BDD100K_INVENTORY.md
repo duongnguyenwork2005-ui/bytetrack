@@ -2,6 +2,84 @@
 
 Kiểm ngày **2026-09-18**, máy `D:\LABOTARY\bytetrack`, nhánh `phase2-mixed-traffic`.
 (Bản trước, 2026-09-17, ghi "chưa có dữ liệu"; nay **đã có ảnh**, **chưa có nhãn** — xem bảng dưới.)
+**Cập nhật 2026-09-29 (vòng 27)**: nhãn val đã có dưới dạng COCO-video. Split **train** (ảnh + nhãn) vẫn chưa có, nên
+chưa chuẩn bị được dataset huấn luyện detector. Chi tiết ở mục ngay dưới.
+
+## Vòng 27 (2026-09-29) — kiểm kê lại cho huấn luyện detector 5 lớp
+
+Lệnh kiểm: `python src/kiem_ke_bdd100k.py --out handoff/logs/review27/01_kiem_ke_bdd100k.json --bam-archive`.
+Script chỉ đọc (không giải nén, sửa hay xóa gì); log ở `handoff/logs/review27/01_kiem_ke_bdd100k.{json,log}`.
+
+### Trên máy có gì
+
+| Thành phần | Đường dẫn | Trạng thái |
+|:--|:--|:--|
+| Archive ảnh MOT 2020 val (phần 1) | `D:\LABOTARY\images20-track-val-1.zip` | có — 4.983.938.716 B, sha256 `4d678810a14095ab…`; 40.174 mục, gồm 39.973 ảnh của 200 video, **chỉ** `images/track/val` |
+| Ảnh MOT val đã giải nén | `data/raw/bdd100k/images/track/val/<video>/` | có — 200 video, 39.973 ảnh (4,8 GB); header **toàn bộ 1280×720**, khớp kích thước khai báo trong nhãn |
+| Nhãn MOT val (bản chuyển đổi **COCO-video**) | `data/raw/bdd100k/labels_cocovid/bdd_box_track_val_cocofmt.json` | có — 117.094.032 B, sha256 `074ff795…`; cùng byte với bản ngoài repo `D:\LABOTARY\01-bdd_box_track_val_cocofmt.json` |
+| Ảnh MOT **train** | `data/raw/bdd100k/images/track/train/` | ❌ **không có** |
+| Nhãn MOT **train** (Scalabel `box_track_20` hoặc COCO-video) | `data/raw/bdd100k/labels/box_track_20/train/` hoặc `labels_cocovid/*train*` | ❌ **không có** |
+| Nhãn MOT val gốc Scalabel | `data/raw/bdd100k/labels/box_track_20/val/` | không có (bản COCO-video ở trên thay thế cho đánh giá) |
+| Gói detection 100K (`images/100k`, `labels/det_20`) | — | không có |
+| Thư mục `datasets/BDD100K` của dự án cũ | `D:\LABOTARY\ByteTrack + EKF + Kitty\datasets\BDD100K` | rỗng (0 file) |
+
+Kết luận của script: `du_de_chuan_bi_train = false`.
+
+### Thống kê nhãn MOT val (nguồn đánh giá đã định danh — không dùng làm train/dev)
+
+Tổng cộng: 200 video, 39.973 ảnh, 465.512 annotation. Mỗi video có 102–204 frame, trung bình 199,9.
+Có 615 ảnh không có annotation nào: 488 ảnh nằm trong khoảng có nhãn của video, 127 ảnh ở đuôi video sau frame có nhãn cuối.
+
+| Lớp | box (không crowd/ignore) | crowd | ignore | ảnh có lớp | video có lớp |
+|:--|--:|--:|--:|--:|--:|
+| car | 341.436 | 20.079 | 2.825 | 38.964 | 200 |
+| truck | 27.343 | 481 | 424 | 15.862 | 160 |
+| bus | 9.087 | 4 | 0 | 7.018 | 93 |
+| **motorcycle** | **902** | 13 | 0 | **774** | **29** |
+| bicycle | 4.135 | 271 | 0 | 2.738 | 63 |
+| pedestrian *(ngoài 5 lớp)* | 57.065 | 1.842 | 816 | 14.792 | 152 |
+| rider *(ngoài 5 lớp)* | 2.546 | 0 | 0 | 2.260 | 69 |
+| train *(ngoài 5 lớp)* | 308 | 0 | 0 | 308 | 6 |
+
+- Cờ `ignore` chỉ xuất hiện ở car, truck và pedestrian. Đây là các distractor `other vehicle`, `trailer`, `other person`
+  đã được ánh xạ sang lớp đánh giá khi chuyển sang COCO-video.
+- **Ảnh trùng nội dung**: 2 frame liên tiếp của video val `b1d7b3ac-5744370e` (`-0000079.jpg`, `-0000080.jpg`) giống
+  nhau từng byte, nên toàn tập có 39.973 ảnh nhưng chỉ 39.972 hash khác nhau. Đây là đặc điểm của dữ liệu, không phải
+  ảnh thiếu.
+
+### MOT và detection là hai nguồn khác nhau, không thay thế trực tiếp
+
+- **MOT 2020**: ảnh 5 fps theo video, có ID đối tượng theo thời gian. Split `train` là nguồn của train-fit và dev nội
+  bộ trong plan.
+- **Detection 100K**: mỗi ảnh là một khung hình tĩnh lấy từ một video, nhãn `det_20`, không có ID theo thời gian.
+- Pipeline tracking và `configs/phase2/detector/bdd5_train.yaml` chỉ nhận MOT train. Muốn dùng gói detection (thay
+  thế hoặc bổ sung) phải hỏi người dùng trước.
+
+### Gói còn thiếu và đường dẫn cần đặt
+
+Không dùng UA-DETRAC hay BDD val để thay thế.
+
+1. **Ảnh MOT 2020 train**: gói *MOT 2020 Images — train* trên trang tải BDD100K chính thức.
+   - Tên gói: gói val đã tải tên `images20-track-val-1.zip`; gói train được chia nhiều phần theo cùng kiểu tên. Máy không
+     truy cập được trang tải lúc kiểm, nên cần xem lại tên và số phần trên trang.
+   - Giải nén vào `data/raw/`, **không** vào `data/raw/bdd100k/`, vì archive đã có sẵn tiền tố `bdd100k/`.
+   - Kết quả cần có: `data/raw/bdd100k/images/track/train/<video>/<video>-<7 chữ số>.jpg`.
+2. **Nhãn MOT 2020 train, bản Scalabel (khuyến nghị)**: gói nhãn box tracking `box_track_20`.
+   - Kết quả cần có: `data/raw/bdd100k/labels/box_track_20/train/<video>.json`, mỗi video một file.
+   - Nếu chỉ có bản COCO-video (`*train*cocofmt.json`): đặt vào `data/raw/bdd100k/labels_cocovid/`, rồi đổi `bdd.nhan`
+     trong `bdd5_train.yaml` sang `dinh_dang: cocovid`. Bản này đọc cả file vào RAM: file val 117 MB cho 200 video, bản
+     train sẽ lớn hơn nhiều, trong khi máy có 7,8 GB RAM.
+3. **Ước tính dung lượng**, suy từ val (5 GB zip ≈ 4,8 GB ảnh cho 200 video):
+   - ảnh train khoảng 7 lần val, tức ~35 GB zip và ~34 GB sau giải nén;
+   - dataset YOLO xuất ở bước 5 frame thêm khoảng 7 GB.
+
+   Ổ `D:` còn ~125 GB trống. Số video thật chưa biết: `kiem-nguon` sẽ in số thật, không dùng con số ước tính.
+4. **Kiểm sau khi đặt xong**: `python src/prepare_mixed_yolo_dataset.py --config configs/phase2/detector/bdd5_train.yaml --buoc kiem-nguon`
+   phải exit 0. Lệnh này đối chiếu nhãn với ảnh theo **từng video**. Thiếu gì thì trả exit 2 và in đúng đường dẫn thiếu.
+
+---
+
+*Các mục 1–7 dưới đây là kiểm kê ngày 2026-09-18 (giữ nguyên để đối chiếu).*
 
 ## 1. Đã tải những gì — kết quả kiểm tra thực tế
 
