@@ -1,6 +1,7 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-28 (mục 4j: vòng 24 — đóng N23-F1 bộ kiểm số frame, kiểm lại 2 video render trên Nano, chốt phiên bản OpenCV của bộ kiểm; 4i: vòng 23 — chạy đủ 1.470 frame, 4 lượt, render video trên Nano; 4h: vòng 22 — sửa N21-F1/F2/F3, parity + đo lại trên Nano; 4g: vòng 21 — luồng trực tiếp video → TensorRT → tracker chạy thật, parity, FPS toàn luồng; 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
+Cập nhật 2026-09-29 (mục 4k: vòng 25 — dùng tại chỗ trên Nano: launcher HDMI + hiển thị trực tiếp bbox/ID/lớp, hướng dẫn
+`handoff/NANO_LOCAL_UI.md`; 4j: vòng 24 — đóng N23-F1 bộ kiểm số frame, kiểm lại 2 video render trên Nano, chốt phiên bản OpenCV của bộ kiểm; 4i: vòng 23 — chạy đủ 1.470 frame, 4 lượt, render video trên Nano; 4h: vòng 22 — sửa N21-F1/F2/F3, parity + đo lại trên Nano; 4g: vòng 21 — luồng trực tiếp video → TensorRT → tracker chạy thật, parity, FPS toàn luồng; 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
 ## 1. Thiết bị
@@ -115,6 +116,16 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES`, **hoặc** ép `.py` về LF trong `.gitattributes`. **Chưa làm trong đợt này** vì đổi
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
+
+## 4k. Vòng 25 (2026-09-29): dùng tại chỗ bằng HDMI + chuột + bàn phím — chi tiết `handoff/REVIEW25_CHI_TIET.md`
+
+- Gói **v14** `315407c5…` ở `~/nano_run/v14` (đang dùng; v12/v13 là bản thử trong vòng). Biểu tượng desktop + menu “Theo vết phương
+  tiện (Nano)” trỏ tới `~/nano_run/v14/nano_transfer/scripts/nano/07_giao_dien.sh`; hướng dẫn `handoff/NANO_LOCAL_UI.md`.
+- Launcher Tk (env `nano`) điều phối `nano_live.py`; cửa sổ xem trực tiếp do tiến trình detector (Python 3.6, OpenCV GTK) vẽ, ghép theo
+  `frame_idx` qua lệnh `R` (giao thức 3). Dừng: nút, `q`/`Esc`, đóng cửa sổ xem, đóng launcher → dừng có kiểm soát (mã 4).
+- Trên thiết bị: test 17/17 + 20/20; TensorRT bật/tắt hiển thị MOT giống byte; 1.470 ảnh CV/EKF có hiển thị trên HDMI: hiện 1470/1470,
+  bỏ 0, MOT giống byte vòng 23; FPS xử lý giảm ≈ 2 % khi bật hiển thị (300 ảnh, ABBA); phím q, đóng cửa sổ, mở từ biểu tượng đều đúng.
+- Màn hình Nano tự khóa sau 5 phút rảnh (Unity); launcher chặn khóa khi rảnh chỉ trong lúc chạy. Camera: chưa.
 
 ## 4j. Vòng 24 (2026-09-28): đóng N23-F1, kiểm lại hai video render trên Nano — chi tiết `handoff/REVIEW24_CHI_TIET.md`
 

@@ -1,47 +1,43 @@
-# REVIEW_BRIEF — vòng 24: đóng N23-F1, kiểm lại hai video render trên Nano
+# REVIEW_BRIEF — vòng 25: dùng tại chỗ trên Jetson Nano (HDMI + chuột + bàn phím)
 
 <!-- BASE_TARGET -->
 
-Base **giữ `c4b39fe`** (review `handoff/CODEX_REVIEW_1d5ffaa.md`: tracking PASS WITH LIMITATIONS, bộ kiểm render REQUEST CHANGES).
-Chỉ đổi bộ kiểm render và test. Tracking, runner, luồng trực tiếp, YAML khóa, UA-DETRAC/BDD, benchmark và bốn lượt Nano giữ nguyên,
-không chạy lại. Chi tiết: **`handoff/REVIEW24_CHI_TIET.md`**.
+Base **`f86732b`** (review `handoff/CODEX_REVIEW_f86732b.md`: PASS WITH LIMITATIONS, đóng N23-F1; delta đã review được lưu, hash
+khớp). Detector, ngưỡng, YAML khóa, tracker và kết quả thí nghiệm giữ nguyên. Chi tiết: **`handoff/REVIEW25_CHI_TIET.md`**; hướng dẫn
+người dùng: **`handoff/NANO_LOCAL_UI.md`**.
 
-## N23-F1
+## Đã làm
 
-- **Tái hiện** bằng script Codex (không sửa) trên `1d5ffaa`: video `f999` trên 27 frame có box vẫn exit 0, `dat` true. Nguyên nhân
-  đúng như review: `ky_vong` và `nen` chung số frame nên mặt nạ loại vùng chữ.
-- **Sửa** (`9b1805c`): số frame kiểm **độc lập trên mọi frame**: (a) tỷ lệ lỗi trên điểm chữ `f<i>`, ngưỡng cũ 0,5/40; (b) nhận dạng
-  giữa `f<i>`, mọi chuỗi cách một chữ số và bản không số. Giữ phép bbox/màu ID, tên lớp, cú pháp 3.6.
-- **Sau sửa**: script Codex exit 0 (video đúng exit 0; video sai exit 1, bắt đúng 27 frame, không báo nhầm 3 frame đúng).
-  `test_render_mot_video` 13/13; test mới trên mã cũ chỉ 7/11. Full suite PC trên mã cuối: **35/35**
-  (`logs/review24/tests_20260928-1820.log`). Lần chạy trước đó 34/35 vì `test_pc_launcher` phép 9 vượt timeout 3 s (3,23 s); mã launcher
-  không đổi, chạy riêng 3 lần đều 17/17. Log lần FAIL được giữ lại.
+- **Launcher Tk tiếng Việt** (`src/nano_launcher.py`, env `nano`): chọn video/thư mục ảnh, CV/EKF, thư mục lưu, Bắt đầu/Dừng, trạng
+  thái, tóm tắt. Engine/Python đọc từ `configs/nano_ui.json`; sai thì báo cách sửa và khóa nút. Tái sử dụng
+  `pc_launcher.LauncherController`; mỗi lượt một thư mục mới.
+- **Hiển thị trực tiếp** trong tiến trình detector (Python 3.6, OpenCV GTK — nơi duy nhất có ảnh đã giải mã). Giao thức 3: sau
+  `tracker.update` của frame *i*, `nano_live` gửi `R(i, hàng MOT/lớp)` thay credit; con ghép ảnh gốc **cùng frame_idx**, vẽ bằng
+  `render_mot_video.ve_frame`. Hàng đợi hiển thị 2 frame, đầy thì bỏ và đếm; tracking không chờ hiển thị. Tắt hiển thị: y hệt vòng 24.
+- **Dừng**: nút, `q`/`Esc`, đóng cửa sổ xem, đóng launcher → cùng stop-file → dừng có kiểm soát (mã 4), ghi đủ phần đã xử lý.
+- Kiểm màn hình trước khi khởi động; `progress.json`, `hien_thi.json`, `tong_s`, `fps_hien_thi`; không có tạm dừng. Lệnh mở và
+  biểu tượng desktop/menu (không sudo); chặn khóa màn hình khi rảnh chỉ trong lúc chạy.
 
-## Hai video Nano (Python 3.6.9 + OpenCV 3.2.0 hệ thống)
+## Bằng chứng
 
-Hash video/MOT/lớp khớp bằng chứng vòng 23. Bộ kiểm mã cuối (gói v11), cùng tham số vòng 23:
+- `test_nano_hien_thi`: PC 16/16 (+1 SKIP POSIX), Nano 17/17 (gồm Tk trên HDMI); `test_nano_stream` 20/20; `test_pc_launcher` 17/17.
+  Full suite PC: **36/36 PASS** (`logs/review25/tests_20260929-1021.log`, trên `91c95c7` = mã cuối).
+- TensorRT thật, 14 lượt: detection giống hệt; **bật/tắt hiển thị → MOT + lớp giống byte**; live == replay, `nano_parity` ĐẠT; ảnh xem
+  trước khớp pixel với render từ MOT đã ghi.
+- **1.470 ảnh CV và EKF có hiển thị trên HDMI**: hiện 1470/1470, bỏ 0; MOT + lớp **giống byte kết quả vòng 23**.
+- Ảnh hưởng hiển thị (300 ảnh, ABBA, 2 lượt/nhóm, cùng mức decode): FPS xử lý CV 9,21 bật / 9,39 tắt, EKF 9,18 / 9,38 (≈ −2 %); FPS
+  hiển thị ≈ 9,2; CPU +6 điểm %. Mô tả, không xếp hạng CV/EKF.
+- Vòng đời: hai lượt một phiên, Dừng giữa chừng, nguồn mp4, đóng launcher, **phím q** và **đóng cửa sổ xem** trên HDMI, mở từ **biểu
+  tượng desktop** (cha systemd, không thuộc SSH) — đúng trạng thái, không còn tiến trình/cửa sổ. Ảnh màn hình:
+  `logs/review25/anh_man_hinh/`.
 
-| | CV lượt 1 | EKF lượt 2 |
-|:--|:--|:--|
-| frame / FPS / kích thước | 300 / 25 / 960×540 | 300 / 25 / 960×540 |
-| số frame hiển thị | **300/300 đúng** | **300/300 đúng** |
-| bbox/màu ID | 1.272 box, 0 lỗi | 1.270 box, 0 lỗi |
-| tên lớp (mẫu mỗi 5 frame) | 255/255 | 255/255 |
-| exit | 0 | 0 |
+## Chặn đã gặp
 
-Kiểm bổ sung tên lớp trên **mọi box**: 1.271/1.272 và 1.269/1.270. Box còn lại (frame 90, ID 30, `car`) có nét chữ 1 px bị mp4v làm
-mờ nên car/bus chỉ chênh 0,3 mức. Render lại từ cùng MOT/lớp cho file **byte-giống**, nên video đúng và được giữ nguyên.
+Màn hình Nano tự khóa sau 5 phút rảnh nên xdotool không vào được cửa sổ (có log). Không dùng mật khẩu qua SSH; người dùng mở khóa, pha
+HDMI chạy tự động. Sau khi xem trên HDMI (gói v14): bỏ dòng `fatal:` trong nhật ký, biểu tượng desktop hiện đúng tên.
 
-**Phát hiện thêm**: bộ kiểm vẽ lại chữ, mà OpenCV 5.0 (PC) vẽ `putText` khác 3.2 (khung chữ nhật trùng), nên chạy khác phiên bản cho
-kết quả vô nghĩa. Đã chốt: OpenCV render (`<video>.json`) khác OpenCV kiểm → exit 2 `KHONG KIEM DUOC` (`4f1fa2f`).
+## Giới hạn và phần của người dùng
 
-## Đính chính vòng 23 (không đổi số)
-
-Bốn lượt tracking, mỗi lượt khoảng 158–163 giây xử lý, trong phiên khoảng 13 phút 33 giây, có nghỉ và replay giữa lượt; chưa phải
-chạy nhiều giờ. Nhiệt: CPU tối đa 38 °C, GPU tối đa 35,5 °C. MemAvailable +3 MB: không thấy tích lũy, chưa loại trừ mọi rò rỉ.
-Video là render **hậu kỳ**, không phải hiển thị trực tiếp.
-
-## Giới hạn
-
-Sai từ hai chữ số trở lên chỉ dựa vào phép tỷ lệ. Tên lớp mặc định lấy mẫu. Reviewer cần OpenCV 3.2.0 để kiểm lại video (không nằm
-trong delta). Hiển thị trực tiếp và camera chưa làm.
+Chưa camera; không tạm dừng; một lượt tại một thời điểm; FPS phụ thuộc hai mức decode của OpenCV 3.2. Thao tác được tự động hóa
+(`--tu-dong-*`, xdotool, gtk-launch); nút bấm bằng chuột thật và hộp chọn file chưa được người bấm. Người dùng đã mở khóa màn hình;
+checklist 5 bước (`NANO_LOCAL_UI.md` mục 8) là tùy chọn, không chặn bàn giao.
