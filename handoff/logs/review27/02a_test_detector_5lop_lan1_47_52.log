@@ -1,0 +1,72 @@
+# Lan chay DAU TIEN cua src/test_detector_5lop.py (vong 27) -- 47/52 PASS, 5 FAIL.
+# Lan nay in ra man hinh (khong chuyen huong vao file); noi dung duoi day CHEP NGUYEN VAN tu dau ra cua phien lam viec.
+# Ca 5 FAIL la loi THAT cua ma moi viet trong vong nay, da sua truoc khi commit:
+#   - B4: chia dev dung round() cua Python (lam tron kieu banker: round(0.5) = 0) -> tang 2 video khong co video dev
+#         -> doi sang floor(ti_le * n + 0.5) (lam tron nua len); fixture test doi ti_le_dev 0.25 -> 0.34 de moi tang hiem co dev
+#   - B15: data.yaml ghi `path:` tro vao thu muc TAM `<ten>.dang_tao` (doi ten sau khi ghi -> path sai)
+#          -> ghi_data_yaml(..., path_cuoi=out); test so list(LOP_5) (LOP_5 la tuple) va kiem path == thu muc cuoi
+#   - E (loi khong mong doi), F1, F5: he qua cua B15 (evaluator/runner doc data.yaml -> duong dan .dang_tao khong ton tai)
+# Log sau sua: 02b_test_detector_5lop.log (52/52).
+
+== A. anh xa lop
+  [PASS] A1 COCO 80 lop -> {2:car,7:truck,5:bus,3:motorcycle,1:bicycle}  ({2: 0, 7: 1, 5: 2, 3: 3, 1: 4})
+  [PASS] A2 checkpoint 5 lop -> dong nhat
+  [PASS] A3 thu tu la -> anh xa THEO TEN, loai 'khac'
+  [PASS] A4 thieu bicycle -> LoiAnhXaLop
+  [PASS] A4 trung car -> LoiAnhXaLop
+  [PASS] A5 sang_id_coco giu quy uoc tracker (--classes 1 2 3 5 7)
+  [PASS] A6 names dataset sai thu tu -> loi
+  [PASS] A7 doc names tu checkpoint that yolov8n: coco80, anh xa dung
+  [PASS] A7 doc names tu checkpoint that yolo11n: coco80, anh xa dung
+
+== B/C/D. xuat dataset BDD -> YOLO 5 lop
+  [PASS] B1 kiem nguon: 8 video, 128 frame nhan, khong thieu anh
+  [PASS] B2 chia theo video: roi nhau, hop = toan bo video, dev > 0  (train 7 dev 1)
+  [PASS] B3 chia tat dinh voi seed, doi seed doi ket qua
+  [FAIL] B4 phan tang theo motorcycle/bicycle: so dev moi tang = round(ti_le * n)  (tang {'motorcycle=0|bicycle=0': {'so_video': 3, 'so_dev': 1}, 'motorcycle=0|bicycle=1': {'so_video': 2, 'so_dev': 0}, 'motorcycle=1|bicycle=0': {'so_video': 2, 'so_dev': 0}, 'motorcycle=1|bicycle=1': {'so_video': 1, 'so_dev': 0}})
+  [PASS] B5 khoa split: tao lai -> tu choi ghi de
+  [PASS] B6 kiem sau xuat dat, moi anh co file nhan, so anh = frame hop le  (125 anh)
+  [PASS] B7 am tinh HOP LE: frame chi co pedestrian + frame rong trong khoang co nhan -> giu, nhan rong
+  [PASS] B8 duoi video KHONG nhan (3 frame cuoi) -> loai, dem ngoai_khoang_co_nhan = 3
+  [PASS] B9 box tran khung duoc CAT vao khung (x2 = W)
+  [PASS] B10 box < 1 px sau cat -> bo, dem rieng
+  [PASS] B11 toa do theo kich thuoc anh thuc (car 0.55W..0.65W -> cx 0.6, w 0.1)
+  [PASS] B12 to xam: crowd car (ngoai box co nhan), 'other vehicle', 'trailer' -> xam; car co nhan nam trong crowd, crowd pedestrian -> GIU nguyen  (diem kiem [(67, 84, 4.107900142669678), (76, 7, 4.775000095367432), (22, 140, 4.775000095367432)])
+  [PASS] B13 file vung bo qua: 3 vung (crowd car, other vehicle, trailer)  (3)
+  [PASS] B14 anh khong to xam -> sao chep nguyen byte
+  [FAIL] B15 data.yaml: val -> images/dev (dev noi bo), names = 5 lop da khoa
+  [PASS] B16 thong ke theo lop co motorcycle (box, anh, video) tren train va dev
+  [PASS] B17 kiem trung tap danh gia co chay (ten video + ten anh + noi dung, 12 anh val da bam)
+  [PASS] B18 tap con smoke: dung so video, buoc frame rieng, ghi loai SMOKE
+  [PASS] C1 COCO-video: cung split train/dev nhu Scalabel
+  [PASS] C2 COCO-video: nhan, vung bo qua, anh xuat GIONG TUNG BYTE ban Scalabel
+  [PASS] C3 COCO-video: cung thong ke + dem
+  [PASS] D1 thieu nhan + anh train -> exit 2, liet ke duong dan, KHONG tao thu muc dich  (exit 2)
+  [PASS] D2 thieu 1 anh le -> ThieuDuLieu (chi_video_du_anh=false)
+  [PASS] D3 chi_video_du_anh=true -> loai video thieu anh, GHI vao file split
+  [PASS] D4 video train trung ten video tap danh gia -> LoiDuLieu
+  [PASS] D5 anh train trung NOI DUNG anh tap danh gia (khac ten) -> LoiDuLieu
+  [PASS] D6 nguon nhan doi sau khi khoa split -> tu choi xuat
+  [PASS] D7 file split bi sua tay (doi video train/dev) -> tu choi
+  [PASS] D8 thu muc dataset dich da ton tai -> tu choi ghi de
+  [PASS] D9 anh THIEU file nhan -> kiem dataset bao loi (khong coi la am tinh)
+  [PASS] D10 CLI cu: khong con nguon mac dinh (tron UA-DETRAC), --nguon bdd bi chan -> exit 1
+  [PASS] D11 cau hinh tron nguon (BDD + UA-DETRAC) -> tu choi
+
+== E. evaluator 5 lop
+  [PASS] E1 AP50 / AP50-95 theo lop KHOP pycocotools (co vung bo qua kieu crowd)  (lech max 0.00e+00)
+  [PASS] E2 lop khong co GT (bus, bicycle) -> AP null, khong vao mAP
+  [PASS] E3 P/R van hanh tinh tay: car TP2 FP2 (det trung + det xa; det trong vung bo qua KHONG tinh), truck conf 0.2 < 0.25 -> FN  ({'TP': 2, 'FP': 2, 'FN': 0, 'precision': 0.5, 'recall': 1.0, 'f1': 0.6666666666666666} {'TP': 0, 'FP': 0, 'FN': 1, 'precision': nan, 'recall': 0.0, 'f1': 0.0})
+  [PASS] E4 GT doi ra pixel theo kich thuoc ANH THUC (200x100), khong theo 960x540
+  [PASS] E5 anh thieu file nhan -> LOI (khong coi la anh am tinh)
+  [FAIL] E. evaluator 5 lop: loi khong mong doi FileNotFoundError: C:\Users\Mikuno\AppData\Local\Temp\test_det5_vnlqsiv7\out\sc.dang_tao\images\dev (split val cua C:\Users\Mikuno\AppData\Local\Temp\test_det5_vnlqsiv7\out\sc\data.yaml)
+
+== F. runner huan luyen
+  [FAIL] F1 --dry-run = kiem cau hinh: exit 0, KHONG train, KHONG tao thu muc luot / file ket qua  (exit 2 [LOI CAU HINH] thieu C:\Users\Mikuno\AppData\Local\Temp\test_det5_vnlqsiv7\out\sc.dang_tao\manifest\tom_tat.json (dataset phai sinh boi bdd_yolo_export)
+)
+  [PASS] F2 thu muc luot da ton tai -> exit 2, khong ghi de
+  [PASS] F3 optimizer 'auto' -> tu choi (phai khai bao gia tri tuong minh)
+  [PASS] F4 day-du thieu --xac-nhan-train-dai -> exit 1
+  [FAIL] F5 sha256 checkpoint khoi tao sai -> exit 2
+
+KET QUA: 47/52 phep kiem tra PASS

@@ -1,0 +1,422 @@
+# run_all_tests 2026-09-29 16:18:00  python=3.11.9  cwd=D:\LABOTARY\bytetrack
+# git HEAD 239b9c6
+
+=== test_bdd100k_adapter: PASS (exit 0, 39.2s)
+$ python src/test_bdd100k_adapter.py
+--- stdout ---
+  [PASS] fixture co 3 video
+         ['b1c66a42-6f7d68ca', 'b2d0a5e2-3c1f9a7b', 'b3e7f1c0-9a2b4d6e']
+  [PASS] schema hop le: 12 frame, co categories
+  [PASS] schema CU (index) bi tu choi
+         old: gap khoa schema CU ['index'] (TrackEval bdd100k.py); can box_track_20
+  [PASS] attributes schema CU (Crowd) bi tu choi
+  [PASS] frameIndex khong lien tuc bi tu choi
+  [PASS] category la bi tu choi
+  [PASS] interim parquet mang tag thu muc fixture
+  [PASS] frame 1-based lien tuc
+  [PASS] occluded -> occlusion_ratio 0.5 (frame 6-8), khac 0
+  [PASS] crowd, rider, pedestrian, other vehicle deu duoc giu trong interim
+  [PASS] track_gaps: xe G (id 11) gap frame 5-7, xe M (id 15) gap frame 7-8
+         video  track_id  last_seen  reappear  gap_start  gap_end  gap_frames category
+         0  b2d0a5e2-3c1f9a7b        11          4         8          5        7           3      car
+         1  b2d0a5e2-3c1f9a7b        15          6         9          7        8           2      car
+  [PASS] stats_report co 8 lop, rider evaluated=True, other vehicle evaluated=False
+  [PASS] time_s tu timestamp (b3): co khoang 0.4 s (bo 1 frame)
+         [          0         0.2         0.4         0.6           1         1.2         1.4         1.6]
+  [PASS] time_s danh nghia (b1): 0.2 s/buoc
+  [PASS] path anh None khi khong co thu muc images
+  [PASS] split vehicle: BDDFX-val
+  [PASS] vehicle: crowd -> class 13 conf 0; car/truck/motorcycle -> class 1; khong rider/pedestrian
+         cls
+         1     4
+         13    1
+  [PASS] vehicle: vis = 0.5 khi occluded (truck frame 6-8)
+  [PASS] vehicle: 'other vehicle' -> class 13
+  [PASS] split car: chi car class 1 (id 1, 8), crowd van class 13
+  [PASS] seqinfo: frameRate=5, seqLength=8, 1280x720
+  [PASS] seqmap 3 video
+  [PASS] det_cache --source gt tren fixture chay xong
+         [det_cache] fixture_bddfx_gt: backend=gt-synthetic conf=0.05 iou=0.7 imgsz=640 classes=None max_det=3000 -> D:\LABOTARY\bytetrack\data\interim\det_cache\fixture_bddfx_gt
+           b1c66a42-6f7d68ca       12 frame       60 box  unreadable=0 truncated=0  (0.0s)
+           b2d0a5e2-3c1f9a7b       12 frame       43 box  unreadable=0 truncated=0  (0.0s)
+           b3e7f1c0-9a2b4d6e        8 frame       16 box  unreadable=0 truncated=0  (0.0s)
+  [PASS] meta backend gt-synthetic, dataset bdd100k
+  [PASS] cache b1: 12 frame, lop COCO {1,2,3,5,7} (khong rider/pedestrian/crowd)
+         60 box, lop {2, 3, 7}
+  [PASS] run_tracking cv tren cache fixture
+         ck yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=5.0 track_buffer=6 elapsed=steps seeds=[None]
+           fx-cv                        b1c66a42-6f7d68ca    12 frame ->      59 bbox    5 track  predict 0.38 ms/frame  assoc 1.33  (0.0s, 364 fps)
+           fx-cv                        b2d0a5e2-3c1f9a7b    12 frame ->      41 bbox    4 track  predict 0.09 ms/frame  assoc 0.58  (0.0s, 857 fps)
+           fx-cv                        b3e7f1c0-9a2b4d6e     8 frame ->       9 bbox    2 track  predict 0.10 ms/frame  assoc 0.65  (0.1s, 91 fps)
+           fx-cv                          3 video moi,   0 tai su dung
+  [PASS] cv: track_buffer 1.2 s @5fps = 6 buoc, fps=5 trong run_meta
+  [PASS] cv: b3 co 1 frame n_steps=2 (timestamp nhay 0.4 s)
+  [PASS] cv: tach lop car / motorcycle co dong
+         {'BDDFX-val_car': 52, 'BDDFX-val_motorcycle': 13}
+  [PASS] run_tracking ekf tren cache fixture
+         ytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=5.0 track_buffer=6 elapsed=steps seeds=[None]
+           fx-ekf                       b1c66a42-6f7d68ca    12 frame ->      59 bbox    5 track  predict 0.34 ms/frame  assoc 1.30  (0.0s, 353 fps)
+           fx-ekf                       b2d0a5e2-3c1f9a7b    12 frame ->      41 bbox    4 track  predict 0.15 ms/frame  assoc 0.66  (0.0s, 773 fps)
+           fx-ekf                       b3e7f1c0-9a2b4d6e     8 frame ->       9 bbox    2 track  predict 0.12 ms/frame  assoc 0.69  (0.1s, 90 fps)
+           fx-ekf                         3 video moi,   0 tai su dung
+  [PASS] ekf: track_buffer 1.2 s @5fps = 6 buoc, fps=5 trong run_meta
+  [PASS] ekf: b3 co 1 frame n_steps=2 (timestamp nhay 0.4 s)
+  [PASS] ekf: tach lop car / motorcycle co dong
+         {'BDDFX-val_car': 52, 'BDDFX-val_motorcycle': 13}
+
+Evaluating 1 tracker(s) on 3 sequence(s) for 1 class(es) on MotChallengeCrowdIgnore dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating fx-cv
+
+
+HOTA: fx-cv-pedestrian             HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+b1c66a42-6f7d68ca                  92.501    92.262    92.747    93.531    95.521    93.873    95.711    93.518    93.104    97.983    93.294    91.412    
+b2d0a5e2-3c1f9a7b                  90.152    89.7      90.608    90.575    94.994    91.517    95.103    92.902    90.57     95.776    92.679    88.765    
+b3e7f1c0-9a2b4d6e                  66.984    52.709    85.147    53.289    94.737    86.696    95.395    92.493    67.351    71.261    92.211    65.71     
+COMBINED                           88.21     85.291    91.239    86.326    95.225    92.34     95.559    93.164    88.731    93.555    92.933    86.944    
+
+CLEAR: fx-cv-pedestrian            MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+b1c66a42-6f7d68ca                  97.917    93.294    97.917    97.917    100       100       0         0         91.35     47        1         0         0         4         0         0         1         
+b2d0a5e2-3c1f9a7b                  95.349    92.679    95.349    95.349    100       75        25        0         88.368    41        2         0         0         3         1         0         3         
+b3e7f1c0-9a2b4d6e                  56.25     92.211    56.25     56.25     100       50        0         50        51.869    9         7         0         0         1         0         1         0         
+COMBINED                           90.654    92.933    90.654    90.654    100       80        10        10        84.248    97        10        0         0         8         1         1         4         
+
+Identity: fx-cv-pedestrian         IDF1      IDR       IDP       IDTP      IDFN      IDFP      
+b1c66a42-6f7d68ca                  98.947    97.917    100       47        1         0         
+b2d0a5e2-3c1f9a7b                  97.619    95.349    100       41        2         0         
+b3e7f1c0-9a2b4d6e                  72        56.25     100       9         7         0         
+COMBINED                           95.098    90.654    100       97        10        0         
+
+Count: fx-cv-pedestrian            Dets      GT_Dets   IDs       GT_IDs    
+b1c66a42-6f7d68ca                  47        48        4         4         
+b2d0a5e2-3c1f9a7b                  41        43        4         4         
+b3e7f1c0-9a2b4d6e                  9         16        2         2         
+COMBINED                           97        107       10        10        
+
+Evaluating 1 tracker(s) on 3 sequence(s) for 1 class(es) on MotChallengeCrowdIgnore dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating fx-ekf
+
+
+HOTA: fx-ekf-pedestrian            HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+b1c66a42-6f7d68ca                  92.695    92.515    92.879    93.64     95.633    93.967    95.816    93.552    93.23     97.983    93.333    91.451    
+b2d0a5e2-3c1f9a7b                  90.04     89.55     90.535    90.453    94.865    91.423    95.014    93.003    90.472    95.776    92.749    88.831    
+b3e7f1c0-9a2b4d6e                  66.637    52.449    84.685    52.961    94.152    86.038    94.737    92.193    66.96     71.261    91.898    65.487    
+COMBINED                           88.208    85.318    91.205    86.276    95.171    92.254    95.477    93.195    88.69     93.555    92.953    86.962    
+
+CLEAR: fx-ekf-pedestrian           MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+b1c66a42-6f7d68ca                  97.917    93.333    97.917    97.917    100       100       0         0         91.389    47        1         0         0         4         0         0         1         
+b2d0a5e2-3c1f9a7b                  95.349    92.749    95.349    95.349    100       75        25        0         88.435    41        2         0         0         3         1         0         3         
+b3e7f1c0-9a2b4d6e                  56.25     91.898    56.25     56.25     100       50        0         50        51.692    9         7         0         0         1         0         1         0         
+COMBINED                           90.654    92.953    90.654    90.654    100       80        10        10        84.266    97        10        0         0         8         1         1         4         
+
+Identity: fx-ekf-pedestrian        IDF1      IDR       IDP       IDTP      IDFN      IDFP      
+b1c66a42-6f7d68ca                  98.947    97.917    100       47        1         0         
+b2d0a5e2-3c1f9a7b                  97.619    95.349    100       41        2         0         
+b3e7f1c0-9a2b4d6e                  72        56.25     100       9         7         0         
+COMBINED                           95.098    90.654    100       97        10        0         
+
+Count: fx-ekf-pedestrian           Dets      GT_Dets   IDs       GT_IDs    
+b1c66a42-6f7d68ca                  47        48        4         4         
+b2d0a5e2-3c1f9a7b                  41        43        4         4         
+b3e7f1c0-9a2b4d6e                  9         16        2         2         
+COMBINED                           97        107       10        10        
+
+Evaluating 1 tracker(s) on 3 sequence(s) for 1 class(es) on MotChallengeCrowdIgnore dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating fx-cv
+
+
+HOTA: fx-cv-pedestrian             HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+b1c66a42-6f7d68ca                  90.941    90.564    91.342    91.886    95.881    92.361    96.101    94.08     91.574    95.924    93.86     90.034    
+b2d0a5e2-3c1f9a7b                  84.783    84.124    85.447    84.765    94.737    86.088    94.759    92.516    85.084    90.159    92.279    83.198    
+b3e7f1c0-9a2b4d6e                  0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           88.359    87.687    89.062    88.739    95.395    90.042    95.88     93.421    88.893    93.421    93.188    87.057    
+
+CLEAR: fx-cv-pedestrian            MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+b1c66a42-6f7d68ca                  95.833    93.86     95.833    95.833    100       100       0         0         89.949    23        1         0         0         2         0         0         1         
+b2d0a5e2-3c1f9a7b                  89.474    92.279    89.474    89.474    100       50        50        0         82.565    17        2         0         0         1         1         0         2         
+b3e7f1c0-9a2b4d6e                  0         0         0         0         0         0         0         100       0         0         0         0         0         0         0         0         0         
+COMBINED                           93.023    93.188    93.023    93.023    100       75        25        0         86.686    40        3         0         0         3         1         0         3         
+
+Identity: fx-cv-pedestrian         IDF1      IDR       IDP       IDTP      IDFN      IDFP      
+b1c66a42-6f7d68ca                  97.872    95.833    100       23        1         0         
+b2d0a5e2-3c1f9a7b                  94.444    89.474    100       17        2         0         
+b3e7f1c0-9a2b4d6e                  0         0         0         0         0         0         
+COMBINED                           96.386    93.023    100       40        3         0         
+
+Count: fx-cv-pedestrian            Dets      GT_Dets   IDs       GT_IDs    
+b1c66a42-6f7d68ca                  23        24        2         2         
+b2d0a5e2-3c1f9a7b                  17        19        2         2         
+b3e7f1c0-9a2b4d6e                  0         0         0         0         
+COMBINED                           40        43        4         4         
+
+Evaluating 1 tracker(s) on 3 sequence(s) for 1 class(es) on MotChallengeCrowdIgnore dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating fx-ekf
+
+
+HOTA: fx-ekf-pedestrian            HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+b1c66a42-6f7d68ca                  91.3      91.076    91.527    92.105    96.11     92.471    96.236    93.768    91.785    95.924    93.591    89.777    
+b2d0a5e2-3c1f9a7b                  83.96     83.34     84.584    84.211    94.118    85.445    94.179    92.321    84.363    90.159    91.982    82.93     
+b3e7f1c0-9a2b4d6e                  0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           88.204    87.604    88.83     88.617    95.263    89.826    95.681    93.147    88.714    93.421    92.908    86.795    
+
+CLEAR: fx-ekf-pedestrian           MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+b1c66a42-6f7d68ca                  95.833    93.591    95.833    95.833    100       100       0         0         89.692    23        1         0         0         2         0         0         1         
+b2d0a5e2-3c1f9a7b                  89.474    91.982    89.474    89.474    100       50        50        0         82.3      17        2         0         0         1         1         0         2         
+b3e7f1c0-9a2b4d6e                  0         0         0         0         0         0         0         100       0         0         0         0         0         0         0         0         0         
+COMBINED                           93.023    92.908    93.023    93.023    100       75        25        0         86.426    40        3         0         0         3         1         0         3         
+
+Identity: fx-ekf-pedestrian        IDF1      IDR       IDP       IDTP      IDFN      IDFP      
+b1c66a42-6f7d68ca                  97.872    95.833    100       23        1         0         
+b2d0a5e2-3c1f9a7b                  94.444    89.474    100       17        2         0         
+b3e7f1c0-9a2b4d6e                  0         0         0         0         0         0         
+COMBINED                           96.386    93.023    100       40        3         0         
+
+Count: fx-ekf-pedestrian           Dets      GT_Dets   IDs       GT_IDs    
+b1c66a42-6f7d68ca                  23        24        2         2         
+b2d0a5e2-3c1f9a7b                  17        19        2         2         
+b3e7f1c0-9a2b4d6e                  0         0         0         0         
+COMBINED                           40        43        4         4         
+
+Evaluating 1 tracker(s) on 3 sequence(s) for 1 class(es) on MotChallengeCrowdIgnore dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating fx-cv
+
+
+HOTA: fx-cv-pedestrian             HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+b1c66a42-6f7d68ca                  93.985    93.985    93.985    95.175    95.175    95.175    95.175    93.444    94.529    100       93.241    93.241    
+b2d0a5e2-3c1f9a7b                  0         0         0         0         0         0         0         100       0         0         100       0         
+b3e7f1c0-9a2b4d6e                  11.184    11.184    11.184    11.184    89.474    11.184    89.474    89.599    11.184    12.5      88.376    11.047    
+COMBINED                           73.228    60.973    87.963    61.579    94.737    89.153    95.175    93.109    73.582    77.862    92.867    72.308    
+
+CLEAR: fx-cv-pedestrian            MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+b1c66a42-6f7d68ca                  100       93.241    100       100       100       100       0         0         93.241    12        0         0         0         1         0         0         0         
+b2d0a5e2-3c1f9a7b                  0         0         0         0         0         0         0         100       0         0         0         0         0         0         0         0         0         
+b3e7f1c0-9a2b4d6e                  12.5      88.376    12.5      12.5      100       0         0         100       11.047    1         7         0         0         0         0         1         0         
+COMBINED                           65        92.867    65        65        100       50        0         50        60.363    13        7         0         0         1         0         1         0         
+
+Identity: fx-cv-pedestrian         IDF1      IDR       IDP       IDTP      IDFN      IDFP      
+b1c66a42-6f7d68ca                  100       100       100       12        0         0         
+b2d0a5e2-3c1f9a7b                  0         0         0         0         0         0         
+b3e7f1c0-9a2b4d6e                  22.222    12.5      100       1         7         0         
+COMBINED                           78.788    65        100       13        7         0         
+
+Count: fx-cv-pedestrian            Dets      GT_Dets   IDs       GT_IDs    
+b1c66a42-6f7d68ca                  12        12        1         1         
+b2d0a5e2-3c1f9a7b                  0         0         0         0         
+b3e7f1c0-9a2b4d6e                  1         8         1         1         
+COMBINED                           13        20        2         2         
+
+Evaluating 1 tracker(s) on 3 sequence(s) for 1 class(es) on MotChallengeCrowdIgnore dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating fx-ekf
+
+
+HOTA: fx-ekf-pedestrian            HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+b1c66a42-6f7d68ca                  94.286    94.286    94.286    95.614    95.614    95.614    95.614    93.889    94.893    100       93.611    93.611    
+b2d0a5e2-3c1f9a7b                  0         0         0         0         0         0         0         100       0         0         100       0         
+b3e7f1c0-9a2b4d6e                  11.184    11.184    11.184    11.184    89.474    11.184    89.474    89.599    11.184    12.5      88.376    11.047    
+COMBINED                           73.473    61.172    88.263    61.842    95.142    89.592    95.614    93.528    73.864    77.862    93.208    72.574    
+
+CLEAR: fx-ekf-pedestrian           MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+b1c66a42-6f7d68ca                  100       93.611    100       100       100       100       0         0         93.611    12        0         0         0         1         0         0         0         
+b2d0a5e2-3c1f9a7b                  0         0         0         0         0         0         0         100       0         0         0         0         0         0         0         0         0         
+b3e7f1c0-9a2b4d6e                  12.5      88.376    12.5      12.5      100       0         0         100       11.047    1         7         0         0         0         0         1         0         
+COMBINED                           65        93.208    65        65        100       50        0         50        60.585    13        7         0         0         1         0         1         0         
+
+Identity: fx-ekf-pedestrian        IDF1      IDR       IDP       IDTP      IDFN      IDFP      
+b1c66a42-6f7d68ca                  100       100       100       12        0         0         
+b2d0a5e2-3c1f9a7b                  0         0         0         0         0         0         
+b3e7f1c0-9a2b4d6e                  22.222    12.5      100       1         7         0         
+COMBINED                           78.788    65        100       13        7         0         
+
+Count: fx-ekf-pedestrian           Dets      GT_Dets   IDs       GT_IDs    
+b1c66a42-6f7d68ca                  12        12        1         1         
+b2d0a5e2-3c1f9a7b                  0         0         0         0         
+b3e7f1c0-9a2b4d6e                  1         8         1         1         
+COMBINED                           13        20        2         2         
+  [PASS] TrackEval crowd-ignore tren BDDFX-val chay: HOTA huu han, FP=0 (det trong crowd bi loai, det khop GT)
+         HOTA=0.882 MOTA=0.907 FP=0 FN=10 IDSW=0
+  [PASS] theo lop: split _car va _motorcycle co GT (GT_dets > 0)
+  [PASS] EKF cung chay xong tren 3 split
+  [PASS] occlusion_segments --parquet --fps 5 --out-tag
+         edian=2  max=3
+           Khoang nhay vi tri (px) : median=80.0  max=100.0
+         
+           Phan bo theo nhom do dai:
+             short   [0.0 - 0.5 s) :      1 gap ( 50.0%)
+             medium  [0.5 - 1.5 s) :      1 gap ( 50.0%)
+             long    [1.5 - inf s) :      0 gap (  0.0%)
+         
+           Da luu:
+             D:\LABOTARY\bytetrack\data\interim\occlusion_segments.csv
+             D:\LABOTARY\bytetrack\data\interim\full_occlusion_segments.csv
+             D:\LABOTARY\bytetrack\data\interim\track_gaps.csv
+             D:\LABOTARY\bytetrack\data\interim\track_occlusion_summary.csv
+         
+           xu ly track:   0%|                                            | 0/14 [00:00<?, ?track/s]
+           xu ly track: 100%|##################################| 14/14 [00:00<00:00, 736.67track/s]
+  [PASS] segments: co doan partial (truck 6-8), KHONG co doan full (>=0.90), 2 gap; duration theo 5 fps
+         partial 6 full 0 gaps 2
+  [PASS] occlusion_eval --gaps --context-s 1.2 --fps 5
+         83.33%          66.67%
+           fx-ekf                          83.33%          66.67%
+         
+         CHENH LECH so voi fx-cv, bootstrap THEO VIDEO (200 lan, giu tinh ghep cap):
+           tracker                     chenh id_match                   KTC 95%
+           --------------------------------------------------------------------
+           fx-ekf                              +0.00%   [+0.00%, +0.00%]
+         
+         LUU Y KHI DOC:
+           - Khoang tin cay chua 0 KHONG co nghia hai mo hinh tuong duong; no chi
+             co nghia du lieu hien co chua du de phan biet (thieu luc kiem dinh).
+           - Bootstrap lay mau o cap VIDEO vi cac su kien trong cung video khong
+             doc lap. Neu dung McNemar theo tung su kien thi p-value se HEP hon
+             thuc te vi coi cac su kien la doc lap.
+         
+           Da luu -> D:\LABOTARY\bytetrack\results\phase2\fixture_occl
+  [PASS] events co cot has_gap va it nhat 1 su kien gap (xe G) + su kien partial (truck B)
+         video  track_id  event_id  start_frame  end_frame  length_frames  has_full  has_gap       gap_evidence  gt_before  gt_after  eligible   exclusion_reason
+         0  b1c66a42-6f7d68ca         2         0            6          8              3     False    False                NaN       True      True      True                NaN
+         1  b2d0a5e2-3c1f9a7b        11         0            5          7              3     False     True            unknown       True      True      True                NaN
+         2  b2d0a5e2-3c1f9a7b        14         0            1          1              1     False    False                NaN      False      True     False  gt_missing_before
+         3  b2d0a5e2-3c1f9a7b        14         1            5          5              1     False    False                NaN       True      True      True                NaN
+         4  b2d0a5e2-3c1f9a7b        14         2            9          9              1     False    False                NaN       True      True      True                NaN
+         5  b2d0a5e2-3c1f9a7b        15         0            6          9              4     False     True  occluded_adjacent       True      True      True                NaN
+         6  b3e7f1c0-9a2b4d6e        22         0            4          4              1     False    False                NaN       True      True      True                NaN
+  [PASS] gap KHONG suy dien la che hoan toan: has_full=False; xe G -> gap_evidence 'unknown' (frame 4, 8 khong occluded); xe M -> 'occluded_adjacent' (frame 6, 9 occluded)
+         track_id  start_frame  end_frame  has_full       gap_evidence
+         1        11            5          7     False            unknown
+         5        15            6          9     False  occluded_adjacent
+  [PASS] outcome cua su kien gap duoc cham (khong NaN) cho ca 2 tracker
+         tracker  track_id  has_gap  eligible     outcome
+         0    fx-cv         2    False      True   preserved
+         1    fx-cv        11     True      True   preserved
+         2    fx-cv        14    False     False         NaN
+         3    fx-cv        14    False      True   preserved
+         4    fx-cv        14    False      True   preserved
+         5    fx-cv        15     True      True   preserved
+         6    fx-cv        22    False      True  lost_after
+         7   fx-ekf         2    False      True   preserved
+         8   fx-ekf        11     True      True   preserved
+         9   fx-ekf        14    False     False         NaN
+         10  fx-ekf        14    False      True   preserved
+         11  fx-ekf        14    False      True   preserved
+         12  fx-ekf        15     True      True   preserved
+         13  fx-ekf        22    False      True  lost_after
+
+==============================================================================
+KET QUA: 42/42 phep kiem tra PASS
+==============================================================================
+
+--- stderr ---
+
+
+=== test_bdd100k_coco: PASS (exit 0, 1.0s)
+$ python src/test_bdd100k_coco.py
+--- stdout ---
+  [PASS] check_schema FAIL-LOUD voi nguon hong (thieu muc / thieu khoa / category la)
+         khong bao loi voi: []
+  [PASS] check_schema chap nhan nguon dung
+  [PASS] doc dung so luong va toa do (bbox xywh -> bb_left/top/width/height, cx/cy)
+         n=12 video=2 box=(10.0,20.0,30.0,40.0) tam=(25.0,40.0)
+  [PASS] track_id danh so theo (video, instance_id): 2 instance_id dung chung o 2 video -> 4 track RIENG, KHONG track nao dung chung giua hai video
+         n_track=4 (ky vong 4); track_id dung chung = []
+  [PASS] truong KHONG co trong nguon duoc ghi ro la THIEU (khong bia gia tri)
+         occlusion_ratio NaN: True; dt_source: ['nominal']
+  [PASS] `crowd` gom ca iscrowd LAN ignore, hai co goc van duoc giu rieng
+         crowd=4 iscrowd=3 ignore=1 (ky vong 4 / 3 / 1)
+  [PASS] `df_for_gt_export` dien visibility = 1.0 (PLACEHOLDER cho dinh dang MOTChallenge) nhung ban interim VAN giu NaN
+         export: [1.0]; interim NaN: True
+  [PASS] frames(): 1-based theo frame_id tang dan, time_s theo fps danh nghia (5 fps)
+         index=[1, 2, 3] time_s=[0.0, 0.2, 0.4]
+  [PASS] F4: frame CUOI khong co annotation -> seqLength = frame ANH cuoi (khong cat ngan theo annotation)
+         seqLength(vidC)=5 (ky vong 5); frame annotation cuoi=2 -> cach cu se ghi 2
+  [PASS] F4: video KHONG co annotation nao -> van co timeline dung, khong nem loi, schema df van du cot
+         seqLength(vidD)=3 n_images=3 n_hang=0
+  [PASS] F4: timeline co KHOANG FRAME BI BO QUA -> do dai la CHI SO FRAME CUOI, khong phai so anh
+         seqLength(vidE)=5 (ky vong 5), n_images=3 (3), frame bi bo qua=[3, 4]
+
+KET QUA: 11/11 phep kiem tra PASS
+
+--- stderr ---
+
+
+=== test_detector_5lop: PASS (exit 0, 15.4s)
+$ python src/test_detector_5lop.py
+--- stdout ---
+
+== A. anh xa lop
+  [PASS] A1 COCO 80 lop -> {2:car,7:truck,5:bus,3:motorcycle,1:bicycle}  ({2: 0, 7: 1, 5: 2, 3: 3, 1: 4})
+  [PASS] A2 checkpoint 5 lop -> dong nhat
+  [PASS] A3 thu tu la -> anh xa THEO TEN, loai 'khac'
+  [PASS] A4 thieu bicycle -> LoiAnhXaLop
+  [PASS] A4 trung car -> LoiAnhXaLop
+  [PASS] A5 sang_id_coco giu quy uoc tracker (--classes 1 2 3 5 7)
+  [PASS] A6 names dataset sai thu tu -> loi
+  [PASS] A7 doc names tu checkpoint that yolov8n: coco80, anh xa dung
+  [PASS] A7 doc names tu checkpoint that yolo11n: coco80, anh xa dung
+
+== B/C/D. xuat dataset BDD -> YOLO 5 lop
+  [PASS] B1 kiem nguon: 8 video, 128 frame nhan, khong thieu anh
+  [PASS] B2 chia theo video: roi nhau, hop = toan bo video, dev > 0  (train 5 dev 3)
+  [PASS] B3 chia tat dinh voi seed, doi seed doi ket qua
+  [PASS] B4 phan tang theo motorcycle/bicycle: so dev moi tang = floor(ti_le * n + 0.5), dev co motorcycle  (tang {'motorcycle=0|bicycle=0': {'so_video': 3, 'so_dev': 1}, 'motorcycle=0|bicycle=1': {'so_video': 2, 'so_dev': 1}, 'motorcycle=1|bicycle=0': {'so_video': 2, 'so_dev': 1}, 'motorcycle=1|bicycle=1': {'so_video': 1, 'so_dev': 0}})
+  [PASS] B5 khoa split: tao lai -> tu choi ghi de
+  [PASS] B6 kiem sau xuat dat, moi anh co file nhan, so anh = frame hop le  (125 anh)
+  [PASS] B7 am tinh HOP LE: frame chi co pedestrian + frame rong trong khoang co nhan -> giu, nhan rong
+  [PASS] B8 duoi video KHONG nhan (3 frame cuoi) -> loai, dem ngoai_khoang_co_nhan = 3
+  [PASS] B9 box tran khung duoc CAT vao khung (x2 = W)
+  [PASS] B10 box < 1 px sau cat -> bo, dem rieng
+  [PASS] B11 toa do theo kich thuoc anh thuc (car 0.55W..0.65W -> cx 0.6, w 0.1)
+  [PASS] B12 to xam: crowd car (ngoai box co nhan), 'other vehicle', 'trailer' -> xam; car co nhan nam trong crowd, crowd pedestrian -> GIU nguyen  (diem kiem [(67, 84, 4.107900142669678), (76, 7, 4.775000095367432), (22, 140, 4.775000095367432)])
+  [PASS] B13 file vung bo qua: 3 vung (crowd car, other vehicle, trailer)  (3)
+  [PASS] B14 anh khong to xam -> sao chep nguyen byte
+  [PASS] B15 data.yaml: val -> images/dev (dev noi bo), names = 5 lop da khoa
+  [PASS] B16 thong ke theo lop co motorcycle (box, anh, video) tren train va dev
+  [PASS] B17 kiem trung tap danh gia co chay (ten video + ten anh + noi dung, 12 anh val da bam)
+  [PASS] B18 tap con smoke: dung so video, buoc frame rieng, ghi loai SMOKE
+  [PASS] C1 COCO-video: cung split train/dev nhu Scalabel
+  [PASS] C2 COCO-video: nhan, vung bo qua, anh xuat GIONG TUNG BYTE ban Scalabel
+  [PASS] C3 COCO-video: cung thong ke + dem
+  [PASS] D1 thieu nhan + anh train -> exit 2, liet ke duong dan, KHONG tao thu muc dich  (exit 2)
+  [PASS] D2 thieu 1 anh le -> ThieuDuLieu (chi_video_du_anh=false)
+  [PASS] D3 chi_video_du_anh=true -> loai video thieu anh, GHI vao file split
+  [PASS] D4 video train trung ten video tap danh gia -> LoiDuLieu
+  [PASS] D5 anh train trung NOI DUNG anh tap danh gia (khac ten) -> LoiDuLieu
+  [PASS] D6 nguon nhan doi sau khi khoa split -> tu choi xuat
+  [PASS] D7 file split bi sua tay (doi video train/dev) -> tu choi
+  [PASS] D8 thu muc dataset dich da ton tai -> tu choi ghi de
+  [PASS] D9 anh THIEU file nhan -> kiem dataset bao loi (khong coi la am tinh)
+  [PASS] D10 CLI cu: khong con nguon mac dinh (tron UA-DETRAC), --nguon bdd bi chan -> exit 1
+  [PASS] D11 cau hinh tron nguon (BDD + UA-DETRAC) -> tu choi
+
+== E. evaluator 5 lop
+  [PASS] E1 AP50 / AP50-95 theo lop KHOP pycocotools (co vung bo qua kieu crowd)  (lech max 0.00e+00)
+  [PASS] E2 lop khong co GT (bus, bicycle) -> AP null, khong vao mAP
+  [PASS] E3 P/R van hanh tinh tay: car TP2 FP2 (det trung + det xa; det trong vung bo qua KHONG tinh), truck conf 0.2 < 0.25 -> FN  ({'TP': 2, 'FP': 2, 'FN': 0, 'precision': 0.5, 'recall': 1.0, 'f1': 0.6666666666666666} {'TP': 0, 'FP': 0, 'FN': 1, 'precision': nan, 'recall': 0.0, 'f1': 0.0})
+  [PASS] E4 GT doi ra pixel theo kich thuoc ANH THUC (200x100), khong theo 960x540
+  [PASS] E5 anh thieu file nhan -> LOI (khong coi la anh am tinh)
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+  [PASS] E6 du doan that YOLOv8n COCO (CPU): anh xa theo ten ghi lai, lop dau ra chi trong 0..4  (lop [])
+
+== F. runner huan luyen
+  [PASS] F1 --dry-run = kiem cau hinh: exit 0, KHONG train, KHONG tao thu muc luot / file ket qua  (exit 0 )
+  [PASS] F2 thu muc luot da ton tai -> exit 2, khong ghi de
+  [PASS] F3 optimizer 'auto' -> tu choi (phai khai bao gia tri tuong minh)
+  [PASS] F4 day-du thieu --xac-nhan-train-dai -> exit 1
+  [PASS] F5 sha256 checkpoint khoi tao sai -> exit 2
+
+KET QUA: 52/52 phep kiem tra PASS
+
+--- stderr ---
+
+

@@ -1,0 +1,30 @@
+### 03. Du lieu THAT tren may: chay dung cau hinh plan (configs/phase2/detector/bdd5_train.yaml, train_bdd5.yaml) -- ky vong BI CHAN, exit 2
+## prepare --buoc kiem-nguon
+[THIEU DU LIEU] chua co du lieu BDD100K MOT train tren may
+  - nhan train (scalabel): D:\LABOTARY\bytetrack\data\raw\bdd100k\labels\box_track_20\train
+  - anh train: D:\LABOTARY\bytetrack\data\raw\bdd100k\images\track\train
+  -> xem handoff/BDD100K_INVENTORY.md muc 'Vong 27' (goi can tai + duong dan dat). KHONG thay bang UA-DETRAC hay BDD val.
+exit=2
+## prepare --buoc chia
+[THIEU DU LIEU] chua co du lieu BDD100K MOT train tren may
+  - nhan train (scalabel): D:\LABOTARY\bytetrack\data\raw\bdd100k\labels\box_track_20\train
+  - anh train: D:\LABOTARY\bytetrack\data\raw\bdd100k\images\track\train
+  -> xem handoff/BDD100K_INVENTORY.md muc 'Vong 27' (goi can tai + duong dan dat). KHONG thay bang UA-DETRAC hay BDD val.
+exit=2
+## prepare --buoc xuat
+[THIEU DU LIEU] chua co du lieu BDD100K MOT train tren may
+  - nhan train (scalabel): D:\LABOTARY\bytetrack\data\raw\bdd100k\labels\box_track_20\train
+  - anh train: D:\LABOTARY\bytetrack\data\raw\bdd100k\images\track\train
+  -> xem handoff/BDD100K_INVENTORY.md muc 'Vong 27' (goi can tai + duong dan dat). KHONG thay bang UA-DETRAC hay BDD val.
+exit=2
+## train_detector --model yolov8n --dry-run
+[LOI CAU HINH] chua co dataset D:\LABOTARY\bytetrack\data\yolo_bdd5_v1\data.yaml -- chay prepare_mixed_yolo_dataset.py --config ... --buoc xuat
+exit=2
+## train_detector --model yolo11n --dry-run
+[LOI CAU HINH] chua co dataset D:\LABOTARY\bytetrack\data\yolo_bdd5_v1\data.yaml -- chay prepare_mixed_yolo_dataset.py --config ... --buoc xuat
+exit=2
+## thu muc dich khong bi tao:
+ls: cannot access 'data/yolo_bdd5_v1': No such file or directory
+ls: cannot access 'data/yolo_bdd5_v1.dang_tao': No such file or directory
+ls: cannot access 'configs/phase2/detector/splits': No such file or directory
+ls: cannot access 'models/finetune_phase2': No such file or directory

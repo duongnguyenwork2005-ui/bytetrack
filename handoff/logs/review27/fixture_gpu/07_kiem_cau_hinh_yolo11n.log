@@ -1,0 +1,107 @@
+{
+ "loai": "KIEM CAU HINH (khong train)",
+ "ten": "fixture_smoke_cuoi_yolo11n",
+ "dataset": {
+  "data_yaml": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\claude\\d--LABOTARY-bytetrack\\725dbe02-11c7-4caa-9d6c-980457a66fad\\scratchpad\\r27\\yolo_fixture_bdd5_r27_smoke\\data.yaml",
+  "sha256_data_yaml": "b75ae19633424c6f6bcdf3c1e464909bfd2a200259aac6816c198427a069bc3f",
+  "ten": "fixture_bdd5_r27_smoke",
+  "loai": "SMOKE (tap con nho, KHONG dung cho ket qua nghien cuu)",
+  "manifest_sha256": "ff1623322d038f1967606e7d3c5e210a1c31bf10461b941cfed54a37cf3f383e",
+  "file_split": {
+   "duong_dan": "C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/r27/splits/fixture_bdd5_r27.json",
+   "sha256": "36d41310491e9ac3883987aa345444cf6dfcc0578d1a903a5937955fd59091c3",
+   "sha256_danh_sach": "8b3937e9f73372b544e75a84780b6f78da776504684ae00147f16b9ea63f053b"
+  },
+  "so_anh": {
+   "train": 719,
+   "dev": 90
+  },
+  "so_video": {
+   "train": 24,
+   "dev": 3
+  },
+  "quy_tac": {
+   "buoc_frame": 2,
+   "am_tinh": "frame trong [frame co nhan dau, cuoi] cua video",
+   "to_xam": "crowd/ignore thuoc 5 lop + ['other vehicle', 'trailer']; tru pixel trong box co nhan; mau [114, 114, 114]; JPEG q95",
+   "lop_khong_gan_nhan": [
+    "pedestrian",
+    "rider",
+    "train",
+    "other person"
+   ],
+   "box_toi_thieu_px": 1.0,
+   "toa_do": "theo kich thuoc anh thuc (header file)"
+  }
+ },
+ "checkpoint_khoi_tao": {
+  "weights": "D:\\LABOTARY\\bytetrack\\models\\candidates\\yolo11n.pt",
+  "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "bytes": 5613764,
+  "loai_checkpoint": "coco80",
+  "so_lop": 80
+ },
+ "tham_so_khai_bao": {
+  "epochs": 15,
+  "imgsz": 640,
+  "batch": 8,
+  "optimizer": "SGD",
+  "lr0": 0.01,
+  "lrf": 0.01,
+  "momentum": 0.937,
+  "weight_decay": 0.0005,
+  "nbs": 64,
+  "warmup_epochs": 1.0,
+  "warmup_momentum": 0.8,
+  "warmup_bias_lr": 0.1,
+  "cos_lr": false,
+  "close_mosaic": 2,
+  "patience": 5,
+  "seed": 0,
+  "deterministic": true,
+  "amp": false,
+  "workers": 2,
+  "cache": false,
+  "rect": false,
+  "multi_scale": 0.0,
+  "fraction": 1.0,
+  "single_cls": false,
+  "cls_remap": true,
+  "pretrained": true,
+  "hsv_h": 0.015,
+  "hsv_s": 0.7,
+  "hsv_v": 0.4,
+  "degrees": 0.0,
+  "translate": 0.1,
+  "scale": 0.5,
+  "shear": 0.0,
+  "perspective": 0.0,
+  "flipud": 0.0,
+  "fliplr": 0.5,
+  "bgr": 0.0,
+  "mosaic": 1.0,
+  "mixup": 0.0,
+  "cutmix": 0.0,
+  "copy_paste": 0.0,
+  "val": true,
+  "save_period": -1,
+  "plots": false,
+  "verbose": true,
+  "data": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\claude\\d--LABOTARY-bytetrack\\725dbe02-11c7-4caa-9d6c-980457a66fad\\scratchpad\\r27\\yolo_fixture_bdd5_r27_smoke\\data.yaml",
+  "project": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\claude\\d--LABOTARY-bytetrack\\725dbe02-11c7-4caa-9d6c-980457a66fad\\scratchpad\\r27\\runs",
+  "name": "fixture_smoke_cuoi_yolo11n",
+  "exist_ok": false,
+  "device": "0",
+  "model": "D:\\LABOTARY\\bytetrack\\models\\candidates\\yolo11n.pt"
+ },
+ "suy_ra": {
+  "accumulate": 8,
+  "weight_decay_hieu_luc": 0.0005,
+  "batch_moi_epoch": 90,
+  "buoc_toi_uu_moi_epoch": 12,
+  "tong_batch": 1350,
+  "ghi_chu": "accumulate = max(round(nbs/batch), 1); weight_decay hieu luc = wd*batch*accumulate/nbs (ultralytics)"
+ },
+ "run_dir": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\claude\\d--LABOTARY-bytetrack\\725dbe02-11c7-4caa-9d6c-980457a66fad\\scratchpad\\r27\\runs\\fixture_smoke_cuoi_yolo11n"
+}
+[OK] kiem cau hinh xong, KHONG train, KHONG tao C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\r27\runs\fixture_smoke_cuoi_yolo11n

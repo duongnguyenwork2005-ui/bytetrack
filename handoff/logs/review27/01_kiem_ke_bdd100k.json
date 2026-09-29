@@ -1,0 +1,161 @@
+{
+ "tao_luc": "2026-09-29T15:35:12",
+ "archive": [
+  {
+   "duong_dan": "D:\\LABOTARY\\images20-track-val-1.zip",
+   "bytes": 4983938716,
+   "sha256": "4d678810a14095ab4064013d81e3bc2bda45f730bfc09c3e66d3a5ef1c076778",
+   "so_muc": 40174,
+   "noi_dung": {
+    "mot_anh:val": 39973
+   },
+   "so_video_mot": {
+    "val": 200
+   },
+   "tien_to": [
+    "bdd100k"
+   ]
+  }
+ ],
+ "json_roi": [
+  {
+   "duong_dan": "D:\\LABOTARY\\01-bdd_box_track_val_cocofmt.json",
+   "bytes": 117094032,
+   "sha256": "074ff79555483296cf7ccadddeeceeec7a83452c900506dc46588ed3a3e65d5d",
+   "dinh_dang_doan": "cocovid"
+  }
+ ],
+ "thu_muc_giai_nen": {
+  "goc": "D:\\LABOTARY\\bytetrack\\data\\raw\\bdd100k",
+  "ton_tai": true,
+  "images/track/train": null,
+  "images/track/val": {
+   "so_video": 200,
+   "so_anh": 39973
+  },
+  "images/track/test": null,
+  "images/100k/train": null,
+  "images/100k/val": null,
+  "images/100k/test": null,
+  "labels/box_track_20/train": null,
+  "labels/box_track_20/val": null,
+  "labels/det_20": null,
+  "labels_cocovid": {
+   "so_file": 1,
+   "vi_du": [
+    "bdd_box_track_val_cocofmt.json"
+   ]
+  }
+ },
+ "nguon_nhan_cocovid": [
+  {
+   "split_theo_ten": "val",
+   "duong_dan": "D:\\LABOTARY\\bytetrack\\data\\raw\\bdd100k\\labels_cocovid\\bdd_box_track_val_cocofmt.json",
+   "so_video": 200,
+   "so_anh": 39973,
+   "so_annotation": 465512,
+   "frame_moi_video": {
+    "min": 102,
+    "max": 204,
+    "trung_binh": 199.9
+   },
+   "anh_khong_annotation": {
+    "trong_khoang_co_nhan": 488,
+    "ngoai_khoang": 127
+   },
+   "kich_thuoc_khai_bao": {
+    "1280x720": 39973
+   },
+   "theo_lop": {
+    "pedestrian": {
+     "box": 57065,
+     "crowd": 1842,
+     "ignore": 816,
+     "anh_co_lop": 14792,
+     "video_co_lop": 152,
+     "thuoc_5_lop": false
+    },
+    "rider": {
+     "box": 2546,
+     "crowd": 0,
+     "ignore": 0,
+     "anh_co_lop": 2260,
+     "video_co_lop": 69,
+     "thuoc_5_lop": false
+    },
+    "car": {
+     "box": 341436,
+     "crowd": 20079,
+     "ignore": 2825,
+     "anh_co_lop": 38964,
+     "video_co_lop": 200,
+     "thuoc_5_lop": true
+    },
+    "truck": {
+     "box": 27343,
+     "crowd": 481,
+     "ignore": 424,
+     "anh_co_lop": 15862,
+     "video_co_lop": 160,
+     "thuoc_5_lop": true
+    },
+    "bus": {
+     "box": 9087,
+     "crowd": 4,
+     "ignore": 0,
+     "anh_co_lop": 7018,
+     "video_co_lop": 93,
+     "thuoc_5_lop": true
+    },
+    "train": {
+     "box": 308,
+     "crowd": 0,
+     "ignore": 0,
+     "anh_co_lop": 308,
+     "video_co_lop": 6,
+     "thuoc_5_lop": false
+    },
+    "motorcycle": {
+     "box": 902,
+     "crowd": 13,
+     "ignore": 0,
+     "anh_co_lop": 774,
+     "video_co_lop": 29,
+     "thuoc_5_lop": true
+    },
+    "bicycle": {
+     "box": 4135,
+     "crowd": 271,
+     "ignore": 0,
+     "anh_co_lop": 2738,
+     "video_co_lop": 63,
+     "thuoc_5_lop": true
+    }
+   },
+   "doi_chieu_anh": {
+    "thu_muc": "D:\\LABOTARY\\bytetrack\\data\\raw\\bdd100k\\images\\track\\val",
+    "so_video_tren_dia": 200,
+    "so_anh_tren_dia": 39973,
+    "video_trong_nhan_khong_co_anh": [],
+    "so_video_thieu": 0,
+    "video_tren_dia_khong_co_nhan": [],
+    "so_anh_thieu": 0,
+    "vi_du_anh_thieu": [],
+    "kich_thuoc_thuc_header": {
+     "1280x720": 39973
+    },
+    "so_anh_lech_kich_thuoc_khai_bao": 0
+   }
+  }
+ ],
+ "ket_luan": {
+  "mot_train_anh": false,
+  "mot_train_nhan_scalabel": false,
+  "mot_train_nhan_cocovid": false,
+  "mot_val_anh": true,
+  "mot_val_nhan": true,
+  "det_100k_anh": false,
+  "det_20_nhan": false,
+  "du_de_chuan_bi_train": false
+ }
+}

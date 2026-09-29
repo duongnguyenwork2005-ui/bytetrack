@@ -1,0 +1,101 @@
+### --buoc xuat --tap-con smoke (lan 2, sau khi tach so_anh_da_bam / so_hash_khac_nhau)
+{
+ "ten": "fixture_bdd5_r27_smoke",
+ "video": {
+  "train": 24,
+  "dev": 3
+ },
+ "dem_frame": {
+  "khong_theo_buoc": 810,
+  "ngoai_khoang_co_nhan": 1,
+  "frame_nguon": 1620
+ },
+ "thong_ke": {
+  "train": {
+   "so_video": 24,
+   "so_anh": 719,
+   "am_tinh": 1,
+   "anh_to_xam": 28,
+   "box": {
+    "car": 1492,
+    "truck": 718,
+    "bus": 328,
+    "motorcycle": 268,
+    "bicycle": 180
+   },
+   "anh_co_lop": {
+    "car": 718,
+    "truck": 718,
+    "bus": 328,
+    "motorcycle": 268,
+    "bicycle": 180
+   },
+   "video_co_lop": {
+    "car": 24,
+    "truck": 24,
+    "bus": 11,
+    "motorcycle": 9,
+    "bicycle": 6
+   }
+  },
+  "dev": {
+   "so_video": 3,
+   "so_anh": 90,
+   "am_tinh": 0,
+   "anh_to_xam": 0,
+   "box": {
+    "car": 180,
+    "truck": 90,
+    "bus": 60,
+    "motorcycle": 30,
+    "bicycle": 30
+   },
+   "anh_co_lop": {
+    "car": 90,
+    "truck": 90,
+    "bus": 60,
+    "motorcycle": 30,
+    "bicycle": 30
+   },
+   "video_co_lop": {
+    "car": 3,
+    "truck": 3,
+    "bus": 2,
+    "motorcycle": 1,
+    "bicycle": 1
+   }
+  }
+ },
+ "manifest_anh": {
+  "duong_dan": "manifest/anh.csv",
+  "so_dong": 809,
+  "sha256": "ff1623322d038f1967606e7d3c5e210a1c31bf10461b941cfed54a37cf3f383e"
+ },
+ "kiem_sau_xuat": {
+  "so_anh": {
+   "train": 719,
+   "dev": 90
+  },
+  "so_video": {
+   "train": 24,
+   "dev": 3
+  },
+  "manifest_sha256": "ff1623322d038f1967606e7d3c5e210a1c31bf10461b941cfed54a37cf3f383e",
+  "loi": 0
+ }
+}
+exit=0
+### --buoc kiem --tap-con smoke
+{
+ "so_anh": {
+  "train": 719,
+  "dev": 90
+ },
+ "so_video": {
+  "train": 24,
+  "dev": 3
+ },
+ "manifest_sha256": "ff1623322d038f1967606e7d3c5e210a1c31bf10461b941cfed54a37cf3f383e",
+ "loi": 0
+}
+exit=0
