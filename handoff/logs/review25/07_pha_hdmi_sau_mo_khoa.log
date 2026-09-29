@@ -1,0 +1,356 @@
+# bat dau cho mo khoa 2026-09-29T10:28:35+08:00
+# man hinh MO KHOA luc 2026-09-29T10:56:18+08:00 -> doi 20 s cho nguoi dung roi tay, bat dau pha kiem
+# pha kiem xong 2026-09-29T11:13:21+08:00 exit=0
+
+=========== 05_sau_mo_khoa.out
+### 05_sau_mo_khoa 2026-09-29T10:56:38+08:00 | khoa=false | HDMI-0 connected primary 1920x1080+0+0 (normal left inverted right x axis y axis) 520mm x 290mm
+  phien dang nhap: jetson :0 2026-09-29 09:34 (:0);jetson pts/0 2026-09-29 09:35 (10.11.62.99);
+=== A. loi tat desktop
+menu:    /home/jetson/.local/share/applications/nano-tracking.desktop
+desktop: /home/jetson/Desktop/nano-tracking.desktop
+tro toi: /home/jetson/nano_run/v13/nano_transfer/scripts/nano/07_giao_dien.sh
+-rwxrwxr-x 1 jetson jetson 458 9月  29 10:56 /home/jetson/Desktop/nano-tracking.desktop
+-rwxrwxr-x 1 jetson jetson 458 9月  29 10:56 /home/jetson/.local/share/applications/nano-tracking.desktop
+  chup: anh/A_desktop_loi_tat.png (khoa=false)
+=== B. mo launcher bang loi tat desktop (gtk-launch), tu dong chay CV 300 anh co hien thi
+  launcher pid 13816 | ppid 1 | sid 13811 | cmd: /home/jetson/miniforge3/envs/nano/bin/python src/nano_launcher.py
+  chuoi tien trinh cha: 1(systemd) 
+  chup: anh/B1_launcher_mo.png (khoa=false)
+  chup: anh/B2_dang_chay_launcher_va_cua_so_xem.png (khoa=false)
+  phien dang nhap: jetson :0 2026-09-29 09:34 (:0);jetson pts/0 2026-09-29 09:35 (10.11.62.99);
+  chup: anh/B3_xong_tom_tat.png (khoa=false)
+  launcher con chay sau khi xong: 0
+=== C. kich ban cua so xem that (K4 phim q, K5 dong cua so)
+### 04_kich_ban_launcher 2026-09-29T10:57:45+08:00 | goi v13 (71160d0) | kich ban: k4 k5 | man hinh khoa: false
+=== k4_phim_q_cua_so_xem 2026-09-29T10:57:45+08:00 | thao tac cua so: q
+  [truoc] detector 0 | nano_live 0 | launcher 0 | cua so xem 0 | chan khoa 1 | man hinh khoa false
+  cua so xem: 50331651 | man hinh khoa: false
+  da gui 'q' luc 10:58:06
+  launcher (07_giao_dien.sh) exit=0
+  [sau] detector 0 | nano_live 0 | launcher 0 | cua so xem 0 | chan khoa 1 | man hinh khoa false
+  MVI_39031_f0001-0300_ekf_20260929-105748      da_dung   ma 4 | frame 81/300 | hien thi 81 (bo 0) ly do cua so phim_q_esc | fps xu ly 9.09 | tong nano_live 18.2 s | launcher DA_DUNG 20.0 s
+=== k5_dong_cua_so_xem 2026-09-29T10:58:19+08:00 | thao tac cua so: dong
+  [truoc] detector 0 | nano_live 0 | launcher 0 | cua so xem 0 | chan khoa 1 | man hinh khoa false
+  cua so xem: 52428803 | man hinh khoa: false
+  da gui 'dong' luc 10:58:40
+  launcher (07_giao_dien.sh) exit=0
+  [sau] detector 0 | nano_live 0 | launcher 0 | cua so xem 0 | chan khoa 1 | man hinh khoa false
+  MVI_39031_f0001-0300_cv_20260929-105821       da_dung   ma 4 | frame 82/300 | hien thi 82 (bo 0) ly do cua so dong_cua_so | fps xu ly 9.12 | tong nano_live 18.5 s | launcher DA_DUNG 20.2 s
+### XONG 2026-09-29T10:58:52+08:00
+  [cuoi] detector 0 | nano_live 0 | launcher 0 | cua so xem 0 | chan khoa 1 | man hinh khoa false
+=== D. anh huong hien thi: 300 anh, ABBA, chup man hinh luot bat
+### 02_hien_thi_trt 2026-09-29T10:58:52+08:00 | nguon /home/jetson/nano_run/v13/nano_transfer/data/smoke/MVI_39031_f0001-0300 (300 anh) | engine c32690cdb9f14d5f | luot: cv:bat cv:tat cv:tat cv:bat ekf:tat ekf:bat ekf:bat ekf:tat | nghi 10 s | mau 0 | chup 20 s
+### goi 71160d0 | DISPLAY=:0 | HDMI-0 connected primary 1920x1080+0+0 (normal left inverted right x axis y axis) 520mm x 290mm
+=== luot 1 cv hien_thi=bat 2026-09-29T10:58:52+08:00
+luot 1: da chup man hinh sau 20s
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.7s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot01_cv_bat/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1272 hang MOT, xu ly 32.56s (9.21 fps), khoi tao 8.7s, chuan bi cha 0.02s, ghi 0.13s -> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot01_cv_bat
+luot 1 cv hien_thi=bat live exit=0
+luot 1 con pid 14622: da thoat
+luot 1 cua so 'Xem truc tiep' con mo: 0
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_replay.py --cache-root /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache -- --cache-id ht_luot01_cv_bat_20260929105852 --split-name NANO-ht-20260929105852 --tracker-yaml bytetrack.yaml --tracker-name replay-luot01_cv_bat --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[nano_replay] det_cache.CACHE_ROOT = /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache
+[run_tracking] cache=ht_luot01_cv_bat_20260929105852 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot01_cv_bat         MVI_39031        300 frame ->   1,272 bbox   14 track  predict 0.65 ms/frame  assoc 4.20  (1.7s, 175 fps)
+  replay-luot01_cv_bat           1 video moi,   0 tai su dung
+luot 1 replay exit=0
+KET QUA: 1/1 video DAT
+-> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/parity_luot01_cv_bat.json
+luot 1 parity exit=0
+luot 1 MOT + lop live vs replay: BYTE GIONG HET
+(nghi 10 s)
+=== luot 2 cv hien_thi=tat 2026-09-29T10:59:51+08:00
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.6s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot02_cv_tat/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1272 hang MOT, xu ly 31.98s (9.38 fps), khoi tao 8.6s, chuan bi cha 0.02s, ghi 0.13s -> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot02_cv_tat
+luot 2 cv hien_thi=tat live exit=0
+luot 2 con pid 14799: da thoat
+luot 2 cua so 'Xem truc tiep' con mo: 0
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_replay.py --cache-root /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache -- --cache-id ht_luot02_cv_tat_20260929105852 --split-name NANO-ht-20260929105852 --tracker-yaml bytetrack.yaml --tracker-name replay-luot02_cv_tat --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[nano_replay] det_cache.CACHE_ROOT = /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache
+[run_tracking] cache=ht_luot02_cv_tat_20260929105852 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot02_cv_tat         MVI_39031        300 frame ->   1,272 bbox   14 track  predict 0.65 ms/frame  assoc 4.18  (1.7s, 175 fps)
+  replay-luot02_cv_tat           1 video moi,   0 tai su dung
+luot 2 replay exit=0
+KET QUA: 1/1 video DAT
+-> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/parity_luot02_cv_tat.json
+luot 2 parity exit=0
+luot 2 MOT + lop live vs replay: BYTE GIONG HET
+(nghi 10 s)
+=== luot 3 cv hien_thi=tat 2026-09-29T11:00:49+08:00
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 9.1s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot03_cv_tat/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1272 hang MOT, xu ly 31.92s (9.40 fps), khoi tao 9.1s, chuan bi cha 0.02s, ghi 0.13s -> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot03_cv_tat
+luot 3 cv hien_thi=tat live exit=0
+luot 3 con pid 14887: da thoat
+luot 3 cua so 'Xem truc tiep' con mo: 0
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_replay.py --cache-root /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache -- --cache-id ht_luot03_cv_tat_20260929105852 --split-name NANO-ht-20260929105852 --tracker-yaml bytetrack.yaml --tracker-name replay-luot03_cv_tat --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[nano_replay] det_cache.CACHE_ROOT = /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache
+[run_tracking] cache=ht_luot03_cv_tat_20260929105852 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot03_cv_tat         MVI_39031        300 frame ->   1,272 bbox   14 track  predict 0.69 ms/frame  assoc 4.39  (1.8s, 167 fps)
+  replay-luot03_cv_tat           1 video moi,   0 tai su dung
+luot 3 replay exit=0
+KET QUA: 1/1 video DAT
+-> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/parity_luot03_cv_tat.json
+luot 3 parity exit=0
+luot 3 MOT + lop live vs replay: BYTE GIONG HET
+(nghi 10 s)
+=== luot 4 cv hien_thi=bat 2026-09-29T11:01:47+08:00
+luot 4: da chup man hinh sau 20s
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.6s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot04_cv_bat/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1272 hang MOT, xu ly 32.58s (9.21 fps), khoi tao 8.6s, chuan bi cha 0.02s, ghi 0.14s -> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot04_cv_bat
+luot 4 cv hien_thi=bat live exit=0
+luot 4 con pid 14981: da thoat
+luot 4 cua so 'Xem truc tiep' con mo: 0
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_replay.py --cache-root /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache -- --cache-id ht_luot04_cv_bat_20260929105852 --split-name NANO-ht-20260929105852 --tracker-yaml bytetrack.yaml --tracker-name replay-luot04_cv_bat --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[nano_replay] det_cache.CACHE_ROOT = /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache
+[run_tracking] cache=ht_luot04_cv_bat_20260929105852 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot04_cv_bat         MVI_39031        300 frame ->   1,272 bbox   14 track  predict 0.65 ms/frame  assoc 4.22  (1.7s, 174 fps)
+  replay-luot04_cv_bat           1 video moi,   0 tai su dung
+luot 4 replay exit=0
+KET QUA: 1/1 video DAT
+-> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/parity_luot04_cv_bat.json
+luot 4 parity exit=0
+luot 4 MOT + lop live vs replay: BYTE GIONG HET
+(nghi 10 s)
+=== luot 5 ekf hien_thi=tat 2026-09-29T11:02:46+08:00
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.6s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot05_ekf_tat/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1270 hang MOT, xu ly 31.92s (9.40 fps), khoi tao 8.6s, chuan bi cha 0.02s, ghi 0.13s -> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot05_ekf_tat
+luot 5 ekf hien_thi=tat live exit=0
+luot 5 con pid 15076: da thoat
+luot 5 cua so 'Xem truc tiep' con mo: 0
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_replay.py --cache-root /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache -- --cache-id ht_luot05_ekf_tat_20260929105852 --split-name NANO-ht-20260929105852 --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name replay-luot05_ekf_tat --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[nano_replay] det_cache.CACHE_ROOT = /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache
+[run_tracking] cache=ht_luot05_ekf_tat_20260929105852 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot05_ekf_tat        MVI_39031        300 frame ->   1,270 bbox   15 track  predict 1.25 ms/frame  assoc 4.62  (2.0s, 147 fps)
+  replay-luot05_ekf_tat          1 video moi,   0 tai su dung
+luot 5 replay exit=0
+KET QUA: 1/1 video DAT
+-> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/parity_luot05_ekf_tat.json
+luot 5 parity exit=0
+luot 5 MOT + lop live vs replay: BYTE GIONG HET
+(nghi 10 s)
+=== luot 6 ekf hien_thi=bat 2026-09-29T11:03:44+08:00
+luot 6: da chup man hinh sau 20s
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.6s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot06_ekf_bat/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1270 hang MOT, xu ly 32.74s (9.16 fps), khoi tao 8.6s, chuan bi cha 0.02s, ghi 0.14s -> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot06_ekf_bat
+luot 6 ekf hien_thi=bat live exit=0
+luot 6 con pid 15169: da thoat
+luot 6 cua so 'Xem truc tiep' con mo: 0
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_replay.py --cache-root /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache -- --cache-id ht_luot06_ekf_bat_20260929105852 --split-name NANO-ht-20260929105852 --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name replay-luot06_ekf_bat --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[nano_replay] det_cache.CACHE_ROOT = /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache
+[run_tracking] cache=ht_luot06_ekf_bat_20260929105852 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot06_ekf_bat        MVI_39031        300 frame ->   1,270 bbox   15 track  predict 1.19 ms/frame  assoc 4.40  (1.9s, 155 fps)
+  replay-luot06_ekf_bat          1 video moi,   0 tai su dung
+luot 6 replay exit=0
+KET QUA: 1/1 video DAT
+-> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/parity_luot06_ekf_bat.json
+luot 6 parity exit=0
+luot 6 MOT + lop live vs replay: BYTE GIONG HET
+(nghi 10 s)
+=== luot 7 ekf hien_thi=bat 2026-09-29T11:04:42+08:00
+luot 7: da chup man hinh sau 20s
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.7s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot07_ekf_bat/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1270 hang MOT, xu ly 32.60s (9.20 fps), khoi tao 8.7s, chuan bi cha 0.02s, ghi 0.14s -> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot07_ekf_bat
+luot 7 ekf hien_thi=bat live exit=0
+luot 7 con pid 15278: da thoat
+luot 7 cua so 'Xem truc tiep' con mo: 0
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_replay.py --cache-root /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache -- --cache-id ht_luot07_ekf_bat_20260929105852 --split-name NANO-ht-20260929105852 --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name replay-luot07_ekf_bat --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[nano_replay] det_cache.CACHE_ROOT = /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache
+[run_tracking] cache=ht_luot07_ekf_bat_20260929105852 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot07_ekf_bat        MVI_39031        300 frame ->   1,270 bbox   15 track  predict 1.22 ms/frame  assoc 4.44  (2.0s, 153 fps)
+  replay-luot07_ekf_bat          1 video moi,   0 tai su dung
+luot 7 replay exit=0
+KET QUA: 1/1 video DAT
+-> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/parity_luot07_ekf_bat.json
+luot 7 parity exit=0
+luot 7 MOT + lop live vs replay: BYTE GIONG HET
+(nghi 10 s)
+=== luot 8 ekf hien_thi=tat 2026-09-29T11:05:41+08:00
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.2s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot08_ekf_tat/STOP hoac Ctrl+C
+  frame 100/300
+  frame 200/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1270 hang MOT, xu ly 32.07s (9.36 fps), khoi tao 8.2s, chuan bi cha 0.02s, ghi 0.13s -> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/luot08_ekf_tat
+luot 8 ekf hien_thi=tat live exit=0
+luot 8 con pid 15374: da thoat
+luot 8 cua so 'Xem truc tiep' con mo: 0
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_replay.py --cache-root /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache -- --cache-id ht_luot08_ekf_tat_20260929105852 --split-name NANO-ht-20260929105852 --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name replay-luot08_ekf_tat --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[nano_replay] det_cache.CACHE_ROOT = /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/cache
+[run_tracking] cache=ht_luot08_ekf_tat_20260929105852 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot08_ekf_tat        MVI_39031        300 frame ->   1,270 bbox   15 track  predict 1.24 ms/frame  assoc 4.52  (2.0s, 150 fps)
+  replay-luot08_ekf_tat          1 video moi,   0 tai su dung
+luot 8 replay exit=0
+KET QUA: 1/1 video DAT
+-> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/D_anh_huong_300/parity_luot08_ekf_tat.json
+luot 8 parity exit=0
+luot 8 MOT + lop live vs replay: BYTE GIONG HET
+### so sanh giua cac luot (cung detection -> bat/tat hien thi khong doi tracking)
+luot01_cv_bat          MOT 15ab38b4c303f5a2  lop 46601d093c0d5e0e  detection 2e1db217a2ca94ef
+luot02_cv_tat          MOT 15ab38b4c303f5a2  lop 46601d093c0d5e0e  detection 2e1db217a2ca94ef
+luot03_cv_tat          MOT 15ab38b4c303f5a2  lop 46601d093c0d5e0e  detection 2e1db217a2ca94ef
+luot04_cv_bat          MOT 15ab38b4c303f5a2  lop 46601d093c0d5e0e  detection 2e1db217a2ca94ef
+luot05_ekf_tat         MOT 238dbb2ae5c6d948  lop bfb5c035179cdbf4  detection 2e1db217a2ca94ef
+luot06_ekf_bat         MOT 238dbb2ae5c6d948  lop bfb5c035179cdbf4  detection 2e1db217a2ca94ef
+luot07_ekf_bat         MOT 238dbb2ae5c6d948  lop bfb5c035179cdbf4  detection 2e1db217a2ca94ef
+luot08_ekf_tat         MOT 238dbb2ae5c6d948  lop bfb5c035179cdbf4  detection 2e1db217a2ca94ef
+cv: 4 luot | MOT giong nhau: True | lop giong nhau: True | detection giong nhau: True
+ekf: 4 luot | MOT giong nhau: True | lop giong nhau: True | detection giong nhau: True
+### XONG 2026-09-29T11:06:29+08:00 | boot 2026-09-29 09:34:10 | ext4 errors 0 | con dang chay 0 | cua so xem 0
+=== E. day du 1470 anh CV + EKF co hien thi
+### 02_hien_thi_trt 2026-09-29T11:06:30+08:00 | nguon /home/jetson/nano_run/data_full/MVI_39031 (1470 anh) | engine c32690cdb9f14d5f | luot: cv:bat ekf:bat | nghi 20 s | mau 100 | chup 60 s
+### goi 71160d0 | DISPLAY=:0 | HDMI-0 connected primary 1920x1080+0+0 (normal left inverted right x axis y axis) 520mm x 290mm
+=== luot 1 cv hien_thi=bat 2026-09-29T11:06:30+08:00
+luot 1: da chup man hinh sau 60s
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 1470 frame khai bao, fps 25, khoi tao 9.0s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/E_day_du_1470/luot01_cv_bat/STOP hoac Ctrl+C
+  frame 100/1470
+  frame 200/1470
+  frame 300/1470
+  frame 400/1470
+  frame 500/1470
+  frame 600/1470
+  frame 700/1470
+  frame 800/1470
+  frame 900/1470
+  frame 1000/1470
+  frame 1100/1470
+  frame 1200/1470
+  frame 1300/1470
+  frame 1400/1470
+[nano_live] HOAN_TAT (ma 0): 1470 frame, ly do EOS: het_nguon
+[nano_live] 1470 frame xu ly, 8780 hang MOT, xu ly 169.69s (8.66 fps), khoi tao 9.0s, chuan bi cha 0.02s, ghi 0.71s -> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/E_day_du_1470/luot01_cv_bat
+luot 1 cv hien_thi=bat live exit=0
+luot 1 con pid 15493: da thoat
+luot 1 cua so 'Xem truc tiep' con mo: 0
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_replay.py --cache-root /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/E_day_du_1470/cache -- --cache-id ht_luot01_cv_bat_20260929110630 --split-name NANO-ht-20260929110630 --tracker-yaml bytetrack.yaml --tracker-name replay-luot01_cv_bat --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[nano_replay] det_cache.CACHE_ROOT = /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/E_day_du_1470/cache
+[run_tracking] cache=ht_luot01_cv_bat_20260929110630 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot01_cv_bat         MVI_39031       1470 frame ->   8,780 bbox   74 track  predict 0.70 ms/frame  assoc 5.51  (10.5s, 140 fps)
+  replay-luot01_cv_bat           1 video moi,   0 tai su dung
+luot 1 replay exit=0
+KET QUA: 1/1 video DAT
+-> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/E_day_du_1470/parity_luot01_cv_bat.json
+luot 1 parity exit=0
+luot 1 MOT + lop live vs replay: BYTE GIONG HET
+{"opencv": "3.2.0", "n": 14, "khop": 14, "lech": [], "frame": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400], "dat": true}
+luot 1 anh xem truoc vs ve_frame(MOT da ghi) exit=0
+(nghi 20 s)
+=== luot 2 ekf hien_thi=bat 2026-09-29T11:10:08+08:00
+luot 2: da chup man hinh sau 60s
+fatal: not a git repository (or any of the parent directories): .git
+[nano_live] tensorrt | image_dir MVI_39031: 1470 frame khai bao, fps 25, khoi tao 8.6s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/E_day_du_1470/luot02_ekf_bat/STOP hoac Ctrl+C
+  frame 100/1470
+  frame 200/1470
+  frame 300/1470
+  frame 400/1470
+  frame 500/1470
+  frame 600/1470
+  frame 700/1470
+  frame 800/1470
+  frame 900/1470
+  frame 1000/1470
+  frame 1100/1470
+  frame 1200/1470
+  frame 1300/1470
+  frame 1400/1470
+[nano_live] HOAN_TAT (ma 0): 1470 frame, ly do EOS: het_nguon
+[nano_live] 1470 frame xu ly, 8765 hang MOT, xu ly 161.59s (9.10 fps), khoi tao 8.6s, chuan bi cha 0.02s, ghi 0.74s -> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/E_day_du_1470/luot02_ekf_bat
+luot 2 ekf hien_thi=bat live exit=0
+luot 2 con pid 15755: da thoat
+luot 2 cua so 'Xem truc tiep' con mo: 0
+$ /home/jetson/miniforge3/envs/nano/bin/python src/nano_replay.py --cache-root /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/E_day_du_1470/cache -- --cache-id ht_luot02_ekf_bat_20260929110630 --split-name NANO-ht-20260929110630 --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name replay-luot02_ekf_bat --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+fatal: not a git repository (or any of the parent directories): .git
+[nano_replay] det_cache.CACHE_ROOT = /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/E_day_du_1470/cache
+[run_tracking] cache=ht_luot02_ekf_bat_20260929110630 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  replay-luot02_ekf_bat        MVI_39031       1470 frame ->   8,765 bbox   78 track  predict 1.86 ms/frame  assoc 5.95  (12.9s, 114 fps)
+  replay-luot02_ekf_bat          1 video moi,   0 tai su dung
+luot 2 replay exit=0
+KET QUA: 1/1 video DAT
+-> /home/jetson/nano_run/v13/nano_transfer/results_nano/v25_hdmi/E_day_du_1470/parity_luot02_ekf_bat.json
+luot 2 parity exit=0
+luot 2 MOT + lop live vs replay: BYTE GIONG HET
+{"opencv": "3.2.0", "n": 14, "khop": 14, "lech": [], "frame": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400], "dat": true}
+luot 2 anh xem truoc vs ve_frame(MOT da ghi) exit=0
+### so sanh giua cac luot (cung detection -> bat/tat hien thi khong doi tracking)
+luot01_cv_bat          MOT 5017f37bf2837e14  lop a14e06bf8a275d4b  detection 25e0d174e0181a9f
+luot02_ekf_bat         MOT 645bba3a31905d87  lop a22bbf7d05f0f62e  detection 25e0d174e0181a9f
+cv: 1 luot | MOT giong nhau: True | lop giong nhau: True | detection giong nhau: True
+ekf: 1 luot | MOT giong nhau: True | lop giong nhau: True | detection giong nhau: True
+### XONG 2026-09-29T11:13:20+08:00 | boot 2026-09-29 09:34:10 | ext4 errors 0 | con dang chay 0 | cua so xem 0
+  phien dang nhap: jetson :0 2026-09-29 09:34 (:0);jetson pts/0 2026-09-29 09:35 (10.11.62.99);
+### XONG 2026-09-29T11:13:21+08:00 | khoa=false | detector 0 | launcher 0 | cua so xem 0 | ext4 errors 0

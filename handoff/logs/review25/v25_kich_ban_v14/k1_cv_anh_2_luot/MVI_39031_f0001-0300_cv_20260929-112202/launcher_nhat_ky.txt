@@ -1,0 +1,13 @@
+[launcher] /home/jetson/miniforge3/envs/nano/bin/python /home/jetson/nano_run/v14/nano_transfer/src/nano_live.py --source /home/jetson/nano_run/v14/nano_transfer/data/smoke/MVI_39031_f0001-0300 --tracker cv --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --python-detector /usr/bin/python3 --out /home/jetson/nano_run/v14/nano_transfer/results_nano/v25_kich_ban_v14/k1_cv_anh_2_luot/MVI_39031_f0001-0300_cv_20260929-112202 --progress-file /home/jetson/nano_run/v14/nano_transfer/results_nano/v25_kich_ban_v14/k1_cv_anh_2_luot/MVI_39031_f0001-0300_cv_20260929-112202/progress.json --stop-file /home/jetson/nano_run/v14/nano_transfer/results_nano/v25_kich_ban_v14/k1_cv_anh_2_luot/MVI_39031_f0001-0300_cv_20260929-112202/STOP.flag --progress-every 50 --ld-preload /usr/lib/aarch64-linux-gnu/libgomp.so.1 --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --fps 25 --hien-thi --hien-thi-kich-thuoc 960 540 --save-cache cache_MVI_39031_f0001-0300_cv_20260929-112202 --cache-root /home/jetson/nano_run/v14/nano_transfer/results_nano/v25_kich_ban_v14/k1_cv_anh_2_luot/MVI_39031_f0001-0300_cv_20260929-112202/det_cache
+[launcher] tam chan khoa man hinh khi ranh trong luc chay (gnome-session-inhibit --inhibit idle)
+[nano_live] tensorrt | image_dir MVI_39031_f0001-0300: 300 frame khai bao, fps 25, khoi tao 8.1s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v14/nano_transfer/results_nano/v25_kich_ban_v14/k1_cv_anh_2_luot/MVI_39031_f0001-0300_cv_20260929-112202/STOP.flag hoac Ctrl+C
+  frame 50/300
+  frame 100/300
+  frame 150/300
+  frame 200/300
+  frame 250/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1272 hang MOT, xu ly 33.17s (9.04 fps), khoi tao 8.1s, chuan bi cha 0.02s, ghi 0.15s -> /home/jetson/nano_run/v14/nano_transfer/results_nano/v25_kich_ban_v14/k1_cv_anh_2_luot/MVI_39031_f0001-0300_cv_20260929-112202
+[launcher] worker ket thuc: exit=0 -> HOAN_TAT
+[launcher] da tra lai khoa man hinh khi ranh

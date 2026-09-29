@@ -1,0 +1,67 @@
+# 2026-09-29T11:20:13+08:00 | test_nano_stream | goi v14 (91c95c7) | boot 2026-09-29 09:34:10 | cha Python 3.8.20 | con Python 3.6.9
+$ /home/jetson/miniforge3/envs/nano/bin/python src/test_nano_stream.py --python-detector /usr/bin/python3
+cha: 3.8.20 | con: /usr/bin/python3 | backend np
+  [PASS] 1. giao thuc: FRAME (ke ca n=0, co unreadable), HELLO/EOS, EOF sach -> None; EOF giua chung / magic sai -> loi
+         []
+  [PASS] 2. CV: exit 0, hoan_tat, 40 frame, timing co ca frame rong (11-13), replay tu cache khop
+         exit 0 hoan_tat dem={'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 40, 'n_frame_da_xu_ly': 40, 'n_frame_vao_tracker_doc_duoc': 40, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 0, 'n_truncated': 0, 'n_hang_mot': 93, 'n_track': 3} timing=40 pipeline=40
+         parity exit 0; byte giong het True (5524 B); ['-> /tmp/nano_stream_l3p6pw35/parity_rep-cv.json']
+          elapsed=steps | cua so K=4 | dung: touch /tmp/nano_stream_l3p6pw35/e2e_cv/STOP hoac Ctrl+C
+         [nano_live] HOAN_TAT (ma 0): 40 frame, ly do EOS: het_nguon
+         [nano_live] 40 frame xu ly, 93 hang MOT, xu ly 0.21s (193.34 fps), khoi tao 1.2s, chuan bi cha 0.02s, ghi 0.03s -> /tmp/nano_stream_l3p6pw35/e2e_cv
+  [PASS] 3. EKF: exit 0, hoan_tat, 40 frame, timing co ca frame rong (11-13), replay tu cache khop
+         exit 0 hoan_tat dem={'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 40, 'n_frame_da_xu_ly': 40, 'n_frame_vao_tracker_doc_duoc': 40, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 0, 'n_truncated': 0, 'n_hang_mot': 93, 'n_track': 3} timing=40 pipeline=40
+         parity exit 0; byte giong het True (5659 B); ['-> /tmp/nano_stream_l3p6pw35/parity_rep-ekf.json']
+         lapsed=steps | cua so K=4 | dung: touch /tmp/nano_stream_l3p6pw35/e2e_ekf/STOP hoac Ctrl+C
+         [nano_live] HOAN_TAT (ma 0): 40 frame, ly do EOS: het_nguon
+         [nano_live] 40 frame xu ly, 93 hang MOT, xu ly 0.21s (189.12 fps), khoi tao 1.2s, chuan bi cha 0.02s, ghi 0.03s -> /tmp/nano_stream_l3p6pw35/e2e_ekf
+  [PASS] 4. video .mp4: so frame == khai bao, time_s == (idx-1)/fps, hoan_tat
+         exit 0 hoan_tat {'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 40, 'n_frame_da_xu_ly': 40, 'n_frame_vao_tracker_doc_duoc': 40, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 0, 'n_truncated': 0, 'n_hang_mot': 93, 'n_track': 3} time_s ok=True
+         12 elapsed=steps | cua so K=4 | dung: touch /tmp/nano_stream_l3p6pw35/video/STOP hoac Ctrl+C
+         [nano_live] HOAN_TAT (ma 0): 40 frame, ly do EOS: het_nguon
+         [nano_live] 40 frame xu ly, 93 hang MOT, xu ly 0.21s (193.82 fps), khoi tao 1.6s, chuan bi cha 0.02s, ghi 0.03s -> /tmp/nano_stream_l3p6pw35/video
+  [PASS] 5. stop-file: exit 4, da_dung, 0 < frame < N, cache == frame da xu ly, replay khop, con thoat 0 voi EOS dung
+         exit 4 da_dung n=13 bay=1 con={'returncode': 0, 'cach_ket_thuc': 'tu_thoat', 'bi_kill_vi_treo': False} eos={'cho_bat_dau_ms': 7.225792000099318, 'hang_doi': 4, 'ly_do': 'dung_theo_yeu_cau', 'max_in_flight': 2, 'n_byte_la': 0, 'n_frame_gui': 14, 'n_frames_khai_bao': 40, 'n_lenh_ket_qua': 0, 't_nhan_bat_dau_monotonic': 6383.971483285}
+         parity exit 0; byte giong het True (1210 B); ['-> /tmp/nano_stream_l3p6pw35/parity_rep-dung.json']
+         ffer=12 elapsed=steps | cua so K=4 | dung: touch /tmp/nano_stream_l3p6pw35/dung/STOP hoac Ctrl+C
+         [nano_live] DA_DUNG (ma 4): dung theo yeu cau (stop-file)
+         [nano_live] 13 frame xu ly, 20 hang MOT, xu ly 0.67s (19.40 fps), khoi tao 1.2s, chuan bi cha 0.02s, ghi 0.03s -> /tmp/nano_stream_l3p6pw35/dung
+  [PASS] 5b. SIGINT vao tien trinh cha: exit 4, da_dung, con thoat 0
+         exit 4 da_dung con={'returncode': 0, 'cach_ket_thuc': 'tu_thoat', 'bi_kill_vi_treo': False}
+  [PASS] 6. con loi o frame 10 (thoat 3, khong EOS): exit 3, loi_tien_trinh_con, KHONG hoan_tat, 9 frame da xu ly duoc ghi
+         exit 3 loi_tien_trinh_con {'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 9, 'n_frame_da_xu_ly': 9, 'n_frame_vao_tracker_doc_duoc': 9, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 0, 'n_truncated': 0, 'n_hang_mot': 18, 'n_track': 2} con={'returncode': 3, 'cach_ket_thuc': 'tu_thoat', 'bi_kill_vi_treo': False}
+  [PASS] 7. con bi kill giua chung: exit 3, loi_tien_trinh_con, KHONG hoan_tat
+         exit 3 loi_tien_trinh_con {'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 12, 'n_frame_da_xu_ly': 12, 'n_frame_vao_tracker_doc_duoc': 12, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 0, 'n_truncated': 0, 'n_hang_mot': 20, 'n_track': 2} pipe dong (EOF) khong co EOS: tien trinh detector ket thuc bat thuong
+  [PASS] 8. con bo frame 7: exit 3, loi_mat_frame (mong 7 nhan 8), 6 frame da xu ly
+         exit 3 loi_mat_frame mong frame 7, nhan frame 8
+  [PASS] 9. anh hong (frame 5 rac, frame 6 BMP bi cat): mac dinh exit 3 loi_dau_vao; --cho-phep-frame-hong -> exit 0, unreadable 2, con KHONG chet, replay khop
+         mac dinh: exit 3 loi_dau_vao; cho phep: exit 0 {'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 40, 'n_frame_da_xu_ly': 40, 'n_frame_vao_tracker_doc_duoc': 38, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 2, 'n_truncated': 0, 'n_hang_mot': 89, 'n_track': 3}
+         parity exit 0; byte giong het True (5388 B); ['-> /tmp/nano_stream_l3p6pw35/parity_rep-hong.json']
+  [PASS] 10. loi truoc vong lap -> exit 2: nguon/engine khong co, thu muc da co ket qua, con loi khoi tao (ERROR truoc HELLO) -> con da duoc reap
+         {'nguon': 2, 'engine': 2, 'da_co_ket_qua': 2, 'con_khoi_tao': 2} meta=loi_khoi_tao con={'returncode': 2, 'cach_ket_thuc': 'tu_thoat', 'bi_kill_vi_treo': False} {'giai_doan': 'khoi_tao', 'loi': "FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nano_stream_l3p6pw35/cac
+  [PASS] 11. cua so K=2 + tracker cham: du N frame (khong bo), max_in_flight <= 2, con phai cho credit
+         exit 0 eos={'cho_bat_dau_ms': 6.345278000480903, 'hang_doi': 2, 'ly_do': 'het_nguon', 'max_in_flight': 2, 'n_byte_la': 0, 'n_frame_gui': 40, 'n_frames_khai_bao': 40, 'n_lenh_ket_qua': 0, 't_nhan_bat_dau_monotonic': 6420.922626822} so frame con cho credit > 5 ms: 38
+  [PASS] 12. cham tran det_max_det o frame 15: mac dinh exit 3; --allow-truncated -> exit 0, replay (--allow-truncated) khop
+         mac dinh exit 3 frame 15: 7 detection cham tran det_max_det 6 (tien to [:max_det] mat nghia); --allow-truncated; cho phep exit 0 {'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 40, 'n_frame_da_xu_ly': 40, 'n_frame_vao_tracker_doc_duoc': 40, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 0, 'n_truncated': 1, 'n_hang_mot': 93, 'n_track': 3}
+         parity exit 0; byte giong het True (5524 B); ['-> /tmp/nano_stream_l3p6pw35/parity_rep-tran.json']
+  [PASS] 13. --regions (che do doi chieu): metadata ghi co + sha256 file vung, van hoan_tat
+         exit 0 {'gia_lap': True, 'detector': 'gia_lap', 'che_do_doi_chieu_regions': True, 'regions_sha256': '576833a2929a819412d3e341951eb9eb152ec24190da0ee121a7816b309b4146', 'render': False, 'can_gt': False, 'hien_thi': False, 'hien_thi_an': False}
+  [SKIP] 14. detector that TorchPtInfer (PC): khong co models/yolov8n.pt / anh DETRAC, hoac dang chay tren Nano
+  [PASS] 15a. N21-F1 cha chuan bi cham 1 s: con CHO BAT DAU, moi frame trong cua so do, FPS khong bi thoi phong (hoan tat)
+         exit 0
+         chuan_bi_cha_s=1.0202445929999158 cho_bat_dau_ms=1020.0170400003117 xu_ly_s=0.2101828260001639 bao_phu=0.20263030100068136 fps_xu_ly=190.31050614938826 n=40 cua_so={'frame_dau_bat_dau_doc_mono': 6438.593469363, 'frame_cuoi_xong_tracker_mono': 6438.796099664, 'tre_tu_bat_dau_den_doc_frame_dau_ms': 0.4050540001117042, 'moi_frame_trong_cua_so': True, 'khoang_bao_phu_s': 0.20263030100068136}
+  [PASS] 15b. N21-F1 nhu 15a nhung DUNG SOM (stop-file): ma 4, 0 < frame < N, bat bien cua so do van dung
+         exit 4 n=12
+         chuan_bi_cha_s=1.0201281689996904 cho_bat_dau_ms=1019.9090539999816 xu_ly_s=0.6184481190002771 bao_phu=0.6129088289999345 fps_xu_ly=19.40340609232999 n=12 cua_so={'frame_dau_bat_dau_doc_mono': 6442.940706159, 'frame_cuoi_xong_tracker_mono': 6443.553614988, 'tre_tu_bat_dau_den_doc_frame_dau_ms': 0.3846890003842418, 'moi_frame_trong_cua_so': True, 'khoang_bao_phu_s': 0.6129088289999345}
+  [PASS] 16. N21-F2 cache-root ngoai mac dinh (co dau cach): replay_argv mang root THAT, chay NGUYEN -> parity DAT + byte
+         exit 0 argv[:4]=['python', 'src/nano_replay.py', '--cache-root', '/tmp/nano_stream_l3p6pw35/custom root/det cache']
+         parity exit 0; byte giong het True (5659 B); ['-> /tmp/nano_stream_l3p6pw35/parity_rep-root.json']
+  [PASS] 17a. N21-F3 loi cau hinh phat hien TRUOC spawn: YAML thieu/hong/tracker_type la, --set sai dang/khoa la/sai kieu, --hang-doi 0 -> ma 2, KHONG khoi dong detector, khong run_meta
+         {'yaml_thieu': (2, False, False), 'yaml_hong': (2, False, False), 'tracker_type_la': (2, False, False), 'set_khong_bang': (2, False, False), 'set_khoa_la': (2, False, False), 'set_sai_kieu': (2, False, False), 'hang_doi_0': (2, False, False)}
+  [PASS] 17b. loi o cha SAU spawn, TRUOC xu ly (chuan bi): ma 2, run_meta loi_chuan_bi, con da duoc dung/reap
+         exit 2 loi_chuan_bi con={'returncode': 0, 'cach_ket_thuc': 'tu_thoat', 'bi_kill_vi_treo': False}
+  [PASS] 17c. loi o cha GIUA vong lap (frame 5): ma 3 loi_cha, KHONG hoan tat, 4 frame da nhan duoc ghi (pipeline), con da duoc dung/reap
+         exit 3 loi_cha pipeline=4 con={'returncode': 0, 'cach_ket_thuc': 'tu_thoat', 'bi_kill_vi_treo': False}
+
+KET QUA: 20/20 phep kiem tra PASS, 1 SKIP
+# exit=0 wall_s=105

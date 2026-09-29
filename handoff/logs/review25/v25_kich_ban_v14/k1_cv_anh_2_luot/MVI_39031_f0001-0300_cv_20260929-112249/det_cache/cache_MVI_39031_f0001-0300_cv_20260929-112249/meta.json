@@ -1,0 +1,29 @@
+{
+  "backend": "tensorrt",
+  "weights": "/home/jetson/nano_run/engine/yolov8n_fp16.engine",
+  "weights_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+  "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+  "imgsz": 640,
+  "conf": 0.05,
+  "iou": 0.7,
+  "classes": null,
+  "max_det": 3000,
+  "half": true,
+  "agnostic_nms": false,
+  "augment": false,
+  "batch": 1,
+  "device": "jetson-nano-trt-live",
+  "mask_ignored_regions": false,
+  "dataset": "video_file",
+  "part": "image_dir",
+  "letterbox": "auto=False 640x640 (ONNX static)",
+  "versions": {
+    "bo_dem": "cudart",
+    "numpy": "1.19.5",
+    "opencv": "3.2.0",
+    "python": "3.6.9",
+    "tensorrt": "8.2.1.9"
+  },
+  "created": "2026-09-29T11:23:37",
+  "ghi_chu": "cache do nano_live.py ghi: DUNG cac frame da vao tracker cua luong truc tiep (detection tho truoc loc); legacy (khong spec_sha256)"
+}
