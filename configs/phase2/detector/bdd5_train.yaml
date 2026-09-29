@@ -1,0 +1,44 @@
+# Dataset huan luyen detector 5 lop -- CHI BDD100K MOT split `train` chinh thuc (plan da chot, vong 27).
+# Dung boi: python src/prepare_mixed_yolo_dataset.py --config configs/phase2/detector/bdd5_train.yaml --buoc ...
+# Quy tac chi tiet: docstring src/bdd_yolo_export.py. KHONG tron UA-DETRAC, KHONG dung BDD val chinh thuc.
+# Doi bat ky gia tri nao sau khi da khoa split/xuat -> doi `ten` (dataset + split moi), khong ghi de ban cu.
+ten: bdd5_train_v1
+nguon: [bdd100k_mot_train]
+lop: [car, truck, bus, motorcycle, bicycle]
+
+bdd:
+  split: train
+  anh: data/raw/bdd100k/images/track/train            # <video>/<video>-<7 chu so>.jpg
+  nhan:
+    dinh_dang: scalabel                                # goi nhan MOT 2020 goc (box_track_20), moi video 1 JSON
+    duong_dan: data/raw/bdd100k/labels/box_track_20/train
+    # Neu chi co ban COCO-video:  dinh_dang: cocovid ; duong_dan: data/raw/bdd100k/labels_cocovid/<...train...>.json
+  chi_video_du_anh: false        # true = chi dung video co du anh (ghi danh sach video bi loai vao file split)
+
+chia:
+  cach: theo_video
+  ti_le_dev: 0.10
+  seed: 0
+  phan_tang_theo: [motorcycle, bicycle]   # phan tang theo SU CO MAT cua lop hiem trong video
+
+lay_mau:
+  buoc_frame: 5                  # giu frame co chi so % 5 == 0 (nhan BDD MOT 5 fps -> ~1 anh/giay video)
+
+file_split: configs/phase2/detector/splits/bdd5_train_v1.json   # KHOA + commit truoc khi xuat/huan luyen
+dau_ra: data/yolo_bdd5_v1                                       # tu tao .gitignore '*' ben trong
+
+tap_con:
+  smoke:                          # CHI kiem duong chay; ket qua KHONG dung de so sanh model
+    so_video_train: 16
+    so_video_dev: 4
+    buoc_frame: 10
+    seed: 0
+
+tap_danh_gia_cam:                 # khong duoc trung video / ten anh / noi dung anh
+  - ten: bdd100k_mot_val
+    loai: bdd_mot
+    nhan_cocovid: data/raw/bdd100k/labels_cocovid/bdd_box_track_val_cocofmt.json
+    anh: data/raw/bdd100k/images/track/val
+  - ten: ua_detrac_test
+    loai: detrac_xml
+    xml: data/extracted/DETRAC-Test-Annotations-XML

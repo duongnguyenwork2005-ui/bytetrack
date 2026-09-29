@@ -2,6 +2,10 @@
 eval_detector.py -- Giai doan C: do chat luong detector TRUOC va SAU fine-tune
 tren cung tap val, cung thang do.
 
+!! CHI de tai lap ket qua Giai doan C (UA-DETRAC, MOT lop "vehicle"). KHONG dung cho detector 5 lop / BDD:
+!! doc GT bo class ID, doi toa do bang kich thuoc co dinh 960x540, loc COCO [2,3,5,7] (thieu bicycle), AP noi suy
+!! moi diem kieu VOC. Danh gia 5 lop (car, truck, bus, motorcycle, bicycle): src/eval_detector_5lop.py (vong 27).
+
 ===========================================================================
 VI SAO PHAI TU VIET, KHONG DUNG THANG model.val() CUA ULTRALYTICS?
 ===========================================================================
