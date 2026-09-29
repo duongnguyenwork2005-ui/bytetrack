@@ -575,122 +575,156 @@ def t12_f2(tmp: Path, anh: Path, cache: Path):
     nl.shutil.which = lambda ten: str(z) if ten == "zenity" else goc_ra(ten)
     pids = lambda: [int(x) for x in pid_f.read_text().split()] if pid_f.exists() else []
     try:
-        # (a) mo hop chon roi dong launcher khi CHUA chay tracker
-        che_do.write_text("cho")
         ctl0 = SimpleNamespace(dang_chay=lambda: False, _ghi_log=lambda s: None)
-        app, lich, huy = _app_gia(nl, ctl0, str(tmp))
-        app._chon("video")
-        _cho(lambda: len(pids()) == 1)
-        p0 = pids()[0]
-        con_truoc = pid_con_song(p0)
-        app._dong()
-        for _ in range(60):                       # nhu vong su kien: chay callback toi khi xong
-            if huy:
-                break
-            lich.chay()
-            time.sleep(0.05)
-        lich.chay()                                # callback con sot (neu co) chay sau khi dong: khong duoc cham widget
-        ok_a = (con_truoc and bool(huy) and not pid_con_song(p0) and not lich.cho and app.v["source"].set_sau_khi_huy == 0
-                and app._picker is None)
-        check("12a. N25-F2: mo hop chon -> dong launcher (chua chay tracker): tien trinh chon file da thoat + thu hoi (theo PID), "
-              "callback cho da huy, khong cham widget sau khi dong", ok_a,
-              f"pid {p0} song truoc {con_truoc} sau {pid_con_song(p0)}; destroy {bool(huy)}; callback con {len(lich.cho)}; "
-              f"set sau huy {app.v['source'].set_sau_khi_huy}")
-        # (b) huy hop chon roi mo lai va chon nguon thanh cong
-        che_do.write_text("huy")
-        app, lich, huy = _app_gia(nl, ctl0, str(tmp))
-        app._chon("video")
-        _cho(lambda: len(pids()) == 2)
-        _cho(lambda: (lich.chay() or True) and not app._chon_dang_mo, 5)
-        sau_huy = app.v["source"].get()
-        che_do.write_text(f"chon:{anh}")
-        app._chon("thu_muc_anh")
-        _cho(lambda: len(pids()) == 3)
-        _cho(lambda: (lich.chay() or True) and not app._chon_dang_mo, 5)
-        ok_b = sau_huy == "" and app.v["source"].get() == str(anh) and not any(pid_con_song(p) for p in pids()[1:3])
-        check("12b. N25-F2: huy hop chon (ma 1) -> nguon khong doi; mo lai + chon -> nguon = duong dan da chon; ca hai tien trinh da thu hoi",
-              ok_b, f"sau huy {sau_huy!r}; sau chon {app.v['source'].get()!r}")
-        app._dong(); lich.chay()
-        # (c) hop chon vua tu thoat dung luc dong launcher -> chi thu hoi, bo ket qua
-        che_do.write_text(f"chon:{tmp / 'KHONG_DUNG'}")
-        app, lich, huy = _app_gia(nl, ctl0, str(tmp))
-        app._chon("video")
-        _cho(lambda: len(pids()) == 4)
-        p3 = pids()[3]
-        _cho(lambda: app._picker is not None and app._picker.poll() is not None)   # da thoat, CHUA ai thu hoi / doc
-        app._dong(); lich.chay(); lich.chay()
-        ok_c = bool(huy) and not pid_con_song(p3) and app.v["source"].get() == "" and app.v["source"].set_sau_khi_huy == 0
-        check("12c. N25-F2: hop chon vua tu thoat dung luc dong -> thu hoi, BO ket qua (khong cap nhat widget), khong loi",
-              ok_c, f"destroy {bool(huy)} pid {p3} song {pid_con_song(p3)} nguon {app.v['source'].get()!r}")
-        # (d) hop chon dang mo + tracker dang chay -> dong launcher
-        che_do.write_text("cho")
-        goi = tmp / "cfg_f2.json"
-        fake = tmp / "gia_f2.engine"
-        fake.write_bytes(b"x")
-        goi.write_text(json.dumps({"engine": [str(fake)], "python_detector": PY, "ld_preload": ""}), encoding="utf-8")
-        c = nl.doc_cau_hinh(goi, tmp / "khong_co_nd.json")
-        gl = ["--gia-lap-cache", str(cache), "--gia-lap-video", "seq", "--video-name", "seq", "--timeout-con-s", "60",
-              "--gia-lap-cham-ms", "150"] + (["--python-detector", tns.PY_DET] if tns.PY_DET else [])
-        ctl = nl.NanoLauncherController(c, nl.kiem_trien_khai(c), timeout_dung=30, argv_them=gl)
-        rd = ctl.start({"source": str(anh), "fps": str(tns.FPS), "tracker": "cv", "out_base": str(tmp / "kq_f2")})
-        _cho(lambda: ctl.poll()["trang_thai"] == "DANG_CHAY", 60)
-        app, lich, huy = _app_gia(nl, ctl, str(tmp))
-        app._chon("video")
-        _cho(lambda: len(pids()) == 5)
-        p4 = pids()[4]
-        worker_pid = ctl.proc.pid
-        det_pid = int((rd / "detector.pid").read_text()) if (rd / "detector.pid").exists() else None
-        t0 = time.time()
-        app._dong()
-        picker_chet_luc = None
-        while not huy and time.time() - t0 < 60:
-            lich.chay()
-            ctl.poll()
-            if picker_chet_luc is None and not pid_con_song(p4):
-                picker_chet_luc = time.time() - t0
-            time.sleep(0.05)
-        lich.chay()
-        m = tns.meta(rd)
-        ok_d = (bool(huy) and ctl.trang_thai == "DA_DUNG" and m.get("trang_thai") == "da_dung" and not pid_con_song(p4)
-                and not pid_con_song(worker_pid) and (det_pid is None or not pid_con_song(det_pid)) and not lich.cho
-                and picker_chet_luc is not None and picker_chet_luc < 1.0)
-        check("12d. N25-F2: hop chon dang mo + tracker dang chay -> dong launcher: hop chon thoat ngay, tracker DA_DUNG (stop-file), "
-              "worker + detector da thoat (theo PID), khong callback con lai", ok_d,
-              f"destroy {bool(huy)} tracker {ctl.trang_thai} meta {m.get('trang_thai')}; picker thoat sau {picker_chet_luc}; "
-              f"worker {worker_pid} song {pid_con_song(worker_pid)} detector {det_pid} song "
-              f"{None if det_pid is None else pid_con_song(det_pid)}; callback con {len(lich.cho)}")
-        # (e) cua so Tk THAT (neu co man hinh): mo hop chon -> dong -> khong loi callback sau destroy
+
+        def _ca_a():
+            # (a) mo hop chon roi dong launcher khi CHUA chay tracker
+            che_do.write_text("cho")
+            app, lich, huy = _app_gia(nl, ctl0, str(tmp))
+            app._chon("video")
+            _cho(lambda: len(pids()) == 1)
+            p0 = pids()[0]
+            con_truoc = pid_con_song(p0)
+            app._dong()
+            for _ in range(60):                       # nhu vong su kien: chay callback toi khi xong
+                if huy:
+                    break
+                lich.chay()
+                time.sleep(0.05)
+            lich.chay()                                # callback con sot (neu co) chay sau khi dong: khong duoc cham widget
+            ok_a = (con_truoc and bool(huy) and not pid_con_song(p0) and not lich.cho and app.v["source"].set_sau_khi_huy == 0
+                    and app._picker is None)
+            check("12a. N25-F2: mo hop chon -> dong launcher (chua chay tracker): tien trinh chon file da thoat + thu hoi (theo PID), "
+                  "callback cho da huy, khong cham widget sau khi dong", ok_a,
+                  f"pid {p0} song truoc {con_truoc} sau {pid_con_song(p0)}; destroy {bool(huy)}; callback con {len(lich.cho)}; "
+                  f"set sau huy {app.v['source'].set_sau_khi_huy}")
+
         try:
-            import tkinter as tk
-            tk.Tk().destroy()
-        except Exception as e:  # noqa: BLE001
-            skip("12e. N25-F2 tren cua so Tk that", f"khong co man hinh ({type(e).__name__})")
-            return
-        che_do.write_text("cho")
-        goi2 = tmp / "cfg_f2e.json"
-        goi2.write_text(json.dumps({"engine": [str(tmp / "khong_co.engine")], "python_detector": PY, "ld_preload": "",
-                                    "thu_muc_du_lieu": str(tmp)}), encoding="utf-8")
-        c2 = nl.doc_cau_hinh(goi2, tmp / "khong_co_nd.json")
-        app = nl._build_app()(c2, nl.kiem_trien_khai(c2), {})
-        loi_cb = []
-        app.report_callback_exception = lambda *e: loi_cb.append(repr(e[1]))
-        app.update()
-        app._chon("video")
-        _cho(lambda: (app.update() or True) and len(pids()) == 6, 10)
-        p5 = pids()[5]
-        app._dong()
-        con_cua_so = True
-        t0 = time.time()
-        while time.time() - t0 < 10:
+            _ca_a()
+        except Exception as e:  # noqa: BLE001  -- ma cu co the thieu thuoc tinh moi -> FAIL, khong dung ca test
+            check("12a. N25-F2 (loi khi chay ca kiem)", False, repr(e)[:300])
+        def _ca_b():
+            # (b) huy hop chon roi mo lai va chon nguon thanh cong
+            che_do.write_text("huy")
+            app, lich, huy = _app_gia(nl, ctl0, str(tmp))
+            app._chon("video")
+            _cho(lambda: len(pids()) == 2)
+            _cho(lambda: (lich.chay() or True) and not app._chon_dang_mo, 5)
+            sau_huy = app.v["source"].get()
+            che_do.write_text(f"chon:{anh}")
+            app._chon("thu_muc_anh")
+            _cho(lambda: len(pids()) == 3)
+            _cho(lambda: (lich.chay() or True) and not app._chon_dang_mo, 5)
+            ok_b = sau_huy == "" and app.v["source"].get() == str(anh) and not any(pid_con_song(p) for p in pids()[1:3])
+            check("12b. N25-F2: huy hop chon (ma 1) -> nguon khong doi; mo lai + chon -> nguon = duong dan da chon; ca hai tien trinh da thu hoi",
+                  ok_b, f"sau huy {sau_huy!r}; sau chon {app.v['source'].get()!r}")
+            app._dong(); lich.chay()
+
+        try:
+            _ca_b()
+        except Exception as e:  # noqa: BLE001  -- ma cu co the thieu thuoc tinh moi -> FAIL, khong dung ca test
+            check("12b. N25-F2 (loi khi chay ca kiem)", False, repr(e)[:300])
+        def _ca_c():
+            # (c) hop chon vua tu thoat dung luc dong launcher -> chi thu hoi, bo ket qua
+            che_do.write_text(f"chon:{tmp / 'KHONG_DUNG'}")
+            app, lich, huy = _app_gia(nl, ctl0, str(tmp))
+            app._chon("video")
+            _cho(lambda: len(pids()) == 4)
+            p3 = pids()[3]
+            _cho(lambda: app._picker is not None and app._picker.poll() is not None)   # da thoat, CHUA ai thu hoi / doc
+            app._dong(); lich.chay(); lich.chay()
+            ok_c = bool(huy) and not pid_con_song(p3) and app.v["source"].get() == "" and app.v["source"].set_sau_khi_huy == 0
+            check("12c. N25-F2: hop chon vua tu thoat dung luc dong -> thu hoi, BO ket qua (khong cap nhat widget), khong loi",
+                  ok_c, f"destroy {bool(huy)} pid {p3} song {pid_con_song(p3)} nguon {app.v['source'].get()!r}")
+
+        try:
+            _ca_c()
+        except Exception as e:  # noqa: BLE001  -- ma cu co the thieu thuoc tinh moi -> FAIL, khong dung ca test
+            check("12c. N25-F2 (loi khi chay ca kiem)", False, repr(e)[:300])
+        def _ca_d():
+            # (d) hop chon dang mo + tracker dang chay -> dong launcher
+            che_do.write_text("cho")
+            goi = tmp / "cfg_f2.json"
+            fake = tmp / "gia_f2.engine"
+            fake.write_bytes(b"x")
+            goi.write_text(json.dumps({"engine": [str(fake)], "python_detector": PY, "ld_preload": ""}), encoding="utf-8")
+            c = nl.doc_cau_hinh(goi, tmp / "khong_co_nd.json")
+            gl = ["--gia-lap-cache", str(cache), "--gia-lap-video", "seq", "--video-name", "seq", "--timeout-con-s", "60",
+                  "--gia-lap-cham-ms", "150"] + (["--python-detector", tns.PY_DET] if tns.PY_DET else [])
+            ctl = nl.NanoLauncherController(c, nl.kiem_trien_khai(c), timeout_dung=30, argv_them=gl)
+            rd = ctl.start({"source": str(anh), "fps": str(tns.FPS), "tracker": "cv", "out_base": str(tmp / "kq_f2")})
+            _cho(lambda: ctl.poll()["trang_thai"] == "DANG_CHAY", 60)
+            app, lich, huy = _app_gia(nl, ctl, str(tmp))
+            app._chon("video")
+            _cho(lambda: len(pids()) == 5)
+            p4 = pids()[4]
+            worker_pid = ctl.proc.pid
+            det_pid = int((rd / "detector.pid").read_text()) if (rd / "detector.pid").exists() else None
+            t0 = time.time()
+            app._dong()
+            picker_chet_luc = None
+            while not huy and time.time() - t0 < 60:
+                lich.chay()
+                ctl.poll()
+                if picker_chet_luc is None and not pid_con_song(p4):
+                    picker_chet_luc = time.time() - t0
+                time.sleep(0.05)
+            lich.chay()
+            m = tns.meta(rd)
+            ok_d = (bool(huy) and ctl.trang_thai == "DA_DUNG" and m.get("trang_thai") == "da_dung" and not pid_con_song(p4)
+                    and not pid_con_song(worker_pid) and (det_pid is None or not pid_con_song(det_pid)) and not lich.cho
+                    and picker_chet_luc is not None and picker_chet_luc < 1.0)
+            check("12d. N25-F2: hop chon dang mo + tracker dang chay -> dong launcher: hop chon thoat ngay, tracker DA_DUNG (stop-file), "
+                  "worker + detector da thoat (theo PID), khong callback con lai", ok_d,
+                  f"destroy {bool(huy)} tracker {ctl.trang_thai} meta {m.get('trang_thai')}; picker thoat sau {picker_chet_luc}; "
+                  f"worker {worker_pid} song {pid_con_song(worker_pid)} detector {det_pid} song "
+                  f"{None if det_pid is None else pid_con_song(det_pid)}; callback con {len(lich.cho)}")
+
+        try:
+            _ca_d()
+        except Exception as e:  # noqa: BLE001  -- ma cu co the thieu thuoc tinh moi -> FAIL, khong dung ca test
+            check("12d. N25-F2 (loi khi chay ca kiem)", False, repr(e)[:300])
+        def _ca_e():
+            # (e) cua so Tk THAT (neu co man hinh): mo hop chon -> dong -> khong loi callback sau destroy
             try:
-                app.update()
-            except tk.TclError:
-                con_cua_so = False
-                break
-            time.sleep(0.05)
-        check("12e. N25-F2 cua so Tk THAT: mo hop chon -> dong launcher -> cua so da huy, hop chon da thoat, 0 loi callback",
-              not con_cua_so and not pid_con_song(p5) and not loi_cb,
-              f"cua so con {con_cua_so}; pid {p5} song {pid_con_song(p5)}; loi callback {loi_cb}")
+                import tkinter as tk
+                tk.Tk().destroy()
+            except Exception as e:  # noqa: BLE001
+                skip("12e. N25-F2 tren cua so Tk that", f"khong co man hinh ({type(e).__name__})")
+                return
+            che_do.write_text("cho")
+            goi2 = tmp / "cfg_f2e.json"
+            goi2.write_text(json.dumps({"engine": [str(tmp / "khong_co.engine")], "python_detector": PY, "ld_preload": "",
+                                        "thu_muc_du_lieu": str(tmp)}), encoding="utf-8")
+            c2 = nl.doc_cau_hinh(goi2, tmp / "khong_co_nd.json")
+            app = nl._build_app()(c2, nl.kiem_trien_khai(c2), {})
+            loi_cb = []
+            app.report_callback_exception = lambda *e: loi_cb.append(repr(e[1]))
+            app.update()
+            app._chon("video")
+            _cho(lambda: (app.update() or True) and len(pids()) == 6, 10)
+            p5 = pids()[5]
+            app._dong()
+            con_cua_so = True
+            t0 = time.time()
+            while time.time() - t0 < 10:
+                try:
+                    app.update()
+                    if not app.winfo_exists():          # Tk 8.6: update() co the khong nem loi sau khi root da destroy
+                        con_cua_so = False
+                        break
+                except tk.TclError:
+                    con_cua_so = False
+                    break
+                time.sleep(0.05)
+            check("12e. N25-F2 cua so Tk THAT: mo hop chon -> dong launcher -> cua so da huy, hop chon da thoat, 0 loi callback",
+                  not con_cua_so and not pid_con_song(p5) and not loi_cb,
+                  f"cua so con {con_cua_so}; pid {p5} song {pid_con_song(p5)}; loi callback {loi_cb}")
+
+        try:
+            _ca_e()
+        except Exception as e:  # noqa: BLE001  -- ma cu co the thieu thuoc tinh moi -> FAIL, khong dung ca test
+            check("12e. N25-F2 (loi khi chay ca kiem)", False, repr(e)[:300])
     finally:
         nl.shutil.which = goc_ra
         for p in pids():
