@@ -303,11 +303,31 @@ def make_patch(base: str, target: str, paths: list[str]) -> bytes:
     # --binary: file nhi phan nho (anh man hinh .png) duoc ma hoa day du trong patch -> `git apply` ap duoc
     # tren cay base sach; khong co no, git chi ghi "Binary files differ" va patch KHONG ap duoc.
     # BYTES (R20-P2): che do text tung bien CRLF -> LF va CR le -> xuong dong (hong so dong cua hunk).
-    patch = git_bytes("diff", "--no-renames", "--binary", f"{base}..{target}", "--", *paths)
+    # (vong 25) Windows gioi han dong lenh ~32.767 ky tu (WinError 206 khi delta co hang tram duong dan dai): chia
+    # danh sach thanh LO, moi lo mot `git diff`, noi BYTES theo thu tu duong dan (git ghi tung file theo thu tu duong dan,
+    # cac lo khong giao nhau) -> cung noi dung voi mot lan diff; --kiem-roundtrip van ap + so blob tung duong dan.
+    patch = b"".join(git_bytes("diff", "--no-renames", "--binary", f"{base}..{target}", "--", *lo)
+                     for lo in _lo_duong_dan(paths))
     lot = sorted(q for q in _paths_trong_diff(patch.decode("utf-8", "replace")) if skip_reason(q))
     if lot:
         sys.exit("DUNG: patch chua duong dan thuoc dien bi loai: " + ", ".join(lot[:10]))
     return patch
+
+
+MAX_DONG_LENH = 20000        # tong ky tu duong dan moi lo (duoi xa gioi han 32.767 cua CreateProcess tren Windows)
+
+
+def _lo_duong_dan(paths, gioi_han: int = MAX_DONG_LENH):
+    """Chia duong dan (da sap xep) thanh cac lo co tong do dai <= gioi_han; moi duong dan nam trong DUNG mot lo."""
+    lo, dai = [], 0
+    for p in sorted(paths):
+        if lo and dai + len(p) + 3 > gioi_han:
+            yield lo
+            lo, dai = [], 0
+        lo.append(p)
+        dai += len(p) + 3
+    if lo:
+        yield lo
 
 
 def large_inputs_table() -> list[dict]:

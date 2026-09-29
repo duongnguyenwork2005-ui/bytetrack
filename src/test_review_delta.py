@@ -404,6 +404,43 @@ def test_crlf_roundtrip() -> None:
     assert all(ok for _, ok in kq), "14-18"
 
 
+def test_nhieu_duong_dan() -> None:
+    """19 (vong 25): delta co 700 file bang chung ten dai, tong do dai duong dan > 32.767 ky tu (gioi han dong lenh
+    CreateProcess tren Windows -- ma cu goi MOT `git diff -- <moi duong dan>` -> WinError 206): dung goi exit 0, patch chua
+    DU 700 duong dan, --kiem-roundtrip DAT (ap len base, blob tung duong dan khop target)."""
+    d = Path(tempfile.mkdtemp(prefix="delta_nhieu_"))
+    try:
+        graw(d, "init", "-q", "-b", "main")
+        (d / "src").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(PACKAGER, d / "src" / "make_review_delta.py")
+        wbytes(d, "src/goc.py", b"x = 1\n")
+        graw(d, "add", "-A"); graw(d, "commit", "-qm", "base")
+        base = graw(d, "rev-parse", "HEAD").decode().strip()
+        thu_muc = "handoff/logs/review99/bang_chung_tu_thiet_bi_ten_thu_muc_rat_dai/luot_chay_hien_thi_truc_tiep"
+        n = 700
+        for k in range(n):
+            wbytes(d, f"{thu_muc}/luot{k:04d}_ten_file_bang_chung_dai_de_vuot_gioi_han_dong_lenh.log", f"luot {k}\n".encode())
+        graw(d, "add", "-A"); graw(d, "commit", "-qm", "nhieu file")
+        tong = sum(len(f"{thu_muc}/luot{k:04d}_ten_file_bang_chung_dai_de_vuot_gioi_han_dong_lenh.log") + 1 for k in range(n))
+        (d / "handoff").mkdir(parents=True, exist_ok=True)
+        run([PY, "src/make_review_delta.py", "--set-base", base, "--round", "1", "--base-snapshot", "handoff/archive/b.zip"], d)
+        write(d, "handoff/REVIEW_BRIEF.md", "# brief\n")
+        r = run([PY, "src/make_review_delta.py"], d)
+        so, rt = -1, None
+        zp = d / "handoff" / "review_delta_latest.zip"
+        if r.returncode == 0 and zp.exists():
+            with zipfile.ZipFile(zp) as z:
+                patch = z.read(next(x for x in z.namelist() if x.startswith("patch/"))).decode("utf-8", "replace")
+            so = patch.count("diff --git a/handoff/logs/review99/")
+            rt = run([PY, "src/make_review_delta.py", "--kiem-roundtrip"], d)
+        _check(f"19. {n} duong dan dai (tong {tong} ky tu > 32.767): dung goi exit 0, patch du {n} file, --kiem-roundtrip DAT",
+               r.returncode == 0 and so == n and rt is not None and rt.returncode == 0,
+               f"dung goi rc={r.returncode} {(r.stdout + r.stderr).strip()[-160:]}\nso file trong patch {so}; roundtrip "
+               f"{None if rt is None else rt.returncode} {'' if rt is None else rt.stdout.strip()[-120:]}")
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
 def main() -> int:
     global PACKAGER
     import argparse
@@ -523,6 +560,8 @@ def main() -> int:
 
         # --- 14-18. R20-P2 (review 45e086a): patch giu nguyen byte ---
         test_crlf_roundtrip()
+        # --- 19. vong 25: rat nhieu duong dan dai (vuot gioi han dong lenh Windows) ---
+        test_nhieu_duong_dan()
     except AssertionError:
         failed += 1
     finally:

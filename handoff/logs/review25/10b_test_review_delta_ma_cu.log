@@ -1,0 +1,54 @@
+# 10b. CUNG test_review_delta voi packager CU (91c95c7:src/make_review_delta.py, sha256 eedf3d92925dae24) - 2026-09-29T10:40:15+07:00
+$ python src/test_review_delta.py --packager <91c95c7:src/make_review_delta.py>
+packager duoc kiem: C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\make_review_delta_cu.py (sha256 eedf3d92925dae24)
+  [PASS] thieu REVIEW_BRIEF.md -> TU CHOI dung goi
+         Thieu handoff\REVIEW_BRIEF.md - viet bao cao ngan cua vong nay truoc khi dong goi
+  [PASS] dung goi delta thanh cong
+         ZIP: C:\Users\Mikuno\AppData\Local\Temp\delta_test_ba7r143a\handoff\review_delta_latest.zip (0.01 MB, 11 file); testzip: OK
+         file bat buoc thieu: khong
+         file CAM co trong ZIP: 0 []
+         thu tu doc: REVIEW_BRIEF.md -> patch/delta_b21a664..8902c5e.diff -> logs/ + data/ -> DEPENDENCIES.md
+         [roundtrip] review_delta_latest.zip: base b21a664 -> target 8902c5e, patch 836 B, 5 duong dan trong patch
+         [roundtrip] 5/5 duong dan khop target theo blob/sha256
+  [PASS] base lay tu review_base.json va KHONG tu chuyen sang HEAD sau khi dung goi
+         base=b21a664 target=8902c5e trong file=b21a664
+  [PASS] file rieng cua nguoi dung KHONG co trong goi
+  [PASS] du lieu lon / nhi phan / patch toan bo lich su KHONG co trong goi
+  [PASS] code/test/config/log/ket qua moi CO trong goi, dung ban target
+         thieu=set()
+  [PASS] file KHONG doi giua base va target KHONG vao goi
+  [PASS] MANIFEST ghi du base/target + them/sua + sha256 khop noi dung thuc trong ZIP
+         lech=[] status=['sua', 'them']
+  [PASS] patch trong goi ap duoc len DUNG cay base va cho ra noi dung target
+  [PASS] file bi bo qua van duoc liet ke kem ly do trong MANIFEST va DEPENDENCIES.md
+         .gitignore -> file rieng cua nguoi dung; data/interim/cache.npz -> du lieu nhi phan hoac patc; handoff/patches/moc_full.diff -> du lieu nhi phan hoac patc; handoff/phase2_review_latest.zip -> dataset/weights/goi ZIP kh; live.bat -> file rieng cua nguoi dung; models/w.pt -> dataset/weights/goi ZIP kh; src/demo/buffer90_moi.py -> file rieng cua nguoi dung
+  [PASS] P1: file rieng bi `git rm --cached` -> KHONG co diff/marker trong goi, file van con tren dia
+         marker trong goi=False; duong dan trong patch=False
+  [PASS] P2a: doi ten -> ap patch cho DUNG target (ten moi co, ten cu bien mat)
+         thua=[] thieu=[]
+  [PASS] P2b: hai file code trung noi dung -> ap patch co DU ca hai; dedup chi ap cho log
+         thieu sau khi ap=[]; ca hai trong files/=True; so log trong goi=1
+  [PASS] --support file KHONG doi: nam o support/, status ho_tro, hash base == target, KHONG trong patch, khong tinh vao so_file_trong_goi, co muc rieng trong DEPENDENCIES.md; file CO doi -> TU CHOI
+         rc=0 row={'status': 'ho_tro', 'path': 'src/khong_doi.py', 'trong_goi': 'support/src/khong_doi.py', 'trong_patch': 'False', 'ly_do_khong_gom': '', 'trung_noi_dung_voi': '', 'bytes': '11', 'sha256_base': '414043d98113c6dc776f721bf00b4bfd14933a4dfcd9e696ecb8eb02d1d77e82', 'sha256_target': '414043d98113c6dc776f721bf00b4bfd14933a4dfcd9e696ecb8eb02d1d77e82'} rc_doi=1 DUNG: --support src/tracker.py CO doi so voi base b21a664 -> no da/phai nam trong patch, khong dung --support
+  [PASS] 14. patch trong ZIP == `git diff --binary` tho, tung byte (CR giu nguyen)
+         patch 1916 B CR 10 | tho 1916 B CR 10
+  [PASS] 15. ap patch len base sach (exit 0) -> them/sua/xoa CRLF, tron LF/CRLF/CR le, binary: byte + sha256 khop target va MANIFEST
+         apply exit 0 
+         6 duong dan; lech: []
+  [PASS] 16. --kiem-roundtrip: goi that exit 0; goi co patch bi mat CR -> exit != 0
+         that: rc=0 oundtrip] review_delta_latest.zip: base 07d6a2f -> target 1b1e473, patch 1,916 B, 6 duong dan trong patch
+         [roundtrip] 6/6 duong dan khop target theo blob/sha256
+         hong: rc=1 blob sau khi ap b4e31d45a6a970c70dbc92b5b432f46b5d3386d6 != target ae382feecca9b4fc3630aa76b1902502888119cc
+             src/xoa_crlf.py: blob sau khi ap cdfd0755b84b546cff5ea5ac89847dc898eaf772 != target None
+  [PASS] 17. file rieng `src/demo/` KHONG co trong ZIP lan duong dan trong patch
+  [PASS] 18. --giu-khai-bao: DEPENDENCIES liet ke file + sha256 tai base; khai bao MANG SANG lan doi base sau
+         rc set-base=0 dung goi=0 set-base 2=0; khai bao=[{'path': 'handoff/logs/anh.bin', 'bytes': 275, 'sha256': '42dda5bfc1d00fdb01a876a727d7397f9a543864aa2ff0f2e3ea2d85ca67ffa4', 'ly_do': 'khai bao tay: khong dong goi', 'khai_bao_tu_base': '1b1e473', 'vong': 2}]
+         da ghi base = 1b1e473 (vong 2) -> handoff\review_base.json; khai bao khong ban giao: 1 file
+  [FAIL] 19. 700 duong dan dai (tong 110600 ky tu > 32.767): dung goi exit 0, patch du 700 file, --kiem-roundtrip DAT
+         dung goi rc=1 Process(executable, args,
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+         FileNotFoundError: [WinError 206] The filename or extension is too long
+         so file trong patch -1; roundtrip None
+
+KET QUA: 19/20 phep kiem tra PASS
+exit=1
