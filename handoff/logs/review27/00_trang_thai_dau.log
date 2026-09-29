@@ -1,0 +1,21 @@
+# 00. Trang thai dau vong 27 (chuan bi du lieu + ke hoach fine-tune detector) - ghi 2026-09-29
+## git (luc bat dau vong, truoc moi thay doi)
+nhanh: phase2-mixed-traffic
+HEAD: 239b9c6b01c74fba3fa5077ffdda7a0f73c77834
+commit sau 239b9c6 luc bat dau: 0
+working tree (tracked sua, chi file rieng cua nguoi dung, khong dong goi):
+ M .gitignore
+ M src/demo/rerun_with_state_log.py
+## review
+CODEX_REVIEW_239b9c6.md: 9043 B sha256 3129e1d9aab0231295b5562095123723e91f8fb35228245f707b15af170ceb89 (ban goc ~/Downloads, cung byte)
+ket luan: PASS WITH LIMITATIONS, dong N25-F1/N25-F2
+goi da review -> handoff/archive/review_delta_239b9c6.zip: 11188466 B sha256 854b09a303e810d63335e4f140504318e17476d605ea1a6ee2c011bacff4f8f7 (bao cao Codex: 11.188.466 B, 854b09a3...; 547 thanh vien, testzip OK, MANIFEST base f86732b -> target 239b9c6)
+base review: f86732b -> 239b9c6 (make_review_delta.py --set-base 239b9c6 --round 26 --base-snapshot handoff/archive/review_delta_239b9c6.zip); 13 khai bao NPZ mang sang
+## PC
+python 3.11.9 Windows-10-10.0.26200-SP0 numpy 2.4.6 cv2 5.0.0 torch 2.6.0+cu124 cuda 12.4 ultralytics 8.4.141
+RAM tong 7.8 GiB
+NVIDIA GeForce GTX 1650, 555.97, 4096 MiB
+## checkpoint
+models/yolov8n.pt 6549796 B sha256 f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36
+models/candidates/yolo11n.pt 5613764 B sha256 0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1
+## Nano: khong dung toi trong vong nay (v16 giu nguyen)
