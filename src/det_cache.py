@@ -96,8 +96,9 @@ def sha256_file(path: Path, chunk: int = 1 << 20) -> str:
 def git_commit() -> str | None:
     try:
         import subprocess
+        # stderr bo di: goi Nano khong co .git -> tranh dong "fatal: not a git repository" trong nhat ky nguoi dung
         return subprocess.check_output(["git", "rev-parse", "--short", "HEAD"],
-                                       cwd=config.PROJECT_ROOT, text=True).strip()
+                                       cwd=config.PROJECT_ROOT, text=True, stderr=subprocess.DEVNULL).strip()
     except Exception:
         return None
 

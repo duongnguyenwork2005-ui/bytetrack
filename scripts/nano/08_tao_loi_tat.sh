@@ -29,7 +29,7 @@ Exec=/bin/bash \"$GOC/scripts/nano/07_giao_dien.sh\"
 Path=$GOC
 Icon=camera-video
 Terminal=false
-Categories=AudioVideo;Video;Science;
+Categories=AudioVideo;Video;
 StartupNotify=true
 "
 mkdir -p "$MENU"
@@ -41,6 +41,8 @@ if [ -d "$DESK" ]; then
     chmod +x "$DESK/$TEN"
     # GNOME/Unity 18.04: danh dau tin cay de bam dup chay ngay (khong hoi); loi -> van dung duoc qua menu
     gio set "$DESK/$TEN" metadata::trusted true 2>/dev/null || true
+    # Nautilus 3.26 chi doc lai thong tin khi file thay doi -> touch de bieu tuong hien ten + icon ngay (vong 25, do tren Nano)
+    touch "$DESK/$TEN"
     echo "desktop: $DESK/$TEN"
 else
     echo "khong co thu muc Desktop ($DESK): chi tao loi tat trong menu"
