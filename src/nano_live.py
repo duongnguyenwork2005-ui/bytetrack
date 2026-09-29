@@ -649,6 +649,8 @@ def main() -> int:  # noqa: C901
     t.add_argument("--gia-lap-cham-tracker-ms", type=float, default=0.0)
     t.add_argument("--torch-pt", default=None, help="CHI PC: suy luan .pt thay TensorRT")
     t.add_argument("--gia-lap-phim-dung-o-frame", type=int, default=None, help="hien thi gia lap phim q o frame N")
+    t.add_argument("--gia-lap-dong-cua-so-o-frame", type=int, default=None,
+                   help="hien thi AN gia lap nguoi dung dong cua so sau frame N (kiem N25-F1)")
     a = ap.parse_args()
     t_main = time.perf_counter()
 
@@ -696,6 +698,8 @@ def main() -> int:  # noqa: C901
             cmd += ["--hien-thi-kich-thuoc", *[str(v) for v in a.hien_thi_kich_thuoc]]
         if a.gia_lap_phim_dung_o_frame:
             cmd += ["--gia-lap-phim-dung-o-frame", str(a.gia_lap_phim_dung_o_frame)]
+        if a.gia_lap_dong_cua_so_o_frame:
+            cmd += ["--gia-lap-dong-cua-so-o-frame", str(a.gia_lap_dong_cua_so_o_frame)]
     env = {**os.environ, "PYTHONUNBUFFERED": "1", "PYTHONIOENCODING": "utf-8"}
     preload = a.ld_preload if a.ld_preload is not None else (LIBGOMP if jetson and Path(LIBGOMP).exists() else "")
     if preload:
@@ -982,8 +986,9 @@ def main() -> int:  # noqa: C901
     meta["thoi_gian"]["dinh_nghia"]["tam_dung"] = "khong co chuc nang tam dung -> khong co thoi gian tam dung trong so do"
     if hien_thi:
         meta["thoi_gian"]["fps_hien_thi"] = (meta["hien_thi"] or {}).get("fps_hien_thi")
-        meta["thoi_gian"]["dinh_nghia"]["fps_hien_thi"] = ("so anh DA hien thi / khoang tu anh hien thi dau den cuoi (luong "
-                                                           "hien thi cua con); frame xem truoc bi bo khong tinh")
+        meta["thoi_gian"]["dinh_nghia"]["fps_hien_thi"] = ("(N - 1) / (moc hien thi cuoi - moc hien thi dau), N = so anh DA "
+                                                           "trinh len cua so (luong hien thi cua con); N < 2 -> null; frame "
+                                                           "xem truoc bi bo / toi sau khi dong cua so khong tinh")
     (out / "run_meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
     ghi_tien_trinh(prog, {"trang_thai": {"hoan_tat": "hoan_tat", "da_dung": "da_dung"}.get(trang_thai, "loi"),
                           "chi_tiet_trang_thai": trang_thai, "ma_thoat": ma, "frame": n_xu_ly, "n_frame_da_xu_ly": n_xu_ly,

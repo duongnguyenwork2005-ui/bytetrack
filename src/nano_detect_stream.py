@@ -265,6 +265,8 @@ def main():
     h.add_argument("--hien-thi-kich-thuoc", type=int, nargs=2, default=None, metavar=("RONG", "CAO"))
     h.add_argument("--yeu-cau-dung-file", default=None, help="stop-file cua cha: phim q/Esc/dong cua so ghi file nay")
     h.add_argument("--gia-lap-phim-dung-o-frame", type=int, default=None, help="CHI KIEM THU: gia lap phim q")
+    h.add_argument("--gia-lap-dong-cua-so-o-frame", type=int, default=None,
+                   help="CHI KIEM THU (che do an): gia lap nguoi dung dong cua so sau frame N")
     a = ap.parse_args()
     # Ctrl+C la viec cua tien trinh CHA (dung co kiem soat qua lenh S); con bo qua SIGINT de khong chet giua chung
     try:
@@ -326,7 +328,8 @@ def main():
                 cv2, rmv, a.hien_thi_tieu_de, an=a.hien_thi_an, stop_file=a.yeu_cau_dung_file,
                 json_path=a.hien_thi_json, luu_mau_dir=a.hien_thi_luu_mau, luu_mau_moi=a.hien_thi_moi,
                 dung_o_frame=a.gia_lap_phim_dung_o_frame, suc_chua_anh=a.hang_doi + 4, nhan_hud=a.hien_thi_hud,
-                kich_thuoc_cua_so=a.hien_thi_kich_thuoc, log=log, hang_doi=a.hien_thi_hang_doi)
+                kich_thuoc_cua_so=a.hien_thi_kich_thuoc, log=log, hang_doi=a.hien_thi_hang_doi,
+                dong_cua_so_o_frame=a.gia_lap_dong_cua_so_o_frame)
             info["hien_thi"] = {"bat": True, "an": bool(a.hien_thi_an), "tieu_de": a.hien_thi_tieu_de,
                                 "suc_chua_anh": a.hang_doi + 4, "hang_doi_hien_thi": a.hien_thi_hang_doi,
                                 "luu_mau_moi": a.hien_thi_moi}

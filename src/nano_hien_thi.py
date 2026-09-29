@@ -18,7 +18,15 @@ DUNG: phim q / Q / Esc trong cua so, hoac dong cua so -> GHI stop-file (`--stop-
 Dung cua launcher) -> cha dung co kiem soat, ghi du phan da xu ly. Loi o luong hien thi -> ghi `loi`, tat hien thi,
 tracking tiep tuc.
 
-Che do `an=True` (kiem thu / may khong man hinh): moi buoc tru tao cua so (ghep, ve, luu mau, dem, gia lap phim).
+DEM (vong 26, review 20e66e9 N25-F1): `n_hien_thi`, moc `t_hien_thi`, `frame_hien_thi_cuoi` CHI tang khi frame THUC SU duoc
+trinh len cua so: cua so chua bi dong (kiem TRUOC moi imshow) va `cv2.imshow` chay xong khong loi. Frame toi SAU khi cua so da
+dong (vd frame dang bay luc nguoi dung bam x) -> KHONG ve, KHONG imshow (imshow se mo lai cua so), dem rieng
+`n_khong_hien_thi_cua_so_dong`; tracking van xu ly va ghi MOT/lop cua frame do (hien thi khong cham vao du lieu tracker).
+Bat bien: n_ghep_duoc = n_hien_thi + n_bo_hien_thi + n_khong_hien_thi_cua_so_dong (tru khi luong hien thi loi).
+`fps_hien_thi` = (N - 1) / (moc hien thi cuoi - moc hien thi dau), N = n_hien_thi; N < 2 -> None (khong co FPS co nghia).
+
+Che do `an=True` (kiem thu / may khong man hinh): moi buoc tru tao cua so (ghep, ve, luu mau, dem, gia lap phim q, gia lap
+dong cua so). O che do nay KHONG co cua so: "trinh" la GIA LAP = da ve xong (`che_do` ghi ro trong thong ke).
 Cu phap Python 3.6.
 """
 import collections
@@ -42,11 +50,13 @@ def _tk(v):
 
 class HienThi(object):
     def __init__(self, cv2, rmv, tieu_de, an=False, stop_file=None, json_path=None, luu_mau_dir=None, luu_mau_moi=0,
-                 dung_o_frame=None, suc_chua_anh=8, nhan_hud="", kich_thuoc_cua_so=None, log=None, hang_doi=2):
+                 dung_o_frame=None, suc_chua_anh=8, nhan_hud="", kich_thuoc_cua_so=None, log=None, hang_doi=2,
+                 dong_cua_so_o_frame=None):
         self.cv2, self.rmv, self.tieu_de, self.an = cv2, rmv, tieu_de, bool(an)
         self.stop_file, self.json_path = stop_file, json_path
         self.luu_mau_dir, self.luu_mau_moi = luu_mau_dir, int(luu_mau_moi or 0)
         self.dung_o_frame = dung_o_frame
+        self.dong_cua_so_o_frame = dong_cua_so_o_frame      # CHI kiem thu (che do an): gia lap nguoi dung dong cua so
         self.suc_chua_anh = max(2, int(suc_chua_anh))
         self.nhan_hud = nhan_hud
         self.kich_thuoc_cua_so = kich_thuoc_cua_so
@@ -59,9 +69,10 @@ class HienThi(object):
         self._cua_so = False
         self._cua_so_da_dong = False
         self.dem = {"n_anh_nhan": 0, "n_ket_qua_nhan": 0, "n_ghep_duoc": 0, "n_khong_ghep": 0, "n_anh_bo_khong_ket_qua": 0,
-                    "n_hien_thi": 0, "n_bo_hien_thi": 0, "n_mau_luu": 0}
+                    "n_da_ve": 0, "n_hien_thi": 0, "n_bo_hien_thi": 0, "n_khong_hien_thi_cua_so_dong": 0, "n_mau_luu": 0}
         self.frame_bo = []                              # frame xem truoc bi bo (toi da 200 phan tu dau)
         self.frame_khong_ghep = []
+        self.frame_khong_hien_thi = []                  # frame toi sau khi cua so da dong (toi da 200 phan tu dau)
         self.ve_ms, self.imshow_ms = [], []
         self.t_hien_thi = []                            # moc perf_counter moi lan hien thi
         self.frame_hien_thi_cuoi = None
@@ -128,8 +139,17 @@ class HienThi(object):
             self.loi = "%s: %s" % (type(e).__name__, e)
             self.log("LOI hien thi (tat hien thi, tracking tiep tuc): %s" % self.loi)
 
+    def _khong_hien_thi(self, idx):
+        """Frame toi SAU khi cua so da dong: khong ve, khong tinh la da hien thi (tracking van ghi MOT/lop cua no)."""
+        self.dem["n_khong_hien_thi_cua_so_dong"] += 1
+        if len(self.frame_khong_hien_thi) < 200:
+            self.frame_khong_hien_thi.append(idx)
+
     def _ve(self, idx, img, hang):
         cv2 = self.cv2
+        if self._cua_so_da_dong:
+            self._khong_hien_thi(idx)
+            return
         t0 = time.perf_counter()
         im = img.copy()
         box = [(int(t), x, y, w, h, c) for t, x, y, w, h, c, _k in hang]
@@ -139,22 +159,47 @@ class HienThi(object):
             cv2.imwrite(os.path.join(self.luu_mau_dir, "hien_thi_f%05d.png" % idx), im)   # PNG: khong mat mat
             self.dem["n_mau_luu"] += 1
         self._hud(im, idx, len(hang))
+        self.dem["n_da_ve"] += 1
         t1 = time.perf_counter()
-        if not self.an and not self._cua_so_da_dong:
-            if not self._cua_so:
-                cv2.namedWindow(self.tieu_de, cv2.WINDOW_NORMAL)
-                if self.kich_thuoc_cua_so:
-                    cv2.resizeWindow(self.tieu_de, int(self.kich_thuoc_cua_so[0]), int(self.kich_thuoc_cua_so[1]))
-                self._cua_so = True
-            cv2.imshow(self.tieu_de, im)
-        t2 = time.perf_counter()
         self.ve_ms.append((t1 - t0) * 1e3)
-        self.imshow_ms.append((t2 - t1) * 1e3)
+        # che do an: KHONG co cua so -> "trinh" la gia lap (ve xong); che do that: chi True khi imshow da chay len cua so mo
+        trinh = True if self.an else self._trinh_len_cua_so(im)
+        t2 = time.perf_counter()
+        if not trinh:
+            self._khong_hien_thi(idx)
+            return
+        if not self.an:
+            self.imshow_ms.append((t2 - t1) * 1e3)
         self.t_hien_thi.append(t2)
         self.dem["n_hien_thi"] += 1
         self.frame_hien_thi_cuoi = idx
         if self.dung_o_frame and idx >= self.dung_o_frame and self.ly_do_dung is None:
             self.yeu_cau_dung("gia_lap_phim_q")
+        if self.an and self.dong_cua_so_o_frame and idx >= self.dong_cua_so_o_frame and not self._cua_so_da_dong:
+            self._cua_so_da_dong = True                    # gia lap nguoi dung dong cua so SAU khi frame nay da hien
+            self.yeu_cau_dung("gia_lap_dong_cua_so")
+
+    def _cua_so_con_mo(self):
+        try:
+            return self.cv2.getWindowProperty(self.tieu_de, self.cv2.WND_PROP_AUTOSIZE) >= 0
+        except Exception:  # noqa: BLE001
+            return False
+
+    def _trinh_len_cua_so(self, im):
+        """imshow len cua so dang MO. Cua so da tao nhung nguoi dung da dong (ke ca giua hai lan _su_kien) -> KHONG imshow
+        (imshow se tao lai cua so), danh dau dong + yeu cau dung, tra False. True chi khi imshow chay xong khong loi."""
+        cv2 = self.cv2
+        if self._cua_so and not self._cua_so_con_mo():
+            self._cua_so_da_dong = True
+            self.yeu_cau_dung("dong_cua_so")
+            return False
+        if not self._cua_so:
+            cv2.namedWindow(self.tieu_de, cv2.WINDOW_NORMAL)
+            if self.kich_thuoc_cua_so:
+                cv2.resizeWindow(self.tieu_de, int(self.kich_thuoc_cua_so[0]), int(self.kich_thuoc_cua_so[1]))
+            self._cua_so = True
+        cv2.imshow(self.tieu_de, im)
+        return True
 
     def _hud(self, im, idx, n):
         """Dong trang thai o GOC DUOI (so frame 'f<i>' cua ve_frame o goc tren giu nguyen). Chu ASCII (font Hershey)."""
@@ -177,11 +222,7 @@ class HienThi(object):
         k = cv2.waitKey(1)
         if k != -1 and (k & 0xFF) in PHIM_DUNG:
             self.yeu_cau_dung("phim_q_esc")
-        try:
-            dong = cv2.getWindowProperty(self.tieu_de, cv2.WND_PROP_AUTOSIZE) < 0
-        except Exception:  # noqa: BLE001
-            dong = True
-        if dong:
+        if not self._cua_so_con_mo():
             self._cua_so_da_dong = True        # khong imshow lai (imshow se mo lai cua so)
             self.yeu_cau_dung("dong_cua_so")
 
@@ -216,16 +257,27 @@ class HienThi(object):
             except Exception:  # noqa: BLE001
                 pass
         t = self.t_hien_thi
+        # (N - 1) / khoang: N moc hien thi co N - 1 khoang giua frame. N < 2 -> None (mot frame khong co toc do hien thi)
         fps = (len(t) - 1) / (t[-1] - t[0]) if len(t) >= 2 and t[-1] > t[0] else None
-        tk = {"bat": True, "an": self.an, "tieu_de": self.tieu_de, "hang_doi": self.hang_doi, "dem": dict(self.dem),
+        tk = {"bat": True, "an": self.an,
+              "che_do": ("an: KHONG co cua so, 'hien thi' la GIA LAP (da ve xong)" if self.an
+                         else "that: hien thi = imshow thanh cong len cua so dang mo"),
+              "tieu_de": self.tieu_de, "hang_doi": self.hang_doi, "dem": dict(self.dem),
               "frame_bo_hien_thi_dau": self.frame_bo, "frame_khong_ghep_dau": self.frame_khong_ghep,
+              "frame_khong_hien_thi_cua_so_dong_dau": self.frame_khong_hien_thi,
               "frame_hien_thi_cuoi": self.frame_hien_thi_cuoi, "fps_hien_thi": fps,
               "khoang_hien_thi_s": (t[-1] - t[0]) if len(t) >= 2 else None,
               "ve_ms": _tk(self.ve_ms), "imshow_ms": _tk(self.imshow_ms),
               "ly_do_dung_tu_cua_so": self.ly_do_dung, "ly_do_ket_thuc_con": ly_do_ket_thuc, "loi": self.loi,
               "luong_con_song_sau_dong": con_song, "luu_mau_dir": self.luu_mau_dir, "luu_mau_moi": self.luu_mau_moi,
               "dinh_nghia": {
-                  "fps_hien_thi": "(so anh da hien thi - 1) / (moc hien thi cuoi - moc hien thi dau) o luong hien thi",
+                  "n_hien_thi": "frame DA TRINH len cua so: cua so con mo (kiem truoc moi imshow) va cv2.imshow chay xong "
+                                "khong loi; che do an: gia lap (da ve xong)",
+                  "fps_hien_thi": "(N - 1) / (moc hien thi cuoi - moc hien thi dau), N = n_hien_thi, moc lay NGAY SAU imshow; "
+                                  "N < 2 -> null (khong co FPS hien thi co nghia)",
+                  "n_da_ve": "frame da ve xong (ve_frame + HUD) truoc khi trinh len cua so",
+                  "n_khong_hien_thi_cua_so_dong": "frame toi SAU khi cua so da dong (vd dang bay luc bam x): khong ve, khong "
+                                                  "imshow, KHONG tinh la da hien thi; tracking van ghi MOT/lop",
                   "n_bo_hien_thi": "frame XEM TRUOC bi bo vi hang doi hien thi day (bo frame cu nhat; tracking van xu ly du)",
                   "n_khong_ghep": "ket qua tracker khong tim thay anh cung frame_idx (khong ve anh khac thay the)",
                   "n_anh_bo_khong_ket_qua": "anh da luu nhung khong co ket qua (frame dang bay khi dung, vuot vong dem)",

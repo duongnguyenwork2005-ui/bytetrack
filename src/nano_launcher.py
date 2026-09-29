@@ -314,9 +314,12 @@ class NanoLauncherController(pcl.LauncherController):
         if ht.get("bat"):
             dem = ht.get("dem") or {}
             f = ht.get("fps_hien_thi")
+            khong = dem.get("n_khong_hien_thi_cua_so_dong", 0)
             dong.append(f"Hiển thị: {dem.get('n_hien_thi', 0)} frame đã hiện"
-                        + (f", {f:.2f} FPS hiển thị" if f else "")
-                        + f", {dem.get('n_bo_hien_thi', 0)} frame xem trước bị bỏ (tracking vẫn xử lý đủ).")
+                        + (f", {f:.2f} FPS hiển thị" if f else " (dưới 2 frame: không có FPS hiển thị)")
+                        + f", {dem.get('n_bo_hien_thi', 0)} frame xem trước bị bỏ"
+                        + (f", {khong} frame không hiện vì cửa sổ xem đã đóng" if khong else "")
+                        + " (tracking vẫn xử lý và ghi đủ các frame này).")
         if tg.get("tong_s") is not None:
             dong.append(f"Thời gian toàn lượt {tg['tong_s']:.1f} s (nano_live)"
                         + (f", {tong_l:.1f} s tính từ lúc bấm Bắt đầu" if tong_l else "") + "; không có tạm dừng.")
@@ -346,6 +349,28 @@ def _build_app():  # noqa: C901
     from tkinter import filedialog, font, messagebox, ttk
 
     class NanoLauncherApp(tk.Tk):
+        # (vong 26, N25-F2) trang thai hop chon file + vong doi dong; mac dinh o LOP (Tk.__getattr__ uy quyen cho self.tk)
+        _picker = None                  # subprocess.Popen cua zenity do CHINH launcher nay mo
+        _picker_after = None            # id after() dang cho ket qua picker
+        _picker_loai = None
+        _picker_dang_ket_thuc = None    # picker da gui SIGTERM, cho thoat (after)
+        _t_huy_picker = 0.0
+        _picker_da_kill = False
+        _da_huy = False                 # da destroy: moi callback con lai khong lam gi
+        _cho_worker = False             # luc dong co worker dang chay
+
+        @property
+        def _hen_id(self):
+            d = self.__dict__.get("_hen_id_")
+            if d is None:
+                d = self.__dict__["_hen_id_"] = set()
+            return d
+
+        def _log(self, s: str):
+            g = getattr(self.ctl, "_ghi_log", None)
+            if g is not None:
+                g(s)
+
         def __init__(self, cau_hinh: dict, trien_khai: dict, tu_dong: dict):
             super().__init__()
             self.title("Theo vết phương tiện — Jetson Nano")
@@ -379,7 +404,7 @@ def _build_app():  # noqa: C901
             self.protocol("WM_DELETE_WINDOW", self._dong)
             if not trien_khai["loi"]:
                 threading.Thread(target=self._kiem_py_det, daemon=True).start()
-            self.after(200, self._tick)
+            self._hen(200, self._tick)
 
         # ---------------------------------------------------------------- widget
         def _xay(self):
@@ -479,7 +504,7 @@ def _build_app():  # noqa: C901
 
         # ---------------------------------------------------------------- chon file (zenity neu co, nguoc lai Tk)
         def _chon(self, loai: str):
-            if self._chon_dang_mo:
+            if self._chon_dang_mo or self._dang_dong or self._da_huy:
                 return
             dau = self.v["source"].get() if loai != "ket_qua" else self.v["out_base"].get()
             dau = dau or str(mo_rong(self.cau_hinh.get("thu_muc_du_lieu", "~")))
@@ -494,29 +519,84 @@ def _build_app():  # noqa: C901
                 else:
                     cmd += ["--directory", "--title",
                             "Chọn thư mục ảnh" if loai == "thu_muc_anh" else "Chọn thư mục gốc lưu kết quả"]
+                # (vong 26, N25-F2) GIU HANDLE tien trinh chon file cua CHINH launcher nay -> dong launcher thi ket thuc +
+                # thu hoi dung tien trinh nay (khong diet theo ten); cho ket qua bang after() o luong Tk (khong thread).
+                try:
+                    self._picker = subprocess.Popen(cmd, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                                    stderr=subprocess.DEVNULL, text=True)
+                except OSError as e:
+                    self._log(f"[launcher] khong mo duoc zenity ({e}) -> hop chon cua Tk")
+                    self._chon_tk(loai, dau)
+                    return
                 self._chon_dang_mo = True
-                kq: dict = {}
-
-                def chay():
-                    try:
-                        r = subprocess.run(cmd, capture_output=True, text=True)
-                        kq["p"] = r.stdout.strip() if r.returncode == 0 else ""
-                    except OSError:
-                        kq["p"] = None
-                threading.Thread(target=chay, daemon=True).start()
-
-                def cho():
-                    if "p" not in kq:
-                        self.after(100, cho)
-                        return
-                    self._chon_dang_mo = False
-                    if kq["p"] is None:
-                        self._chon_tk(loai, dau)
-                    elif kq["p"]:
-                        self._dat_chon(loai, kq["p"])
-                self.after(100, cho)
+                self._picker_loai = loai
+                self._log(f"[launcher] mo hop chon file (zenity pid {self._picker.pid})")
+                self._picker_after = self._hen(100, self._cho_picker)
                 return
             self._chon_tk(loai, dau)
+
+        def _cho_picker(self):
+            """Poll tien trinh chon file o LUONG Tk. Launcher dang dong / da huy -> khong cham widget."""
+            self._picker_after = None
+            p = self._picker
+            if p is None or self._dang_dong or self._da_huy:
+                return
+            if p.poll() is None:
+                self._picker_after = self._hen(100, self._cho_picker)
+                return
+            try:
+                out, _ = p.communicate(timeout=1)
+            except (subprocess.TimeoutExpired, OSError, ValueError):
+                out = ""
+            self._picker, self._chon_dang_mo = None, False
+            p_ = (out or "").strip() if p.returncode == 0 else ""
+            self._log(f"[launcher] hop chon file dong (pid {p.pid}, ma {p.returncode})"
+                              + (f": {p_}" if p_ else ": khong chon"))
+            if p_:
+                self._dat_chon(self._picker_loai, p_)
+
+        def _huy_picker(self):
+            """Khi dong launcher: HUY callback cho ket qua; picker con song -> terminate (SIGTERM toi DUNG pid cua handle),
+            viec cho thoat do _cho_dong lam bang after() (Tk van phan hoi); picker vua tu thoat -> chi thu hoi, BO ket qua."""
+            if self._picker_after is not None:
+                try:
+                    self.after_cancel(self._picker_after)
+                except Exception:  # noqa: BLE001
+                    pass
+                self._hen_id.discard(self._picker_after)
+                self._picker_after = None
+            p, self._picker = self._picker, None
+            self._chon_dang_mo = False
+            if p is None:
+                return
+            if p.poll() is not None:                          # vua tu thoat dung luc dong -> chi thu hoi
+                self._thu_hoi_picker(p, "da tu thoat truoc khi dong launcher, bo ket qua")
+                return
+            try:
+                p.terminate()
+            except (ProcessLookupError, OSError):
+                pass
+            self._log(f"[launcher] dong launcher: gui SIGTERM toi hop chon file pid {p.pid}")
+            t0 = time.perf_counter()
+            while p.poll() is None and time.perf_counter() - t0 < 0.3:   # thuong thoat ngay (ms): thu hoi dong bo
+                time.sleep(0.01)
+            if p.poll() is not None:
+                self._thu_hoi_picker(p, "sau SIGTERM")
+                return
+            self._picker_dang_ket_thuc, self._t_huy_picker = p, time.perf_counter()   # chua thoat: _cho_dong cho bang after()
+
+        def _thu_hoi_picker(self, p, ghi_chu):
+            try:
+                p.wait(timeout=1)
+            except subprocess.TimeoutExpired:
+                p.kill()
+                p.wait()
+            for f in (p.stdout,):
+                try:
+                    f.close()
+                except Exception:  # noqa: BLE001
+                    pass
+            self._log(f"[launcher] hop chon file pid {p.pid} da thu hoi (ma {p.returncode}; {ghi_chu})")
 
         def _chon_tk(self, loai, dau):
             if loai == "video":
@@ -567,27 +647,62 @@ def _build_app():  # noqa: C901
                 messagebox.showinfo("Kết quả", "Chưa có thư mục kết quả.")
 
         def _dong(self):
-            """Dong launcher. Dang chay -> DUNG CO KIEM SOAT (stop-file) roi cho bang after() (giao dien van phan hoi);
-            chi dong khi worker da ket thuc. Worker khong phan hoi sau timeout -> terminate (duong cuoi, ghi log)."""
+            """Dong launcher. (1) Hop chon file cua launcher nay: huy callback + SIGTERM (N25-F2). (2) Worker dang chay ->
+            DUNG CO KIEM SOAT (stop-file). Cho CA HAI thoat bang after() (giao dien van phan hoi); chi destroy khi xong.
+            Worker khong phan hoi sau timeout -> terminate (duong cuoi, ghi log)."""
             if self._dang_dong:
                 return
             self._dang_dong = True
+            self._huy_picker()
             if self.ctl.dang_chay():
+                self._cho_worker = True
                 self.ctl.request_stop()
                 self.bt_start.configure(state="disabled"); self.bt_stop.configure(state="disabled")
                 self.lb_tt.configure(text="ĐANG DỪNG ĐỂ ĐÓNG (ghi kết quả các frame đã xử lý)…")
-                self.after(100, self._cho_dong)
-                return
-            self.destroy()
+            self._cho_dong()
 
         def _cho_dong(self):
+            p = self._picker_dang_ket_thuc
+            if p is not None:
+                if p.poll() is None:
+                    if time.perf_counter() - self._t_huy_picker > 2.0 and not self._picker_da_kill:
+                        self._picker_da_kill = True               # khong thoat sau SIGTERM 2 s -> SIGKILL dung pid do
+                        try:
+                            p.kill()
+                        except (ProcessLookupError, OSError):
+                            pass
+                    self._hen(50, self._cho_dong)
+                    return
+                self._picker_dang_ket_thuc = None
+                self._thu_hoi_picker(p, "sau SIGKILL" if self._picker_da_kill else "sau SIGTERM")
             if self.ctl.dang_chay():
-                self.after(100, self._cho_dong)
+                self._hen(100, self._cho_dong)
                 return
-            self.ctl.poll()
-            if self.ctl.da_terminate:
+            if self._cho_worker:
+                self.ctl.poll()
+            if self._cho_worker and self.ctl.da_terminate:
                 messagebox.showwarning("Worker không phản hồi", "Đã phải terminate worker (đường cuối). Kết quả lượt "
                                        f"này có thể chưa đầy đủ. Thư mục: {self.ctl.run_dir}")
+            self._huy_het()
+
+        def _hen(self, ms, fn):
+            """after() co ghi id -> huy duoc HET truoc destroy (khong callback nao cham widget sau khi dong)."""
+            def goi():
+                self._hen_id.discard(ma[0])
+                if not self._da_huy:
+                    fn()
+            ma = [self.after(ms, goi)]
+            self._hen_id.add(ma[0])
+            return ma[0]
+
+        def _huy_het(self):
+            self._da_huy = True
+            for ma in list(self._hen_id):
+                try:
+                    self.after_cancel(ma)
+                except Exception:  # noqa: BLE001
+                    pass
+            self._hen_id.clear()
             self.destroy()
 
         # ---------------------------------------------------------------- tu dong (CHI de kiem thu tren thiet bi)
@@ -619,9 +734,9 @@ def _build_app():  # noqa: C901
                 if n_xong < int(td.get("so_luot") or 1):            # MO LUOT MOI trong cung phien launcher
                     self._t_dang_chay = None
                     self._ghi_log_gui(f"[tu dong] luot {n_xong} xong ({tt}) -> bam Bat dau luot {n_xong + 1} sau 3 s")
-                    self.after(3000, self._bat_dau)
+                    self._hen(3000, self._bat_dau)
                 elif td.get("dong_khi_xong"):
-                    self.after(3000, self._dong)
+                    self._hen(3000, self._dong)
 
         def _ghi_log_gui(self, s: str):
             self.ctl._ghi_log(s)
@@ -672,7 +787,7 @@ def _build_app():  # noqa: C901
             if self.trien_khai["loi"]:
                 self.bt_start.configure(state="disabled")
             self._tu_dong_buoc(tt)
-            self.after(200, self._tick)
+            self._hen(200, self._tick)
 
     return NanoLauncherApp
 
