@@ -91,6 +91,8 @@ TESTS = [
     ("test_nano_stream", [], None),
     # vong 23: render hau ky bbox/ID/lop + bo kiem video (can opencv; khong co -> SKIP ben trong)
     ("test_render_mot_video", [], None),
+    # vong 25: hien thi truc tiep (lenh R, ghep theo frame_idx) + launcher tai cho tren Nano
+    ("test_nano_hien_thi", [], None),
     ("test_bdd100k_adapter", [], None),
     ("test_bdd100k_coco", [], None),
     ("test_pf_ctrv", [], None),

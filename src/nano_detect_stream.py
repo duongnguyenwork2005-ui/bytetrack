@@ -164,10 +164,11 @@ class GiaLapCache(object):
 
 
 class KenhDieuKhien(object):
-    """Doc byte lenh tu stdin cua con (credit / dung). Linux: select de kiem khong chan; Windows (chi kiem thu
-    tren PC): khong co select cho pipe -> chi doc chan khi cua so day."""
+    """Doc lenh tu stdin cua con (bat dau / credit / dung / ket qua). Linux: select de kiem khong chan; Windows (chi
+    kiem thu tren PC): khong co select cho pipe -> chi doc chan khi cua so day. Lenh R (giao thuc 3) = credit + ket qua
+    tracker cua mot frame -> giao cho `nhan_ket_qua` (luong hien thi) neu co."""
 
-    def __init__(self, hang_doi):
+    def __init__(self, hang_doi, nhan_ket_qua=None):
         self.fd = sys.stdin.fileno()
         self.hang_doi = int(hang_doi)
         self.dang_bay = 0
@@ -176,18 +177,25 @@ class KenhDieuKhien(object):
         self.cha_dong = False
         self.bat_dau = False
         self.co_select = not sys.platform.startswith("win")
+        self.bo_doc = proto.BoDocLenh()
+        self.nhan_ket_qua = nhan_ket_qua
+        self.n_ket_qua = 0
 
     def _xu_ly(self, b):
         if not b:
             self.cha_dong = True
             return
-        for ch in b:
-            ch = bytes([ch])
-            if ch == proto.LENH_CREDIT:
+        for ev in self.bo_doc.feed(b):
+            if ev[0] == "+":
                 self.dang_bay = max(0, self.dang_bay - 1)
-            elif ch == proto.LENH_DUNG:
+            elif ev[0] == "R":
+                self.dang_bay = max(0, self.dang_bay - 1)
+                self.n_ket_qua += 1
+                if self.nhan_ket_qua is not None:
+                    self.nhan_ket_qua(ev[1], ev[2])
+            elif ev[0] == "S":
                 self.dung = True
-            elif ch == proto.LENH_BAT_DAU:
+            elif ev[0] == "G":
                 self.bat_dau = True
 
     def kiem_khong_chan(self):
@@ -197,7 +205,7 @@ class KenhDieuKhien(object):
             r, _, _ = select.select([self.fd], [], [], 0)
             if not r:
                 return
-            self._xu_ly(os.read(self.fd, 64))
+            self._xu_ly(os.read(self.fd, 65536))
             if self.cha_dong:
                 return
 
@@ -205,14 +213,22 @@ class KenhDieuKhien(object):
         """Chan cho lenh BAT DAU (hoac dung / cha dong stdin). Tra ms da cho."""
         t0 = time.perf_counter()
         while not self.bat_dau and not self.dung and not self.cha_dong:
-            self._xu_ly(os.read(self.fd, 64))
+            self._xu_ly(os.read(self.fd, 65536))
+        return (time.perf_counter() - t0) * 1e3
+
+    def nhan_not_ket_qua(self):
+        """SAU EOS, chi khi bat hien thi: nhan not lenh R cua cac frame con dang bay (cha van xu ly chung) de frame cuoi
+        cung duoc ve. Dung khi het frame dang bay hoac cha dong stdin (khi dung, cha xa frame dang bay khong gui R)."""
+        t0 = time.perf_counter()
+        while self.dang_bay > 0 and not self.cha_dong:
+            self._xu_ly(os.read(self.fd, 65536))
         return (time.perf_counter() - t0) * 1e3
 
     def cho_cho_trong(self):
         """Chan cho den khi cua so con cho (hoac co lenh dung / cha dong stdin). Tra ms da cho."""
         t0 = time.perf_counter()
         while self.dang_bay >= self.hang_doi and not self.dung and not self.cha_dong:
-            self._xu_ly(os.read(self.fd, 64))
+            self._xu_ly(os.read(self.fd, 65536))
         return (time.perf_counter() - t0) * 1e3
 
 
@@ -237,6 +253,18 @@ def main():
     ap.add_argument("--gia-lap-loi-o-frame", type=int, default=None)
     ap.add_argument("--gia-lap-bo-frame", type=int, default=None)
     ap.add_argument("--gia-lap-cham-ms", type=float, default=0.0)
+    h = ap.add_argument_group("hien thi truc tiep (vong 25; cha gui ket qua bang lenh R)")
+    h.add_argument("--hien-thi", action="store_true", help="mo cua so xem bbox/ID/lop trong luc tracking")
+    h.add_argument("--hien-thi-an", action="store_true", help="CHI KIEM THU: moi buoc hien thi tru tao cua so")
+    h.add_argument("--hien-thi-tieu-de", default="Xem truc tiep")
+    h.add_argument("--hien-thi-hud", default="")
+    h.add_argument("--hien-thi-hang-doi", type=int, default=2, help="so frame cho ve toi da (day -> bo cu nhat)")
+    h.add_argument("--hien-thi-json", default=None, help="ghi thong ke hien thi khi ket thuc")
+    h.add_argument("--hien-thi-luu-mau", default=None, help="thu muc luu PNG frame da ve (khong HUD)")
+    h.add_argument("--hien-thi-moi", type=int, default=0, help="luu mau moi N frame (0 = khong)")
+    h.add_argument("--hien-thi-kich-thuoc", type=int, nargs=2, default=None, metavar=("RONG", "CAO"))
+    h.add_argument("--yeu-cau-dung-file", default=None, help="stop-file cua cha: phim q/Esc/dong cua so ghi file nay")
+    h.add_argument("--gia-lap-phim-dung-o-frame", type=int, default=None, help="CHI KIEM THU: gia lap phim q")
     a = ap.parse_args()
     # Ctrl+C la viec cua tien trinh CHA (dung co kiem soat qua lenh S); con bo qua SIGINT de khong chet giua chung
     try:
@@ -290,6 +318,18 @@ def main():
                 img0 = np.full((nguon.orig_shape[0], nguon.orig_shape[1], 3), 114, np.uint8)
             for _ in range(a.lam_nong):
                 det.detect(img0)
+        ht = None
+        if a.hien_thi or a.hien_thi_an:
+            import nano_hien_thi
+            import render_mot_video as rmv
+            ht = nano_hien_thi.HienThi(
+                cv2, rmv, a.hien_thi_tieu_de, an=a.hien_thi_an, stop_file=a.yeu_cau_dung_file,
+                json_path=a.hien_thi_json, luu_mau_dir=a.hien_thi_luu_mau, luu_mau_moi=a.hien_thi_moi,
+                dung_o_frame=a.gia_lap_phim_dung_o_frame, suc_chua_anh=a.hang_doi + 4, nhan_hud=a.hien_thi_hud,
+                kich_thuoc_cua_so=a.hien_thi_kich_thuoc, log=log, hang_doi=a.hien_thi_hang_doi)
+            info["hien_thi"] = {"bat": True, "an": bool(a.hien_thi_an), "tieu_de": a.hien_thi_tieu_de,
+                                "suc_chua_anh": a.hang_doi + 4, "hang_doi_hien_thi": a.hien_thi_hang_doi,
+                                "luu_mau_moi": a.hien_thi_moi}
         t_khoi_tao = time.perf_counter() - t0
     except Exception as e:  # noqa: BLE001  -- moi loi khoi tao -> ERROR truoc HELLO
         log("LOI khoi tao: %s: %s" % (type(e).__name__, e))
@@ -315,13 +355,24 @@ def main():
     log("HELLO: %s %s, %s frame khai bao, fps %g, khoi tao %.2f s" %
         (nguon.loai, nguon.ten, nguon.n_frames_khai_bao, nguon.fps, t_khoi_tao))
 
-    kenh = KenhDieuKhien(a.hang_doi)
+    kenh = KenhDieuKhien(a.hang_doi, ht.nhan_ket_qua if ht is not None else None)
+    ket_thuc = {"ly_do": None}
+    try:
+        return _vong_lap(a, nguon, kenh, det, eng, gia_lap, regions, gui, out, ht, ket_thuc)
+    finally:
+        if ht is not None:                 # MOI duong ra: ve not frame cuoi, dong cua so, ghi thong ke hien thi
+            tk = ht.dong(ket_thuc["ly_do"])
+            log("hien thi: %s" % json.dumps(tk["dem"]))
+
+
+def _vong_lap(a, nguon, kenh, det, eng, gia_lap, regions, gui, out, ht, ket_thuc):
     n_gui, ly_do = 0, "het_nguon"
     cho_bat_dau_ms = kenh.cho_bat_dau()
     t_nhan_bat_dau = time.monotonic()
     log("nhan BAT DAU sau %.1f ms (dung=%s, cha_dong=%s)" % (cho_bat_dau_ms, kenh.dung, kenh.cha_dong))
     if kenh.cha_dong and not kenh.dung:
         nguon.dong()
+        ket_thuc["ly_do"] = "cha_dong_stdin_truoc_bat_dau"
         return 4
     try:
         for idx, t_s, img, dec_ms, t_moc in (nguon if not kenh.dung else []):
@@ -334,6 +385,7 @@ def main():
                 os._exit(3)
             tm = {"decode_ms": dec_ms, "t_bat_dau": t_moc}
             co = 0
+            img_goc = img                          # anh GOC (truoc to vung regions) cho hien thi
             if img is None:
                 d = np.zeros((0, 6), np.float32)
                 co |= proto.CO_UNREADABLE
@@ -360,6 +412,8 @@ def main():
             if kenh.dung or kenh.cha_dong:
                 ly_do = "dung_theo_yeu_cau" if kenh.dung else "cha_dong_stdin"
                 break
+            if ht is not None:
+                ht.them_anh(idx, img_goc)          # TRUOC khi gui FRAME idx: ket qua R(idx) luon tim thay anh nay
             tm["t_gui"] = time.monotonic()
             gui(proto.dong_goi_frame(idx, t_s, d, co, tm))
             n_gui += 1
@@ -373,6 +427,7 @@ def main():
     except (BrokenPipeError, OSError) as e:
         log("kenh toi cha bi dong (%s) -> thoat" % e)
         nguon.dong()
+        ket_thuc["ly_do"] = "kenh_toi_cha_dong"
         return 4
     except Exception as e:  # noqa: BLE001
         log("LOI giua luong: %s: %s" % (type(e).__name__, e))
@@ -382,17 +437,24 @@ def main():
         except Exception:  # noqa: BLE001
             pass
         nguon.dong()
+        ket_thuc["ly_do"] = "loi_giua_luong"
         return 3
     nguon.dong()
+    ket_thuc["ly_do"] = ly_do
     eos = {"n_frame_gui": n_gui, "ly_do": ly_do, "n_frames_khai_bao": nguon.n_frames_khai_bao,
            "max_in_flight": kenh.max_bay, "hang_doi": a.hang_doi, "cho_bat_dau_ms": cho_bat_dau_ms,
-           "t_nhan_bat_dau_monotonic": t_nhan_bat_dau}
+           "t_nhan_bat_dau_monotonic": t_nhan_bat_dau, "n_lenh_ket_qua": kenh.n_ket_qua,
+           "n_byte_la": kenh.bo_doc.n_byte_la}
     try:
         gui(proto.dong_goi_json(proto.EOS, eos))
         out.close()
     except (BrokenPipeError, OSError):
         return 4
     log("EOS: %s" % json.dumps(eos))
+    if ht is not None:
+        ms = kenh.nhan_not_ket_qua()
+        log("hien thi: nhan not ket qua sau EOS trong %.1f ms (con dang bay %d, cha dong %s)"
+            % (ms, kenh.dang_bay, kenh.cha_dong))
     return 0
 
 

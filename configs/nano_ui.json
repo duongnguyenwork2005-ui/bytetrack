@@ -1,0 +1,14 @@
+{
+  "_ghi_chu": "Cau hinh TRIEN KHAI cho giao dien tai cho tren Jetson Nano (src/nano_launcher.py). Duong dan tuong doi tinh tu goc goi; '~' = thu muc nha. Sua rieng cho may nay trong ~/.config/nano_tracking/nano_ui.json (cung khoa, chi ghi khoa can doi). KHONG chua nguong detector/tracker: cac gia tri do la mac dinh da khoa cua nano_live.py (c25).",
+  "engine": ["~/nano_run/engine/yolov8n_fp16.engine", "yolov8n_fp16.engine"],
+  "onnx": "models/export/yolov8n_640_op12.onnx",
+  "python_detector": "/usr/bin/python3",
+  "ld_preload": "/usr/lib/aarch64-linux-gnu/libgomp.so.1",
+  "thu_muc_ket_qua": "~/nano_ket_qua",
+  "thu_muc_du_lieu": "~/nano_run/data_full",
+  "fps_thu_muc_anh": 25,
+  "hien_thi_mac_dinh": true,
+  "hien_thi_kich_thuoc": [960, 540],
+  "luu_cache_mac_dinh": false,
+  "timeout_dung_s": 60
+}

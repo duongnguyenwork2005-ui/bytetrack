@@ -325,22 +325,24 @@ class LauncherController:
             except queue.Empty:
                 pass
             self._doc_tien_trinh()
-            tt_worker = self.tien_trinh.get("trang_thai")
-            if self.da_terminate:
-                self.trang_thai, self.loi = "LOI", "worker bi terminate (khong phai duong dung thong thuong)"
-            elif self.exit_code != 0:
-                self.trang_thai = "LOI"
-                self.loi = self.tien_trinh.get("loi") or f"worker exit {self.exit_code} -- xem log"
-            elif tt_worker == "da_dung":
-                self.trang_thai = "DA_DUNG"
-            elif tt_worker == "hoan_tat":
-                self.trang_thai = "HOAN_TAT"
-            else:
-                # exit 0 nhung khong co trang thai cuoi trong progress -> KHONG bao "hoan tat" voi
-                self.trang_thai, self.loi = "LOI", "worker exit 0 nhung khong ghi trang thai cuoi (progress.json)"
+            self.trang_thai, self.loi = self._ket_luan_cuoi(self.tien_trinh.get("trang_thai"))
             self._ghi_log(f"[launcher] worker ket thuc: exit={self.exit_code} -> {self.trang_thai}"
                           + (f" ({self.loi})" if self.loi else ""))
         return self.snapshot()
+
+    def _ket_luan_cuoi(self, tt_worker) -> tuple[str, str | None]:
+        """(trang thai cuoi, loi) tu exit code + trang thai cuoi worker ghi trong progress. Lop con (launcher Nano)
+        co the mo rong ma thoat hop le, van giu: KHONG bao hoan tat khi thieu trang thai cuoi."""
+        if self.da_terminate:
+            return "LOI", "worker bi terminate (khong phai duong dung thong thuong)"
+        if self.exit_code != 0:
+            return "LOI", self.tien_trinh.get("loi") or f"worker exit {self.exit_code} -- xem log"
+        if tt_worker == "da_dung":
+            return "DA_DUNG", self.loi
+        if tt_worker == "hoan_tat":
+            return "HOAN_TAT", self.loi
+        # exit 0 nhung khong co trang thai cuoi trong progress -> KHONG bao "hoan tat" voi
+        return "LOI", "worker exit 0 nhung khong ghi trang thai cuoi (progress.json)"
 
     def snapshot(self) -> dict:
         tt = self.tien_trinh

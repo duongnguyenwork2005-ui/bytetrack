@@ -54,7 +54,14 @@ PHAM VI DO (moi frame; tom tat bo --warmup-frames frame dau):
   fps_on_dinh     = (N - W) / (t_xong[N] - t_xong[W])  (bo W frame warm-up, theo moc xong tracker o cha)
   kiem_cua_so_do  = tu moc monotonic: frame dau bat dau doc >= luc gui BAT DAU va frame cuoi xong <= het cua so
   (vong 21 dung wall_vong_lap_s/fps_vong_lap: timer bat dau SAU khi con da doc frame dau -> so cu giu lam lich su)
-Khong render/hien thi trong mot nay.
+
+HIEN THI TRUC TIEP (vong 25, `--hien-thi`): cua so OpenCV trong TIEN TRINH CON (noi co anh da giai ma + OpenCV GTK).
+  Sau `tracker.update` cua frame i, `on_frame` dong goi CHINH hang MOT/lop cua frame i thanh lenh R(i, ...) va gui thay
+  credit "+" (giao thuc 3); con ghep voi anh co CUNG frame_idx roi ve bang `render_mot_video.ve_frame`. Hien thi co MOT o
+  cho: frame xem truoc chua kip ve bi thay va DEM (`hien_thi.dem.n_bo_hien_thi`); tracking khong cho hien thi, van xu ly
+  du frame, khong doi timestep/nguong. Phim q/Esc hoac dong cua so -> ghi stop-file -> dung co kiem soat (ma 4).
+  Thong ke: `<out>/hien_thi.json` -> `run_meta.hien_thi`; `thoi_gian.fps_hien_thi`, `thoi_gian.tong_s`. `progress.json`
+  (trang thai/frame/fps tam) cho launcher `src/nano_launcher.py`. Tat `--hien-thi`: hanh vi y het vong 24 (credit "+").
 
     BYTETRACK_BACKEND=np python src/nano_live.py --source data/smoke/MVI_39031_f0001-0300 --fps 25 \\
         --video-name MVI_39031 --engine yolov8n_fp16.engine --tracker cv --out results_nano/live/cv-1
@@ -178,6 +185,9 @@ class NanoStreamDetections:
     def __init__(self, con: TienTrinhCon, hello: dict, conf_min: float, classes, max_det: int, class_map,
                  det_max_det: int, allow_truncated: bool, cho_phep_frame_hong: bool, cham_tracker_ms: float = 0.0):
         self.con, self.hello = con, hello
+        # (vong 25) hien thi: on_frame dat (frame_idx, lenh R) vao day; credit cua CHINH frame do se la lenh R
+        self.ket_qua_cho: tuple[int, bytes] | None = None
+        self.n_lenh_r = self.n_lenh_credit = self.n_ket_qua_lech = 0
         self.orig_shape = tuple(int(v) for v in hello["orig_shape"])
         self.conf_min, self.max_det, self.class_map = float(conf_min), int(max_det), class_map
         self._cls_set = None if classes is None else np.array(sorted(set(int(c) for c in classes)))
@@ -262,7 +272,15 @@ class NanoStreamDetections:
                 t3 = pc()
                 if self.cham_tracker_ms:
                     time.sleep(self.cham_tracker_ms / 1e3)          # CHI kiem thu: tracker cham -> cua so day
-                self.con.gui(proto.LENH_CREDIT)
+                kq, self.ket_qua_cho = self.ket_qua_cho, None
+                if kq is not None and kq[0] == idx:                  # hien thi bat: credit = R(ket qua frame nay)
+                    self.con.gui(kq[1])
+                    self.n_lenh_r += 1
+                else:                                                # tat hien thi / frame khong doc duoc: "+"
+                    if kq is not None:
+                        self.n_ket_qua_lech += 1
+                    self.con.gui(proto.LENH_CREDIT)
+                    self.n_lenh_credit += 1
                 t_xong = time.monotonic()
                 row.update(xu_ly_ms=(t3 - t2) * 1e3, t_xong_cha=t_xong,
                            tre_ms=(t_xong - row["t_bat_dau_con"]) * 1e3, frame_total_cha_ms=(pc() - t0) * 1e3)
@@ -275,6 +293,65 @@ class NanoStreamDetections:
         d = {k: r[k] for k in ("frame_idx", "time_s", "n_per_frame", "unreadable", "truncated")}
         d["data"] = np.concatenate(r["data"], axis=0) if r["data"] else np.zeros((0, 6), np.float32)
         return d
+
+
+# --------------------------------------------------------------------------- hien thi (vong 25)
+def hang_hien_thi(out) -> list[tuple]:
+    """Hang ket qua cua MOT frame de hien thi: CUNG phep tinh voi hang MOT/lop trong `run_tracking._vong_lap_tracker`
+    (xyxy float32 -> x, y, w = x2 - x1, h = y2 - y1 bang float32; id/cls int) -> hinh ve trung voi render hau ky tu MOT."""
+    if out is None or not len(out):
+        return []
+    xyxy = out[:, :4].astype(np.float32)
+    ids = out[:, 4].astype(int)
+    confs = out[:, 5].astype(np.float32)
+    clss = out[:, 6].astype(int)
+    return [(int(t), float(x1), float(y1), float(x2 - x1), float(y2 - y1), float(c), int(k))
+            for (x1, y1, x2, y2), t, c, k in zip(xyxy, ids, confs, clss)]
+
+
+def ghi_tien_trinh(path: Path | None, obj: dict) -> None:
+    """progress.json cho launcher: ghi nguyen tu (tmp + replace) -> launcher khong doc phai file do dang."""
+    if path is None:
+        return
+    try:
+        tmp = path.with_name(path.name + ".tmp")
+        tmp.write_text(json.dumps({**obj, "t": time.strftime("%Y-%m-%dT%H:%M:%S")}, ensure_ascii=False, default=str),
+                       encoding="utf-8")
+        os.replace(tmp, path)
+    except OSError:
+        pass
+
+
+def _doc_hien_thi(out: Path) -> dict | None:
+    """Thong ke hien thi do tien trinh con ghi khi ket thuc (`<out>/hien_thi.json`)."""
+    p = out / "hien_thi.json"
+    if not p.exists():
+        return None
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        return {"loi": f"khong doc duoc hien_thi.json: {e}"}
+
+
+def kiem_man_hinh() -> str | None:
+    """Hien thi that can man hinh X. OpenCV/GTK KHONG mo duoc man hinh se lam chet tien trinh detector -> kiem truoc.
+    Tra thong bao loi hoac None."""
+    if sys.platform.startswith("win"):
+        return None
+    disp = os.environ.get("DISPLAY", "")
+    if not disp:
+        return ("--hien-thi can man hinh: bien DISPLAY trong (chay tu phien desktop cua Nano, hoac qua SSH dat "
+                "DISPLAY=:0 va XAUTHORITY cua phien desktop)")
+    exe = shutil.which("xprop")
+    if exe:
+        try:
+            r = subprocess.run([exe, "-root", "_NET_SUPPORTING_WM_CHECK"], capture_output=True, timeout=10)
+        except (OSError, subprocess.TimeoutExpired) as e:
+            return f"--hien-thi: khong kiem duoc man hinh {disp}: {e}"
+        if r.returncode != 0:
+            return (f"--hien-thi: khong mo duoc man hinh {disp} ({(r.stderr or b'').decode(errors='replace').strip()[:160]}); "
+                    "kiem DISPLAY/XAUTHORITY")
+    return None
 
 
 # --------------------------------------------------------------------------- thiet bi
@@ -427,6 +504,14 @@ def kiem_truoc_khi_chay(a) -> tuple[list[str], dict]:
           ("--max-det", a.max_det, lambda v: v >= 1), ("--det-max-det", a.det_max_det, lambda v: v >= 1),
           ("--track-buffer-sec", a.track_buffer_sec, lambda v: v is None or v > 0)]
     loi += [f"{ten} = {v!r} khong hop le" for ten, v, ok in so if not ok(v)]
+    if a.hien_thi_moi < 0:
+        loi.append(f"--hien-thi-moi = {a.hien_thi_moi!r} khong hop le (>= 0)")
+    if a.hien_thi_kich_thuoc and min(a.hien_thi_kich_thuoc) <= 0:
+        loi.append(f"--hien-thi-kich-thuoc = {a.hien_thi_kich_thuoc!r} khong hop le")
+    if a.hien_thi and not a.hien_thi_an:
+        e = kiem_man_hinh()
+        if e:
+            loi.append(e)
     if a.gia_lap_cache:
         if not Path(a.gia_lap_cache).is_dir():
             loi.append(f"khong co thu muc cache gia lap: {a.gia_lap_cache}")
@@ -548,6 +633,13 @@ def main() -> int:  # noqa: C901
     o.add_argument("--stop-file", default=None, help="mac dinh <out>/STOP")
     o.add_argument("--tegrastats-ms", type=int, default=500, help="0 = tat")
     o.add_argument("--progress-every", type=int, default=50)
+    o.add_argument("--progress-file", default=None, help="mac dinh <out>/progress.json (trang thai cho launcher)")
+    h = ap.add_argument_group("hien thi truc tiep (vong 25) -- KHONG doi detector/tracker/ket qua")
+    h.add_argument("--hien-thi", action="store_true", help="cua so xem bbox/ID/lop trong luc tracking (q/Esc: dung)")
+    h.add_argument("--hien-thi-an", action="store_true", help="CHI KIEM THU: moi buoc hien thi tru tao cua so")
+    h.add_argument("--hien-thi-luu-mau", default=None, help="thu muc luu PNG frame da ve (kiem doi chieu)")
+    h.add_argument("--hien-thi-moi", type=int, default=0, help="luu mau moi N frame (0 = khong)")
+    h.add_argument("--hien-thi-kich-thuoc", type=int, nargs=2, default=None, metavar=("RONG", "CAO"))
     t = ap.add_argument_group("CHI KIEM THU (gia lap, ghi ro trong metadata)")
     t.add_argument("--gia-lap-cache", default=None, help="thu muc det cache thay suy luan (con)")
     t.add_argument("--gia-lap-video", default=None)
@@ -556,18 +648,25 @@ def main() -> int:  # noqa: C901
     t.add_argument("--gia-lap-cham-ms", type=float, default=0.0)
     t.add_argument("--gia-lap-cham-tracker-ms", type=float, default=0.0)
     t.add_argument("--torch-pt", default=None, help="CHI PC: suy luan .pt thay TensorRT")
+    t.add_argument("--gia-lap-phim-dung-o-frame", type=int, default=None, help="hien thi gia lap phim q o frame N")
     a = ap.parse_args()
+    t_main = time.perf_counter()
 
     out = Path(a.out)
+    hien_thi = bool(a.hien_thi or a.hien_thi_an)
+    prog = Path(a.progress_file) if a.progress_file else out / "progress.json"
     # ---------------- (1) kiem tra TRUOC khi spawn (N21-F3): loi -> ma 2, KHONG khoi dong detector ----------------
     loi, tt0 = kiem_truoc_khi_chay(a)
     if loi:
         for e in loi:
             print(f"[LOI] {e}")
+        if prog.parent.is_dir() and not (out / "run_meta.json").exists():
+            ghi_tien_trinh(prog, {"trang_thai": "loi", "ma_thoat": MA_LOI_DAU_VAO, "loi": "; ".join(loi)})
         return MA_LOI_DAU_VAO
     yaml, classes, class_map = tt0["yaml"], tt0["classes"], tt0["class_map"]
     cache_root, stop_path = tt0["cache_root"], tt0["stop_path"]
     out.mkdir(parents=True, exist_ok=True)
+    ghi_tien_trinh(prog, {"trang_thai": "dang_khoi_tao", "frame": 0, "n_frames_khai_bao": 0, "hien_thi": hien_thi})
 
     jetson = _la_jetson()
     py_det = a.python_detector or ("/usr/bin/python3" if jetson else sys.executable)
@@ -583,6 +682,20 @@ def main() -> int:  # noqa: C901
             cmd += [k, str(Path(v).resolve()) if k in ("--engine", "--regions", "--gia-lap-cache", "--torch-pt") else str(v)]
     if a.gia_lap_cham_ms:
         cmd += ["--gia-lap-cham-ms", str(a.gia_lap_cham_ms)]
+    if hien_thi:
+        nhan = (a.tracker or Path(a.tracker_yaml).stem).upper()
+        src_p = Path(a.source)
+        ten_src = src_p.name if src_p.is_dir() else src_p.stem
+        cmd += ["--hien-thi-an" if a.hien_thi_an else "--hien-thi",
+                "--hien-thi-tieu-de", f"Xem truc tiep - {nhan} - {ten_src} (q/Esc: dung)", "--hien-thi-hud", nhan,
+                "--hien-thi-json", str((out / "hien_thi.json").resolve()),
+                "--yeu-cau-dung-file", str(stop_path.resolve())]
+        if a.hien_thi_luu_mau and a.hien_thi_moi > 0:
+            cmd += ["--hien-thi-luu-mau", str(Path(a.hien_thi_luu_mau).resolve()), "--hien-thi-moi", str(a.hien_thi_moi)]
+        if a.hien_thi_kich_thuoc:
+            cmd += ["--hien-thi-kich-thuoc", *[str(v) for v in a.hien_thi_kich_thuoc]]
+        if a.gia_lap_phim_dung_o_frame:
+            cmd += ["--gia-lap-phim-dung-o-frame", str(a.gia_lap_phim_dung_o_frame)]
     env = {**os.environ, "PYTHONUNBUFFERED": "1", "PYTHONIOENCODING": "utf-8"}
     preload = a.ld_preload if a.ld_preload is not None else (LIBGOMP if jetson and Path(LIBGOMP).exists() else "")
     if preload:
@@ -651,10 +764,20 @@ def main() -> int:  # noqa: C901
         vd = NanoStreamDetections(con, hello, a.conf_min, classes, a.max_det, class_map, a.det_max_det,
                                   a.allow_truncated, a.cho_phep_frame_hong, a.gia_lap_cham_tracker_ms)
 
+        tien_trinh = {"t_ghi": 0.0}
+
         def on_frame(frame_idx: int, _out) -> bool:
             dem["n"] += 1
+            if hien_thi:                    # ket qua CUA FRAME NAY -> lenh R thay credit "+" (ghep anh theo frame_idx)
+                vd.ket_qua_cho = (int(frame_idx), proto.dong_goi_ket_qua(frame_idx, hang_hien_thi(_out)))
             if a.progress_every and dem["n"] % a.progress_every == 0:
                 print(f"  frame {frame_idx}/{hello['n_frames_khai_bao']}")
+            now = time.perf_counter()
+            if now - tien_trinh["t_ghi"] >= 0.3:
+                tien_trinh["t_ghi"] = now
+                ghi_tien_trinh(prog, {"trang_thai": "dang_chay", "frame": int(frame_idx), "n_frame_da_xu_ly": dem["n"],
+                                      "n_frames_khai_bao": hello["n_frames_khai_bao"], "hien_thi": hien_thi,
+                                      "fps_xu_ly_tam": dem["n"] / (now - t_bd) if now > t_bd else None})
             if stop_ev.is_set() or stop_path.exists():
                 dem["dung_som"], dem["ly_do_dung"] = True, ("tin_hieu" if stop_ev.is_set() else "stop-file")
                 return False
@@ -715,8 +838,11 @@ def main() -> int:  # noqa: C901
             {"trang_thai": loi_truoc.trang_thai, "ma_thoat": MA_LOI_DAU_VAO, "hoan_tat": False,
              "chi_tiet": loi_truoc.chi_tiet, "con": thoat, "lenh_con": cmd, "hello_con": hello,
              "thoi_gian": {k: v for k, v in tg.items() if v is not None},
+             "hien_thi": _doc_hien_thi(out) if hien_thi else None,
              "created": time.strftime("%Y-%m-%dT%H:%M:%S")}, ensure_ascii=False, indent=2, default=str),
             encoding="utf-8")
+        ghi_tien_trinh(prog, {"trang_thai": "loi", "ma_thoat": MA_LOI_DAU_VAO,
+                              "loi": f"{loi_truoc.trang_thai}: {str(loi_truoc.chi_tiet)[:300]}"})
         return MA_LOI_DAU_VAO
 
     # ---------------- trang thai ----------------
@@ -815,7 +941,10 @@ def main() -> int:  # noqa: C901
                 "n_track": int(df["id"].nunique()) if len(df) else 0},
         "che_do": {"gia_lap": hello["detector"] == "gia_lap", "detector": hello["detector"],
                    "che_do_doi_chieu_regions": bool(a.regions), "regions_sha256": hello.get("regions_sha256"),
-                   "render": False, "can_gt": False},
+                   "render": False, "can_gt": False, "hien_thi": hien_thi, "hien_thi_an": bool(a.hien_thi_an)},
+        "hien_thi": ({**(_doc_hien_thi(out) or {"loi": "khong co hien_thi.json tu tien trinh con"}),
+                      "lenh_R_da_gui": vd.n_lenh_r, "lenh_credit_da_gui": vd.n_lenh_credit,
+                      "ket_qua_lech_frame": vd.n_ket_qua_lech} if hien_thi else {"bat": False}),
         "hello_con": hello, "eos_con": vd.eos, "con": thoat, "lenh_con": cmd,
         "cau_hinh": {"tracker_yaml": yaml, "tracker_yaml_sha256_12": yaml_sha, "tracker_cfg": run_tracking.cfg_to_dict(cfg),
                      "overrides": overrides, "conf_min": a.conf_min, "classes": classes, "class_map": class_map,
@@ -846,7 +975,22 @@ def main() -> int:  # noqa: C901
         "replay_argv": replay, "provenance": provenance(), "python": sys.version.split()[0],
         "created": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }
+    meta["thoi_gian"]["tong_s"] = time.perf_counter() - t_main
+    meta["thoi_gian"]["dinh_nghia"]["tong_s"] = ("toan luot trong nano_live: sau khi doc tham so -> ngay truoc khi ghi "
+                                                 "run_meta (kiem tra, spawn/khoi tao, xu ly, ket thuc, ghi); khong gom "
+                                                 "khoi dong Python cua nano_live va thoi gian launcher")
+    meta["thoi_gian"]["dinh_nghia"]["tam_dung"] = "khong co chuc nang tam dung -> khong co thoi gian tam dung trong so do"
+    if hien_thi:
+        meta["thoi_gian"]["fps_hien_thi"] = (meta["hien_thi"] or {}).get("fps_hien_thi")
+        meta["thoi_gian"]["dinh_nghia"]["fps_hien_thi"] = ("so anh DA hien thi / khoang tu anh hien thi dau den cuoi (luong "
+                                                           "hien thi cua con); frame xem truoc bi bo khong tinh")
     (out / "run_meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
+    ghi_tien_trinh(prog, {"trang_thai": {"hoan_tat": "hoan_tat", "da_dung": "da_dung"}.get(trang_thai, "loi"),
+                          "chi_tiet_trang_thai": trang_thai, "ma_thoat": ma, "frame": n_xu_ly, "n_frame_da_xu_ly": n_xu_ly,
+                          "n_frames_khai_bao": hello["n_frames_khai_bao"], "hien_thi": hien_thi,
+                          "fps_xu_ly": meta["thoi_gian"]["fps_xu_ly"], "fps_hien_thi": meta["thoi_gian"].get("fps_hien_thi"),
+                          "loi": None if ma in (MA_HOAN_TAT, MA_DA_DUNG) else str(chi_tiet)[:300],
+                          "run_meta": str((out / "run_meta.json").resolve())})
     fps_x = meta["thoi_gian"]["fps_xu_ly"] or 0.0
     print(f"[nano_live] {trang_thai.upper()} (ma {ma}): {str(chi_tiet).strip().splitlines()[-1] if chi_tiet else ''}")
     print(f"[nano_live] {n_xu_ly} frame xu ly, {len(df)} hang MOT, xu ly {xu_ly or 0:.2f}s ({fps_x:.2f} fps), "

@@ -12,11 +12,15 @@ KENH:
       FRAME  (2)  payload n_det x 6 float32 [x1, y1, x2, y2, conf, cls] (dung hop dong det_cache), co the rong
       EOS    (3)  payload JSON: so frame da gui, ly do ket thuc, max_in_flight...
       ERROR  (4)  payload JSON: thong bao loi (con gui truoc khi thoat voi ma khac 0 neu kip)
-  cha -> con (stdin cua con): moi byte la mot lenh
+  cha -> con (stdin cua con): moi lenh bat dau bang MOT byte
       b"G"   BAT DAU (phien ban 2, review 9f210e2 N21-F1): sau HELLO con CHO lenh nay moi doc frame dau tien.
              Cha chi gui G SAU KHI da chuan bi xong va DA BAT timer -> moi frame duoc dem nam trong cua so do.
       b"+"   CREDIT: cha da XU LY XONG mot frame -> con duoc gui them mot frame (cua so co gioi han)
       b"S"   yeu cau DUNG: con gui EOS (ly_do dung_theo_yeu_cau) roi thoat 0 (ke ca khi chua nhan G)
+      b"R"   (phien ban 3, vong 25) KET QUA + CREDIT: chi dung khi bat HIEN THI. Sau byte R: KQ_HDR (frame_idx, n)
+             + n x KQ_REC (id, x, y, w, h, conf, cls) = DUNG cac hang MOT/lop cua frame do (cung phep tinh voi
+             run_tracking). Con coi R nhu mot credit VA giao ket qua cho luong hien thi (ghep anh theo frame_idx).
+             Khong bat hien thi -> cha gui "+" nhu phien ban 2 (tracker/credit khong doi).
 
 HEADER (HDR): magic, loai, co (bit0 unreadable, bit1 truncated), frame_idx (1-based), n_det, time_s,
   thoi gian (ms) cua con: decode, mask, pre, infer, h2d, exec, d2h, post, cho_credit;
@@ -29,11 +33,14 @@ import struct
 import numpy as np
 
 MAGIC = b"NDS1"
-PHIEN_BAN = 2          # 2: them lenh BAT DAU (G) sau HELLO
+PHIEN_BAN = 3          # 2: them lenh BAT DAU (G) sau HELLO; 3: them lenh KET QUA (R) cho hien thi
 HELLO, FRAME, EOS, ERROR = 1, 2, 3, 4
 TEN_LOAI = {HELLO: "HELLO", FRAME: "FRAME", EOS: "EOS", ERROR: "ERROR"}
 CO_UNREADABLE, CO_TRUNCATED = 1, 2
-LENH_BAT_DAU, LENH_CREDIT, LENH_DUNG = b"G", b"+", b"S"
+LENH_BAT_DAU, LENH_CREDIT, LENH_DUNG, LENH_KET_QUA = b"G", b"+", b"S", b"R"
+KQ_HDR = struct.Struct("<IH")            # frame_idx, so hang
+KQ_REC = struct.Struct("<ifffffi")       # id, x (bb_left), y (bb_top), w, h, conf, cls -- 28 byte
+KQ_MAX_HANG = 65535
 
 TRUONG_MS = ("decode_ms", "mask_ms", "pre_ms", "infer_ms", "h2d_ms", "exec_ms", "d2h_ms", "post_ms", "cho_credit_ms")
 TRUONG_MOC = ("t_bat_dau", "t_gui")
@@ -60,6 +67,49 @@ def dong_goi_frame(frame_idx, time_s, det, co=0, t=None):
 
 def dong_goi_json(loai, obj):
     return _dong_goi(loai, 0, 0, 0.0, json.dumps(obj, ensure_ascii=False, sort_keys=True).encode("utf-8"))
+
+
+def dong_goi_ket_qua(frame_idx, hang):
+    """R: ket qua tracker cua MOT frame, hang = [(id, x, y, w, h, conf, cls), ...] (x/y/w/h/conf la float32 cua hang MOT)."""
+    if len(hang) > KQ_MAX_HANG:
+        raise ValueError("qua nhieu hang ket qua trong mot frame: %d" % len(hang))
+    return (LENH_KET_QUA + KQ_HDR.pack(int(frame_idx), len(hang))
+            + b"".join(KQ_REC.pack(int(t), float(x), float(y), float(w), float(h), float(c), int(k))
+                       for t, x, y, w, h, c, k in hang))
+
+
+class BoDocLenh(object):
+    """Tach luong byte cha -> con thanh lenh, KE CA khi mot lenh R bi cat giua hai lan doc.
+    feed(b) -> danh sach su kien: ("G",), ("+",), ("S",), ("R", frame_idx, [(id, x, y, w, h, conf, cls), ...]).
+    Byte la (khong phai lenh) bi bo qua va dem trong `n_byte_la` (hanh vi giong phien ban 2)."""
+
+    def __init__(self):
+        self.buf = bytearray()
+        self.n_byte_la = 0
+
+    def feed(self, b):
+        self.buf += b
+        ra = []
+        while self.buf:
+            ch = bytes(self.buf[:1])
+            if ch in (LENH_BAT_DAU, LENH_CREDIT, LENH_DUNG):
+                ra.append((ch.decode("ascii"),))
+                del self.buf[:1]
+            elif ch == LENH_KET_QUA:
+                if len(self.buf) < 1 + KQ_HDR.size:
+                    break
+                idx, n = KQ_HDR.unpack(bytes(self.buf[1:1 + KQ_HDR.size]))
+                can = 1 + KQ_HDR.size + n * KQ_REC.size
+                if len(self.buf) < can:
+                    break
+                p = bytes(self.buf[1 + KQ_HDR.size:can])
+                hang = [KQ_REC.unpack(p[k * KQ_REC.size:(k + 1) * KQ_REC.size]) for k in range(n)]
+                ra.append(("R", idx, hang))
+                del self.buf[:can]
+            else:
+                self.n_byte_la += 1
+                del self.buf[:1]
+        return ra
 
 
 def doc_dung(f, n):
