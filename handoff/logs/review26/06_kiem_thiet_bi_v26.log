@@ -1,0 +1,168 @@
+### 06_kiem_thiet_bi_v26 2026-09-29T12:47:08+08:00 | goi v16 a370c57 | boot 2026-09-29 09:34:10 | khoa false
+  [dau] detector 0 | nano_live 0 | launcher 0 | zenity 0 | cua so xem 0 | man hinh khoa false
+=== A. script Codex (KHONG sua) tren ma DA SUA (v16)
+$ /usr/bin/python3 chay_repro_tung_phan.py CODEX_REPRO_20e66e9_ui.py closed_preview /home/jetson/nano_run/v16/nano_transfer /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/repro_sau_f1.json
+    "imshow_calls": 1,
+    "reported_n_hien_thi": 1,
+    "reported_last_frame": 1,
+    "fps_hien_thi": null,
+    "stop_reason": "dong_cua_so"
+  },
+  "chay_boi": {
+    "python": "3.6.9",
+    "ham": "closed_preview",
+    "repo": "/home/jetson/nano_run/v16/nano_transfer"
+  }
+}
+A F1 exit=0
+$ /home/jetson/miniforge3/envs/nano/bin/python chay_repro_tung_phan.py CODEX_REPRO_20e66e9_ui.py picker_close /home/jetson/nano_run/v16/nano_transfer /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/repro_sau_f2.json
+  "pass": true,
+  "observed": {
+    "launcher_destroyed": true,
+    "picker_alive_after_close": false,
+    "scheduled_callbacks": 1
+  },
+  "chay_boi": {
+    "python": "3.8.20",
+    "ham": "picker_close",
+    "repo": "/home/jetson/nano_run/v16/nano_transfer"
+  }
+}
+A F2 exit=0
+  fixture picker con lai (theo exe): 0 
+=== B. test tren ma da sua (v16)
+B test_nano_hien_thi exit=1 | KET QUA: 22/23 phep kiem tra PASS, 1 SKIP
+  [SKIP] 10. N25-F1 lop HienThi (che do that, HighGUI gia lap): khong co cv2 trong /home/jetson/miniforge3/envs/nano/bin/python (No module named 'cv2'
+  [FAIL] 12e. N25-F2 cua so Tk THAT: mo hop chon -> dong launcher -> cua so da huy, hop chon da thoat, 0 loi callback
+B test_nano_stream exit=0 | KET QUA: 20/20 phep kiem tra PASS, 1 SKIP
+  [SKIP] 14. detector that TorchPtInfer (PC): khong co models/yolov8n.pt / anh DETRAC, hoac dang chay tren Nano
+  [sau_B] detector 0 | nano_live 0 | launcher 0 | zenity 0 | cua so xem 0 | man hinh khoa false
+=== C. CUNG test moi tren MA CU (ban sao v14 + test moi)
+  ma cu: nano_hien_thi 74d2c531e55913c2 nano_launcher 7d46ca0418ff7c1e | test moi 9e9e8952322105b1
+C exit=1 | 
+  [SKIP] 10. N25-F1 lop HienThi (che do that, HighGUI gia lap): khong co cv2 trong /home/jetson/miniforge3/envs/nano/bin/python (No module named 'cv2'
+  [FAIL] 11. N25-F1 dau-cuoi: dong cua so (gia lap) sau frame 5 -> ma 4; frame toi sau khi dong KHONG tinh la da hien thi; MOT + lop moi frame tracker
+  [FAIL] 12a. N25-F2: mo hop chon -> dong launcher (chua chay tracker): tien trinh chon file da thoat + thu hoi (theo PID), callback cho da huy, khong
+  fixture zenity gia con lai (theo exe): 0 
+  [sau_C] detector 0 | nano_live 0 | launcher 0 | zenity 0 | cua so xem 0 | man hinh khoa false
+=== cho man hinh MO KHOA cho D-F (toi da 3 gio)
+  khoa=false luc 2026-09-29T12:51:03+08:00
+=== D. TensorRT that: dong cua so xem (Alt+F4) giua chung
+  chup anh/D_truoc_khi_dong.png
+  da gui Alt+F4 toi cua so xem 48234499 luc 12:51:48.101493387
+[nano_live] tensorrt | image_dir MVI_39031: 300 frame khai bao, fps 25, khoi tao 8.2s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/D_dong_cua_so_trt/STOP hoac Ctrl+C
+  frame 100/300
+[nano_live] DA_DUNG (ma 4): dung theo yeu cau (stop-file)
+[nano_live] 181 frame xu ly, 554 hang MOT, xu ly 19.61s (9.23 fps), khoi tao 8.2s, chuan bi cha 0.03s, ghi 0.08s -> /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/D_dong_cua_so_trt
+D live exit=4
+  chup anh/D_sau_khi_dung.png
+  con detector (pid 21045): da thoat
+  [sau_D] detector 0 | nano_live 0 | launcher 0 | zenity 0 | cua so xem 0 | man hinh khoa false
+  run_meta: da_dung ma 4 | dung theo yeu cau (stop-file) | xu ly 181 frame | hien thi 180, khong hien vi dong 1 [181], bo 0 | cuoi 180 | fps_hien_thi 9.350420903456678 | ly do dong_cua_so
+  $ /home/jetson/miniforge3/envs/nano/bin/python src/nano_replay.py --cache-root /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/cache -- --cache-id d_20260929125118 --split-name NANO-v26-20260929125118 --tracker-yaml bytetrack.yaml --tracker-name replay-D --videos MVI_39031 --conf-min 0.25 --classes 1 2 3 5 7 --max-det 300 --fps 25 --track-buffer-sec 1.2 --elapsed-mode steps
+fatal: not a git repository (or any of the parent directories): .git
+D replay exit=0
+KET QUA: 1/1 video DAT
+-> /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/D_parity.json
+D parity exit=0
+D MOT + lop live vs replay: BYTE GIONG HET
+  tien to 181 frame so voi luot DU khong hien thi (v25 D luot02_cv_tat): MOT True (554 hang), lop True
+=== E1. zenity THAT: mo -> huy (Esc) -> mo lai -> go duong dan mp4 + Enter; roi dong launcher (Alt+F4)
+  chup anh/E1_zenity_lan1.png
+  zenity lan 1 pid 21220 cua so 50331649
+  sau Esc: zenity pid 21220 da thoat
+  zenity lan 2 pid 21264 cua so 50331649
+  sau chon: zenity pid 21264 da thoat
+  chup anh/E1_da_chon_nguon.png
+  launcher pid 21184 da thoat
+  [sau_E1] detector 0 | nano_live 0 | launcher 0 | zenity 0 | cua so xem 0 | man hinh khoa false
+  nhat ky phien /home/jetson/.cache/nano_tracking/launcher_phien_20260929-125253_21184.log:
+    [launcher] mo hop chon file (zenity pid 21220)
+    [launcher] hop chon file dong (pid 21220, ma 1): khong chon
+    [launcher] mo hop chon file (zenity pid 21264)
+    [launcher] hop chon file dong (pid 21264, ma 0): /home/jetson/nano_run/v16/nano_transfer/data/smoke/MVI_39031_f0001-0300.mp4
+=== E2. mo hop chon -> dong launcher khi CHUA chay tracker
+  chup anh/E2_hop_chon_mo.png
+  zenity pid 21468
+  launcher pid 21417 da thoat | zenity pid 21468 da thoat
+  [sau_E2] detector 0 | nano_live 0 | launcher 0 | zenity 0 | cua so xem 0 | man hinh khoa false
+  nhat ky phien /home/jetson/.cache/nano_tracking/launcher_phien_20260929-125301_21417.log:
+    [tu dong] bam Chon (video) lan 1
+    [launcher] mo hop chon file (zenity pid 21468)
+    [tu dong] dong cua so launcher (WM_DELETE_WINDOW) khi hop chon file dang mo
+    [launcher] dong launcher: gui SIGTERM toi hop chon file pid 21468
+    [launcher] hop chon file pid 21468 da thu hoi (ma -15; sau SIGTERM)
+=== E3. tracker DANG CHAY + hop chon mo -> dong launcher
+  chup anh/E3_tracker_chay_va_hop_chon.png
+  zenity pid 21774
+  launcher pid 21540 da thoat | zenity pid 21774 da thoat
+  luot: da_dung 4 57 dung theo yeu cau (stop-file) | detector pid 21631 da thoat
+  [sau_E3] detector 0 | nano_live 0 | launcher 0 | zenity 0 | cua so xem 0 | man hinh khoa false
+  nhat ky phien /home/jetson/.cache/nano_tracking/launcher_phien_20260929-125322_21540.log:
+    [nano_live] tensorrt | image_dir MVI_39031_f0001-0300: 300 frame khai bao, fps 25, khoi tao 8.5s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304/STOP.flag hoac Ctrl+C
+    [tu dong] bam Chon (video) lan 1
+    [launcher] mo hop chon file (zenity pid 21774)
+    [tu dong] dong cua so launcher (WM_DELETE_WINDOW) khi hop chon file dang mo
+    [launcher] dong launcher: gui SIGTERM toi hop chon file pid 21774
+    [launcher] hop chon file pid 21774 da thu hoi (ma -15; sau SIGTERM)
+    [launcher] da yeu cau dung (stop-file); cho worker hoan tat frame hien tai...
+    [nano_live] DA_DUNG (ma 4): dung theo yeu cau (stop-file)
+=== F. bieu tuong desktop -> v16; mo bang gtk-launch (phien desktop), 2 luot EKF, tu dong dong
+  menu:    /home/jetson/.local/share/applications/nano-tracking.desktop
+  desktop: /home/jetson/Desktop/nano-tracking.desktop
+  tro toi: /home/jetson/nano_run/v16/nano_transfer/scripts/nano/07_giao_dien.sh
+  launcher pid 21892 | ppid 1 (systemd) | sid 21882
+  chup anh/F_dang_chay.png
+  launcher pid 21892 da thoat
+   hoan_tat 0 300 hien thi 299 fps ht 8.44 | launcher HOAN_TAT
+   hoan_tat 0 300 hien thi 300 fps ht 9.16 | launcher HOAN_TAT
+  [cuoi] detector 0 | nano_live 0 | launcher 0 | zenity 0 | cua so xem 0 | man hinh khoa false
+### XONG 2026-09-29T12:55:08+08:00 | khoa false | ext4 errors 0
+
+=== nhat ky phien launcher (E1-E3, F)
+--- /home/jetson/.cache/nano_tracking/launcher_phien_20260929-125507_21892.log
+[launcher] /home/jetson/miniforge3/envs/nano/bin/python /home/jetson/nano_run/v16/nano_transfer/src/nano_live.py --source /home/jetson/nano_run/v16/nano_transfer/data/smoke/MVI_39031_f0001-0300 --tracker ekf --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --python-detector /usr/bin/python3 --out /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/F/MVI_39031_f0001-0300_ekf_20260929-125418 --progress-file /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/F/MVI_39031_f0001-0300_ekf_20260929-125418/progress.json --stop-file /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/F/MVI_39031_f0001-0300_ekf_20260929-125418/STOP.flag --progress-every 50 --ld-preload /usr/lib/aarch64-linux-gnu/libgomp.so.1 --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --fps 25 --hien-thi --hien-thi-kich-thuoc 960 540 --save-cache cache_MVI_39031_f0001-0300_ekf_20260929-125418 --cache-root /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/F/MVI_39031_f0001-0300_ekf_20260929-125418/det_cache
+[launcher] tam chan khoa man hinh khi ranh trong luc chay (gnome-session-inhibit --inhibit idle)
+[nano_live] tensorrt | image_dir MVI_39031_f0001-0300: 300 frame khai bao, fps 25, khoi tao 10.4s | tracker bytetrack_ekf_ctrv (configs/bytetrack_ekf_ctrv.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/F/MVI_39031_f0001-0300_ekf_20260929-125418/STOP.flag hoac Ctrl+C
+  frame 50/300
+  frame 100/300
+  frame 150/300
+  frame 200/300
+  frame 250/300
+  frame 300/300
+[nano_live] HOAN_TAT (ma 0): 300 frame, ly do EOS: het_nguon
+[nano_live] 300 frame xu ly, 1270 hang MOT, xu ly 32.94s (9.11 fps), khoi tao 10.4s, chuan bi cha 0.02s, ghi 0.14s -> /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/F/MVI_39031_f0001-0300_ekf_20260929-125418
+[launcher] worker ket thuc: exit=0 -> HOAN_TAT
+[launcher] da tra lai khoa man hinh khi ranh
+--- /home/jetson/.cache/nano_tracking/launcher_phien_20260929-125322_21540.log
+[launcher] /home/jetson/miniforge3/envs/nano/bin/python /home/jetson/nano_run/v16/nano_transfer/src/nano_live.py --source /home/jetson/nano_run/v16/nano_transfer/data/smoke/MVI_39031_f0001-0300 --tracker cv --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --python-detector /usr/bin/python3 --out /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304 --progress-file /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304/progress.json --stop-file /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304/STOP.flag --progress-every 50 --ld-preload /usr/lib/aarch64-linux-gnu/libgomp.so.1 --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --fps 25 --hien-thi --hien-thi-kich-thuoc 960 540 --save-cache cache_MVI_39031_f0001-0300_cv_20260929-125304 --cache-root /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304/det_cache
+[launcher] tam chan khoa man hinh khi ranh trong luc chay (gnome-session-inhibit --inhibit idle)
+[nano_live] tensorrt | image_dir MVI_39031_f0001-0300: 300 frame khai bao, fps 25, khoi tao 8.5s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304/STOP.flag hoac Ctrl+C
+[tu dong] bam Chon (video) lan 1
+[launcher] mo hop chon file (zenity pid 21774)
+  frame 50/300
+[tu dong] dong cua so launcher (WM_DELETE_WINDOW) khi hop chon file dang mo
+[launcher] dong launcher: gui SIGTERM toi hop chon file pid 21774
+[launcher] hop chon file pid 21774 da thu hoi (ma -15; sau SIGTERM)
+[launcher] da yeu cau dung (stop-file); cho worker hoan tat frame hien tai...
+[nano_live] DA_DUNG (ma 4): dung theo yeu cau (stop-file)
+[nano_live] 57 frame xu ly, 93 hang MOT, xu ly 6.39s (8.92 fps), khoi tao 8.5s, chuan bi cha 0.02s, ghi 0.04s -> /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304
+[launcher] worker ket thuc: exit=4 -> DA_DUNG
+[launcher] da tra lai khoa man hinh khi ranh
+--- /home/jetson/.cache/nano_tracking/launcher_phien_20260929-125301_21417.log
+[tu dong] bam Chon (video) lan 1
+[launcher] mo hop chon file (zenity pid 21468)
+[tu dong] dong cua so launcher (WM_DELETE_WINDOW) khi hop chon file dang mo
+[launcher] dong launcher: gui SIGTERM toi hop chon file pid 21468
+[launcher] hop chon file pid 21468 da thu hoi (ma -15; sau SIGTERM)
+--- /home/jetson/.cache/nano_tracking/launcher_phien_20260929-125253_21184.log
+[tu dong] bam Chon (video) lan 1
+[launcher] mo hop chon file (zenity pid 21220)
+[launcher] hop chon file dong (pid 21220, ma 1): khong chon
+[tu dong] bam Chon (video) lan 2
+[launcher] mo hop chon file (zenity pid 21264)
+[launcher] hop chon file dong (pid 21264, ma 0): /home/jetson/nano_run/v16/nano_transfer/data/smoke/MVI_39031_f0001-0300.mp4
+--- /home/jetson/.cache/nano_tracking/launcher_phien_20260929-124810_19844.log
+[launcher] mo hop chon file (zenity pid 20122)
+[launcher] dong launcher: gui SIGTERM toi hop chon file pid 20122
+[launcher] hop chon file pid 20122 da thu hoi (ma -15; sau SIGTERM)

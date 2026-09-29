@@ -1,0 +1,121 @@
+{
+  "zip_sha256": "8d6c6dea59b43face19df73d0ea7d115cab267c82215bba02b4a7c500cb62884",
+  "zip_bytes": 63907957,
+  "interpreter": "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+  "buoc": {
+    "0_manifest": {
+      "n_file": 562,
+      "lech_hoac_thieu": []
+    },
+    "1a_nano_env_check": {
+      "exit": 0,
+      "ket_luan": "KET LUAN: DAT (1-4)"
+    },
+    "1b_import_np": {
+      "exit": 0,
+      "out": "{\"backend\": \"np\", \"torch\": false, \"ul\": false, \"fp_keys\": [\"backend\", \"hash_convention\", \"lap\", \"numpy\", \"scipy\", \"vendor_modules\"]}",
+      "err": ""
+    },
+    "2_test_nano_parity": {
+      "exit": 0,
+      "ket_qua": "KET QUA: 20/20 phep kiem tra PASS"
+    },
+    "3_4_nano_run_cache": {
+      "exit": 0,
+      "ket_luan": "DAT",
+      "pc_ref_khop_ban_dong_goi": true,
+      "pc_ref_khong_doi_sau_chay": true,
+      "chay": {
+        "2_smoke_cv": {
+          "replay_exit": 0,
+          "parity_exit": 0,
+          "dat": true,
+          "n_ref": 545,
+          "n_test": 545,
+          "bit_identical_data_txt": true,
+          "wall_s": 1.11
+        },
+        "2_smoke_ekf": {
+          "replay_exit": 0,
+          "parity_exit": 0,
+          "dat": true,
+          "n_ref": 545,
+          "n_test": 545,
+          "bit_identical_data_txt": true,
+          "wall_s": 1.15
+        },
+        "2_full_cv": {
+          "replay_exit": 0,
+          "parity_exit": 0,
+          "dat": true,
+          "n_ref": 5842,
+          "n_test": 5842,
+          "bit_identical_data_txt": true,
+          "wall_s": 2.18
+        },
+        "2_full_ekf": {
+          "replay_exit": 0,
+          "parity_exit": 0,
+          "dat": true,
+          "n_ref": 5845,
+          "n_test": 5845,
+          "bit_identical_data_txt": true,
+          "wall_s": 2.32
+        }
+      }
+    },
+    "4b_negative": {
+      "i_thieu_pc_ref": {
+        "exit": 2,
+        "output": [],
+        "khong_buoc_2": true
+      },
+      "ii_sidecar_hong": {
+        "exit": 2,
+        "output": [],
+        "khong_buoc_2": true
+      },
+      "iii_thieu_lap": {
+        "env_check_exit": 1,
+        "exit": 2,
+        "output": [],
+        "khong_buoc_2": true
+      },
+      "iv_env_check_thieu_npz_va_pc_ref": {
+        "exit": 1,
+        "in_DAT_1_4": false
+      }
+    },
+    "4d_pc_ref_khong_doi_sau_negative": true,
+    "4c_det_compare_tu_kiem": {
+      "exit": 0,
+      "n_cap": 845,
+      "ti_le_ghep_a": 1.0,
+      "iou_nho_nhat": 1.0,
+      "d_conf_lon_nhat": 0.0
+    },
+    "5_onnx_doc_duoc": {
+      "exit": 0,
+      "out": "{\"ir\": 7, \"opset\": [[\"\", 12]], \"n_node\": 262, \"inputs\": [[\"images\", [1, 3, 640, 640]]], \"sha256\": \"a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451\"}"
+    },
+    "6_smoke_doc_duoc": {
+      "exit": 0,
+      "out": "{\"n_jpg\": 300, \"jpg_shape\": [540, 960, 3], \"mp4_frames_doc\": 300}"
+    },
+    "6b_render_video": {
+      "exit": 0,
+      "out": "[render] 300 frame, 545 box -> reference/render_kiem.mp4",
+      "mp4_bytes": 19688575
+    }
+  },
+  "phien_ban_dung_de_kiem": {
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13",
+    "pandas": "2.3.3",
+    "yaml": "6.0.3",
+    "cv2": "5.0.0"
+  },
+  "ket_luan": "DAT: goi du file/du phu thuoc de replay + parity tren PC (KHONG chung minh tuong thich Nano)"
+}

@@ -1,0 +1,14 @@
+[launcher] /home/jetson/miniforge3/envs/nano/bin/python /home/jetson/nano_run/v16/nano_transfer/src/nano_live.py --source /home/jetson/nano_run/v16/nano_transfer/data/smoke/MVI_39031_f0001-0300 --tracker cv --engine /home/jetson/nano_run/engine/yolov8n_fp16.engine --python-detector /usr/bin/python3 --out /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304 --progress-file /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304/progress.json --stop-file /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304/STOP.flag --progress-every 50 --ld-preload /usr/lib/aarch64-linux-gnu/libgomp.so.1 --onnx-sha256 a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451 --fps 25 --hien-thi --hien-thi-kich-thuoc 960 540 --save-cache cache_MVI_39031_f0001-0300_cv_20260929-125304 --cache-root /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304/det_cache
+[launcher] tam chan khoa man hinh khi ranh trong luc chay (gnome-session-inhibit --inhibit idle)
+[nano_live] tensorrt | image_dir MVI_39031_f0001-0300: 300 frame khai bao, fps 25, khoi tao 8.5s | tracker bytetrack (bytetrack.yaml) conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 track_buffer=30 elapsed=steps | cua so K=4 | dung: touch /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304/STOP.flag hoac Ctrl+C
+[tu dong] bam Chon (video) lan 1
+[launcher] mo hop chon file (zenity pid 21774)
+  frame 50/300
+[tu dong] dong cua so launcher (WM_DELETE_WINDOW) khi hop chon file dang mo
+[launcher] dong launcher: gui SIGTERM toi hop chon file pid 21774
+[launcher] hop chon file pid 21774 da thu hoi (ma -15; sau SIGTERM)
+[launcher] da yeu cau dung (stop-file); cho worker hoan tat frame hien tai...
+[nano_live] DA_DUNG (ma 4): dung theo yeu cau (stop-file)
+[nano_live] 57 frame xu ly, 93 hang MOT, xu ly 6.39s (8.92 fps), khoi tao 8.5s, chuan bi cha 0.02s, ghi 0.04s -> /home/jetson/nano_run/v16/nano_transfer/results_nano/v26_kiem/E3/MVI_39031_f0001-0300_cv_20260929-125304
+[launcher] worker ket thuc: exit=4 -> DA_DUNG
+[launcher] da tra lai khoa man hinh khi ranh

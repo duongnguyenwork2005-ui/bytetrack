@@ -1,0 +1,69 @@
+can't invoke "event" command: application has been destroyed
+    while executing
+"event generate $w <<ThemeChanged>>"
+    (procedure "ttk::ThemeChanged" line 6)
+    invoked from within
+"ttk::ThemeChanged"
+cha: 3.8.20 | con: /usr/bin/python3 | backend np
+  [PASS] 1. giao thuc 3: R tach dung khi cat tung byte / ca khoi, tron G + S, R rong, byte la dem, float32 giu nguyen
+         [('G',), ('R', 5, [(3, 10.5, 20.25, 30.125, 40.0, 0.875, 2), (17, 0.0010000000474974513, 2.5, 3.75, 4.5, 0.30000001192092896, 7)]), ('+',), ('R', 6, []), ('S',)] | byte_la 1
+  [PASS] 2. hang_hien_thi(out) == hang MOT/lop track_video ghi (CV, so thuc bang nhau tung hang)
+         93 hang MOT, 93 hang hien thi
+  [PASS] 2. hang_hien_thi(out) == hang MOT/lop track_video ghi (EKF, so thuc bang nhau tung hang)
+         93 hang MOT, 93 hang hien thi
+  [PASS] 3. CV: bat hien thi (an) vs tat -> MOT + lop giong tung byte; R == 40 frame, ghep 100 %, 0 khong ghep; progress hoan_tat; fps_hien_thi/tong_s
+         exit 0/0; MOT giong True; R 40 + 0; dem {'n_anh_nhan': 40, 'n_ket_qua_nhan': 40, 'n_ghep_duoc': 40, 'n_khong_ghep': 0, 'n_anh_bo_khong_ket_qua': 0, 'n_hien_thi': 40, 'n_bo_hien_thi': 0, 'n_mau_luu': 40}; progress hoan_tat
+  [PASS] 4. CV: anh xem truoc (PNG) == ve_frame(anh goc, hang MOT da ghi cua CUNG frame) tung pixel
+         40/40 khop, lech [], frame [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]...
+  [PASS] 3. EKF: bat hien thi (an) vs tat -> MOT + lop giong tung byte; R == 40 frame, ghep 100 %, 0 khong ghep; progress hoan_tat; fps_hien_thi/tong_s
+         exit 0/0; MOT giong True; R 40 + 0; dem {'n_anh_nhan': 40, 'n_ket_qua_nhan': 40, 'n_ghep_duoc': 40, 'n_khong_ghep': 0, 'n_anh_bo_khong_ket_qua': 0, 'n_hien_thi': 40, 'n_bo_hien_thi': 0, 'n_mau_luu': 40}; progress hoan_tat
+  [PASS] 4. EKF: anh xem truoc (PNG) == ve_frame(anh goc, hang MOT da ghi cua CUNG frame) tung pixel
+         40/40 khop, lech [], frame [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]...
+  [PASS] 5. phim q (gia lap) o frame 15 -> stop-file -> ma 4 da_dung; 15 <= frame xu ly < N; MOT == tien to luot du; con thoat 0
+         exit 4 da_dung dung theo yeu cau (stop-file); n=16; ly do gia_lap_phim_q
+  [PASS] 6. frame khong doc duoc: 2 frame hong nhan '+', 38 frame con lai nhan R; 0 khong ghep
+         exit 0; hong 2; R 38 + 2; dem {'n_anh_nhan': 38, 'n_ket_qua_nhan': 38, 'n_ghep_duoc': 38, 'n_khong_ghep': 0, 'n_anh_bo_khong_ket_qua': 0, 'n_hien_thi': 38, 'n_bo_hien_thi': 0, 'n_mau_luu': 0}
+  [PASS] 7. --hien-thi khi khong co man hinh (DISPLAY trong) -> ma 2, KHONG khoi dong detector, thong bao DISPLAY
+         exit 2: [LOI] --hien-thi can man hinh: bien DISPLAY trong (chay tu phien desktop cua Nano, hoac qua SSH dat DISPLAY=:0 va XAUTHORITY cua phien desktop)
+  [PASS] 8a. launcher kiem trien khai: thieu engine -> loi kem cach khac phuc (01_build_engine.sh); co engine -> 0 loi
+         ['Không thấy engine TensorRT (đã tìm: /tmp/nano_hien_thi_35zos3ft/khong_co.engine). Cách khắc phục: build engine trên chính Nano bằng `bash scripts/nano/01_build_engine.sh` (khoảng 8 phút) rồi sửa khóa tương ứng trong /home/jetson/.config/nano_tracking/nano_ui.json (tạo file nếu chưa có, chỉ ghi khóa cần đổi) hoặc /home/jetson/nano_run/v26_ma_cu/configs/nano_ui.json (khóa "engine").'] | []
+  [PASS] 8b. argv danh sach giu nguyen duong dan co dau cach (nguon, ket qua); cau hinh sai -> CauHinhSai tieng Viet
+         run_dir thu muc anh co dau cach_ekf_20260929-125040; loi ["Chưa chọn nguồn: bấm 'Chọn video…' hoặc 'Chọn thư mục ảnh…'.", 'Nguồn không tồn tại: /tmp/nano_hien_thi_35zos3ft/khong_co', "Thư mục ảnh cần FPS (ô 'FPS'), ví dụ 25 cho UA-DETRAC.", "Ô 'FPS' phải > 0; đã nhập: '0'", 'Chọn bộ lọc CV hoặc EKF.', "Ô 'Số frame tối đa' phải là số nguyên, hoặc để trống; đã nhậ"]
+  [PASS] 8c. launcher chay het -> HOAN_TAT (exit 0), launcher.json + launcher_nhat_ky.txt, tom tat tieng Viet, cache trong run_dir; khong con tien trinh chan khoa man hinh
+         HOAN_TAT exit 0 loi None; chan khoa con 0; 40 frame đã xử lý / 40 khai báo; 93 hàng MOT, 3 ID.
+         FPS xử lý 190.34 (frame / thời gian vòng xử lý, không gồm khởi tạo v
+  [PASS] 8d. nut Dung -> worker dung co kiem soat (ma 4) -> DA_DUNG (khong phai LOI), run_meta da_dung, khong terminate
+         DA_DUNG exit 4 da_dung dung theo yeu cau (stop-file)
+  [PASS] 8e. worker loi giua luong (con chet o frame 10) -> LOI, exit 3, thong bao loi
+         LOI exit 3 pipe dong (EOF) khong co EOS: tien trinh detector ket thuc bat thuong
+  [PASS] 8f. dong launcher khi dang chay (shutdown) -> DA_DUNG qua stop-file, KHONG terminate, run_meta da_dung, tra lai khoa man hinh
+         DA_DUNG terminate=False da_dung chan khoa con 0
+  [PASS] 9. giao dien Tk: thieu engine -> thong bao cach khac phuc, nut Bat dau bi khoa; dong cua so sach
+         nut disabled; ✖ Chưa chạy được — cấu hình triển khai:
+         - Không thấy engine TensorRT (đã tìm: /tmp/nano_hien_thi_35z
+  [SKIP] 10. N25-F1 lop HienThi (che do that, HighGUI gia lap): khong co cv2 trong /home/jetson/miniforge3/envs/nano/bin/python (No module named 'cv2')
+  [FAIL] 11. N25-F1 dau-cuoi: dong cua so (gia lap) sau frame 5 -> ma 4; frame toi sau khi dong KHONG tinh la da hien thi; MOT + lop moi frame tracker da xu ly == tien to luot du
+         exit 2 None; xu ly -1; hien thi None (cuoi 0), khong hien None []; fps None
+  [FAIL] 12a. N25-F2: mo hop chon -> dong launcher (chua chay tracker): tien trinh chon file da thoat + thu hoi (theo PID), callback cho da huy, khong cham widget sau khi dong
+         pid 20914 song truoc True sau True; destroy True; callback con 1; set sau huy 0
+  [PASS] 12b. N25-F2: huy hop chon (ma 1) -> nguon khong doi; mo lai + chon -> nguon = duong dan da chon; ca hai tien trinh da thu hoi
+         sau huy ''; sau chon '/tmp/nano_hien_thi_35zos3ft/anh'
+Traceback (most recent call last):
+  File "src/test_nano_hien_thi.py", line 767, in <module>
+    raise SystemExit(main())
+  File "src/test_nano_hien_thi.py", line 755, in main
+    t12_f2(tmp, anh, cache)
+  File "src/test_nano_hien_thi.py", line 620, in t12_f2
+    _cho(lambda: app._picker is not None and app._picker.poll() is not None)   # da thoat, CHUA ai thu hoi / doc
+  File "src/test_nano_hien_thi.py", line 408, in _cho
+    if dk():
+  File "src/test_nano_hien_thi.py", line 620, in <lambda>
+    _cho(lambda: app._picker is not None and app._picker.poll() is not None)   # da thoat, CHUA ai thu hoi / doc
+  File "/home/jetson/miniforge3/envs/nano/lib/python3.8/tkinter/__init__.py", line 2354, in __getattr__
+    return getattr(self.tk, attr)
+  File "/home/jetson/miniforge3/envs/nano/lib/python3.8/tkinter/__init__.py", line 2354, in __getattr__
+    return getattr(self.tk, attr)
+  File "/home/jetson/miniforge3/envs/nano/lib/python3.8/tkinter/__init__.py", line 2354, in __getattr__
+    return getattr(self.tk, attr)
+  [Previous line repeated 992 more times]
+RecursionError: maximum recursion depth exceeded

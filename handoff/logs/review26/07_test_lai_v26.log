@@ -1,0 +1,16 @@
+### 07_test_lai_v26 2026-09-29T12:55:50+08:00 | test moi 6ef52284fd1cd648
+  ma DA SUA (ban sao v16): nano_hien_thi 930689d33b3922e5 nano_launcher 1a8859d83102c540
+  ma CU (ban sao v14):     nano_hien_thi 74d2c531e55913c2 nano_launcher 7d46ca0418ff7c1e
+  [dau] detector 0 | nano_live 0 | launcher 0 | zenity gia 0 | zenity 0
+B2_ma_da_sua exit=0 | KET QUA: 23/23 phep kiem tra PASS, 1 SKIP
+  [SKIP] 10. N25-F1 lop HienThi (che do that, HighGUI gia lap): khong co cv2 trong /home/jetson/miniforge3/envs/nano/bin/python (No module named 'cv2')
+  [sau B2_ma_da_sua] detector 0 | nano_live 0 | launcher 0 | zenity gia 0 | zenity 0
+C2_ma_cu exit=1 | KET QUA: 18/23 phep kiem tra PASS, 1 SKIP
+  [SKIP] 10. N25-F1 lop HienThi (che do that, HighGUI gia lap): khong co cv2 trong /home/jetson/miniforge3/envs/nano/bin/python (No module named 'cv2')
+  [FAIL] 11. N25-F1 dau-cuoi: dong cua so (gia lap) sau frame 5 -> ma 4; frame toi sau khi dong KHONG tinh la da hien thi; MOT + lop moi frame tracker da xu ly 
+  [FAIL] 12a. N25-F2: mo hop chon -> dong launcher (chua chay tracker): tien trinh chon file da thoat + thu hoi (theo PID), callback cho da huy, khong cham widg
+  [FAIL] 12c. N25-F2 (loi khi chay ca kiem)
+  [FAIL] 12d. N25-F2: hop chon dang mo + tracker dang chay -> dong launcher: hop chon thoat ngay, tracker DA_DUNG (stop-file), worker + detector da thoat (theo 
+  [FAIL] 12e. N25-F2 cua so Tk THAT: mo hop chon -> dong launcher -> cua so da huy, hop chon da thoat, 0 loi callback
+  [sau C2_ma_cu] detector 0 | nano_live 0 | launcher 0 | zenity gia 0 | zenity 0
+### XONG 2026-09-29T12:57:51+08:00
