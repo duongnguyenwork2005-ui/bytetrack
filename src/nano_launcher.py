@@ -358,6 +358,7 @@ def _build_app():  # noqa: C901
         _picker_da_kill = False
         _da_huy = False                 # da destroy: moi callback con lai khong lam gi
         _cho_worker = False             # luc dong co worker dang chay
+        _t_mo_picker = 0.0              # (tu dong) moc mo hop chon gan nhat
 
         @property
         def _hen_id(self):
@@ -686,7 +687,11 @@ def _build_app():  # noqa: C901
             self._huy_het()
 
         def _hen(self, ms, fn):
-            """after() co ghi id -> huy duoc HET truoc destroy (khong callback nao cham widget sau khi dong)."""
+            """after() co ghi id -> huy duoc HET truoc destroy (khong callback nao cham widget sau khi dong).
+            Da destroy -> KHONG hen them (after() tren Tk da huy se loi)."""
+            if self._da_huy:
+                return None
+
             def goi():
                 self._hen_id.discard(ma[0])
                 if not self._da_huy:
@@ -703,12 +708,42 @@ def _build_app():  # noqa: C901
                 except Exception:  # noqa: BLE001
                     pass
             self._hen_id.clear()
+            self._ghi_nhat_ky_phien()
             self.destroy()
+
+        def _ghi_nhat_ky_phien(self):
+            """Nhat ky CA PHIEN launcher (ke ca hop chon file, luot khong chay) -> ~/.cache/nano_tracking/launcher_phien_*.log."""
+            log = getattr(self.ctl, "log", None)
+            if not log:
+                return
+            try:
+                d = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / "nano_tracking"
+                d.mkdir(parents=True, exist_ok=True)
+                (d / f"launcher_phien_{time.strftime('%Y%m%d-%H%M%S')}_{os.getpid()}.log").write_text(
+                    "\n".join(log) + "\n", encoding="utf-8")
+            except OSError:
+                pass
 
         # ---------------------------------------------------------------- tu dong (CHI de kiem thu tren thiet bi)
         def _tu_dong_buoc(self, tt: str):
             td = self.tu_dong
             if not td:
+                return
+            # hop chon file (CUNG ham voi nut Chon video / Chon thu muc anh): mo lan luot; khi co bat_dau thi mo luc DANG_CHAY
+            ds = td.get("hop_chon") or []
+            k = sum(1 for x in self._tu_dong_da if isinstance(x, str) and x.startswith("hop_chon_"))
+            tt_mo = "DANG_CHAY" if td.get("bat_dau") else "SAN_SANG"
+            if k < len(ds) and not self._chon_dang_mo and tt == tt_mo and time.perf_counter() - self._t_mo_picker >= 2.0:
+                self._tu_dong_da.add(f"hop_chon_{k}")
+                self._t_mo_picker = time.perf_counter()
+                self._ghi_log_gui(f"[tu dong] bam Chon ({ds[k]}) lan {k + 1}")
+                self._chon(ds[k])
+            s_ = td.get("dong_khi_hop_chon_mo_sau")
+            if (s_ is not None and self._chon_dang_mo and "dong_hc" not in self._tu_dong_da
+                    and time.perf_counter() - self._t_mo_picker >= float(s_)):
+                self._tu_dong_da.add("dong_hc")
+                self._ghi_log_gui("[tu dong] dong cua so launcher (WM_DELETE_WINDOW) khi hop chon file dang mo")
+                self._dong()
                 return
             if td.get("bat_dau") and "bd" not in self._tu_dong_da and self._py_det_ok is not None and tt == "SAN_SANG":
                 self._tu_dong_da.add("bd")
@@ -807,6 +842,10 @@ def main() -> int:
     t.add_argument("--tu-dong-dung-sau", type=float, default=None, help="bam Dung sau S giay DANG CHAY (chi luot dau)")
     t.add_argument("--tu-dong-dong-sau", type=float, default=None, help="dong cua so launcher sau S giay DANG CHAY")
     t.add_argument("--tu-dong-so-luot", type=int, default=None, help="chay N luot lien tiep trong cung phien (mo luot moi)")
+    t.add_argument("--tu-dong-hop-chon", nargs="*", choices=["video", "thu_muc_anh", "ket_qua"], default=None,
+                   help="mo lan luot cac hop chon file (CUNG ham voi nut); nguoi/xdotool thao tac trong hop chon")
+    t.add_argument("--tu-dong-dong-khi-hop-chon-mo-sau", type=float, default=None,
+                   help="dong launcher sau S giay ke tu khi hop chon file mo (kiem N25-F2)")
     t.add_argument("--tu-dong-dong-khi-xong", action="store_true", help="dong launcher 3 s sau khi luot cuoi ket thuc")
     a = ap.parse_args()
     os.environ["BYTETRACK_BACKEND"] = "np"              # worker nano_live: backend tracker NumPy (nhu script 04)
@@ -823,6 +862,7 @@ def main() -> int:
     tu_dong = {"nguon": a.nguon, "tracker": a.tracker, "ket_qua": a.ket_qua, "fps": a.fps, "max_frames": a.max_frames,
                "khong_hien_thi": a.khong_hien_thi, "luu_cache": a.luu_cache, "bat_dau": a.tu_dong_bat_dau,
                "dung_sau": a.tu_dong_dung_sau, "dong_sau": a.tu_dong_dong_sau, "so_luot": a.tu_dong_so_luot,
+               "hop_chon": a.tu_dong_hop_chon, "dong_khi_hop_chon_mo_sau": a.tu_dong_dong_khi_hop_chon_mo_sau,
                "dong_khi_xong": a.tu_dong_dong_khi_xong}
     tu_dong = {k: v for k, v in tu_dong.items() if v not in (None, False)}
     # CHI KIEM THU tren thiet bi: mo qua loi tat desktop (gtk-launch) khong truyen duoc tham so -> doc them tu bien moi
