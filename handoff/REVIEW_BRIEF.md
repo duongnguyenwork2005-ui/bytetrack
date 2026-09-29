@@ -1,44 +1,41 @@
-# REVIEW_BRIEF — vòng 25: dùng tại chỗ trên Jetson Nano (HDMI + chuột + bàn phím)
+# REVIEW_BRIEF — vòng 26: sửa N25-F1 và N25-F2 (giao diện tại chỗ trên Jetson Nano)
 
 <!-- BASE_TARGET -->
 
-Base **`f86732b`** (review `handoff/CODEX_REVIEW_f86732b.md`: PASS WITH LIMITATIONS, đóng N23-F1; delta đã review được lưu, hash
-khớp). Detector, ngưỡng, YAML khóa, tracker và kết quả thí nghiệm giữ nguyên. Chi tiết: **`handoff/REVIEW25_CHI_TIET.md`**; hướng dẫn
-người dùng: **`handoff/NANO_LOCAL_UI.md`**.
+Review `handoff/CODEX_REVIEW_20e66e9.md`: REQUEST CHANGES phần giao diện, hai finding P2; tracking và benchmark vẫn đạt. **Base giữ
+`f86732b`**, chưa đánh dấu vòng 25 PASS. **Trạng thái: đã sửa, chờ Codex nghiệm thu.** Chi tiết: **`handoff/REVIEW26_CHI_TIET.md`**.
 
-## Đã làm
+## Tái hiện trên mã chưa sửa
 
-- **Launcher Tk tiếng Việt** (`src/nano_launcher.py`, env `nano`): chọn video/thư mục ảnh, CV/EKF, thư mục lưu, Bắt đầu/Dừng, trạng
-  thái, tóm tắt. Engine/Python đọc từ `configs/nano_ui.json`; sai thì báo cách sửa và khóa nút. Tái sử dụng
-  `pc_launcher.LauncherController`; mỗi lượt một thư mục mới.
-- **Hiển thị trực tiếp** trong tiến trình detector (Python 3.6, OpenCV GTK — nơi duy nhất có ảnh đã giải mã). Giao thức 3: sau
-  `tracker.update` của frame *i*, `nano_live` gửi `R(i, hàng MOT/lớp)` thay credit; con ghép ảnh gốc **cùng frame_idx**, vẽ bằng
-  `render_mot_video.ve_frame`. Hàng đợi hiển thị 2 frame, đầy thì bỏ và đếm; tracking không chờ hiển thị. Tắt hiển thị: y hệt vòng 24.
-- **Dừng**: nút, `q`/`Esc`, đóng cửa sổ xem, đóng launcher → cùng stop-file → dừng có kiểm soát (mã 4), ghi đủ phần đã xử lý.
-- Kiểm màn hình trước khi khởi động; `progress.json`, `hien_thi.json`, `tong_s`, `fps_hien_thi`; không có tạm dừng. Lệnh mở và
-  biểu tượng desktop/menu (không sudo); chặn khóa màn hình khi rảnh chỉ trong lúc chạy.
+Script Codex giữ nguyên (`handoff/CODEX_REPRO_20e66e9_ui.py`). PC Windows: F1 tái hiện (`imshow` 1 lần nhưng `n_hien_thi` 2, frame
+cuối 2, FPS 439,75), F2 SKIP (cần POSIX), exit 1. Trên Nano, hai hàm của script được gọi riêng vì không có Python nào vừa có OpenCV vừa
+≥ 3.7: F1 (Python 3.6 + OpenCV 3.2) và F2 (env `nano`, tiến trình chọn file còn sống sau khi đóng launcher) đều exit 1. Kiểm tiến trình
+theo executable: dòng “còn 1 picker” của `pgrep -f` là chính shell tìm kiếm.
 
-## Bằng chứng
+## Sửa
 
-- `test_nano_hien_thi`: PC 16/16 (+1 SKIP POSIX), Nano 17/17 (gồm Tk trên HDMI); `test_nano_stream` 20/20; `test_pc_launcher` 17/17.
-  Full suite PC: **36/36 PASS** trên mã cuối `a73eb1e` (`logs/review25/tests_20260929-1041.log`); lần trước 36/36 trên `91c95c7`.
-- TensorRT thật, 14 lượt: detection giống hệt; **bật/tắt hiển thị → MOT + lớp giống byte**; live == replay, `nano_parity` ĐẠT; ảnh xem
-  trước khớp pixel với render từ MOT đã ghi.
-- **1.470 ảnh CV và EKF có hiển thị trên HDMI**: hiện 1470/1470, bỏ 0; MOT + lớp **giống byte kết quả vòng 23**.
-- Ảnh hưởng hiển thị (300 ảnh, ABBA, 2 lượt/nhóm, cùng mức decode): FPS xử lý CV 9,21 bật / 9,39 tắt, EKF 9,18 / 9,38 (≈ −2 %); FPS
-  hiển thị ≈ 9,2; CPU +6 điểm %. Mô tả, không xếp hạng CV/EKF.
-- Vòng đời: hai lượt một phiên, Dừng giữa chừng, nguồn mp4, đóng launcher, **phím q** và **đóng cửa sổ xem** trên HDMI, mở từ **biểu
-  tượng desktop** (cha systemd, không thuộc SSH) — đúng trạng thái, không còn tiến trình/cửa sổ. Ảnh màn hình:
-  `logs/review25/anh_man_hinh/`.
+- **N25-F1**: chỉ tính “đã hiển thị” khi cửa sổ còn mở (kiểm trước mỗi `imshow`) và `imshow` chạy xong. Frame tới sau khi đóng →
+  không vẽ, không tạo lại cửa sổ, đếm riêng `n_khong_hien_thi_cua_so_dong`; MOT/lớp vẫn ghi đủ. `fps_hien_thi = (N−1)/(mốc cuối −
+  mốc đầu)`, N < 2 → null; định nghĩa đồng bộ ở mã, `run_meta`, tóm tắt launcher, `NANO_LOCAL_UI.md`. Số benchmark cũ giữ nguyên.
+- **N25-F2**: zenity chạy bằng `Popen`, launcher giữ handle, chờ bằng `after()` trên luồng Tk. Đóng launcher: hủy callback chờ, SIGTERM
+  tới đúng PID đó rồi thu hồi; picker vừa tự thoát → chỉ thu hồi, bỏ kết quả; chưa thoát sau 2 s mới SIGKILL. Mọi `after()` bị hủy
+  trước `destroy()`. Nhật ký cả phiên lưu vào `~/.cache/nano_tracking/`.
 
-## Chặn đã gặp
+## Kiểm chứng
 
-Màn hình Nano tự khóa sau 5 phút rảnh nên xdotool không vào được cửa sổ (có log). Không dùng mật khẩu qua SSH; người dùng mở khóa, pha
-HDMI chạy tự động. Sau khi xem trên HDMI (gói v14): bỏ dòng `fatal:` trong nhật ký, biểu tượng desktop hiện đúng tên. Packager
-delta gặp `WinError 206` (dòng lệnh quá dài): chia lô `git diff` (`a73eb1e`), test 19 bắt được mã cũ.
+- Script Codex sau sửa: **exit 0** trên PC và cả hai phần trên Nano.
+- `test_nano_hien_thi` thêm 10/10b/10c/11 (F1) và 12a–e (F2, tiến trình chọn file thật, cửa sổ Tk thật): PC **20/20** (+2 SKIP
+  POSIX), Nano **23/23** (+1 SKIP: 10 cần cv2). Cùng test trên mã cũ: PC 16/20, Nano 18/23 — các ca F1/F2 FAIL. Suite liên quan:
+  `test_nano_stream` 20/20, `test_pc_launcher` 17/17, render 13/13. Full suite PC: **36/36 PASS** (`logs/review26/tests_20260929-1401.log`, trên `6dbf40f`).
+- Nano thật, gói **v16** (`~/nano_run/v16`, v14 giữ nguyên): TensorRT CV 300 ảnh, đóng cửa sổ xem bằng Alt+F4 giữa chừng → `da_dung`,
+  **180 frame hiện, 1 frame không hiện vì cửa sổ đã đóng**, FPS hiển thị 9,35; live == replay giống byte, `nano_parity` ĐẠT; MOT + lớp
+  181 frame giống tiền tố lượt không hiển thị.
+- Zenity thật: mở → hủy → mở lại → chọn đúng đường dẫn; đóng launcher khi hộp chọn mở (chưa chạy và khi tracker đang chạy) → zenity bị
+  SIGTERM đúng PID và thu hồi, tracker `da_dung`; mở từ biểu tượng desktop, 2 lượt, thoát sạch. Sau mỗi ca 0 tiến trình con, 0 cửa sổ.
+- Ảnh màn hình Nano: `logs/review26/anh_man_hinh/`.
 
-## Giới hạn và phần của người dùng
+## Giới hạn
 
-Chưa camera; không tạm dừng; một lượt tại một thời điểm; FPS phụ thuộc hai mức decode của OpenCV 3.2. Thao tác được tự động hóa
-(`--tu-dong-*`, xdotool, gtk-launch); nút bấm bằng chuột thật và hộp chọn file chưa được người bấm. Người dùng đã mở khóa màn hình;
-checklist 5 bước (`NANO_LOCAL_UI.md` mục 8) là tùy chọn, không chặn bàn giao.
+Thao tác cửa sổ được tự động hóa (xdotool, `gtk-launch`, tham số `--tu-dong-*` gọi đúng hàm của nút), chưa có người bấm chuột trong
+vòng này. Nhánh SIGKILL (picker không phản hồi SIGTERM) chưa gặp với zenity thật. Trong harness của Codex, `scheduled_callbacks` vẫn là
+1 vì stub không có `after_cancel`; callback đó là no-op, cửa sổ Tk thật cho 0 callback còn lại. Camera ngoài phạm vi.

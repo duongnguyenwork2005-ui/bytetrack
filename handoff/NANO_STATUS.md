@@ -1,6 +1,6 @@
 # Trạng thái triển khai Jetson Nano
 
-Cập nhật 2026-09-29 (mục 4k: vòng 25 — dùng tại chỗ trên Nano: launcher HDMI + hiển thị trực tiếp bbox/ID/lớp, hướng dẫn
+Cập nhật 2026-09-29 (mục 4l: vòng 26 — sửa N25-F1/F2, gói v16; 4k: vòng 25 — dùng tại chỗ trên Nano: launcher HDMI + hiển thị trực tiếp bbox/ID/lớp, hướng dẫn
 `handoff/NANO_LOCAL_UI.md`; 4j: vòng 24 — đóng N23-F1 bộ kiểm số frame, kiểm lại 2 video render trên Nano, chốt phiên bản OpenCV của bộ kiểm; 4i: vòng 23 — chạy đủ 1.470 frame, 4 lượt, render video trên Nano; 4h: vòng 22 — sửa N21-F1/F2/F3, parity + đo lại trên Nano; 4g: vòng 21 — luồng trực tiếp video → TensorRT → tracker chạy thật, parity, FPS toàn luồng; 4f: vòng 18–20 — Mốc 1 v5, sự cố thẻ SD, dựng lại, benchmark CV↔EKF, **đóng benchmark**: sao lưu + tính lại từ dữ liệu thô; 4e: vòng 17 — preflight; 4d: vòng 16). Tài liệu này chỉ ghi **kết quả lệnh thật**. Mọi ô "chưa" đều kèm lý do quan
 sát được, không suy ra từ việc thiếu file cấu hình.
 
@@ -116,6 +116,14 @@ Cách xử lý khi bắt đầu chạy trên thiết bị: thêm `.py` (và `.js
 `TEXT_SUFFIXES`, **hoặc** ép `.py` về LF trong `.gitattributes`. **Chưa làm trong đợt này** vì đổi
 `TEXT_SUFFIXES` sẽ làm 12 `eval_meta.json` vừa được review (`b623465`) thành cũ, trong khi chưa
 chạy gì trên thiết bị — đổi lúc đó không mang lại thông tin nào.
+
+## 4l. Vòng 26 (2026-09-29): sửa N25-F1 / N25-F2 (review `20e66e9`) — chi tiết `handoff/REVIEW26_CHI_TIET.md`
+
+- Gói **v16** `302f6af7…` ở `~/nano_run/v16` (đang dùng; biểu tượng desktop trỏ tới v16); v14 giữ nguyên để đối chiếu; v15 bị thay
+  trước khi dùng. Mã chạy của v16 == HEAD (chỉ file test khác).
+- F1: cửa sổ xem bị đóng giữa chừng → frame tới sau không còn tính là đã hiện (TensorRT thật: 180 hiện, 1 không hiện, live == replay).
+- F2: đóng launcher khi hộp chọn file (zenity) đang mở → zenity bị kết thúc + thu hồi, kể cả khi tracker đang chạy (zenity thật, tự
+  động bằng xdotool).
 
 ## 4k. Vòng 25 (2026-09-29): dùng tại chỗ bằng HDMI + chuột + bàn phím — chi tiết `handoff/REVIEW25_CHI_TIET.md`
 
