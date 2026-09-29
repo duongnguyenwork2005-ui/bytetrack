@@ -1,7 +1,7 @@
-# run_all_tests 2026-09-29 10:21:18  python=3.11.9  cwd=D:\LABOTARY\bytetrack
-# git HEAD 91c95c7
+# run_all_tests 2026-09-29 10:41:32  python=3.11.9  cwd=D:\LABOTARY\bytetrack
+# git HEAD a73eb1e
 
-=== test_ekf_ctrv: PASS (exit 0, 0.2s)
+=== test_ekf_ctrv: PASS (exit 0, 0.3s)
 $ python src/test_ekf_ctrv.py
 --- stdout ---
 ==============================================================================
@@ -224,7 +224,7 @@ KET QUA: 17/17 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_tracker_lifecycle: PASS (exit 0, 3.0s)
+=== test_tracker_lifecycle: PASS (exit 0, 22.1s)
 $ python src/test_tracker_lifecycle.py
 --- stdout ---
 ==============================================================================
@@ -323,7 +323,7 @@ KET QUA: 20/20 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_occlusion_eval: PASS (exit 0, 1.3s)
+=== test_occlusion_eval: PASS (exit 0, 2.2s)
 $ python src/test_occlusion_eval.py
 --- stdout ---
 ==============================================================================
@@ -376,7 +376,7 @@ KET QUA: 14/14 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_filter_config: PASS (exit 0, 3.6s)
+=== test_filter_config: PASS (exit 0, 4.5s)
 $ python src/test_filter_config.py
 --- stdout ---
 
@@ -461,7 +461,7 @@ KET QUA: 44/44 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_time_units: PASS (exit 0, 4.0s)
+=== test_time_units: PASS (exit 0, 5.3s)
 $ python src/test_time_units.py
 --- stdout ---
 
@@ -523,7 +523,7 @@ KET QUA: 30/30 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_timestep_integration: PASS (exit 0, 4.5s)
+=== test_timestep_integration: PASS (exit 0, 4.8s)
 $ python src/test_timestep_integration.py
 --- stdout ---
 
@@ -606,7 +606,7 @@ KET QUA: 32/32 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_det_cache: PASS (exit 0, 10.7s)
+=== test_det_cache: PASS (exit 0, 7.7s)
 $ python src/test_det_cache.py
 --- stdout ---
 
@@ -627,8 +627,6 @@ $ python src/test_det_cache.py
   [PASS] N=3000: cache theo thu tu diem giam dan
   [PASS] N=3000: cache khong cham tran max_det=3000
          2995 box
-WARNING NMS time limit 2.050s exceeded
-WARNING NMS time limit 2.050s exceeded
   [PASS] N=6000: cache cham tran 3000 (bi cat) -> co the phat hien qua len == max_det
   [PASS] N=6000: cache BI CAT -> loc KHONG con bang NMS truc tiep (canh bao trong tai lieu la dung)
   [PASS] N=6000: cache KHONG bi cat -> loc == NMS truc tiep
@@ -662,17 +660,17 @@ WARNING NMS time limit 2.050s exceeded
 --- test_5_cache_write_policy ---
   [PASS] ghi meta lan dau: co spec_sha256
   [PASS] ghi them voi conf khac -> bi TU CHOI
-         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpywvsqcj0\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'conf': (0.05, 0.25)}. Ghi them se tao sequence co fingerpri
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmp4baj7r94\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'conf': (0.05, 0.25)}. Ghi them se tao sequence co fingerpri
   [PASS] ghi them voi classes khac -> bi TU CHOI
-         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpywvsqcj0\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'classes': (None, [2])}. Ghi them se tao sequence co fingerp
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmp4baj7r94\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'classes': (None, [2])}. Ghi them se tao sequence co fingerp
   [PASS] ghi them voi max_det khac -> bi TU CHOI
-         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpywvsqcj0\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'max_det': (3000, 300)}. Ghi them se tao sequence co fingerp
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmp4baj7r94\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'max_det': (3000, 300)}. Ghi them se tao sequence co fingerp
   [PASS] mode='create' tren cache da ton tai -> LOI
-         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpywvsqcj0\c1 da ton tai (mode='create'). Dung --cache-id khac.
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmp4baj7r94\c1 da ton tai (mode='create'). Dung --cache-id khac.
   [PASS] khac phien ban thu vien -> TU CHOI ghi them, meta.json giu nguyen
-         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpywvsqcj0\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'versions': ({'ultralytics': '8.4.141'}, {'ultraly
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmp4baj7r94\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'versions': ({'ultralytics': '8.4.141'}, {'ultraly
   [PASS] khac `device` -> TU CHOI (truong nam trong hash thi cung phai bi chan)
-         Cache C:\Users\Mikuno\AppData\Local\Temp\tmpywvsqcj0\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'device': ('0', 'cpu
+         Cache C:\Users\Mikuno\AppData\Local\Temp\tmp4baj7r94\c1 da ton tai voi CAU HINH SINH DU LIEU khac: {'device': ('0', 'cpu
   [PASS] duong dan weights khac (cung sha256) -> van ghi them duoc, hash khong doi
   [PASS] doc cache rong (conf 0.05, moi lop) voi cau hinh hep (conf 0.25, lop [2], max_det 300) -> OK
   [PASS] sequence sinh boi cau hinh khac -> open_cache (strict) BAO LOI
@@ -690,7 +688,7 @@ KET QUA: 51/51 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_cache_provenance: PASS (exit 0, 0.4s)
+=== test_cache_provenance: PASS (exit 0, 0.3s)
 $ python src/test_cache_provenance.py
 --- stdout ---
 KET QUA: 12/12 test cases PASS; failing_cases=0, assertion_failures=0, errors=0, skipped=0
@@ -710,12 +708,12 @@ test_synthetic_cache_does_not_require_checkpoint (__main__.CacheProvenanceTests.
 test_unhashed_checkpoint_paths_cannot_share_existing_cache (__main__.CacheProvenanceTests.test_unhashed_checkpoint_paths_cannot_share_existing_cache) ... ok
 
 ----------------------------------------------------------------------
-Ran 12 tests in 0.095s
+Ran 12 tests in 0.071s
 
 OK
 
 
-=== test_trackeval_ext: PASS (exit 0, 7.5s)
+=== test_trackeval_ext: PASS (exit 0, 6.2s)
 $ python src/test_trackeval_ext.py
 --- stdout ---
 
@@ -839,7 +837,7 @@ KET QUA: 10/10 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_evaluator_choice: PASS (exit 0, 4.5s)
+=== test_evaluator_choice: PASS (exit 0, 4.3s)
 $ python src/test_evaluator_choice.py
 --- stdout ---
   [PASS] lop evaluator chon theo LOAI DATASET, ten thu muc output KHONG quyet dinh chinh sach
@@ -906,7 +904,7 @@ KET QUA: 7/7 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_eval_guard: PASS (exit 0, 4.3s)
+=== test_eval_guard: PASS (exit 0, 4.2s)
 $ python src/test_eval_guard.py
 --- stdout ---
   [PASS] dau vao KHONG doi -> TAI SU DUNG (guard khong chay lai vo co)
@@ -920,10 +918,10 @@ $ python src/test_eval_guard.py
            [occl ] bo qua: thi nghiem khong khai bao muc `occlusion` (nguon nhan khong co du lieu che khuat)
   [PASS] xoa `gt.txt` bat buoc -> BAO LOI (ThieuDauVaoDanhGia), KHONG tra metric cu
          thieu 1 dau vao danh gia bat buoc cua split 'BDDGUARD-val':
-           v1: thieu C:\Users\Mikuno\AppData\Local\Temp\evalguard_drb4oabc\processed\BDDGUARD-val\v1\gt\gt.tx
+           v1: thieu C:\Users\Mikuno\AppData\Local\Temp\evalguard_nx7mukd9\processed\BDDGUARD-val\v1\gt\gt.tx
   [PASS] xoa `seqinfo.ini` -> cung BAO LOI (do dai timeline la dau vao bat buoc)
          thieu 1 dau vao danh gia bat buoc cua split 'BDDGUARD-val':
-           v1: thieu C:\Users\Mikuno\AppData\Local\Temp\evalguard_drb4oabc\processed\BDDGUARD-val\v1\seqinfo.
+           v1: thieu C:\Users\Mikuno\AppData\Local\Temp\evalguard_nx7mukd9\processed\BDDGUARD-val\v1\seqinfo.
   [PASS] GT RONG HOP LE khac han GT THIEU (khong bi lan thanh mot)
          rong: n_missing=0  thieu: n_missing=1
   [PASS] doi NGUON ANNOTATION che khuat -> `occl_fingerprint` doi
@@ -940,7 +938,7 @@ KET QUA: 11/11 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_report_stats: PASS (exit 0, 3.3s)
+=== test_report_stats: PASS (exit 0, 3.2s)
 $ python src/test_report_stats.py
 --- stdout ---
   [PASS] frame vuot `max_det` -> dem DUNG bang so tracker nhan (cat [:max_det])
@@ -967,7 +965,7 @@ KET QUA: 8/8 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_nano_parity: PASS (exit 0, 0.3s)
+=== test_nano_parity: PASS (exit 0, 0.2s)
 $ python src/test_nano_parity.py
 --- stdout ---
   [PASS] hai file y het -> DAT, lech bang 0
@@ -987,7 +985,7 @@ $ python src/test_nano_parity.py
   [PASS] hai file RONG -> DAT (khong co track nao la mot ket qua hop le)
          {'video': 'v1', 'n_ref': 0, 'n_test': 0, 'dat': True, 'max_bbox': 0.0, 'max_conf': 0.0, 'id_tho_khop': True, 'phan_hoach': 'khop', 'phan_hoach_khop': True}
   [PASS] thieu file ben can kiem -> FileNotFoundError ro rang (CLI bat va bao KHONG DAT)
-         khong co C:\Users\Mikuno\AppData\Local\Temp\nanoparity_xqt0hhdl\khong_co\v1.txt
+         khong co C:\Users\Mikuno\AppData\Local\Temp\nanoparity_ztipuobp\khong_co\v1.txt
   [PASS] (F2) hai box x gan nhau (100.0 / 100.0001), test lech 0,0002 px -> DAT, max_bbox = 2e-4 (ban cu ghep nham hang, bao 400 px va conf lech 0,1)
          max_bbox=2.000e-04 max_conf=0.000e+00 ly_do=
   [PASS] (F2) hai box trung (x,y) khac (w,h), test chi DAO THU TU dong -> DAT, lech 0 (ban cu bao 10 px)
@@ -1015,7 +1013,7 @@ KET QUA: 20/20 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_track_video_file: PASS (exit 0, 52.9s)
+=== test_track_video_file: PASS (exit 0, 47.5s)
 $ python src/test_track_video_file.py
 --- stdout ---
   [PASS] adapter loc y het `filter_dets` / `VideoDetections.frame` (conf, lop, [:max_det])
@@ -1029,7 +1027,7 @@ $ python src/test_track_video_file.py
   [PASS] on_frame tra False o frame 2 -> dung som; timing co dung 2 frame, hang cua frame 2 VAN duoc giu
          goi=[1, 2] timing=[1, 2] rows_frame=[1, 2]
   [PASS] F1. bo doc ~20 ms/frame -> decode_ms ~20 (truoc: ~0), frame_total bao phu, CSV du cot va tong stage + overhead == frame_total
-         decode=20.51 total=21.14 wall_vong_lap=64.1ms tong_lai=3.55e-15 rc=0
+         decode=20.42 total=21.19 wall_vong_lap=64.3ms tong_lai=3.55e-15 rc=0
   [PASS] F2a. thong thuong: live exit 0, replay (lenh tu run_meta) exit 0, parity DAT lech 0
          live=0 replay=0 parity=DAT
   [PASS] F2b. --det-conf 0.5 --conf-min 0.1 -> live TU CHOI SOM exit 2 (cung guard check_compatible), khong tao cache
@@ -1044,9 +1042,9 @@ $ python src/test_track_video_file.py
          live=2 log=[LOI] cau hinh live KHONG the replay tu cache (cung guard voi det_cache.check_compatible):
                - max_det 10 > max_det cache 5
   [PASS] Q1. bam q o frame 1 (warm-up 0): exit 0, dung_som, 1 dong pipeline DEU huu han (frame_total + overhead), show_ms cua frame cuoi > 0, n_frame_tong_ket == so dong huu han, sum(stage)+overhead == frame_total, manifest tach nguon 3 / da_xu_ly, replay cache tuong duong
-         rc=0 n=1 huu_han=1 tong_ket=1 show_cuoi=0.008 tong_lai=7.1e-15 manifest=3/1 replay=0 parity=DAT
+         rc=0 n=1 huu_han=1 tong_ket=1 show_cuoi=0.011 tong_lai=0.0e+00 manifest=3/1 replay=0 parity=DAT
   [PASS] Q2. bam q o frame 2 (warm-up 0): exit 0, dung_som, 2 dong pipeline DEU huu han (frame_total + overhead), show_ms cua frame cuoi > 0, n_frame_tong_ket == so dong huu han, sum(stage)+overhead == frame_total, manifest tach nguon 3 / da_xu_ly, replay cache tuong duong
-         rc=0 n=2 huu_han=2 tong_ket=2 show_cuoi=0.004 tong_lai=3.6e-15 manifest=3/2 replay=0 parity=DAT
+         rc=0 n=2 huu_han=2 tong_ket=2 show_cuoi=0.007 tong_lai=3.6e-15 manifest=3/2 replay=0 parity=DAT
   [PASS] S1. nguon 'traffic clip' + YAML 'cfg dir/ekf ctrv.yaml': live exit 0; replay_argv giu MOI gia tri la MOT phan tu; chuoi `replay` parse lai theo quy tac nen tang (`replay_quote`) ra DUNG replay_argv (roundtrip, khong phu thuoc kieu quote); replay tu replay_argv exit 0, parity DAT
          live=0 replay=0 parity=DAT quote=windows-list2cmdline roundtrip=True
   [PASS] S2. cung nguon/YAML co dau cach + --allow-truncated: replay_argv co '--allow-truncated', replay exit 0, parity DAT
@@ -1060,9 +1058,9 @@ $ python src/test_track_video_file.py
   [PASS] F4f. run ghi frames_manifest.json: quy uoc + `nguon` (file, frame, time_s) + `da_xu_ly` (chay het: 3/3)
          [{'frame': 1, 'time_s': 0.0, 'file': '001.jpg'}, {'frame': 2, 'time_s': 0.2, 'file': '002.jpg'}, {'frame': 3, 'time_s': 0.4, 'file': '003.jpg'}] da_xu_ly=[1, 2, 3]
   [PASS] 6a. LIVE tren DETRAC MVI_39031 (120 frame, device=0) exit 0, co data/timing/pipeline/run_meta
-         k_video] sau warm-up (95 frame): decode 3.93 | mask 0.55 | detect 15.99 | tracker 0.82 | ve 0.00 | ghi 0.00 | show 0.00 | overhead 0.36 = frame_total 21.66 ms  -> 46.2 fps theo stage
-         [track_video] wall: khoi tao 0.8s | vong lap 6.7s (18.0 fps, ke ca warm-up) | ghi 0.0s
-         [track_video] -> C:\Users\Mikuno\AppData\Local\Temp\tvf_pyr66dz9\live
+         k_video] sau warm-up (95 frame): decode 4.16 | mask 0.52 | detect 18.69 | tracker 0.97 | ve 0.00 | ghi 0.00 | show 0.00 | overhead 0.41 = frame_total 24.74 ms  -> 40.4 fps theo stage
+         [track_video] wall: khoi tao 1.0s | vong lap 7.6s (15.9 fps, ke ca warm-up) | ghi 0.0s
+         [track_video] -> C:\Users\Mikuno\AppData\Local\Temp\tvf_51den2_4\live
          [track_video] det cache -> D:\LABOTARY\bytetrack\data\interim\det_cache\tvf_test_cache  (san dung: cau hinh da qua check_compatible; khong frame nao cham tran)
   [PASS] 6b. REPLAY tu cache vua luu bang run_tracking.py -> parity DAT, lech 0 (bit-identical)
          exit=0 parity=DAT n=198
@@ -1070,15 +1068,15 @@ $ python src/test_track_video_file.py
          cung_n=True cls_ok=True
   [PASS] 8. file .mp4 THAT + --save-video: exit 0, video ra 60 frame, run_meta du truong (nguon/detector_spec/loc/tracker/code/ket_qua/thoi_gian), fps doc tu metadata = 25
          (0 unreadable, 0 cham tran), 94 hang tracking, 2 track
-         [track_video] sau warm-up (35 frame): decode 1.96 | mask 0.00 | detect 18.54 | tracker 0.83 | ve 0.73 | ghi 4.75 | show 0.00 | overhead 0.61 = frame_total 27.42 ms  -> 36.5 fps theo stage
-         [track_video] wall: khoi tao 0.9s | vong lap 4.9s (12.3 fps, ke ca warm-up) | ghi 0.0s
-         [track_video] -> C:\Users\Mikuno\AppData\Local\Temp\tvf_pyr66dz9\mp4
+         [track_video] sau warm-up (35 frame): decode 1.82 | mask 0.00 | detect 17.05 | tracker 0.70 | ve 0.68 | ghi 4.48 | show 0.00 | overhead 0.51 = frame_total 25.24 ms  -> 39.6 fps theo stage
+         [track_video] wall: khoi tao 0.7s | vong lap 3.8s (16.0 fps, ke ca warm-up) | ghi 0.0s
+         [track_video] -> C:\Users\Mikuno\AppData\Local\Temp\tvf_51den2_4\mp4
          
          n_out=60 du=True
   [PASS] 9. video toan frame DEN: exit 0, 0 hang tracking, timing van co DU 15 frame (vong doi cap nhat o frame rong)
          rame): decode nan | mask nan | detect nan | tracker nan | ve nan | ghi nan | show nan | overhead nan = frame_total nan ms  -> nan fps theo stage
-         [track_video] wall: khoi tao 1.0s | vong lap 3.5s (4.3 fps, ke ca warm-up) | ghi 0.0s
-         [track_video] -> C:\Users\Mikuno\AppData\Local\Temp\tvf_pyr66dz9\den
+         [track_video] wall: khoi tao 0.6s | vong lap 2.1s (7.2 fps, ke ca warm-up) | ghi 0.0s
+         [track_video] -> C:\Users\Mikuno\AppData\Local\Temp\tvf_51den2_4\den
          
          n_timing=15
   [PASS] 10. checkpoint khong ton tai -> exit 2 + thong bao; nguon khong ton tai -> exit != 0
@@ -1089,19 +1087,19 @@ KET QUA: 27/27 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_pc_launcher: PASS (exit 0, 63.7s)
+=== test_pc_launcher: PASS (exit 0, 62.2s)
 $ python src/test_pc_launcher.py
 --- stdout ---
   [PASS] 1. build_argv truyen DUNG nguon/checkpoint/YAML (co dau cach, MOT phan tu) + tham so hieu luc (conf-min, max-det, track-buffer, seed, --set), cac co, progress/stop-file trong thu muc luot
-         run_dir=traffic clip_ekf ctrv_20260929-102259
+         run_dir=traffic clip_ekf ctrv_20260929-104326
   [PASS]    moi luot mot thu muc rieng (khong ghi de)
-         traffic clip_ekf ctrv_20260929-102259 / traffic clip_ekf ctrv_20260929-102259
+         traffic clip_ekf ctrv_20260929-104326 / traffic clip_ekf ctrv_20260929-104326
   [PASS] 2. dau vao khong hop le -> CauHinhSai TRUOC khi khoi chay, khong co tien trinh
          {'nguon khong ton tai': 'CauHinhSai', 'thu muc anh thieu fps': 'CauHinhSai', 'checkpoint khong ton tai': 'CauHinhSai', 'yaml khong ton tai': 'CauHinhSai', 'fps am': 'CauHinhSai'}
   [PASS] 3. bat dau -> HOAN_TAT: exit 0, progress.json 'hoan_tat' frame 8/40, run_meta/data/timing/pipeline co du, launcher_argv.json ghi lai, log co dong worker
          tt=HOAN_TAT exit=0 pr=hoan_tat loi=None
   [PASS] 4. bat dau -> Dung (stop-file) -> DA_DUNG: run_meta dung_som + ly_do 'stop-file', 5 <= frame xu ly < 40, so dong timing == frame xu ly, pipeline moi dong huu han, manifest nguon 40 / da_xu_ly = frame xu ly, cache du -> replay (subprocess) parity DAT, khong con tien trinh
-         tt=DA_DUNG n_xl=12 n_tim=12 manifest=40/12 replay=0 parity=DAT
+         tt=DA_DUNG n_xl=14 n_tim=14 manifest=40/14 replay=0 parity=DAT
   [PASS] 5. bat dau lan hai khi dang chay -> DangChay, tac vu dau van chay va dung duoc binh thuong
          DangChay tt=DA_DUNG
   [PASS] 6. worker loi (cau hinh khong tuong thich, exit 2) -> trang thai LOI + thong bao tu progress.json; KHONG bao hoan tat
@@ -1112,13 +1110,13 @@ $ python src/test_pc_launcher.py
          tt=LOI terminate=True mat=2.1s
   [PASS]    open_results() khong co run_dir -> False (khong mo gi)
   [PASS] 9. (L-F1) dang TAM DUNG (SPACE o frame 2) -> Dung: worker TU ket thuc (exit 0, KHONG terminate) truoc timeout, DA_DUNG, ly_do_dung='stop-file', KHONG doc them frame (n_frame_xu_ly == 2), timing/pipeline frame cuoi huu han, manifest da_xu_ly == 2, cache -> replay parity DAT
-         pause=True tt=DA_DUNG exit=0 terminate=False mat=0.71s meta=True n_xl=2 replay=0 parity=DAT
+         pause=True tt=DA_DUNG exit=0 terminate=False mat=0.66s meta=True n_xl=2 replay=0 parity=DAT
   [PASS] 9b. (L-F1) dang TAM DUNG -> shutdown(): DA_DUNG, KHONG terminate, run_meta co, khong con tien trinh
          pause=True tt=DA_DUNG terminate=False
   [PASS] 9c. phim q TRONG luc pause (khong co stop-file) -> DA_DUNG, ly_do_dung='phim q' (khong gan nham stop-file)
          tt=DA_DUNG ly_do=phim q
   [PASS] 10. (L-F3) tre 1 s SAU vong lap (save_video): progress cuoi fps_vong_lap_tam == run_meta.fps_vong_lap (bang nhau CHINH XAC, cung pham vi), t_vong_lap_s == wall_vong_lap_s < 1 s, wall_ghi_s >= 1 s; fps_toan_luot ghi RIENG (< fps_vong_lap) kem pham_vi
-         progress fps=31.1376 run_meta fps=31.1376 wall_vong_lap=0.128s wall_ghi=1.019s fps_toan_luot=2.407409380007566
+         progress fps=30.4967 run_meta fps=30.4967 wall_vong_lap=0.131s wall_ghi=1.018s fps_toan_luot=2.4238941180526905
   [PASS] 11. (L-F2) khoi tao: indeterminate; -> DANG_CHAY 10/100: determinate value 10; bom event loop 0,5 s voi worker giu nguyen frame -> thanh DUNG YEN (10); frame 37 -> value 37, maximum 100
          mode indeterminate->determinate value 10.0->10.0->37.0 max=100.0
   [PASS] 12. (L-F4) 'abc'/'x'/'0'/'-1' vao max_frames / seed / conf_min / track_buffer -> hop thoai ghi TEN O, KHONG tao worker, KHONG exception thoat callback; sua hop le -> khoi chay binh thuong (HOAN_TAT 3 frame)
@@ -1129,14 +1127,14 @@ $ python src/test_pc_launcher.py
          ('track_buffer_sec', '-1'): exc=None hop=1 msg="Ô 'track-buffer (giây)' phải ≥ 0; đã nhập: '-1'" proc=False
          hop le: khoi_chay=True tt=HOAN_TAT frame=3
   [PASS] 13. (L-F1) dang TAM DUNG -> dong cua so: _dong() tra ve NGAY (cua so con, cho bang after), event loop van chay, worker tu ket thuc -> DA_DUNG, KHONG terminate, cua so dong sau khi worker ket thuc, khong con tien trinh, run_meta co
-         pause=True con_ngay=True n_update=31 da_dong=True tt=DA_DUNG terminate=False mat=0.64s
+         pause=True con_ngay=True n_update=36 da_dong=True tt=DA_DUNG terminate=False mat=0.74s
 
 KET QUA: 17/17 phep kiem tra PASS
 
 --- stderr ---
 
 
-=== test_nano_detector: PASS (exit 0, 7.7s)
+=== test_nano_detector: PASS (exit 0, 8.5s)
 $ python src/test_nano_detector.py
 --- stdout ---
   [PASS] 1. letterbox(640) pixel-identical voi ultralytics LetterBox(auto=False) tren 3 frame 960x540
@@ -1154,8 +1152,8 @@ $ python src/test_nano_detector.py
   [PASS] 4. NMS tong hop: khac lop giu ca hai; cung lop IoU>0.7 giu 1; IoU==0.7 GIU; max_det cat; classes loc; rong -> (0,6)
          a=True b=True c=True d=True e=True f=True
   [PASS] 5. NanoDetector(torch FP32, che vung bo qua) 40 frame -> ghi cache dung dinh dang -> open_cache strict OK (frame/time_s/orig_shape) -> run_tracking exit 0 -> det_compare voi cache PC (.pt rect 640x384): ti le ghep >= 0,8 (sai khac letterbox 640x640 la DUOC DO, khong ky vong bit-identical)
-         cache: 40 frame 103 box (rong 0) | open_cache n=40 ts=True shape=True | replay exit=0 mot=55 hang | det_compare: cap=56 ghep a=1.0 b=1.0 IoU tb=0.9975140914320946 |dconf| tb=0.0032841552581105915 max=0.04122442007064819 trung lop=1.0
-         timing tb sau warm-up (PC cuda, torch FP32 -- KHONG phai so Nano): {"decode_ms": 3.03, "pre_ms": 3.55, "infer_ms": 14.22, "post_ms": 0.46, "n_frame_tong_ket": 35, "warmup_bo": 5, "tong_ms_moi_frame": 21.26}
+         cache: 40 frame 103 box (rong 0) | open_cache n=40 ts=True shape=True | replay exit=0 mot=55 hang | det_compare: cap=56 ghep a=1.0 b=1.0 IoU tb=0.9975140914320946 |dconf| tb=0.0032841510006359647 max=0.04122442007064819 trung lop=1.0
+         timing tb sau warm-up (PC cuda, torch FP32 -- KHONG phai so Nano): {"decode_ms": 2.76, "pre_ms": 4.23, "infer_ms": 16.09, "post_ms": 0.53, "n_frame_tong_ket": 35, "warmup_bo": 5, "tong_ms_moi_frame": 23.61}
   [PASS] 6. ghi vao cache da co voi meta KHAC (conf) -> RuntimeError, khong tron cache
 
 KET QUA: 6/6 phep kiem tra PASS
@@ -1163,7 +1161,7 @@ KET QUA: 6/6 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_nano_run_cache: PASS (exit 0, 26.6s)
+=== test_nano_run_cache: PASS (exit 0, 25.1s)
 $ python src/test_nano_run_cache.py
 --- stdout ---
   [PASS] 0. goi tam dung xong: 2 cache tong hop (3/5 frame, co frame rong) + 4 pc-ref that tu run_tracking (np) + pc_ref_sha256.txt
@@ -1171,18 +1169,18 @@ $ python src/test_nano_run_cache.py
   [PASS] 1. dau vao hop le --tag kiem: exit 0, KET LUAN DAT, 4 parity DAT (smoke/full x CV/EKF), 4 thu muc kiem-*, hash cay pc-ref-* truoc == sau (tinh doc lap), khop ban dong goi
          video DAT
            | -> reference\parity_kiem_full_ekf.json
-         full/ekf: replay exit 0 (1.1s) | parity exit 0 dat=True n=8/8 | bit-identical=True
+         full/ekf: replay exit 0 (0.9s) | parity exit 0 dat=True n=8/8 | bit-identical=True
          4. cay pc-ref sau khi chay y het truoc: True
          KET LUAN: DAT
-         -> C:\Users\Mikuno\AppData\Local\Temp\nrc_bkt59kgv\nano_transfer\reference\nano_run_20260929-102414.json
+         -> C:\Users\Mikuno\AppData\Local\Temp\nrc_zrqrdxzq\nano_transfer\reference\nano_run_20260929-104441.json
   [PASS] 2. thieu NANO-full/pc-ref-ekf/data/MVI_39031.txt -> exit 2, KHONG co bad1-*, khong buoc 2_*, log neu duong dan
          exit=2 out=[]
-         vao #1  -- tham chieu PC thieu: C:\Users\Mikuno\AppData\Local\Temp\nrc_bkt59kgv\nano_transfer\data\processed\trackers\NANO-full\pc-ref-ekf\data\MVI_39031.txt | KET LUAN: KHONG DAT: 4. dau vao #1
-         -> C:\Users\Mikuno\AppData\Local\Temp\nrc_bkt59kgv\nano_transfer\reference\nano_run_20260929-102422.json
+         vao #1  -- tham chieu PC thieu: C:\Users\Mikuno\AppData\Local\Temp\nrc_zrqrdxzq\nano_transfer\data\processed\trackers\NANO-full\pc-ref-ekf\data\MVI_39031.txt | KET LUAN: KHONG DAT: 4. dau vao #1
+         -> C:\Users\Mikuno\AppData\Local\Temp\nrc_zrqrdxzq\nano_transfer\reference\nano_run_20260929-104448.json
   [PASS] 3. (N15-P1) sidecar smoke '{ bad json' -> exit 2 TRUOC khi chay tracker (khong buoc 2_*), KHONG co bad2-*, log neu 'sidecar'
          exit=2 out=[]
          ao #1  -- cache smoke: sidecar MVI_39031.json khong parse duoc (JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)) | KET LUAN: KHONG DAT: 4. dau vao #1
-         -> C:\Users\Mikuno\AppData\Local\Temp\nrc_bkt59kgv\nano_transfer\reference\nano_run_20260929-102424.json
+         -> C:\Users\Mikuno\AppData\Local\Temp\nrc_zrqrdxzq\nano_transfer\reference\nano_run_20260929-104450.json
   [PASS] 4. (N15-P2) thieu `lap` (goi gia nem ImportError): nano_env_check nonzero; nano_run_cache exit 2, khong chay tracker, KHONG co bad3-*, JSON co tail cua env_check neu 'lap'
          env_check exit=1 run exit=2 out=[] tail=  [KHONG DAT] 2. lap  -- ImportError: lap bi chan boi test (mo phong thieu lap)   [KHONG DAT] 3. backend np (chan torch/ultralytics)  -- tils import matching KE
   [PASS] 5. (N15-P3) nano_env_check: xoa 2 NPZ + 4 file tham chieu -> nonzero, KHONG in 'DAT (1-4)'; chi thieu NPZ -> nonzero; khoi phuc -> exit 0 + 'DAT (1-4)'
@@ -1199,7 +1197,7 @@ KET QUA: 9/9 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_nano_stream: PASS (exit 0, 55.0s)
+=== test_nano_stream: PASS (exit 0, 52.8s)
 $ python src/test_nano_stream.py
 --- stdout ---
 cha: 3.11.9 | con: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe | backend np
@@ -1207,27 +1205,27 @@ cha: 3.11.9 | con: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe | back
          []
   [PASS] 2. CV: exit 0, hoan_tat, 40 frame, timing co ca frame rong (11-13), replay tu cache khop
          exit 0 hoan_tat dem={'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 40, 'n_frame_da_xu_ly': 40, 'n_frame_vao_tracker_doc_duoc': 40, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 0, 'n_truncated': 0, 'n_hang_mot': 93, 'n_track': 3} timing=40 pipeline=40
-         parity exit 0; byte giong het True (5524 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_vjmidqy5\\parity_rep-cv.json']
-         pData\Local\Temp\nano_stream_vjmidqy5\e2e_cv\STOP hoac Ctrl+C
+         parity exit 0; byte giong het True (5524 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_333kcocl\\parity_rep-cv.json']
+         Data\Local\Temp\nano_stream_333kcocl\e2e_cv\STOP hoac Ctrl+C
          [nano_live] HOAN_TAT (ma 0): 40 frame, ly do EOS: het_nguon
-         [nano_live] 40 frame xu ly, 93 hang MOT, xu ly 0.04s (921.89 fps), khoi tao 0.2s, chuan bi cha 0.01s, ghi 0.01s -> C:\Users\Mikuno\AppData\Local\Temp\nano_stream_vjmidqy5\e2e_cv
+         [nano_live] 40 frame xu ly, 93 hang MOT, xu ly 0.03s (1377.97 fps), khoi tao 0.2s, chuan bi cha 0.01s, ghi 0.01s -> C:\Users\Mikuno\AppData\Local\Temp\nano_stream_333kcocl\e2e_cv
   [PASS] 3. EKF: exit 0, hoan_tat, 40 frame, timing co ca frame rong (11-13), replay tu cache khop
          exit 0 hoan_tat dem={'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 40, 'n_frame_da_xu_ly': 40, 'n_frame_vao_tracker_doc_duoc': 40, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 0, 'n_truncated': 0, 'n_hang_mot': 93, 'n_track': 3} timing=40 pipeline=40
-         parity exit 0; byte giong het True (5659 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_vjmidqy5\\parity_rep-ekf.json']
-         ata\Local\Temp\nano_stream_vjmidqy5\e2e_ekf\STOP hoac Ctrl+C
+         parity exit 0; byte giong het True (5659 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_333kcocl\\parity_rep-ekf.json']
+         ta\Local\Temp\nano_stream_333kcocl\e2e_ekf\STOP hoac Ctrl+C
          [nano_live] HOAN_TAT (ma 0): 40 frame, ly do EOS: het_nguon
-         [nano_live] 40 frame xu ly, 93 hang MOT, xu ly 0.05s (742.75 fps), khoi tao 0.3s, chuan bi cha 0.01s, ghi 0.01s -> C:\Users\Mikuno\AppData\Local\Temp\nano_stream_vjmidqy5\e2e_ekf
+         [nano_live] 40 frame xu ly, 93 hang MOT, xu ly 0.03s (1307.72 fps), khoi tao 0.2s, chuan bi cha 0.01s, ghi 0.01s -> C:\Users\Mikuno\AppData\Local\Temp\nano_stream_333kcocl\e2e_ekf
   [PASS] 4. video .mp4: so frame == khai bao, time_s == (idx-1)/fps, hoan_tat
          exit 0 hoan_tat {'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 40, 'n_frame_da_xu_ly': 40, 'n_frame_vao_tracker_doc_duoc': 40, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 0, 'n_truncated': 0, 'n_hang_mot': 93, 'n_track': 3} time_s ok=True
-         ppData\Local\Temp\nano_stream_vjmidqy5\video\STOP hoac Ctrl+C
+         ppData\Local\Temp\nano_stream_333kcocl\video\STOP hoac Ctrl+C
          [nano_live] HOAN_TAT (ma 0): 40 frame, ly do EOS: het_nguon
-         [nano_live] 40 frame xu ly, 93 hang MOT, xu ly 0.04s (1086.72 fps), khoi tao 0.2s, chuan bi cha 0.01s, ghi 0.01s -> C:\Users\Mikuno\AppData\Local\Temp\nano_stream_vjmidqy5\video
+         [nano_live] 40 frame xu ly, 93 hang MOT, xu ly 0.03s (1230.93 fps), khoi tao 0.2s, chuan bi cha 0.01s, ghi 0.01s -> C:\Users\Mikuno\AppData\Local\Temp\nano_stream_333kcocl\video
   [PASS] 5. stop-file: exit 4, da_dung, 0 < frame < N, cache == frame da xu ly, replay khop, con thoat 0 voi EOS dung
-         exit 4 da_dung n=13 bay=3 con={'returncode': 0, 'cach_ket_thuc': 'tu_thoat', 'bi_kill_vi_treo': False} eos={'cho_bat_dau_ms': 7.889400003477931, 'hang_doi': 4, 'ly_do': 'dung_theo_yeu_cau', 'max_in_flight': 4, 'n_byte_la': 0, 'n_frame_gui': 16, 'n_frames_khai_bao': 40, 'n_lenh_ket_qua': 0, 't_nhan_bat_dau_monotonic': 1206739.0}
-         parity exit 0; byte giong het True (1210 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_vjmidqy5\\parity_rep-dung.json']
-         o\AppData\Local\Temp\nano_stream_vjmidqy5\dung\STOP hoac Ctrl+C
+         exit 4 da_dung n=12 bay=0 con={'returncode': 0, 'cach_ket_thuc': 'tu_thoat', 'bi_kill_vi_treo': False} eos={'cho_bat_dau_ms': 7.189199794083834, 'hang_doi': 4, 'ly_do': 'dung_theo_yeu_cau', 'max_in_flight': 4, 'n_byte_la': 0, 'n_frame_gui': 12, 'n_frames_khai_bao': 40, 'n_lenh_ket_qua': 0, 't_nhan_bat_dau_monotonic': 1207962.765}
+         parity exit 0; byte giong het True (1210 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_333kcocl\\parity_rep-dung.json']
+         o\AppData\Local\Temp\nano_stream_333kcocl\dung\STOP hoac Ctrl+C
          [nano_live] DA_DUNG (ma 4): dung theo yeu cau (stop-file)
-         [nano_live] 13 frame xu ly, 20 hang MOT, xu ly 0.66s (19.59 fps), khoi tao 0.3s, chuan bi cha 0.01s, ghi 0.01s -> C:\Users\Mikuno\AppData\Local\Temp\nano_stream_vjmidqy5\dung
+         [nano_live] 12 frame xu ly, 20 hang MOT, xu ly 0.61s (19.57 fps), khoi tao 0.2s, chuan bi cha 0.01s, ghi 0.01s -> C:\Users\Mikuno\AppData\Local\Temp\nano_stream_333kcocl\dung
   [SKIP] 5b. SIGINT vao tien trinh cha: Windows: khong gui SIGINT rieng cho tien trinh con duoc
   [PASS] 6. con loi o frame 10 (thoat 3, khong EOS): exit 3, loi_tien_trinh_con, KHONG hoan_tat, 9 frame da xu ly duoc ghi
          exit 3 loi_tien_trinh_con {'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 9, 'n_frame_da_xu_ly': 9, 'n_frame_vao_tracker_doc_duoc': 9, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 0, 'n_truncated': 0, 'n_hang_mot': 18, 'n_track': 2} con={'returncode': 3, 'cach_ket_thuc': 'tu_thoat', 'bi_kill_vi_treo': False}
@@ -1237,31 +1235,31 @@ cha: 3.11.9 | con: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe | back
          exit 3 loi_mat_frame mong frame 7, nhan frame 8
   [PASS] 9. anh hong (frame 5 rac, frame 6 BMP bi cat): mac dinh exit 3 loi_dau_vao; --cho-phep-frame-hong -> exit 0, unreadable 2, con KHONG chet, replay khop
          mac dinh: exit 3 loi_dau_vao; cho phep: exit 0 {'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 40, 'n_frame_da_xu_ly': 40, 'n_frame_vao_tracker_doc_duoc': 38, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 2, 'n_truncated': 0, 'n_hang_mot': 89, 'n_track': 3}
-         parity exit 0; byte giong het True (5388 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_vjmidqy5\\parity_rep-hong.json']
+         parity exit 0; byte giong het True (5388 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_333kcocl\\parity_rep-hong.json']
   [PASS] 10. loi truoc vong lap -> exit 2: nguon/engine khong co, thu muc da co ket qua, con loi khoi tao (ERROR truoc HELLO) -> con da duoc reap
          {'nguon': 2, 'engine': 2, 'da_co_ket_qua': 2, 'con_khoi_tao': 2} meta=loi_khoi_tao con={'returncode': 2, 'cach_ket_thuc': 'tu_thoat', 'bi_kill_vi_treo': False} {'giai_doan': 'khoi_tao', 'loi': "FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\Mikuno\\\\AppD
   [PASS] 11. cua so K=2 + tracker cham: du N frame (khong bo), max_in_flight <= 2, con phai cho credit
-         exit 0 eos={'cho_bat_dau_ms': 9.260499849915504, 'hang_doi': 2, 'ly_do': 'het_nguon', 'max_in_flight': 2, 'n_byte_la': 0, 'n_frame_gui': 40, 'n_frames_khai_bao': 40, 'n_lenh_ket_qua': 0, 't_nhan_bat_dau_monotonic': 1206752.921} so frame con cho credit > 5 ms: 38
+         exit 0 eos={'cho_bat_dau_ms': 8.988699875772, 'hang_doi': 2, 'ly_do': 'het_nguon', 'max_in_flight': 2, 'n_byte_la': 0, 'n_frame_gui': 40, 'n_frames_khai_bao': 40, 'n_lenh_ket_qua': 0, 't_nhan_bat_dau_monotonic': 1207976.781} so frame con cho credit > 5 ms: 38
   [PASS] 12. cham tran det_max_det o frame 15: mac dinh exit 3; --allow-truncated -> exit 0, replay (--allow-truncated) khop
          mac dinh exit 3 frame 15: 7 detection cham tran det_max_det 6 (tien to [:max_det] mat nghia); --allow-truncated; cho phep exit 0 {'n_frames_khai_bao': 40, 'max_frames': None, 'n_frame_nhan': 40, 'n_frame_da_xu_ly': 40, 'n_frame_vao_tracker_doc_duoc': 40, 'n_frame_bay_khi_dung_khong_xu_ly': 0, 'n_unreadable': 0, 'n_truncated': 1, 'n_hang_mot': 93, 'n_track': 3}
-         parity exit 0; byte giong het True (5524 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_vjmidqy5\\parity_rep-tran.json']
+         parity exit 0; byte giong het True (5524 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_333kcocl\\parity_rep-tran.json']
   [PASS] 13. --regions (che do doi chieu): metadata ghi co + sha256 file vung, van hoan_tat
          exit 0 {'gia_lap': True, 'detector': 'gia_lap', 'che_do_doi_chieu_regions': True, 'regions_sha256': '46b15d757ea2c915d274d1f45c5bc024deeb9b34e9be2c29528ed067d3a6b9b1', 'render': False, 'can_gt': False, 'hien_thi': False, 'hien_thi_an': False}
   [PASS] 14. detector that TorchPtInfer 8 frame DETRAC (PC): hoan_tat (max_frames), replay tu cache khop
          exit 0 hoan_tat 8 frame, ly do EOS: max_frames
-         parity exit 0; byte giong het True (1146 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_vjmidqy5\\parity_rep-torch.json']
-         no\AppData\Local\Temp\nano_stream_vjmidqy5\torch\STOP hoac Ctrl+C
+         parity exit 0; byte giong het True (1146 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_333kcocl\\parity_rep-torch.json']
+         no\AppData\Local\Temp\nano_stream_333kcocl\torch\STOP hoac Ctrl+C
          [nano_live] HOAN_TAT (ma 0): 8 frame, ly do EOS: max_frames
-         [nano_live] 8 frame xu ly, 12 hang MOT, xu ly 1.38s (5.78 fps), khoi tao 3.0s, chuan bi cha 0.01s, ghi 0.02s -> C:\Users\Mikuno\AppData\Local\Temp\nano_stream_vjmidqy5\torch
+         [nano_live] 8 frame xu ly, 12 hang MOT, xu ly 1.12s (7.12 fps), khoi tao 3.2s, chuan bi cha 0.01s, ghi 0.01s -> C:\Users\Mikuno\AppData\Local\Temp\nano_stream_333kcocl\torch
   [PASS] 15a. N21-F1 cha chuan bi cham 1 s: con CHO BAT DAU, moi frame trong cua so do, FPS khong bi thoi phong (hoan tat)
          exit 0
-         chuan_bi_cha_s=1.0080081999767572 cho_bat_dau_ms=1008.0687999725342 xu_ly_s=0.04740969999693334 bao_phu=0.0470000000204891 fps_xu_ly=843.7091988050413 n=40 cua_so={'frame_dau_bat_dau_doc_mono': 1206771.031, 'frame_cuoi_xong_tracker_mono': 1206771.078, 'tre_tu_bat_dau_den_doc_frame_dau_ms': 0.0, 'moi_frame_trong_cua_so': True, 'khoang_bao_phu_s': 0.0470000000204891}
+         chuan_bi_cha_s=1.00743280001916 cho_bat_dau_ms=1007.4865999631584 xu_ly_s=0.03024450014345348 bao_phu=0.03100000019185245 fps_xu_ly=1322.554507770833 n=40 cua_so={'frame_dau_bat_dau_doc_mono': 1207995.187, 'frame_cuoi_xong_tracker_mono': 1207995.218, 'tre_tu_bat_dau_den_doc_frame_dau_ms': 0.0, 'moi_frame_trong_cua_so': True, 'khoang_bao_phu_s': 0.03100000019185245}
   [PASS] 15b. N21-F1 nhu 15a nhung DUNG SOM (stop-file): ma 4, 0 < frame < N, bat bien cua so do van dung
-         exit 4 n=12
-         chuan_bi_cha_s=1.0086815999820828 cho_bat_dau_ms=1008.7505001574755 xu_ly_s=0.6300544000696391 bao_phu=0.625 fps_xu_ly=19.045974440736636 n=12 cua_so={'frame_dau_bat_dau_doc_mono': 1206773.39, 'frame_cuoi_xong_tracker_mono': 1206774.015, 'tre_tu_bat_dau_den_doc_frame_dau_ms': 0.0, 'moi_frame_trong_cua_so': True, 'khoang_bao_phu_s': 0.625}
+         exit 4 n=13
+         chuan_bi_cha_s=1.007440600078553 cho_bat_dau_ms=1007.5278000440449 xu_ly_s=0.6624157999176532 bao_phu=0.6559999999590218 fps_xu_ly=19.625135755542164 n=13 cua_so={'frame_dau_bat_dau_doc_mono': 1207997.203, 'frame_cuoi_xong_tracker_mono': 1207997.859, 'tre_tu_bat_dau_den_doc_frame_dau_ms': 0.0, 'moi_frame_trong_cua_so': True, 'khoang_bao_phu_s': 0.6559999999590218}
   [PASS] 16. N21-F2 cache-root ngoai mac dinh (co dau cach): replay_argv mang root THAT, chay NGUYEN -> parity DAT + byte
-         exit 0 argv[:4]=['python', 'src/nano_replay.py', '--cache-root', 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_vjmidqy5\\custom root\\det cache']
-         parity exit 0; byte giong het True (5659 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_vjmidqy5\\parity_rep-root.json']
+         exit 0 argv[:4]=['python', 'src/nano_replay.py', '--cache-root', 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_333kcocl\\custom root\\det cache']
+         parity exit 0; byte giong het True (5659 B); ['-> C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_stream_333kcocl\\parity_rep-root.json']
   [PASS] 17a. N21-F3 loi cau hinh phat hien TRUOC spawn: YAML thieu/hong/tracker_type la, --set sai dang/khoa la/sai kieu, --hang-doi 0 -> ma 2, KHONG khoi dong detector, khong run_meta
          {'yaml_thieu': (2, False, False), 'yaml_hong': (2, False, False), 'tracker_type_la': (2, False, False), 'set_khong_bang': (2, False, False), 'set_khoa_la': (2, False, False), 'set_sai_kieu': (2, False, False), 'hang_doi_0': (2, False, False)}
   [PASS] 17b. loi o cha SAU spawn, TRUOC xu ly (chuan bi): ma 2, run_meta loi_chuan_bi, con da duoc dung/reap
@@ -1274,12 +1272,12 @@ KET QUA: 20/20 phep kiem tra PASS, 1 SKIP
 --- stderr ---
 
 
-=== test_render_mot_video: PASS (exit 0, 8.3s)
+=== test_render_mot_video: PASS (exit 0, 7.9s)
 $ python src/test_render_mot_video.py
 --- stdout ---
   [PASS] 1. render 30 frame: exit 0, <out>.json dung (30 frame, 25 fps, 320x240, 54 box), doc lai du 30 frame
-         exit 0 info={'video': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test_3u0ug_n2\\out.mp4', 'n_frame': 30, 'fps': 25.0, 'kich_thuoc_wh': [320, 240], 'n_box': 54, 'codec': 'mp4v', 'images': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test_3u0ug_n2\\anh', 'mot': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test_3u0ug_n2\\mot.txt', 'mot_sha256': '438b51790eaf5b47cfd6ae452bce58e8bc584a190fc22c23069e97541aaa0b4b', 'cls': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test_3u0ug_n2\\cls.csv', 'cls_sha256': '6ddb3786f1422baaedb337002e7bcd1a1dbbcdc293890d05a91eec8f6dfcfbfc', 'anh_dau': 'img00001.jpg', 'anh_cuoi': 'img00030.jpg', 'opencv': '5.0.0', 'video_sha256': 'b79308ce42b92ad48dcc6b34336c30bda38e065e830baa85cce7d7e4ca4979c4', 'loai': 'render HAU KY tu anh + MOT (khong phai hien thi trong luc tracking)'} doc lai 30
-         [render] 30 frame, 54 box -> C:\Users\Mikuno\AppData\Local\Temp\render_test_3u0ug_n2\out.mp4
+         exit 0 info={'video': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test_8jfewis_\\out.mp4', 'n_frame': 30, 'fps': 25.0, 'kich_thuoc_wh': [320, 240], 'n_box': 54, 'codec': 'mp4v', 'images': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test_8jfewis_\\anh', 'mot': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test_8jfewis_\\mot.txt', 'mot_sha256': '438b51790eaf5b47cfd6ae452bce58e8bc584a190fc22c23069e97541aaa0b4b', 'cls': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test_8jfewis_\\cls.csv', 'cls_sha256': '6ddb3786f1422baaedb337002e7bcd1a1dbbcdc293890d05a91eec8f6dfcfbfc', 'anh_dau': 'img00001.jpg', 'anh_cuoi': 'img00030.jpg', 'opencv': '5.0.0', 'video_sha256': 'b79308ce42b92ad48dcc6b34336c30bda38e065e830baa85cce7d7e4ca4979c4', 'loai': 'render HAU KY tu anh + MOT (khong phai hien thi trong luc tracking)'} doc lai 30
+         [render] 30 frame, 54 box -> C:\Users\Mikuno\AppData\Local\Temp\render_test_8jfewis_\out.mp4
   [PASS] 2. bo kiem voi dau vao dung -> exit 0 (DAT)
            [DAT] kich thuoc == anh goc ([320, 240])
            [DAT] so frame hien thi dung (moi frame, doc lap) (30 frame kiem, 0 sai)
@@ -1319,7 +1317,7 @@ $ python src/test_render_mot_video.py
   [PASS] 11. so frame sai CHI tren frame KHONG co box (11-13) -> exit 1: phep so frame KHONG DAT, phep khung bbox/ID van DAT
          exit 1 so_frame=False khung=True loi_so=["frame 11: so frame hien thi khong khop 'f11' (loi 44.1 vs khong so 74.3; gan nhat 'f119' trong 49 ung vien)", "frame 12: so frame hien thi khong khop 'f12' (loi 40.5 vs khong so 74.7; gan nhat 'f129' trong 50 ung vien)"]
   [PASS] 12. OpenCV render == kiem -> DAT + ghi opencv_render; <out>.json ghi OpenCV KHAC -> exit 2 KHONG KIEM DUOC, khong chay phep
-         cung: exit 0 5.0.0 | khac: exit 2 {'video': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test_3u0ug_n2\\khac_cv.mp4', 'dat': False, 'khong_kiem_duoc': 'video render bang OpenCV 0.0.0-khac, bo kiem chay OpenCV 5.0.0: cv2.putText ve chu khac giua cac phien ban -> so diem ve lai khong co y nghia; chay bo kiem bang CUNG phien ban OpenCV da render', 'opencv': '5.0.0', 'opencv_render': '0.0.0-khac'}
+         cung: exit 0 5.0.0 | khac: exit 2 {'video': 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\render_test_8jfewis_\\khac_cv.mp4', 'dat': False, 'khong_kiem_duoc': 'video render bang OpenCV 0.0.0-khac, bo kiem chay OpenCV 5.0.0: cv2.putText ve chu khac giua cac phien ban -> so diem ve lai khong co y nghia; chay bo kiem bang CUNG phien ban OpenCV da render', 'opencv': '5.0.0', 'opencv_render': '0.0.0-khac'}
            OpenCV kiem 5.0.0 | OpenCV render 0.0.0-khac
          [KHONG KIEM DUOC] video render bang OpenCV 0.0.0-khac, bo kiem chay OpenCV 5.0.0: cv2.putText ve chu khac giua cac phien ban -> so diem ve lai khong co y nghia; chay bo kiem bang CUNG phien ban OpenCV da render
   [PASS] 13. OpenCV KHAC + --cho-phep-khac-opencv -> chay du phep (chan doan) nhung exit van 2, dat=false
@@ -1332,7 +1330,7 @@ KET QUA: 13/13 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_nano_hien_thi: PASS (exit 0, 18.5s)
+=== test_nano_hien_thi: PASS (exit 0, 19.5s)
 $ python src/test_nano_hien_thi.py
 --- stdout ---
 cha: 3.11.9 | con: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe | backend np
@@ -1353,15 +1351,15 @@ cha: 3.11.9 | con: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe | back
   [PASS] 5. phim q (gia lap) o frame 15 -> stop-file -> ma 4 da_dung; 15 <= frame xu ly < N; MOT == tien to luot du; con thoat 0
          exit 4 da_dung dung theo yeu cau (stop-file); n=18; ly do gia_lap_phim_q
   [PASS] 6. frame khong doc duoc: 2 frame hong nhan '+', 38 frame con lai nhan R; 0 khong ghep
-         exit 0; hong 2; R 38 + 2; dem {'n_anh_nhan': 38, 'n_ket_qua_nhan': 38, 'n_ghep_duoc': 38, 'n_khong_ghep': 0, 'n_anh_bo_khong_ket_qua': 0, 'n_hien_thi': 8, 'n_bo_hien_thi': 30, 'n_mau_luu': 0}
+         exit 0; hong 2; R 38 + 2; dem {'n_anh_nhan': 38, 'n_ket_qua_nhan': 38, 'n_ghep_duoc': 38, 'n_khong_ghep': 0, 'n_anh_bo_khong_ket_qua': 0, 'n_hien_thi': 17, 'n_bo_hien_thi': 21, 'n_mau_luu': 0}
   [SKIP] 7. --hien-thi khi khong co man hinh -> ma 2 truoc khi khoi dong detector: chi POSIX (Windows luon co man hinh)
   [PASS] 8a. launcher kiem trien khai: thieu engine -> loi kem cach khac phuc (01_build_engine.sh); co engine -> 0 loi
-         ['Không thấy engine TensorRT (đã tìm: C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_hien_thi_uyoyhtlm\\khong_co.engine). Cách khắc phục: build engine trên chính Nano bằng `bash scripts/nano/01_build_engine.sh` (khoảng 8 phút) rồi sửa khóa tương ứng trong C:\\Users\\Mikuno\\.config\\nano_tracking\\nano_ui.json (tạo file nếu chưa có, chỉ ghi khóa cần đổi) hoặc D:\\LABOTARY\\bytetrack\\configs\\nano_ui.json (khóa "engine").'] | []
+         ['Không thấy engine TensorRT (đã tìm: C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_hien_thi_xzgtwi8f\\khong_co.engine). Cách khắc phục: build engine trên chính Nano bằng `bash scripts/nano/01_build_engine.sh` (khoảng 8 phút) rồi sửa khóa tương ứng trong C:\\Users\\Mikuno\\.config\\nano_tracking\\nano_ui.json (tạo file nếu chưa có, chỉ ghi khóa cần đổi) hoặc D:\\LABOTARY\\bytetrack\\configs\\nano_ui.json (khóa "engine").'] | []
   [PASS] 8b. argv danh sach giu nguyen duong dan co dau cach (nguon, ket qua); cau hinh sai -> CauHinhSai tieng Viet
-         run_dir thu muc anh co dau cach_ekf_20260929-102552; loi ["Chưa chọn nguồn: bấm 'Chọn video…' hoặc 'Chọn thư mục ảnh…'.", 'Nguồn không tồn tại: C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano', "Thư mục ảnh cần FPS (ô 'FPS'), ví dụ 25 cho UA-DETRAC.", "Ô 'FPS' phải > 0; đã nhập: '0'", 'Chọn bộ lọc CV hoặc EKF.', "Ô 'Số frame tối đa' phải là số nguyên, hoặc để trống; đã nhậ"]
+         run_dir thu muc anh co dau cach_ekf_20260929-104614; loi ["Chưa chọn nguồn: bấm 'Chọn video…' hoặc 'Chọn thư mục ảnh…'.", 'Nguồn không tồn tại: C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano', "Thư mục ảnh cần FPS (ô 'FPS'), ví dụ 25 cho UA-DETRAC.", "Ô 'FPS' phải > 0; đã nhập: '0'", 'Chọn bộ lọc CV hoặc EKF.', "Ô 'Số frame tối đa' phải là số nguyên, hoặc để trống; đã nhậ"]
   [PASS] 8c. launcher chay het -> HOAN_TAT (exit 0), launcher.json + launcher_nhat_ky.txt, tom tat tieng Viet, cache trong run_dir; khong con tien trinh chan khoa man hinh
          HOAN_TAT exit 0 loi None; chan khoa con 0; 40 frame đã xử lý / 40 khai báo; 93 hàng MOT, 3 ID.
-         FPS xử lý 1168.66 (frame / thời gian vòng xử lý, không gồm khởi tạo
+         FPS xử lý 1062.76 (frame / thời gian vòng xử lý, không gồm khởi tạo
   [PASS] 8d. nut Dung -> worker dung co kiem soat (ma 4) -> DA_DUNG (khong phai LOI), run_meta da_dung, khong terminate
          DA_DUNG exit 4 da_dung dung theo yeu cau (stop-file)
   [PASS] 8e. worker loi giua luong (con chet o frame 10) -> LOI, exit 3, thong bao loi
@@ -1375,9 +1373,13 @@ cha: 3.11.9 | con: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe | back
 KET QUA: 16/16 phep kiem tra PASS, 1 SKIP
 
 --- stderr ---
+invalid command name "1278577599552_tick"
+    while executing
+"1278577599552_tick"
+    ("after" script)
 
 
-=== test_bdd100k_adapter: PASS (exit 0, 20.0s)
+=== test_bdd100k_adapter: PASS (exit 0, 16.6s)
 $ python src/test_bdd100k_adapter.py
 --- stdout ---
   [PASS] fixture co 3 video
@@ -1420,20 +1422,20 @@ $ python src/test_bdd100k_adapter.py
   [PASS] cache b1: 12 frame, lop COCO {1,2,3,5,7} (khong rider/pedestrian/crowd)
          60 box, lop {2, 3, 7}
   [PASS] run_tracking cv tren cache fixture
-         ck yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=5.0 track_buffer=6 elapsed=steps seeds=[None]
-           fx-cv                        b1c66a42-6f7d68ca    12 frame ->      59 bbox    5 track  predict 0.19 ms/frame  assoc 1.56  (0.0s, 324 fps)
-           fx-cv                        b2d0a5e2-3c1f9a7b    12 frame ->      41 bbox    4 track  predict 0.16 ms/frame  assoc 1.00  (0.0s, 520 fps)
-           fx-cv                        b3e7f1c0-9a2b4d6e     8 frame ->       9 bbox    2 track  predict 0.13 ms/frame  assoc 0.78  (0.2s, 50 fps)
+         k yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=5.0 track_buffer=6 elapsed=steps seeds=[None]
+           fx-cv                        b1c66a42-6f7d68ca    12 frame ->      59 bbox    5 track  predict 0.13 ms/frame  assoc 1.03  (0.0s, 480 fps)
+           fx-cv                        b2d0a5e2-3c1f9a7b    12 frame ->      41 bbox    4 track  predict 0.08 ms/frame  assoc 0.48  (0.0s, 1000 fps)
+           fx-cv                        b3e7f1c0-9a2b4d6e     8 frame ->       9 bbox    2 track  predict 0.08 ms/frame  assoc 0.43  (0.1s, 85 fps)
            fx-cv                          3 video moi,   0 tai su dung
   [PASS] cv: track_buffer 1.2 s @5fps = 6 buoc, fps=5 trong run_meta
   [PASS] cv: b3 co 1 frame n_steps=2 (timestamp nhay 0.4 s)
   [PASS] cv: tach lop car / motorcycle co dong
          {'BDDFX-val_car': 52, 'BDDFX-val_motorcycle': 13}
   [PASS] run_tracking ekf tren cache fixture
-         ytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=5.0 track_buffer=6 elapsed=steps seeds=[None]
-           fx-ekf                       b1c66a42-6f7d68ca    12 frame ->      59 bbox    5 track  predict 0.17 ms/frame  assoc 0.79  (0.0s, 524 fps)
-           fx-ekf                       b2d0a5e2-3c1f9a7b    12 frame ->      41 bbox    4 track  predict 0.23 ms/frame  assoc 0.99  (0.0s, 571 fps)
-           fx-ekf                       b3e7f1c0-9a2b4d6e     8 frame ->       9 bbox    2 track  predict 0.16 ms/frame  assoc 0.83  (0.1s, 87 fps)
+         tetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=5.0 track_buffer=6 elapsed=steps seeds=[None]
+           fx-ekf                       b1c66a42-6f7d68ca    12 frame ->      59 bbox    5 track  predict 0.16 ms/frame  assoc 0.69  (0.0s, 571 fps)
+           fx-ekf                       b2d0a5e2-3c1f9a7b    12 frame ->      41 bbox    4 track  predict 0.14 ms/frame  assoc 0.58  (0.0s, 857 fps)
+           fx-ekf                       b3e7f1c0-9a2b4d6e     8 frame ->       9 bbox    2 track  predict 0.08 ms/frame  assoc 0.44  (0.1s, 104 fps)
            fx-ekf                         3 video moi,   0 tai su dung
   [PASS] ekf: track_buffer 1.2 s @5fps = 6 buoc, fps=5 trong run_meta
   [PASS] ekf: b3 co 1 frame n_steps=2 (timestamp nhay 0.4 s)
@@ -1639,7 +1641,7 @@ COMBINED                           13        20        2         2
              D:\LABOTARY\bytetrack\data\interim\track_occlusion_summary.csv
          
            xu ly track:   0%|                                            | 0/14 [00:00<?, ?track/s]
-           xu ly track: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 14/14 [00:00<00:00, 777.73track/s]
+           xu ly track: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 14/14 [00:00<00:00, 1398.80track/s]
   [PASS] segments: co doan partial (truck 6-8), KHONG co doan full (>=0.90), 2 gap; duration theo 5 fps
          partial 6 full 0 gaps 2
   [PASS] occlusion_eval --gaps --context-s 1.2 --fps 5
@@ -1726,7 +1728,7 @@ KET QUA: 11/11 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_pf_ctrv: PASS (exit 0, 12.3s)
+=== test_pf_ctrv: PASS (exit 0, 12.2s)
 $ python src/test_pf_ctrv.py
 --- stdout ---
 
@@ -1785,9 +1787,9 @@ $ python src/test_pf_ctrv.py
 --- test_11_runner_seeds ---
   [PASS] run_tracking PF --seeds 0 1 chay xong
          00.yaml conf>0.25 classes=[2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=skip seeds=[0, 1]
-           p2-pftest-s0                 synth             40 frame ->      94 bbox    5 track  predict 0.49 ms/frame  assoc 0.93  (0.1s, 587 fps)
+           p2-pftest-s0                 synth             40 frame ->      94 bbox    5 track  predict 0.43 ms/frame  assoc 0.87  (0.1s, 625 fps)
            p2-pftest-s0                   1 video moi,   0 tai su dung
-           p2-pftest-s1                 synth             40 frame ->      95 bbox    4 track  predict 0.32 ms/frame  assoc 0.76  (0.1s, 776 fps)
+           p2-pftest-s1                 synth             40 frame ->      95 bbox    4 track  predict 0.42 ms/frame  assoc 0.94  (0.1s, 650 fps)
            p2-pftest-s1                   1 video moi,   0 tai su dung
   [PASS] tao 2 thu muc -s0 va -s1
   [PASS] chay lai seed 0: file txt bit-identical
@@ -1863,7 +1865,7 @@ KET QUA: 21/21 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_smoke_phase2: PASS (exit 0, 24.3s)
+=== test_smoke_phase2: PASS (exit 0, 23.6s)
 $ python src/test_smoke_phase2.py
 --- stdout ---
   [PASS] make fixture
@@ -1909,10 +1911,10 @@ $ python src/test_smoke_phase2.py
            [occl ] A: exit 0 (2s) -> D:\LABOTARY\bytetrack\results\phase2\smoke_bddfx\A
   [PASS] summary.csv: 4 tracker, HOTA huu han, pf50 co n_seeds = 2
          tracker      HOTA      DetA      AssA      IDF1      MOTA  IDSW   FP    FN  HOTA_sd_seed  IDF1_sd_seed  AssA_sd_seed  n_seeds  predict_ms_per_frame  assoc_ms_per_frame  update_ms_per_frame  n_events  preserved  switched  lost_after  id_continuous
-         0       cv  0.836374  0.806031  0.868245  0.919192  0.850467   0.0  0.0  16.0           NaN           NaN           NaN        0              0.122033            0.686233             0.808267         6   0.833333  0.000000    0.166667       0.500000
-         1      ekf  0.832934  0.802435  0.865058  0.919192  0.850467   0.0  0.0  16.0           NaN           NaN           NaN        0              0.227133            1.003400             1.230533         6   0.833333  0.000000    0.166667       0.500000
-         2     pf50  0.671016  0.627894  0.722509  0.820045  0.724299   2.5  1.0  26.0      0.010995      0.016312      0.023512        2              0.602933            1.823850             2.426817        12   0.666667  0.166667    0.166667       0.500000
-         3  sortekf  0.745146  0.708306  0.784443  0.834225  0.728972   2.0  0.0  27.0           NaN           NaN           NaN        0              0.208067            0.661933             0.870000         6   0.666667  0.000000    0.333333       0.333333
+         0       cv  0.836374  0.806031  0.868245  0.919192  0.850467   0.0  0.0  16.0           NaN           NaN           NaN        0              0.093667            0.588900             0.682600         6   0.833333  0.000000    0.166667       0.500000
+         1      ekf  0.832934  0.802435  0.865058  0.919192  0.850467   0.0  0.0  16.0           NaN           NaN           NaN        0              0.162633            0.698433             0.861067         6   0.833333  0.000000    0.166667       0.500000
+         2     pf50  0.671016  0.627894  0.722509  0.820045  0.724299   2.5  1.0  26.0      0.010995      0.016312      0.023512        2              0.339967            1.154200             1.494150        12   0.666667  0.166667    0.166667       0.500000
+         3  sortekf  0.745146  0.708306  0.784443  0.834225  0.728972   2.0  0.0  27.0           NaN           NaN           NaN        0              0.139767            0.425067             0.564867         6   0.666667  0.000000    0.333333       0.333333
   [PASS] paired_bootstrap.csv: 3 tracker x 5 metric vs baseline cv
   [PASS] timing.csv + event_outcomes (gap) ton tai
   [PASS] occlusion_eval: co su kien gap va outcome cho moi tracker (5 dir: cv, ekf, pf50-s0, pf50-s1, sortekf)
@@ -1928,7 +1930,7 @@ KET QUA: 11/11 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_lost_recovery: PASS (exit 0, 7.2s)
+=== test_lost_recovery: PASS (exit 0, 5.9s)
 $ python src/test_lost_recovery.py
 --- stdout ---
   [PASS] [cv] lost_recovery TAT == goc (bit-identical, 300 frame MVI_39031, 545 dong)
@@ -1953,7 +1955,7 @@ KET QUA: 11/11 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_sort_upstream_parity: PASS (exit 0, 7.6s)
+=== test_sort_upstream_parity: PASS (exit 0, 5.9s)
 $ python src/test_sort_upstream_parity.py
 --- stdout ---
   [PASS] [min_hits] repo == upstream (max_age=1, min_hits=3; 4 vs 4 dong, 1 vs 1 track; lech toa do toi da 6.73e-06 px)
@@ -1980,7 +1982,7 @@ KET QUA: 8/8 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_run_experiment_guard: PASS (exit 0, 72.7s)
+=== test_run_experiment_guard: PASS (exit 0, 67.3s)
 $ python src/test_run_experiment_guard.py
 --- stdout ---
   [PASS] chay lan dau: exit 0 va co eval_meta.json
@@ -1989,7 +1991,7 @@ $ python src/test_run_experiment_guard.py
          b3e7f1c0-9a2b4d6e                  9         16        2         2         
          COMBINED                           91        107       10        10        
            [eval ] p2-guard_bddfx-c25-ekf                   HOTA 0.8329 IDF1 0.9192 AssA 0.8651 IDSW 0
-           [occl ] c25: exit 0 (2s) -> D:\LABOTARY\bytetrack\results\phase2\guard_bddfx\c25
+           [occl ] c25: exit 0 (1s) -> D:\LABOTARY\bytetrack\results\phase2\guard_bddfx\c25
   [PASS] chay lai khong doi gi: TAI SU DUNG (khong goi evaluator)
          [exp] guard_bddfx: split=BDDFX-val cache=fixture_bddfx_gt 3 video, 2 lan chay tracker (1 dieu kien)
            [track] p2-guard_bddfx-c25-cv                      0 video moi,   3 tai su dung     0.0s
@@ -2003,7 +2005,7 @@ $ python src/test_run_experiment_guard.py
            [eval ] p2-guard_bddfx-c25-cv                    HOTA 0.8208 IDF1 0.9082 AssA 0.8543 IDSW 0
            [eval ] p2-guard_bddfx-c25-ekf                   TAI SU DUNG (dau van tay trung khit)
            [occl ] c25: CHAY LAI, ly do: tracking
-           [occl ] c25: exit 0 (1s) -> D:\LABOTARY\bytetrack\results\phase2\guard_bddfx\c25
+           [occl ] c25: exit 0 (2s) -> D:\LABOTARY\bytetrack\results\phase2\guard_bddfx\c25
   [PASS] doi cau hinh khi resume -> tracking CHAY LAI toan bo, fingerprint moi
          [exp] guard_bddfx: split=BDDFX-val cache=fixture_bddfx_gt 3 video, 2 lan chay tracker (1 dieu kien)
            [track] p2-guard_bddfx-c25-cv                    CHAY LAI 3 video (ghi de): dau van tay khac x3
@@ -2011,7 +2013,7 @@ $ python src/test_run_experiment_guard.py
            [track] p2-guard_bddfx-c25-ekf                   CHAY LAI 3 video (ghi de): dau van tay khac x3
            [track] p2-guard_bddfx-c25-ekf                     3 video moi,   0 tai su dung     0.0s
   [PASS] resume khong doi gi -> giu NGUYEN created/git_commit truoc resume + ghi them 'resumed'
-         created 2026-09-29T10:27:52 -> 2026-09-29T10:27:52; resumed 1 -> 2
+         created 2026-09-29T10:48:05 -> 2026-09-29T10:48:05; resumed 1 -> 2
   [PASS] fingerprint KHONG doi (cung backend) -> buoc danh gia TAI SU DUNG
          [exp] guard_bddfx: split=BDDFX-val cache=fixture_bddfx_gt 3 video, 2 lan chay tracker (1 dieu kien)
            [eval ] p2-guard_bddfx-c25-cv                    TAI SU DUNG (dau van tay trung khit)
@@ -2040,7 +2042,7 @@ KET QUA: 9/9 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_run_resume_guard: PASS (exit 0, 5.6s)
+=== test_run_resume_guard: PASS (exit 0, 5.5s)
 $ python src/test_run_resume_guard.py
 --- stdout ---
   [track] p2-resumeguard_bddfx-c25-cv                3 video moi,   0 tai su dung     0.0s
@@ -2066,33 +2068,33 @@ $ python src/test_run_resume_guard.py
          ran=1
   [track] p2-resumeguard_bddfx-c25-cv                0 video moi,   3 tai su dung     0.0s
   [PASS] resume khong doi gi: 0 video chay lai, created/git_commit GIU NGUYEN gia tri luu TRUOC resume, co them muc 'resumed'
-         created 2026-09-29T10:28:32 -> 2026-09-29T10:28:32; resumed 3 -> 4
+         created 2026-09-29T10:48:42 -> 2026-09-29T10:48:42; resumed 3 -> 4
   [PASS] provenance cua lan A dau tien da bi thay sau khi doi cau hinh roi quay lai
   [track] p2-resumeguard_bddfx-c25-cv              CHAY LAI 3 video (ghi de): dau van tay khac x3
   [track] p2-resumeguard_bddfx-c25-cv                3 video moi,   0 tai su dung     0.0s
   [PASS] doi cau hinh -> chay lai TOAN BO, status=complete, 'previous' giu provenance NGAY TRUOC do
-         ran=3 created=2026-09-29T10:28:33 previous=2026-09-29T10:28:32 (mong doi 2026-09-29T10:28:32)
+         ran=3 created=2026-09-29T10:48:43 previous=2026-09-29T10:48:42 (mong doi 2026-09-29T10:48:42)
 
 KET QUA: 11/11 phep kiem tra PASS
 
 --- stderr ---
 
 
-=== test_review_delta: PASS (exit 0, 16.7s)
+=== test_review_delta: PASS (exit 0, 158.4s)
 $ python src/test_review_delta.py
 --- stdout ---
-packager duoc kiem: D:\LABOTARY\bytetrack\src\make_review_delta.py (sha256 61ab5c0d47dbb3d3)
+packager duoc kiem: D:\LABOTARY\bytetrack\src\make_review_delta.py (sha256 f9734161759c39c9)
   [PASS] thieu REVIEW_BRIEF.md -> TU CHOI dung goi
          Thieu handoff\REVIEW_BRIEF.md - viet bao cao ngan cua vong nay truoc khi dong goi
   [PASS] dung goi delta thanh cong
-         ZIP: C:\Users\Mikuno\AppData\Local\Temp\delta_test_v5yix415\handoff\review_delta_latest.zip (0.01 MB, 11 file); testzip: OK
+         ZIP: C:\Users\Mikuno\AppData\Local\Temp\delta_test_awgeyhux\handoff\review_delta_latest.zip (0.01 MB, 11 file); testzip: OK
          file bat buoc thieu: khong
          file CAM co trong ZIP: 0 []
-         thu tu doc: REVIEW_BRIEF.md -> patch/delta_54e402f..822c832.diff -> logs/ + data/ -> DEPENDENCIES.md
-         [roundtrip] review_delta_latest.zip: base 54e402f -> target 822c832, patch 836 B, 5 duong dan trong patch
+         thu tu doc: REVIEW_BRIEF.md -> patch/delta_20ec3cf..caa0af2.diff -> logs/ + data/ -> DEPENDENCIES.md
+         [roundtrip] review_delta_latest.zip: base 20ec3cf -> target caa0af2, patch 836 B, 5 duong dan trong patch
          [roundtrip] 5/5 duong dan khop target theo blob/sha256
   [PASS] base lay tu review_base.json va KHONG tu chuyen sang HEAD sau khi dung goi
-         base=54e402f target=822c832 trong file=54e402f
+         base=20ec3cf target=caa0af2 trong file=20ec3cf
   [PASS] file rieng cua nguoi dung KHONG co trong goi
   [PASS] du lieu lon / nhi phan / patch toan bo lich su KHONG co trong goi
   [PASS] code/test/config/log/ket qua moi CO trong goi, dung ban target
@@ -2110,28 +2112,33 @@ packager duoc kiem: D:\LABOTARY\bytetrack\src\make_review_delta.py (sha256 61ab5
   [PASS] P2b: hai file code trung noi dung -> ap patch co DU ca hai; dedup chi ap cho log
          thieu sau khi ap=[]; ca hai trong files/=True; so log trong goi=1
   [PASS] --support file KHONG doi: nam o support/, status ho_tro, hash base == target, KHONG trong patch, khong tinh vao so_file_trong_goi, co muc rieng trong DEPENDENCIES.md; file CO doi -> TU CHOI
-         rc=0 row={'status': 'ho_tro', 'path': 'src/khong_doi.py', 'trong_goi': 'support/src/khong_doi.py', 'trong_patch': 'False', 'ly_do_khong_gom': '', 'trung_noi_dung_voi': '', 'bytes': '11', 'sha256_base': '414043d98113c6dc776f721bf00b4bfd14933a4dfcd9e696ecb8eb02d1d77e82', 'sha256_target': '414043d98113c6dc776f721bf00b4bfd14933a4dfcd9e696ecb8eb02d1d77e82'} rc_doi=1 DUNG: --support src/tracker.py CO doi so voi base 54e402f -> no da/phai nam trong patch, khong dung --support
+         rc=0 row={'status': 'ho_tro', 'path': 'src/khong_doi.py', 'trong_goi': 'support/src/khong_doi.py', 'trong_patch': 'False', 'ly_do_khong_gom': '', 'trung_noi_dung_voi': '', 'bytes': '11', 'sha256_base': '414043d98113c6dc776f721bf00b4bfd14933a4dfcd9e696ecb8eb02d1d77e82', 'sha256_target': '414043d98113c6dc776f721bf00b4bfd14933a4dfcd9e696ecb8eb02d1d77e82'} rc_doi=1 DUNG: --support src/tracker.py CO doi so voi base 20ec3cf -> no da/phai nam trong patch, khong dung --support
   [PASS] 14. patch trong ZIP == `git diff --binary` tho, tung byte (CR giu nguyen)
          patch 1916 B CR 10 | tho 1916 B CR 10
   [PASS] 15. ap patch len base sach (exit 0) -> them/sua/xoa CRLF, tron LF/CRLF/CR le, binary: byte + sha256 khop target va MANIFEST
          apply exit 0 
          6 duong dan; lech: []
   [PASS] 16. --kiem-roundtrip: goi that exit 0; goi co patch bi mat CR -> exit != 0
-         that: rc=0 oundtrip] review_delta_latest.zip: base 00d1ab2 -> target 6398328, patch 1,916 B, 6 duong dan trong patch
+         that: rc=0 oundtrip] review_delta_latest.zip: base 29a6cf6 -> target 366ad5e, patch 1,916 B, 6 duong dan trong patch
          [roundtrip] 6/6 duong dan khop target theo blob/sha256
          hong: rc=1 blob sau khi ap b4e31d45a6a970c70dbc92b5b432f46b5d3386d6 != target ae382feecca9b4fc3630aa76b1902502888119cc
              src/xoa_crlf.py: blob sau khi ap cdfd0755b84b546cff5ea5ac89847dc898eaf772 != target None
   [PASS] 17. file rieng `src/demo/` KHONG co trong ZIP lan duong dan trong patch
   [PASS] 18. --giu-khai-bao: DEPENDENCIES liet ke file + sha256 tai base; khai bao MANG SANG lan doi base sau
-         rc set-base=0 dung goi=0 set-base 2=0; khai bao=[{'path': 'handoff/logs/anh.bin', 'bytes': 275, 'sha256': '42dda5bfc1d00fdb01a876a727d7397f9a543864aa2ff0f2e3ea2d85ca67ffa4', 'ly_do': 'khai bao tay: khong dong goi', 'khai_bao_tu_base': '6398328', 'vong': 2}]
-         da ghi base = 6398328 (vong 2) -> handoff\review_base.json; khai bao khong ban giao: 1 file
+         rc set-base=0 dung goi=0 set-base 2=0; khai bao=[{'path': 'handoff/logs/anh.bin', 'bytes': 275, 'sha256': '42dda5bfc1d00fdb01a876a727d7397f9a543864aa2ff0f2e3ea2d85ca67ffa4', 'ly_do': 'khai bao tay: khong dong goi', 'khai_bao_tu_base': '366ad5e', 'vong': 2}]
+         da ghi base = 366ad5e (vong 2) -> handoff\review_base.json; khai bao khong ban giao: 1 file
+  [PASS] 19. 700 duong dan dai (tong 110600 ky tu > 32.767): dung goi exit 0, patch du 700 file, --kiem-roundtrip DAT
+         dung goi rc=0 ] review_delta_latest.zip: base 6ed34fd -> target 330b424, patch 403,790 B, 700 duong dan trong patch
+         [roundtrip] 700/700 duong dan khop target theo blob/sha256
+         so file trong patch 700; roundtrip 0 -> target 330b424, patch 403,790 B, 700 duong dan trong patch
+         [roundtrip] 700/700 duong dan khop target theo blob/sha256
 
-KET QUA: 19/19 phep kiem tra PASS
+KET QUA: 20/20 phep kiem tra PASS
 
 --- stderr ---
 
 
-=== test_bytetrack_np_parity: PASS (exit 0, 38.8s)
+=== test_bytetrack_np_parity: PASS (exit 0, 67.7s)
 $ python src/test_bytetrack_np_parity.py
 --- stdout ---
   [PASS] ban vendor == ultralytics 8.4.141 sau khi ap dung 5 dong import da khai bao
@@ -2160,7 +2167,7 @@ KET QUA: 10/10 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_runner_backend_np: PASS (exit 0, 17.2s)
+=== test_runner_backend_np: PASS (exit 0, 21.1s)
 $ python src/test_runner_backend_np.py
 --- stdout ---
   [PASS] CLI `run_tracking.py` chay duoc voi backend np khi CHAN torch va ultralytics (P1-A: resolver YAML truoc day luon goi check_yaml cua ultralytics)
@@ -2170,11 +2177,11 @@ $ python src/test_runner_backend_np.py
   [PASS] `tracker_cfg` trong run_meta.json KHONG rong tren backend np (P1-B: truoc day `vars(_Cfg)` = {} nen metadata rong)
          tracker_cfg = {'tracker_type': 'bytetrack', 'track_high_thresh': 0.25, 'track_low_thresh': 0.1, 'new_track_thresh': 0.25, 'track_buffer': 30, 'match_thresh': 0.8, 'fuse_score': True}
   [PASS] sua NOI DUNG cung file YAML (new_track_thresh 0.25 -> 0.95) -> tracking CHAY LAI va cho ket qua cua cau hinh MOI, khong giu 4 dong cu
-         n_ran=1 n_lines: 4 -> 0; fingerprint doi: 13a5fac975b9 -> e96f466d6d6e
+         n_ran=1 n_lines: 4 -> 0; fingerprint doi: aa60f310f1fb -> e02f95f89a31
   [PASS] chay lai khi KHONG doi gi -> TAI SU DUNG (0 video chay lai), fingerprint giu nguyen
          n_ran=0 resumed=2
   [PASS] DOI BACKEND (np -> ultralytics) qua runner that -> tracking CHAY LAI (khong tai dung), fingerprint doi
-         n_ran=1 fingerprint: e96f466d6d6e -> c30caad70294
+         n_ran=1 fingerprint: e02f95f89a31 -> 3b4a52badcd4
   [PASS] `tracker_cfg` cung KHONG rong tren backend ultralytics (mot cach lay cau hinh cho ca hai)
          {'tracker_type': 'bytetrack', 'track_high_thresh': 0.25, 'track_low_thresh': 0.1, 'new_track_thresh': 0.95, 'track_buffer': 30, 'match_thresh': 0.8, 'fuse_score': True}
   [PASS] cung backend + cung dau vao -> TAI SU DUNG
@@ -2197,7 +2204,7 @@ KET QUA: 14/14 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_boot_stats: PASS (exit 0, 9.8s)
+=== test_boot_stats: PASS (exit 0, 9.9s)
 $ python src/test_boot_stats.py
 --- stdout ---
 
@@ -2282,7 +2289,7 @@ KET QUA: 6/6 phep kiem tra PASS
 --- stderr ---
 
 
-=== test_run_tracking_replay: PASS (exit 0, 33.5s)
+=== test_run_tracking_replay: PASS (exit 0, 35.3s)
 $ python src/test_run_tracking_replay.py --n-frames 150
 --- stdout ---
 
@@ -2303,9 +2310,9 @@ $ python src/test_run_tracking_replay.py --n-frames 150
 
 --- test 2: model.track truc tiep vs cache model.predict (conf 0.05) -> runner, 150 frame ---
   [PASS] cache khong frame nao cham tran max_det
-  [PASS] [cv] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=True; lech toa do max 0 px)
+  [PASS] [cv] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=False; lech toa do max 0.000122 px)
   [PASS] [cv] direct vs cache: SONG ANH ID toan sequence (rows A=230 B=230 matched=230 unmatched A=0 B=0; ids A=3 B=3 pairs=3; A->nhieu B: 0, B->nhieu A: 0; bijection=True identity=True)
-  [PASS] [ekf] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=False; lech toa do max 0 px)
+  [PASS] [ekf] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=False; lech toa do max 0.000122 px)
   [PASS] [ekf] direct vs cache: SONG ANH ID toan sequence (rows A=230 B=230 matched=230 unmatched A=0 B=0; ids A=3 B=3 pairs=3; A->nhieu B: 0, B->nhieu A: 0; bijection=True identity=True)
   [PASS] [ukf] direct vs cache: cap (frame,id) trung >= 99% (1.0000; direct 230 / cache 230 dong; bit-identical=False; lech toa do max 6.1e-05 px)
   [PASS] [ukf] direct vs cache: SONG ANH ID toan sequence (rows A=230 B=230 matched=230 unmatched A=0 B=0; ids A=3 B=3 pairs=3; A->nhieu B: 0, B->nhieu A: 0; bijection=True identity=True)

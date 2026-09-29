@@ -21,7 +21,7 @@ người dùng: **`handoff/NANO_LOCAL_UI.md`**.
 ## Bằng chứng
 
 - `test_nano_hien_thi`: PC 16/16 (+1 SKIP POSIX), Nano 17/17 (gồm Tk trên HDMI); `test_nano_stream` 20/20; `test_pc_launcher` 17/17.
-  Full suite PC: **36/36 PASS** (`logs/review25/tests_20260929-1021.log`, trên `91c95c7` = mã cuối).
+  Full suite PC: **36/36 PASS** trên mã cuối `a73eb1e` (`logs/review25/tests_20260929-1041.log`); lần trước 36/36 trên `91c95c7`.
 - TensorRT thật, 14 lượt: detection giống hệt; **bật/tắt hiển thị → MOT + lớp giống byte**; live == replay, `nano_parity` ĐẠT; ảnh xem
   trước khớp pixel với render từ MOT đã ghi.
 - **1.470 ảnh CV và EKF có hiển thị trên HDMI**: hiện 1470/1470, bỏ 0; MOT + lớp **giống byte kết quả vòng 23**.
@@ -34,7 +34,8 @@ người dùng: **`handoff/NANO_LOCAL_UI.md`**.
 ## Chặn đã gặp
 
 Màn hình Nano tự khóa sau 5 phút rảnh nên xdotool không vào được cửa sổ (có log). Không dùng mật khẩu qua SSH; người dùng mở khóa, pha
-HDMI chạy tự động. Sau khi xem trên HDMI (gói v14): bỏ dòng `fatal:` trong nhật ký, biểu tượng desktop hiện đúng tên.
+HDMI chạy tự động. Sau khi xem trên HDMI (gói v14): bỏ dòng `fatal:` trong nhật ký, biểu tượng desktop hiện đúng tên. Packager
+delta gặp `WinError 206` (dòng lệnh quá dài): chia lô `git diff` (`a73eb1e`), test 19 bắt được mã cũ.
 
 ## Giới hạn và phần của người dùng
 

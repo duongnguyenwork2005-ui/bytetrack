@@ -60,7 +60,8 @@ launcher, dọn tiến trình chặn khóa; GUI Tk.
 | PC | `test_nano_hien_thi` **16/16** (+1 SKIP chỉ POSIX), `test_nano_stream` 20/20, `test_pc_launcher` 17/17, render 13/13, nano_detector 6/6 | commit `a7b50e2`, `71160d0` |
 | Nano v12/v13 | `test_nano_hien_thi` **17/17** (gồm GUI Tk trên HDMI), `test_nano_stream` 20/20, `--kiem-tra` exit 0 | `v25_test_v12/`, `v25_test_v13/` |
 | Nano v14 (gói cuối) | `test_nano_hien_thi` 17/17, `test_nano_stream` 20/20, `--kiem-tra` exit 0; launcher K1 hai lượt `hoan_tat`, nhật ký 0 dòng `fatal` | `v25_test_v14/`, `v25_kich_ban_v14/`, `08_trien_khai_v14.log` |
-| PC full suite | **36/36 PASS** trên `91c95c7` (mã cuối) | `tests_20260929-1021.log` |
+| PC full suite | **36/36 PASS** trên `91c95c7`; sau khi sửa packager (mục 6) chạy lại trên `a73eb1e` (mã cuối): **36/36 PASS** | `tests_20260929-1021.log`, `tests_20260929-1041.log` |
+| Packager (`test_review_delta`) | **20/20** (thêm phép 19: 700 đường dẫn dài); cùng test với packager cũ `91c95c7`: 19/20, phép 19 FAIL `WinError 206` | `10_test_review_delta_sau_sua.log`, `10b_test_review_delta_ma_cu.log` |
 
 ## 4. TensorRT thật trên Nano
 
@@ -114,6 +115,10 @@ vào cửa sổ nào (kể cả zenity), ảnh chụp là màn hình khóa (`03_
 (`07_pha_hdmi_sau_mo_khoa.log`). Rút kinh nghiệm cho người dùng: launcher tạm chặn khóa khi rảnh **trong lúc chạy**.
 Khi màn hình khóa, luồng hiển thị vẫn chạy (không lỗi), chỉ không nhìn thấy.
 
+**Lỗi packager khi dựng delta vòng 25**: `make_review_delta.make_patch` gọi MỘT `git diff -- <mọi đường dẫn>`; delta này có hàng
+trăm đường dẫn bằng chứng dài nên dòng lệnh vượt giới hạn Windows (`WinError 206`). Sửa (`a73eb1e`): chia đường dẫn thành lô (≤ 20.000
+ký tự), nối bytes theo thứ tự đường dẫn; `--kiem-roundtrip` vẫn áp patch và so blob từng đường dẫn. Phép hồi quy 19 bắt được mã cũ.
+
 Sửa nhỏ sau khi xem trên HDMI (gói v14): `det_cache.git_commit` bỏ stderr (gói Nano không có `.git` → dòng `fatal:` trong nhật ký
 launcher); `08_tao_loi_tat.sh` `touch` sau khi đánh dấu tin cậy (Nautilus 3.26 mới hiện tên + icon), `Categories` một nhóm chính.
 
@@ -136,4 +141,5 @@ Mã: `src/nano_stream_proto.py`, `src/nano_detect_stream.py`, `src/nano_hien_thi
 (mới), `scripts/nano/07_giao_dien.sh`, `scripts/nano/08_tao_loi_tat.sh` (mới). Bằng chứng `handoff/logs/review25/`. Gói Nano
 v12 `f2b13fa8…`, v13 `ffbe9081…`, **v14 `315407c5…`** (đang dùng, `~/nano_run/v14`). Commit: `f0f092b` (review + trạng thái đầu), `7cfd24d` (base), `a7b50e2` (hiển thị + launcher + test), `71160d0` (chặn khóa khi
 chạy, nhật ký, script thiết bị), `4dca738` (bằng chứng lúc màn hình khóa + hướng dẫn), `bbae485` (script pha HDMI), `91c95c7`
-(det_cache stderr, lối tắt), `30891c9` (bằng chứng HDMI, v14, ảnh, full suite), rồi commit tài liệu vòng 25.
+(det_cache stderr, lối tắt), `30891c9` (bằng chứng HDMI, v14, ảnh, full suite), `c336859` (tài liệu), `a73eb1e` (packager chia lô),
+rồi commit cập nhật tài liệu + full suite lần 2.
