@@ -215,7 +215,46 @@ class NanoLauncherController(pcl.LauncherController):
         run_dir = super().start(cfg)
         self.t_start, self.t_start_iso = time.perf_counter(), time.strftime("%Y-%m-%dT%H:%M:%S")
         self._da_ghi_launcher_json = False
+        self._bat_chan_khoa()
         return run_dir
+
+    # (vong 25) Unity khoa man hinh sau 5 phut ranh -> dang xem truc tiep ma man hinh khoa. CHI trong luc worker chay:
+    # gnome-session-inhibit --inhibit idle (phien nguoi dung, khong sudo); het luot / dong launcher -> tra lai ngay.
+    _chan_khoa: subprocess.Popen | None = None
+
+    def _bat_chan_khoa(self) -> None:
+        exe = shutil.which("gnome-session-inhibit")
+        if not exe or not os.environ.get("DISPLAY") or sys.platform.startswith("win"):
+            return
+        try:
+            # lenh con TU THOAT khi launcher chet (ke ca bi kill dot ngot) -> khong bao gio giu chan khoa sau launcher
+            giu = f"while kill -0 {os.getpid()} 2>/dev/null; do sleep 5; done"
+            self._chan_khoa = subprocess.Popen(
+                [exe, "--app-id", "nano-tracking", "--reason", "Dang tracking va hien thi truc tiep", "--inhibit", "idle",
+                 "sh", "-c", giu], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                start_new_session=True)
+            self._ghi_log("[launcher] tam chan khoa man hinh khi ranh trong luc chay (gnome-session-inhibit --inhibit idle)")
+        except OSError as e:
+            self._ghi_log(f"[launcher] khong chan duoc khoa man hinh: {e}")
+
+    def _tat_chan_khoa(self) -> None:
+        p, self._chan_khoa = self._chan_khoa, None
+        if p is None or p.poll() is not None:
+            return
+        try:
+            import signal
+            os.killpg(p.pid, signal.SIGTERM)
+            p.wait(timeout=3)
+        except Exception:  # noqa: BLE001
+            try:
+                p.kill()
+            except Exception:  # noqa: BLE001
+                pass
+        self._ghi_log("[launcher] da tra lai khoa man hinh khi ranh")
+
+    def force_terminate(self, ly_do: str) -> None:
+        super().force_terminate(ly_do)
+        self._tat_chan_khoa()
 
     def _ket_luan_cuoi(self, tt_worker):
         # nano_live: ma 4 + progress 'da_dung' = dung co kiem soat (ket qua cac frame da xu ly ghi du)
@@ -227,6 +266,7 @@ class NanoLauncherController(pcl.LauncherController):
         s = super().poll()
         if self.exit_code is not None and not self._da_ghi_launcher_json and self.run_dir is not None:
             self._da_ghi_launcher_json = True
+            self._tat_chan_khoa()
             tong = time.perf_counter() - self.t_start if self.t_start else None
             info = {"trang_thai": self.trang_thai, "exit_code": self.exit_code, "loi": self.loi,
                     "da_terminate": self.da_terminate, "bat_dau_luc": self.t_start_iso,
@@ -238,8 +278,10 @@ class NanoLauncherController(pcl.LauncherController):
             try:
                 (self.run_dir / "launcher.json").write_text(json.dumps(info, ensure_ascii=False, indent=2),
                                                             encoding="utf-8")
+                # nhat ky day du cua luot (stdout worker + dong [launcher]) -> giu lai ca khi da dong cua so
+                (self.run_dir / "launcher_nhat_ky.txt").write_text("\n".join(self.log) + "\n", encoding="utf-8")
             except OSError as e:
-                self._ghi_log(f"[launcher] khong ghi duoc launcher.json: {e}")
+                self._ghi_log(f"[launcher] khong ghi duoc launcher.json / nhat ky: {e}")
             s = self.snapshot()
         return s
 
@@ -571,9 +613,15 @@ def _build_app():  # noqa: C901
                 self._tu_dong_da.add("dong")
                 self._ghi_log_gui("[tu dong] dong cua so launcher (WM_DELETE_WINDOW)")
                 self._dong()
-            if td.get("dong_khi_xong") and tt in ("HOAN_TAT", "DA_DUNG", "LOI") and "xong" not in self._tu_dong_da:
-                self._tu_dong_da.add("xong")
-                self.after(3000, self._dong)
+            if tt in ("HOAN_TAT", "DA_DUNG", "LOI") and self.ctl.run_dir not in self._tu_dong_da:
+                self._tu_dong_da.add(self.ctl.run_dir)
+                n_xong = sum(1 for k in self._tu_dong_da if isinstance(k, Path))
+                if n_xong < int(td.get("so_luot") or 1):            # MO LUOT MOI trong cung phien launcher
+                    self._t_dang_chay = None
+                    self._ghi_log_gui(f"[tu dong] luot {n_xong} xong ({tt}) -> bam Bat dau luot {n_xong + 1} sau 3 s")
+                    self.after(3000, self._bat_dau)
+                elif td.get("dong_khi_xong"):
+                    self.after(3000, self._dong)
 
         def _ghi_log_gui(self, s: str):
             self.ctl._ghi_log(s)
@@ -584,7 +632,7 @@ def _build_app():  # noqa: C901
             tt = s["trang_thai"]
             self._cap_nhat_mt()
             if not self._dang_dong:
-                nhan = {"SAN_SANG": "SẴN SÀNG", "DANG_KHOI_TAO": "ĐANG KHỞI TẠO (nạp engine TensorRT, ~10 giây)…",
+                nhan = {"SAN_SANG": "SẴN SÀNG", "DANG_KHOI_TAO": "ĐANG KHỞI TẠO (nạp engine TensorRT: ~10 giây; lần đầu sau khi bật máy có thể ~1 phút)…",
                         "DANG_CHAY": "ĐANG CHẠY", "DANG_DUNG": "ĐANG DỪNG (hoàn tất frame hiện tại, ghi kết quả)…",
                         "HOAN_TAT": "HOÀN TẤT ✔", "DA_DUNG": "ĐÃ DỪNG theo yêu cầu (kết quả các frame đã xử lý được ghi đủ)",
                         "LOI": "LỖI ✖"}[tt]
@@ -641,9 +689,10 @@ def main() -> int:
     t.add_argument("--khong-hien-thi", action="store_true")
     t.add_argument("--luu-cache", action="store_true")
     t.add_argument("--tu-dong-bat-dau", action="store_true", help="bam Bat dau ngay khi kiem moi truong xong")
-    t.add_argument("--tu-dong-dung-sau", type=float, default=None, help="bam Dung sau S giay DANG CHAY")
+    t.add_argument("--tu-dong-dung-sau", type=float, default=None, help="bam Dung sau S giay DANG CHAY (chi luot dau)")
     t.add_argument("--tu-dong-dong-sau", type=float, default=None, help="dong cua so launcher sau S giay DANG CHAY")
-    t.add_argument("--tu-dong-dong-khi-xong", action="store_true", help="dong launcher 3 s sau khi luot ket thuc")
+    t.add_argument("--tu-dong-so-luot", type=int, default=None, help="chay N luot lien tiep trong cung phien (mo luot moi)")
+    t.add_argument("--tu-dong-dong-khi-xong", action="store_true", help="dong launcher 3 s sau khi luot cuoi ket thuc")
     a = ap.parse_args()
     os.environ["BYTETRACK_BACKEND"] = "np"              # worker nano_live: backend tracker NumPy (nhu script 04)
     cau_hinh = doc_cau_hinh()
@@ -658,8 +707,15 @@ def main() -> int:
         return 1
     tu_dong = {"nguon": a.nguon, "tracker": a.tracker, "ket_qua": a.ket_qua, "fps": a.fps, "max_frames": a.max_frames,
                "khong_hien_thi": a.khong_hien_thi, "luu_cache": a.luu_cache, "bat_dau": a.tu_dong_bat_dau,
-               "dung_sau": a.tu_dong_dung_sau, "dong_sau": a.tu_dong_dong_sau, "dong_khi_xong": a.tu_dong_dong_khi_xong}
+               "dung_sau": a.tu_dong_dung_sau, "dong_sau": a.tu_dong_dong_sau, "so_luot": a.tu_dong_so_luot,
+               "dong_khi_xong": a.tu_dong_dong_khi_xong}
     tu_dong = {k: v for k, v in tu_dong.items() if v not in (None, False)}
+    # CHI KIEM THU tren thiet bi: mo qua loi tat desktop (gtk-launch) khong truyen duoc tham so -> doc them tu bien moi
+    # truong NANO_UI_TU_DONG (JSON, cung khoa); tham so dong lenh uu tien. Nguoi dung binh thuong khong dat bien nay.
+    try:
+        tu_dong = {**json.loads(os.environ.get("NANO_UI_TU_DONG") or "{}"), **tu_dong}
+    except ValueError:
+        print("[canh bao] NANO_UI_TU_DONG khong phai JSON -> bo qua")
     app = _build_app()(cau_hinh, trien_khai, tu_dong)
     app.mainloop()
     return 0

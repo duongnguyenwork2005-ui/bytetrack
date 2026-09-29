@@ -1,0 +1,14 @@
+# 03. Man hinh Nano bi KHOA (chan kiem thao tac ban phim/cua so qua xdotool) - 2026-09-29T09:13:33+07:00 (gio PC)
+gio Nano: 2026-09-29T10:13:35+08:00 | boot 2026-09-29 09:34:10
+unity IsLocked: (true,)
+gsettings lock-enabled=true idle-delay=uint32 300 lock-delay=uint32 0
+xset:   Monitor is On
+gnome-session-inhibit: /usr/bin/gnome-session-inhibit
+xdg-screensaver: /usr/bin/xdg-screensaver
+systemd-inhibit: /bin/systemd-inhibit
+## bang chung da quan sat (thu_phim / go_loi_phim / thu_xdotool, gio Nano ~10:07-10:12):
+- xdotool windowactivate + key q (XTEST), key --window q (XSendEvent), windowfocus + Escape vao cua so 'Xem truc tiep' dang hien: getactivewindow == cua so do nhung KHONG phim nao den waitKey; luot chay het 300 frame (hoan_tat)
+- script toi thieu (thu_gtk_phim.py): cv2.waitKey o LUONG CHINH va LUONG PHU deu khong nhan phim xdotool (OpenCV 3.2 tra 255 khi khong co phim)
+- zenity --entry + xdotool type 'abc' + Return: zenity KHONG nhan chu nao (-> xdotool khong vao duoc cua so nao khi man hinh khoa)
+- anh chup scrot luc 16 s: den hoan toan; import/gnome-screenshot: man hinh khoa (trung binh 25,5)
+=> chan THAT: can nguoi dung mo khoa man hinh Nano tai cho (khong dung mat khau qua SSH). Hien thi (imshow) van chay sau man hinh khoa (120/120 frame da ve o lan thu dau).

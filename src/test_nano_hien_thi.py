@@ -274,10 +274,12 @@ def t8_launcher(tmp: Path, anh: Path, cache: Path):
     s = cho_xong(ctl)
     lj = json.loads((rdc / "launcher.json").read_text(encoding="utf-8")) if (rdc / "launcher.json").exists() else {}
     tt = ctl.tom_tat_ket_qua() or ""
-    check("8c. launcher chay het -> HOAN_TAT (exit 0), launcher.json co tong_s_phia_launcher, tom tat tieng Viet, cache trong run_dir",
+    check("8c. launcher chay het -> HOAN_TAT (exit 0), launcher.json + launcher_nhat_ky.txt, tom tat tieng Viet, cache trong "
+          "run_dir; khong con tien trinh chan khoa man hinh",
           s["trang_thai"] == "HOAN_TAT" and s["exit_code"] == 0 and lj.get("tong_s_phia_launcher") and "frame đã xử lý" in tt
-          and s.get("fps_xu_ly") and any((rdc / "det_cache").rglob("*.npz")),
-          f"{s['trang_thai']} exit {s['exit_code']} loi {s['loi']}; {tt[:120]}")
+          and s.get("fps_xu_ly") and any((rdc / "det_cache").rglob("*.npz")) and (rdc / "launcher_nhat_ky.txt").exists()
+          and not con_chan_khoa(),
+          f"{s['trang_thai']} exit {s['exit_code']} loi {s['loi']}; chan khoa con {con_chan_khoa()}; {tt[:120]}")
 
     # 8d. Dung (nut) -> DA_DUNG
     ctl_d = nl.NanoLauncherController(c2, tk2, timeout_dung=30, argv_them=gl + ["--gia-lap-cham-ms", "150"])
@@ -311,9 +313,19 @@ def t8_launcher(tmp: Path, anh: Path, cache: Path):
         time.sleep(0.1)
     tt_f = ctl_f.shutdown()
     mf = tns.meta(rdf)
-    check("8f. dong launcher khi dang chay (shutdown) -> DA_DUNG qua stop-file, KHONG terminate, run_meta da_dung",
-          tt_f == "DA_DUNG" and not ctl_f.da_terminate and mf.get("trang_thai") == "da_dung",
-          f"{tt_f} terminate={ctl_f.da_terminate} {mf.get('trang_thai')}")
+    check("8f. dong launcher khi dang chay (shutdown) -> DA_DUNG qua stop-file, KHONG terminate, run_meta da_dung, "
+          "tra lai khoa man hinh",
+          tt_f == "DA_DUNG" and not ctl_f.da_terminate and mf.get("trang_thai") == "da_dung" and not con_chan_khoa(),
+          f"{tt_f} terminate={ctl_f.da_terminate} {mf.get('trang_thai')} chan khoa con {con_chan_khoa()}")
+
+
+def con_chan_khoa() -> int:
+    """So tien trinh gnome-session-inhibit cua launcher con song (chi POSIX co; Windows luon 0)."""
+    if sys.platform.startswith("win") or not shutil.which("pgrep"):
+        return 0
+    time.sleep(0.5)
+    r = subprocess.run(["pgrep", "-fc", "gnome-session-inhibit --app-id nano-tracking"], capture_output=True, text=True)
+    return int((r.stdout or "0").strip() or 0)
 
 
 # ------------------------------------------------------------------------------------------------ 9
