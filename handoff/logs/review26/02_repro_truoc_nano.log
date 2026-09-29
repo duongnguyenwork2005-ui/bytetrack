@@ -1,0 +1,47 @@
+# 02. Script Codex (KHONG sua) tren Nano, ma chua sua = goi v14 (src nano_hien_thi/nano_launcher == 20e66e9) -- 2026-09-29T12:28:18+08:00
+# script sha256 e8172102dee63bdd | driver sha256 c6c4ec9113196b22
+
+## N25-F1: closed_preview() bang /usr/bin/python3 3.6.9 (OpenCV 3.2.0)
+$ /usr/bin/python3 chay_repro_tung_phan.py CODEX_REPRO_20e66e9_ui.py closed_preview /home/jetson/nano_run/v14/nano_transfer f1.json
+[hien_thi] yeu cau dung tu cua so hien thi: dong_cua_so
+{
+  "finding": "N25-F1",
+  "pass": false,
+  "observed": {
+    "imshow_calls": 1,
+    "reported_n_hien_thi": 2,
+    "reported_last_frame": 2,
+    "fps_hien_thi": 100.56587411685476,
+    "stop_reason": "dong_cua_so"
+  },
+  "chay_boi": {
+    "python": "3.6.9",
+    "ham": "closed_preview",
+    "repo": "/home/jetson/nano_run/v14/nano_transfer"
+  }
+}
+exit=1
+
+## N25-F2: picker_close() bang env nano 3.8.20 (POSIX, tien trinh con that thay Zenity)
+$ ~/miniforge3/envs/nano/bin/python chay_repro_tung_phan.py CODEX_REPRO_20e66e9_ui.py picker_close /home/jetson/nano_run/v14/nano_transfer f2.json
+{
+  "finding": "N25-F2",
+  "pass": false,
+  "observed": {
+    "launcher_destroyed": true,
+    "picker_alive_after_close": true,
+    "scheduled_callbacks": 1
+  },
+  "chay_boi": {
+    "python": "3.8.20",
+    "ham": "picker_close",
+    "repo": "/home/jetson/nano_run/v14/nano_transfer"
+  }
+}
+exit=1
+# tien trinh con picker.py con song sau script (script tu kill): 1
+  pid 18802: bash -c n=0; for p in /proc/[0-9]*; do c=$(tr "\0" " " < $p/cmdline 2>/dev/null); case "$c" in *python*codex_n25_picker_*picker.py*) echo "  pid ${p#/proc/}: $c"; n=$((n+1));; esac; done; echo "# kiem lai qua /proc (tien trinh python chay picker.py cua fixture): $n" 
+# kiem lai qua /proc (tien trinh python chay picker.py cua fixture): 1
+# ghi chu: dong 'con song ... : 1' o tren do pgrep -f dem ca shell ssh chua mau tim kiem (cung loi helper Codex neu); /proc cho ket qua that o dong tren.
+# kiem theo executable (tim_tien_trinh.py, /proc/<pid>/exe + argv):
+tien trinh python khop ['codex_n25_picker_', 'picker.py']: 0

@@ -1,0 +1,53 @@
+# 03b. test_nano_hien_thi MOI chay tren MA CU 20e66e9 (git archive src/configs/third_party + test moi) -- PC Windows 2026-09-29T11:37:55+07:00
+# nano_hien_thi.py cu sha256 73dd846e30637c96 | nano_launcher.py cu 9cedaa183d72128f | test moi 9e9e8952322105b1
+$ python src/test_nano_hien_thi.py   (cwd = ban sao ma cu)
+[hien_thi] yeu cau dung tu cua so hien thi: dong_cua_so
+[hien_thi] yeu cau dung tu cua so hien thi: dong_cua_so
+cha: 3.11.9 | con: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe | backend np
+  [PASS] 1. giao thuc 3: R tach dung khi cat tung byte / ca khoi, tron G + S, R rong, byte la dem, float32 giu nguyen
+         [('G',), ('R', 5, [(3, 10.5, 20.25, 30.125, 40.0, 0.875, 2), (17, 0.0010000000474974513, 2.5, 3.75, 4.5, 0.30000001192092896, 7)]), ('+',), ('R', 6, []), ('S',)] | byte_la 1
+  [PASS] 2. hang_hien_thi(out) == hang MOT/lop track_video ghi (CV, so thuc bang nhau tung hang)
+         93 hang MOT, 93 hang hien thi
+  [PASS] 2. hang_hien_thi(out) == hang MOT/lop track_video ghi (EKF, so thuc bang nhau tung hang)
+         93 hang MOT, 93 hang hien thi
+  [PASS] 3. CV: bat hien thi (an) vs tat -> MOT + lop giong tung byte; R == 40 frame, ghep 100 %, 0 khong ghep; progress hoan_tat; fps_hien_thi/tong_s
+         exit 0/0; MOT giong True; R 40 + 0; dem {'n_anh_nhan': 40, 'n_ket_qua_nhan': 40, 'n_ghep_duoc': 40, 'n_khong_ghep': 0, 'n_anh_bo_khong_ket_qua': 0, 'n_hien_thi': 21, 'n_bo_hien_thi': 19, 'n_mau_luu': 21}; progress hoan_tat
+  [PASS] 4. CV: anh xem truoc (PNG) == ve_frame(anh goc, hang MOT da ghi cua CUNG frame) tung pixel
+         21/21 khop, lech [], frame [3, 4, 7, 8, 11, 12, 15, 16, 19, 20, 23, 24]...
+  [PASS] 3. EKF: bat hien thi (an) vs tat -> MOT + lop giong tung byte; R == 40 frame, ghep 100 %, 0 khong ghep; progress hoan_tat; fps_hien_thi/tong_s
+         exit 0/0; MOT giong True; R 40 + 0; dem {'n_anh_nhan': 40, 'n_ket_qua_nhan': 40, 'n_ghep_duoc': 40, 'n_khong_ghep': 0, 'n_anh_bo_khong_ket_qua': 0, 'n_hien_thi': 21, 'n_bo_hien_thi': 19, 'n_mau_luu': 21}; progress hoan_tat
+  [PASS] 4. EKF: anh xem truoc (PNG) == ve_frame(anh goc, hang MOT da ghi cua CUNG frame) tung pixel
+         21/21 khop, lech [], frame [3, 4, 7, 8, 11, 12, 15, 16, 19, 20, 23, 24]...
+  [PASS] 5. phim q (gia lap) o frame 15 -> stop-file -> ma 4 da_dung; 15 <= frame xu ly < N; MOT == tien to luot du; con thoat 0
+         exit 4 da_dung dung theo yeu cau (stop-file); n=18; ly do gia_lap_phim_q
+  [PASS] 6. frame khong doc duoc: 2 frame hong nhan '+', 38 frame con lai nhan R; 0 khong ghep
+         exit 0; hong 2; R 38 + 2; dem {'n_anh_nhan': 38, 'n_ket_qua_nhan': 38, 'n_ghep_duoc': 38, 'n_khong_ghep': 0, 'n_anh_bo_khong_ket_qua': 0, 'n_hien_thi': 11, 'n_bo_hien_thi': 27, 'n_mau_luu': 0}
+  [SKIP] 7. --hien-thi khi khong co man hinh -> ma 2 truoc khi khoi dong detector: chi POSIX (Windows luon co man hinh)
+  [PASS] 8a. launcher kiem trien khai: thieu engine -> loi kem cach khac phuc (01_build_engine.sh); co engine -> 0 loi
+         ['Không thấy engine TensorRT (đã tìm: C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano_hien_thi_57mumb5s\\khong_co.engine). Cách khắc phục: build engine trên chính Nano bằng `bash scripts/nano/01_build_engine.sh` (khoảng 8 phút) rồi sửa khóa tương ứng trong C:\\Users\\Mikuno\\.config\\nano_tracking\\nano_ui.json (tạo file nếu chưa có, chỉ ghi khóa cần đổi) hoặc C:\\Users\\Mikuno\\AppData\\Local\\Temp\\claude\\d--LABOTARY-bytetrack\\725dbe02-11c7-4caa-9d6c-980457a66fad\\scratchpad\\ma_cu_20e66e9\\configs\\nano_ui.json (khóa "engine").'] | []
+  [PASS] 8b. argv danh sach giu nguyen duong dan co dau cach (nguon, ket qua); cau hinh sai -> CauHinhSai tieng Viet
+         run_dir thu muc anh co dau cach_ekf_20260929-113805; loi ["Chưa chọn nguồn: bấm 'Chọn video…' hoặc 'Chọn thư mục ảnh…'.", 'Nguồn không tồn tại: C:\\Users\\Mikuno\\AppData\\Local\\Temp\\nano', "Thư mục ảnh cần FPS (ô 'FPS'), ví dụ 25 cho UA-DETRAC.", "Ô 'FPS' phải > 0; đã nhập: '0'", 'Chọn bộ lọc CV hoặc EKF.', "Ô 'Số frame tối đa' phải là số nguyên, hoặc để trống; đã nhậ"]
+  [PASS] 8c. launcher chay het -> HOAN_TAT (exit 0), launcher.json + launcher_nhat_ky.txt, tom tat tieng Viet, cache trong run_dir; khong con tien trinh chan khoa man hinh
+         HOAN_TAT exit 0 loi None; chan khoa con 0; 40 frame đã xử lý / 40 khai báo; 93 hàng MOT, 3 ID.
+         FPS xử lý 1305.64 (frame / thời gian vòng xử lý, không gồm khởi tạo
+  [PASS] 8d. nut Dung -> worker dung co kiem soat (ma 4) -> DA_DUNG (khong phai LOI), run_meta da_dung, khong terminate
+         DA_DUNG exit 4 da_dung dung theo yeu cau (stop-file)
+  [PASS] 8e. worker loi giua luong (con chet o frame 10) -> LOI, exit 3, thong bao loi
+         LOI exit 3 pipe dong (EOF) khong co EOS: tien trinh detector ket thuc bat thuong
+  [PASS] 8f. dong launcher khi dang chay (shutdown) -> DA_DUNG qua stop-file, KHONG terminate, run_meta da_dung, tra lai khoa man hinh
+         DA_DUNG terminate=False da_dung chan khoa con 0
+  [PASS] 9. giao dien Tk: thieu engine -> thong bao cach khac phuc, nut Bat dau bi khoa; dong cua so sach
+         nut disabled; ✖ Chưa chạy được — cấu hình triển khai:
+         - Không thấy engine TensorRT (đã tìm: C:\Users\Mikuno\AppDat
+  [FAIL] 10. N25-F1: frame 1 hien -> dong cua so -> frame 2 toi muon: imshow 1, n_hien_thi 1, frame cuoi 1, fps null, 1 frame khong hien vi cua so dong, khong tao lai cua so, stop-file ghi
+         imshow 1 named 1 dem {'n_anh_nhan': 2, 'n_ket_qua_nhan': 2, 'n_ghep_duoc': 2, 'n_khong_ghep': 0, 'n_anh_bo_khong_ket_qua': 0, 'n_hien_thi': 2, 'n_bo_hien_thi': 0, 'n_mau_luu': 0} cuoi 2 fps 20.526083541251317
+  [FAIL] 10b. N25-F1: cua so dong giua hai frame -> frame 3 KHONG imshow, KHONG tao lai cua so; n_hien_thi 2, fps co gia tri
+         imshow 3 named 1 dem {'n_anh_nhan': 3, 'n_ket_qua_nhan': 3, 'n_ghep_duoc': 3, 'n_khong_ghep': 0, 'n_anh_bo_khong_ket_qua': 0, 'n_hien_thi': 3, 'n_bo_hien_thi': 0, 'n_mau_luu': 0} fps 152.28349225687504
+  [FAIL] 10c. fps_hien_thi = (N - 1) / (moc cuoi - moc dau), N = so frame da hien thi
+         N 5 fps 32.42203113795572 khoang 0.12337289983406663
+  [FAIL] 11. N25-F1 dau-cuoi: dong cua so (gia lap) sau frame 5 -> ma 4; frame toi sau khi dong KHONG tinh la da hien thi; MOT + lop moi frame tracker da xu ly == tien to luot du
+         exit 2 None; xu ly -1; hien thi None (cuoi 0), khong hien None []; fps None
+  [SKIP] 12. N25-F2 vong doi hop chon file: can POSIX (zenity gia bang /bin/sh; tren Nano chay that)
+
+KET QUA: 16/20 phep kiem tra PASS, 2 SKIP
+exit=1
