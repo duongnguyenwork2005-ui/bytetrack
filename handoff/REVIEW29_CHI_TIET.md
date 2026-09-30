@@ -91,6 +91,13 @@ manifest v1; …), I (cache nhãn cũ với `YOLODataset` thật), E7–E9 (pyco
 **Suite khác**: không chạy — `test_bdd100k_adapter` và `test_bdd100k_coco` không bị ảnh hưởng (NOT_RUN). Lý do không chạy
 full suite: chỉ ba module của đường detector bị sửa, không nằm trên đường tracking/Nano đã nghiệm thu.
 
+> **Bổ sung vòng 30** (không sửa lịch sử bảng trên): lượt “script Codex” trên máy tác giả vẫn là **NOT_RUN**. Sau đó
+> Codex **tự chạy nguyên** `REPRO_REVIEW_07615ba.py` trên cây target `bcb92f8` tái dựng từ delta: **exit 0,
+> `bug_count=0`**, các đối chứng vẫn đạt (`handoff/CODEX_REVIEW_bcb92f8.md`, bằng chứng trong
+> `handoff/review_evidence/CODEX_bcb92f8/`, `SHA256SUMS.txt` khớp 11/11). Trường `target: "07615ba"` trong JSON là giá
+> trị ghi cứng của script; `execution_manifest.json` ghi đúng target `bcb92f8`. Kết luận review: **PASS WITH LIMITATIONS**,
+> R28-F1 đóng.
+
 ## 4. Giới hạn còn lại
 
 - **Chưa chạy script Codex** `REPRO_REVIEW_07615ba.py` vì file chưa có trên máy. Khi có, chạy:

@@ -1,0 +1,16 @@
+# 00. Trang thai dau vong 30 (ghi nhan nghiem thu bcb92f8 + chuan bi BDD100K MOT train) - 2026-09-30T14:48:03+07:00
+## git (truoc moi thay doi cua vong nay)
+nhanh: phase2-mixed-traffic
+HEAD: bcb92f86824812ceea3dee56dabe88ef802b1a25 (= target duoc nghiem thu)
+commit sau bcb92f8: 0
+working tree: chi file rieng cua nguoi dung (.gitignore, src/demo/rerun_with_state_log.py)
+## nghiem thu
+CODEX_REVIEW_bcb92f8.md: 7354 B sha256 26496ddc5d4a6b95224df66a4767bb79390d1f48726f76a1358ffb9d6d55e889 -- PASS WITH LIMITATIONS, dong R28-F1
+CODEX_REVIEW_bcb92f8_EVIDENCE.zip: 22287 B sha256 ac5d066a6e3ae5254119bec8d473f7da5f639009721d525c61f3c1ff9d6ef901; testzip OK; SHA256SUMS 11/11 khop; giai nen -> handoff/review_evidence/CODEX_bcb92f8/ (ZIP goc -> handoff/archive/, bi ignore)
+Codex tu chay nguyen REPRO_REVIEW_07615ba.py (sha256 2189b0aa...) tren target bcb92f8: exit 0, bug_count=0; test_detector_5lop 76/76 + 6 SKIP (khong checkpoint); CLI khong spy 7/7
+NOT_RUN tren may tac gia (vong 29) GIU NGUYEN lam lich su; khong chay lai smoke tong hop chi de doi trang thai log
+delta da nghiem thu -> handoff/archive/review_delta_bcb92f8.zip: 717372 B sha256 5a9319763373e56b6073fc94b9aa572a962606a7bab3bf2d333e73f35a9128ba (Codex: 717.372 B, 5a931976...)
+base review: 239b9c6 -> "base_commit_short": "bcb92f8"
+## moi truong
+python 3.11.9 Windows-10-10.0.26200-SP0 numpy 2.4.6 cv2 5.0.0 torch 2.6.0+cu124 ultralytics 8.4.141 RAM 7.8 GiB
+NVIDIA GeForce GTX 1650, 555.97, 4096 MiB

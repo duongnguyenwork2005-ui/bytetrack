@@ -1,0 +1,208 @@
+{
+  "target": "07615ba",
+  "scope": "synthetic CPU; real exporter, guards and Ultralytics datasets; no training",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "ultralytics": "8.4.141",
+    "opencv": "4.11.0",
+    "numpy": "2.3.5",
+    "torch": "2.6.0+cpu"
+  },
+  "source_sha256": {
+    "bdd_yolo_export.py": "2fbc231435b21d5e9d03f600de5d049863f095432a17e288128c16cf4beecb03",
+    "train_detector.py": "ccdd93eb76d0613c0af4a2e914c8ed0648d62ebe64564ac7d8f6974f5fd560f7",
+    "eval_detector_5lop.py": "30a1fd5a63641f1cebc22e4e7ef7e4600a48a45ed6f7d533bf319af0fa156f7f"
+  },
+  "clean_contract": {
+    "hop_dong": "bdd5-dataset-v2",
+    "phien_ban_manifest": 2,
+    "loi": 0,
+    "ten": "independent_review",
+    "loai": "day_du",
+    "tap_con": null,
+    "data_yaml": "/tmp/codex_r28_rdai0_2n/out/independent_review/data.yaml",
+    "sha256_data_yaml": "ba1896d65da91460eb5a90d24e624830338fd936e0574229ce0967091c92c7a1",
+    "sha256_tom_tat": "0b9ac017e68b667124321cbd2c1daf60fa647c9ebf9396cf9dfc0b6d89c5a044",
+    "manifest_sha256": "abb199d9347ccb389f5b08cacebe937b558d5aab4163bc22abf62a0560c90481",
+    "sha256_video_json": "b7e0cd4e3fdfd6f70cfd3697cbfea5ffd5244409a0d35d7d3dce190b2a0e10e7",
+    "split_da_khoa": {
+      "sha256": "44068cd4f8fc8fcc8efd0d8eb934b775905207a93d864c2391dbddade11f7256",
+      "sha256_danh_sach": "f91cfb27323cd633dc4af62378da76444701f910ba488e522d5200205ae6a72e",
+      "ban_goc": "khop"
+    },
+    "duong_dan_resolve": {
+      "train": "/tmp/codex_r28_rdai0_2n/out/independent_review/images/train",
+      "val": "/tmp/codex_r28_rdai0_2n/out/independent_review/images/dev"
+    },
+    "so_anh": {
+      "train": 77,
+      "dev": 48
+    },
+    "so_video": {
+      "train": 5,
+      "dev": 3
+    },
+    "so_nhan_rong_hop_le": {
+      "train": 2,
+      "dev": 0
+    },
+    "so_anh_co_file_ignore": {
+      "train": 11,
+      "dev": 0
+    },
+    "cache_anh": {
+      "chinh_sach": "khong dung cache anh (.npy); pixel nap = JPEG da khoa sha256",
+      "so_npy_canh_anh": {
+        "train": 0,
+        "dev": 0
+      }
+    },
+    "noi_dung_da_xac_minh": {
+      "train": true,
+      "dev": true
+    },
+    "so_file_da_bam": {
+      "anh": 125,
+      "nhan": 125,
+      "ignore": 11
+    },
+    "xac_minh_luc": "2026-09-30T07:31:23",
+    "thoi_gian_s": 0.02
+  },
+  "clean_callback": {
+    "train": {
+      "so_anh_nap": 77,
+      "so_anh_da_xac_minh": 77,
+      "thieu": 0,
+      "thua": 0,
+      "nhan_khac": 0,
+      "cache_anh": null,
+      "npy_canh_anh": 0
+    },
+    "dev": {
+      "so_anh_nap": 48,
+      "so_anh_da_xac_minh": 48,
+      "thieu": 0,
+      "thua": 0,
+      "nhan_khac": 0,
+      "cache_anh": null,
+      "npy_canh_anh": 0
+    }
+  },
+  "stale_npy_cases": [
+    {
+      "split": "train",
+      "image": "images/train/fx00000000-00000000-0000001.jpg",
+      "contract_accepted": false,
+      "contract_error": "dataset KHONG dat hop dong: 1 loi hop dong o /tmp/codex_r28_rdai0_2n/out/independent_review: images/train: 1 file cache anh .npy canh anh da khoa (vd ['images/train/fx00000000-00000000-0000001.npy']) -- ultralytics load_image() nap .npy THAY anh JPEG ke ca khi cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa)",
+      "callback_accepted": false,
+      "callback_error": null,
+      "callback_summary": null,
+      "source_sha256": "6dac2e5ff146c50a4cb332152b8e26fe9eb67f3663818a94499c8a71dad2be15",
+      "source_hash_unchanged": true,
+      "declared_source_sha256": "6dac2e5ff146c50a4cb332152b8e26fe9eb67f3663818a94499c8a71dad2be15",
+      "source_mean_pixel": 90.403125,
+      "loaded_mean_pixel": null,
+      "wrong_pixels_loaded": false,
+      "loaded_exactly_stale_npy": false,
+      "bug_reproduced": false,
+      "delete_npy_restores_exact_source_pixels": true
+    },
+    {
+      "split": "dev",
+      "image": "images/dev/fx00000003-daa66d13-0000001.jpg",
+      "contract_accepted": false,
+      "contract_error": "dataset KHONG dat hop dong: 1 loi hop dong o /tmp/codex_r28_rdai0_2n/out/independent_review: images/dev: 1 file cache anh .npy canh anh da khoa (vd ['images/dev/fx00000003-daa66d13-0000001.npy']) -- ultralytics load_image() nap .npy THAY anh JPEG ke ca khi cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa)",
+      "callback_accepted": false,
+      "callback_error": null,
+      "callback_summary": null,
+      "source_sha256": "6cca30783dae1f21230634727c513367172ebd652e81bc353eb792bade028942",
+      "source_hash_unchanged": true,
+      "declared_source_sha256": "6cca30783dae1f21230634727c513367172ebd652e81bc353eb792bade028942",
+      "source_mean_pixel": 89.68974537037037,
+      "loaded_mean_pixel": null,
+      "wrong_pixels_loaded": false,
+      "loaded_exactly_stale_npy": false,
+      "bug_reproduced": false,
+      "delete_npy_restores_exact_source_pixels": true
+    }
+  ],
+  "entry_point_controls_model_boundary_mocked": {
+    "valid": {
+      "exit": 3,
+      "calls": [
+        [
+          "khoi_tao",
+          "/tmp/codex_r28_rdai0_2n/dummy_model_boundary_only.pt"
+        ],
+        [
+          "khoi_tao",
+          "/tmp/codex_r28_rdai0_2n/dummy_model_boundary_only.pt"
+        ],
+        [
+          "callback",
+          "on_train_start"
+        ],
+        [
+          "callback",
+          "on_train_batch_end"
+        ],
+        [
+          "callback",
+          "on_train_epoch_end"
+        ],
+        [
+          "callback",
+          "on_fit_epoch_end"
+        ],
+        [
+          "callback",
+          "on_pretrain_routine_end"
+        ],
+        [
+          "train",
+          "/tmp/codex_r28_rdai0_2n/out/independent_review/data.yaml"
+        ]
+      ],
+      "model_called": true,
+      "train_called": true,
+      "run_dir_created": false,
+      "result_created": true,
+      "stderr": "",
+      "stdout_tail": "[ket qua] /tmp/codex_r28_rdai0_2n/spy_results/valid.json\n[LOI] smoke yolov8n: loi=_SpyDungTrain: spy: chan training that (ranh gioi gia lap) loi_callback=None loss_huu_han=None checkpoint=[] thoi_gian=0.0 s vram_max=None MiB\n"
+    },
+    "train_redirected_to_dev": {
+      "exit": 2,
+      "calls": [],
+      "model_called": false,
+      "train_called": false,
+      "run_dir_created": false,
+      "result_created": false,
+      "stderr": "[LOI CAU HINH] dataset KHONG dat hop dong: /tmp/codex_r28_rdai0_2n/out/independent_review/data.yaml: train/val phai DUNG la 'images/train' / 'images/dev' (dev noi bo); gap train='images/dev', val='images/dev' -> ultralytics se train/val tren duong dan khac hop dong da khoa\n",
+      "stdout_tail": ""
+    },
+    "missing_positive_label": {
+      "exit": 2,
+      "calls": [],
+      "model_called": false,
+      "train_called": false,
+      "run_dir_created": false,
+      "result_created": false,
+      "stderr": "[LOI CAU HINH] dataset KHONG dat hop dong: 1 loi hop dong o /tmp/codex_r28_rdai0_2n/out/independent_review: THIEU file nhan labels/train/fx00000000-00000000-0000001.txt (ultralytics se coi anh la NEN; khac voi file nhan RONG hop le)\n",
+      "stdout_tail": ""
+    },
+    "missing_empty_label": {
+      "exit": 2,
+      "calls": [],
+      "model_called": false,
+      "train_called": false,
+      "run_dir_created": false,
+      "result_created": false,
+      "stderr": "[LOI CAU HINH] dataset KHONG dat hop dong: 1 loi hop dong o /tmp/codex_r28_rdai0_2n/out/independent_review: THIEU file nhan labels/train/fx00000000-00000000-0000004.txt (ultralytics se coi anh la NEN; khac voi file nhan RONG hop le)\n",
+      "stdout_tail": ""
+    }
+  },
+  "bug_count": 0,
+  "exit_code": 0
+}

@@ -1,0 +1,41 @@
+{
+  "reviewed_target": "bcb92f86824812ceea3dee56dabe88ef802b1a25",
+  "reviewed_base": "239b9c6b01c74fba3fa5077ffdda7a0f73c77834",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "ultralytics": "8.4.141",
+    "opencv": "4.11.0",
+    "numpy": "2.3.5",
+    "torch": "2.6.0+cpu"
+  },
+  "source_sha256": {
+    "bdd_yolo_export.py": "2fbc231435b21d5e9d03f600de5d049863f095432a17e288128c16cf4beecb03",
+    "train_detector.py": "ccdd93eb76d0613c0af4a2e914c8ed0648d62ebe64564ac7d8f6974f5fd560f7",
+    "eval_detector_5lop.py": "30a1fd5a63641f1cebc22e4e7ef7e4600a48a45ed6f7d533bf319af0fa156f7f"
+  },
+  "original_script_sha256": "2189b0aaa01b3e43018fd5bb693bacf85767eff55f6ef73894eec25a9faf11b7",
+  "commands": [
+    {
+      "command": "python REPRO_REVIEW_07615ba.py <review_bcb92f8/tree> --out repro_codex_original.json",
+      "exit": 0,
+      "bug_count": 0,
+      "note": "Original script kept unchanged; its target field is hardcoded 07615ba. The actual repo argument is the reconstructed bcb92f8."
+    },
+    {
+      "command": "python src/test_detector_5lop.py",
+      "cwd": "/workspace/scratch/39272c88b7a6/review_bcb92f8/tree",
+      "exit": 0,
+      "pass": 76,
+      "skip_groups": 6
+    },
+    {
+      "command": "python check_runner_cache_policy.py <review_bcb92f8/tree> --out runner_cache_policy.json",
+      "exit": 0,
+      "pass": 7,
+      "total": 7
+    }
+  ],
+  "production_source_unchanged_after_tests": true,
+  "gpu_training_or_ssh": false
+}

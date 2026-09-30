@@ -1,0 +1,65 @@
+{
+  "target": "bcb92f8",
+  "scope": "real CLI, synthetic CPU, no model spy, no training",
+  "checks": [
+    {
+      "name": "clean reaches checkpoint boundary",
+      "exit": 2,
+      "stderr": "[LOI CAU HINH] thieu checkpoint khoi tao /tmp/codex_r29_cli_is2sb2fk/intentionally_absent.pt\n",
+      "stdout": "",
+      "output_absent": true,
+      "pass": true
+    },
+    {
+      "name": "unrelated npy allowed",
+      "pass": true
+    },
+    {
+      "name": "stale npy train",
+      "exit": 2,
+      "stderr": "[LOI CAU HINH] dataset KHONG dat hop dong: 1 loi hop dong o /tmp/codex_r29_cli_is2sb2fk/out/r29_cli: images/train: 1 file cache anh .npy canh anh da khoa (vd ['images/train/fx00000001-9e3779b1-0000012.npy']) -- ultralytics load_image() nap .npy THAY anh JPEG ke ca khi cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa)\n",
+      "stdout": "",
+      "output_absent": true,
+      "evaluator_blocked": true,
+      "npy_preserved": true,
+      "pass": true
+    },
+    {
+      "name": "stale npy dev",
+      "exit": 2,
+      "stderr": "[LOI CAU HINH] dataset KHONG dat hop dong: 1 loi hop dong o /tmp/codex_r29_cli_is2sb2fk/out/r29_cli: images/dev: 1 file cache anh .npy canh anh da khoa (vd ['images/dev/fx00000005-17156075-0000005.npy']) -- ultralytics load_image() nap .npy THAY anh JPEG ke ca khi cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa)\n",
+      "stdout": "",
+      "output_absent": true,
+      "evaluator_blocked": true,
+      "npy_preserved": true,
+      "pass": true
+    },
+    {
+      "name": "cache configuration True",
+      "exit": 2,
+      "stderr": "[LOI CAU HINH] huan_luyen.cache = True: chinh sach cache anh hien tai chi cho phep cache: false (pixel nap phai la JPEG da khoa trong manifest)\n",
+      "stdout": "",
+      "output_absent": true,
+      "pass": true
+    },
+    {
+      "name": "cache configuration ram",
+      "exit": 2,
+      "stderr": "[LOI CAU HINH] huan_luyen.cache = 'ram': chinh sach cache anh hien tai chi cho phep cache: false (pixel nap phai la JPEG da khoa trong manifest)\n",
+      "stdout": "",
+      "output_absent": true,
+      "pass": true
+    },
+    {
+      "name": "cache configuration disk",
+      "exit": 2,
+      "stderr": "[LOI CAU HINH] huan_luyen.cache = 'disk': chinh sach cache anh hien tai chi cho phep cache: false (pixel nap phai la JPEG da khoa trong manifest)\n",
+      "stdout": "",
+      "output_absent": true,
+      "pass": true
+    }
+  ],
+  "passed": 7,
+  "total": 7,
+  "exit_code": 0
+}
