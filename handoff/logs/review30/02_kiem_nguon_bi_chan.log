@@ -1,0 +1,9 @@
+# 02. kiem-nguon tren cau hinh plan (configs/phase2/detector/bdd5_train.yaml) - 2026-09-30T14:49:27+07:00
+$ python src/prepare_mixed_yolo_dataset.py --config configs/phase2/detector/bdd5_train.yaml --buoc kiem-nguon
+[THIEU DU LIEU] chua co du lieu BDD100K MOT train tren may
+  - nhan train (scalabel): D:\LABOTARY\bytetrack\data\raw\bdd100k\labels\box_track_20\train
+  - anh train: D:\LABOTARY\bytetrack\data\raw\bdd100k\images\track\train
+  -> xem handoff/BDD100K_INVENTORY.md muc 'Vong 27' (goi can tai + duong dan dat). KHONG thay bang UA-DETRAC hay BDD val.
+exit=2
+# noi da kiem (khong quet toan o dia): data/raw/bdd100k (cay thu muc), data/raw, D:/LABOTARY (cap 1-2), ~/Downloads (ke ca file dang tai .crdownload/.part: 0)
+# o dia: D: trong 126G / 228G
