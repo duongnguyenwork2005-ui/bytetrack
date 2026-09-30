@@ -1,0 +1,35 @@
+SCRIPT C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\thu_tai_mot20\tai_mot20_train_32c6e49.py
+PASS 1 tai moi DAT rc=0 None 
+PASS 1 file cuoi co, .part khong 
+PASS 1 sha256 + md5 + bytes dung 
+PASS 1 cau truc zip {"testzip": "OK", "so_member": 6, "so_tep": 6, "so_thu_muc": 0, "tien_to_4_cap": {"bdd100k/images/track/train": 6}, "so_video": 2, "anh_moi_video_min": 3, "anh_moi_video_max": 3, "do_sau_duong_dan_tep": {"6": 6}, "duoi_tep": {".jpg": 6}, "kieu_nen": {"0": 6}, "tong_giai_nen_byte": 30000, "long_bdd10
+PASS 2 chay lai bo qua 26-10-01T03:51:19+07:00", "su_kien": "bo_qua", "ten": "images20-track-train-1.zip", "ly_do": "da xac minh truoc", "sha256": "1641f20751bea18e6b700c9d8df5681787db995b697ca5252da7f29313ae800d"}
+{"t": "2026-10-01T03:51:19+07:00", "su_kien": "ket_thuc", "ket_qua": {"images20-track-train-1.zip": "DAT"}}
+
+PASS 3 md5 sai -> LOI md5 e063a9b8ad21360ad2570c8b68019cb4 != may chu 00000000000000000000000000000000
+PASS 3 khong doi ten khi LOI 
+PASS 4 khong range -> LOI tai: curl exit 33: may chu khong cho tai tiep (range)
+PASS 4 .part khong bi ghi them 
+PASS 5 HTML -> LOI magic 4 byte dau b'<htm' khong phai PK\x03\x04 (co the la trang HTML)
+PASS 6 listing khac -> exit 2 in-7.zip", "images20-track-train-8.zip", "images20-track-train-9.zip"]}
+{"t": "2026-10-01T03:51:20+07:00", "su_kien": "loi", "ly_do": "listing song khac ban da luu hoac khong doc duoc", "stderr": ""}
+
+PASS 7 --phan ngoai listing -> exit 2 ack-train-2.zip', 'images20-track-train-3.zip', 'images20-track-train-4.zip', 'images20-track-train-5.zip', 'images20-track-train-6.zip', 'images20-track-train-7.zip', 'images20-track-train-8.zip']"}
+
+PASS 8 file co san -> kiem DAT None
+PASS 9 ngat giua chung -> tai tiep DAT None 10s
+PASS 9 luot 1 dut (exit!=0, 200), luot 2 tu byte cu (206) [[18, "200", 0, 500360], [0, "206", 500360, 1250902]]
+PASS 10 .part co san -> 206 -> DAT None
+PASS 10 khong con file khoa sau khi xong 
+PASS 11 khoa -> KHOA, phan khac van xu ly 697ca5252da7f29313ae800d"}
+{"t": "2026-10-01T03:51:32+07:00", "su_kien": "bo_qua_khoa", "ten": "images20-track-train-2.zip", "khoa": "{\"pid\": 999999}"}
+{"t": "2026-10-01T03:51:32+07:00", "su_kien": "ket_thuc", "ket_qua": {"images20-track-train-1.zip": "DAT", "images20-track-train-2.zip": "KHOA"}}
+
+PASS 11 .part cua phan bi khoa khong doi, khoa cua nguoi khac giu nguyen 
+PASS 12 da giet dung curl con giua chung (>= 500 KB, < het file) curl=['18592'] truoc_giet=999424
+FAIL 12 giet curl -> .part KHONG bi cat [{"t": "2026-10-01T03:51:32+07:00", "su_kien": "luot_tai", "url": "http://127.0.0.1:64153/images20-track-train-7.zip", "luot": 1, "tu_byte": 0, "den_byte": 999424, "curl_exit": 1, "http": "", "content_type": "", "toc_do_Bps": "", "giay": 0.6, "stderr": "", "cat_ve_byte": 0}]
+FAIL 12 ctype lay tu header -D khi -w rong [{"t": "2026-10-01T03:51:32+07:00", "su_kien": "luot_tai", "url": "http://127.0.0.1:64153/images20-track-train-7.zip", "luot": 1, "tu_byte": 0, "den_byte": 999424, "curl_exit": 1, "http": "", "content_type": "", "toc_do_Bps": "", "giay": 0.6, "stderr": "", "cat_ve_byte": 0}]
+FAIL 12 luot sau tai tiep (206) -> DAT, sha dung rc=1 tai: luot 1: Content-Type '' khong phai application/zip -- da cat .part ve 0
+PASS 12 don file .hdr sau khi DAT 
+PASS 13 text/html -> cat ve 0, LOI tai: luot 1: Content-Type 'text/html' khong phai application/zip -- da cat .part ve 0
+TONG 22 / 25 PASS

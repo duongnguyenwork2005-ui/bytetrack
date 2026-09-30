@@ -28,10 +28,23 @@ class H(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-Range", f"bytes {bat_dau}-{L - 1}/{L}")
         else:
             self.send_response(200)
-        self.send_header("Content-Type", "application/zip")
+        self.send_header("Content-Type", "text/html" if os.path.exists(p + ".html_ct") else "application/zip")
         self.send_header("Accept-Ranges", "bytes")
         self.send_header("Content-Length", str(L - bat_dau))
         self.end_headers()
+        cham = p + ".cham"  # "K S": gui K byte, ngu S giay roi gui tiep (1 lan) -- de kiem curl bi giet giua chung
+        if os.path.exists(cham):
+            k, s = map(int, open(cham).read().split())
+            os.remove(cham)
+            self.wfile.write(data[bat_dau:bat_dau + k])
+            self.wfile.flush()
+            import time
+            time.sleep(s)
+            try:
+                self.wfile.write(data[bat_dau + k:])
+            except OSError:
+                pass
+            return
         cat = p + ".cat"
         if os.path.exists(cat):
             k = int(open(cat).read())

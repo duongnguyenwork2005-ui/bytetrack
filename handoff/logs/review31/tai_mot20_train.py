@@ -82,6 +82,21 @@ def phan_train(html_bytes):
                   key=lambda t: int(MAU_TRAIN.search(f'href="{t}"').group(2)))
 
 
+def content_type_tu_header(hdr):
+    """Content-Type cua phan hoi HTTP cuoi trong file header curl -D; '' neu khong co/khong doc duoc."""
+    try:
+        dong = hdr.read_bytes().decode("latin-1").replace("\r", "").split("\n")
+    except OSError:
+        return ""
+    ct = ""
+    for d in dong:
+        if d.startswith("HTTP/"):
+            ct = ""
+        elif d.lower().startswith("content-type:"):
+            ct = d.split(":", 1)[1].strip()
+    return ct
+
+
 def tai_part(curl_exe, url, part, tong, log, cap_lien_tiep=60, cap_tong=1000):
     """Tai/tai tiep vao part cho toi du `tong` byte. Tra (ok, ly_do)."""
     lien_tiep = 0
@@ -96,23 +111,32 @@ def tai_part(curl_exe, url, part, tong, log, cap_lien_tiep=60, cap_tong=1000):
             return False, f"dung sau {luot} luot ({lien_tiep} luot lien tiep khong tien trien)"
         luot += 1
         t0 = time.time()
+        hdr = part.with_name(part.name + ".hdr")
+        hdr.unlink(missing_ok=True)
         r = subprocess.run([curl_exe, "-f", "-sS", "--connect-timeout", "30",
                             "--speed-limit", "20000", "--speed-time", "120",
-                            "-C", "-", "-o", str(part),
+                            "-C", "-", "-o", str(part), "-D", str(hdr),
                             "-w", "%{http_code}|%{content_type}|%{size_download}|%{speed_download}", url],
                            capture_output=True)
         w = r.stdout.decode("latin-1").strip().split("|")
         http, ctype = (w + ["", ""])[:2]
+        ctype_hdr = content_type_tu_header(hdr)
         sau = part.stat().st_size if part.exists() else 0
         bg = dict(su_kien="luot_tai", url=url, luot=luot, tu_byte=co, den_byte=sau, curl_exit=r.returncode,
-                  http=http, content_type=ctype, toc_do_Bps=(w[3] if len(w) > 3 else ""),
+                  http=http, content_type=ctype, content_type_header=ctype_hdr,
+                  toc_do_Bps=(w[3] if len(w) > 3 else ""),
                   giay=round(time.time() - t0, 1), stderr=r.stderr.decode("utf-8", "replace").strip()[-300:])
-        if sau > co and ctype.split(";")[0].strip().lower() != "application/zip":
+        # Chi cat khi BIET CHAC Content-Type khac zip. curl bi giet giua chung khong kip in -w (ctype rong) -- ban cu
+        # coi rong la "khong phai zip" va cat mat du lieu tot (su co 03:46 vong 31). Khong ro -> giu byte, md5 cuoi kiem.
+        ctype_hl = (ctype or ctype_hdr).split(";")[0].strip().lower()
+        if sau > co and not ctype_hl:
+            bg["content_type_khong_ro"] = True
+        if sau > co and ctype_hl and ctype_hl != "application/zip":
             with open(part, "r+b") as f:
                 f.truncate(co)
             bg["cat_ve_byte"] = co
             ghi_log(log, **bg)
-            return False, f"luot {luot}: Content-Type {ctype!r} khong phai application/zip -- da cat .part ve {co}"
+            return False, f"luot {luot}: Content-Type {ctype_hl!r} khong phai application/zip -- da cat .part ve {co}"
         ghi_log(log, **bg)
         if r.returncode in (33, 36):
             return False, f"curl exit {r.returncode}: may chu khong cho tai tiep (range)"
@@ -212,6 +236,7 @@ def xu_ly(ten, curl_exe, dich, ghi, kiem_lai, nguon=NGUON):
         ok, ly_do = tai_part(curl_exe, url, part, tong, log)
         if not ok:
             return xong("LOI", f"tai: {ly_do}")
+        part.with_name(part.name + ".hdr").unlink(missing_ok=True)
         nguon_kiem = part
     else:
         ghi_log(log, su_kien="kiem_file_co_san", ten=ten, bytes=cuoi.stat().st_size)

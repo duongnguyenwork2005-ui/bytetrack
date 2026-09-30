@@ -4,7 +4,9 @@ from pathlib import Path
 
 GOC = Path(__file__).resolve().parent
 REPO = Path(r"D:\LABOTARY\bytetrack")
-SCRIPT = REPO / "handoff/logs/review31/tai_mot20_train.py"
+# tham so 1 (tuy chon): duong dan script can kiem -- de chay cung bo test voi ban cu (32c6e49) va chung minh test bat loi
+SCRIPT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else REPO / "handoff/logs/review31/tai_mot20_train.py"
+print("SCRIPT", SCRIPT)
 PY = sys.executable
 SRV = GOC / "srv"
 OUT = GOC / "out"
@@ -40,6 +42,14 @@ dat("images20-track-train-5.zip", z5)                       # co Range + ngat ke
 z6 = zip_mau(4, 60)
 dat("images20-track-train-6.zip", z6)                       # co Range, .part do dang co san
 (SRV / "images20-track-train-6.zip.range").write_text("1")
+z7 = zip_mau(4, 200)
+dat("images20-track-train-7.zip", z7)                       # gui 1 MB roi treo 25 s -> test giet curl giua chung
+(SRV / "images20-track-train-7.zip.range").write_text("1")
+(SRV / "images20-track-train-7.zip.cham").write_text("1000000 25")
+z8 = zip_mau(2, 20)
+dat("images20-track-train-8.zip", z8)                       # GET tra Content-Type text/html (HEAD van zip)
+(SRV / "images20-track-train-8.zip.range").write_text("1")
+(SRV / "images20-track-train-8.zip.html_ct").write_text("1")
 
 port = 8765
 s = socket.socket(); s.bind(("127.0.0.1", 0)); port = s.getsockname()[1]; s.close()
@@ -104,7 +114,7 @@ try:
                         "--listing-da-luu", str(GOC / "listing_khac.html"), "--phan", "1"], capture_output=True, text=True)
     kiem("6 listing khac -> exit 2", r.returncode == 2, r.stdout[-200:])
     # 7. so phan khong co trong listing -> exit 2
-    rc, o, e = chay("--phan", "8")
+    rc, o, e = chay("--phan", "9")
     kiem("7 --phan ngoai listing -> exit 2", rc == 2, o[-200:])
     # 8. file cuoi co san khong ban ghi -> kiem khong tai lai
     shutil.copy(SRV / "images20-track-train-3.zip", OUT / "dl/images20-track-train-3.zip")
@@ -140,6 +150,40 @@ try:
     kiem("11 .part cua phan bi khoa khong doi, khoa cua nguoi khac giu nguyen",
          (OUT / "dl/images20-track-train-2.zip.part").stat().st_size == truoc
          and (OUT / "dl/images20-track-train-2.zip.khoa").exists())
+    # 12. (su co 03:46 vong 31) curl bi giet giua chung, Python van song -> KHONG duoc cat .part; luot sau tai tiep -> DAT
+    p = subprocess.Popen([PY, str(SCRIPT), "--nguon", NG, "--dich", str(OUT / "dl"), "--thu-muc-ban-ghi", str(OUT / "ghi"),
+                          "--listing-da-luu", str(GOC / "listing_luu.html"), "--phan", "7"],
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=str(REPO))
+    part7 = OUT / "dl/images20-track-train-7.zip.part"
+    han = time.time() + 30
+    while time.time() < han and not (part7.exists() and part7.stat().st_size >= 500000):
+        time.sleep(0.2)
+    truoc_giet = part7.stat().st_size if part7.exists() else -1
+    ps = subprocess.run(["powershell", "-NoProfile", "-Command",
+                         f"(Get-CimInstance Win32_Process -Filter \"ParentProcessId={p.pid} AND Name='curl.exe'\").ProcessId"],
+                        capture_output=True, text=True).stdout.split()
+    for pid in ps:
+        subprocess.run(["taskkill", "/PID", pid, "/F"], capture_output=True)
+    time.sleep(1.0)
+    sau_giet = part7.stat().st_size if part7.exists() else -1
+    o, e = p.communicate(timeout=180)
+    b = bg("images20-track-train-7.zip")
+    luot = [json.loads(l) for l in (OUT / "ghi/images20-track-train-7.zip.su_kien.jsonl").read_text(encoding="utf-8").splitlines()
+            if '"luot_tai"' in l]
+    kiem("12 da giet dung curl con giua chung (>= 500 KB, < het file)", len(ps) == 1 and 500000 <= truoc_giet < len(z7), f"curl={ps} truoc_giet={truoc_giet}")
+    kiem("12 giet curl -> .part KHONG bi cat", sau_giet >= truoc_giet and bool(luot) and "cat_ve_byte" not in luot[0]
+         and luot[0]["den_byte"] >= 500000, json.dumps(luot[:1])[:400])
+    kiem("12 ctype lay tu header -D khi -w rong", bool(luot) and luot[0].get("content_type") == ""
+         and luot[0].get("content_type_header") == "application/zip", json.dumps(luot[:1])[:300])
+    kiem("12 luot sau tai tiep (206) -> DAT, sha dung", p.returncode == 0 and b["trang_thai"] == "DAT" and len(luot) >= 2
+         and luot[1]["http"] == "206" and luot[1]["tu_byte"] == luot[0]["den_byte"]
+         and b.get("sha256") == hashlib.sha256(z7).hexdigest(), f"rc={p.returncode} {b.get('ly_do')}")
+    kiem("12 don file .hdr sau khi DAT", not (OUT / "dl/images20-track-train-7.zip.part.hdr").exists())
+    # 13. Content-Type BIET CHAC khac zip (text/html) -> van cat .part va LOI
+    rc, o, e = chay("--phan", "8")
+    b = bg("images20-track-train-8.zip")
+    kiem("13 text/html -> cat ve 0, LOI", rc == 1 and b["trang_thai"] == "LOI" and "text/html" in b.get("ly_do", "")
+         and (OUT / "dl/images20-track-train-8.zip.part").stat().st_size == 0, b.get("ly_do"))
 finally:
     srv.terminate()
 print("TONG", sum(v for _, v in kq), "/", len(kq), "PASS")
