@@ -1,0 +1,10 @@
+# 00b. File review Codex -- nhan SAU khi bat dau vong (log 00 ghi 'khong tim thay' la dung thoi diem do)
+Nguoi dung gui kem ba file duoi dang tai lieu trong tin nhan; Claude chep NGUYEN VAN vao handoff/ (JSON bo dong trong cuoi
+cho giong dau ra json.dumps cua script). Khong co ban goc tren dia de doi chieu hash byte-voi-byte.
+handoff/CODEX_REVIEW_4937c85.md 10694 B sha256 ea8eca7d1b90110f4497b81d89b40572f35cf9820335ed7d1e3c268d67cbc2e4
+handoff/REPRO_REVIEW_4937c85.py 8464 B sha256 9e692f1187ac686aaa4533e9a1ae3de66d0037d8a715f7b88b8fdfdaf5c7937c
+handoff/REPRO_REVIEW_4937c85.json 6805 B sha256 ddfa0062a1108e355d99dc33ce7e16439edef8fd1d73bf94b76449037381bec0
+Truoc khi co file: Claude viet script TAI DUNG (tai_hien_r27.py, 7 ca theo mo ta trong yeu cau) va chay tren ban sao ma cu
+(01_*, exit 1). Sau khi co file: chay script Codex tren CUNG ban sao ma cu (03_*, exit 1) roi moi tiep tuc/hoan tat sua.
+Luu y thu tu: mot phan sua exporter da bat dau trong working tree truoc khi file toi; ca hai lan tai hien 'truoc sua'
+deu chay tren ban sao ma cu 4937c85 (02_ban_sao_ma_cu.log: sha256 src khop git show 4937c85), khong tren working tree.

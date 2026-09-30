@@ -1,0 +1,36 @@
+# FIXTURE TONG HOP (khong phai BDD that) -- vong 28: xuat lai (manifest v2) tu CUNG nguon + split da khoa cua vong 27.
+# Cung quy tac voi configs/phase2/detector/bdd5_train.yaml; chi doi nguon (fixture) + buoc_frame/tap con cho du batch.
+# Tap danh gia cam la tap THAT (BDD100K MOT val + UA-DETRAC test) -> kiem trung that.
+ten: fixture_bdd5_r28
+nguon: [bdd100k_mot_train]
+lop: [car, truck, bus, motorcycle, bicycle]
+bdd:
+  split: train
+  anh: C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/r27/fixture_bdd/images/track/train
+  nhan:
+    dinh_dang: scalabel
+    duong_dan: C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/r27/fixture_bdd/labels/box_track_20/train
+  chi_video_du_anh: false
+chia:
+  cach: theo_video
+  ti_le_dev: 0.10
+  seed: 0
+  phan_tang_theo: [motorcycle, bicycle]
+lay_mau:
+  buoc_frame: 5
+file_split: C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/r27/splits/fixture_bdd5_r27.json
+dau_ra: C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/r27/yolo_fixture_bdd5_r28
+tap_con:
+  smoke:
+    so_video_train: 24
+    so_video_dev: 3
+    buoc_frame: 2
+    seed: 0
+tap_danh_gia_cam:
+  - ten: bdd100k_mot_val
+    loai: bdd_mot
+    nhan_cocovid: data/raw/bdd100k/labels_cocovid/bdd_box_track_val_cocofmt.json
+    anh: data/raw/bdd100k/images/track/val
+  - ten: ua_detrac_test
+    loai: detrac_xml
+    xml: data/extracted/DETRAC-Test-Annotations-XML

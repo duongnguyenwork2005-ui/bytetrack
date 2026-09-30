@@ -1,0 +1,176 @@
+{
+  "target": "4937c85",
+  "scope": "synthetic CPU probes; no YOLO training",
+  "baseline": {
+    "export_check": {
+      "hop_dong": "bdd5-dataset-v2",
+      "phien_ban_manifest": 2,
+      "loi": 0,
+      "ten": "review",
+      "loai": "day_du",
+      "tap_con": null,
+      "data_yaml": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review\\data.yaml",
+      "sha256_data_yaml": "6202e5bafe830e2bc166ebb3495e460f62154fb42bfff96f93c95d6d64d87dfa",
+      "sha256_tom_tat": "0d9841f119136f6a281ee1126cdb4c86283380bab04ef39d212932d33b61b1bd",
+      "manifest_sha256": "abb199d9347ccb389f5b08cacebe937b558d5aab4163bc22abf62a0560c90481",
+      "sha256_video_json": "b7e0cd4e3fdfd6f70cfd3697cbfea5ffd5244409a0d35d7d3dce190b2a0e10e7",
+      "split_da_khoa": {
+        "sha256": "df7a730cd36bb075d63b427b25218445c454bad35b77965823b220489240220b",
+        "sha256_danh_sach": "f91cfb27323cd633dc4af62378da76444701f910ba488e522d5200205ae6a72e",
+        "ban_goc": "khop"
+      },
+      "duong_dan_resolve": {
+        "train": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review\\images\\train",
+        "val": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review\\images\\dev"
+      },
+      "so_anh": {
+        "train": 77,
+        "dev": 48
+      },
+      "so_video": {
+        "train": 5,
+        "dev": 3
+      },
+      "so_nhan_rong_hop_le": {
+        "train": 2,
+        "dev": 0
+      },
+      "so_anh_co_file_ignore": {
+        "train": 11,
+        "dev": 0
+      },
+      "noi_dung_da_xac_minh": {
+        "train": true,
+        "dev": true
+      },
+      "so_file_da_bam": {
+        "anh": 125,
+        "nhan": 125,
+        "ignore": 11
+      },
+      "xac_minh_luc": "2026-09-30T11:08:32",
+      "thoi_gian_s": 0.2
+    },
+    "train_guard": {
+      "hop_dong": "bdd5-dataset-v2",
+      "phien_ban_manifest": 2,
+      "loi": 0,
+      "ten": "review",
+      "loai": "day_du",
+      "tap_con": null,
+      "data_yaml": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review\\data.yaml",
+      "sha256_data_yaml": "6202e5bafe830e2bc166ebb3495e460f62154fb42bfff96f93c95d6d64d87dfa",
+      "sha256_tom_tat": "0d9841f119136f6a281ee1126cdb4c86283380bab04ef39d212932d33b61b1bd",
+      "manifest_sha256": "abb199d9347ccb389f5b08cacebe937b558d5aab4163bc22abf62a0560c90481",
+      "sha256_video_json": "b7e0cd4e3fdfd6f70cfd3697cbfea5ffd5244409a0d35d7d3dce190b2a0e10e7",
+      "split_da_khoa": {
+        "sha256": "df7a730cd36bb075d63b427b25218445c454bad35b77965823b220489240220b",
+        "sha256_danh_sach": "f91cfb27323cd633dc4af62378da76444701f910ba488e522d5200205ae6a72e",
+        "ban_goc": "khop"
+      },
+      "duong_dan_resolve": {
+        "train": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review\\images\\train",
+        "val": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review\\images\\dev"
+      },
+      "so_anh": {
+        "train": 77,
+        "dev": 48
+      },
+      "so_video": {
+        "train": 5,
+        "dev": 3
+      },
+      "so_nhan_rong_hop_le": {
+        "train": 2,
+        "dev": 0
+      },
+      "so_anh_co_file_ignore": {
+        "train": 11,
+        "dev": 0
+      },
+      "noi_dung_da_xac_minh": {
+        "train": true,
+        "dev": true
+      },
+      "so_file_da_bam": {
+        "anh": 125,
+        "nhan": 125,
+        "ignore": 11
+      },
+      "xac_minh_luc": "2026-09-30T11:08:32",
+      "thoi_gian_s": 0.2
+    }
+  },
+  "F1_train_is_dev": {
+    "bug_reproduced": false,
+    "effective_train": "images/dev",
+    "effective_val": "images/dev",
+    "runner_guard": {
+      "accepted": false,
+      "error": "LoiCauHinh: dataset KHONG dat hop dong: C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review\\data.yaml: train/val phai DUNG la 'images/train' / 'images/dev' (dev noi bo); gap train='images/dev', val='images/dev' -> ultralytics se train/val tren duong dan khac hop dong da khoa"
+    },
+    "export_checker": {
+      "accepted": false,
+      "error": "LoiDuLieu: C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review\\data.yaml: train/val phai DUNG la 'images/train' / 'images/dev' (dev noi bo); gap train='images/dev', val='images/dev' -> ultralytics se train/val tren duong dan khac hop dong da khoa"
+    }
+  },
+  "F1_missing_label": {
+    "bug_reproduced": false,
+    "runner_guard": {
+      "accepted": false,
+      "error": "LoiCauHinh: dataset KHONG dat hop dong: 1 loi hop dong o C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review: THIEU file nhan labels/train/fx00000000-00000000-0000001.txt (ultralytics se coi anh la NEN; khac voi file nhan RONG hop le)"
+    },
+    "export_checker": {
+      "accepted": false,
+      "error": "LoiDuLieu: 1 loi hop dong o C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review: THIEU file nhan labels/train/fx00000000-00000000-0000001.txt (ultralytics se coi anh la NEN; khac voi file nhan RONG hop le)"
+    }
+  },
+  "F2_image_changed": {
+    "bug_reproduced": false,
+    "manifest_image_sha": "6dac2e5ff146c50a4cb332152b8e26fe9eb67f3663818a94499c8a71dad2be15",
+    "actual_image_sha": "40e2299ff2f78bf52571710084959d30a55717a58b244ce20c6d62b496013501",
+    "export_checker": {
+      "accepted": false,
+      "error": "LoiDuLieu: 1 loi hop dong o C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review: images/train/fx00000000-00000000-0000001.jpg: noi dung anh khac manifest (sha256) -- kich thuoc 160x90"
+    },
+    "same_manifest_identity": false
+  },
+  "F2_label_coordinates_changed": {
+    "bug_reproduced": false,
+    "export_checker": {
+      "accepted": false,
+      "error": "LoiDuLieu: 1 loi hop dong o C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review: labels/train/fx00000000-00000000-0000001.txt: noi dung nhan khac manifest (sha256)"
+    },
+    "same_manifest_identity": false
+  },
+  "F2_ignore_removed": {
+    "bug_reproduced": false,
+    "ignore_regions_before": 3,
+    "ignore_regions_after": 0,
+    "export_checker": {
+      "accepted": false,
+      "error": "LoiDuLieu: 1 loi hop dong o C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_rv1z2erm\\out\\review: THIEU file ignore da khai bao ignore/train/fx00000000-00000000-0000001.txt (3 vung) -- danh gia se coi la 0 vung"
+    }
+  },
+  "internal_duplicate_probe": {
+    "accepted": false,
+    "distinct_video_names": true,
+    "identical_source_content": true
+  },
+  "F3_equal_iou_COCO": {
+    "bug_reproduced": false,
+    "custom_AP50": 1.0,
+    "pycocotools_AP50": 1.0,
+    "custom_AP50_95": 0.5514851485148514,
+    "pycocotools_AP50_95": 0.5514851485148515,
+    "custom_operating": {
+      "TP": 2,
+      "FP": 0,
+      "FN": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "pycocotools_TP_at_050": 2
+  }
+}
