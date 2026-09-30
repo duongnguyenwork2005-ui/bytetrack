@@ -37,8 +37,13 @@ QUY TAC (ghi vao manifest)
    khung anh; box con < 1 px sau khi cat -> bo, dem rieng.
 7. Anh khong to xam -> SAO CHEP nguyen byte (khong ma hoa lai, khong hard link: ultralytics co the ghi de JPEG
    hong); anh co to xam -> ghi JPEG chat luong 95.
-8. Khong trung video/anh voi tap danh gia (BDD100K val chinh thuc, UA-DETRAC test): kiem ten video, ten anh va
-   sha256 noi dung anh nguon (so voi toan bo anh BDD val).
+8. Khong trung video/anh voi tap danh gia: BDD100K val chinh thuc -> ten video, ten anh va sha256 noi dung anh nguon
+   (so voi toan bo anh BDD val); UA-DETRAC test -> CHI ten video (khong so noi dung). Train-fit va dev: khac video
+   VA khac sha256 anh nguon (vong 28), kiem truoc khi ghi.
+9. Manifest phien ban 2 (vong 28, R27-F2): moi anh co sha256 anh xuat, file nhan (ke ca file RONG) va file ignore
+   (neu co vung); sha256 data.yaml / video.json; ban sao split da khoa. `kiem_hop_dong_dataset()` la HOP DONG DUNG
+   CHUNG cho exporter, runner huan luyen va evaluator: kiem dung duong dan ultralytics resolve tu data.yaml va noi
+   dung thuc te; manifest phien ban 1 bi tu choi (khong bo sung hash ve sau).
 """
 from __future__ import annotations
 
@@ -50,6 +55,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -63,8 +69,13 @@ DISTRACTOR_XE = ("other vehicle", "trailer")
 CHAT_LUONG_JPEG = 95
 MAU_TO_XAM = tuple(int(c) for c in config.IGNORE_MASK_COLOR_BGR)
 PHIEN_BAN_QUY_TAC = "bdd5-v1"
+#: v1 (vong 27): chi sha256 anh. v2 (vong 28, R27-F2): them duong dan + sha256 file NHAN va file IGNORE cua tung anh,
+#: sha256 data.yaml / video.json, ban sao split da khoa. Ban v1 KHONG duoc bo sung hash ve sau: phai xuat lai.
+PHIEN_BAN_MANIFEST = 2
+SHA256_RONG = hashlib.sha256(b"").hexdigest()
 COT_MANIFEST = ["split", "video", "frame_idx", "anh_nguon", "sha256_nguon", "anh_ra", "sha256_ra", "w", "h",
-                *[f"n_{c}" for c in LOP_5], "n_vung_to_xam", "xu_ly", "am_tinh"]
+                *[f"n_{c}" for c in LOP_5], "n_vung_to_xam", "xu_ly", "am_tinh",
+                "nhan_ra", "sha256_nhan", "ignore_ra", "sha256_ignore"]
 
 
 class ThieuDuLieu(RuntimeError):
@@ -564,19 +575,20 @@ def xuat_mot_anh(src: Path, frame: Frame, dst_img: Path, dst_lbl: Path, dst_ign:
         if not ok:
             raise LoiDuLieu(f"khong ma hoa duoc {dst_img}")
         dst_img.write_bytes(enc.tobytes())
-        dst_ign.write_text("".join(f"{x1:.2f} {y1:.2f} {x2:.2f} {y2:.2f}\n" for x1, y1, x2, y2 in vung),
-                           encoding="utf-8")
+        # ghi BYTE (dong ket thuc '\n' co dinh, khong doi theo he dieu hanh) -> sha256 trong manifest on dinh
+        dst_ign.write_bytes("".join(f"{x1:.2f} {y1:.2f} {x2:.2f} {y2:.2f}\n" for x1, y1, x2, y2 in vung)
+                            .encode("utf-8"))
         xu_ly = "to_xam"
         dem["so_pixel_to_xam"] += int(m.sum())
     else:
         shutil.copyfile(src, dst_img)
         xu_ly = "sao_chep"
-    dst_lbl.write_text("".join(f"{c} {(x1 + x2) / 2 / W:.6f} {(y1 + y2) / 2 / H:.6f} {(x2 - x1) / W:.6f} "
-                               f"{(y2 - y1) / H:.6f}\n" for c, x1, y1, x2, y2 in boxes), encoding="utf-8")
+    dst_lbl.write_bytes("".join(f"{c} {(x1 + x2) / 2 / W:.6f} {(y1 + y2) / 2 / H:.6f} {(x2 - x1) / W:.6f} "
+                                f"{(y2 - y1) / H:.6f}\n" for c, x1, y1, x2, y2 in boxes).encode("utf-8"))
     n = {c: 0 for c in LOP_5}
     for c, *_ in boxes:
         n[LOP_5[c]] += 1
-    return {"w": W, "h": H, "n": n, "n_vung": len(vung), "xu_ly": xu_ly}
+    return {"w": W, "h": H, "n": n, "n_vung": len(vung), "xu_ly": xu_ly, "co_ignore": bool(vung)}
 
 
 def doc_split(file_split: Path, nguon) -> dict:
@@ -614,10 +626,10 @@ def ghi_data_yaml(out: Path, ghi_chu: str, path_cuoi: Path | None = None) -> Pat
     """`path` trong YAML = thu muc CUOI (sau khi doi ten tu thu muc tam)."""
     p = out / "data.yaml"
     names = "\n".join(f"  {i}: {c}" for i, c in enumerate(LOP_5))
-    p.write_text(f"# SINH TU DONG boi src/bdd_yolo_export.py -- KHONG sua tay. {ghi_chu}\n"
-                 f"# 'val' = DEV NOI BO tach tu BDD100K MOT train chinh thuc, KHONG phai BDD100K val chinh thuc.\n"
-                 f"path: {(path_cuoi or out).resolve().as_posix()}\ntrain: images/train\nval: images/dev\nnc: {len(LOP_5)}\n"
-                 f"names:\n{names}\n", encoding="utf-8")
+    p.write_bytes((f"# SINH TU DONG boi src/bdd_yolo_export.py -- KHONG sua tay. {ghi_chu}\n"
+                   f"# 'val' = DEV NOI BO tach tu BDD100K MOT train chinh thuc, KHONG phai BDD100K val chinh thuc.\n"
+                   f"path: {(path_cuoi or out).resolve().as_posix()}\ntrain: images/train\nval: images/dev\n"
+                   f"nc: {len(LOP_5)}\nnames:\n{names}\n").encode("utf-8"))
     return p
 
 
@@ -665,7 +677,14 @@ def xuat_dataset(cfg: dict, file_split: Path, tap_con: str | None = None, kiem_h
                 ke_hoach.append((s, v, f, src, ten))
     if set(chon["train"]) & set(chon["dev"]):
         raise LoiDuLieu("train va dev trung video")
-    trung = {}
+    # train-fit / dev tach biet ca ve NOI DUNG (review 4937c85: khac ten video nhung cung byte anh van lot qua)
+    sha_train = {h: k for k, h in sha_nguon.items() if k.startswith("train/")}
+    trung_noi_bo = sorted((sha_train[h], k) for k, h in sha_nguon.items() if k.startswith("dev/") and h in sha_train)
+    if trung_noi_bo:
+        raise LoiDuLieu(f"{len(trung_noi_bo)} anh dev TRUNG NOI DUNG (sha256 anh nguon) voi anh train-fit du khac video, "
+                        f"vd {trung_noi_bo[:3]} -- khong tu loai anh; can nguoi dung quyet dinh cach xu ly")
+    trung = {"train_dev_noi_bo": {"cach": "sha256 anh nguon, truoc khi ghi", "so_cap_trung": 0,
+                                  "so_anh_train": len(sha_train), "so_anh_dev": len(sha_nguon) - len(sha_train)}}
     ten_xuat = {k.split("/", 1)[1] for k in sha_nguon}
     for t, t_cfg in zip(tap_cam(cfg), cfg["tap_danh_gia_cam"]):
         tr_ten = sorted(ten_xuat & t["ten_anh"])
@@ -697,10 +716,13 @@ def xuat_dataset(cfg: dict, file_split: Path, tap_con: str | None = None, kiem_h
         stem = Path(ten).stem
         r = xuat_mot_anh(src, f, tam / "images" / s / ten, tam / "labels" / s / f"{stem}.txt",
                          tam / "ignore" / s / f"{stem}.txt", dem)
+        ign_rel = f"ignore/{s}/{stem}.txt" if r["co_ignore"] else ""
         row = {"split": s, "video": v, "frame_idx": f.idx, "anh_nguon": f.rel, "sha256_nguon": sha_nguon[f"{s}/{ten}"],
                "anh_ra": f"images/{s}/{ten}", "sha256_ra": sha256_file(tam / "images" / s / ten),
                "w": r["w"], "h": r["h"], **{f"n_{c}": r["n"][c] for c in LOP_5},
-               "n_vung_to_xam": r["n_vung"], "xu_ly": r["xu_ly"], "am_tinh": int(sum(r["n"].values()) == 0)}
+               "n_vung_to_xam": r["n_vung"], "xu_ly": r["xu_ly"], "am_tinh": int(sum(r["n"].values()) == 0),
+               "nhan_ra": f"labels/{s}/{stem}.txt", "sha256_nhan": sha256_file(tam / "labels" / s / f"{stem}.txt"),
+               "ignore_ra": ign_rel, "sha256_ignore": sha256_file(tam / ign_rel) if ign_rel else ""}
         rows.append(row)
         t = thong_ke[s]
         t["so_anh"] += 1
@@ -721,16 +743,21 @@ def xuat_dataset(cfg: dict, file_split: Path, tap_con: str | None = None, kiem_h
         w = csv.DictWriter(f, fieldnames=COT_MANIFEST)
         w.writeheader()
         w.writerows(rows)
-    (tam / "manifest" / "video.json").write_text(json.dumps(chon, indent=1) + "\n", encoding="utf-8")
+    (tam / "manifest" / "video.json").write_bytes((json.dumps(chon, indent=1) + "\n").encode("utf-8"))
+    shutil.copyfile(file_split, tam / "manifest" / "split_da_khoa.json")       # ban sao NGUYEN BYTE split da khoa
     ghi_data_yaml(tam, f"cau hinh {cfg['ten']}" + (f", tap con {tap_con}" if tap_con else ""), path_cuoi=out)
     tom = {
         "ten": cfg["ten"] + (f"_{tap_con}" if tap_con else ""), "tap_con": tap_con,
         "loai": "SMOKE (tap con nho, KHONG dung cho ket qua nghien cuu)" if tap_con else "day_du",
+        "phien_ban_manifest": PHIEN_BAN_MANIFEST,
         "phien_ban_quy_tac": PHIEN_BAN_QUY_TAC, "tao_luc": dt.datetime.now().isoformat(timespec="seconds"),
         "git_head": git_head(), "lop": list(LOP_5),
         "cau_hinh": {"duong_dan": rel(Path(cfg["_duong_dan"]), goc), "sha256": cfg["_sha256"]},
-        "file_split": {"duong_dan": rel(file_split, goc), "sha256": sha256_file(file_split),
-                       "sha256_danh_sach": sp["sha256_danh_sach"]},
+        "file_split": {"duong_dan": rel(file_split, goc), "duong_dan_tuyet_doi": file_split.resolve().as_posix(),
+                       "sha256": sha256_file(file_split), "sha256_danh_sach": sp["sha256_danh_sach"],
+                       "ban_sao": "manifest/split_da_khoa.json"},
+        "sha256_data_yaml": sha256_file(tam / "data.yaml"),
+        "sha256_video_json": sha256_file(tam / "manifest" / "video.json"),
         "nguon_nhan": sp["nguon_nhan"], "anh_goc": cfg["bdd"]["anh"],
         "quy_tac": {"buoc_frame": buoc, "am_tinh": "frame trong [frame co nhan dau, cuoi] cua video",
                     "to_xam": f"crowd/ignore thuoc 5 lop + {list(DISTRACTOR_XE)}; tru pixel trong box co nhan; "
@@ -751,72 +778,275 @@ def xuat_dataset(cfg: dict, file_split: Path, tap_con: str | None = None, kiem_h
     return tom
 
 
-# =========================================================================== kiem dataset da xuat
-def kiem_dataset(out: Path) -> dict:
-    """Doc lai dataset da xuat, doi chieu manifest. Loi -> LoiDuLieu."""
-    import yaml
-    from detector_classes import kiem_names_dataset
-    out = Path(out)
-    y = yaml.safe_load((out / "data.yaml").read_text(encoding="utf-8"))
-    kiem_names_dataset(y["names"])
-    if y.get("val") != "images/dev" or y.get("train") != "images/train":
-        raise LoiDuLieu(f"data.yaml: train/val phai la images/train, images/dev (gap {y.get('train')}, {y.get('val')})")
-    tom = json.loads((out / "manifest" / "tom_tat.json").read_text(encoding="utf-8"))
-    man = out / "manifest" / "anh.csv"
-    if sha256_file(man) != tom["manifest_anh"]["sha256"]:
-        raise LoiDuLieu("manifest/anh.csv khong khop sha256 trong tom_tat.json")
-    with open(man, newline="", encoding="utf-8") as f:
-        rows = list(csv.DictReader(f))
-    loi = []
-    theo_split = {"train": set(), "dev": set()}
-    video_split = {"train": set(), "dev": set()}
-    for r in rows:
-        s = r["split"]
-        img = out / r["anh_ra"]
-        stem = img.stem
-        lbl = out / "labels" / s / f"{stem}.txt"
-        theo_split[s].add(img.name)
-        video_split[s].add(r["video"])
-        if not img.is_file():
-            loi.append(f"thieu anh {r['anh_ra']}")
+# =========================================================================== hop dong kiem dataset (DUNG CHUNG)
+#: Dinh dang anh ma ultralytics 8.4.141 nhan (`ultralytics.data.utils.IMG_FORMATS`). Runner so bang nay voi ban
+#: ultralytics dang chay truoc khi train (khac -> dung), de cach liet ke o day DUNG la cach trainer liet ke.
+IMG_FORMATS_ULTRALYTICS = frozenset({"avif", "bmp", "dng", "heic", "heif", "jp2", "jpeg", "jpg", "mpo", "png", "tif",
+                                     "tiff", "webp"})
+HOP_DONG = "bdd5-dataset-v2"
+SPLIT_YAML = {"train": "images/train", "dev": "images/dev"}      # khoa trong data.yaml: train -> train, val -> dev
+
+
+def _nc(p) -> str:
+    """So sanh duong dan khong phan biet hoa/thuong tren Windows."""
+    return os.path.normcase(os.path.abspath(str(p)))
+
+
+def liet_ke_anh_nhu_ultralytics(d: Path) -> list[Path]:
+    """Cach `BaseDataset.get_img_files` tim anh trong mot thu muc: glob DE QUY '**/*.*', loc theo duoi file."""
+    import glob
+    f = glob.glob(str(Path(glob.escape(str(d))) / "**" / "*.*"), recursive=True)
+    return sorted(Path(x) for x in f if x.rpartition(".")[-1].lower() in IMG_FORMATS_ULTRALYTICS)
+
+
+def nhan_nhu_ultralytics(img: Path) -> Path:
+    """`ultralytics.data.utils.img2label_paths`: thay '/images/' CUOI CUNG bang '/labels/', doi duoi thanh .txt."""
+    sa, sb = f"{os.sep}images{os.sep}", f"{os.sep}labels{os.sep}"
+    x = str(img)
+    return Path(sb.join(x.rsplit(sa, 1)).rsplit(".", 1)[0] + ".txt")
+
+
+def doc_dong_nhan(b: bytes, ten: str) -> tuple[list[tuple], list[str]]:
+    """Nhan YOLO (bytes) -> [(lop, cx, cy, w, h)] + danh sach loi dinh dang. File rong = 0 box (am tinh hop le)."""
+    out, loi = [], []
+    for ln in b.decode("utf-8", "replace").splitlines():
+        p = ln.split()
+        if not p:
             continue
-        if not lbl.is_file():
-            loi.append(f"anh {r['anh_ra']} KHONG co file nhan (ultralytics se coi la nen)")
+        if len(p) != 5:
+            loi.append(f"{ten}: dong sai dinh dang {ln!r}")
             continue
-        W, H = kich_thuoc_anh(img)
-        if (W, H) != (int(r["w"]), int(r["h"])):
-            loi.append(f"{r['anh_ra']}: kich thuoc {W}x{H} khac manifest")
-        n = {c: 0 for c in LOP_5}
-        for ln in lbl.read_text(encoding="utf-8").splitlines():
-            p = ln.split()
-            if len(p) != 5:
-                loi.append(f"{lbl.name}: dong sai dinh dang {ln!r}")
-                continue
+        try:
             c = int(p[0])
             cx, cy, w, h = (float(x) for x in p[1:])
-            if not 0 <= c < len(LOP_5):
-                loi.append(f"{lbl.name}: lop {c} ngoai 0..4")
-                continue
-            if not (w > 0 and h > 0 and cx - w / 2 >= -1e-6 and cy - h / 2 >= -1e-6 and cx + w / 2 <= 1 + 1e-6
-                    and cy + h / 2 <= 1 + 1e-6):
-                loi.append(f"{lbl.name}: toa do ngoai [0,1] {ln!r}")
-            n[LOP_5[c]] += 1
-        if any(n[c] != int(r[f"n_{c}"]) for c in LOP_5):
-            loi.append(f"{lbl.name}: so box {n} khac manifest")
-    for s in ("train", "dev"):
-        tren_dia = {p.name for p in (out / "images" / s).iterdir()}
-        thua = tren_dia - theo_split[s]
-        if thua:
-            loi.append(f"images/{s}: {len(thua)} anh khong co trong manifest ({sorted(thua)[:3]})")
-        nhan_dia = {p.stem for p in (out / "labels" / s).glob("*.txt")}
-        thua_n = nhan_dia - {Path(x).stem for x in theo_split[s]}
-        if thua_n:
-            loi.append(f"labels/{s}: {len(thua_n)} file nhan khong co anh")
-    if video_split["train"] & video_split["dev"]:
-        loi.append(f"train/dev trung video {sorted(video_split['train'] & video_split['dev'])[:3]}")
-    if theo_split["train"] & theo_split["dev"]:
-        loi.append("train/dev trung ten anh")
+        except ValueError:
+            loi.append(f"{ten}: khong doc duoc so {ln!r}")
+            continue
+        if not 0 <= c < len(LOP_5):
+            loi.append(f"{ten}: lop {c} ngoai 0..{len(LOP_5) - 1}")
+            continue
+        if not (w > 0 and h > 0 and cx - w / 2 >= -1e-6 and cy - h / 2 >= -1e-6 and cx + w / 2 <= 1 + 1e-6
+                and cy + h / 2 <= 1 + 1e-6):
+            loi.append(f"{ten}: toa do ngoai [0,1] {ln!r}")
+        out.append((c, cx, cy, w, h))
+    return out, loi
+
+
+def kiem_hop_dong_dataset(data_yaml, split_noi_dung=("train", "dev"), gioi_han_loi: int = 20) -> dict:
+    """HOP DONG kiem dataset DUNG CHUNG cho exporter (`--buoc xuat` / `--buoc kiem`), runner huan luyen va evaluator.
+
+    Kiem DUNG cac duong dan ultralytics se dung khi nhan `data_yaml` NGUYEN VAN:
+      1. YAML: `path` tuyet doi = thu muc chua data.yaml (ultralytics resolve `path` tuong doi theo DATASETS_DIR, khong
+         theo file YAML); `train` == images/train, `val` == images/dev, khong `test`; names = 5 lop da khoa.
+      2. Manifest phien ban 2 (ban cu -> LOI, khong tu bo sung hash); sha256 anh.csv, data.yaml, video.json; ban sao split
+         da khoa (va ban goc neu con tren may) khop sha256; video train/dev nam trong split da khoa, roi nhau.
+      3. Danh sach anh THUC TE (liet ke nhu ultralytics: glob de quy + IMG_FORMATS) == manifest tung split; file nhan
+         (duong dan nhu ultralytics suy ra) PHAI ton tai -- file RONG hop le, file THIEU la loi; file ignore ton tai
+         DUNG khi manifest khai bao vung ignore (anh khong co vung ignore -> KHONG duoc co file); khong co file thua.
+      4. NOI DUNG (cac split trong `split_noi_dung`): sha256 tung anh, tung file nhan, tung file ignore khop manifest;
+         kich thuoc anh khop; so box theo lop khop; khong trung noi dung anh giua train va dev.
+    Loi -> LoiDuLieu (liet ke toi da `gioi_han_loi` muc). Dat -> DANH TINH dataset da xac minh (ghi vao ket qua).
+    """
+    import yaml
+    from detector_classes import LoiAnhXaLop, kiem_names_dataset
+    t0 = time.time()
+    data_yaml = Path(data_yaml)
+    if not data_yaml.is_file():
+        raise LoiDuLieu(f"khong co {data_yaml}")
+    goc = data_yaml.parent.resolve()
+    try:
+        y = yaml.safe_load(data_yaml.read_text(encoding="utf-8"))
+    except Exception as e:  # noqa: BLE001
+        raise LoiDuLieu(f"{data_yaml}: YAML hong ({type(e).__name__}: {e})") from e
+    if not isinstance(y, dict):
+        raise LoiDuLieu(f"{data_yaml}: khong phai mapping YAML")
+    try:
+        kiem_names_dataset(y.get("names") or {})
+    except LoiAnhXaLop as e:
+        raise LoiDuLieu(f"{data_yaml}: {e}") from e
+    if y.get("nc", len(LOP_5)) != len(LOP_5):
+        raise LoiDuLieu(f"{data_yaml}: nc={y.get('nc')!r} khac {len(LOP_5)}")
+    if y.get("train") != SPLIT_YAML["train"] or y.get("val") != SPLIT_YAML["dev"]:
+        raise LoiDuLieu(f"{data_yaml}: train/val phai DUNG la '{SPLIT_YAML['train']}' / '{SPLIT_YAML['dev']}' (dev noi bo); "
+                        f"gap train={y.get('train')!r}, val={y.get('val')!r} -> ultralytics se train/val tren duong dan khac "
+                        f"hop dong da khoa")
+    if y.get("test") is not None:
+        raise LoiDuLieu(f"{data_yaml}: khong duoc co khoa 'test' (gap {y.get('test')!r})")
+    p = y.get("path")
+    if not p or not Path(str(p)).is_absolute() or _nc(Path(str(p)).resolve()) != _nc(goc):
+        raise LoiDuLieu(f"{data_yaml}: 'path' phai la duong dan TUYET DOI toi chinh thu muc chua data.yaml ({goc}); gap "
+                        f"{p!r} (ultralytics resolve 'path' tuong doi theo DATASETS_DIR, khong theo file YAML)")
+    tom_p, man = goc / "manifest" / "tom_tat.json", goc / "manifest" / "anh.csv"
+    if not tom_p.is_file() or not man.is_file():
+        raise LoiDuLieu(f"{goc}: thieu manifest/tom_tat.json hoac manifest/anh.csv (dataset phai do bdd_yolo_export sinh)")
+    tom = json.loads(tom_p.read_text(encoding="utf-8"))
+    pb = tom.get("phien_ban_manifest", 1)
+    if pb != PHIEN_BAN_MANIFEST:
+        raise LoiDuLieu(
+            f"{goc}: manifest phien ban {pb} (can {PHIEN_BAN_MANIFEST}). Ban 1 (vong 27) chi co sha256 anh, CHUA khoa noi dung "
+            f"file nhan va file ignore -> KHONG du bang chung de xac minh dataset (R27-F2). Xuat lai dataset bang ma hien tai; "
+            f"KHONG bo sung hash vao manifest cu roi coi nhu da xac minh tu luc xuat.")
+
+    loi: list[str] = []
+    for ten, f, ky in (("manifest/anh.csv", man, tom["manifest_anh"]["sha256"]),
+                       ("data.yaml", data_yaml, tom.get("sha256_data_yaml")),
+                       ("manifest/video.json", goc / "manifest" / "video.json", tom.get("sha256_video_json"))):
+        if not f.is_file():
+            loi.append(f"thieu {ten}")
+        elif sha256_file(f) != ky:
+            loi.append(f"{ten} khac sha256 trong tom_tat.json (bi sua sau khi xuat)")
+    fsp = tom["file_split"]
+    ban_sao = goc / fsp.get("ban_sao", "manifest/split_da_khoa.json")
+    if not ban_sao.is_file() or sha256_file(ban_sao) != fsp["sha256"]:
+        loi.append(f"ban sao split da khoa {ban_sao.name} thieu hoac khac sha256 luc xuat")
+    goc_split = Path(fsp.get("duong_dan_tuyet_doi", ""))
+    if fsp.get("duong_dan_tuyet_doi") and goc_split.is_file():
+        trang_thai_split_goc = "khop" if sha256_file(goc_split) == fsp["sha256"] else "DA DOI"
+        if trang_thai_split_goc != "khop":
+            loi.append(f"file split goc {goc_split} da doi sau khi xuat dataset")
+    else:
+        trang_thai_split_goc = "khong co tren may nay (chi kiem ban sao trong dataset)"
     if loi:
-        raise LoiDuLieu(f"{len(loi)} loi khi kiem {out}: " + "; ".join(loi[:10]))
-    return {"so_anh": {s: len(v) for s, v in theo_split.items()}, "so_video": {s: len(v) for s, v in video_split.items()},
-            "manifest_sha256": tom["manifest_anh"]["sha256"], "loi": 0}
+        raise LoiDuLieu(f"{len(loi)} loi hop dong o {goc}: " + "; ".join(loi[:gioi_han_loi]))
+
+    sp = json.loads(ban_sao.read_text(encoding="utf-8"))
+    ds = {"train_fit": sp["train_fit"], "dev": sp["dev"]}
+    bam_ds = sha256_bytes(json.dumps(ds, sort_keys=True).encode())
+    if bam_ds != sp["sha256_danh_sach"] or bam_ds != fsp["sha256_danh_sach"]:
+        loi.append("danh sach video trong split da khoa khong khop sha256_danh_sach")
+    vj = json.loads((goc / "manifest" / "video.json").read_text(encoding="utf-8"))
+    v_tr, v_dv = set(vj.get("train", [])), set(vj.get("dev", []))
+    if not v_tr <= set(sp["train_fit"]):
+        loi.append(f"{len(v_tr - set(sp['train_fit']))} video train KHONG thuoc train_fit cua split da khoa")
+    if not v_dv <= set(sp["dev"]):
+        loi.append(f"{len(v_dv - set(sp['dev']))} video dev KHONG thuoc dev cua split da khoa")
+    if tom.get("tap_con") is None and (v_tr != set(sp["train_fit"]) or v_dv != set(sp["dev"])):
+        loi.append("dataset day du phai dung TOAN BO video cua split da khoa")
+    if v_tr & v_dv:
+        loi.append(f"train/dev trung video {sorted(v_tr & v_dv)[:3]}")
+
+    with open(man, newline="", encoding="utf-8") as f:
+        doc = csv.DictReader(f)
+        thieu_cot = [c for c in COT_MANIFEST if c not in (doc.fieldnames or [])]
+        rows = list(doc)
+    if thieu_cot:
+        raise LoiDuLieu(f"manifest/anh.csv thieu cot {thieu_cot} (phien ban khai bao {pb})")
+    theo_split: dict[str, list[dict]] = {"train": [], "dev": []}
+    for r in rows:
+        if r["split"] not in theo_split:
+            loi.append(f"dong manifest co split la {r['split']!r}")
+            continue
+        theo_split[r["split"]].append(r)
+        if r["video"] not in (v_tr if r["split"] == "train" else v_dv):
+            loi.append(f"{r['anh_ra']}: video {r['video']} khong thuoc {r['split']} trong video.json")
+    if len({r["anh_ra"] for r in rows}) != len(rows):
+        loi.append("manifest co anh_ra trung lap")
+    for cot, mo_ta in (("anh_ra", "ten anh"), ("sha256_ra", "noi dung anh xuat"), ("sha256_nguon", "noi dung anh nguon")):
+        a = {Path(r[cot]).name if cot == "anh_ra" else r[cot] for r in theo_split["train"]}
+        b = {Path(r[cot]).name if cot == "anh_ra" else r[cot] for r in theo_split["dev"]}
+        if a & b:
+            loi.append(f"train/dev trung {mo_ta}: {len(a & b)} muc (vd {sorted(a & b)[:2]})")
+
+    dem_bam = {"anh": 0, "nhan": 0, "ignore": 0}
+    so_anh, so_nhan_rong, so_ignore = {}, {}, {}
+    for s, thu_muc in (("train", goc / "images" / "train"), ("dev", goc / "images" / "dev")):
+        noi_dung = s in split_noi_dung
+        if not thu_muc.is_dir():
+            loi.append(f"thieu thu muc {thu_muc}")
+            continue
+        tren_dia = {p.relative_to(goc).as_posix(): p for p in liet_ke_anh_nhu_ultralytics(thu_muc)}
+        khai = {r["anh_ra"] for r in theo_split[s]}
+        thua, thieu = sorted(set(tren_dia) - khai), sorted(khai - set(tren_dia))
+        if thua:
+            loi.append(f"images/{s}: {len(thua)} anh KHONG co trong manifest nhung ultralytics van se dung (vd {thua[:2]})")
+        if thieu:
+            loi.append(f"images/{s}: {len(thieu)} anh trong manifest KHONG ton tai (vd {thieu[:2]})")
+        so_anh[s] = len(tren_dia)
+        so_nhan_rong[s] = so_ignore[s] = 0
+        nhan_khai, ign_khai = set(), set()
+        for r in theo_split[s]:
+            img = goc / r["anh_ra"]
+            lbl = goc / r["nhan_ra"]
+            if _nc(nhan_nhu_ultralytics(img)) != _nc(lbl):
+                loi.append(f"{r['anh_ra']}: nhan_ra {r['nhan_ra']} khong phai file ultralytics se doc")
+            nhan_khai.add(_nc(lbl))
+            if not lbl.is_file():
+                loi.append(f"THIEU file nhan {r['nhan_ra']} (ultralytics se coi anh la NEN; khac voi file nhan RONG hop le)")
+            else:
+                b = lbl.read_bytes()
+                if noi_dung:
+                    dem_bam["nhan"] += 1
+                    if sha256_bytes(b) != r["sha256_nhan"]:
+                        loi.append(f"{r['nhan_ra']}: noi dung nhan khac manifest (sha256)")
+                dong, ld = doc_dong_nhan(b, r["nhan_ra"])
+                loi += ld
+                n = {c: 0 for c in LOP_5}
+                for c, *_ in dong:
+                    n[LOP_5[c]] += 1
+                if any(n[c] != int(r[f"n_{c}"]) for c in LOP_5):
+                    loi.append(f"{r['nhan_ra']}: so box {n} khac manifest")
+                so_nhan_rong[s] += int(not dong)
+            n_v = int(r["n_vung_to_xam"])
+            ign_dung = f"ignore/{s}/{Path(r['anh_ra']).stem}.txt"
+            if n_v > 0:
+                so_ignore[s] += 1
+                ign_khai.add(_nc(goc / ign_dung))
+                if r["ignore_ra"] != ign_dung or not r["sha256_ignore"]:
+                    loi.append(f"{r['anh_ra']}: manifest khai bao {n_v} vung ignore nhung ignore_ra/sha256 sai")
+                elif not (goc / ign_dung).is_file():
+                    loi.append(f"THIEU file ignore da khai bao {ign_dung} ({n_v} vung) -- danh gia se coi la 0 vung")
+                else:
+                    bi = (goc / ign_dung).read_bytes()
+                    if noi_dung:
+                        dem_bam["ignore"] += 1
+                        if sha256_bytes(bi) != r["sha256_ignore"]:
+                            loi.append(f"{ign_dung}: noi dung vung ignore khac manifest (sha256)")
+                    if sum(1 for ln in bi.decode("utf-8", "replace").splitlines() if ln.strip()) != n_v:
+                        loi.append(f"{ign_dung}: so vung khac manifest ({n_v})")
+            elif r["ignore_ra"] or r["sha256_ignore"]:
+                loi.append(f"{r['anh_ra']}: manifest mau thuan (0 vung nhung co ignore_ra/sha256_ignore)")
+            if not img.is_file():
+                continue
+            W, H = kich_thuoc_anh(img)
+            if (W, H) != (int(r["w"]), int(r["h"])):
+                loi.append(f"{r['anh_ra']}: kich thuoc {W}x{H} khac manifest {r['w']}x{r['h']}")
+            if noi_dung:
+                dem_bam["anh"] += 1
+                if sha256_file(img) != r["sha256_ra"]:
+                    loi.append(f"{r['anh_ra']}: noi dung anh khac manifest (sha256) -- kich thuoc {W}x{H}")
+        for thu, khai_bao, mo_ta in ((goc / "labels" / s, nhan_khai, "file nhan"), (goc / "ignore" / s, ign_khai, "file ignore")):
+            if thu.is_dir():
+                thua_f = sorted(p.relative_to(goc).as_posix() for p in thu.rglob("*") if p.is_file() and _nc(p) not in khai_bao)
+                if thua_f:
+                    loi.append(f"{thu.relative_to(goc).as_posix()}: {len(thua_f)} {mo_ta} KHONG khai bao trong manifest "
+                               f"(vd {thua_f[:2]})")
+    if loi:
+        raise LoiDuLieu(f"{len(loi)} loi hop dong o {goc}: " + "; ".join(loi[:gioi_han_loi]))
+    return {
+        "hop_dong": HOP_DONG, "phien_ban_manifest": pb, "loi": 0, "ten": tom.get("ten"), "loai": tom.get("loai"),
+        "tap_con": tom.get("tap_con"), "data_yaml": str(data_yaml.resolve()), "sha256_data_yaml": sha256_file(data_yaml),
+        "sha256_tom_tat": sha256_file(tom_p), "manifest_sha256": tom["manifest_anh"]["sha256"],
+        "sha256_video_json": tom.get("sha256_video_json"),
+        "split_da_khoa": {"sha256": fsp["sha256"], "sha256_danh_sach": fsp["sha256_danh_sach"],
+                          "ban_goc": trang_thai_split_goc},
+        "duong_dan_resolve": {"train": str(goc / "images" / "train"), "val": str(goc / "images" / "dev")},
+        "so_anh": so_anh, "so_video": {"train": len({r['video'] for r in theo_split['train']}),
+                                       "dev": len({r['video'] for r in theo_split['dev']})},
+        "so_nhan_rong_hop_le": so_nhan_rong, "so_anh_co_file_ignore": so_ignore,
+        "noi_dung_da_xac_minh": {s: s in split_noi_dung for s in ("train", "dev")}, "so_file_da_bam": dem_bam,
+        "xac_minh_luc": dt.datetime.now().isoformat(timespec="seconds"), "thoi_gian_s": round(time.time() - t0, 2),
+    }
+
+
+def kiem_dataset(out: Path) -> dict:
+    """Kiem day du (noi dung ca train + dev) dataset tai thu muc `out` -- cung hop dong voi runner / evaluator."""
+    return kiem_hop_dong_dataset(Path(out) / "data.yaml")
+
+
+def gt_theo_manifest(data_yaml, split: str = "dev") -> dict[str, dict]:
+    """Khai bao cua manifest cho tung anh cua split: {ten anh: {'ignore': bool, 'n_vung': int}} (evaluator dung de phan
+    biet 'anh khong co vung ignore' voi 'file ignore da khai bao nhung bi thieu')."""
+    goc = Path(data_yaml).resolve().parent
+    with open(goc / "manifest" / "anh.csv", newline="", encoding="utf-8") as f:
+        return {Path(r["anh_ra"]).name: {"ignore": int(r["n_vung_to_xam"]) > 0, "n_vung": int(r["n_vung_to_xam"])}
+                for r in csv.DictReader(f) if r["split"] == split}

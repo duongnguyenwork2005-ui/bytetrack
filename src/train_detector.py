@@ -17,11 +17,18 @@ Ban cu co `--dry-run` THUC SU train 1 epoch va `exist_ok=True` (luot moi ghi de 
 
 Khong ghi de: `<project>/<ten>` va file ket qua phai CHUA ton tai (truyen exist_ok=False va tu kiem truoc, vi ultralytics
 voi exist_ok=False se tu doi ten thanh <ten>2 -- runner coi do la loi).
+
+Chot dau vao (vong 28, R27-F1/F2): moi che do goi `kiem_dataset()` = HOP DONG DUNG CHUNG voi exporter
+(`bdd_yolo_export.kiem_hop_dong_dataset`) TRUOC khi nap checkpoint/model va truoc moi mkdir: dung duong dan ultralytics
+resolve tu data.yaml, train/dev dung split da khoa, anh/nhan/ignore thuc te khop manifest ca ve NOI DUNG (sha256).
+Khi train: callback `on_pretrain_routine_end` doi chieu anh + nhan ultralytics THUC SU nap (ke ca tu file .cache, vi
+cache ultralytics chi kiem kich thuoc + duong dan) voi dataset da xac minh; khac -> dung truoc vong train.
 Hai model dung CUNG khoi `huan_luyen` trong cau hinh; chi `weights` khac.
 """
 from __future__ import annotations
 
 import argparse
+import csv
 import datetime as dt
 import hashlib
 import json
@@ -33,9 +40,11 @@ import threading
 import time
 from pathlib import Path
 
+import numpy as np
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
-from detector_classes import LOP_5, kiem_names_dataset, loai_checkpoint  # noqa: E402
+from detector_classes import LOP_5, loai_checkpoint  # noqa: E402
 
 KHOA_CAM_AUTO = ("optimizer", "batch", "amp", "workers", "imgsz", "epochs", "lr0", "momentum", "weight_decay")
 
@@ -89,26 +98,78 @@ def doc_cfg(p: Path) -> dict:
     return cfg
 
 
-def kiem_dataset(data_yaml: Path) -> dict:
-    import yaml
+class LoiDauVaoDaNap(RuntimeError):
+    """Du lieu ultralytics THUC SU nap (anh + nhan, ke ca tu cache) khac dataset da xac minh -> dung truoc vong train."""
+
+
+def kiem_dataset(data_yaml: Path, split_noi_dung=("train", "dev")) -> dict:
+    """Chot dau vao cua runner = HOP DONG DUNG CHUNG voi exporter (`bdd_yolo_export.kiem_hop_dong_dataset`): kiem dung
+    duong dan ultralytics resolve tu `data_yaml` NGUYEN VAN, danh sach anh/nhan/ignore thuc te va noi dung (sha256).
+    Goi TRUOC khi nap checkpoint/model va TRUOC khi tao thu muc luot (R27-F1, R27-F2)."""
+    import bdd_yolo_export as bx
+    data_yaml = Path(data_yaml)
     if not data_yaml.is_file():
         raise LoiCauHinh(f"chua co dataset {data_yaml} -- chay prepare_mixed_yolo_dataset.py --config ... --buoc xuat")
-    y = yaml.safe_load(data_yaml.read_text(encoding="utf-8"))
-    kiem_names_dataset(y["names"])
-    if y.get("val") != "images/dev":
-        raise LoiCauHinh(f"{data_yaml}: 'val' phai tro vao dev noi bo images/dev (gap {y.get('val')!r})")
-    goc = Path(y.get("path") or data_yaml.parent)
-    tom = goc / "manifest" / "tom_tat.json"
-    if not tom.is_file():
-        raise LoiCauHinh(f"thieu {tom} (dataset phai sinh boi bdd_yolo_export)")
-    t = json.loads(tom.read_text(encoding="utf-8"))
-    sha = sha256_file(goc / "manifest" / "anh.csv")
-    if sha != t["manifest_anh"]["sha256"]:
-        raise LoiCauHinh("manifest/anh.csv khong khop sha256 trong tom_tat.json -- dataset bi sua sau khi xuat")
-    dem = {s: sum(1 for _ in (goc / "images" / s).iterdir()) for s in ("train", "dev")}
-    return {"data_yaml": str(data_yaml), "sha256_data_yaml": sha256_file(data_yaml), "ten": t.get("ten"),
-            "loai": t.get("loai"), "manifest_sha256": sha, "file_split": t.get("file_split"),
-            "so_anh": dem, "so_video": t.get("video"), "quy_tac": t.get("quy_tac")}
+    try:
+        from ultralytics.data.utils import IMG_FORMATS
+    except ImportError as e:
+        raise LoiCauHinh(f"khong import duoc ultralytics.data.utils ({e})") from e
+    if {s.lower() for s in IMG_FORMATS} != set(bx.IMG_FORMATS_ULTRALYTICS):
+        raise LoiCauHinh(f"ultralytics dang chay nhan dinh dang anh {sorted(IMG_FORMATS)} khac hop dong "
+                         f"{sorted(bx.IMG_FORMATS_ULTRALYTICS)} -> cach liet ke anh cua hop dong khong con dung nhu trainer")
+    try:
+        return bx.kiem_hop_dong_dataset(data_yaml, split_noi_dung=split_noi_dung)
+    except bx.LoiDuLieu as e:
+        raise LoiCauHinh(f"dataset KHONG dat hop dong: {e}") from e
+
+
+def nhan_mong_doi(data_yaml: Path) -> dict[str, dict[str, np.ndarray]]:
+    """{split: {duong dan anh (normcase): mang (n, 5) [lop, cx, cy, w, h]}} doc tu file nhan DA xac minh."""
+    import bdd_yolo_export as bx
+    goc = Path(data_yaml).resolve().parent
+    out: dict[str, dict[str, np.ndarray]] = {"train": {}, "dev": {}}
+    with open(goc / "manifest" / "anh.csv", newline="", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            dong, _ = bx.doc_dong_nhan((goc / r["nhan_ra"]).read_bytes(), r["nhan_ra"])
+            out[r["split"]][bx._nc(goc / r["anh_ra"])] = np.array(dong, float).reshape(-1, 5)
+    return out
+
+
+def _cung_tap_nhan(a: np.ndarray, b: np.ndarray, atol: float = 1e-5) -> bool:
+    """So hai tap nhan (n, 5) khong phu thuoc thu tu; ultralytics bo dong trung lap chinh xac nen bo o ca hai phia."""
+    a = np.unique(a, axis=0) if len(a) else a.reshape(0, 5)
+    b = np.unique(b, axis=0) if len(b) else b.reshape(0, 5)
+    if a.shape != b.shape:
+        return False
+    con = list(range(len(b)))
+    for row in a:
+        k = next((j for j in con if row[0] == b[j][0] and np.all(np.abs(row[1:] - b[j][1:]) <= atol)), None)
+        if k is None:
+            return False
+        con.remove(k)
+    return True
+
+
+def kiem_dau_vao_da_nap(trainer, mong_doi: dict[str, dict[str, np.ndarray]]) -> dict:
+    """So anh + nhan ultralytics THUC SU nap (`train_loader` / `test_loader`, gom ca nhan lay tu file .cache -- cache
+    ultralytics chi kiem tong kich thuoc + duong dan file, khong kiem noi dung) voi dataset da xac minh. Khac -> loi."""
+    import bdd_yolo_export as bx
+    ket = {}
+    for s, loader in (("train", trainer.train_loader), ("dev", trainer.test_loader)):
+        ds = loader.dataset
+        nap = {bx._nc(lb["im_file"]): np.column_stack([np.asarray(lb["cls"], float).reshape(-1),
+                                                       np.asarray(lb["bboxes"], float).reshape(-1, 4)])
+               for lb in ds.labels}
+        md = mong_doi[s]
+        thieu, thua = sorted(set(md) - set(nap)), sorted(set(nap) - set(md))
+        khac = [k for k in md.keys() & nap.keys() if not _cung_tap_nhan(md[k], nap[k])]
+        ket[s] = {"so_anh_nap": len(nap), "so_anh_da_xac_minh": len(md), "thieu": len(thieu), "thua": len(thua),
+                  "nhan_khac": len(khac)}
+        if thieu or thua or khac:
+            raise LoiDauVaoDaNap(f"{s}: ultralytics nap {len(nap)} anh / da xac minh {len(md)}; thieu {len(thieu)}, thua "
+                                 f"{len(thua)}, nhan khac {len(khac)} (vd {[Path(x).name for x in (thieu + thua + khac)[:3]]}) "
+                                 f"-- co the do cache .cache cu hoac anh bi ultralytics loai; dung truoc vong train")
+    return ket
 
 
 def kiem_weights(cfg: dict, model: str) -> dict:
@@ -346,7 +407,7 @@ def main() -> int:
             raise LoiCauHinh(f"{run_dir} da ton tai -- khong ghi de luot cu (doi --ten)")
         if kq_file.exists() and che_do != "kiem-cau-hinh":
             raise LoiCauHinh(f"{kq_file} da ton tai -- khong ghi de ket qua cu")
-        ds = kiem_dataset(data_yaml)
+        ds = kiem_dataset(data_yaml)          # HOP DONG dataset: TRUOC khi nap checkpoint / model, TRUOC moi mkdir
         wt = kiem_weights(cfg, a.model)
         ts = tham_so(cfg, che_do, data_yaml, project, ten, a.batch, a.device, a.workers)
         ts["model"] = wt["weights"]
@@ -375,6 +436,11 @@ def main() -> int:
     kq_dir.mkdir(parents=True, exist_ok=True)
     model = YOLO(wt["weights"])
     gan_callback(model, rec)
+    mong_doi = nhan_mong_doi(data_yaml)
+
+    def kiem_nap(tr):                              # KHONG boc an_toan: sai lech phai DUNG truoc vong train
+        rec["dau_vao_da_nap"] = kiem_dau_vao_da_nap(tr, mong_doi)
+    model.add_callback("on_pretrain_routine_end", kiem_nap)
     vram = DoVram()
     vram.start()
     t0 = time.time()
@@ -402,13 +468,16 @@ def main() -> int:
         rec["loss_huu_han"] = all(e.get("loss_huu_han") for e in rec.get("epoch", [])) and bool(rec.get("epoch"))
         if che_do == "smoke" and not a.khong_danh_gia and "best" in rec["checkpoint"]:
             import eval_detector_5lop as ev
-            anh = ev.ds_anh_tu_data_yaml(data_yaml, "val")
-            gt = [ev.doc_gt(p) for p in anh]
             t1 = time.time()
-            dd, mt = ev.du_doan_ultralytics(str(sd / "weights" / "best.pt"), anh, ev.QUY_TAC["du_doan"], device=a.device)
-            rec["danh_gia_dev_smoke"] = {"ghi_chu": "chi chung minh evaluator chay tren dev; KHONG so sanh model",
-                                         "quy_tac": ev.QUY_TAC, "anh_xa_lop": mt, "thoi_gian_s": round(time.time() - t1, 1),
-                                         **ev.danh_gia(gt, dd)}
+            try:
+                dt_dev, anh, gt = ev.chuan_bi_danh_gia(data_yaml, "val")    # kiem lai hop dong (noi dung dev)
+                dd, mt = ev.du_doan_ultralytics(str(sd / "weights" / "best.pt"), anh, ev.QUY_TAC["du_doan"],
+                                                device=a.device)
+                rec["danh_gia_dev_smoke"] = {"ghi_chu": "chi chung minh evaluator chay tren dev; KHONG so sanh model",
+                                             "dataset_da_xac_minh": dt_dev, "quy_tac": ev.QUY_TAC, "anh_xa_lop": mt,
+                                             "thoi_gian_s": round(time.time() - t1, 1), **ev.danh_gia(gt, dd)}
+            except Exception as e:  # noqa: BLE001
+                rec["loi"] = rec["loi"] or f"danh gia dev sau smoke: {type(e).__name__}: {e}"
     kq_file.write_text(json.dumps(json_safe(rec), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"[ket qua] {kq_file}")
     ok = rec["loi"] is None and not rec.get("loi_callback") and rec.get("loss_huu_han") and all(

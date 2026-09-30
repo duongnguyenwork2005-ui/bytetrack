@@ -20,7 +20,8 @@ dataset:
 huan_luyen:                       # tham so truyen NGUYEN cho ultralytics train(), giong het cho hai model
   epochs: 15                      # DE XUAT (chua duyet): ngan sach ~27 h YOLOv8n + ~32 h YOLO11n, DETECTOR_TRAIN_PLAN muc 5
   imgsz: 640
-  batch: 8                        # do that tren GTX 1650 (fixture 1280x720): 16 tran VRAM (cham 2-4x), 12 khong nhanh hon
+  batch: 8                        # do tren GTX 1650 (fixture 1280x720): batch 16 HOAN TAT nhung cham 2-4x, PyTorch reserved
+                                  # sat/vuot VRAM con trong (khong co OOM; paging chi la gia thuyet, chua do); 12 khong nhanh hon
   optimizer: SGD
   lr0: 0.01
   lrf: 0.01

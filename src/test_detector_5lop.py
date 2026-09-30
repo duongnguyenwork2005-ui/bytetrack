@@ -15,13 +15,26 @@ BDD100K train that, khong dung du lieu nghien cuu. Nhom kiem:
      nhan -> loi, lop khong co GT -> null, du doan that YOLOv8n COCO tren CPU chi ra lop 0..4.
   F. Runner huan luyen: --dry-run khong train/khong tao thu muc, tu choi thu muc luot da co, tu choi 'auto',
      day-du can xac nhan, sai sha256 checkpoint.
+Vong 28 (review 4937c85):
+  E7-E9 (R27-F3) hoa IoU (fixture review), IoU dung bang nguong, GT hop le chong vung ignore -- doi chieu pycocotools
+     THAT (thieu thu vien -> SKIP "CHUA KIEM", khong tinh PASS).
+  G  (R27-F1) runner qua ENTRY POINT `train_detector.main()`; `ultralytics.YOLO` duoc thay bang SPY (GIA LAP ranh gioi
+     nap model / training): train tro vao dev, thieu nhan (anh co box va anh am tinh) -> exit 2, spy khong bi goi;
+     dataset hop le -> toi dung ranh gioi training.
+  H  (R27-F2) anh doi noi dung cung kich thuoc, toa do nhan doi cung lop/so box, ignore bi xoa/sua, file ignore thua,
+     manifest phien ban 1, anh thua, `path` tuong doi, trung noi dung train/dev luc xuat.
+  I  (R27-F2) du lieu ultralytics THUC SU nap: trainer GIA LAP (I1-I3) va YOLODataset THAT voi cache nhan cu cung
+     kich thuoc (I4, cach cache ultralytics chi kiem kich thuoc + duong dan) / cache moi (I5).
+Chay duoc tren ban sao ma cu (DET5_MODELS_DIR=<thu muc models>) de chung minh regression bat ma cu.
 
     python src/test_detector_5lop.py
 """
 from __future__ import annotations
 
 import copy
+import csv
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -37,12 +50,33 @@ import config  # noqa: E402
 
 PY = sys.executable
 _RESULTS: list[tuple[str, bool]] = []
+_SKIP: list[tuple[str, str]] = []
 
 
 def _check(name: str, ok: bool, detail: str = "") -> bool:
     _RESULTS.append((name, bool(ok)))
-    print(f"  [{'PASS' if ok else 'FAIL'}] {name}" + (f"  ({detail})" if detail else ""))
+    print(f"  [{'PASS' if ok else 'FAIL'}] {name}" + (f"  ({detail[:450]})" if detail else ""))
     return bool(ok)
+
+
+def _skip(name: str, ly_do: str) -> None:
+    """Phep kiem KHONG chay duoc (vd thieu pycocotools): ghi ro CHUA KIEM, KHONG tinh la PASS."""
+    _SKIP.append((name, ly_do))
+    print(f"  [SKIP] {name}  ({ly_do}) -- CHUA KIEM, khong tinh PASS")
+
+
+def _thu(name: str, fn) -> None:
+    """Moi phep kiem doc lap: loi khong mong doi -> FAIL rieng phep do, cac phep sau van chay (chay duoc tren ma cu)."""
+    try:
+        ok, detail = fn()
+        _check(name, ok, detail)
+    except Exception as e:  # noqa: BLE001
+        _check(name, False, f"loi {type(e).__name__}: {str(e)[:300]}")
+
+
+def _models_dir() -> Path:
+    """Thu muc weights (bien moi truong DET5_MODELS_DIR cho phep chay test nay tren ban sao ma cu khong co models/)."""
+    return Path(os.environ.get("DET5_MODELS_DIR") or config.MODELS_DIR)
 
 
 def _chay(nhom: str, fn) -> None:
@@ -89,7 +123,7 @@ def nhom_a():
         _check("A6 names dataset sai thu tu -> loi", False)
     except dc.LoiAnhXaLop:
         _check("A6 names dataset sai thu tu -> loi", True)
-    for w, ten in ((config.MODELS_DIR / "yolov8n.pt", "yolov8n"), (config.MODELS_DIR / "candidates" / "yolo11n.pt",
+    for w, ten in ((_models_dir() / "yolov8n.pt", "yolov8n"), (_models_dir() / "candidates" / "yolo11n.pt",
                                                                      "yolo11n")):
         if w.is_file():
             from ultralytics import YOLO
@@ -137,7 +171,6 @@ def nap_cfg(tmp: Path, c: dict):
 
 
 def nhom_bcd(tmp: Path):
-    import csv
 
     import bdd_yolo_export as bx
     import cv2
@@ -333,7 +366,8 @@ def nhom_bcd(tmp: Path):
         bx.kiem_dataset(out)
         _check("D9 anh THIEU file nhan -> kiem dataset bao loi (khong coi la am tinh)", False)
     except bx.LoiDuLieu as e:
-        _check("D9 anh THIEU file nhan -> kiem dataset bao loi (khong coi la am tinh)", "KHONG co file nhan" in str(e))
+        _check("D9 anh THIEU file nhan -> kiem dataset bao loi (khong coi la am tinh)",
+               "THIEU file nhan" in str(e) or "KHONG co file nhan" in str(e))     # cau chu vong 28 / vong 27
     finally:
         xoa.write_bytes(noi_dung)
     r1 = subprocess.run([PY, str(SRC / "prepare_mixed_yolo_dataset.py")], capture_output=True, text=True)
@@ -421,8 +455,8 @@ def nhom_e(tmp: Path, out_sc: Path | None):
                 ap_t = p.mean(1)
                 lech = max(lech, abs(ap_t[0] - kq["theo_lop"][ten]["AP50"]), abs(ap_t.mean() - kq["theo_lop"][ten]["AP50_95"]))
         _check("E1 AP50 / AP50-95 theo lop KHOP pycocotools (co vung bo qua kieu crowd)", lech < 1e-9, f"lech max {lech:.2e}")
-    except ImportError:
-        _check("E1 pycocotools khong co -> bo qua doi chieu", True)
+    except ImportError as e:
+        _skip("E1 AP50 / AP50-95 theo lop khop pycocotools", f"khong import duoc pycocotools: {e}")
     _check("E2 lop khong co GT (bus, bicycle) -> AP null, khong vao mAP",
            np.isnan(kq["theo_lop"]["bus"]["AP50"]) and kq["macro"]["so_lop_co_gt"] == 3
            and kq["macro"]["lop_khong_co_gt"] == ["bus", "bicycle"])
@@ -453,7 +487,7 @@ def nhom_e(tmp: Path, out_sc: Path | None):
         _check("E5 anh thieu file nhan -> LOI (khong coi la anh am tinh)", False)
     except FileNotFoundError:
         _check("E5 anh thieu file nhan -> LOI (khong coi la anh am tinh)", True)
-    w = config.MODELS_DIR / "yolov8n.pt"
+    w = _models_dir() / "yolov8n.pt"
     if w.is_file() and out_sc is not None:
         anh = ev.ds_anh_tu_data_yaml(out_sc / "data.yaml", "val")[:3]
         dd_, mt = ev.du_doan_ultralytics(str(w), anh, ev.QUY_TAC["du_doan"], batch=3, device="cpu")
@@ -464,16 +498,24 @@ def nhom_e(tmp: Path, out_sc: Path | None):
 
 
 # =========================================================================== F
-def nhom_f(tmp: Path, out_sc: Path | None):
+def cfg_train_tuyet_doi() -> dict:
+    """train_bdd5.yaml voi duong dan weights TUYET DOI (tu _models_dir) -- dung duoc ca tren ban sao ma cu."""
     import yaml
+    c = yaml.safe_load((config.CONFIGS_DIR / "phase2" / "detector" / "train_bdd5.yaml").read_text(encoding="utf-8"))
+    c["model"]["yolov8n"]["weights"] = str(_models_dir() / "yolov8n.pt")
+    c["model"]["yolo11n"]["weights"] = str(_models_dir() / "candidates" / "yolo11n.pt")
+    return c
+
+
+def nhom_f(tmp: Path, out_sc: Path | None):
     if out_sc is None:
         _check("F0 can dataset fixture tu nhom B", False)
         return
-    goc = yaml.safe_load((config.CONFIGS_DIR / "phase2" / "detector" / "train_bdd5.yaml").read_text(encoding="utf-8"))
+    goc = cfg_train_tuyet_doi()
     pcfg = _yaml(tmp / "train_cfg.yaml", goc)
     base = [PY, str(SRC / "train_detector.py"), "--config", str(pcfg), "--model", "yolov8n", "--data",
             str(out_sc / "data.yaml"), "--project", str(tmp / "runs"), "--ket-qua-dir", str(tmp / "kq")]
-    w_ok = (config.MODELS_DIR / "yolov8n.pt").is_file()
+    w_ok = (_models_dir() / "yolov8n.pt").is_file()
     if not w_ok:
         _check("F1..F5 bo qua: khong co models/yolov8n.pt", True)
         return
@@ -498,6 +540,475 @@ def nhom_f(tmp: Path, out_sc: Path | None):
     _check("F5 sha256 checkpoint khoi tao sai -> exit 2", r.returncode == 2 and "sha256" in r.stderr)
 
 
+# =========================================================================== E7-E9: ghep COCO (R27-F3)
+def _coco_theo_lop(gts: list[dict], dds: list[dict], K: int = 5):
+    """Chay pycocotools THAT: {lop: {AP50, AP50_95, TP50}}; vung bo qua -> GT iscrowd cho moi lop. None neu thieu thu vien."""
+    try:
+        from pycocotools.coco import COCO
+        from pycocotools.cocoeval import COCOeval
+    except ImportError:
+        return None
+    import contextlib
+    import io
+    cg = {"images": [], "annotations": [], "categories": [{"id": k + 1, "name": str(k)} for k in range(K)]}
+    cd, aid = [], 0
+    for i, (g, p) in enumerate(zip(gts, dds)):
+        cg["images"].append({"id": i + 1, "width": 1000, "height": 1000})
+        for c, b in zip(g["cls"], g["xyxy"]):
+            aid += 1
+            cg["annotations"].append({"id": aid, "image_id": i + 1, "category_id": int(c) + 1, "iscrowd": 0,
+                                      "bbox": [b[0], b[1], b[2] - b[0], b[3] - b[1]],
+                                      "area": float((b[2] - b[0]) * (b[3] - b[1]))})
+        for b in g["ign"]:
+            for k in range(K):
+                aid += 1
+                cg["annotations"].append({"id": aid, "image_id": i + 1, "category_id": k + 1, "iscrowd": 1,
+                                          "bbox": [b[0], b[1], b[2] - b[0], b[3] - b[1]],
+                                          "area": float((b[2] - b[0]) * (b[3] - b[1]))})
+        for b, s, c in zip(p["xyxy"], p["conf"], p["cls"]):
+            cd.append({"image_id": i + 1, "category_id": int(c) + 1, "bbox": [b[0], b[1], b[2] - b[0], b[3] - b[1]],
+                       "score": float(s)})
+    with contextlib.redirect_stdout(io.StringIO()):
+        G = COCO()
+        G.dataset = cg
+        G.createIndex()
+        E = COCOeval(G, G.loadRes(cd), "bbox")
+        E.params.maxDets = [1, 10, 1000]
+        E.evaluate()
+        E.accumulate()
+    pr = E.eval["precision"]
+    out = {}
+    for k in range(K):
+        p = pr[:, :, k, 0, 2]
+        if (p > -1).any():
+            tp50 = sum(int(((e["dtMatches"][0] > 0) & ~np.asarray(e["dtIgnore"][0], bool)).sum()) for e in E.evalImgs
+                       if e is not None and e["category_id"] == k + 1 and list(e["aRng"]) == list(E.params.areaRng[0])
+                       and e["maxDet"] == 1000)
+            out[k] = {"AP50": float(p[0].mean()), "AP50_95": float(p.mean(1).mean()), "TP50": tp50}
+    return out
+
+
+def nhom_e2():
+    import eval_detector_5lop as ev
+
+    def so_voi_coco(ten, gts, dds, lop, mong_doi_tp50):
+        kq = ev.danh_gia(gts, dds)
+        r = kq["theo_lop"][ev.LOP_5[lop]]
+        tp50_ta = int(sum(ev.ghep_anh_lop(p["xyxy"][p["cls"] == lop], p["conf"][p["cls"] == lop],
+                                          g["xyxy"][g["cls"] == lop], g["ign"])[1][0].sum() for g, p in zip(gts, dds)))
+        _check(f"{ten}: TP tai IoU 0,50 cua evaluator = {mong_doi_tp50}", tp50_ta == mong_doi_tp50,
+               f"evaluator {tp50_ta}; AP50 {r['AP50']:.10f}; AP50-95 {r['AP50_95']:.10f}")
+        c = _coco_theo_lop(gts, dds)
+        if c is None:
+            _skip(f"{ten}: doi chieu pycocotools", "khong import duoc pycocotools")
+            return
+        rc = c[lop]
+        ok = (abs(rc["AP50"] - r["AP50"]) < 1e-12 and abs(rc["AP50_95"] - r["AP50_95"]) < 1e-12
+              and rc["TP50"] == tp50_ta)
+        _check(f"{ten}: AP50, AP50-95, TP@0,50 KHOP pycocotools (chay that)", ok,
+               f"pycocotools AP50 {rc['AP50']:.10f} AP50-95 {rc['AP50_95']:.10f} TP {rc['TP50']}")
+
+    z = np.zeros((0, 4))
+    # E7 -- fixture cua review: det 0,9 co IoU 2/3 voi CA HAI GT; pycocotools ghep GT SAU -> det 0,8 ghep GT dau
+    so_voi_coco("E7 hoa IoU (fixture review 4937c85)",
+                [{"cls": np.array([0, 0]), "xyxy": np.array([[0, 0, 10, 10], [5, 0, 15, 10]], float), "ign": z}],
+                [{"cls": np.array([0, 0]), "xyxy": np.array([[0, 0, 15, 10], [0, 0, 10, 10]], float),
+                  "conf": np.array([0.9, 0.8])}], 0, 2)
+    kq7 = ev.danh_gia([{"cls": np.array([0, 0]), "xyxy": np.array([[0, 0, 10, 10], [5, 0, 15, 10]], float), "ign": z}],
+                      [{"cls": np.array([0, 0]), "xyxy": np.array([[0, 0, 15, 10], [0, 0, 10, 10]], float),
+                        "conf": np.array([0.9, 0.8])}])["theo_lop"]["car"]
+    _check("E7 hoa IoU: van hanh TP 2 / FP 0 / FN 0, AP50 = 1,0 (truoc sua: TP 1 / FP 1, AP50 0,50495)",
+           (kq7["van_hanh"]["TP"], kq7["van_hanh"]["FP"], kq7["van_hanh"]["FN"]) == (2, 0, 0) and kq7["AP50"] == 1.0,
+           f"{kq7['van_hanh']} AP50 {kq7['AP50']}")
+    # E8 -- IoU dung bang nguong (0,6 = 60/100 va 0,7 = 70/100): nguong float giong pycocotools
+    so_voi_coco("E8 IoU dung bang nguong 0,6 / 0,7",
+                [{"cls": np.array([1, 1]), "xyxy": np.array([[0, 0, 10, 10], [50, 0, 60, 10]], float), "ign": z}],
+                [{"cls": np.array([1, 1]), "xyxy": np.array([[0, 0, 10, 6], [50, 0, 60, 7]], float),
+                  "conf": np.array([0.9, 0.8])}], 1, 2)
+    # E9 -- GT HOP LE nam trong vung bo qua: det khop GT la TP (khong bi bo qua); det khac trong vung -> bo qua
+    g9 = [{"cls": np.array([0]), "xyxy": np.array([[100, 100, 150, 150]], float),
+           "ign": np.array([[90, 90, 200, 200]], float)}]
+    d9 = [{"cls": np.array([0, 0, 0]), "xyxy": np.array([[100, 100, 150, 150], [160, 160, 190, 190], [300, 300, 340, 340]],
+                                                         float), "conf": np.array([0.9, 0.8, 0.7])}]
+    so_voi_coco("E9 GT hop le chong vung ignore", g9, d9, 0, 1)
+    v9 = ev.danh_gia(g9, d9)["theo_lop"]["car"]["van_hanh"]
+    _check("E9 van hanh: det khop GT trong vung ignore = TP, det chi trong vung = bo qua, det xa = FP",
+           (v9["TP"], v9["FP"], v9["FN"]) == (1, 1, 0), str(v9))
+
+
+# =========================================================================== G: runner qua entry point (R27-F1)
+class _SpyDungTrain(RuntimeError):
+    """Spy chan training that tai ranh gioi model.train (GIA LAP)."""
+
+
+class _SpyYOLO:
+    """GIA LAP `ultralytics.YOLO` tai ranh gioi nap model / training: ghi lai moi lan khoi tao, gan callback, goi train;
+    `train()` nem _SpyDungTrain thay vi huan luyen. Moi thu truoc ranh gioi (runner, hop dong dataset) chay THAT."""
+    goi: list = []
+    names_coco: dict = {}
+
+    def __init__(self, w, *a, **k):
+        _SpyYOLO.goi.append(("khoi_tao", str(w)))
+        self.names = dict(_SpyYOLO.names_coco)
+
+    def add_callback(self, su_kien, *a, **k):
+        _SpyYOLO.goi.append(("callback", su_kien))
+
+    def train(self, **kw):
+        _SpyYOLO.goi.append(("train", str(kw.get("data"))))
+        raise _SpyDungTrain("spy: chan training that (ranh gioi gia lap)")
+
+
+def _chay_runner_spy(argv: list[str]) -> tuple[int, str, str, list]:
+    import contextlib
+    import io
+
+    import ultralytics
+    import train_detector
+    import yaml
+    if not _SpyYOLO.names_coco:
+        _SpyYOLO.names_coco = yaml.safe_load((Path(ultralytics.__file__).parent / "cfg" / "datasets" / "coco.yaml")
+                                             .read_text(encoding="utf-8"))["names"]
+    goc = ultralytics.YOLO
+    _SpyYOLO.goi = []
+    ultralytics.YOLO = _SpyYOLO
+    o, e, argv_cu = io.StringIO(), io.StringIO(), sys.argv
+    sys.argv = ["train_detector.py", *argv]
+    try:
+        with contextlib.redirect_stdout(o), contextlib.redirect_stderr(e):
+            code = train_detector.main()
+    finally:
+        sys.argv = argv_cu
+        ultralytics.YOLO = goc
+    return code, o.getvalue(), e.getvalue(), list(_SpyYOLO.goi)
+
+
+def nhom_g(tmp: Path, out: Path):
+    if not (_models_dir() / "yolov8n.pt").is_file():
+        _skip("G runner qua entry point", "khong co yolov8n.pt (can cho kiem sha256 checkpoint)")
+        return
+    pcfg = _yaml(tmp / "train_cfg_g.yaml", cfg_train_tuyet_doi())
+    data = out / "data.yaml"
+
+    def chay(ten):
+        return _chay_runner_spy(["--config", str(pcfg), "--model", "yolov8n", "--che-do", "smoke", "--data", str(data),
+                                 "--project", str(tmp / "runs_g"), "--ket-qua-dir", str(tmp / "kq_g"), "--ten", ten])
+
+    def khong_cham(ten, goi):
+        return (not any(g[0] in ("khoi_tao", "train") for g in goi) and not (tmp / "runs_g" / ten).exists()
+                and not (tmp / "kq_g" / f"{ten}.json").exists())
+
+    rows = list(csv.DictReader(open(out / "manifest" / "anh.csv", encoding="utf-8")))
+    n_that = {s: len([p for p in (out / "images" / s).iterdir() if p.suffix == ".jpg"]) for s in ("train", "dev")}
+
+    def g0():
+        code, so, se, goi = chay("g0_hop_le")
+        tr = [g for g in goi if g[0] == "train"]
+        return (len(tr) == 1 and Path(tr[0][1]) == data and code == 3 and "spy: chan training" in so,
+                f"exit {code} (spy chan train -> 3), goi train {len(tr)} lan")
+    _thu("G0 dataset HOP LE -> runner di toi training (spy ghi 1 lan goi train voi dung data.yaml)", g0)
+
+    def g0b():
+        k = json.loads((tmp / "kq_g" / "g0_hop_le.json").read_text(encoding="utf-8"))["dataset"]
+        return (k.get("hop_dong") == "bdd5-dataset-v2" and k.get("so_anh") == n_that
+                and sum(k.get("so_nhan_rong_hop_le", {}).values()) > 0
+                and k.get("noi_dung_da_xac_minh") == {"train": True, "dev": True},
+                f"so_anh {k.get('so_anh')} / thuc te {n_that}, nhan rong hop le {k.get('so_nhan_rong_hop_le')}")
+    _thu("G0b so anh bao cao = so anh ultralytics se dung; nhan RONG hop le duoc chap nhan; danh tinh da xac minh ghi vao "
+         "ket qua", g0b)
+
+    y_goc = data.read_bytes()
+
+    def g1():
+        data.write_bytes(y_goc.replace(b"train: images/train", b"train: images/dev"))
+        try:
+            code, so, se, goi = chay("g1_train_la_dev")
+        finally:
+            data.write_bytes(y_goc)
+        return (code == 2 and khong_cham("g1_train_la_dev", goi) and "train/val" in se,
+                f"exit {code}; spy {goi[:3]}; {se.strip()[-160:]}")
+    _thu("G1 data.yaml `train: images/dev` -> runner exit 2, KHONG nap model, KHONG goi train, KHONG tao thu muc", g1)
+
+    co_nhan = next(r for r in rows if r["split"] == "train" and int(r["am_tinh"]) == 0)
+    rong = next(r for r in rows if int(r["am_tinh"]) == 1)
+    for ma, r, mo_ta in (("g2_thieu_nhan", co_nhan, "anh CO box"), ("g3_thieu_nhan_rong", rong, "anh am tinh (nhan rong)")):
+        def g2(ma=ma, r=r):
+            f = out / r["nhan_ra"] if "nhan_ra" in r else out / "labels" / r["split"] / (Path(r["anh_ra"]).stem + ".txt")
+            b = f.read_bytes()
+            f.unlink()
+            try:
+                code, so, se, goi = chay(ma)
+            finally:
+                f.write_bytes(b)
+            return (code == 2 and khong_cham(ma, goi) and "THIEU file nhan" in se, f"exit {code}; spy {goi[:3]}")
+        _thu(f"G{ma[1]} THIEU file nhan cua {mo_ta} -> runner exit 2, khong nap model / train (thieu != rong)", g2)
+
+
+# =========================================================================== H: toan ven noi dung (R27-F2)
+def nhom_h(tmp: Path, out: Path, cfg_goc: dict):
+    import bdd_yolo_export as bx
+    import eval_detector_5lop as ev
+    import train_detector as tr
+    from PIL import Image
+    data = out / "data.yaml"
+    rows = list(csv.DictReader(open(out / "manifest" / "anh.csv", encoding="utf-8")))
+
+    def tu_choi(fn) -> tuple[bool, str]:
+        """(bi tu choi?, TOAN VAN thong diep) -- khop chuoi tren toan van, khong tren ban cat ngan."""
+        try:
+            fn()
+            return False, "CHAP NHAN"
+        except Exception as e:  # noqa: BLE001
+            return True, f"{type(e).__name__}: {e}"
+
+    def ca_hai(ten, bien_doi, khoi_phuc, can_co=""):
+        def f():
+            bien_doi()
+            try:
+                a, ma = tu_choi(lambda: bx.kiem_dataset(out))
+                b, mb = tu_choi(lambda: tr.kiem_dataset(data))
+            finally:
+                khoi_phuc()
+            return a and b and can_co in ma, f"exporter: {ma} | runner: {mb}"
+        _thu(ten, f)
+
+    tr_row = next(r for r in rows if r["split"] == "train" and int(r["am_tinh"]) == 0)
+    img = out / tr_row["anh_ra"]
+    b_img = img.read_bytes()
+
+    def lat_anh(p=img):
+        with Image.open(p) as im:
+            im2 = im.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+        im2.save(p, format="JPEG")
+    ca_hai("H1 anh DOI NOI DUNG, GIU kich thuoc (lat ngang) -> exporter + runner tu choi", lat_anh,
+           lambda: img.write_bytes(b_img), "noi dung anh")
+
+    dv_row = next(r for r in rows if r["split"] == "dev")
+    img_dv = out / dv_row["anh_ra"]
+    b_dv = img_dv.read_bytes()
+
+    def h1b():
+        lat_anh(img_dv)
+        try:
+            ok, m = tu_choi(lambda: ev.chuan_bi_danh_gia(data, "val"))
+        finally:
+            img_dv.write_bytes(b_dv)
+        return ok and "noi dung anh" in m, m
+    _thu("H1b anh DEV doi noi dung -> evaluator tu choi truoc khi danh gia", h1b)
+
+    lbl = out / "labels" / "train" / (img.stem + ".txt")
+    b_lbl = lbl.read_bytes()
+
+    def sua_toa_do():
+        dong = b_lbl.decode().splitlines()
+        p = dong[0].split()
+        dong[0] = f"{p[0]} 0.500000 0.500000 0.050000 0.050000"
+        lbl.write_bytes(("\n".join(dong) + "\n").encode())
+    ca_hai("H2 toa do nhan DOI, GIU lop + so box -> exporter + runner tu choi", sua_toa_do,
+           lambda: lbl.write_bytes(b_lbl), "noi dung nhan")
+
+    ig_row = next(r for r in rows if int(r["n_vung_to_xam"]) > 0)
+    ig = out / "ignore" / ig_row["split"] / (Path(ig_row["anh_ra"]).stem + ".txt")    # suy tu anh_ra (chay ca manifest v1)
+    b_ig = ig.read_bytes()
+    ca_hai("H3 file ignore DA KHAI BAO bi XOA -> tu choi (khong doc thanh 0 vung)", ig.unlink,
+           lambda: ig.write_bytes(b_ig), "THIEU file ignore")
+    ca_hai("H4 file ignore DA KHAI BAO bi SUA -> tu choi",
+           lambda: ig.write_bytes(b_ig + b"0.00 0.00 1.00 1.00\n"), lambda: ig.write_bytes(b_ig), "ignore")
+    img_ig = out / ig_row["anh_ra"]
+
+    def h3b():
+        ig.unlink()
+        try:
+            ok, m = tu_choi(lambda: ev.doc_gt(img_ig, ignore_khai_bao=True))
+        finally:
+            ig.write_bytes(b_ig)
+        return ok and "FileNotFoundError" in m, m
+    _thu("H3b evaluator: ignore da khai bao ma thieu -> LOI (truoc sua: doc thanh 0 vung)", h3b)
+
+    khong_ig = next(r for r in rows if int(r["n_vung_to_xam"]) == 0 and r["split"] == ig_row["split"])
+    thua = out / "ignore" / khong_ig["split"] / (Path(khong_ig["anh_ra"]).stem + ".txt")
+
+    def tao_thua():
+        thua.write_bytes(b"1.00 1.00 5.00 5.00\n")
+    ca_hai("H5 anh KHONG co vung ignore ma xuat hien file ignore -> tu choi (khac voi 'khong co vung')", tao_thua,
+           lambda: thua.unlink(), "KHONG khai bao")
+
+    def h5b():
+        tao_thua()
+        try:
+            ok, m = tu_choi(lambda: ev.doc_gt(out / khong_ig["anh_ra"], ignore_khai_bao=False))
+        finally:
+            thua.unlink()
+        return ok and "ValueError" in m, m
+    _thu("H5b evaluator: anh khai bao 0 vung ma co file ignore -> LOI", h5b)
+
+    def h6():
+        k = bx.kiem_dataset(out)
+        n_ig = sum(1 for r in rows if int(r["n_vung_to_xam"]) > 0)
+        return (k["so_file_da_bam"] == {"anh": len(rows), "nhan": len(rows), "ignore": n_ig}
+                and sum(k["so_nhan_rong_hop_le"].values()) > 0 and sum(k["so_anh_co_file_ignore"].values()) == n_ig,
+                f"da bam {k['so_file_da_bam']}, nhan rong {k['so_nhan_rong_hop_le']}, co ignore {k['so_anh_co_file_ignore']}")
+    _thu("H6 dataset hop le: bam du anh + nhan + ignore; nhan RONG hop le va anh KHONG ignore duoc chap nhan", h6)
+
+    tom = out / "manifest" / "tom_tat.json"
+    b_tom = tom.read_bytes()
+
+    def h7():
+        t = json.loads(b_tom)
+        t.pop("phien_ban_manifest", None)
+        moi = (json.dumps(t, ensure_ascii=False, indent=1) + "\n").encode("utf-8")
+        tom.write_bytes(moi)
+        try:
+            ok, m = tu_choi(lambda: bx.kiem_dataset(out))
+            khong_bu = tom.read_bytes() == moi
+        finally:
+            tom.write_bytes(b_tom)
+        return ok and "phien ban 1" in m and khong_bu, f"{m} | tom_tat khong bi bo sung: {khong_bu}"
+    _thu("H7 manifest PHIEN BAN 1 (khong khoa nhan/ignore) -> tu choi, KHONG tu bo sung hash", h7)
+
+    them = out / "images" / "train" / "anh_them_ngoai_manifest.jpg"
+
+    def h8():
+        them.write_bytes(b_img)
+        try:
+            ok, m = tu_choi(lambda: tr.kiem_dataset(data))
+        finally:
+            them.unlink()
+        return ok and "KHONG co trong manifest" in m, m
+    _thu("H8 anh THUA trong images/train (ultralytics van se dung) -> runner tu choi", h8)
+    y_goc = data.read_bytes()
+
+    def h9():
+        data.write_bytes(y_goc.replace(f"path: {out.resolve().as_posix()}".encode(), b"path: yolo_tuong_doi"))
+        try:
+            ok, m = tu_choi(lambda: tr.kiem_dataset(data))
+        finally:
+            data.write_bytes(y_goc)
+        return ok and "path" in m, m
+    _thu("H9 `path` tuong doi trong data.yaml (ultralytics resolve theo DATASETS_DIR) -> tu choi", h9)
+
+    def h10():
+        cfg = nap_cfg(tmp, cfg_mau(tmp, "trung_noi_bo"))
+        fs = bx.p_abs(cfg, cfg["file_split"])
+        shutil.copyfile(bx.p_abs(cfg_goc, cfg_goc["file_split"]), fs)
+        sp = json.loads(fs.read_text(encoding="utf-8"))
+        goc_anh = tmp / "bdd" / "images" / "track" / "train"
+        a = goc_anh / sp["train_fit"][0] / f"{sp['train_fit'][0]}-0000002.jpg"
+        b = goc_anh / sp["dev"][0] / f"{sp['dev'][0]}-0000002.jpg"
+        b_cu = b.read_bytes()
+        shutil.copyfile(a, b)
+        try:
+            ok, m = tu_choi(lambda: bx.xuat_dataset(cfg, fs))
+        finally:
+            b.write_bytes(b_cu)
+        dich = bx.p_abs(cfg, cfg["dau_ra"])
+        return (ok and "TRUNG NOI DUNG" in m and not dich.exists() and not dich.with_name(dich.name + ".dang_tao").exists(),
+                m)
+    _thu("H10 anh dev TRUNG NOI DUNG anh train-fit (khac video) -> xuat tu choi TRUOC khi ghi, khong tao thu muc", h10)
+
+
+# =========================================================================== I: du lieu ultralytics THUC SU nap
+def nhom_i(tmp: Path, out: Path):
+    from types import SimpleNamespace
+
+    import bdd_yolo_export as bx
+    import train_detector as tr
+    data = out / "data.yaml"
+
+    def nap_gia(md):
+        """Trainer GIA LAP: labels dung dinh dang YOLODataset.labels (im_file, cls (n,1), bboxes (n,4) xywh chuan hoa)."""
+        def ds(s):
+            return SimpleNamespace(labels=[{"im_file": k, "cls": v[:, :1].astype(np.float32),
+                                            "bboxes": v[:, 1:].astype(np.float32)} for k, v in md[s].items()])
+        return SimpleNamespace(train_loader=SimpleNamespace(dataset=ds("train")),
+                               test_loader=SimpleNamespace(dataset=ds("dev")))
+
+    def i1():
+        md = tr.nhan_mong_doi(data)
+        k = tr.kiem_dau_vao_da_nap(nap_gia(md), md)
+        return k["train"]["nhan_khac"] == 0 and k["dev"]["thieu"] == 0, str(k)
+    _thu("I1 (gia lap trainer) nhan da nap KHOP file nhan da xac minh -> cho qua", i1)
+
+    def i2():
+        md = tr.nhan_mong_doi(data)
+        sai = {s: dict(v) for s, v in md.items()}
+        k0 = next(k for k, v in sai["train"].items() if len(v))
+        sai["train"][k0] = sai["train"][k0].copy()
+        sai["train"][k0][0, 1] += 0.01
+        try:
+            tr.kiem_dau_vao_da_nap(nap_gia(sai), md)
+            return False, "khong phat hien"
+        except tr.LoiDauVaoDaNap as e:
+            return "nhan khac 1" in str(e), str(e)[:200]
+    _thu("I2 (gia lap) nhan da nap lech 1 box (vd cache cu) -> LoiDauVaoDaNap, dung truoc vong train", i2)
+
+    def i3():
+        md = tr.nhan_mong_doi(data)
+        thieu = {s: dict(v) for s, v in md.items()}
+        thieu["dev"].pop(next(iter(thieu["dev"])))
+        try:
+            tr.kiem_dau_vao_da_nap(nap_gia(thieu), md)
+            return False, "khong phat hien"
+        except tr.LoiDauVaoDaNap as e:
+            return "thieu 1" in str(e), str(e)[:200]
+    _thu("I3 (gia lap) ultralytics nap THIEU 1 anh (vd anh hong bi loai) -> LoiDauVaoDaNap", i3)
+    try:
+        from ultralytics.data.dataset import YOLODataset
+    except ImportError as e:
+        _skip("I4/I5 YOLODataset that", f"khong import duoc ultralytics: {e}")
+        return
+    names = {i: c for i, c in enumerate(bx.LOP_5 if hasattr(bx, "LOP_5") else ["car", "truck", "bus", "motorcycle",
+                                                                             "bicycle"])}
+
+    def yds(s):
+        return YOLODataset(img_path=str(out / "images" / s), data={"names": names, "nc": 5, "channels": 3}, task="detect",
+                           augment=False, imgsz=640)
+
+    def xoa_cache():
+        for s in ("train", "dev"):
+            (out / "labels" / f"{s}.cache").unlink(missing_ok=True)
+
+    def trainer_that():
+        return SimpleNamespace(train_loader=SimpleNamespace(dataset=yds("train")),
+                               test_loader=SimpleNamespace(dataset=yds("dev")))
+
+    def i4():
+        xoa_cache()
+        rows = list(csv.DictReader(open(out / "manifest" / "anh.csv", encoding="utf-8")))
+        r = next(x for x in rows if x["split"] == "train" and int(x["am_tinh"]) == 0)
+        f = out / "labels" / "train" / (Path(r["anh_ra"]).stem + ".txt")
+        goc_b = f.read_bytes()
+        s = goc_b.decode()
+        i = s.index(" ") + 3                      # chu so thu 2 sau dau thap phan cua cx -> doi, GIU so byte
+        sua = (s[:i] + ("1" if s[i] != "1" else "2") + s[i + 1:]).encode()
+        assert len(sua) == len(goc_b) and sua != goc_b
+        try:
+            f.write_bytes(sua)
+            yds("train")                          # ultralytics tao labels/train.cache tu nhan DA SUA
+        finally:
+            f.write_bytes(goc_b)                  # khoi phuc: file dung manifest, cung kich thuoc -> cache van "hop le"
+        k_hd = bx.kiem_dataset(out)               # hop dong file: DAT (file nhan da khop manifest)
+        md = tr.nhan_mong_doi(data)
+        try:
+            tr.kiem_dau_vao_da_nap(trainer_that(), md)
+            ket = (False, "ultralytics nap nhan tu cache cu nhung khong phat hien")
+        except tr.LoiDauVaoDaNap as e:
+            ket = ("nhan khac 1" in str(e) and k_hd["loi"] == 0, f"hop dong file DAT; nap: {str(e)[:160]}")
+        finally:
+            xoa_cache()
+        return ket
+    _thu("I4 (ultralytics THAT) cache nhan cu cung kich thuoc -> hop dong file dat nhung du lieu nap khac -> dung", i4)
+
+    def i5():
+        xoa_cache()
+        try:
+            k = tr.kiem_dau_vao_da_nap(trainer_that(), tr.nhan_mong_doi(data))
+        finally:
+            xoa_cache()
+        return all(v["thieu"] == v["thua"] == v["nhan_khac"] == 0 for v in k.values()), str(k)
+    _thu("I5 (ultralytics THAT) cache moi tu file da xac minh -> du lieu nap khop, cho qua", i5)
+
+
 def main() -> int:
     tmp = Path(tempfile.mkdtemp(prefix="test_det5_"))
     out_sc = None
@@ -509,11 +1020,17 @@ def main() -> int:
             out_sc = nhom_bcd(tmp)
         _chay("B/C/D. xuat dataset BDD -> YOLO 5 lop", bcd)
         _chay("E. evaluator 5 lop", lambda: nhom_e(tmp, out_sc))
+        _chay("E7-E9. ghep COCO: hoa IoU, IoU dung nguong, GT chong vung ignore (R27-F3)", nhom_e2)
         _chay("F. runner huan luyen", lambda: nhom_f(tmp, out_sc))
+        _chay("G. runner qua entry point, spy tai ranh gioi model/training (R27-F1)", lambda: nhom_g(tmp, out_sc))
+        _chay("H. toan ven noi dung dataset: anh / nhan / ignore / manifest (R27-F2)",
+              lambda: nhom_h(tmp, out_sc, nap_cfg(tmp, cfg_mau(tmp, "sc"))))
+        _chay("I. du lieu ultralytics THUC SU nap (cache nhan) truoc vong train (R27-F2)", lambda: nhom_i(tmp, out_sc))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     n_ok = sum(ok for _, ok in _RESULTS)
-    print(f"\nKET QUA: {n_ok}/{len(_RESULTS)} phep kiem tra PASS")
+    print(f"\nKET QUA: {n_ok}/{len(_RESULTS)} phep kiem tra PASS"
+          + (f", {len(_SKIP)} SKIP (CHUA KIEM, khong tinh PASS): {[s for s, _ in _SKIP]}" if _SKIP else ""))
     return 0 if _RESULTS and n_ok == len(_RESULTS) else 1
 
 

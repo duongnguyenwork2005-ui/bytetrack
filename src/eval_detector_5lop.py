@@ -9,10 +9,14 @@ lay tren cac lop co GT trong tap.
 QUY TAC (ghi nguyen vao ket qua):
   Du doan : ultralytics predict, imgsz 640, conf 0.001, NMS IoU 0.7 theo lop (khong agnostic), max_det 300/anh,
             FP32; chi giu lop cua checkpoint anh xa duoc sang 5 lop THEO TEN (`detector_classes`), loc TRUOC NMS.
+  Dataset : TRUOC moi du doan, `bdd_yolo_export.kiem_hop_dong_dataset` (cung hop dong voi exporter / runner) xac minh
+            noi dung anh, nhan, ignore cua split duoc danh gia; danh tinh da xac minh ghi vao ket qua. GT doc theo khai
+            bao cua manifest (file ignore da khai bao ma thieu -> LOI, khong doc thanh 0 vung).
   GT      : nhan YOLO cua dataset (class ID 0..4), doi ra pixel bang KICH THUOC ANH THUC (header file).
-  Ghep    : theo COCO -- trong tung (anh, lop), detection xep conf giam dan (mergesort), ghep voi GT chua ghep
-            co IoU cao nhat >= nguong; detection khong ghep duoc ma IoA (giao / dien tich detection) voi mot vung
-            bo qua (to xam, file `ignore/<split>/<anh>.txt`) >= nguong -> BO QUA (khong TP, khong FP).
+  Ghep    : theo COCO (`COCOeval.evaluateImg`) -- trong tung (anh, lop), detection xep conf giam dan (mergesort), ghep
+            voi GT chua ghep co IoU cao nhat >= nguong; HOA IoU -> GT SAU trong thu tu duyet (nhu pycocotools, R27-F3);
+            IoU tinh nhu `bbIou` cua pycocotools. Detection khong ghep duoc ma IoA (giao / dien tich detection) voi mot
+            vung bo qua (to xam, file `ignore/<split>/<anh>.txt`) >= nguong -> BO QUA (khong TP, khong FP).
   AP      : 10 nguong IoU 0.50:0.05:0.95, precision bao dong tu phai, noi suy 101 diem recall (COCO).
             AP50 = nguong 0.50; AP50-95 = trung binh 10 nguong. Lop khong co GT -> AP = null (khong tinh vao mAP).
   Van hanh: precision / recall / F1 tai conf >= 0.25 (nguong tracker c25) va IoU 0.5, theo lop.
@@ -34,12 +38,15 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from detector_classes import LOP_5, anh_xa_model_sang_lop5, mo_ta_anh_xa  # noqa: E402
 
+#: Nguong da chon (giu nguyen tu vong 27). Khac mang `Params.iouThrs` cua pycocotools DUY NHAT o 0.9 (pycocotools:
+#: 0.8999999999999999, lech 1 ulp) -> chi khac ket qua neu co IoU nam trong 1 ulp duoi 0.9 (ghi o gioi han).
 NGUONG_IOU = np.round(np.arange(0.5, 0.951, 0.05), 2)
 DIEM_RECALL = np.linspace(0.0, 1.0, 101)
 QUY_TAC = {
     "du_doan": {"imgsz": 640, "conf": 0.001, "iou_nms": 0.7, "max_det": 300, "agnostic_nms": False, "half": False,
                 "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"},
-    "ghep": "COCO: conf giam dan (mergesort) trong (anh, lop); GT chua ghep co IoU cao nhat >= nguong",
+    "ghep": "COCO (pycocotools evaluateImg): conf giam dan (mergesort) trong (anh, lop); GT chua ghep co IoU cao nhat "
+            ">= nguong, HOA IoU -> GT SAU trong thu tu duyet; IoU tinh nhu bbIou cua pycocotools (tu xywh)",
     "bo_qua": "detection khong ghep ma IoA voi vung to xam >= nguong -> bo qua (nhu crowd cua COCO)",
     "ap": "10 nguong IoU 0.50:0.05:0.95, noi suy 101 diem recall (COCO); lop khong co GT -> null",
     "van_hanh": {"conf": 0.25, "iou": 0.5},
@@ -63,8 +70,11 @@ def duong_dan_nhan(img: Path, thu_muc: str = "labels") -> Path:
     raise ValueError(f"{img}: khong nam duoi thu muc 'images'")
 
 
-def doc_gt(img: Path) -> dict:
-    """GT cua mot anh: cls (n,), xyxy (n,4) pixel; vung bo qua (m,4). Thieu file nhan -> LOI (khong coi la anh rong)."""
+def doc_gt(img: Path, ignore_khai_bao: bool | None = None) -> dict:
+    """GT cua mot anh: cls (n,), xyxy (n,4) pixel; vung bo qua (m,4). Thieu file nhan -> LOI (khong coi la anh rong).
+
+    `ignore_khai_bao` (tu manifest): True -> file ignore PHAI ton tai (thieu = LOI, khong doc thanh 0 vung);
+    False -> anh KHONG co vung ignore, file ignore khong duoc ton tai; None -> khong co manifest (chi dung cho test)."""
     W, H = kich_thuoc_anh(img)
     lbl = duong_dan_nhan(img)
     if not lbl.is_file():
@@ -84,6 +94,10 @@ def doc_gt(img: Path) -> dict:
         box.append([(cx - w / 2) * W, (cy - h / 2) * H, (cx + w / 2) * W, (cy + h / 2) * H])
     ign = []
     ip = duong_dan_nhan(img, "ignore")
+    if ignore_khai_bao is True and not ip.is_file():
+        raise FileNotFoundError(f"thieu file ignore DA KHAI BAO {ip} (khong doc thanh 0 vung)")
+    if ignore_khai_bao is False and ip.exists():
+        raise ValueError(f"{ip}: manifest khai bao anh KHONG co vung ignore nhung file ton tai")
     if ip.is_file():
         for ln in ip.read_text(encoding="utf-8").splitlines():
             if ln.strip():
@@ -102,35 +116,56 @@ def ds_anh_tu_data_yaml(data_yaml: Path, split: str = "val") -> list[Path]:
     return sorted(p for p in d.iterdir() if p.suffix.lower() in (".jpg", ".jpeg", ".png"))
 
 
+def chuan_bi_danh_gia(data_yaml: Path, split: str = "val") -> tuple[dict, list[Path], list[dict]]:
+    """Kiem HOP DONG dataset (cung ham voi exporter / runner; xac minh NOI DUNG anh, nhan, ignore cua split duoc danh
+    gia) roi doc GT theo khai bao ignore cua manifest. Tra ve (danh tinh dataset da xac minh, anh, GT)."""
+    import bdd_yolo_export as bx
+    ten_split = {"val": "dev", "train": "train"}.get(split)
+    if ten_split is None:
+        raise ValueError(f"split {split!r} khong thuoc hop dong (val = dev noi bo, train)")
+    danh_tinh = bx.kiem_hop_dong_dataset(data_yaml, split_noi_dung=(ten_split,))
+    goc = Path(data_yaml).resolve().parent
+    anh = [goc / "images" / ten_split / p.name for p in bx.liet_ke_anh_nhu_ultralytics(goc / "images" / ten_split)]
+    khai = bx.gt_theo_manifest(data_yaml, ten_split)
+    gt = [doc_gt(p, ignore_khai_bao=khai[p.name]["ignore"]) for p in anh]
+    return danh_tinh, anh, gt
+
+
 # =========================================================================== ghep + AP
+def _giao_xywh(a: np.ndarray, b: np.ndarray):
+    """Phan giao nhu `bbIou` (maskApi.c) cua pycocotools: box doi sang xywh, canh phai/duoi = x + w / y + h."""
+    ax, ay, aw, ah = a[:, 0], a[:, 1], a[:, 2] - a[:, 0], a[:, 3] - a[:, 1]
+    bx, by, bw, bh = b[:, 0], b[:, 1], b[:, 2] - b[:, 0], b[:, 3] - b[:, 1]
+    w = np.minimum(ax[:, None] + aw[:, None], bx[None, :] + bw[None, :]) - np.maximum(ax[:, None], bx[None, :])
+    h = np.minimum(ay[:, None] + ah[:, None], by[None, :] + bh[None, :]) - np.maximum(ay[:, None], by[None, :])
+    inter = np.where((w > 0) & (h > 0), w * h, 0.0)
+    return inter, aw * ah, bw * bh
+
+
 def iou_ma_tran(a: np.ndarray, b: np.ndarray) -> np.ndarray:
+    """IoU (a: detection, b: GT) dung cong thuc bbIou cua pycocotools; khong giao -> 0."""
     if len(a) == 0 or len(b) == 0:
         return np.zeros((len(a), len(b)))
-    x1 = np.maximum(a[:, None, 0], b[None, :, 0])
-    y1 = np.maximum(a[:, None, 1], b[None, :, 1])
-    x2 = np.minimum(a[:, None, 2], b[None, :, 2])
-    y2 = np.minimum(a[:, None, 3], b[None, :, 3])
-    inter = np.clip(x2 - x1, 0, None) * np.clip(y2 - y1, 0, None)
-    aa = (a[:, 2] - a[:, 0]) * (a[:, 3] - a[:, 1])
-    bb = (b[:, 2] - b[:, 0]) * (b[:, 3] - b[:, 1])
-    return inter / np.maximum(aa[:, None] + bb[None, :] - inter, 1e-12)
+    inter, da, ga = _giao_xywh(a, b)
+    u = da[:, None] + ga[None, :] - inter
+    return np.divide(inter, u, out=np.zeros_like(inter), where=inter > 0)
 
 
 def ioa_ma_tran(det: np.ndarray, vung: np.ndarray) -> np.ndarray:
-    """Giao / dien tich DETECTION (nhu IoU voi box crowd trong COCO)."""
+    """Giao / dien tich DETECTION -- nhu IoU voi GT iscrowd cua pycocotools (u = da)."""
     if len(det) == 0 or len(vung) == 0:
         return np.zeros((len(det), len(vung)))
-    x1 = np.maximum(det[:, None, 0], vung[None, :, 0])
-    y1 = np.maximum(det[:, None, 1], vung[None, :, 1])
-    x2 = np.minimum(det[:, None, 2], vung[None, :, 2])
-    y2 = np.minimum(det[:, None, 3], vung[None, :, 3])
-    inter = np.clip(x2 - x1, 0, None) * np.clip(y2 - y1, 0, None)
-    aa = (det[:, 2] - det[:, 0]) * (det[:, 3] - det[:, 1])
-    return inter / np.maximum(aa[:, None], 1e-12)
+    inter, da, _ = _giao_xywh(det, vung)
+    return np.divide(inter, np.broadcast_to(da[:, None], inter.shape), out=np.zeros_like(inter), where=inter > 0)
 
 
 def ghep_anh_lop(det: np.ndarray, conf: np.ndarray, gt: np.ndarray, ign: np.ndarray, nguong=NGUONG_IOU):
-    """Tra ve (thu tu conf giam dan, tp[T, n], bo_qua[T, n]) cho mot (anh, lop)."""
+    """Tra ve (thu tu conf giam dan, tp[T, n], bo_qua[T, n]) cho mot (anh, lop).
+
+    Theo dung vong lap `COCOeval.evaluateImg`: moi detection (conf giam dan) duyet GT theo thu tu, bo GT da ghep, giu GT
+    co IoU >= muc hien tai (`if iou < best: continue; best = iou; m = g`) -> khi HOA IoU chon GT SAU (R27-F3). Khong ghep
+    duoc GT thuong ma IoA voi mot vung bo qua >= nguong -> bo qua (nhu GT iscrowd, cho phep ghep nhieu lan).
+    """
     order = np.argsort(-conf, kind="mergesort")
     det = det[order]
     n, T = len(det), len(nguong)
@@ -147,9 +182,10 @@ def ghep_anh_lop(det: np.ndarray, conf: np.ndarray, gt: np.ndarray, ign: np.ndar
         da_ghep = np.zeros(len(gt), bool)
         for d in range(n):
             if max_iou[d] >= t_eff:
-                cand = np.where(da_ghep, -1.0, iou[d])
-                m = int(np.argmax(cand))
-                if cand[m] >= t_eff:
+                cand = np.where(da_ghep, -np.inf, iou[d])
+                mx = cand.max()
+                if mx >= t_eff:
+                    m = int(np.flatnonzero(cand == mx)[-1])        # HOA -> GT SAU (nhu pycocotools)
                     tp[ti, d] = True
                     da_ghep[m] = True
                     continue
@@ -291,15 +327,16 @@ def main() -> int:
     if out.exists():
         print(f"[LOI] {out} da ton tai -- khong ghi de ket qua cu", file=sys.stderr)
         return 1
-    anh = ds_anh_tu_data_yaml(Path(a.data), a.split)
+    import bdd_yolo_export as bx
+    try:
+        danh_tinh, anh, gt = chuan_bi_danh_gia(Path(a.data), a.split)      # HOP DONG: truoc moi du doan
+    except (bx.LoiDuLieu, FileNotFoundError, ValueError) as e:
+        print(f"[LOI DATASET] {e}", file=sys.stderr)
+        return 2
     if a.gioi_han_anh:
-        anh = anh[:a.gioi_han_anh]
-    gt = [doc_gt(p) for p in anh]
-    tom_tat = Path(a.data).parent / "manifest" / "tom_tat.json"
-    ds_info = {"data": str(a.data), "split": a.split, "n_anh": len(anh), "gioi_han_anh": a.gioi_han_anh}
-    if tom_tat.is_file():
-        t = json.loads(tom_tat.read_text(encoding="utf-8"))
-        ds_info |= {"dataset": t.get("ten"), "manifest_sha256": t["manifest_anh"]["sha256"], "loai": t.get("loai")}
+        anh, gt = anh[:a.gioi_han_anh], gt[:a.gioi_han_anh]
+    ds_info = {"data": str(a.data), "split": a.split, "n_anh": len(anh), "gioi_han_anh": a.gioi_han_anh,
+               "dataset_da_xac_minh": danh_tinh}
     out.mkdir(parents=True)
     kq = {"tao_luc": dt.datetime.now().isoformat(timespec="seconds"), "quy_tac": QUY_TAC, "dataset": ds_info,
           "mo_hinh": {}}
