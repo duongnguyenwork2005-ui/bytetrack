@@ -2,7 +2,8 @@
 
 Trạng thái: **đề xuất, chưa chạy training dài.** Vòng 27 chỉ làm chuẩn bị và smoke. Phạm vi chung: `handoff/PLAN_DA_CHOT.md`.
 Cập nhật vòng 28 (review `4937c85`): thêm hợp đồng kiểm dataset dùng chung (mục 1) và sửa diễn giải về kiểm trùng và
-batch 16 (mục 1, 4). Số epoch, bước frame và ngân sách **chưa được duyệt** và không đổi.
+batch 16 (mục 1, 4). Cập nhật vòng 29 (review `07615ba`, R28-F1): chính sách **cache ảnh** (mục 1, mục 3). Số epoch,
+bước frame và ngân sách **chưa được duyệt** và không đổi.
 
 Tài liệu này dùng ba nhãn nguồn số liệu:
 
@@ -47,6 +48,15 @@ Tài liệu này dùng ba nhãn nguồn số liệu:
   - Khi train, runner đối chiếu thêm ảnh và nhãn **ultralytics thực nạp**, gồm cả nhãn lấy từ file `.cache`, với dataset
     đã xác minh, trước vòng train.
   - Chi phí trên fixture: 1,7 s cho 809 ảnh. Với ~56K ảnh, ước vài phút.
+- **Hai loại cache khác nhau**, mỗi loại có chốt riêng:
+  - **Cache NHÃN** `labels/<split>.cache` (vòng 28): ultralytics chỉ kiểm tổng kích thước + đường dẫn. Runner đối chiếu
+    nhãn thực nạp với file nhãn đã xác minh ngay trước vòng train.
+  - **Cache ẢNH** `<ảnh>.npy` (vòng 29, R28-F1): ultralytics 8.4.141 `load_image()` nạp `.npy` cùng tên **thay** JPEG
+    **kể cả khi `cache=False`**.
+    - Chính sách hiện tại là `cache: false` và **không dùng cache ảnh**: pixel nạp phải là JPEG đã khóa sha256.
+    - Hợp đồng từ chối `.npy` cạnh chính các ảnh train/dev mà trainer sẽ nạp, nêu rõ split, đường dẫn, lý do; không tự xóa.
+    - Runner từ chối cấu hình `cache` khác `false`.
+    - Callback trước vòng train kiểm lại nguồn pixel của dataset thật (không cache ảnh, không `.npy`).
 - **Quy mô ước tính**, theo mô tả công bố của BDD100K (1.400 video train, ~200 frame/video), chưa xác nhận trên máy:
   train-fit ~50.400 ảnh, dev ~5.600 ảnh. Số thật lấy từ `--buoc chia` và `--buoc xuat`.
 - **Ràng buộc cho mốc 4**: tập dev dùng để tinh chỉnh tracker trên BDD sau này phải lấy từ **dev nội bộ** này, không
@@ -76,7 +86,7 @@ Cả hai model dùng **cùng** khối `huan_luyen` và cùng dataset; chỉ `wei
 | Warmup | 1 epoch (mặc định ultralytics là 3/100 epoch; giữ cùng tỷ lệ cho 15 epoch), momentum 0,8, bias lr 0,1 |
 | Augmentation | mặc định ultralytics: HSV (0,015 / 0,7 / 0,4), translate 0,1, scale 0,5, fliplr 0,5, mosaic 1,0; tắt mosaic ở 2 epoch cuối (`close_mosaic 2`); không mixup, cutmix, copy-paste, xoay, lật dọc |
 | Seed / tất định | seed 0, `deterministic: true` |
-| AMP / worker / cache | AMP tắt: GTX 1650 nằm trong danh sách ultralytics tự tắt AMP, nên khai báo tường minh. 2 worker. Không cache |
+| AMP / worker / cache | AMP tắt: GTX 1650 nằm trong danh sách ultralytics tự tắt AMP, nên khai báo tường minh. 2 worker. `cache: false` **bắt buộc**: runner từ chối giá trị khác; `.npy` cạnh ảnh train/dev bị chặn (mục 1) |
 | Chọn checkpoint | `best.pt` theo fitness ultralytics 8.4.141 = **mAP50–95 trên dev nội bộ** (trọng số [0, 0, 0, 1]) |
 | Dừng sớm | `patience 5`: dừng sau 5 epoch fitness trên dev không tăng |
 

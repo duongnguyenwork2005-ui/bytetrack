@@ -1,6 +1,16 @@
 # Vòng 28 — sửa R27-F1/F2/F3 của review `4937c85` (chi tiết)
 
 Review: `handoff/CODEX_REVIEW_4937c85.md` (REQUEST CHANGES). **Base giữ `239b9c6`**. Trạng thái: **đã sửa, chờ Codex nghiệm thu**.
+
+> **Đính chính vòng 29** (review `07615ba`: R27-F1/F2/F3 đã đóng; mở R28-F1; sửa ở `handoff/REVIEW29_CHI_TIET.md`).
+> - Mục 3 (“runner đối chiếu dữ liệu ultralytics thực nạp”) chỉ bao phủ **đường dẫn, lớp và bbox** (gồm cache nhãn
+>   `.cache`). Nó **chưa** bao phủ **nguồn pixel**: `<ảnh>.npy` cạnh ảnh được ultralytics nạp thay JPEG kể cả khi
+>   `cache=False`, và cả hợp đồng lẫn callback vòng 28 đều cho qua.
+> - Khi thiếu weights, test vòng 28 đếm dòng `F1..F5 bo qua` là PASS, còn A7/E6 bỏ qua mà không ghi gì. Lượt 83/83 của
+>   Claude chạy **có** weights nên các phép này đã thực thi thật. Từ vòng 29, thiếu weights được ghi là SKIP và không
+>   tính PASS.
+> - Ba file review vòng 28 (bản chép từ tài liệu đính kèm) đã được so với bản gốc sau đó có trong `~/Downloads`: **trùng
+>   từng byte** (`logs/review29/00_trang_thai_dau.log`).
 Phạm vi: chỉ sửa ba finding, kiểm thử, cập nhật tài liệu và delta. Không chạy training dài, không duyệt 15 epoch hay
 ngân sách, không thêm dataset/model/thuật toán; không đụng Nano v16.
 

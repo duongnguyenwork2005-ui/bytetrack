@@ -1,55 +1,66 @@
-# REVIEW_BRIEF — vòng 28: sửa R27-F1/F2/F3 (review `4937c85`)
+# REVIEW_BRIEF — vòng 29: sửa R28-F1 (cache ảnh `.npy`, review `07615ba`)
 
 <!-- BASE_TARGET -->
 
-Review `handoff/CODEX_REVIEW_4937c85.md`: REQUEST CHANGES. **Base giữ `239b9c6`**. **Trạng thái: đã sửa, chờ Codex nghiệm
-thu.** Chi tiết (trước sửa → thay đổi → kiểm → giới hạn): **`handoff/REVIEW28_CHI_TIET.md`**. Không training dài, không
-duyệt epoch/ngân sách, không đụng Nano.
+Review `handoff/CODEX_REVIEW_07615ba.md`: REQUEST CHANGES, một finding; R27-F1/F2/F3 đã hết lỗi. **Base giữ `239b9c6`**.
+**Trạng thái: đã sửa, chờ Codex nghiệm thu.** Chi tiết: **`handoff/REVIEW29_CHI_TIET.md`**. Không training dài, không thêm
+dataset hay model, không đụng Nano.
 
-## Tái hiện trước sửa
+## File review
 
-Script Codex chạy trên bản sao `src/` + `configs/` của `4937c85` (hash khớp git): **exit 1**, 6/6 cờ `true`, số F3 trùng
-JSON gốc.
+- Chỉ có `CODEX_REVIEW_07615ba.md` trên máy.
+- **Không có** `CODEX_REVIEW_07615ba_EVIDENCE.zip` / `REPRO_REVIEW_07615ba.py`, nên **script Codex = NOT_RUN**. Lệnh chạy
+  khi có file nằm trong phụ lục.
+- Thay thế bằng script tái dựng `logs/review29/tai_hien_r28_f1.py`, dùng exporter, chốt runner, callback và
+  `YOLODataset` thật.
+- Ba file review vòng 28 (chép từ đính kèm) nay so với bản gốc: **trùng từng byte**.
+
+## Nguyên nhân
+
+Ultralytics 8.4.141 `BaseDataset.load_image()` nạp `<ảnh>.npy` cùng tên **thay** JPEG nếu file tồn tại, **kể cả khi
+`cache=False`**. Hợp đồng vòng 28 chỉ liệt kê ảnh theo `IMG_FORMATS`; callback chỉ so đường dẫn, lớp và bbox. Đây là cache
+**ảnh**, khác cache **nhãn** `.cache` đã sửa ở vòng 28.
 
 ## Sửa
 
-- **R27-F1** — `bdd_yolo_export.kiem_hop_dong_dataset()` là **hợp đồng dùng chung** cho exporter, runner và evaluator.
-  - Kiểm đúng đường dẫn ultralytics resolve từ `data.yaml`: `train`/`val` = `images/train`/`images/dev`, `path` tuyệt
-    đối; liệt kê ảnh và suy file nhãn như ultralytics.
-  - Split đã khóa; train/dev không trùng video, tên hay nội dung.
-  - Nhãn **rỗng** hợp lệ, nhãn **thiếu** là lỗi.
-  - Runner gọi hợp đồng **trước** khi nạp model hay tạo thư mục.
-- **R27-F2** — **manifest phiên bản 2** khóa sha256 từng ảnh, nhãn và ignore.
-  - Manifest v1 bị từ chối; không bổ sung hash.
-  - Evaluator xác minh trước khi dự đoán và ghi danh tính dataset.
-  - Cache nhãn ultralytics chỉ kiểm kích thước + đường dẫn, nên runner đối chiếu thêm **dữ liệu thực nạp** trước vòng train.
-- **R27-F3** — khi hòa IoU, chọn GT **sau** như `COCOeval.evaluateImg`; IoU tính như `bbIou`. **Giữ nguyên** ngưỡng và
-  công thức AP.
-- **Theo probe phụ của Codex** — exporter dừng khi ảnh dev trùng nội dung ảnh train-fit; không tự loại ảnh.
+**Chính sách**: `cache: false`, không dùng cache ảnh; pixel nạp phải là JPEG đã khóa sha256.
+
+- **`kiem_hop_dong_dataset()`** (dùng chung cho exporter, runner và evaluator):
+  - `.npy` cạnh chính ảnh train/dev mà trainer sẽ nạp là lỗi, thông báo nêu split, đường dẫn, lý do;
+  - không cấm `.npy` nơi khác, không tự xóa;
+  - danh tính dataset ghi `cache_anh`.
+- **Runner**:
+  - từ chối `cache` khác `false` (exit 2);
+  - callback trước vòng train kiểm dataset **thật**: `ds.cache` phải là `None`, không có `ds.npy_files`. Phép này chặn
+    `.npy` xuất hiện sau hợp đồng.
+- **Test**: thiếu weights thì A7/E6/F được ghi **SKIP**, không còn đếm PASS.
+
+Không đổi cấu hình đã khóa, công thức AP, ngưỡng, split hay chốt vòng 28.
 
 ## Kiểm chứng (tự chạy)
 
-- Script Codex trên mã sửa: **exit 0, 6/6 `false`**. AP50 1,0 = pycocotools; AP50–95 lệch 1 ulp (thứ tự cộng số thực).
-- `test_detector_5lop` **83/83**, cả tại HEAD `a86ed5c`. Nhóm mới:
-  - G: entry point runner, **spy** tại ranh giới model/training; ca train=dev và thiếu nhãn bị exit 2, không nạp model;
-  - H: toàn vẹn nội dung;
-  - I: dữ liệu đã nạp, gồm ca **ultralytics thật** dùng cache cũ;
-  - E7–E9: **pycocotools thật**; thiếu thư viện thì SKIP, không tính PASS.
-- Trên mã cũ: 58/83. 25 FAIL được phân loại trong phụ lục.
-- Suite liên quan: 83/83, 42/42, 11/11. Không chạy full suite vì module sửa không nằm trên đường đã nghiệm thu.
-- **Smoke GPU fixture**: dataset v1 bị từ chối; v2 + YOLOv8n/YOLO11n 1 epoch **ĐẠT**, dữ liệu nạp 719/90 khớp. Số
-  batch 16/12 là bằng chứng GPU cũ của vòng 27.
+- **Script tái dựng, trên `07615ba`**: exit 1, `bug_count=2`.
+  - JPEG TB 90,40 / 89,69 (trùng số Codex) nhưng pixel nạp = 0; hash JPEG đúng;
+  - chốt runner và callback đều cho qua.
+- **Script tái dựng, tại HEAD `83482c2`**: **exit 0, `bug_count=0`**; đối chứng sạch đạt.
+- **`test_detector_5lop` tại HEAD: 92/92, 0 SKIP.** Nhóm J mới:
+  - J0: dataset sạch, `YOLODataset` **thật** đọc pixel trùng JPEG ở 125/125 ảnh;
+  - J1/J2: `.npy` cạnh ảnh train/dev — ultralytics thật nạp ảnh đen, còn hợp đồng và chốt runner từ chối;
+  - J3/J4: entry point runner với **spy** tại ranh giới model — exit 2, không nạp model, không train, không output;
+  - J5a/J5b: callback với `YOLODataset` thật chặn `.npy` xuất hiện sau hợp đồng;
+  - J6: `cache: disk` bị từ chối.
 
-## Đính chính diễn giải
-
-- Motorcycle val: 915 = 902 không crowd/ignore + 13 crowd.
-- Kiểm trùng nội dung: BDD val có; UA-DETRAC test **chỉ tên video**; train/dev có từ vòng 28.
-- Batch 16 hoàn tất nhưng chậm, không có OOM; paging chưa đo.
+  Regression cũ (YAML train→dev, nhãn thiếu/rỗng, hash, cache nhãn, COCO) vẫn đạt.
+- **Cùng test trên mã chưa sửa**: 84/92. 8 FAIL: J1–J6 và J5a/J5b là lỗi thật; J0b là khóa mới. Đối chứng J0 và nhóm A–I
+  đều PASS.
+- **`run_all_tests --only test_detector_5lop`**: PASS; các suite khác NOT_RUN vì không bị ảnh hưởng.
+- **Runner thật, không spy, fixture GPU**:
+  - `.npy` cạnh ảnh train/dev → exit 2, không tạo thư mục;
+  - dataset sạch → smoke YOLOv8n 1 epoch **ĐẠT**; callback ghi 719/90 khớp, `cache_anh None`, `npy 0`.
 
 ## Giới hạn
 
-- Chưa có BDD MOT train.
-- Hash dựa vào `tom_tat.json`, không có ký số.
-- Dataset gắn với vị trí thư mục.
-- Ngưỡng 0,9 lệch 1 ulp so với pycocotools.
-- Chưa đối chiếu COCO trên dự đoán thật.
+- Script Codex chưa chạy.
+- Không băm lại pixel mỗi lần nạp: bảo đảm dựa trên hash JPEG + không `.npy` + `cache=None`.
+- Evaluator cũng bị chặn khi có `.npy` (chính sách thống nhất).
+- Chưa có BDD MOT train; epoch và ngân sách chưa duyệt.
