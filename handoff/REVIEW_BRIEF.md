@@ -1,66 +1,54 @@
-# REVIEW_BRIEF — vòng 29: sửa R28-F1 (cache ảnh `.npy`, review `07615ba`)
+# REVIEW_BRIEF — vòng 30: ghi nhận nghiệm thu `bcb92f8`, kiểm kê BDD100K MOT train
 
 <!-- BASE_TARGET -->
 
-Review `handoff/CODEX_REVIEW_07615ba.md`: REQUEST CHANGES, một finding; R27-F1/F2/F3 đã hết lỗi. **Base giữ `239b9c6`**.
-**Trạng thái: đã sửa, chờ Codex nghiệm thu.** Chi tiết: **`handoff/REVIEW29_CHI_TIET.md`**. Không training dài, không thêm
-dataset hay model, không đụng Nano.
+Chi tiết: **`handoff/REVIEW30_CHI_TIET.md`**. Phạm vi: PC; không SSH hay đổi Nano v16, không training dài, không cloud, không
+thêm dataset hay model. **Vòng này không sửa mã.**
 
-## File review
+## Ghi nhận nghiệm thu — ĐÃ CHẠY
 
-- Chỉ có `CODEX_REVIEW_07615ba.md` trên máy.
-- **Không có** `CODEX_REVIEW_07615ba_EVIDENCE.zip` / `REPRO_REVIEW_07615ba.py`, nên **script Codex = NOT_RUN**. Lệnh chạy
-  khi có file nằm trong phụ lục.
-- Thay thế bằng script tái dựng `logs/review29/tai_hien_r28_f1.py`, dùng exporter, chốt runner, callback và
-  `YOLODataset` thật.
-- Ba file review vòng 28 (chép từ đính kèm) nay so với bản gốc: **trùng từng byte**.
+- **Kết luận**: Codex `bcb92f8` **PASS WITH LIMITATIONS**, đóng R28-F1. Báo cáo lưu ở `handoff/CODEX_REVIEW_bcb92f8.md`.
+- **Bằng chứng**: `review_evidence/CODEX_bcb92f8/`. `SHA256SUMS` khớp 11/11, cả với blob đã commit. ZIP gốc ở `archive/`.
+- **Script Codex**: Codex **tự chạy nguyên** `REPRO_REVIEW_07615ba.py` trên target: **exit 0, `bug_count=0`**. Lượt NOT_RUN
+  trên máy tác giả (vòng 29) **giữ nguyên làm lịch sử**; chỉ thêm ghi chú bổ sung vào `REVIEW29_CHI_TIET.md`. Không chạy lại
+  smoke tổng hợp chỉ để đổi trạng thái log.
+- **Base**: delta đã nghiệm thu lưu thành `archive/review_delta_bcb92f8.zip` (717.372 B, sha256 `5a931976…`, khớp). Base
+  review chuyển `239b9c6` → **`bcb92f8`**.
 
-## Nguyên nhân
+## Kiểm kê dữ liệu thật — ĐÃ CHẠY, kết quả thiếu
 
-Ultralytics 8.4.141 `BaseDataset.load_image()` nạp `<ảnh>.npy` cùng tên **thay** JPEG nếu file tồn tại, **kể cả khi
-`cache=False`**. Hợp đồng vòng 28 chỉ liệt kê ảnh theo `IMG_FORMATS`; callback chỉ so đường dẫn, lớp và bbox. Đây là cache
-**ảnh**, khác cache **nhãn** `.cache` đã sửa ở vòng 28.
+Các nơi đã kiểm (không quét toàn ổ): `data/raw/bdd100k`, `data/raw`, `D:\LABOTARY` (nơi chứa gói val), Downloads (0 file
+tải dở).
 
-## Sửa
+- **Có**: ảnh MOT **val** (200 video, 39.973 ảnh) và nhãn val COCO-video — nguồn đánh giá, không dùng làm train/dev.
+- **Không có**: ảnh `images/track/train`, nhãn `labels/box_track_20/train`, và bản COCO-video train.
+- **`--buoc kiem-nguon` → exit 2**, liệt kê đúng hai đường dẫn thiếu.
+- **Cần đặt**:
+  - ảnh: `data/raw/bdd100k/images/track/train/<video>/<video>-<7 số>.jpg` — giải nén gói *MOT 2020 Images — train* vào
+    `data/raw/`;
+  - nhãn: `data/raw/bdd100k/labels/box_track_20/train/<video>.json`.
 
-**Chính sách**: `cache: false`, không dùng cache ảnh; pixel nạp phải là JPEG đã khóa sha256.
+  Ổ D: còn 126 GB; ước tính cần ~76 GB (zip + ảnh + dataset YOLO).
+- **Không làm**: không dùng val hay fixture thay thế, không tự tải gói lớn.
 
-- **`kiem_hop_dong_dataset()`** (dùng chung cho exporter, runner và evaluator):
-  - `.npy` cạnh chính ảnh train/dev mà trainer sẽ nạp là lỗi, thông báo nêu split, đường dẫn, lý do;
-  - không cấm `.npy` nơi khác, không tự xóa;
-  - danh tính dataset ghi `cache_anh`.
-- **Runner**:
-  - từ chối `cache` khác `false` (exit 2);
-  - callback trước vòng train kiểm dataset **thật**: `ds.cache` phải là `None`, không có `ds.npy_files`. Phép này chặn
-    `.npy` xuất hiện sau hợp đồng.
-- **Test**: thiếu weights thì A7/E6/F được ghi **SKIP**, không còn đếm PASS.
+## Bị chặn
 
-Không đổi cấu hình đã khóa, công thức AP, ngưỡng, split hay chốt vòng 28.
+Các bước sau phụ thuộc MOT train nên **chưa chạy**:
 
-## Kiểm chứng (tự chạy)
+- kiểm ảnh–nhãn, bbox, 5 lớp, thống kê lớp/video;
+- khóa split train-fit/dev theo video;
+- kiểm trùng: BDD val theo tên + sha256, UA-DETRAC test chỉ tên video, train/dev theo sha256;
+- xuất manifest v2;
+- smoke thật YOLOv8n + YOLO11n;
+- cập nhật ước lượng thời gian.
 
-- **Script tái dựng, trên `07615ba`**: exit 1, `bug_count=2`.
-  - JPEG TB 90,40 / 89,69 (trùng số Codex) nhưng pixel nạp = 0; hash JPEG đúng;
-  - chốt runner và callback đều cho qua.
-- **Script tái dựng, tại HEAD `83482c2`**: **exit 0, `bug_count=0`**; đối chứng sạch đạt.
-- **`test_detector_5lop` tại HEAD: 92/92, 0 SKIP.** Nhóm J mới:
-  - J0: dataset sạch, `YOLODataset` **thật** đọc pixel trùng JPEG ở 125/125 ảnh;
-  - J1/J2: `.npy` cạnh ảnh train/dev — ultralytics thật nạp ảnh đen, còn hợp đồng và chốt runner từ chối;
-  - J3/J4: entry point runner với **spy** tại ranh giới model — exit 2, không nạp model, không train, không output;
-  - J5a/J5b: callback với `YOLODataset` thật chặn `.npy` xuất hiện sau hợp đồng;
-  - J6: `cache: disk` bị từ chối.
+**Tập con smoke đã định**: 16 video train-fit + 4 video dev từ split đã khóa, bước 10 frame, seed 0.
+- Theo cấu tạo tối đa khoảng 336 / 84 ảnh, trong giới hạn **≤ 1.000 / ≤ 200**.
+- Chọn trước khi xem AP; hai model dùng cùng tập con.
+- Vượt giới hạn thì dừng và hỏi.
 
-  Regression cũ (YAML train→dev, nhãn thiếu/rỗng, hash, cache nhãn, COCO) vẫn đạt.
-- **Cùng test trên mã chưa sửa**: 84/92. 8 FAIL: J1–J6 và J5a/J5b là lỗi thật; J0b là khóa mới. Đối chứng J0 và nhóm A–I
-  đều PASS.
-- **`run_all_tests --only test_detector_5lop`**: PASS; các suite khác NOT_RUN vì không bị ảnh hưởng.
-- **Runner thật, không spy, fixture GPU**:
-  - `.npy` cạnh ảnh train/dev → exit 2, không tạo thư mục;
-  - dataset sạch → smoke YOLOv8n 1 epoch **ĐẠT**; callback ghi 719/90 khớp, `cache_anh None`, `npy 0`.
+## Ước lượng và quyết định
 
-## Giới hạn
-
-- Script Codex chưa chạy.
-- Không băm lại pixel mỗi lần nạp: bảo đảm dựa trên hash JPEG + không `.npy` + `cache=None`.
-- Evaluator cũng bị chặn khi có `.npy` (chính sách thống nhất).
-- Chưa có BDD MOT train; epoch và ngân sách chưa duyệt.
+- Ngân sách 15 epoch (~27 h YOLOv8n + ~32 h YOLO11n, ±30%) **vẫn là ước tính từ fixture**, chưa cập nhật và **chưa duyệt**.
+- Chưa chọn nơi chạy training dài.
+- Test: **NOT_RUN** vì không có thay đổi mã.

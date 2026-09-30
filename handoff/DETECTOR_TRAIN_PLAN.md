@@ -4,6 +4,8 @@ Trạng thái: **đề xuất, chưa chạy training dài.** Vòng 27 chỉ làm
 Cập nhật vòng 28 (review `4937c85`): thêm hợp đồng kiểm dataset dùng chung (mục 1) và sửa diễn giải về kiểm trùng và
 batch 16 (mục 1, 4). Cập nhật vòng 29 (review `07615ba`, R28-F1): chính sách **cache ảnh** (mục 1, mục 3). Số epoch,
 bước frame và ngân sách **chưa được duyệt** và không đổi.
+**Vòng 30** (base `bcb92f8`): kiểm lại dữ liệu — **BDD100K MOT train vẫn chưa có** trên máy, nên khóa split, xuất, smoke thật
+và cập nhật ước lượng (mục 5) **bị chặn**. Tập con smoke được đối chiếu với giới hạn người dùng đặt (mục 6).
 
 Tài liệu này dùng ba nhãn nguồn số liệu:
 
@@ -159,10 +161,19 @@ val của fixture.
   - dừng sớm có thể rút ngắn.
 - **Đo lại trước khi train dài**: số này phải đo lại bằng smoke trên **dữ liệu thật** (`--tap-con smoke`), rồi cập nhật
   mục này trước khi xin duyệt.
+- **Vòng 30**: vẫn **chưa cập nhật** vì chưa có dữ liệu train. Bảng trên vẫn là ước tính từ fixture và từ số video BDD công bố.
 - **Ngân sách so sánh được giữa hai model**: tính theo **số epoch và dataset giống nhau**, không theo thời gian đồng hồ.
   YOLO11n chậm hơn ~20% mỗi ảnh.
 
 ## 6. Lệnh thực tế (theo thứ tự)
+
+**Tập con smoke** (`bdd5_train.yaml`, `tap_con.smoke`): 16 video train-fit + 4 video dev, lấy từ split **đã khóa** (hai
+phần không chung video), bước 10 frame, seed 0. Tập con được chọn **trước khi xem AP**; hai model dùng **cùng** tập con.
+
+- Mỗi video BDD MOT có tối đa ~204 frame, nên mỗi video cho ≤ 21 ảnh; theo cấu tạo tối đa khoảng 336 ảnh train-fit và 84
+  ảnh dev. Mức này nằm trong giới hạn người dùng đặt là **≤ 1.000 / ≤ 200**.
+- Sau `--buoc xuat --tap-con smoke`, đọc `manifest/tom_tat.json` để xác nhận số ảnh thực.
+- Nếu vượt giới hạn thì dừng và hỏi; không tự cắt bớt.
 
 ```bash
 P=/c/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe
@@ -195,7 +206,8 @@ $P src/eval_detector_5lop.py --data data/yolo_bdd5_v1/data.yaml --split val \
 - Nhãn **MOT 2020 train**, đặt tại `data/raw/bdd100k/labels/box_track_20/train/<video>.json`. Bản Scalabel được khuyến
   nghị; nếu chỉ có bản COCO-video thì đổi `bdd.nhan` trong cấu hình.
 
-Chi tiết và ước tính dung lượng: `handoff/BDD100K_INVENTORY.md`, mục “Vòng 27”.
+Chi tiết và ước tính dung lượng: `handoff/BDD100K_INVENTORY.md`, mục “Vòng 30”. Đó là lần kiểm lại ngày 2026-09-30:
+vẫn thiếu cả ảnh lẫn nhãn train.
 
 ## 8. Chưa làm / cần quyết định
 

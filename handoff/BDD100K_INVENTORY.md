@@ -5,6 +5,35 @@ Kiểm ngày **2026-09-18**, máy `D:\LABOTARY\bytetrack`, nhánh `phase2-mixed-
 **Cập nhật 2026-09-29 (vòng 27)**: nhãn val đã có dưới dạng COCO-video. Split **train** (ảnh + nhãn) vẫn chưa có, nên
 chưa chuẩn bị được dataset huấn luyện detector. Chi tiết ở mục ngay dưới.
 
+## Vòng 30 (2026-09-30) — kiểm lại trước khi khóa split: MOT train **vẫn chưa có**
+
+**Đã kiểm** (không quét toàn ổ đĩa):
+
+- `data/raw/bdd100k` (cây thư mục), `data/raw`;
+- `D:\LABOTARY` — nơi chứa gói val đã tải;
+- `~/Downloads`, kể cả file đang tải dở (`.crdownload`, `.part`): 0 file.
+
+Log: `logs/review30/01_kiem_ke_bdd100k.{json,log}`, `02_kiem_nguon_bi_chan.log`.
+
+**Kết quả**:
+
+- Không đổi so với vòng 27: chỉ có ảnh MOT **val** (200 video, 39.973 ảnh) và nhãn val COCO-video.
+- **Không có** ảnh `images/track/train`, nhãn `labels/box_track_20/train` hay bản COCO-video train.
+- `prepare_mixed_yolo_dataset.py --config configs/phase2/detector/bdd5_train.yaml --buoc kiem-nguon` → **exit 2**, liệt kê
+  đúng hai đường dẫn thiếu.
+
+**Còn thiếu, cần đặt đúng chỗ**. Không tự tải gói lớn; không thay bằng val hay fixture:
+
+| Gói (MOT 2020, split `train`) | Đặt / giải nén sao cho có |
+|:--|:--|
+| Ảnh train: gói *MOT 2020 Images — train*, nhiều phần, cùng kiểu tên với `images20-track-val-1.zip` đã tải | `data/raw/bdd100k/images/track/train/<video>/<video>-<7 chữ số>.jpg`. Giải nén vào `data/raw/` vì archive có sẵn tiền tố `bdd100k/` |
+| Nhãn train: gói nhãn box tracking `box_track_20` (Scalabel), khuyến nghị | `data/raw/bdd100k/labels/box_track_20/train/<video>.json` |
+| *hoặc* bản COCO-video train | `data/raw/bdd100k/labels_cocovid/<…train…>_cocofmt.json`, rồi đổi `bdd.nhan` trong `bdd5_train.yaml` sang `cocovid`. Cần nhiều RAM |
+
+- Ổ `D:` còn **126 GB** trống. Ước tính ảnh train ~35 GB zip + ~34 GB sau giải nén, và dataset YOLO ~7 GB.
+- Giữ nguyên bản tải về gốc.
+- Sau khi đặt xong, chạy lại `--buoc kiem-nguon`; phải được exit 0.
+
 ## Vòng 27 (2026-09-29) — kiểm kê lại cho huấn luyện detector 5 lớp
 
 Lệnh kiểm: `python src/kiem_ke_bdd100k.py --out handoff/logs/review27/01_kiem_ke_bdd100k.json --bam-archive`.
