@@ -3,6 +3,18 @@
 Base review: `239b9c6` (Codex: PASS WITH LIMITATIONS, `handoff/CODEX_REVIEW_239b9c6.md`). Phạm vi: `handoff/PLAN_DA_CHOT.md`.
 Vòng này **không** chạy training dài, benchmark tracking hay tối ưu Nano. Nano v16 không bị đụng tới.
 
+> **Đính chính vòng 28** (review `4937c85`: REQUEST CHANGES R27-F1/F2/F3; sửa ở `handoff/REVIEW28_CHI_TIET.md`).
+> Văn bản vòng 27 bên dưới được giữ nguyên làm lịch sử; đọc kèm các đính chính sau:
+> - Mục 3 và 6 (runner): chốt dữ liệu của runner vòng 27 **không** kiểm `train`, danh sách ảnh/nhãn hay nội dung
+>   (R27-F1). Bộ kiểm của exporter vòng 27 cũng **không** so hash ảnh, nhãn hay ignore (R27-F2).
+> - Mục 4 (kiểm trùng): chỉ BDD val được so theo sha256 nội dung; UA-DETRAC test **chỉ** so tên video; train-fit/dev vòng 27
+>   **chưa** so nội dung (từ vòng 28 đã so sha256 ảnh nguồn).
+> - Mục 5 (evaluator): khi hòa IoU, mã vòng 27 ghép GT **đầu** thay vì GT **sau** như pycocotools (R27-F3), nên phép
+>   đối chiếu “khớp pycocotools” chỉ đúng với dữ liệu không có hòa IoU.
+> - Mục 2: motorcycle trên val có **915 annotation = 902 box không crowd/ignore + 13 box crowd**.
+> - Mục 7: “batch 16 tràn VRAM” nên đọc là: batch 16 **hoàn tất nhưng chậm 2–4 lần**; không có OOM; paging chỉ là giả
+>   thuyết, chưa đo trực tiếp.
+
 Cách đọc nhãn trạng thái trong phụ lục này:
 
 - **chạy thật**: chạy trên dữ liệu/thiết bị thật của máy;

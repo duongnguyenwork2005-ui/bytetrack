@@ -1,6 +1,8 @@
 # Kế hoạch huấn luyện detector 5 lớp (YOLOv8n, YOLO11n) — bản để review
 
 Trạng thái: **đề xuất, chưa chạy training dài.** Vòng 27 chỉ làm chuẩn bị và smoke. Phạm vi chung: `handoff/PLAN_DA_CHOT.md`.
+Cập nhật vòng 28 (review `4937c85`): thêm hợp đồng kiểm dataset dùng chung (mục 1) và sửa diễn giải về kiểm trùng và
+batch 16 (mục 1, 4). Số epoch, bước frame và ngân sách **chưa được duyệt** và không đổi.
 
 Tài liệu này dùng ba nhãn nguồn số liệu:
 
@@ -28,7 +30,23 @@ Tài liệu này dùng ba nhãn nguồn số liệu:
 - **`val` trong `data.yaml` = dev nội bộ** (`images/dev`), không phải BDD val chính thức.
 - **Chọn frame**: giữ frame có chỉ số 0-based chia hết cho 5 (~1 ảnh/giây video); quy tắc chung cho hai model.
 - **Ảnh âm tính**: giữ frame trong khoảng có nhãn của video; loại đuôi video không nhãn; mọi ảnh đều có file `.txt`.
-- **Kiểm trùng** với BDD val và UA-DETRAC test: theo tên video, tên ảnh và sha256 nội dung, chạy trước khi ghi ảnh.
+- **Kiểm trùng** (chạy trước khi ghi ảnh). Phạm vi kiểm **khác nhau theo từng tập** — không phát biểu là “đã kiểm trùng
+  nội dung ở mọi split”:
+  - **BDD val**: tên video, tên ảnh và sha256 nội dung, so với toàn bộ 39.973 ảnh val.
+  - **UA-DETRAC test**: **chỉ tên video**, không so nội dung.
+  - **Train-fit và dev**: khác video, và từ vòng 28 thêm khác sha256 ảnh nguồn. Trùng nội dung thì dừng xuất và chờ người
+    dùng quyết định; không tự loại ảnh.
+
+  Chưa có dữ liệu train thật nên chưa biết nguồn thật có trùng hay không.
+- **Hợp đồng dataset dùng chung** (vòng 28, `bdd_yolo_export.kiem_hop_dong_dataset`), gọi ở ba nơi: cuối bước xuất,
+  trong runner trước khi nạp model, và trong evaluator trước khi dự đoán.
+  - Kiểm đúng đường dẫn ultralytics resolve từ `data.yaml`: `train` = `images/train`, `val` = `images/dev`, `path` tuyệt đối.
+  - Manifest **phiên bản 2** khóa sha256 của từng ảnh, từng file nhãn (kể cả file rỗng) và từng file ignore.
+  - Phân biệt rõ ba trường hợp: file nhãn **rỗng hợp lệ**, file nhãn **thiếu** (lỗi), và file ignore có khai báo hoặc không.
+  - Dataset xuất bằng manifest v1 bị từ chối và phải xuất lại; không bổ sung hash vào metadata cũ.
+  - Khi train, runner đối chiếu thêm ảnh và nhãn **ultralytics thực nạp**, gồm cả nhãn lấy từ file `.cache`, với dataset
+    đã xác minh, trước vòng train.
+  - Chi phí trên fixture: 1,7 s cho 809 ảnh. Với ~56K ảnh, ước vài phút.
 - **Quy mô ước tính**, theo mô tả công bố của BDD100K (1.400 video train, ~200 frame/video), chưa xác nhận trên máy:
   train-fit ~50.400 ảnh, dev ~5.600 ảnh. Số thật lấy từ `--buoc chia` và `--buoc xuat`.
 - **Ràng buộc cho mốc 4**: tập dev dùng để tinh chỉnh tracker trên BDD sau này phải lấy từ **dev nội bộ** này, không
@@ -91,11 +109,19 @@ Bằng chứng: `logs/review27/fixture_gpu/`.
 | YOLO11n | 8 | 2 | 1,16 | 6,9 | 2.346 MiB | 2.704 MiB |
 | **YOLOv8n — cấu hình cuối, không ghi đè** | 8 | 2 | 0,97 | 8,27 | 2.130 MiB | 2.485 MiB |
 | **YOLO11n — cấu hình cuối, không ghi đè** | 8 | 2 | 1,16 | 6,91 | 2.346 MiB | 2.696 MiB |
+| YOLOv8n — vòng 28, runner mới, dataset v2 | 8 | 2 | 0,95 | 8,4 | 2.130 MiB | 2.532 MiB |
+| YOLO11n — vòng 28, runner mới, dataset v2 | 8 | 2 | 1,14 | 7,0 | 2.346 MiB | 3.965 MiB (\*) |
+
+(\*) `nvidia-smi` đo **cả GPU**, gồm cả các ứng dụng desktop khác đang dùng GPU. PyTorch reserved của lượt này không đổi
+(2.346 MiB), nên đỉnh 3.965 MiB không quy được cho tiến trình train. Bằng chứng vòng 28: `logs/review28/fixture_gpu/`.
 
 Kết luận đo:
 
-- **Batch 16 tràn VRAM** với cả hai model: PyTorch cần hơn phần VRAM còn trống, driver Windows dùng bộ nhớ hệ thống, nên
-  chậm 2–4 lần.
+- **Batch 16 chạy hết nhưng chậm 2–4 lần** với cả hai model; **không có lỗi OOM**, các lượt đều hoàn tất.
+  - Bộ nhớ PyTorch reserved của batch 16 (3.920 / 4.302 MiB) sát hoặc vượt phần VRAM còn trống của card 4 GB.
+  - Giả thuyết: driver Windows dùng bộ nhớ hệ thống (paging). Điều này **chưa được đo trực tiếp**.
+  - Số đo chỉ cho thấy áp lực bộ nhớ đi kèm chậm, không chứng minh nguyên nhân.
+  - Chênh tốc độ trên fixture không dùng để kết luận chất lượng model hay thời lượng training thật.
 - Batch 12 vừa YOLO11n nhưng không tăng thông lượng.
 - → **batch 8 cho cả hai model**.
 - GPU bận 94–95% (trung vị) → giới hạn là tính toán GPU FP32. `deterministic` chỉ tốn ~6%, nên giữ.

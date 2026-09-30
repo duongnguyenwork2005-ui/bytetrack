@@ -41,6 +41,12 @@ Có 615 ảnh không có annotation nào: 488 ảnh nằm trong khoảng có nh�
 | rider *(ngoài 5 lớp)* | 2.546 | 0 | 0 | 2.260 | 69 |
 | train *(ngoài 5 lớp)* | 308 | 0 | 0 | 308 | 6 |
 
+- **Cách đọc cột**:
+  - các cột box, crowd và ignore tính theo annotation, và một annotation có thể vừa crowd vừa ignore;
+  - cột “ảnh có lớp” và “video có lớp” chỉ đếm box không crowd/ignore.
+
+  Ví dụ motorcycle (đính chính vòng 28): tổng **915 annotation = 902 box không crowd/ignore + 13 box crowd**, không có box
+  ignore. 902 là số box được gán nhãn huấn luyện/đánh giá, không phải tổng số annotation motorcycle.
 - Cờ `ignore` chỉ xuất hiện ở car, truck và pedestrian. Đây là các distractor `other vehicle`, `trailer`, `other person`
   đã được ánh xạ sang lớp đánh giá khi chuyển sang COCO-video.
 - **Ảnh trùng nội dung**: 2 frame liên tiếp của video val `b1d7b3ac-5744370e` (`-0000079.jpg`, `-0000080.jpg`) giống

@@ -1,75 +1,63 @@
-# REVIEW_BRIEF — vòng 27: chuẩn bị dữ liệu và đường fine-tune detector 5 lớp
+# REVIEW_BRIEF — vòng 28: sửa R27-F1/F2/F3 (review `4937c85`)
 
 <!-- BASE_TARGET -->
 
-Review `handoff/CODEX_REVIEW_239b9c6.md` kết luận PASS WITH LIMITATIONS; N25-F1/F2 đã đóng.
-- Gói đã review được lưu thành `handoff/archive/review_delta_239b9c6.zip` (11.188.466 B, sha256 `854b09a3…`, khớp).
-- Base review chuyển sang **`239b9c6`**.
-- Phạm vi mới ghi ở `handoff/PLAN_DA_CHOT.md`. Chi tiết vòng này: **`handoff/REVIEW27_CHI_TIET.md`**.
-- Kế hoạch training để review: **`handoff/DETECTOR_TRAIN_PLAN.md`**.
+Review `handoff/CODEX_REVIEW_4937c85.md`: REQUEST CHANGES. **Base giữ `239b9c6`**. **Trạng thái: đã sửa, chờ Codex nghiệm
+thu.** Chi tiết theo cấu trúc trước sửa → thay đổi → kiểm → giới hạn: **`handoff/REVIEW28_CHI_TIET.md`**.
+Không training dài, không duyệt epoch/ngân sách, không thêm dataset hay model, không đụng Nano.
 
-## Kiểm kê dữ liệu (chạy thật, `src/kiem_ke_bdd100k.py`)
+## Tái hiện trước sửa
 
-- **Máy chỉ có BDD100K MOT val**: 200 video, 39.973 ảnh 1280×720, nhãn COCO-video 465.512 annotation.
-  - motorcycle: 902 box / 29 video.
-  - Có 2 frame val trùng byte.
-- **Không có** ảnh hoặc nhãn MOT **train**, cũng không có gói detection 100K.
-- Vì vậy **khóa split thật, xuất dataset thật, smoke trên dữ liệu thật và thống kê train đều bị chặn**. Gói cần tải và
-  đường dẫn đặt: `BDD100K_INVENTORY.md`, mục “Vòng 27”. Không thay bằng UA-DETRAC hay BDD val.
+Script Codex chạy trên bản sao `src/` + `configs/` của `4937c85` (hash khớp git): **exit 1**, 6/6 cờ `true`, số F3 trùng
+JSON gốc. Ba file review được gửi sau khi bắt đầu vòng; trước đó Claude viết script tái dựng 7 ca và cũng được exit 1.
 
-## Mã mới / sửa
+## Sửa
 
-- **Dataset** (`bdd_yolo_export.py`; `prepare_mixed_yolo_dataset.py --config configs/phase2/detector/bdd5_train.yaml`):
-  - chỉ lấy BDD MOT train;
-  - chế độ cũ không còn mặc định trộn UA-DETRAC; thiếu BDD thì exit 2 và không tạo thư mục.
+- **R27-F1**: `bdd_yolo_export.kiem_hop_dong_dataset()` là **hợp đồng dùng chung** cho exporter, runner và evaluator.
+  - Kiểm đúng đường dẫn ultralytics resolve từ `data.yaml`: `train`/`val` = `images/train`/`images/dev`, `path` tuyệt
+    đối; liệt kê ảnh và suy file nhãn như ultralytics.
+  - Train/dev thuộc split đã khóa và không trùng video, tên hay nội dung.
+  - Ảnh, nhãn và ignore khớp manifest; nhãn **rỗng** hợp lệ, nhãn **thiếu** là lỗi.
+  - Runner gọi hợp đồng **trước** khi nạp model hay tạo thư mục; số ảnh báo cáo là số ảnh trainer sẽ dùng.
+- **R27-F2**: **manifest phiên bản 2**.
+  - Khóa sha256 từng ảnh, nhãn và ignore; phân biệt “không có vùng ignore” với “file ignore đã khai báo mà thiếu”.
+  - Manifest v1 bị từ chối và phải xuất lại; không bổ sung hash.
+  - Evaluator xác minh trước khi dự đoán và ghi danh tính dataset.
+  - Cache nhãn ultralytics chỉ kiểm kích thước + đường dẫn, nên runner đối chiếu thêm **dữ liệu ultralytics thực nạp**
+    trước vòng train.
+- **R27-F3**: khi hòa IoU, chọn GT **sau** như `COCOeval.evaluateImg`; IoU tính như `bbIou`. **Giữ nguyên** ngưỡng và
+  công thức AP. Ngưỡng 0,9 lệch 1 ulp so với pycocotools; điều này được ghi thành giới hạn.
+- **Bổ sung theo ghi chú review**: exporter dừng khi ảnh dev trùng nội dung ảnh train-fit (probe phụ của Codex), không tự
+  loại ảnh.
 
-  Quy tắc:
-  - chia theo video: 10% dev, seed 0, phân tầng theo motorcycle/bicycle; split được khóa kèm hash;
-  - lấy 1 frame mỗi 5 frame;
-  - ảnh âm tính: giữ nếu nằm trong khoảng có nhãn, loại đuôi video không nhãn;
-  - crowd/ignore tô xám nhưng chừa pixel của box có nhãn;
-  - tọa độ theo kích thước ảnh thật;
-  - kiểm trùng BDD val / UA-DETRAC test theo tên video, tên ảnh và sha256, **trước** khi ghi.
+## Kiểm chứng (tự chạy)
 
-  `val` trong `data.yaml` là **dev nội bộ**. Nhãn Scalabel và COCO-video cho kết quả xuất giống nhau từng byte.
-- **Evaluator 5 lớp** (`eval_detector_5lop.py`), dùng cùng quy tắc cho YOLOv8n COCO / YOLOv8n FT / YOLO11n FT:
-  - ánh xạ lớp theo **tên** đọc từ checkpoint;
-  - AP COCO theo lớp;
-  - P/R tại conf 0,25 và IoU 0,5, theo lớp.
+- Script Codex trên mã sửa: **exit 0, 6/6 `false`**. F3: AP50 1,0 = pycocotools; AP50–95 lệch 1 ulp do thứ tự cộng số
+  thực.
+- `test_detector_5lop` **83/83**, cả tại HEAD `a86ed5c`. Nhóm mới:
+  - G: entry point runner với **spy** tại ranh giới model/training — ca train=dev và ca thiếu nhãn bị exit 2, không nạp
+    model, không train; ca hợp lệ tới đúng ranh giới;
+  - H: toàn vẹn nội dung;
+  - I: dữ liệu đã nạp, gồm một ca **ultralytics thật** dùng cache nhãn cũ cùng kích thước bị phát hiện;
+  - E7–E9: **pycocotools thật**; thiếu thư viện thì SKIP, không tính PASS.
+- Cùng test trên mã cũ: 58/83. 25 FAIL được phân loại trong phụ lục: hành vi sai thật, tính năng mới chưa có, và H9 không
+  tính là bằng chứng.
+- Suite liên quan: 83/83, 42/42, 11/11. Không chạy full suite vì module sửa không nằm trên đường chạy đã nghiệm thu.
+- **Smoke GPU fixture** với runner mới:
+  - dataset v1 của vòng 27 bị từ chối;
+  - dataset v2 + YOLOv8n/YOLO11n 1 epoch **ĐẠT**; dữ liệu nạp 719/90 khớp, 0 lệch.
 
-  `eval_detector.py` cũ (1 lớp, ảnh 960×540 cố định) chỉ giữ để tái lập Giai đoạn C.
-- **Runner** (`train_detector.py`, `configs/phase2/detector/train_bdd5.yaml`):
-  - `--dry-run` không còn train;
-  - không ghi đè lượt cũ;
-  - cấm giá trị `auto`;
-  - ghi giá trị ultralytics resolve, VRAM/RAM/GPU, sha256 checkpoint, kết quả nạp lại, đánh giá dev;
-  - training dài bắt buộc `--xac-nhan-train-dai`.
+  Số batch 16/12 của vòng 27 là bằng chứng GPU cũ.
 
-## Kiểm chứng
+## Đính chính diễn giải
 
-- **`test_detector_5lop` 52/52.** Lần đầu 47/52 (log giữ lại) — 5 FAIL là lỗi thật của mã mới:
-  - `round()` kiểu banker;
-  - `data.yaml` trỏ vào thư mục tạm.
-
-  Test có đối chiếu AP với pycocotools (chênh 0), kiểm dữ liệu thiếu, trùng tập đánh giá, split sửa tay, ghi đè.
-- Chạy cùng hai suite liên quan: `test_bdd100k_adapter` 42/42, `test_bdd100k_coco` 11/11.
-- **Smoke GPU trên fixture** (dữ liệu tổng hợp 1280×720, chạy đúng luồng chia → xuất → train → nạp lại → đánh giá):
-  - cả hai model ĐẠT 1 epoch với **đúng cấu hình đề xuất**;
-  - batch 16 tràn VRAM, chậm 2–4 lần → **batch 8**;
-  - YOLOv8n 8,27 ảnh/s, YOLO11n 6,91 ảnh/s; GPU bận 94–95%.
-
-  Số AP trên fixture không mang ý nghĩa chất lượng.
-
-## Cần review / quyết định
-
-- **Ngân sách**: 15 epoch × bước 5 frame, ước ~27 h (YOLOv8n) + ~32 h (YOLO11n), ±30%. Đây là ước từ fixture và số video
-  BDD công bố; phải đo lại bằng smoke trên dữ liệu thật trước khi train dài.
-- Người dùng có muốn dùng gói detection 100K không — chưa dùng, chờ hỏi.
-- Dev để tinh chỉnh tracker ở mốc 4 phải nằm trong dev nội bộ này.
+- Motorcycle val: 915 = 902 không crowd/ignore + 13 crowd.
+- Kiểm trùng theo nội dung: BDD val có; UA-DETRAC test **chỉ tên video**; train/dev có từ vòng 28.
+- Batch 16 hoàn tất nhưng chậm, không có OOM; paging là giả thuyết chưa đo.
 
 ## Giới hạn
 
-- Chưa có training dài và chưa có số liệu detector thật.
-- RAM 7,8 GB bị các ứng dụng khác chiếm; RAM trống tối thiểu khi train chỉ vài chục MiB.
-- Không đụng Nano v16.
-- Full suite không chạy lại: đường chạy đã nghiệm thu không bị sửa.
+- Chưa có BDD MOT train.
+- Hash dựa vào `tom_tat.json`, không có ký số.
+- Dataset gắn với vị trí thư mục.
+- Chưa đối chiếu COCO trên dự đoán thật.
