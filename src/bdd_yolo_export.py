@@ -845,6 +845,9 @@ def kiem_hop_dong_dataset(data_yaml, split_noi_dung=("train", "dev"), gioi_han_l
          DUNG khi manifest khai bao vung ignore (anh khong co vung ignore -> KHONG duoc co file); khong co file thua.
       4. NOI DUNG (cac split trong `split_noi_dung`): sha256 tung anh, tung file nhan, tung file ignore khop manifest;
          kich thuoc anh khop; so box theo lop khop; khong trung noi dung anh giua train va dev.
+      5. CACHE ANH (vong 29, R28-F1): khong co `<anh>.npy` canh anh train/dev nao -- ultralytics `load_image` nap .npy
+         THAY JPEG ke ca khi cache=False; chinh sach hien tai (cache: false) = pixel nap chinh la JPEG da khoa sha256.
+         (Khac cache NHAN `labels/<split>.cache`: cai do runner doi chieu o callback truoc vong train.)
     Loi -> LoiDuLieu (liet ke toi da `gioi_han_loi` muc). Dat -> DANH TINH dataset da xac minh (ghi vao ket qua).
     """
     import yaml
@@ -948,7 +951,7 @@ def kiem_hop_dong_dataset(data_yaml, split_noi_dung=("train", "dev"), gioi_han_l
             loi.append(f"train/dev trung {mo_ta}: {len(a & b)} muc (vd {sorted(a & b)[:2]})")
 
     dem_bam = {"anh": 0, "nhan": 0, "ignore": 0}
-    so_anh, so_nhan_rong, so_ignore = {}, {}, {}
+    so_anh, so_nhan_rong, so_ignore, so_npy = {}, {}, {}, {}
     for s, thu_muc in (("train", goc / "images" / "train"), ("dev", goc / "images" / "dev")):
         noi_dung = s in split_noi_dung
         if not thu_muc.is_dir():
@@ -961,6 +964,16 @@ def kiem_hop_dong_dataset(data_yaml, split_noi_dung=("train", "dev"), gioi_han_l
             loi.append(f"images/{s}: {len(thua)} anh KHONG co trong manifest nhung ultralytics van se dung (vd {thua[:2]})")
         if thieu:
             loi.append(f"images/{s}: {len(thieu)} anh trong manifest KHONG ton tai (vd {thieu[:2]})")
+        # Cache ANH (khac cache NHAN .cache): ultralytics `BaseDataset.load_image` doc `<anh>.npy` (cung thu muc, cung ten)
+        # THAY anh JPEG neu file ton tai, KE CA khi cache=False (R28-F1). Chinh sach hien tai (cache: false): khong dung
+        # cache anh -> .npy canh anh train/dev la loi. Chi kiem .npy canh CHINH cac anh ultralytics se nap; khong tu xoa.
+        npy_thay = sorted(p.with_suffix(".npy").relative_to(goc).as_posix() for p in tren_dia.values()
+                          if p.with_suffix(".npy").exists())
+        if npy_thay:
+            loi.append(f"images/{s}: {len(npy_thay)} file cache anh .npy canh anh da khoa (vd {npy_thay[:3]}) -- ultralytics "
+                       f"load_image() nap .npy THAY anh JPEG ke ca khi cache=False; chinh sach cache: false khong dung "
+                       f"cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa)")
+        so_npy[s] = len(npy_thay)
         so_anh[s] = len(tren_dia)
         so_nhan_rong[s] = so_ignore[s] = 0
         nhan_khai, ign_khai = set(), set()
@@ -1033,6 +1046,8 @@ def kiem_hop_dong_dataset(data_yaml, split_noi_dung=("train", "dev"), gioi_han_l
         "so_anh": so_anh, "so_video": {"train": len({r['video'] for r in theo_split['train']}),
                                        "dev": len({r['video'] for r in theo_split['dev']})},
         "so_nhan_rong_hop_le": so_nhan_rong, "so_anh_co_file_ignore": so_ignore,
+        "cache_anh": {"chinh_sach": "khong dung cache anh (.npy); pixel nap = JPEG da khoa sha256",
+                      "so_npy_canh_anh": so_npy},
         "noi_dung_da_xac_minh": {s: s in split_noi_dung for s in ("train", "dev")}, "so_file_da_bam": dem_bam,
         "xac_minh_luc": dt.datetime.now().isoformat(timespec="seconds"), "thoi_gian_s": round(time.time() - t0, 2),
     }

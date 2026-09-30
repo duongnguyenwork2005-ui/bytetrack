@@ -23,6 +23,8 @@ Chot dau vao (vong 28, R27-F1/F2): moi che do goi `kiem_dataset()` = HOP DONG DU
 resolve tu data.yaml, train/dev dung split da khoa, anh/nhan/ignore thuc te khop manifest ca ve NOI DUNG (sha256).
 Khi train: callback `on_pretrain_routine_end` doi chieu anh + nhan ultralytics THUC SU nap (ke ca tu file .cache, vi
 cache ultralytics chi kiem kich thuoc + duong dan) voi dataset da xac minh; khac -> dung truoc vong train.
+Cache ANH (vong 29, R28-F1): chi ho tro `cache: false`; `load_image` cua ultralytics doc `<anh>.npy` THAY JPEG ke ca khi
+cache=False, nen hop dong (truoc nap model) va callback (truoc vong train) deu tu choi .npy canh anh train/dev.
 Hai model dung CUNG khoi `huan_luyen` trong cau hinh; chi `weights` khac.
 """
 from __future__ import annotations
@@ -94,6 +96,11 @@ def doc_cfg(p: Path) -> dict:
         v = cfg["huan_luyen"].get(k)
         if v is None or str(v).lower() == "auto" or (k == "batch" and isinstance(v, (int, float)) and v < 1):
             raise LoiCauHinh(f"huan_luyen.{k} = {v!r}: phai khai bao gia tri tuong minh (khong 'auto'/-1)")
+    if cfg["huan_luyen"].get("cache") is not False:
+        # Chinh sach cache ANH hien tai (R28-F1): cache: false -> pixel nap = JPEG da khoa sha256. cache ram/disk/True
+        # dung .npy / RAM ma hop dong chua kiem chung noi dung (disk con giu .npy cu) -> chua ho tro, dung ro rang.
+        raise LoiCauHinh(f"huan_luyen.cache = {cfg['huan_luyen'].get('cache')!r}: chinh sach cache anh hien tai chi cho "
+                         f"phep cache: false (pixel nap phai la JPEG da khoa trong manifest)")
     cfg["_duong_dan"], cfg["_sha256"] = str(p), sha256_file(Path(p))
     return cfg
 
@@ -152,11 +159,23 @@ def _cung_tap_nhan(a: np.ndarray, b: np.ndarray, atol: float = 1e-5) -> bool:
 
 def kiem_dau_vao_da_nap(trainer, mong_doi: dict[str, dict[str, np.ndarray]]) -> dict:
     """So anh + nhan ultralytics THUC SU nap (`train_loader` / `test_loader`, gom ca nhan lay tu file .cache -- cache
-    ultralytics chi kiem tong kich thuoc + duong dan file, khong kiem noi dung) voi dataset da xac minh. Khac -> loi."""
+    ultralytics chi kiem tong kich thuoc + duong dan file, khong kiem noi dung) voi dataset da xac minh. Khac -> loi.
+
+    NGUON PIXEL (vong 29, R28-F1): dataset khong duoc cache anh (`ds.cache` phai None = cache=False) va khong duoc co
+    `<anh>.npy` (`ds.npy_files`) -- `load_image` nap .npy THAY JPEG da xac minh ke ca khi cache=False. Kiem lai o day
+    (ngoai hop dong file) de chan .npy xuat hien SAU khi hop dong da chay."""
     import bdd_yolo_export as bx
     ket = {}
     for s, loader in (("train", trainer.train_loader), ("dev", trainer.test_loader)):
         ds = loader.dataset
+        che_do_cache = getattr(ds, "cache", None)
+        if che_do_cache not in (None, False):
+            raise LoiDauVaoDaNap(f"{s}: dataset ultralytics dang cache anh ({che_do_cache!r}); chinh sach hien tai cache: "
+                                 f"false -- pixel phai doc tu JPEG da xac minh; dung truoc vong train")
+        npy = [str(p) for p in getattr(ds, "npy_files", []) if Path(p).exists()]
+        if npy:
+            raise LoiDauVaoDaNap(f"{s}: {len(npy)} file cache anh .npy canh anh ultralytics se nap THAY JPEG da xac minh "
+                                 f"(vd {npy[:2]}); dung truoc vong train -- di chuyen/xoa tay file .npy")
         nap = {bx._nc(lb["im_file"]): np.column_stack([np.asarray(lb["cls"], float).reshape(-1),
                                                        np.asarray(lb["bboxes"], float).reshape(-1, 4)])
                for lb in ds.labels}
@@ -164,7 +183,7 @@ def kiem_dau_vao_da_nap(trainer, mong_doi: dict[str, dict[str, np.ndarray]]) -> 
         thieu, thua = sorted(set(md) - set(nap)), sorted(set(nap) - set(md))
         khac = [k for k in md.keys() & nap.keys() if not _cung_tap_nhan(md[k], nap[k])]
         ket[s] = {"so_anh_nap": len(nap), "so_anh_da_xac_minh": len(md), "thieu": len(thieu), "thua": len(thua),
-                  "nhan_khac": len(khac)}
+                  "nhan_khac": len(khac), "cache_anh": che_do_cache, "npy_canh_anh": 0}
         if thieu or thua or khac:
             raise LoiDauVaoDaNap(f"{s}: ultralytics nap {len(nap)} anh / da xac minh {len(md)}; thieu {len(thieu)}, thua "
                                  f"{len(thua)}, nhan khac {len(khac)} (vd {[Path(x).name for x in (thieu + thua + khac)[:3]]}) "

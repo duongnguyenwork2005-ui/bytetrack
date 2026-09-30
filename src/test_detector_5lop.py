@@ -25,6 +25,12 @@ Vong 28 (review 4937c85):
      manifest phien ban 1, anh thua, `path` tuong doi, trung noi dung train/dev luc xuat.
   I  (R27-F2) du lieu ultralytics THUC SU nap: trainer GIA LAP (I1-I3) va YOLODataset THAT voi cache nhan cu cung
      kich thuoc (I4, cach cache ultralytics chi kiem kich thuoc + duong dan) / cache moi (I5).
+Vong 29 (review 07615ba):
+  J  (R28-F1) cache ANH `<anh>.npy` (khac cache NHAN `.cache` o nhom I): dataset sach -> YOLODataset THAT doc pixel trung
+     JPEG; .npy anh den canh anh train / dev -> ultralytics that nap anh den (nguy co) va hop dong + chot runner tu choi;
+     entry point runner + SPY: exit 2, khong nap model / train / output; `cache: disk` bi tu choi; callback voi
+     YOLODataset THAT chan .npy xuat hien sau hop dong.
+  Dem: thieu weights / thu vien -> SKIP "CHUA KIEM" (A7, E6, F, G, J3/J4/J6), KHONG tinh la PASS.
 Chay duoc tren ban sao ma cu (DET5_MODELS_DIR=<thu muc models>) de chung minh regression bat ma cu.
 
     python src/test_detector_5lop.py
@@ -130,6 +136,8 @@ def nhom_a():
             n = YOLO(str(w)).names
             _check(f"A7 doc names tu checkpoint that {ten}: coco80, anh xa dung",
                    dc.loai_checkpoint(n) == "coco80" and dc.anh_xa_model_sang_lop5(n) == {2: 0, 7: 1, 5: 2, 3: 3, 1: 4})
+        else:
+            _skip(f"A7 doc names tu checkpoint that {ten}", f"khong co {w}")
 
 
 # =========================================================================== B/C/D fixture
@@ -488,7 +496,9 @@ def nhom_e(tmp: Path, out_sc: Path | None):
     except FileNotFoundError:
         _check("E5 anh thieu file nhan -> LOI (khong coi la anh am tinh)", True)
     w = _models_dir() / "yolov8n.pt"
-    if w.is_file() and out_sc is not None:
+    if not (w.is_file() and out_sc is not None):
+        _skip("E6 du doan that YOLOv8n COCO (CPU)", f"khong co {w} hoac dataset fixture")
+    else:
         anh = ev.ds_anh_tu_data_yaml(out_sc / "data.yaml", "val")[:3]
         dd_, mt = ev.du_doan_ultralytics(str(w), anh, ev.QUY_TAC["du_doan"], batch=3, device="cpu")
         lop = set(np.concatenate([x["cls"] for x in dd_]).tolist()) if dd_ else set()
@@ -517,7 +527,7 @@ def nhom_f(tmp: Path, out_sc: Path | None):
             str(out_sc / "data.yaml"), "--project", str(tmp / "runs"), "--ket-qua-dir", str(tmp / "kq")]
     w_ok = (_models_dir() / "yolov8n.pt").is_file()
     if not w_ok:
-        _check("F1..F5 bo qua: khong co models/yolov8n.pt", True)
+        _skip("F1..F5 runner qua subprocess", f"khong co {_models_dir() / 'yolov8n.pt'}")   # SKIP, KHONG tinh PASS
         return
     r = subprocess.run(base + ["--dry-run"], capture_output=True, text=True)
     _check("F1 --dry-run = kiem cau hinh: exit 0, KHONG train, KHONG tao thu muc luot / file ket qua",
@@ -1009,6 +1019,141 @@ def nhom_i(tmp: Path, out: Path):
     _thu("I5 (ultralytics THAT) cache moi tu file da xac minh -> du lieu nap khop, cho qua", i5)
 
 
+# =========================================================================== J: cache ANH .npy (R28-F1)
+def nhom_j(tmp: Path, out: Path):
+    """Cache ANH `<anh>.npy` -- khac cache NHAN `labels/<split>.cache` (nhom I). Nguon pixel kiem bang YOLODataset THAT;
+    thu tu chan o runner kiem qua entry point voi SPY (gia lap ranh gioi nap model / training)."""
+    from types import SimpleNamespace
+
+    import bdd_yolo_export as bx
+    import cv2
+    import train_detector as tr
+    try:
+        from ultralytics.data.dataset import YOLODataset
+    except ImportError as e:
+        _skip("J cache anh .npy (YOLODataset that)", f"khong import duoc ultralytics: {e}")
+        return
+    data = out / "data.yaml"
+    names = {i: c for i, c in enumerate(["car", "truck", "bus", "motorcycle", "bicycle"])}
+    anh = {s: sorted((out / "images" / s).glob("*.jpg"))[0] for s in ("train", "dev")}
+    imgsz = max(cv2.imread(str(anh["train"])).shape[:2])        # canh dai = imgsz -> load_image khong resize
+
+    def yds(s):
+        return YOLODataset(img_path=str(out / "images" / s), data={"names": names, "nc": 5, "channels": 3},
+                           task="detect", augment=False, imgsz=imgsz, cache=False)
+
+    def xoa_cache_nhan():
+        for s in ("train", "dev"):
+            (out / "labels" / f"{s}.cache").unlink(missing_ok=True)
+
+    def dat_npy_den(s):
+        jpg = cv2.imread(str(anh[s]))
+        np.save(anh[s].with_suffix(".npy"), np.zeros_like(jpg))
+        return jpg
+
+    def go_npy(s):
+        anh[s].with_suffix(".npy").unlink(missing_ok=True)
+
+    def tu_choi(fn) -> tuple[bool, str]:
+        try:
+            fn()
+            return False, "CHAP NHAN"
+        except Exception as e:  # noqa: BLE001
+            return True, f"{type(e).__name__}: {e}"
+
+    def j0():
+        xoa_cache_nhan()
+        try:
+            a, ma = tu_choi(lambda: bx.kiem_dataset(out))
+            dts = {s: yds(s) for s in ("train", "dev")}
+            sai = [f for ds in dts.values() for i, f in enumerate(ds.im_files)
+                   if not np.array_equal(ds.get_image_and_label(i)["img"], cv2.imread(f))]
+            n = sum(len(ds.im_files) for ds in dts.values())
+        finally:
+            xoa_cache_nhan()
+        return (not a and not sai and n > 0, f"hop dong: {ma}; {n} anh doc qua YOLODataset that, lech pixel {len(sai)}")
+    _thu("J0 dataset SACH (doi chung): hop dong chap nhan; YOLODataset THAT (cache=False, truoc augmentation) doc pixel "
+         "TRUNG JPEG o moi anh train + dev", j0)
+
+    def j0b():
+        k = bx.kiem_dataset(out)
+        return k["cache_anh"]["so_npy_canh_anh"] == {"train": 0, "dev": 0}, str(k["cache_anh"])
+    _thu("J0b danh tinh dataset ghi chinh sach cache anh + so .npy canh anh = 0", j0b)
+
+    for s, ma_ca in (("train", "J1"), ("dev", "J2")):
+        def j12(s=s):
+            jpg = dat_npy_den(s)
+            try:
+                xoa_cache_nhan()
+                ds = yds(s)
+                idx = [bx._nc(f) for f in ds.im_files].index(bx._nc(anh[s]))
+                nap = ds.get_image_and_label(idx)["img"]
+                a, ma = tu_choi(lambda: bx.kiem_dataset(out))
+                b, mb = tu_choi(lambda: tr.kiem_dataset(data))
+            finally:
+                go_npy(s)
+                xoa_cache_nhan()
+            nguy_co = float(nap.mean()) == 0.0 and float(jpg.mean()) > 0      # ultralytics 8.4.141 THAT nap anh den
+            ok = nguy_co and a and b and f"images/{s}" in ma and ".npy" in ma and "cache=False" in ma and ".npy" in mb
+            return ok, (f"YOLODataset that nap TB pixel {nap.mean():.2f} (JPEG {jpg.mean():.2f}); exporter: {ma[-230:]} | "
+                        f"runner: {mb[-120:]}")
+        _thu(f"{ma_ca} .npy anh DEN canh anh {s} (JPEG/nhan/hash giu nguyen): ultralytics that nap anh den -> hop dong "
+             f"(exporter + chot runner) TU CHOI, neu split / duong dan / ly do", j12)
+
+    if (_models_dir() / "yolov8n.pt").is_file():
+        pcfg = _yaml(tmp / "train_cfg_j.yaml", cfg_train_tuyet_doi())
+        for s, ma_ca in (("train", "J3"), ("dev", "J4")):
+            def j34(s=s):
+                dat_npy_den(s)
+                ten = f"j_npy_{s}"
+                try:
+                    code, _so, se, goi = _chay_runner_spy(
+                        ["--config", str(pcfg), "--model", "yolov8n", "--che-do", "smoke", "--data", str(data),
+                         "--project", str(tmp / "runs_j"), "--ket-qua-dir", str(tmp / "kq_j"), "--ten", ten])
+                finally:
+                    go_npy(s)
+                khong_cham = (not any(g[0] in ("khoi_tao", "train") for g in goi) and not (tmp / "runs_j" / ten).exists()
+                              and not (tmp / "kq_j" / f"{ten}.json").exists())
+                return (code == 2 and khong_cham and ".npy" in se and f"images/{s}" in se,
+                        f"exit {code}; spy {goi[:2]}; {se.strip()[-200:]}")
+            _thu(f"{ma_ca} entry point runner (spy GIA LAP ranh gioi model/training): .npy canh anh {s} -> exit 2, KHONG nap "
+                 f"model, KHONG goi train, KHONG tao thu muc / file ket qua", j34)
+        g6 = cfg_train_tuyet_doi()
+        g6["huan_luyen"]["cache"] = "disk"
+        pcfg6 = _yaml(tmp / "train_cfg_j_disk.yaml", g6)
+
+        def j6():
+            code, _so, se, goi = _chay_runner_spy(
+                ["--config", str(pcfg6), "--model", "yolov8n", "--che-do", "smoke", "--data", str(data),
+                 "--project", str(tmp / "runs_j"), "--ket-qua-dir", str(tmp / "kq_j"), "--ten", "j_cache_disk"])
+            return code == 2 and not goi and "cache" in se, f"exit {code}; spy {goi[:2]}; {se.strip()[-160:]}"
+        _thu("J6 cau hinh `cache: disk` (khac chinh sach cache: false) -> runner exit 2 truoc khi nap model", j6)
+    else:
+        _skip("J3/J4/J6 entry point runner", f"khong co {_models_dir() / 'yolov8n.pt'} (can cho kiem sha256 checkpoint)")
+
+    md = tr.nhan_mong_doi(data)
+    for s, ma_ca in (("train", "J5a"), ("dev", "J5b")):
+        def j5(s=s):
+            xoa_cache_nhan()
+            try:
+                dts = {x: yds(x) for x in ("train", "dev")}       # dung khi dataset con SACH (sau hop dong)
+                trainer = SimpleNamespace(train_loader=SimpleNamespace(dataset=dts["train"]),
+                                          test_loader=SimpleNamespace(dataset=dts["dev"]))
+                sach = tr.kiem_dau_vao_da_nap(trainer, md)
+                dat_npy_den(s)                                     # .npy xuat hien SAU hop dong, truoc vong train
+                try:
+                    tr.kiem_dau_vao_da_nap(trainer, md)
+                    ket = (False, "callback KHONG phat hien .npy")
+                except tr.LoiDauVaoDaNap as e:
+                    ket = (str(e).startswith(f"{s}:") and ".npy" in str(e) and sach[s]["npy_canh_anh"] == 0, str(e)[:220])
+            finally:
+                go_npy(s)
+                xoa_cache_nhan()
+            return ket
+        _thu(f"{ma_ca} callback truoc vong train voi YOLODataset THAT: sach -> qua; .npy xuat hien canh anh {s} sau hop dong "
+             f"-> LoiDauVaoDaNap", j5)
+
+
 def main() -> int:
     tmp = Path(tempfile.mkdtemp(prefix="test_det5_"))
     out_sc = None
@@ -1026,6 +1171,7 @@ def main() -> int:
         _chay("H. toan ven noi dung dataset: anh / nhan / ignore / manifest (R27-F2)",
               lambda: nhom_h(tmp, out_sc, nap_cfg(tmp, cfg_mau(tmp, "sc"))))
         _chay("I. du lieu ultralytics THUC SU nap (cache nhan) truoc vong train (R27-F2)", lambda: nhom_i(tmp, out_sc))
+        _chay("J. cache ANH .npy: nguon pixel qua YOLODataset that + chot runner (R28-F1)", lambda: nhom_j(tmp, out_sc))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     n_ok = sum(ok for _, ok in _RESULTS)
