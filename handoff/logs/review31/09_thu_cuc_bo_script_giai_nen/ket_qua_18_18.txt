@@ -1,0 +1,42 @@
+PASS 0 --chi-kiem khong ghi gi rc=0 
+PASS 1 giai nen dung vi tri rc=0 ['bdd100k/images/track/train/va/va-0000001.jpg', 'bdd100k/images/track/train/va/va-0000002.jpg', 'bdd100k/images/track/train/va/va-0000003.jpg', 'bdd100k/images/track/train/vb/vb-0000001.jpg', 'bdd100k/images/track/train/vb/vb-0000002.jpg'] 
+PASS 1 noi dung trung byte 
+PASS 1 member trung giua archive (cung noi dung) -> bo qua {'ten': 'images20-track-train-2.zip', 'sha256_zip': 'f7c91bdec456f5ac65b1378d0d106ff61bef20d9cee3aba83b235f579f3dc136', 'hoan_tat': True, 'so_tep_ghi_moi': 2, 'so_tep_trung_bo_qua': 1, 'so_xung_dot': 0, 'vi_du_xung_dot': [], 'so_video': 2, 'giay': 0.0, 't_xong': '2026-09-30T16:48:11+07:00'}
+PASS 1 khong con file tam, khong long bdd100k/bdd100k 
+PASS 2a chay lai -> bo qua archive da hoan tat -30T16:48:11+07:00"}
+{"t": "2026-09-30T16:48:12+07:00", "su_kien": "bo_qua_archive", "ten": "images20-track-train-2.zip", "ly_do": "da giai nen hoan tat truoc", "t_xong": "2026-09-30T16:48:11+07:00"}
+{"t": "2026-09-30T16:48:12+07:00", "su_kien": "ket_thuc", "so_xung_dot": 0, "file_tam_con_lai": []}
+
+PASS 2b --lam-lai -> so tung byte, tat ca trung, 0 ghi moi {'ten': 'images20-track-train-1.zip', 'sha256_zip': '6716f5746feb02237609b4e1c8261ca8473ce734516ad640708e6bd4d0386d5d', 'hoan_tat': True, 'so_tep_ghi_moi': 0, 'so_tep_trung_bo_qua': 3, 'so_xung_dot': 0, 'vi_du_xung_dot': [], 'so_video': 1, 'giay': 0.0, 't_xong': '2026-09-30T16:48:12+07:00'}
+PASS 2c them archive moi -> chi giai nen archive moi a280b4db36a8bdac3d8e407fd452767351cdd7cd57e115d", "hoan_tat": true, "so_tep_ghi_moi": 1, "so_tep_trung_bo_qua": 0, "so_xung_dot": 0, "so_video": 1, "giay": 0.0, "t_xong": "2026-09-30T16:48:12+07:00"}
+{"t": "2026-09-30T16:48:12+07:00", "su_kien": "ket_thuc", "so_xung_dot": 0, "file_tam_con_lai": []}
+
+PASS 3 xung dot -> exit 1, khong ghi de {'ten': 'images20-track-train-1.zip', 'sha256_zip': '6716f5746feb02237609b4e1c8261ca8473ce734516ad640708e6bd4d0386d5d', 'hoan_tat': True, 'so_tep_ghi_moi': 0, 'so_tep_trung_bo_qua': 2, 'so_xung_dot': 1, 'vi_du_xung_dot': ['bdd100k/images/track/train/va/va-0000002.jpg'], 'so_video': 1, 'giay': 0.0, 't_xong': '2026-09-30T16:48:12+07:00'}
+PASS 4 long -> exit 2, khong ghi gi rc=2 /train/va/va-0000001.jpg", "khong bat dau bang bdd100k/images/track/train/"]], "can_ghi_byte": 2, "trong_byte": 63379288064}
+{"t": "2026-09-30T16:48:12+07:00", "su_kien": "loi", "ly_do": "member khong hop le / xung dot giua archive -- khong ghi gi"}
+
+PASS 4 slip -> exit 2, khong ghi gi rc=2 ain-1.zip", "bdd100k/images/track/train/../../../x.jpg", "co '..' hoac '.'"]], "can_ghi_byte": 2, "trong_byte": 63379288064}
+{"t": "2026-09-30T16:48:12+07:00", "su_kien": "loi", "ly_do": "member khong hop le / xung dot giua archive -- khong ghi gi"}
+
+PASS 4 sau -> exit 2, khong ghi gi rc=2 va-0000001.jpg", "do sau 7 != 6 (bdd100k/images/track/train/<video>/<anh>)"]], "can_ghi_byte": 2, "trong_byte": 63379288064}
+{"t": "2026-09-30T16:48:12+07:00", "su_kien": "loi", "ly_do": "member khong hop le / xung dot giua archive -- khong ghi gi"}
+
+PASS 4 val -> exit 2, khong ghi gi rc=2 ck/val/va/va-0000001.jpg", "khong bat dau bang bdd100k/images/track/train/"]], "can_ghi_byte": 2, "trong_byte": 63379288064}
+{"t": "2026-09-30T16:48:12+07:00", "su_kien": "loi", "ly_do": "member khong hop le / xung dot giua archive -- khong ghi gi"}
+
+PASS 5 cung duong dan khac noi dung giua archive -> exit 2 "trung duong dan voi images20-track-train-1.zip nhung khac CRC/kich thuoc"]], "can_ghi_byte": 20, "trong_byte": 63379283968}
+{"t": "2026-09-30T16:48:12+07:00", "su_kien": "loi", "ly_do": "member khong hop le / xung dot giua archive -- khong ghi gi"}
+
+PASS 6 chi khac hoa/thuong -> exit 2 pg", "chi khac hoa/thuong voi bdd100k/images/track/train/va/va-0000001.jpg"]], "can_ghi_byte": 2, "trong_byte": 63379288064}
+{"t": "2026-09-30T16:48:13+07:00", "su_kien": "loi", "ly_do": "member khong hop le / xung dot giua archive -- khong ghi gi"}
+
+PASS 7 ban ghi tai khong DAT -> khong dung, exit 2 "35e7bbbbc64a12a6b6320fe668af09609636643725d014b7068cb12b5ee6ae2f", "bytes": 189, "dung_duoc": false}
+{"t": "2026-09-30T16:48:13+07:00", "su_kien": "loi", "ly_do": "khong co archive nao da xac minh"}
+
+PASS 8 file zip doi kich thuoc sau khi xac minh -> khong dung, exit 2 "35e7bbbbc64a12a6b6320fe668af09609636643725d014b7068cb12b5ee6ae2f", "bytes": 189, "dung_duoc": false}
+{"t": "2026-09-30T16:48:13+07:00", "su_kien": "loi", "ly_do": "khong co archive nao da xac minh"}
+
+PASS 9 CRC hong -> exit 1, khong file tam, khong file hong rc=1 79296256}
+{"t": "2026-09-30T16:48:13+07:00", "su_kien": "loi", "ten": "images20-track-train-1.zip", "member": "bdd100k/images/track/train/va/va-0000002.jpg", "ly_do": "doc member loi: BadZipFile(\"Bad CRC-32 for file 'bdd100k/images/track/train/va/va-0000002.jpg'\")", "so_tep_ghi_moi_truoc_loi": 1}
+ 
+TONG 18 / 18 PASS

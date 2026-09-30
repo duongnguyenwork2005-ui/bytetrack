@@ -1,0 +1,20 @@
+=== http://bdd-data.berkeley.edu/
+HTTP/1.1 200 OK
+Server: nginx/1.24.0 (Ubuntu)
+Content-Type: text/html
+Content-Length: 11133
+http_code=200 size=11133 ip=128.32.162.150 url_effective=http://bdd-data.berkeley.edu/ err=
+--- title/links chua 'label|track|mot|login|download':
+href="download.html"
+=== https://bdd-data.berkeley.edu/
+curl: (60) schannel: SNI or certificate check failed: SEC_E_WRONG_PRINCIPAL (0x80090322) - The target principal name is incorrect.
+http_code=000 size=0 ip= url_effective=https://bdd-data.berkeley.edu/ err=schannel: SNI or certificate check failed: SEC_E_WRONG_PRINCIPAL (0x80090322) - The target principal name is incorrect.
+=== https://bdd-data.berkeley.edu/portal.html
+curl: (60) schannel: SNI or certificate check failed: SEC_E_WRONG_PRINCIPAL (0x80090322) - The target principal name is incorrect.
+http_code=000 size=0 ip= url_effective=https://bdd-data.berkeley.edu/portal.html err=schannel: SNI or certificate check failed: SEC_E_WRONG_PRINCIPAL (0x80090322) - The target principal name is incorrect.
+=== https://doc.bdd100k.com/download.html
+curl: (6) Could not resolve host: doc.bdd100k.com
+http_code=000 size=0 ip= url_effective=https://doc.bdd100k.com/download.html err=Could not resolve host: doc.bdd100k.com
+=== http://doc.bdd100k.com/download.html
+curl: (6) Could not resolve host: doc.bdd100k.com
+http_code=000 size=0 ip= url_effective=http://doc.bdd100k.com/download.html err=Could not resolve host: doc.bdd100k.com
