@@ -1,0 +1,62 @@
+{
+ "ghi_chu": "script TAI DUNG boi Claude tu mo ta review 07615ba, KHONG phai REPRO_REVIEW_07615ba.py",
+ "repo": "D:\\LABOTARY\\bytetrack",
+ "doi_chung_sach": {
+  "chot_runner": {
+   "accepted": true,
+   "result_keys": [
+    "cache_anh",
+    "data_yaml",
+    "duong_dan_resolve",
+    "hop_dong",
+    "loai",
+    "loi"
+   ]
+  },
+  "callback": {
+   "accepted": true,
+   "result_keys": [
+    "dev",
+    "train"
+   ]
+  },
+  "pixel_nap_trung_jpeg_moi_anh": true,
+  "so_anh": {
+   "train": 77,
+   "dev": 48
+  }
+ },
+ "R28F1_train": {
+  "anh": "fx00000000-00000000-0000001.jpg",
+  "npy": "fx00000000-00000000-0000001.npy",
+  "jpeg_giu_nguyen_hash": true,
+  "trung_binh_pixel_jpeg": 90.403125,
+  "trung_binh_pixel_nap": 0.0,
+  "chot_runner": {
+   "accepted": false,
+   "error": "LoiCauHinh: dataset KHONG dat hop dong: 1 loi hop dong o C:\\Users\\Mikuno\\AppData\\Local\\Temp\\tai_hien_r28f1_w9ghf30x\\out\\review: images/train: 1 file cache anh .npy canh anh da khoa (vd ['images/train/fx00000000-00000000-0000001.npy']) -- ultralytics load_image() nap .npy THAY anh JPEG ke ca khi cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu "
+  },
+  "callback_du_lieu_nap": {
+   "accepted": false,
+   "error": "LoiDauVaoDaNap: train: 1 file cache anh .npy canh anh ultralytics se nap THAY JPEG da xac minh (vd ['C:\\\\Users\\\\Mikuno\\\\AppData\\\\Local\\\\Temp\\\\tai_hien_r28f1_w9ghf30x\\\\out\\\\review\\\\images\\\\train\\\\fx00000000-00000000-0000001.npy']); dung truoc vong train -- di chuyen/xoa tay file .npy"
+  },
+  "bug_reproduced": false
+ },
+ "R28F1_dev": {
+  "anh": "fx00000003-daa66d13-0000001.jpg",
+  "npy": "fx00000003-daa66d13-0000001.npy",
+  "jpeg_giu_nguyen_hash": true,
+  "trung_binh_pixel_jpeg": 89.68974537037037,
+  "trung_binh_pixel_nap": 0.0,
+  "chot_runner": {
+   "accepted": false,
+   "error": "LoiCauHinh: dataset KHONG dat hop dong: 1 loi hop dong o C:\\Users\\Mikuno\\AppData\\Local\\Temp\\tai_hien_r28f1_w9ghf30x\\out\\review: images/dev: 1 file cache anh .npy canh anh da khoa (vd ['images/dev/fx00000003-daa66d13-0000001.npy']) -- ultralytics load_image() nap .npy THAY anh JPEG ke ca khi cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa)"
+  },
+  "callback_du_lieu_nap": {
+   "accepted": false,
+   "error": "LoiDauVaoDaNap: dev: 1 file cache anh .npy canh anh ultralytics se nap THAY JPEG da xac minh (vd ['C:\\\\Users\\\\Mikuno\\\\AppData\\\\Local\\\\Temp\\\\tai_hien_r28f1_w9ghf30x\\\\out\\\\review\\\\images\\\\dev\\\\fx00000003-daa66d13-0000001.npy']); dung truoc vong train -- di chuyen/xoa tay file .npy"
+  },
+  "bug_reproduced": false
+ },
+ "bug_count": 0
+}
