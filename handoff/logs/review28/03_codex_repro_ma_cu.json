@@ -1,0 +1,220 @@
+{
+  "target": "4937c85",
+  "scope": "synthetic CPU probes; no YOLO training",
+  "baseline": {
+    "export_check": {
+      "so_anh": {
+        "train": 77,
+        "dev": 48
+      },
+      "so_video": {
+        "train": 5,
+        "dev": 3
+      },
+      "manifest_sha256": "a5df87ee0c31c3022363aee09c5e7abc50b43507e00cda12b63522f8967d2660",
+      "loi": 0
+    },
+    "train_guard": {
+      "data_yaml": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_gd6ugrpt\\out\\review\\data.yaml",
+      "sha256_data_yaml": "61d21a0f9c318a470e70663aee98a2e71e08a9712335b01a630161fe8da6deaa",
+      "ten": "review",
+      "loai": "day_du",
+      "manifest_sha256": "a5df87ee0c31c3022363aee09c5e7abc50b43507e00cda12b63522f8967d2660",
+      "file_split": {
+        "duong_dan": "splits/review.json",
+        "sha256": "0525119484454531b8f6a3c2d76979557999e691c9dd43488223aef17650b137",
+        "sha256_danh_sach": "f91cfb27323cd633dc4af62378da76444701f910ba488e522d5200205ae6a72e"
+      },
+      "so_anh": {
+        "train": 77,
+        "dev": 48
+      },
+      "so_video": {
+        "train": 5,
+        "dev": 3
+      },
+      "quy_tac": {
+        "buoc_frame": 1,
+        "am_tinh": "frame trong [frame co nhan dau, cuoi] cua video",
+        "to_xam": "crowd/ignore thuoc 5 lop + ['other vehicle', 'trailer']; tru pixel trong box co nhan; mau [114, 114, 114]; JPEG q95",
+        "lop_khong_gan_nhan": [
+          "pedestrian",
+          "rider",
+          "train",
+          "other person"
+        ],
+        "box_toi_thieu_px": 1.0,
+        "toa_do": "theo kich thuoc anh thuc (header file)"
+      }
+    }
+  },
+  "F1_train_is_dev": {
+    "bug_reproduced": true,
+    "effective_train": "images/dev",
+    "effective_val": "images/dev",
+    "runner_guard": {
+      "accepted": true,
+      "result": {
+        "data_yaml": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_gd6ugrpt\\out\\review\\data.yaml",
+        "sha256_data_yaml": "f485e936b266643605058447b79b90bc9a577d80e8b316f225a78bdb41a4b57a",
+        "ten": "review",
+        "loai": "day_du",
+        "manifest_sha256": "a5df87ee0c31c3022363aee09c5e7abc50b43507e00cda12b63522f8967d2660",
+        "file_split": {
+          "duong_dan": "splits/review.json",
+          "sha256": "0525119484454531b8f6a3c2d76979557999e691c9dd43488223aef17650b137",
+          "sha256_danh_sach": "f91cfb27323cd633dc4af62378da76444701f910ba488e522d5200205ae6a72e"
+        },
+        "so_anh": {
+          "train": 77,
+          "dev": 48
+        },
+        "so_video": {
+          "train": 5,
+          "dev": 3
+        },
+        "quy_tac": {
+          "buoc_frame": 1,
+          "am_tinh": "frame trong [frame co nhan dau, cuoi] cua video",
+          "to_xam": "crowd/ignore thuoc 5 lop + ['other vehicle', 'trailer']; tru pixel trong box co nhan; mau [114, 114, 114]; JPEG q95",
+          "lop_khong_gan_nhan": [
+            "pedestrian",
+            "rider",
+            "train",
+            "other person"
+          ],
+          "box_toi_thieu_px": 1.0,
+          "toa_do": "theo kich thuoc anh thuc (header file)"
+        }
+      }
+    },
+    "export_checker": {
+      "accepted": false,
+      "error": "LoiDuLieu: data.yaml: train/val phai la images/train, images/dev (gap images/dev, images/dev)"
+    }
+  },
+  "F1_missing_label": {
+    "bug_reproduced": true,
+    "runner_guard": {
+      "accepted": true,
+      "result": {
+        "data_yaml": "C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_gd6ugrpt\\out\\review\\data.yaml",
+        "sha256_data_yaml": "61d21a0f9c318a470e70663aee98a2e71e08a9712335b01a630161fe8da6deaa",
+        "ten": "review",
+        "loai": "day_du",
+        "manifest_sha256": "a5df87ee0c31c3022363aee09c5e7abc50b43507e00cda12b63522f8967d2660",
+        "file_split": {
+          "duong_dan": "splits/review.json",
+          "sha256": "0525119484454531b8f6a3c2d76979557999e691c9dd43488223aef17650b137",
+          "sha256_danh_sach": "f91cfb27323cd633dc4af62378da76444701f910ba488e522d5200205ae6a72e"
+        },
+        "so_anh": {
+          "train": 77,
+          "dev": 48
+        },
+        "so_video": {
+          "train": 5,
+          "dev": 3
+        },
+        "quy_tac": {
+          "buoc_frame": 1,
+          "am_tinh": "frame trong [frame co nhan dau, cuoi] cua video",
+          "to_xam": "crowd/ignore thuoc 5 lop + ['other vehicle', 'trailer']; tru pixel trong box co nhan; mau [114, 114, 114]; JPEG q95",
+          "lop_khong_gan_nhan": [
+            "pedestrian",
+            "rider",
+            "train",
+            "other person"
+          ],
+          "box_toi_thieu_px": 1.0,
+          "toa_do": "theo kich thuoc anh thuc (header file)"
+        }
+      }
+    },
+    "export_checker": {
+      "accepted": false,
+      "error": "LoiDuLieu: 1 loi khi kiem C:\\Users\\Mikuno\\AppData\\Local\\Temp\\codex_r27_gd6ugrpt\\out\\review: anh images/train/fx00000000-00000000-0000001.jpg KHONG co file nhan (ultralytics se coi la nen)"
+    }
+  },
+  "F2_image_changed": {
+    "bug_reproduced": true,
+    "manifest_image_sha": "6dac2e5ff146c50a4cb332152b8e26fe9eb67f3663818a94499c8a71dad2be15",
+    "actual_image_sha": "40e2299ff2f78bf52571710084959d30a55717a58b244ce20c6d62b496013501",
+    "export_checker": {
+      "accepted": true,
+      "result": {
+        "so_anh": {
+          "train": 77,
+          "dev": 48
+        },
+        "so_video": {
+          "train": 5,
+          "dev": 3
+        },
+        "manifest_sha256": "a5df87ee0c31c3022363aee09c5e7abc50b43507e00cda12b63522f8967d2660",
+        "loi": 0
+      }
+    },
+    "same_manifest_identity": true
+  },
+  "F2_label_coordinates_changed": {
+    "bug_reproduced": true,
+    "export_checker": {
+      "accepted": true,
+      "result": {
+        "so_anh": {
+          "train": 77,
+          "dev": 48
+        },
+        "so_video": {
+          "train": 5,
+          "dev": 3
+        },
+        "manifest_sha256": "a5df87ee0c31c3022363aee09c5e7abc50b43507e00cda12b63522f8967d2660",
+        "loi": 0
+      }
+    },
+    "same_manifest_identity": true
+  },
+  "F2_ignore_removed": {
+    "bug_reproduced": true,
+    "ignore_regions_before": 3,
+    "ignore_regions_after": 0,
+    "export_checker": {
+      "accepted": true,
+      "result": {
+        "so_anh": {
+          "train": 77,
+          "dev": 48
+        },
+        "so_video": {
+          "train": 5,
+          "dev": 3
+        },
+        "manifest_sha256": "a5df87ee0c31c3022363aee09c5e7abc50b43507e00cda12b63522f8967d2660",
+        "loi": 0
+      }
+    }
+  },
+  "internal_duplicate_probe": {
+    "accepted": true,
+    "distinct_video_names": true,
+    "identical_source_content": true
+  },
+  "F3_equal_iou_COCO": {
+    "bug_reproduced": true,
+    "custom_AP50": 0.504950495049505,
+    "pycocotools_AP50": 1.0,
+    "custom_AP50_95": 0.35346534653465345,
+    "pycocotools_AP50_95": 0.5514851485148515,
+    "custom_operating": {
+      "TP": 1,
+      "FP": 1,
+      "FN": 1,
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5
+    },
+    "pycocotools_TP_at_050": 2
+  }
+}
