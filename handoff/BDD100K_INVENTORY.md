@@ -4,6 +4,73 @@ Kiểm ngày **2026-09-18**, máy `D:\LABOTARY\bytetrack`, nhánh `phase2-mixed-
 (Bản trước, 2026-09-17, ghi "chưa có dữ liệu"; nay **đã có ảnh**, **chưa có nhãn** — xem bảng dưới.)
 **Cập nhật 2026-09-29 (vòng 27)**: nhãn val đã có dưới dạng COCO-video. Split **train** (ảnh + nhãn) vẫn chưa có, nên
 chưa chuẩn bị được dataset huấn luyện detector. Chi tiết ở mục ngay dưới.
+**Cập nhật 2026-10-01 (vòng 31)**: **ảnh** MOT train đã tải và giải nén đủ. **Nhãn** MOT train `box_track_20/train` vẫn
+chưa lấy được từ nguồn chính thức nào, nên `kiem-nguon` vẫn exit 2.
+
+## Vòng 31 (2026-09-30 → 2026-10-01) — ảnh MOT train **đã có**, nhãn MOT 2020 **chưa lấy được**
+
+Log và script nằm ở `logs/review31/`.
+
+### Ảnh train: đã tải, xác minh, giải nén (7/7)
+
+- **Nguồn**: `http://dl.yf.io/bdd100k/mot20/`, dùng HTTP vì HTTPS lỗi chứng chỉ. Danh sách 7 phần `images20-track-train-1..7.zip`
+  đọc từ listing thật (`00_dl_yf_io_mot20_listing.html`), không đoán.
+- **Tải**: `tai_mot20_train.py`, có resume bằng `curl -C -` và khóa theo từng phần. Kiểm thử cục bộ 27/27 PASS. Mỗi file đã
+  kiểm:
+  - HTTP 200 và Content-Type `application/zip`;
+  - kích thước bằng Content-Length;
+  - 4 byte đầu là chữ ký ZIP;
+  - **md5 khớp file `.md5` của máy chủ**;
+  - `testzip` (CRC từng file) OK.
+
+  Bảng URL / byte / md5 / sha256: `20_manifest_tai_anh_train.{md,json}`. Tổng **33.902.985.620 B**. Zip giữ nguyên ở
+  `data/raw/downloads/bdd100k_mot20/`.
+- **Giải nén**: `giai_nen_mot20_train.py`. Kiểm từng member trước khi ghi; không có lồng `bdd100k/bdd100k`, không có đường dẫn
+  `..`, không trùng tên giữa các archive. Ghi qua file tạm rồi đổi tên; file đã có thì chỉ bỏ qua khi trùng từng byte, khác
+  nội dung thì không ghi đè. Kết quả **0 xung đột**.
+- **Kiểm kê độc lập** (`kiem_ke_train.py` → `21_kiem_ke_train.json`):
+
+  | Mục | Kết quả |
+  |:--|:--|
+  | Ảnh train `data/raw/bdd100k/images/track/train/<video>/<video>-<7 số>.jpg` | **1.400 video, 278.079 ảnh**, 33,87 GB, 101–263 ảnh/video |
+  | So với hợp member của 7 archive | 0 thiếu, 0 thừa, 0 lệch kích thước, 0 file tạm |
+  | Trùng tên video train ↔ val | 0 |
+  | Ảnh val | giữ nguyên: 200 video, 39.973 ảnh |
+  | Ổ `D:` sau khi giải nén | còn trống 66,0 GB |
+
+### Nhãn MOT 2020 `box_track_20/train`: chưa lấy được
+
+Chi tiết các nguồn đã thử: `13_nguon_nhan_da_thu.md`.
+
+- Tài liệu chính thức (nguồn trên GitHub) mô tả gói 115 MB, md5 `6be40e0ca56a83ddeba2ed6bff50f9e6`, nội dung
+  `labels/box_track_20/{train,val}`.
+- Không nguồn chính thức nào còn phục vụ gói này:
+  - mirror ETH `dl.cv.ethz.ch`: **NXDOMAIN**;
+  - nút “MOT 2020 Labels” trên trang tải Berkeley đã bị comment, URL của nút trả **404**;
+  - `dl.yf.io` không có gói nhãn MOT;
+  - GitHub issue #356/#369 vẫn mở, chưa có maintainer trả lời.
+- Không dùng Detection 100K, MOTS, nhãn COCO chuyển đổi hay mirror không chính thức để thay.
+- Nếu người dùng có file zip gốc: đặt vào `data/raw/downloads/bdd100k_mot20/`, kiểm md5 ở trên, rồi chỉ giải nén phần
+  `train` vào `data/raw/`.
+
+### `kiem-nguon`
+
+`python src/prepare_mixed_yolo_dataset.py --config configs/phase2/detector/bdd5_train.yaml --buoc kiem-nguon` → **exit 2**
+(`22_kiem_nguon.log`). Chỉ còn liệt kê nhãn `data/raw/bdd100k/labels/box_track_20/train`; ảnh train không còn bị báo thiếu
+như vòng 30.
+
+### Sự cố trong lúc tải (đã xử lý)
+
+- **Tốc độ**: tuyến quốc tế sang Mỹ nghẽn, chỗ nghẽn không nằm ở đường truyền nhà (`14_chan_doan_toc_do_*.txt`).
+  - Cao điểm: 2–20 KB/s.
+  - Khoảng 01:00–05:00: 1,5–2,3 MB/s.
+- **Giới hạn của công cụ**: tác vụ nền bị dừng sau khoảng 30 phút nếu không đặt `timeout`, và tối đa khoảng 2 giờ kể cả khi
+  đặt dài hơn. Các tiến trình tải được khởi động lại theo yêu cầu của người dùng. `--don-khoa-cu` (commit `02e7347`) xóa khóa
+  của tiến trình đã chết trước mỗi lần chạy lại.
+- **Lỗi script cắt mất dữ liệu tốt** (`15_su_co_0346_cat_part.md`, sửa ở `8b142e2`):
+  - khi `curl` bị giết, Content-Type rỗng bị coi là “không phải zip”, nên phần 2 bị cắt mất khoảng 1,2 GB đã tải;
+  - sau khi sửa, kiểm thử hồi quy FAIL trên bản cũ và PASS trên bản mới;
+  - md5 của cả 7 file đều khớp máy chủ.
 
 ## Vòng 30 (2026-09-30) — kiểm lại trước khi khóa split: MOT train **vẫn chưa có**
 
