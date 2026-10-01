@@ -184,6 +184,29 @@ try:
     b = bg("images20-track-train-8.zip")
     kiem("13 text/html -> cat ve 0, LOI", rc == 1 and b["trang_thai"] == "LOI" and "text/html" in b.get("ly_do", "")
          and (OUT / "dl/images20-track-train-8.zip.part").stat().st_size == 0, b.get("ly_do"))
+    # 14. --don-khoa-cu: xoa khoa cua PID da chet; giu khoa cua PID con song va khoa khong doc duoc
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("tai_mod", str(SCRIPT))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    if hasattr(mod, "pid_con_song"):
+        chet = subprocess.Popen([PY, "-c", "pass"])
+        chet.wait()
+        kiem("14 pid_con_song: song=True, da chet=False", mod.pid_con_song(os.getpid()) is True
+             and mod.pid_con_song(chet.pid) is False, f"song={mod.pid_con_song(os.getpid())} chet={mod.pid_con_song(chet.pid)}")
+        dk = OUT / "don_khoa"
+        dk.mkdir()
+        (dk / "a.zip.khoa").write_text(json.dumps({"pid": chet.pid, "t": "x"}))
+        (dk / "b.zip.khoa").write_text(json.dumps({"pid": os.getpid(), "t": "x"}))
+        (dk / "c.zip.khoa").write_text("khong phai json")
+        r = subprocess.run([PY, str(SCRIPT), "--dich", str(dk), "--thu-muc-ban-ghi", str(dk / "ghi"), "--don-khoa-cu"],
+                           capture_output=True, text=True, cwd=str(REPO))
+        con = sorted(p.name for p in dk.glob("*.khoa"))
+        kiem("14 --don-khoa-cu: xoa khoa PID chet, giu khoa song + khoa hong, exit 0", r.returncode == 0
+             and con == ["b.zip.khoa", "c.zip.khoa"] and '"xoa_khoa_cu"' in r.stdout and '"khoa_con_song"' in r.stdout
+             and '"khoa_khong_doc_duoc"' in r.stdout, f"rc={r.returncode} con={con} {r.stdout[-300:]} {r.stderr[-200:]}")
+    else:
+        kiem("14 co pid_con_song / --don-khoa-cu", False, "script khong co")
 finally:
     srv.terminate()
 print("TONG", sum(v for _, v in kq), "/", len(kq), "PASS")

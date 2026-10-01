@@ -269,6 +269,58 @@ def xu_ly(ten, curl_exe, dich, ghi, kiem_lai, nguon=NGUON):
     return xong("DAT")
 
 
+def pid_con_song(pid):
+    """True neu tien trinh `pid` con chay. Khong xac dinh duoc -> True (than trong: giu khoa).
+
+    Windows: OpenProcess + GetExitCodeProcess (KHONG dung os.kill(pid, 0) -- tren Windows lenh do GIET tien trinh).
+    """
+    if os.name != "nt":
+        try:
+            os.kill(pid, 0)
+            return True
+        except ProcessLookupError:
+            return False
+        except PermissionError:
+            return True
+    import ctypes
+    from ctypes import wintypes
+    k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    k32.OpenProcess.restype = wintypes.HANDLE
+    k32.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+    k32.GetExitCodeProcess.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
+    k32.CloseHandle.argtypes = [wintypes.HANDLE]
+    h = k32.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+    if not h:
+        return ctypes.get_last_error() != 87  # 87 = ERROR_INVALID_PARAMETER: khong co PID nay
+    try:
+        ma = wintypes.DWORD()
+        if not k32.GetExitCodeProcess(h, ctypes.byref(ma)):
+            return True
+        return ma.value == 259  # STILL_ACTIVE
+    finally:
+        k32.CloseHandle(h)
+
+
+def don_khoa_cu(dich, log):
+    """Xoa .khoa cua tien trinh DA CHET (vd bi giet khi het han tac vu nen, dong cua so bang X). Khoa cua tien trinh
+    con song, hoac khoa khong doc duoc, giu nguyen. Chay TRUOC khi khoi dong cac tien trinh tai, khong chay song song."""
+    da_xoa = []
+    for k in sorted(dich.glob("*.khoa")):
+        try:
+            noi = json.loads(k.read_text(encoding="utf-8"))
+            pid = int(noi["pid"])
+        except (OSError, ValueError, KeyError, TypeError) as e:
+            ghi_log(log, su_kien="khoa_khong_doc_duoc", khoa=k.name, loi=repr(e))
+            continue
+        if pid == os.getpid() or pid_con_song(pid):
+            ghi_log(log, su_kien="khoa_con_song", khoa=k.name, pid=pid)
+            continue
+        k.unlink(missing_ok=True)
+        da_xoa.append(k.name)
+        ghi_log(log, su_kien="xoa_khoa_cu", khoa=k.name, noi_dung=noi)
+    return da_xoa
+
+
 def xu_ly_co_khoa(ten, curl_exe, dich, ghi, kiem_lai, nguon, log_chung):
     khoa = dich / (ten + ".khoa")
     try:
@@ -294,11 +346,18 @@ def main():
     ap.add_argument("--curl", default=shutil.which("curl"))
     ap.add_argument("--kiem-lai", action="store_true", help="bam va testzip lai ca file da co ban ghi DAT")
     ap.add_argument("--du-phong-gb", type=float, default=2.0, help="dung luong trong phai con sau khi tai xong")
+    ap.add_argument("--don-khoa-cu", action="store_true",
+                    help="CHI xoa .khoa cua tien trinh da chet roi thoat (chay truoc khi khoi dong lai cac tien trinh tai)")
     a = ap.parse_args()
 
     dich, ghi = Path(a.dich), Path(a.thu_muc_ban_ghi)
     dich.mkdir(parents=True, exist_ok=True)
     ghi.mkdir(parents=True, exist_ok=True)
+    if a.don_khoa_cu:
+        log_don = ghi / f"don_khoa_{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}.jsonl"
+        da_xoa = don_khoa_cu(dich, log_don)
+        ghi_log(log_don, su_kien="ket_thuc_don_khoa", da_xoa=da_xoa)
+        return 0
     log_chung = ghi / f"chay_{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}_{'_'.join(map(str, a.phan or ['tat_ca']))}.jsonl"
     if not a.curl:
         ghi_log(log_chung, su_kien="loi", ly_do="khong tim thay curl")
