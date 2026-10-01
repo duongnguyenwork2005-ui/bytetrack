@@ -1,64 +1,67 @@
-# REVIEW_BRIEF — vòng 31–32: dữ liệu BDD100K MOT train (ảnh đủ; nhãn ứng viên đang cách ly)
+# REVIEW_BRIEF — vòng 33: sửa R32-F1 và R32-F2 của review `c4d64a1`; nhãn **vẫn cách ly**
 
 <!-- BASE_TARGET -->
 
-**Phạm vi**: chỉ chạy trên PC. Không SSH hay đổi Nano, không training, **không sửa mã dự án** (`src/`, `configs/` không đổi).
-Chỉ có script dữ liệu / kiểm chứng trong `handoff/logs/review31/`, `review32/` và tài liệu. Base review giữ **`bcb92f8`**.
-Không commit dataset hay weights.
+Chi tiết: **`handoff/REVIEW33_CHI_TIET.md`**.
 
-## Vòng 31 — ảnh MOT train: ĐÃ CHẠY
+**Phạm vi**: sửa bộ kiểm, đối chiếu lại nhãn cách ly, đính chính báo cáo. **Không** nhập nhãn, khóa split, xuất, smoke hay
+training. `src/` và `configs/` không đổi. Base giữ **`bcb92f8`**. Bằng chứng reviewer lưu ở
+`review_evidence/CODEX_c4d64a1/`, `SHA256SUMS` khớp 42/42.
 
-- **Tải đủ 7/7 `images20-track-train-*.zip`** từ `http://dl.yf.io/bdd100k/mot20/`, danh sách lấy từ listing thật. Mỗi file:
-  - HTTP 200, `application/zip`;
-  - kích thước bằng Content-Length;
-  - **md5 khớp `.md5` của máy chủ**, `testzip` OK.
+## R32-F1 — diễn giải lớp/ignore: ĐÃ SỬA
 
-  sha256: `logs/review31/20_manifest_tai_anh_train.md`. Đối chiếu độc lập ở vòng 32: mirror HF `vanthanh/BDD100kMOT` có sha256
-  LFS trùng 7/7.
-- **Giải nén**: kiểm từng member trước khi ghi, ghi qua file tạm rồi đổi tên, không ghi đè nội dung khác. Kết quả
-  **1.400 video, 278.079 ảnh**. Kiểm kê độc lập khớp 100 % với member của archive; val giữ nguyên.
-- **Sự cố**: khi `curl` bị giết, script cắt nhầm `.part` của phần 2 (mất khoảng 1,2 GB, phải tải lại).
-  - Sửa ở `8b142e2`. Regression trên bản cũ được 22/25, FAIL đúng ca sự cố; bản sửa 25/25, và 27/27 sau khi thêm ca dọn
-    khóa.
-  - Tác vụ nền bị giới hạn khoảng 2 giờ, nên thêm `--don-khoa-cu` để dọn khóa của tiến trình đã chết (`02e7347`).
+- Chạy lại **nguyên** `audit_real_labels.py` trên PC. Kết quả trùng bản reviewer; `class_mismatches.csv` và
+  `ignore_exceptions.csv` **trùng từng byte**.
+- 465.512 cặp: **0 lệch box, 0 xung đột ID hai chiều**.
+- **183 lệch lớp** ngoài ba ánh xạ (46 track, 40 video). Hàng nhiều nhất: truck→car 73, pedestrian→car 62.
+- **50 ngoại lệ ignore**: 24 other person ignore=0, 21 pedestrian ignore=1, 5 other vehicle ignore=0. Đây là hai phép kiểm,
+  không cộng.
+- Nguyên nhân **UNKNOWN**: repo không có mã chuyển đổi hay ghi chép nguồn của COCO val.
+- **Quan sát**: COCO của chính người đóng gói HF trùng native ở cả 183 vị trí và dùng ignore=0 cho mọi annotation. Điều này
+  không cho biết bên nào đúng.
+- **Đính chính** ở `logs/review32/14_nguon_nhan_vong32.md` (khối “Đính chính vòng 33”) và `BDD100K_INVENTORY.md`:
+  - chỉ kết luận **box và ID khớp**;
+  - lớp/ignore còn khác;
+  - thống kê so với bài báo chỉ **tương đồng tổng hợp, có sai lệch**.
 
-## Vòng 32 — nhãn MOT 2020 train: ĐÃ CHẠY, kết quả là ứng viên đang **cách ly**
+## R32-F2 — bộ kiểm báo đạt khi thiếu bằng chứng: ĐÃ SỬA
 
-- **md5 chính thức** `6be40e0c…`: lấy từ `doc/source/download.rst` dòng 268, commit `9ac17c6c`; đã tính lại blob hash.
-- **Lượt tìm** (~28 phút, vượt mức ~20 phút): Internet Archive trả 429 cho mọi yêu cầu; tìm web không ra mirror; đã xem 57
-  dataset trên Hugging Face. **Không có bản sao kiểm được md5.**
-- **Ứng viên**: `box_track_20/{train,val}` trong `jaffe03195/bdd100k_sot/bdd100k.zip`, zip đóng gói lại, người tải lên ẩn danh.
-  - Chỉ tải riêng phần nhãn bằng HTTP Range: 196,5 MB trên tổng 5,35 GB.
-  - 1.602 file, CRC32 khớp. Cách ly ở `data/raw/ung_vien_nhan/`; **chưa nhập**.
-- **Kiểm chứng** (`logs/review32/14_nguon_nhan_vong32.md`):
-  - schema 0 lỗi;
-  - train khớp 1:1 với ảnh chính thức: 1.400 video, 278.079 frame;
-  - val khớp **465.512/465.512** nhãn với file COCO val của dự án (box tuyệt đối, track id nhất quán);
-  - ảnh val trong zip khớp CRC32 39.973/39.973 với zip val chính thức;
-  - thống kê theo lớp khớp Bảng 11 của bài báo BDD100K (130.573 track so với “130.6K”).
-- **`kiem-nguon`**:
-  - chính thức: **exit 2**, chỉ còn thiếu nhãn (`13_kiem_nguon_chinh.log`);
-  - cùng `kiem_nguon` trên bản cách ly: **exit 0** (`12_*`).
+Sửa `logs/review32/kiem_nhan_ung_vien.py`:
 
-## Chưa chạy
+- **Thiếu đầu vào → exit 2**: root, split bắt buộc, bộ nhãn rỗng, thư mục ảnh, file COCO được yêu cầu. Kiểm một phần phải
+  chọn rõ bằng `--split` hoặc `--khong-doi-chieu-coco`, phần còn lại ghi `NOT_RUN`.
+- **Schema → exit 1**:
+  - `labels` sai kiểu (dict/chuỗi/số) là lỗi; `[]` hợp lệ; `null` hoặc thiếu khóa đếm riêng;
+  - tọa độ phải hữu hạn, không NaN/Inf, không boolean;
+  - ID trùng trong frame, frame trùng.
+- **COCO**:
+  - khóa trùng bị bắt trước khi đưa vào dictionary;
+  - song ánh ID hai chiều theo từng video;
+  - lớp/ignore theo định nghĩa reviewer, thêm iscrowd;
+  - CSV từng hàng.
+- **Trạng thái tách riêng**: schema `DAT`/`LOI`/`NOT_RUN`; COCO `MATCH`/`DIFFERENCES`/`NOT_RUN`/`LOI_DAU_VAO`. **Khác biệt
+  COCO → exit 3**, nên exit 0 không bao giờ có nghĩa “có khác biệt”.
 
-- **Chờ quyết định A/B/C**: nhập nhãn, khóa split, xuất dataset, smoke, training. A = nhập sau review; B = chờ gói gốc
-  (thư nháp tiếng Anh `15_*`, chưa gửi); C = tạm dùng ứng viên rồi so sha256 khi có gói gốc.
-- **Test suite**: NOT_RUN vì `src/` không đổi. Kiểm thử cục bộ của các script trong `logs/`:
+**Kiểm chứng**:
 
-  | Script | Kết quả |
-  |:--|:--|
-  | tải | 27/27 |
-  | giải nén | 18/18 |
-  | kiểm kê | 4/4 |
-  | đọc zip từ xa | 7/7 |
-  | kiểm nhãn | 3/3 |
+| Phép chạy | Kết quả |
+|:--|:--|
+| Script Codex (giữ nguyên) | mã cũ exit 1, `bug_count=5` → mã sửa **exit 0, `bug_count=0`**. Đối chứng sạch đạt; quan sát COCO exit 2/3 |
+| Regression mới `logs/review33/test_kiem_nhan_ung_vien.py` | bản sửa **30/30**; bản `c4d64a1` 3/30 |
+| Test cũ vòng 32 | 3/3 |
+| Nhãn thật (1.400 train + 200 val) | schema/độ đầy đủ **DAT**, COCO **DIFFERENCES** (exit 3). Dữ liệu thật: 0 NaN/Inf, 0 ID trùng, 0 sai kiểu, 0 track đổi lớp |
+| Hash nhãn cách ly trước/sau | 1.602/1.602 khớp manifest `a2e416f2…`; COCO `074ff795…` không đổi |
+| `kiem-nguon` | bản cách ly exit 0; đường chính **exit 2** vì nhãn chưa nhập |
+
+## Trạng thái nguồn và quyết định
+
+- **Nguồn**: HF `jaffe03195/bdd100k_sot` @ `694197099692…`, hash từng file đã ghim.
+- **Chưa xác thực bằng archive gốc** (md5 `6be40e0c…`). Nhãn **vẫn cách ly**.
+- **Phương án C** đang **chờ người dùng chốt**: nhập nguyên byte 1.400 JSON train, giữ COCO val cho đánh giá.
+- Test suite tracking/Nano: **NOT_RUN**, vì đường chạy đó không đổi.
 
 ## Đề nghị reviewer xem
 
-1. Bằng chứng ở mục “Kiểm chứng” có đủ để nhập ứng viên (A hoặc C) không, hay phải chờ md5 (B).
-2. Giới hạn đã ghi:
-   - phần train không có tham chiếu từng nhãn độc lập;
-   - tài liệu không ghi nguồn gốc file COCO val của dự án;
-   - nhãn license `apache-2.0` trên repo HF không có giá trị.
-3. `liet_ke_zip_tu_xa.py` và `kiem_nhan_ung_vien.py`: tải đúng tiền tố, CRC, không ghi đè; cách ghép nhãn theo `scalabel_id`.
+1. Chính sách exit 0/1/2/3 và phần trạng thái có đủ để không đọc nhầm exit 0 thành “khớp hết” không.
+2. Định nghĩa `labels` `null`/thiếu khóa: hợp lệ nhưng đếm riêng.
+3. Cách đính chính trong `14_nguon_nhan_vong32.md`: sửa tại chỗ, bản gốc vẫn nằm ở `c4d64a1`.

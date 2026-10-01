@@ -8,6 +8,46 @@ chưa chuẩn bị được dataset huấn luyện detector. Chi tiết ở mụ
 chưa lấy được từ nguồn chính thức nào, nên `kiem-nguon` vẫn exit 2.
 **Cập nhật 2026-10-01 (vòng 32)**: tìm được **ứng viên** nhãn Scalabel `box_track_20` (zip đóng gói lại trên Hugging Face).
 Ứng viên **không kiểm được md5 chính thức** nên đang **cách ly**, chưa nhập vào dữ liệu train; chờ review.
+**Cập nhật 2026-10-02 (vòng 33)**: review `c4d64a1` CHANGES REQUESTED (R32-F1, R32-F2), đã sửa. Lớp/ignore của ứng viên
+**khác** COCO val của dự án; nhãn vẫn cách ly; phương án C chờ chốt.
+
+## Vòng 33 (2026-10-02) — sửa R32-F1 / R32-F2; nhãn **vẫn cách ly**
+
+Chi tiết: `REVIEW33_CHI_TIET.md`; log ở `logs/review33/`.
+
+- **Nguồn**: HF `jaffe03195/bdd100k_sot`, revision **`694197099692fe1254e93215e73e68ece8b1f41f`**.
+  - sha256 từng file ở `logs/review32/09_manifest_nhan_ung_vien.tsv` (manifest sha256 `a2e416f2…`).
+  - Băm lại trước và sau vòng này: **1.602/1.602 khớp**.
+  - **Chưa xác thực bằng archive gốc** (md5 `6be40e0c…`).
+- **R32-F1** (chạy lại nguyên `audit_real_labels.py` của reviewer trên PC; kết quả trùng bản reviewer, CSV trùng từng byte):
+
+  | Kiểm | Kết quả |
+  |:--|:--|
+  | Ghép theo (frame, `scalabel_id`) | 465.512 cặp |
+  | Box | 0 lệch |
+  | Song ánh ID hai chiều | 0 xung đột |
+  | Lớp khác ngoài ba ánh xạ | **183** annotation (46 track, 40 video): truck→car 73, pedestrian→car 62, car→pedestrian 20, car→bus 14, … |
+  | Ngoại lệ ignore | **50**: 24 other person→pedestrian ignore=0, 21 pedestrian→pedestrian ignore=1, 5 other vehicle→car ignore=0 |
+
+  - Hai phép kiểm riêng, **không cộng**.
+  - Nguyên nhân **UNKNOWN**: repo không có mã chuyển đổi, cũng không ghi nguồn của file COCO val.
+  - **Quan sát**: COCO của chính người đóng gói HF trùng native ở cả 183 vị trí lệch lớp, và dùng ignore=0 cho mọi
+    annotation. Điều này không cho biết bên nào đúng.
+- **R32-F2**: `kiem_nhan_ung_vien.py` đã sửa (exit 0/1/2/3; trạng thái schema và COCO tách riêng).
+  - Regression 30/30, trong khi bản cũ chỉ 3/30.
+  - Script Codex: bản cũ exit 1, `bug_count=5`; bản sửa exit 0, `bug_count=0`.
+  - Trên nhãn thật: schema và độ đầy đủ **DAT**, COCO **DIFFERENCES** (exit 3).
+  - Dữ liệu thật có 0 NaN/Inf, 0 ID trùng trong frame, 0 sai kiểu thuộc tính.
+- **`kiem-nguon`**: bản cách ly exit 0; đường chính **exit 2** vì nhãn chưa nhập.
+- **Đề xuất cho từng bước, chờ người dùng chốt phương án C**:
+
+  | Bước | Nhãn dùng |
+  |:--|:--|
+  | Huấn luyện / khóa split / smoke | snapshot native train đã ghim, nhập nguyên byte |
+  | Đánh giá BDD val đã bàn giao | **giữ COCO val** `074ff795…` |
+  | Kết quả BDD lịch sử | không đổi |
+
+  Nếu dùng native val ở bước nào thì phải ghi rõ, vì lớp/ignore khác COCO.
 
 ## Vòng 32 (2026-10-01) — ứng viên nhãn MOT 2020 đang **cách ly**, chờ quyết định
 
@@ -31,9 +71,9 @@ lại.
 |:--|:--|
 | JSON và schema Scalabel | 0 lỗi |
 | Train ↔ ảnh chính thức | 1.400/1.400 video, 278.079/278.079 frame (0 thiếu, 0 thừa) |
-| Val ↔ file COCO-video val của dự án | 465.512/465.512 nhãn ghép theo (frame, `scalabel_id`); box khớp tuyệt đối; 0 track id bất nhất. Lệch crowd/iscrowd chỉ ở các nhãn ignore |
+| Val ↔ file COCO-video val của dự án | 465.512/465.512 nhãn ghép theo (frame, `scalabel_id`); box khớp tuyệt đối; song ánh ID không xung đột. *Đính chính vòng 33*: **lớp/ignore chưa khớp**, gồm 183 lệch lớp (46 track, 40 video) và 50 ngoại lệ ignore; nguyên nhân UNKNOWN |
 | Ảnh val trong zip HF ↔ zip val chính thức | 39.973/39.973 khớp CRC32 |
-| Thống kê ↔ bài báo BDD100K (Bảng 11, §3.6) | 130.573 track (“130.6K”), 3,32M box (“3.3M”); từng lớp khớp ở độ chính xác bài báo |
+| Thống kê ↔ bài báo BDD100K (Bảng 11, §3.6) | 130.573 track (“130.6K”), 3,32M box (“3.3M”). *Đính chính vòng 33*: chỉ **tương đồng tổng hợp, có sai lệch**; không xác thực từng annotation |
 | `kiem_nguon` của dự án trên bản cách ly | **exit 0** |
 | `kiem-nguon` chính thức | **exit 2**: nhãn chưa nhập |
 
