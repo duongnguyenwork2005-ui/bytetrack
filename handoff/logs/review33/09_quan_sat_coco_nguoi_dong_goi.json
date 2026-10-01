@@ -1,0 +1,75 @@
+{
+  "box_track_val_cocofmt.json": {
+    "sha256": "7508b879b668105c357ba26dc5299eb0d28ce9ecd0e0920c940f8f26569cfbc7",
+    "so_annotation": 465512,
+    "so_khoa_chung_voi_COCO_du_an": 465512,
+    "chi_co_o_file_nay": 0,
+    "chi_co_o_COCO_du_an": 0,
+    "so_annotation_khac_bat_ky_truong_(lop,ignore,iscrowd,bbox)": 4277,
+    "so_annotation_khac_lop_hoac_ignore": 4248,
+    "tai_233_hang_lech_cua_reviewer": {
+      "giong_COCO_du_an": 29,
+      "giong_native": 0,
+      "khac_ca_hai": 204,
+      "khong_co": 0
+    }
+  },
+  "box_track_val_cocofmt_ori.json": {
+    "sha256": "2cb4951d1ae0a46fe7f05e8f3819da123d749effbba58ec00c1543eece5cc947",
+    "so_annotation": 465512,
+    "so_khoa_chung_voi_COCO_du_an": 465512,
+    "chi_co_o_file_nay": 0,
+    "chi_co_o_COCO_du_an": 0,
+    "so_annotation_khac_bat_ky_truong_(lop,ignore,iscrowd,bbox)": 4277,
+    "so_annotation_khac_lop_hoac_ignore": 4248,
+    "tai_233_hang_lech_cua_reviewer": {
+      "giong_COCO_du_an": 29,
+      "giong_native": 0,
+      "khac_ca_hai": 204,
+      "khong_co": 0
+    }
+  },
+  "_phan_ra_ori": {
+    "categories_du_an": [
+      "bicycle",
+      "bus",
+      "car",
+      "motorcycle",
+      "pedestrian",
+      "rider",
+      "train",
+      "truck"
+    ],
+    "categories_nguoi_dong_goi": [
+      "bicycle",
+      "bus",
+      "car",
+      "motorcycle",
+      "pedestrian",
+      "rider",
+      "train",
+      "truck"
+    ],
+    "khac_biet_du_an_sang_nguoi_dong_goi_top": {
+      "du_an ('car', 1) -> nguoi_dong_goi ('car', 0)": 2825,
+      "du_an ('pedestrian', 1) -> nguoi_dong_goi ('pedestrian', 0)": 816,
+      "du_an ('truck', 1) -> nguoi_dong_goi ('truck', 0)": 424,
+      "du_an ('car', 0) -> nguoi_dong_goi ('truck', 0)": 73,
+      "du_an ('car', 0) -> nguoi_dong_goi ('pedestrian', 0)": 62,
+      "du_an ('pedestrian', 0) -> nguoi_dong_goi ('car', 0)": 20,
+      "du_an ('bus', 0) -> nguoi_dong_goi ('car', 0)": 14,
+      "du_an ('truck', 0) -> nguoi_dong_goi ('bus', 0)": 4,
+      "du_an ('rider', 0) -> nguoi_dong_goi ('pedestrian', 0)": 3,
+      "du_an ('rider', 0) -> nguoi_dong_goi ('car', 0)": 2,
+      "du_an ('pedestrian', 0) -> nguoi_dong_goi ('bus', 0)": 2,
+      "du_an ('rider', 0) -> nguoi_dong_goi ('bicycle', 0)": 1,
+      "du_an ('pedestrian', 0) -> nguoi_dong_goi ('truck', 0)": 1,
+      "du_an ('bus', 0) -> nguoi_dong_goi ('truck', 0)": 1
+    },
+    "tai_233_hang_reviewer_so_voi_native_ky_vong": {
+      "nguoi_dong_goi==native_ky_vong": 204,
+      "nguoi_dong_goi==COCO_du_an": 29
+    },
+    "ghi_chu": "native_ky_vong = anh xa lop {other vehicle->car, other person->pedestrian, trailer->truck} + ignore=1 cho 3 lop do. Chi la quan sat; khong ket luan ban nao dung."
+  }
+}
