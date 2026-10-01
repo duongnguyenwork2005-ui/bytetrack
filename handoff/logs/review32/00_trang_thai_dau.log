@@ -1,0 +1,22 @@
+# 2026-10-01 18:23:32 +0700 -- trang thai dau vong 32 (bo sung nhan BDD100K MOT train)
+HEAD: dce28dd5acccced82f16191c49f1cb4af9014e9e (Vong 31 hoan tat buoc 1: anh BDD100K MOT train 7/7, nhan MOT 2020 chua lay duoc, kiem-nguon exit 2)
+nhanh: phase2-mixed-traffic
+base review (handoff/review_base.json): base_commit bcb92f86824812ceea3dee56dabe88ef802b1a25 (bcb92f8) -- giu nguyen
+commit sau dce28dd: 0
+--- git status --short (khong liet ke results/ outputs/ va video da biet la rieng):
+ M .gitignore
+ M src/demo/rerun_with_state_log.py
+?? handoff/logs/review16/results_nano/nano-trt-cv_render_tren_PC.mp4
+?? handoff/logs/review20/demo_video/
+?? handoff/logs/review23/video_khong_commit/
+?? handoff/logs/review32/
+?? handoff/nano_transfer/
+?? handoff/patches/moc2_e353b84..7341812.diff
+?? live.bat
+?? src/demo/build_buffer90_demo.py
+?? src/demo/find_buffer90_candidates.py
+?? src/demo/find_buffer90_moving_candidates.py
+?? src/demo/live_view.py
+?? src/demo/single_case_buffer90.py
+?? src/demo/turning_case_buffer90.py
+--- anh train (dem nhanh, khong bam): 1400 video, 278079 file; val: 200 video

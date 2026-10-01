@@ -1,0 +1,92 @@
+{
+  "nguon_api": [
+    "https://api.github.com/repos/bdd100k/bdd100k/commits?path=doc/source/download.rst&sha=master&per_page=3",
+    "https://api.github.com/repos/bdd100k/bdd100k/commits/9ac17c6c7c51d2fc83065fccd707cd5b1882a293"
+  ],
+  "ghi_chu": "ban tom tat; da bo email tac gia/committer trong JSON goc cua API",
+  "commit_gan_nhat_cham_download_rst": [
+    {
+      "sha": "9ac17c6c7c51d2fc83065fccd707cd5b1882a293",
+      "ngay_commit": "2024-03-09T10:30:01Z",
+      "thong_diep": "Update download link (#339)"
+    },
+    {
+      "sha": "b7e1781317784317e4e715ab325515ade73978a9",
+      "ngay_commit": "2022-03-29T21:53:32Z",
+      "thong_diep": "Updates to scripts, fixing minor bugs in segmentation evaluation, adding RLE to docs (#219)"
+    },
+    {
+      "sha": "a4bfa9dc0c79abe90b2c06d20e84b79fbd9f2e38",
+      "ngay_commit": "2021-10-22T18:13:42Z",
+      "thong_diep": "Adding pose evaluation and updating docs (#185)"
+    }
+  ],
+  "commit_9ac17c6": {
+    "sha": "9ac17c6c7c51d2fc83065fccd707cd5b1882a293",
+    "ngay": "2024-03-09T10:30:01Z",
+    "thong_diep": "Update download link (#339)\n\n* Update download link to ETH\r\n\r\n* Update requirements\r\n\r\n* Fix lint\r\n\r\n* Fix lint\r\n\r\n* Run black",
+    "tep_doi": [
+      {
+        "ten": "bdd100k/eval/ins_seg.py",
+        "trang_thai": "modified",
+        "them": 1,
+        "bot": 0
+      },
+      {
+        "ten": "bdd100k/eval/lane.py",
+        "trang_thai": "modified",
+        "them": 2,
+        "bot": 1
+      },
+      {
+        "ten": "bdd100k/eval/mots.py",
+        "trang_thai": "modified",
+        "them": 1,
+        "bot": 0
+      },
+      {
+        "ten": "bdd100k/eval/pan_seg.py",
+        "trang_thai": "modified",
+        "them": 1,
+        "bot": 0
+      },
+      {
+        "ten": "bdd100k/label/from_coco.py",
+        "trang_thai": "modified",
+        "them": 1,
+        "bot": 0
+      },
+      {
+        "ten": "bdd100k/label/palette.py",
+        "trang_thai": "modified",
+        "them": 1,
+        "bot": 0
+      },
+      {
+        "ten": "bdd100k/label/to_mask.py",
+        "trang_thai": "modified",
+        "them": 6,
+        "bot": 4
+      },
+      {
+        "ten": "bdd100k/label/to_rle.py",
+        "trang_thai": "modified",
+        "them": 1,
+        "bot": 0
+      },
+      {
+        "ten": "doc/source/download.rst",
+        "trang_thai": "modified",
+        "them": 2,
+        "bot": 4
+      },
+      {
+        "ten": "requirements.txt",
+        "trang_thai": "modified",
+        "them": 1,
+        "bot": 0
+      }
+    ],
+    "patch_download_rst": "@@ -4,10 +4,8 @@ Data Download\n ---------------\n \n The BDD100K data and annotations can be obtained at\n-https://bdd-data.berkeley.edu/. You can simply log in and download the data in\n-your browser after agreeing to :ref:`BDD100K license<license>`. On the downloading portal, you will see a\n-list of downloading buttons with the name corresponding to the subsections on this page. \n-The files behind the buttons are described below.\n+https://dl.cv.ethz.ch/bdd100k/data/. By downloading the data, you agree to the\n+:ref:`BDD100K license<license>`.\n \n Videos\n ~~~~~~"
+  }
+}

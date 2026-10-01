@@ -6,6 +6,45 @@ Kiểm ngày **2026-09-18**, máy `D:\LABOTARY\bytetrack`, nhánh `phase2-mixed-
 chưa chuẩn bị được dataset huấn luyện detector. Chi tiết ở mục ngay dưới.
 **Cập nhật 2026-10-01 (vòng 31)**: **ảnh** MOT train đã tải và giải nén đủ. **Nhãn** MOT train `box_track_20/train` vẫn
 chưa lấy được từ nguồn chính thức nào, nên `kiem-nguon` vẫn exit 2.
+**Cập nhật 2026-10-01 (vòng 32)**: tìm được **ứng viên** nhãn Scalabel `box_track_20` (zip đóng gói lại trên Hugging Face).
+Ứng viên **không kiểm được md5 chính thức** nên đang **cách ly**, chưa nhập vào dữ liệu train; chờ review.
+
+## Vòng 32 (2026-10-01) — ứng viên nhãn MOT 2020 đang **cách ly**, chờ quyết định
+
+Chi tiết: `logs/review32/14_nguon_nhan_vong32.md`. Ảnh train và val giữ nguyên: không tải lại, không giải nén lại, không băm
+lại.
+
+- **md5 chính thức** `6be40e0ca56a83ddeba2ed6bff50f9e6`: lấy từ dòng 268 của `doc/source/download.rst`, commit
+  `9ac17c6c` (blob `ae399a3a`, đã tính lại và khớp).
+- **Lượt tìm** từ 18:24 đến 18:52 (~28 phút, vượt mức ~20 phút):
+  - Internet Archive trả **HTTP 429** cho mọi yêu cầu;
+  - tìm web không ra mirror;
+  - không thử lại các link chính thức đã chết.
+- **Không tìm được bản sao kiểm được bằng md5.**
+- **Ứng viên duy nhất**: `jaffe03195/bdd100k_sot` trên Hugging Face, file `bdd100k.zip` (5,35 GB, đóng gói lại, người tải lên
+  ẩn danh, repo ghi license `apache-2.0` sai so với BDD100K).
+  - Chỉ đọc mục lục và tải riêng `bdd100k/labels/box_track_20/` bằng HTTP Range: **196,5 MB**.
+  - Được 1.602 file, **CRC32 khớp toàn bộ**: train 1.400, val 200, cộng 2 file COCO val của người đóng gói.
+  - Cách ly ở `data/raw/ung_vien_nhan/hf_jaffe03195_bdd100k_sot/`; manifest sha256 ở `logs/review32/09_manifest_nhan_ung_vien.tsv`.
+
+| Kiểm chứng | Kết quả |
+|:--|:--|
+| JSON và schema Scalabel | 0 lỗi |
+| Train ↔ ảnh chính thức | 1.400/1.400 video, 278.079/278.079 frame (0 thiếu, 0 thừa) |
+| Val ↔ file COCO-video val của dự án | 465.512/465.512 nhãn ghép theo (frame, `scalabel_id`); box khớp tuyệt đối; 0 track id bất nhất. Lệch crowd/iscrowd chỉ ở các nhãn ignore |
+| Ảnh val trong zip HF ↔ zip val chính thức | 39.973/39.973 khớp CRC32 |
+| Thống kê ↔ bài báo BDD100K (Bảng 11, §3.6) | 130.573 track (“130.6K”), 3,32M box (“3.3M”); từng lớp khớp ở độ chính xác bài báo |
+| `kiem_nguon` của dự án trên bản cách ly | **exit 0** |
+| `kiem-nguon` chính thức | **exit 2**: nhãn chưa nhập |
+
+**Giới hạn**: không kiểm được md5; phần train không có tham chiếu từng nhãn độc lập; tài liệu không ghi nguồn gốc file COCO val
+của dự án.
+
+**Cần quyết định**:
+
+- **A.** Nhập ứng viên sau review.
+- **B.** Chờ gói gốc; thư nháp tiếng Anh ở `logs/review32/15_thu_nhap_xin_nhan_goc_EN.md`, chưa gửi.
+- **C.** Tạm dùng ứng viên, khi có gói gốc thì so sha256 từng file với manifest.
 
 ## Vòng 31 (2026-09-30 → 2026-10-01) — ảnh MOT train **đã có**, nhãn MOT 2020 **chưa lấy được**
 
