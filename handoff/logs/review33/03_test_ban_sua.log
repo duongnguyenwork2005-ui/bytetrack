@@ -1,0 +1,33 @@
+SCRIPT D:\LABOTARY\bytetrack\handoff\logs\review32\kiem_nhan_ung_vien.py
+PASS 01 sach -> exit 0, schema DAT, COCO MATCH (id '1' o 2 video khong bi gop) | exit=0 |   
+PASS 02 thieu root -> exit 2, dau_vao LOI | exit=2 |   
+PASS 03 thieu split train (pham vi mac dinh) -> exit 2 | exit=2 |   
+PASS 04 thieu train nhung chon ro --split val -> exit 0, train NOT_RUN | exit=0 |   
+PASS 05 bo nhan train rong (0 JSON) -> exit 2 | exit=2 |   
+PASS 06 thieu thu muc anh val -> exit 2 | exit=2 |   
+PASS 07 --split train -> val NOT_RUN, COCO NOT_RUN, exit 0 | exit=0 |   
+PASS 08 x1 = NaN -> exit 1, box_khong_huu_han | exit=1 |   
+PASS 09 x1 = Inf -> exit 1, box_khong_huu_han | exit=1 |   
+PASS 10 x1 = true (boolean) -> exit 1, box_toa_do_bool | exit=1 |   
+PASS 11 x1 = '10' (chuoi) -> exit 1, box_thieu_hoac_sai_kieu | exit=1 |   
+PASS 12 labels = {} -> exit 1, labels_khong_phai_list (khong thanh frame rong) | exit=1 |   
+PASS 13 labels = 'x' -> exit 1, labels_khong_phai_list | exit=1 |   
+PASS 14 labels = null -> hop le theo Scalabel, dem rieng, exit 0 | exit=0 |   
+PASS 15 thieu khoa labels -> hop le theo Scalabel, dem rieng, exit 0 | exit=0 |   
+PASS 16 hai nhan cung ID trong 1 frame -> exit 1, id_trung_trong_frame | exit=1 |   
+PASS 17 frame trung ten -> exit 1, frame_trung_ten | exit=1 |   
+PASS 18 attributes.crowd = 'no' -> exit 1 | exit=1 |   
+PASS 19 file COCO duoc yeu cau nhung khong ton tai -> exit 2, LOI_DAU_VAO | exit=2 |   
+PASS 20 --khong-doi-chieu-coco -> COCO NOT_RUN co ly do, exit 0 | exit=0 |   
+PASS 21 khoa COCO trung (cung frame + scalabel_id) -> exit 3, coco_khoa_trung=1 | exit=3 |   
+PASS 22 hai ID native gop vao 1 instance COCO -> exit 3, id_mot_coco_nhieu_native=1 | exit=3 |   
+PASS 23 mot ID native tach thanh 2 instance COCO -> exit 3, id_mot_native_nhieu_coco=1 | exit=3 |   
+PASS 24 bbox lech 5 px -> exit 3, box_lech=1 | exit=3 |   
+PASS 25 doi lop car->truck -> exit 3, lop_khac=1, CSV 1 hang | exit=3 |   
+PASS 26 other vehicle co ignore=0 -> exit 3, ngoai_le_ignore=1 | exit=3 |   
+PASS 27 iscrowd ngoai quy tac (crowd hoac ignore) -> exit 3 | exit=3 |   
+PASS 28 nhan chi co o native -> exit 3 | exit=3 |   
+PASS 29 annotation chi co o COCO -> exit 3 | exit=3 |   
+PASS 30 loi schema + COCO khac -> exit 1 (schema uu tien), COCO van DIFFERENCES | exit=1 |   
+TONG 30 / 30 PASS
+exit=0

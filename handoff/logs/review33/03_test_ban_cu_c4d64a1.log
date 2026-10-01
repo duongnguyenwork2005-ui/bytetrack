@@ -1,0 +1,67 @@
+SCRIPT C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\v33\kiem_nhan_ung_vien_c4d64a1.py
+FAIL 01 sach -> exit 0, schema DAT, COCO MATCH (id '1' o 2 video khong bi gop) | exit=0 | None | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 02 thieu root -> exit 2, dau_vao LOI | exit=0 | None | 
+FAIL 03 thieu split train (pham vi mac dinh) -> exit 2 | exit=0 | None | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 04 thieu train nhung chon ro --split val -> exit 0, train NOT_RUN | exit=2 | None | kiem_nhan_ung_vien_c4d64a1.py [-h] --nhan NHAN [--anh ANH]
+                                     [--coco-val COCO_VAL] --ra RA
+kiem_nhan_ung_vien_c4d64a1.py: error: unrecognized arguments: --split val
+
+FAIL 05 bo nhan train rong (0 JSON) -> exit 2 | exit=1 | None | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 06 thieu thu muc anh val -> exit 2 | exit=1 | None | stdir(self):
+                ^^^^^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\Mikuno\\AppData\\Local\\Temp\\v33_kiem_nhan_atdeh21h\\images\\val'
+
+FAIL 07 --split train -> val NOT_RUN, COCO NOT_RUN, exit 0 | exit=2 | None | em_nhan_ung_vien_c4d64a1.py [-h] --nhan NHAN [--anh ANH]
+                                     [--coco-val COCO_VAL] --ra RA
+kiem_nhan_ung_vien_c4d64a1.py: error: unrecognized arguments: --split train
+
+FAIL 08 x1 = NaN -> exit 1, box_khong_huu_han | exit=0 | {'frame_sai_dang': 0, 'videoName_khac_ten_file': 0, 'ten_frame_sai_mau': 0, 'frameIndex_lech_ten': 0, 'frame_trung_ten': 0, 'labels_khong_phai_list': 0, 'nhan_sai_dang': 0, 'attributes_thieu_hoac_sai_kieu': 0, 'box_dao': 0, 'box_ra_ngoai_anh': 0} | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 09 x1 = Inf -> exit 1, box_khong_huu_han | exit=1 | {'frame_sai_dang': 0, 'videoName_khac_ten_file': 0, 'ten_frame_sai_mau': 0, 'frameIndex_lech_ten': 0, 'frame_trung_ten': 0, 'labels_khong_phai_list': 0, 'nhan_sai_dang': 0, 'attributes_thieu_hoac_sai_kieu': 0, 'box_dao': 1, 'box_ra_ngoai_anh': 0} | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 10 x1 = true (boolean) -> exit 1, box_toa_do_bool | exit=0 | {'frame_sai_dang': 0, 'videoName_khac_ten_file': 0, 'ten_frame_sai_mau': 0, 'frameIndex_lech_ten': 0, 'frame_trung_ten': 0, 'labels_khong_phai_list': 0, 'nhan_sai_dang': 0, 'attributes_thieu_hoac_sai_kieu': 0, 'box_dao': 0, 'box_ra_ngoai_anh': 0} | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 11 x1 = '10' (chuoi) -> exit 1, box_thieu_hoac_sai_kieu | exit=1 | {'frame_sai_dang': 0, 'videoName_khac_ten_file': 0, 'ten_frame_sai_mau': 0, 'frameIndex_lech_ten': 0, 'frame_trung_ten': 0, 'labels_khong_phai_list': 0, 'nhan_sai_dang': 1, 'attributes_thieu_hoac_sai_kieu': 0, 'box_dao': 0, 'box_ra_ngoai_anh': 0} | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 12 labels = {} -> exit 1, labels_khong_phai_list (khong thanh frame rong) | exit=0 | {'frame_sai_dang': 0, 'videoName_khac_ten_file': 0, 'ten_frame_sai_mau': 0, 'frameIndex_lech_ten': 0, 'frame_trung_ten': 0, 'labels_khong_phai_list': 0, 'nhan_sai_dang': 0, 'attributes_thieu_hoac_sai_kieu': 0, 'box_dao': 0, 'box_ra_ngoai_anh': 0} | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+PASS 13 labels = 'x' -> exit 1, labels_khong_phai_list | exit=1 |   
+FAIL 14 labels = null -> hop le theo Scalabel, dem rieng, exit 0 | exit=0 | {'thu_muc_nhan': 'C:/Users/Mikuno/AppData/Local/Temp/v33_kiem_nhan_7g4dd0kj/labels/train', 'thu_muc_anh': 'C:/Users/Mikuno/AppData/Local/Temp/v33_kiem_nhan_7g4dd0kj/images/train', 'so_file_json': 1, 'so_file_doc_duoc': 1, 'so_video_anh': 1, 'video_co_anh_khong_co_nhan': [], 'video_co_nhan_khong_co_anh': [], 'so_frame_nhan_khong_co_anh': 0, 'vi_du_frame_nhan_khong_co_anh': [], 'so_anh_khong_co_frame_nhan': 0, 'vi_du_anh_khong_co_frame_nhan': [], 'so_anh': 3, 'so_frame': 3, 'so_frame_khong_nhan': 1, 'so_nhan': 3, 'so_track_id_tong_cac_video': 2, 'theo_lop': {'car': 2, 'pedestrian': 1}, 'crowd_theo_lop': {}, 'loi_schema': {'frame_sai_dang': 0, 'videoName_khac_ten_file': 0, 'ten_frame_sai_mau': 0, 'frameIndex_lech_ten': 0, 'frame_trung_ten': 0, 'labels_khong_phai_list': 0, 'nhan_sai_dang': 0, 'attributes_thieu_hoac_sai_kieu': 0, 'box_dao': 0, 'box_ra_ngoai_anh': 0}, 'json_hong': [], 'khong_phai_list': []} | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 15 thieu khoa labels -> hop le theo Scalabel, dem rieng, exit 0 | exit=0 | {'thu_muc_nhan': 'C:/Users/Mikuno/AppData/Local/Temp/v33_kiem_nhan_zdne41fn/labels/train', 'thu_muc_anh': 'C:/Users/Mikuno/AppData/Local/Temp/v33_kiem_nhan_zdne41fn/images/train', 'so_file_json': 1, 'so_file_doc_duoc': 1, 'so_video_anh': 1, 'video_co_anh_khong_co_nhan': [], 'video_co_nhan_khong_co_anh': [], 'so_frame_nhan_khong_co_anh': 0, 'vi_du_frame_nhan_khong_co_anh': [], 'so_anh_khong_co_frame_nhan': 0, 'vi_du_anh_khong_co_frame_nhan': [], 'so_anh': 3, 'so_frame': 3, 'so_frame_khong_nhan': 1, 'so_nhan': 3, 'so_track_id_tong_cac_video': 2, 'theo_lop': {'car': 2, 'pedestrian': 1}, 'crowd_theo_lop': {}, 'loi_schema': {'frame_sai_dang': 0, 'videoName_khac_ten_file': 0, 'ten_frame_sai_mau': 0, 'frameIndex_lech_ten': 0, 'frame_trung_ten': 0, 'labels_khong_phai_list': 0, 'nhan_sai_dang': 0, 'attributes_thieu_hoac_sai_kieu': 0, 'box_dao': 0, 'box_ra_ngoai_anh': 0}, 'json_hong': [], 'khong_phai_list': []} | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 16 hai nhan cung ID trong 1 frame -> exit 1, id_trung_trong_frame | exit=0 | {'frame_sai_dang': 0, 'videoName_khac_ten_file': 0, 'ten_frame_sai_mau': 0, 'frameIndex_lech_ten': 0, 'frame_trung_ten': 0, 'labels_khong_phai_list': 0, 'nhan_sai_dang': 0, 'attributes_thieu_hoac_sai_kieu': 0, 'box_dao': 0, 'box_ra_ngoai_anh': 0} | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+PASS 17 frame trung ten -> exit 1, frame_trung_ten | exit=1 |   
+PASS 18 attributes.crowd = 'no' -> exit 1 | exit=1 |   
+FAIL 19 file COCO duoc yeu cau nhung khong ton tai -> exit 2, LOI_DAU_VAO | exit=0 | None | lech_ten": 0, "frame_trung_ten": 0, "labels_khong_phai_list": 0, "nhan_sai_dang": 0, "attributes_thieu_hoac_sai_kieu": 0, "box_dao": 0, "box_ra_ngoai_anh": 0}, "json_hong": [], "khong_phai_list": []}
+
+FAIL 20 --khong-doi-chieu-coco -> COCO NOT_RUN co ly do, exit 0 | exit=2 | None | ng_vien_c4d64a1.py [-h] --nhan NHAN [--anh ANH]
+                                     [--coco-val COCO_VAL] --ra RA
+kiem_nhan_ung_vien_c4d64a1.py: error: unrecognized arguments: --khong-doi-chieu-coco
+
+FAIL 21 khoa COCO trung (cung frame + scalabel_id) -> exit 3, coco_khoa_trung=1 | exit=0 | None | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 22 hai ID native gop vao 1 instance COCO -> exit 3, id_mot_coco_nhieu_native=1 | exit=0 | None | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 23 mot ID native tach thanh 2 instance COCO -> exit 3, id_mot_native_nhieu_coco=1 | exit=0 | None | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 1}
+
+FAIL 24 bbox lech 5 px -> exit 3, box_lech=1 | exit=0 | None | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 5}, "lech_box_lon_nhat": {"w=x2-x1": 5.0, "w=x2-x1+1": 5.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 25 doi lop car->truck -> exit 3, lop_khac=1, CSV 1 hang | exit=0 | loi khi doc bao cao: FileNotFoundError(2, 'No such file or directory') | r (ignore=0)": 1}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 26 other vehicle co ignore=0 -> exit 3, ngoai_le_ignore=1 | exit=0 | None | r (ignore=1)": 1}, "so_crowd_khac_iscrowd": 1, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 27 iscrowd ngoai quy tac (crowd hoac ignore) -> exit 3 | exit=0 | None | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 3, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 28 nhan chi co o native -> exit 3 | exit=0 | None | n (ignore=0)": 1}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 5}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 29 annotation chi co o COCO -> exit 3 | exit=0 | None | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 6}, "lech_box_lon_nhat": {"w=x2-x1": 1.0, "w=x2-x1+1": 0.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+FAIL 30 loi schema + COCO khac -> exit 1 (schema uu tien), COCO van DIFFERENCES | exit=0 | None | n (ignore=0)": 2}, "so_crowd_khac_iscrowd": 2, "so_box_khop_tuyet_doi": {"w=x2-x1": 0, "w=x2-x1+1": 5}, "lech_box_lon_nhat": {"w=x2-x1": 5.0, "w=x2-x1+1": 5.0}, "so_track_id_anh_xa_bat_nhat_quan": 0}
+
+TONG 3 / 30 PASS
+exit=1
