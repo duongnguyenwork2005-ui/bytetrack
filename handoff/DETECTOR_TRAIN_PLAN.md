@@ -24,6 +24,18 @@ giải theo R35-F1 và R35-F2; số liệu, split, dataset smoke và checkpoint 
 
 Chi tiết: `REVIEW36_CHI_TIET.md`.
 
+**Vòng 37**: **pilot chẩn đoán 2 epoch đã chạy và ĐẠT** cho YOLOv8n và YOLO11n, trên dataset smoke, với cấu hình khóa trước
+(`configs/phase2/detector/train_bdd5_pilot.yaml`, chỉ đổi `epochs`).
+
+- Model 5 lớp **trước bước học** đã có điểm lớp gần 0: 0 detection ≥ 0,001. Nhánh phân lớp `cv3` có 33 / 48 tensor khởi tạo
+  mới khi chuyển 80 → 5 lớp.
+- Trong pilot, các bước học làm điểm lớp và AP tăng.
+- Warmup thực chạy (trọn epoch 1) khớp công thức của mã.
+- Runner sửa lỗi `final_eval` ghi đè `val_s`/`metrics` epoch cuối.
+- Training dài, xuất dataset đầy đủ, epoch và ngân sách **vẫn chờ duyệt**.
+
+Chi tiết: `REVIEW37_CHI_TIET.md`.
+
 Tài liệu này dùng ba nhãn nguồn số liệu:
 
 - **fixture**: đo thật trên GPU của PC, nhưng với dữ liệu tổng hợp;
@@ -218,6 +230,14 @@ Cách tính:
   - cấu hình 15 epoch khai báo 1 epoch warmup.
 
   Xem `REVIEW35_CHI_TIET.md` mục 7 và `REVIEW36_CHI_TIET.md`.
+- **Pilot vòng 37** (2 epoch, warmup trọn epoch 1, mosaic tắt cả hai epoch theo `close_mosaic 2`):
+  - model 5 lớp trước bước học: điểm lớp max/ảnh trung vị 1,9e-4 (v8n) / 2,8e-4 (11n), 0 detection ≥ 0,001;
+  - car AP50 (model) sau epoch 2: 0,510 / 0,413;
+  - s/batch 0,93 / 1,11, gần smoke, nên kịch bản dự toán ở trên **không đổi đáng kể**;
+  - `val_s` smoke (dùng làm chi phí val cố định/epoch) gồm cả `final_eval` do lỗi runner đã sửa, có thể tính dư nhưng nhỏ.
+    Chưa tính lại.
+
+  Xem `REVIEW37_CHI_TIET.md`.
 
 ### 5b. Ước tính cũ từ fixture (vòng 27–30, giữ để đối chiếu)
 
@@ -274,6 +294,12 @@ for M in yolov8n yolo11n; do
   $P src/train_detector.py --model $M --dry-run
   $P src/train_detector.py --model $M --che-do smoke
 done
+# 1b. (vong 37, DA CHAY) pilot chan doan 2 epoch tren dataset smoke: khoa cau hinh roi chay tuan tu
+#     (bash handoff/logs/review37/chay_pilot.sh: kiem-pilot + so khop khoa + pilot, cho tung model)
+for M in yolov8n yolo11n; do
+  $P src/train_detector.py --config configs/phase2/detector/train_bdd5_pilot.yaml --model $M --che-do kiem-pilot
+  $P -u src/train_detector.py --config configs/phase2/detector/train_bdd5_pilot.yaml --model $M --che-do pilot --xac-nhan-pilot
+done
 # 2. SAU KHI DUYỆT kế hoạch + ngân sách: training dài (bắt buộc cờ xác nhận)
 $P src/train_detector.py --model yolov8n --che-do day-du --xac-nhan-train-dai
 $P src/train_detector.py --model yolo11n --che-do day-du --xac-nhan-train-dai
@@ -303,12 +329,12 @@ Còn phải **xuất dataset đầy đủ** (bước 5, ~8,5 GB) trước khi tr
 
 - **Cần duyệt**: số epoch (15) và bước frame (5). Hai tham số này quyết định ngân sách: vòng 35 có kịch bản **~56,6 h GPU**
   (kịch bản chậm hơn ~74 h; không phải bảo đảm), mục 5a.
-- **Cần quyết định** (vòng 35, đính chính vòng 36):
-  - **Pilot thêm epoch** trước training dài: chưa chạy, cần duyệt. Chỉ tăng epoch không tách được nguyên nhân confidence thấp
-    ở smoke.
-  - **Chẩn đoán nguyên nhân**, nếu cần: đo model 5 lớp trước bước học và lưu warmup/LR thực tế. Đề xuất chờ duyệt, chưa làm.
+- **Cần quyết định** (cập nhật vòng 37):
+  - **Pilot chẩn đoán**: ĐÃ CHẠY ở vòng 37 (2 model × 2 epoch, có đo model 5 lớp trước bước học và log warmup/LR thực tế).
+  - **Đối chứng warmup** (cùng seed, có / không warmup) nếu muốn đóng hẳn câu hỏi warmup của R35-F1: đây là ablation, chờ
+    duyệt, chưa làm. Không bắt buộc cho quyết định training dài.
   - Xuất dataset đầy đủ.
-  - Đóng bớt ứng dụng để có RAM khi train dài.
+  - Đóng bớt ứng dụng để có RAM khi train dài: RAM trống tối thiểu chỉ 7–59 MiB trong pilot.
 - **Cần hỏi người dùng**: có dùng gói detection 100K hay không.
 - **Chưa làm (mốc 3)**: detection cache từ model fine-tune. `detector_classes.sang_id_coco()` đã sẵn để giữ quy ước
   `--classes 1 2 3 5 7`.

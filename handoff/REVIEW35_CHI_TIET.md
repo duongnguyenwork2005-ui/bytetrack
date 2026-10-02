@@ -9,6 +9,13 @@
 >   này không chứng minh toàn đường ống, mọi lớp hay tọa độ không có lỗi.
 > - **Mục 9 và 10 (R35-F2)**: các mức thời gian, RAM và VRAM là **kịch bản dự toán theo các giả định đã nêu**, không phải
 >   cận trên hay bảo đảm. Thực tế có thể vượt cả kịch bản chậm hơn.
+>
+> **Đính chính vòng 37** (`REVIEW37_CHI_TIET.md`): runner cũ để lần gọi `on_fit_epoch_end` trong ultralytics `final_eval` ghi
+> đè `val_s` và `metrics` của epoch cuối.
+>
+> - `val_s` ở mục 6 (33,51 s / 8,76 s) vì vậy gồm cả lưu checkpoint và validate `best.pt`, không chỉ val trong epoch.
+> - Số đo giữ nguyên. Lỗi đã sửa cho các lượt sau.
+> - Pilot vòng 37 đo được model 5 lớp **trước bước học** có điểm lớp gần 0 (mục 7 được bổ sung ở phụ lục vòng 37).
 
 **Phạm vi**: làm đúng chuỗi người dùng duyệt: ghi nhận nghiệm thu `ccd801f` → khóa split → xuất tập con smoke → smoke trên
 dữ liệu thật → cập nhật dự toán training local, **dừng sau smoke**.
