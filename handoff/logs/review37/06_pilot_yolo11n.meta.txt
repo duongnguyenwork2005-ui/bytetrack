@@ -1,0 +1,25 @@
+# 2026-10-02 18:25:42 +0700 HEAD 6f2ca14
+# lenh: python -u src/train_detector.py --config configs/phase2/detector/train_bdd5_pilot.yaml --model yolo11n --che-do pilot --xac-nhan-pilot 2>&1 | python handoff/logs/review37/do_tai_nguyen_ngoai.py moc-gio --ra handoff/logs/review37/06_pilot_yolo11n.log
+ram_truoc: 1689 MiB con trong / 8029 MiB (dung 79%)
+dia_truoc: 63.28 GB con trong tren D:
+gpu_truoc: 427 MiB, 4 %, 60
+exit_runner=0
+exit_moc_gio=0
+wall_s=177
+ram_sau: 1856 MiB con trong / 8029 MiB (dung 77%)
+dia_sau: 63.21 GB con trong tren D:
+gpu_sau: 420 MiB, 1 %, 63
+run_dir: 64583879	models/finetune_phase2/train_bdd5_v1_yolo11n_pilot
+  models/finetune_phase2/train_bdd5_v1_yolo11n_pilot/chan_doan:
+  total 52448
+  -rw-r--r-- 1 Mikuno 197609 10716001 Oct  2 18:27 sau_epoch1_ema.pt
+  -rw-r--r-- 1 Mikuno 197609 10754391 Oct  2 18:27 sau_epoch1_model.pt
+  -rw-r--r-- 1 Mikuno 197609 10716001 Oct  2 18:28 sau_epoch2_ema.pt
+  -rw-r--r-- 1 Mikuno 197609 10754391 Oct  2 18:28 sau_epoch2_model.pt
+  -rw-r--r-- 1 Mikuno 197609 10753884 Oct  2 18:26 truoc_hoc_model.pt
+  
+  models/finetune_phase2/train_bdd5_v1_yolo11n_pilot/weights:
+  total 10632
+  -rw-r--r-- 1 Mikuno 197609 5443411 Oct  2 18:28 best.pt
+  -rw-r--r-- 1 Mikuno 197609 5443411 Oct  2 18:28 last.pt
+# xong 18:28:41
