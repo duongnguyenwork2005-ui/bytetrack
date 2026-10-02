@@ -1,0 +1,133 @@
+# 2026-10-02 23:56:33 +0700 HEAD c925b21
+# lenh: python src/train_detector.py --model yolo11n --dry-run   (= kiem-cau-hinh, dataset day du mac dinh; KHONG train)
+{
+ "loai": "KIEM CAU HINH (khong train)",
+ "ten": "train_bdd5_v1_yolo11n_kiem_cau_hinh",
+ "dataset": {
+  "hop_dong": "bdd5-dataset-v2",
+  "phien_ban_manifest": 2,
+  "loi": 0,
+  "ten": "bdd5_train_v1",
+  "loai": "day_du",
+  "tap_con": null,
+  "data_yaml": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1\\data.yaml",
+  "sha256_data_yaml": "1280e57bcc5c6927a3a1143f59b3ffaf2a05fc9d16b63507ab4f81be2eaeecd1",
+  "sha256_tom_tat": "9eae5eb3ee0a70a13dee0dca7afd682044b480d55690257f2ac4cbe574749010",
+  "manifest_sha256": "1ee6174f8be328f4f62ea10e3a9bb0502fd18c4e55f9b9aa0d2512cd565f6069",
+  "sha256_video_json": "05140872cc35b4399700960139ce287810640985e2ee20f9700e848826a09750",
+  "split_da_khoa": {
+   "sha256": "b8a2848e3da053a2b1b79e7fa6cfad812540315af6e48b12b4174a40efc06cdb",
+   "sha256_danh_sach": "a59a8d0672f30d6e9ff90d4347965fa003b299bb79995c0883796712446ca723",
+   "ban_goc": "khop"
+  },
+  "duong_dan_resolve": {
+   "train": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1\\images\\train",
+   "val": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1\\images\\dev"
+  },
+  "so_anh": {
+   "train": 50487,
+   "dev": 5559
+  },
+  "so_video": {
+   "train": 1261,
+   "dev": 139
+  },
+  "so_nhan_rong_hop_le": {
+   "train": 686,
+   "dev": 95
+  },
+  "so_anh_co_file_ignore": {
+   "train": 17040,
+   "dev": 1560
+  },
+  "cache_anh": {
+   "chinh_sach": "khong dung cache anh (.npy); pixel nap = JPEG da khoa sha256",
+   "so_npy_canh_anh": {
+    "train": 0,
+    "dev": 0
+   }
+  },
+  "noi_dung_da_xac_minh": {
+   "train": true,
+   "dev": true
+  },
+  "so_file_da_bam": {
+   "anh": 56046,
+   "nhan": 56046,
+   "ignore": 18600
+  },
+  "xac_minh_luc": "2026-10-02T23:58:44",
+  "thoi_gian_s": 128.14
+ },
+ "checkpoint_khoi_tao": {
+  "weights": "D:\\LABOTARY\\bytetrack\\models\\candidates\\yolo11n.pt",
+  "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "bytes": 5613764,
+  "loai_checkpoint": "coco80",
+  "so_lop": 80
+ },
+ "tham_so_khai_bao": {
+  "epochs": 15,
+  "imgsz": 640,
+  "batch": 8,
+  "optimizer": "SGD",
+  "lr0": 0.01,
+  "lrf": 0.01,
+  "momentum": 0.937,
+  "weight_decay": 0.0005,
+  "nbs": 64,
+  "warmup_epochs": 1.0,
+  "warmup_momentum": 0.8,
+  "warmup_bias_lr": 0.1,
+  "cos_lr": false,
+  "close_mosaic": 2,
+  "patience": 5,
+  "seed": 0,
+  "deterministic": true,
+  "amp": false,
+  "workers": 2,
+  "cache": false,
+  "rect": false,
+  "multi_scale": 0.0,
+  "fraction": 1.0,
+  "single_cls": false,
+  "cls_remap": true,
+  "pretrained": true,
+  "hsv_h": 0.015,
+  "hsv_s": 0.7,
+  "hsv_v": 0.4,
+  "degrees": 0.0,
+  "translate": 0.1,
+  "scale": 0.5,
+  "shear": 0.0,
+  "perspective": 0.0,
+  "flipud": 0.0,
+  "fliplr": 0.5,
+  "bgr": 0.0,
+  "mosaic": 1.0,
+  "mixup": 0.0,
+  "cutmix": 0.0,
+  "copy_paste": 0.0,
+  "val": true,
+  "save_period": -1,
+  "plots": false,
+  "verbose": true,
+  "data": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1\\data.yaml",
+  "project": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2",
+  "name": "train_bdd5_v1_yolo11n_kiem_cau_hinh",
+  "exist_ok": false,
+  "device": "0",
+  "model": "D:\\LABOTARY\\bytetrack\\models\\candidates\\yolo11n.pt"
+ },
+ "suy_ra": {
+  "accumulate": 8,
+  "weight_decay_hieu_luc": 0.0005,
+  "batch_moi_epoch": 6311,
+  "buoc_toi_uu_moi_epoch": 789,
+  "tong_batch": 94665,
+  "ghi_chu": "accumulate = max(round(nbs/batch), 1); weight_decay hieu luc = wd*batch*accumulate/nbs (ultralytics)"
+ },
+ "run_dir": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_kiem_cau_hinh"
+}
+[OK] kiem cau hinh xong, KHONG train, KHONG tao D:\LABOTARY\bytetrack\models\finetune_phase2\train_bdd5_v1_yolo11n_kiem_cau_hinh
+# exit=0
