@@ -66,7 +66,7 @@ def _chay(nhom, fn):
     print(f"\n== {nhom}", flush=True)
     try:
         fn()
-    except Exception as e:  # noqa: BLE001
+    except (Exception, SystemExit) as e:  # noqa: BLE001 -- SystemExit (vd argparse) khong duoc dung ca suite
         _check(f"{nhom}: loi khong mong doi {type(e).__name__}: {e}", False)
         traceback.print_exc()
 
@@ -224,7 +224,11 @@ def chay_spy(argv: list[str], hanh_dong="chan") -> tuple[int, str, str, list]:
     sys.argv = ["train_detector.py", *argv]
     try:
         with contextlib.redirect_stdout(o), contextlib.redirect_stderr(e):
-            code = train_detector.main()
+            try:
+                code = train_detector.main()
+            except SystemExit as se:                  # vd argparse: tra ma + ghi lai, khong lam dung ca suite
+                code = se.code if isinstance(se.code, int) else 1
+                print(f"[SystemExit {se.code!r}]", file=sys.stderr)
     finally:
         sys.argv = argv_cu
         ultralytics.YOLO = goc
@@ -450,7 +454,7 @@ def nhom_s(tmp: Path, data: Path, cfg: Path):
         shutil.copytree(goc, run_i)
 
     def argv(ten=f"{m}_I", *them, model=m, c=cfg, d=data):
-        return lenh(c, model, ten, d, tmp, *them)[2:]
+        return lenh(c, model, ten, d, tmp, *them)[3:]             # bo [python, -u, train_detector.py]
 
     def tu_choi(ma, ten, argv_, mau, ma_mong=2):
         khoi_phuc_i()
