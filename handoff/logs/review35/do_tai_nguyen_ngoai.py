@@ -5,6 +5,11 @@
 1) gan moc gio cho stdout:   <lenh> 2>&1 | python do_tai_nguyen_ngoai.py moc-gio --ra <log>
    Moi dong (tach theo \\n va \\r -- thanh tien do ultralytics) duoc ghi kem so giay tu luc bat dau, de suy ra thoi gian
    khoi tao (tu luc chay toi dong "Starting training") ma khong can sua runner.
+   Sua sau smoke lan 1 (08_stderr_tac_vu_nen_lan1.txt): ban dau doc stdin o che do text theo locale (cp1252,
+   surrogateescape) -> ky tu thanh tien do "━" (UTF-8 E2 94 81) thanh '\\udc81', ghi log UTF-8 bi UnicodeEncodeError,
+   bo doc chet, pipe dut -> runner bao OSError [Errno 22]. Nay doc stdin dang BYTE, giai ma UTF-8 errors="replace"
+   (stdout ultralytics la UTF-8; byte khong hop le -> U+FFFD) va KHONG BAO GIO ngung doc giua chung: loi khi ghi
+   mot dong chi duoc dem (dong cuoi log) roi doc tiep toi EOF, de ben ghi khong bao gio bi dut pipe vi bo do.
 2) do RAM tien trinh:         python do_tai_nguyen_ngoai.py ram --mau train_detector.py --ra <json> [--chu-ky 1]
    Cho tien trinh co command line chua --mau xuat hien, lay mau RSS cua no + MOI tien trinh con (worker dataloader)
    moi --chu-ky giay, toi khi no ket thuc. Ghi dinh RSS (MiB), trung vi, so mau, RAM he thong con trong thap nhat.
@@ -12,6 +17,8 @@
 """
 import argparse
 import json
+import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -19,21 +26,37 @@ from pathlib import Path
 
 def moc_gio(ra):
     t0 = time.time()
-    buf = ""
-    with open(ra, "w", encoding="utf-8", newline="\n") as f:
-        while True:
-            c = sys.stdin.read(1)
-            if not c:
-                break
-            if c in "\r\n":
-                if buf.strip():
-                    f.write(f"[+{time.time() - t0:8.1f}s] {buf}\n")
+    fd = sys.stdin.fileno()
+    buf = b""
+    so_loi = 0
+    with open(ra, "w", encoding="utf-8", errors="backslashreplace", newline="\n") as f:
+        def ghi(dong):
+            nonlocal so_loi
+            try:
+                s = dong.decode("utf-8", "replace")
+                if s.strip():
+                    f.write(f"[+{time.time() - t0:8.1f}s] {s}\n")
                     f.flush()
-                buf = ""
-            else:
-                buf += c
-        if buf.strip():
-            f.write(f"[+{time.time() - t0:8.1f}s] {buf}\n")
+            except Exception:  # noqa: BLE001 -- khong de bo do lam dut pipe cua ben ghi
+                so_loi += 1
+        while True:
+            try:
+                khoi = os.read(fd, 65536)
+            except OSError:
+                break
+            if not khoi:
+                break
+            phan = re.split(rb"[\r\n]", buf + khoi)
+            buf = phan.pop()
+            for p in phan:
+                ghi(p)
+        ghi(buf)
+        if so_loi:
+            try:
+                f.write(f"[moc-gio] {so_loi} dong khong ghi duoc (da bo qua, van doc het stdin)\n")
+            except Exception:  # noqa: BLE001
+                pass
+    return so_loi
 
 
 def do_ram(mau, ra, chu_ky):
@@ -97,8 +120,7 @@ def main():
     a2.add_argument("--chu-ky", type=float, default=1.0)
     a = ap.parse_args()
     if a.cmd == "moc-gio":
-        moc_gio(a.ra)
-        return 0
+        return 4 if moc_gio(a.ra) else 0           # 4 = co dong khong ghi duoc (stdin van duoc doc het)
     return do_ram(a.mau, a.ra, a.chu_ky)
 
 
