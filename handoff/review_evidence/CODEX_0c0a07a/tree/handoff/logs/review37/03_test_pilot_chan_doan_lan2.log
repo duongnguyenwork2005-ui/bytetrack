@@ -1,0 +1,59 @@
+# 2026-10-02 18:17:05 +0700 HEAD a22a6f5 (+ ma pilot chua commit; da sua pilot_chan_doan.diem_truoc_nguong: args.half -> quantize)
+# lenh: python src/test_pilot_chan_doan.py
+
+== P1. cau hinh pilot + CLI
+  [PASS] P1a cau hinh pilot that: ke thua train_bdd5.yaml (sha256 LF a466a4fa...), pilot = {epochs: 2}  ({'duong_dan': 'D:\\LABOTARY\\bytetrack\\configs\\phase2\\detector\\train_bdd5.yaml', 'sha256_noi_dung_lf': 'a466a4fa3d07391f47915f45a79fadc2d7f5f0421499c9f887f83b19bdb0553b', 'sha256_byte_tho': 'a466a4fa3d07391f47915f45a79fadc2d7f5f0421499c9f887f83b19bdb0553b'})
+  [PASS] P1b sha256 cau hinh goc sai -> tu choi  (C:\Users\Mikuno\AppData\Local\Temp\test_pilot_tyi19x2i\p1b_sai.yaml: cau hinh goc C:\Users\Mikuno\AppData\Local\Temp\test_pilot_tyi19x2i\p1b_goc.yaml sha256 (LF) 411f7007fb650750 khac khai bao 0000000)
+  [PASS] P1c khoi pilot doi them lr0 -> tu choi (chi duoc doi epochs)  (C:\Users\Mikuno\AppData\Local\Temp\test_pilot_tyi19x2i\p1c_pilot.yaml: khoi 'pilot' chi duoc doi ['epochs'], gap ['lr0'])
+  [PASS] P1d cau hinh pilot tu khai bao huan_luyen -> tu choi (moi khoa khac phai ke thua)  (C:\Users\Mikuno\AppData\Local\Temp\test_pilot_tyi19x2i\p1d_pilot.yaml: cau hinh pilot chi duoc co ['ke_thua', 'ke_thua_sha256', 'mo_ta', 'pilot'], gap them ['huan_luyen'] (moi khoa khac phai ke thua))
+  [PASS] P1e tham so hieu luc pilot so voi smoke: CHI khac epochs 1 -> 2  ({'epochs': [1, 2]})
+  [PASS] P1f pilot khong doi gi so voi smoke (epochs 1) -> tu choi  (pilot phai CHI khac smoke o ['epochs']; khac thuc te: {})
+  [PASS] P1g --che-do pilot thieu --xac-nhan-pilot -> exit 1  ([DUNG] --che-do pilot can --xac-nhan-pilot
+)
+  [PASS] P1h cau hinh pilot dung cho --che-do smoke -> exit 2  ([LOI CAU HINH] C:\Users\Mikuno\AppData\Local\Temp\test_pilot_tyi19x2i\p1g_pilot.yaml la cau hinh pilot -- chi dung voi --che-do pilot / kiem-pilot
+)
+  [PASS] P1i --batch voi pilot -> exit 1 (pilot dung cau hinh)  ([DUNG] --batch/--workers chi ghi de duoc o smoke/kiem-cau-hinh; training dai va pilot dung cau hinh
+)
+  [PASS] P1j --khong-do-chan-doan ngoai pilot -> exit 1  ([DUNG] --khong-do-chan-doan chi dung voi --che-do pilot (test A/B)
+)
+  [PASS] P1k khong tao thu muc luot / ket qua o cac lan tu choi
+
+== P2. final_eval khong ghi de epoch cuoi (ma moi) / tai hien loi (ma a22a6f5)
+  [PASS] P2a ma moi: 2 ban ghi epoch; lan goi final_eval KHONG ghi de val_s / metrics epoch 2; ghi rieng  (val_s [0.05, 0.05] metrics [{'m': 0.1}, {'m': 0.2}] cuoi {'metrics': {'m': 0.999}, 'trainer_epoch_tam': 2, 'thoi_gian_tu_het_train_epoch_cuoi_s': 0.35, 'ghi_chu': 'ultralytics final_eval: validate best.pt (FP16 tu dia) sau vong lap; gom ca luu checkpoint va don dep cuoi epoch'} loi_cb None)
+  [PASS] P2b ma a22a6f5 (ky vong tai hien loi): final_eval GHI DE metrics + keo dai val_s cua epoch 2  (val_s [0.05, 0.35] metrics [{'m': 0.1}, {'m': 0.999}])
+
+== P3. chup / so sanh / khoi phuc trang thai
+  [PASS] P3a chup hai lan lien tiep, khong doi gi -> giong het
+  [PASS] P3b sua thong ke BatchNorm (running_mean) -> phat hien  (["model_tham_so_buffer: 1 muc khac (vd ['1.running_mean'])"])
+  [PASS] P3c doi che do train -> eval -> phat hien  (['model_che_do_train'])
+  [PASS] P3d tieu thu RNG python -> phat hien  (['rng_python'])
+  [PASS] P3e tieu thu RNG numpy -> phat hien  (['rng_numpy'])
+  [PASS] P3f tieu thu RNG torch -> phat hien  (['rng_torch'])
+  [PASS] P3g doi co cudnn.benchmark -> phat hien  (['co'])
+  [PASS] P3h callback chi tieu thu RNG -> RNG duoc khoi phuc, trang thai giong truoc, khong LoiPilot
+  [PASS] P3i callback sua buffer BatchNorm -> LoiPilot (dung train)  (callback 'sua buffer' lam doi trang thai training: ["model_tham_so_buffer: 1 muc khac (vd ['1.running_var'])"])
+
+== Fixture dataset (bo xuat that, hop dong v2)
+
+== P4. luot pilot that tren fixture
+  [PASS] P4a luot pilot that tren fixture (0) exit 0, tom tat DAT  (exit 0 {'dieu_kien': {'du_epoch': True, 'co_cap_nhat_trong_so_moi_epoch': True, 'loss_huu_han_moi_batch': True, 'du_phep_do': True, 'phep_do_khong_doi_trang_thai': True, 'khong_loi': True}, 'dat': True} None e' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+[ket qua] C:\Users\Mikuno\AppData\Local\Temp\test_pilot_tyi19x2i\kq\p4_that.json
+[DAT] pilot yolov8n: lo)
+  [PASS] P4b diem do truoc hoc: ema.updates 0, optimizer chua co trang thai, khong gradient, model == EMA, 5 lop dung thu tu  ({'ten': 'SGD', 'so_trang_thai': 0, 'nhom': [{'param_group': 'weight', 'lr': 0.01, 'initial_lr': 0.01, 'momentum': 0.937, 'weight_decay': 0.0005, 'nesterov': True, 'so_tensor': 64}, {'param_group': 'bn', 'lr': 0.01, 'initial_lr': 0.01, 'momentum': 0.937, 'weight_decay': 0.0, 'nesterov': True, 'so_ten)
+  [PASS] P4c nap/remap doi chieu doc lap khop log ultralytics 'Transferred N/M': chep + remap = N, tong = M, khong tensor cung shape khac gia tri  (log ['Transferred 322/355 items from pretrained weights'] chep 319 remap 3 moi 33)
+  [PASS] P4d du 7 phep do; 5 phep do trong luc train + 3 callback: trang thai KHONG doi sau khoi phuc  (co ['checkpoint_best', 'checkpoint_last', 'sau_epoch1_ema', 'sau_epoch1_model', 'sau_epoch2_ema', 'sau_epoch2_model', 'truoc_hoc_model'])
+  [PASS] P4e 2 epoch x nb batch; nw theo ma = round(min(1, epochs-1) * nb); LR / momentum / accumulate tung batch dung cong thuc warmup; batch co cap nhat (ema.updates tang) khop mo phong  (nb 10 nw 10 loi [] cap_md [0, 2, 9, 16] cap_log [0, 2, 9, 16])
+  [PASS] P4f runner: 2 ban ghi epoch, final_eval ghi rieng (khong ghi de epoch 2)  (2 epoch, cuoi 5.3)
+  [PASS] P4g train_s epoch 2 tinh tu SAU phep do epoch 1 (khong gom thoi gian do)  (lech 9.536743172944284e-09 s, phep do epoch 1 mat 3.4 s)
+  [PASS] P4h mosaic thuc te ghi theo epoch, khop du doan theo ma (epoch tat mosaic = epochs - close_mosaic = 0)  ([False, False])
+  [PASS] P4i phep do dung quy tac danh gia chinh (conf 0,001, IoU 0,7, max_det 300, imgsz 640 cua evaluator) + co diem truoc nguong; so detection theo lop cong lai = tong  ({'imgsz': 640, 'rect_letterbox': True, 'quantize': None, 'batch_predict': 1, 'hinh_dau_ra_va_dau_vao': [[[9, 5040], [3, 384, 640]]]})
+  [PASS] P4j checkpoint last/best nap lai dung 5 lop, train_args epochs = 2
+
+== P5. A/B bat bien tren CPU (do / khong do)
+  [PASS] P5a hai luot KHONG do (A1, A2) trung tung bit: loss tung batch + trong so last.pt (nen tang tat dinh)
+  [PASS] P5b luot CO do (B) trung A1 tung bit: loss tung batch va moi tensor last.pt -> phep do khong doi qua trinh hoc  (loss trung True, tensor khac [])
+
+KET QUA: 34/34 PASS
+# exit=0

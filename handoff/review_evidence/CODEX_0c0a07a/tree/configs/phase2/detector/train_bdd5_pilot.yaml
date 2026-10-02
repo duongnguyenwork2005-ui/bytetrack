@@ -1,0 +1,14 @@
+# PILOT CHAN DOAN vong 37 -- nguoi dung duyet 2026-10-02: YOLOv8n va YOLO11n, moi model MOT luot 2 epoch, chay lan luot
+# tren GPU PC, dataset SMOKE da khoa (334 anh train / 84 anh dev), khoi tao tu dung checkpoint pretrained cua smoke.
+# Cau hinh nay KE THUA NGUYEN cau hinh goc (runner kiem sha256 noi dung chuan hoa LF) va CHI doi `epochs` (smoke 1 -> 2).
+# Moi tham so khac lay tu cau hinh goc (`huan_luyen` + khoi `smoke`): batch 8, imgsz 640, SGD lr0 0,01 lrf 0,01,
+# warmup_epochs 1,0 / warmup_bias_lr 0,1 / warmup_momentum 0,8, augmentation, close_mosaic 2, amp false, workers 2,
+# cache false, seed 0, deterministic, patience 1 ... Runner tu choi neu tham so hieu luc khac smoke o bat ky khoa nao
+# ngoai `epochs`. KHONG dung ket qua pilot de so sanh hay chon model.
+#   python -u src/train_detector.py --config configs/phase2/detector/train_bdd5_pilot.yaml --model <yolov8n|yolo11n> \
+#       --che-do pilot --xac-nhan-pilot
+ke_thua: configs/phase2/detector/train_bdd5.yaml
+ke_thua_sha256: a466a4fa3d07391f47915f45a79fadc2d7f5f0421499c9f887f83b19bdb0553b
+mo_ta: pilot chan doan 2 epoch tren dataset smoke; khong dung de so sanh hay chon model
+pilot:
+  epochs: 2

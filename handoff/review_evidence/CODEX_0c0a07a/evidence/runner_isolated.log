@@ -1,0 +1,12 @@
+PASS inheritance only changes epochs 
+PASS bad inherited hash rejected 
+PASS extra LR override rejected 
+PASS extra training block rejected 
+PASS empty pilot rejected 
+PASS inherited text hash stable across LF/CRLF 
+PASS changed inherited contents rejected 
+PASS old callback overwrite reproduced {'epoch': 2, 'train_s': 10.0, 'loss': {'box_loss': 1.0}, 'loss_huu_han': True, 'lr': [0.01], 'so_batch': 1, 'on_dinh': None, 'val_s': 52.0, 'metrics': {'metric': 0.999}, 'fitness': 0.1}
+PASS target preserves epoch metrics/time {'epoch': 2, 'train_s': 10.0, 'loss': {'box_loss': 1.0}, 'loss_huu_han': True, 'lr': [0.01], 'so_batch': 1, 'on_dinh': None, 'val_s': 2.0, 'metrics': {'metric': 0.2}, 'fitness': 0.1}
+PASS target records final evaluation separately 
+PASS target callback no recorded error 
+RESULT 11 PASS 0 FAIL

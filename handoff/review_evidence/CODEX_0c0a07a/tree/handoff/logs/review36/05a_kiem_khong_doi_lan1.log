@@ -1,0 +1,19 @@
+# 2026-10-02 17:14:45 +0700 HEAD 2b15b88 (+ tai lieu dinh chinh chua commit)
+# kiem: split, dataset smoke, ket qua smoke, checkpoint va log/so do goc vong 35 KHONG doi sau dinh chinh
+split configs/phase2/detector/splits/bdd5_train_v1.json: sha256 b8a2848e3da053a2 == b8a2848e: True
+dataset smoke data/yolo_bdd5_v1_smoke/manifest/tom_tat.json: sha256 1c4e7521e397160f
+dataset smoke data/yolo_bdd5_v1_smoke/data.yaml: sha256 9744ba88ce2f1043
+dataset smoke: manifest anh.csv + data.yaml khop tom_tat.json: True
+yolov8n: ket qua runner (results/) == ban chep da commit (logs): True
+yolov8n: checkpoint last.pt sha256 6f0d71dd16f8df59 khop ghi nhan: True
+yolov8n: checkpoint best.pt sha256 31a9ff9e6641592b khop ghi nhan: True
+yolov8n: danh gia chinh (conf 0.001) mAP50 0.0976 mAP50_95 0.0612 -- giu nguyen
+yolo11n: ket qua runner (results/) == ban chep da commit (logs): True
+yolo11n: checkpoint last.pt sha256 31f21a9adacd0938 khop ghi nhan: True
+yolo11n: checkpoint best.pt sha256 e11622465145a669 khop ghi nhan: True
+yolo11n: danh gia chinh (conf 0.001) mAP50 0.0000 mAP50_95 0.0000 -- giu nguyen
+file doi so voi 2351c67 trong logs/review35, configs/, src/: ['handoff/logs/review35/15_du_toan_training.py', 'src/demo/rerun_with_state_log.py']
+ngoai 15_du_toan_training.py (sua chuoi R35-F2) khong file nao doi: False
+KET LUAN: CO KHAC
+# exit=0
+# GHI CHU (them sau khi chay): 'CO KHAC' do phep kiem dung 'git diff 2351c67' (so ca working tree) nen bat ca src/demo/rerun_with_state_log.py -- FILE RIENG cua nguoi dung, da sua tu truoc vong 35 (co trong logs/review35/00 va logs/review36/00), Claude khong dung toi. Moi muc kiem khac DAT. Phep kiem dung (bo src/demo/**, tach phan da commit va working tree): 05b_*.

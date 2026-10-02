@@ -1,0 +1,28 @@
+# 2026-10-02 17:09:48 +0700 HEAD 8a9dec8
+# (1) JSON goc vong 35 (khong doi) vs JSON sinh lai sau dinh chinh R35-F2
+so sanh: handoff/logs/review35/15_du_toan_training.json  vs  handoff/logs/review36/02_du_toan_sinh_lai.json
+gia tri so da so: 162 | null: 0 | chuoi: 10
+khac SO: 0
+khac CAU TRUC: 0
+chuoi da doi (chi cau chu): 4
+  $.loai
+  $.gia_dinh.ghi_chu.ms_hau_xu_ly_them_khi_model_da_hoc
+  $.gia_dinh.ghi_chu.byte_nhan_ignore_manifest_moi_anh
+  $.gia_dinh.ghi_chu.vram_them_cho_lo_nhieu_box_MiB
+KET LUAN: DAT -- moi gia tri so va cau truc giong het
+exit=0
+# (2) JSON reviewer tinh lai (review_evidence/CODEX_2351c67/evidence/du_toan_recomputed.json) vs JSON sinh lai
+so sanh: handoff/review_evidence/CODEX_2351c67/evidence/du_toan_recomputed.json  vs  handoff/logs/review36/02_du_toan_sinh_lai.json
+gia tri so da so: 162 | null: 0 | chuoi: 10
+khac SO: 0
+khac CAU TRUC: 0
+chuoi da doi (chi cau chu): 4
+  $.loai
+  $.gia_dinh.ghi_chu.ms_hau_xu_ly_them_khi_model_da_hoc
+  $.gia_dinh.ghi_chu.byte_nhan_ignore_manifest_moi_anh
+  $.gia_dinh.ghi_chu.vram_them_cho_lo_nhieu_box_MiB
+KET LUAN: DAT -- moi gia tri so va cau truc giong het
+exit=0
+# (3) file goc vong 35 khong bi sua:
+handoff/logs/review35/15_du_toan_training.json: OK
+handoff/logs/review35/15_du_toan_training.log: OK
