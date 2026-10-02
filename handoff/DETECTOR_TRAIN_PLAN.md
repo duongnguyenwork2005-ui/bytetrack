@@ -6,14 +6,34 @@ batch 16 (mục 1, 4). Cập nhật vòng 29 (review `07615ba`, R28-F1): chính 
 bước frame và ngân sách **chưa được duyệt** và không đổi.
 **Vòng 30** (base `bcb92f8`): kiểm lại dữ liệu — **BDD100K MOT train vẫn chưa có** trên máy, nên khóa split, xuất, smoke thật
 và cập nhật ước lượng (mục 5) **bị chặn**. Tập con smoke được đối chiếu với giới hạn người dùng đặt (mục 6).
+**Vòng 35** (base `ccd801f`, nhãn train theo phương án C):
+
+- **đã khóa split** `bdd5_train_v1`;
+- đã xuất **tập con smoke** (334 / 84 ảnh);
+- **smoke 1 epoch trên dữ liệu thật đạt cho cả hai model**;
+- đã cập nhật dự toán (mục 5) từ số đo thật.
+
+Dataset đầy đủ **chưa xuất**. Training dài **chưa chạy**. Epoch, bước frame và ngân sách **vẫn chờ duyệt**. Chi tiết:
+`REVIEW35_CHI_TIET.md`.
 
 Tài liệu này dùng ba nhãn nguồn số liệu:
 
 - **fixture**: đo thật trên GPU của PC, nhưng với dữ liệu tổng hợp;
+- **smoke thật** (vòng 35): đo thật trên GPU của PC với tập con dữ liệu BDD100K MOT train thật;
 - **ước tính**: suy ra từ số đo, chưa kiểm;
-- **chờ dữ liệu**: cần BDD100K MOT train thật.
+- **chờ dữ liệu**: cần BDD100K MOT train thật. Từ vòng 34 đã có dữ liệu, nên nhãn này không còn dùng.
 
-## 1. Dữ liệu, split và lớp (đã khóa quy tắc, chờ dữ liệu)
+## 1. Dữ liệu, split và lớp (split đã khóa ở vòng 35)
+
+**Vòng 35, đã khóa** `configs/phase2/detector/splits/bdd5_train_v1.json`:
+
+- commit `4237149`; sha256 file `b8a2848e…`, giữ nguyên byte CRLF trong git từ `aeed110`;
+- **train-fit 1.261 video / 250.566 frame**, **dev 139 video / 27.513 frame**, 0 video chung;
+- tầng (motorcycle, bicycle): 830→83, 303→30, 113→11, 154→15 video dev;
+- trùng tên video với BDD val và UA-DETRAC test: 0.
+
+Số ảnh thật của dataset đầy đủ đếm bằng chính hàm của bộ xuất (chưa xuất): **bước 5 → 50.487 ảnh train-fit / 5.559 ảnh dev**.
+Bảng theo lớp ở `REVIEW35_CHI_TIET.md` mục 2 và 8.
 
 - **Nguồn**: chỉ split `train` chính thức của **BDD100K MOT 2020**. Cấu hình ở `configs/phase2/detector/bdd5_train.yaml`,
   quy tắc chi tiết ở docstring `src/bdd_yolo_export.py`.
@@ -40,7 +60,8 @@ Tài liệu này dùng ba nhãn nguồn số liệu:
   - **Train-fit và dev**: khác video, và từ vòng 28 thêm khác sha256 ảnh nguồn. Trùng nội dung thì dừng xuất và chờ người
     dùng quyết định; không tự loại ảnh.
 
-  Chưa có dữ liệu train thật nên chưa biết nguồn thật có trùng hay không.
+  Vòng 35, trên **tập con smoke** (418 ảnh): trùng nội dung train/dev 0; BDD val trùng tên 0 và trùng nội dung 0 (so với
+  39.973 ảnh val đã băm). Với **dataset đầy đủ**, kết quả sẽ có khi xuất (chưa chạy).
 - **Hợp đồng dataset dùng chung** (vòng 28, `bdd_yolo_export.kiem_hop_dong_dataset`), gọi ở ba nơi: cuối bước xuất,
   trong runner trước khi nạp model, và trong evaluator trước khi dự đoán.
   - Kiểm đúng đường dẫn ultralytics resolve từ `data.yaml`: `train` = `images/train`, `val` = `images/dev`, `path` tuyệt đối.
@@ -59,8 +80,8 @@ Tài liệu này dùng ba nhãn nguồn số liệu:
     - Hợp đồng từ chối `.npy` cạnh chính các ảnh train/dev mà trainer sẽ nạp, nêu rõ split, đường dẫn, lý do; không tự xóa.
     - Runner từ chối cấu hình `cache` khác `false`.
     - Callback trước vòng train kiểm lại nguồn pixel của dataset thật (không cache ảnh, không `.npy`).
-- **Quy mô ước tính**, theo mô tả công bố của BDD100K (1.400 video train, ~200 frame/video), chưa xác nhận trên máy:
-  train-fit ~50.400 ảnh, dev ~5.600 ảnh. Số thật lấy từ `--buoc chia` và `--buoc xuat`.
+- **Quy mô**: ước tính cũ theo mô tả công bố của BDD100K (1.400 video train, ~200 frame/video) là train-fit ~50.400 ảnh, dev
+  ~5.600 ảnh. Vòng 35 đếm thật: **50.487 / 5.559** ở bước 5. Số chính thức lấy từ `--buoc xuat` khi xuất.
 - **Ràng buộc cho mốc 4**: tập dev dùng để tinh chỉnh tracker trên BDD sau này phải lấy từ **dev nội bộ** này, không
   lấy từ train-fit. Nếu lấy từ train-fit, detection sẽ chạy trên chính ảnh đã huấn luyện.
 
@@ -99,7 +120,7 @@ Cả hai model dùng **cùng** khối `huan_luyen` và cùng dataset; chỉ `wei
 - **Không dùng cho lựa chọn**: BDD val và UA-DETRAC test. Hai tập này đã được xem ở các vòng trước, nên không gọi là tập
   test chưa từng quan sát.
 
-## 4. Batch và tài nguyên — đo trên **fixture**
+## 4. Batch và tài nguyên — đo trên **fixture** (vòng 27–28) và **smoke thật** (vòng 35, cuối mục)
 
 Bằng chứng: `logs/review27/fixture_gpu/`.
 
@@ -127,6 +148,17 @@ Bằng chứng: `logs/review27/fixture_gpu/`.
 (\*) `nvidia-smi` đo **cả GPU**, gồm cả các ứng dụng desktop khác đang dùng GPU. PyTorch reserved của lượt này không đổi
 (2.346 MiB), nên đỉnh 3.965 MiB không quy được cho tiến trình train. Bằng chứng vòng 28: `logs/review28/fixture_gpu/`.
 
+**Vòng 35 — smoke thật** (334 ảnh train, 1 epoch, 42 batch, cấu hình cuối không ghi đè). Bằng chứng:
+`logs/review35/12_*`.
+
+| Model | batch | worker | s/batch | ảnh/s | VRAM PyTorch reserved | nvidia-smi max (cả GPU) | RSS train + con max |
+|:--|--:|--:|--:|--:|--:|--:|--:|
+| YOLOv8n | 8 | 2 | 0,991 | 8,07 | 2.134 MiB | 2.624 MiB | 3.018 MiB |
+| YOLO11n | 8 | 2 | 1,131 | 7,07 | 2.344 MiB | 2.840 MiB | 2.828 MiB |
+
+- s/batch trên dữ liệu thật gần với fixture: v8n chậm hơn ~2–4%, 11n nhanh hơn ~1–3%. VRAM PyTorch gần như trùng fixture.
+- RAM hệ thống còn trống thấp nhất trong lúc smoke chỉ **16–146 MiB**, vì các ứng dụng khác chiếm ~3,9 GB.
+
 Kết luận đo:
 
 - **Batch 16 chạy hết nhưng chậm 2–4 lần** với cả hai model; **không có lỗi OOM**, các lượt đều hoàn tất.
@@ -141,6 +173,42 @@ Kết luận đo:
   0 worker. Nên đóng bớt ứng dụng khi chạy dài.
 
 ## 5. Ngân sách thời gian — **ước tính**
+
+### 5a. Vòng 35 — từ smoke thật (thay cho 5b)
+
+Script `logs/review35/15_du_toan_training.py`; mọi giả định ghi trong `15_du_toan_training.json`.
+
+Cách tính:
+
+- train/epoch = ⌈ảnh train / 8⌉ × s/batch ổn định đo ở smoke thật.
+- val/epoch = `val_s` của smoke + (ảnh dev − 84) × ms/ảnh val của ultralytics.
+- Khởi tạo dataset đầy đủ: thêm băm hợp đồng và quét nhãn, ~4,9 phút mỗi lượt.
+- **Mức cao**: thêm 5 ms/ảnh hậu xử lý val, rồi ×1,3 cho rủi ro chưa đo (GPU nóng hoặc giảm xung khi chạy nhiều giờ, phân
+  trang RAM).
+
+| Lựa chọn | YOLOv8n | YOLO11n | Tổng GPU tuần tự |
+|:--|--:|--:|--:|
+| **Đề xuất**: bước 5 (50.487 ảnh), **15 epoch** | 1,74 h/epoch → **26,5 h** (cao 34,6 h) | 1,98 h/epoch → **30,2 h** (cao 39,4 h) | **56,6 h ≈ 2,4 ngày** (cao 74,0 h) |
+| Bước 5, 30 epoch | 52,9 h | 60,2 h | 113,1 h (cao 147,6 h) |
+| Bước 10 (25.848 ảnh), 15 epoch | 13,6 h | 15,5 h | 29,1 h (cao 38,0 h) |
+| Bước 10, 30 epoch | 27,2 h | 30,9 h | 58,1 h (cao 75,8 h) |
+
+- **Chưa tính**: dừng sớm (`patience 5`), và xuất dataset đầy đủ (ước thô 15–30 phút, chưa đo).
+- **RAM / VRAM / đĩa** cho dataset đầy đủ (ước):
+  - RSS train + con ~2,9–3,5 GB;
+  - torch reserved ≤ ~2,4 / 2,6 GB;
+  - cả GPU ≤ ~2,9 / 3,1 GB trên 4 GB;
+  - dataset bước 5 ~8,5 GB (bước 10 ~4,3 GB). D: còn ~63 GB.
+- **Bất định**: dự toán ngoại suy từ một epoch 42 batch (36 khoảng đo). Hành vi khi chạy nhiều giờ với RAM thấp chưa đo.
+  Mức cao là cận trên khuyến nghị.
+- **Smoke không kiểm động học training dài**:
+  - ultralytics tắt warmup khi `epochs=1`;
+  - sau epoch smoke, điểm lớp giảm mạnh, và YOLO11n không còn detection nào ≥ 0,001;
+  - cấu hình 15 epoch có 1 epoch warmup.
+
+  Xem `REVIEW35_CHI_TIET.md` mục 7.
+
+### 5b. Ước tính cũ từ fixture (vòng 27–30, giữ để đối chiếu)
 
 Cách tính: số ảnh ước tính ở mục 1, nhân với thông lượng fixture batch 8 / 2 worker. Val mỗi epoch ước theo thông lượng
 val của fixture.
@@ -162,6 +230,7 @@ val của fixture.
 - **Đo lại trước khi train dài**: số này phải đo lại bằng smoke trên **dữ liệu thật** (`--tap-con smoke`), rồi cập nhật
   mục này trước khi xin duyệt.
 - **Vòng 30**: vẫn **chưa cập nhật** vì chưa có dữ liệu train. Bảng trên vẫn là ước tính từ fixture và từ số video BDD công bố.
+- **Vòng 35**: đã đo lại bằng smoke trên dữ liệu thật. Kết quả ở mục 5a: ~56,6 h so với ~59 h của bảng này.
 - **Ngân sách so sánh được giữa hai model**: tính theo **số epoch và dataset giống nhau**, không theo thời gian đồng hồ.
   YOLO11n chậm hơn ~20% mỗi ảnh.
 
@@ -174,6 +243,11 @@ phần không chung video), bước 10 frame, seed 0. Tập con được chọn 
   ảnh dev. Mức này nằm trong giới hạn người dùng đặt là **≤ 1.000 / ≤ 200**.
 - Sau `--buoc xuat --tap-con smoke`, đọc `manifest/tom_tat.json` để xác nhận số ảnh thực.
 - Nếu vượt giới hạn thì dừng và hỏi; không tự cắt bớt.
+- **Vòng 35, đã chạy**:
+  - số thật là **334 / 84 ảnh**;
+  - `--dry-run` mặc định đọc **dataset đầy đủ**; khi dataset đầy đủ chưa xuất, thêm `--data data/yolo_bdd5_v1_smoke/data.yaml`;
+  - smoke chạy với `--ten train_bdd5_v1_<model>_smoke_lan2`, vì lượt lần 1 (lỗi công cụ đo) được giữ làm bằng chứng và runner
+    không ghi đè.
 
 ```bash
 P=/c/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe
@@ -200,18 +274,28 @@ $P src/eval_detector_5lop.py --data data/yolo_bdd5_v1/data.yaml --split val \
    --out results/phase2/detector_eval/dev_bdd5_v1
 ```
 
-## 7. Đầu vào còn thiếu
+## 7. Đầu vào
 
-- Ảnh **BDD100K MOT 2020 train**, đặt tại `data/raw/bdd100k/images/track/train/<video>/…jpg`.
-- Nhãn **MOT 2020 train**, đặt tại `data/raw/bdd100k/labels/box_track_20/train/<video>.json`. Bản Scalabel được khuyến
-  nghị; nếu chỉ có bản COCO-video thì đổi `bdd.nhan` trong cấu hình.
+**Từ vòng 34, không còn thiếu**:
 
-Chi tiết và ước tính dung lượng: `handoff/BDD100K_INVENTORY.md`, mục “Vòng 30”. Đó là lần kiểm lại ngày 2026-09-30:
-vẫn thiếu cả ảnh lẫn nhãn train.
+- Ảnh MOT train: vòng 31; 1.400 video, 278.079 ảnh.
+- Nhãn Scalabel `box_track_20/train`: vòng 34, theo **phương án C**.
+  - Snapshot bên thứ ba đã ghim (HF `jaffe03195/bdd100k_sot` @ `694197099692…`), hash từng file.
+  - **Chưa xác thực** bằng archive gốc.
+- `kiem-nguon` exit 0.
+
+Chi tiết: `handoff/BDD100K_INVENTORY.md`, mục Vòng 31–35.
+
+Còn phải **xuất dataset đầy đủ** (bước 5, ~8,5 GB) trước khi train dài. Bước này chưa chạy.
 
 ## 8. Chưa làm / cần quyết định
 
-- **Cần duyệt**: số epoch (15) và bước frame (5) — hai tham số quyết định ngân sách ~2,5 ngày GPU.
+- **Cần duyệt**: số epoch (15) và bước frame (5). Hai tham số này quyết định ngân sách: vòng 35 ước **~57 h GPU** (cao
+  ~74 h), mục 5a.
+- **Cần quyết định (vòng 35)**:
+  - Có chạy **pilot ngắn có warmup** (≥ 2 epoch) trước training dài không. Smoke 1 epoch không warmup làm điểm lớp giảm mạnh
+    (mục 5a). Đây là lượt thêm ngoài kế hoạch: **chưa chạy, cần duyệt**.
+  - Đóng bớt ứng dụng để có RAM khi train dài.
 - **Cần hỏi người dùng**: có dùng gói detection 100K hay không.
 - **Chưa làm (mốc 3)**: detection cache từ model fine-tune. `detector_classes.sang_id_coco()` đã sẵn để giữ quy ước
   `--classes 1 2 3 5 7`.

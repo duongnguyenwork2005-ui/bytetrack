@@ -1,60 +1,65 @@
-# REVIEW_BRIEF — vòng 34: ghi nhận nghiệm thu `4e71d32`; nhập nhãn train theo phương án C
+# REVIEW_BRIEF — vòng 35: khóa split, smoke 2 model trên dữ liệu thật, dự toán training local
 
 <!-- BASE_TARGET -->
 
-Chi tiết: **`handoff/REVIEW34_CHI_TIET.md`**.
+Chi tiết: **`handoff/REVIEW35_CHI_TIET.md`**.
 
-**Phạm vi**: ghi nhận nghiệm thu, nhập nguyên byte 1.400 JSON native train, chạy `kiem-nguon`. **Không** khóa split, xuất,
-smoke hay training. `src/` và `configs/` không đổi. Không SSH Nano.
+**Phạm vi**: nghiệm thu `ccd801f` → khóa split → tập con smoke → smoke → dự toán, rồi **dừng**.
 
-## Ghi nhận nghiệm thu — ĐÃ CHẠY
+- Training dài, epoch và ngân sách **chưa duyệt, chưa chạy**.
+- `src/` không đổi.
+- Không Nano, không tracking.
 
-- Codex `4e71d32`: **PASS WITH LIMITATIONS**, đóng R32-F1 và R32-F2. Báo cáo ở `handoff/CODEX_REVIEW_4e71d32.md`.
-- Bằng chứng ở `review_evidence/CODEX_4e71d32/`: `SHA256SUMS` khớp 56/56, cả trên blob đã commit.
-- Gói đã nghiệm thu: 1.156.972 B, sha256 `a34037a1…`, khớp báo cáo; lưu ở `archive/review_delta_4e71d32.zip`.
-- **Base review: `bcb92f8` → `4e71d32`**; 13 khai báo NPZ được mang sang.
-
-## Nhập nhãn train — ĐÃ CHẠY
-
-Người dùng **chọn phương án C**: dùng có điều kiện snapshot bên thứ ba **đã ghim**, gồm HF `jaffe03195/bdd100k_sot`, revision
-`694197099692fe1254e93215e73e68ece8b1f41f` và hash từng file trong manifest vòng 32 `a2e416f2…`.
+## Đã chạy
 
 | Bước | Kết quả |
 |:--|:--|
-| Kiểm trước (`nhap_nhan_train.py --chi-kiem`, fixture 9/9) | Bản cách ly có **1.400** JSON train: 0 thiếu, 0 thừa, 0 lệch byte/sha256. COCO val `074ff795…` khớp. Thư mục đích chưa có |
-| Nhập nguyên byte vào `data/raw/bdd100k/labels/box_track_20/train/` | Ghi mới 1.400 file, qua file tạm rồi đổi tên |
-| Kiểm sau | Đích **1.400/1.400** khớp sha256, 0 file lạ. Bản cách ly 1.602/1.602 vẫn khớp manifest. COCO val không đổi |
-| Provenance | Để ở handoff, không đặt trong thư mục nhãn. Manifest nhập: `logs/review34/03_manifest_nhap_nhan_train.tsv` (`c5a548bc…`) |
+| Nghiệm thu `ccd801f` | PASS WITH LIMITATIONS; bằng chứng 15/15 khớp; **base → `ccd801f`** |
+| Khóa split (`4237149`, trước mọi train/AP) | Theo video, dev 10%, seed 0, phân tầng motorcycle/bicycle. **train-fit 1.261 video / dev 139**, 0 video chung. Trùng tên với BDD val / UA-DETRAC test: 0 |
+| Giữ byte split (`aeed110`) | `text=auto` từng đổi blob CRLF→LF, không kiểm được sha256 `b8a2848e…`; thêm `-text`, nội dung không đổi |
+| Tập con smoke | **334 / 84 ảnh**; hợp đồng v2 0 lỗi; trùng nội dung train/dev và BDD val: 0 |
+| Smoke lần 1 | **FAIL trước vòng train**: bộ gắn mốc giờ **của tôi** chết vì ký tự "━", pipe đứt, runner báo `OSError [Errno 22]`. Đã lưu log |
+| Sửa công cụ đo | Regression: mã cũ FAIL (tái hiện errno 22), mã mới 12/12 |
+| Smoke lần 2 | **PASS cả hai** (exit 0). Nạp 334/84 ảnh khớp dataset đã xác minh; checkpoint nạp lại đúng 5 lớp |
 
-Chỉ nhập native train. Native val, hai COCO phụ của mirror và COCO val của dự án giữ nguyên.
+| Smoke lần 2 | YOLOv8n | YOLO11n |
+|:--|--:|--:|
+| Khởi tạo / train / val | 40 / 51 / 34 s | 36 / 63 / 9 s |
+| s/batch ổn định | 0,991 | 1,131 |
+| torch reserved / cả GPU | 2.134 / 2.624 MiB | 2.344 / 2.840 MiB |
+| dev smoke mAP50 | 0,098 | **0** |
 
-## `kiem-nguon` đường chính — ĐÃ CHẠY
+AP chỉ để kiểm pipeline, không so sánh model.
 
-`python src/prepare_mixed_yolo_dataset.py --config configs/phase2/detector/bdd5_train.yaml --buoc kiem-nguon` → **exit 0**.
+**YOLO11n ra 0 detection**:
 
-- `scalabel`; **1.400 video nhãn = 1.400 video ảnh**; **278.079 frame**.
-- 0 ảnh thiếu, 0 video lệch; **1.400 video dùng được**.
+- Điểm lớp lớn nhất giảm 0,80 → 0,0003, dưới ngưỡng 0,001.
+- Ở conf 1e-6, car AP50 = 0,233, nên **không phải lỗi đường ống**.
+- Smoke 1 epoch không có warmup (quy tắc ultralytics), nên không phản ánh training 15 epoch.
 
-**Phân biệt**:
+## Dự toán (ước tính)
 
-- Đạt `kiem-nguon` nghĩa là **đủ đầu vào để đi tiếp**.
-- Native val so với COCO val **vẫn lệch 183 lớp và 50 ngoại lệ ignore**; nguyên nhân UNKNOWN.
-- Không điều nào ở trên xác thực nhãn là bản phát hành chính thức.
+Dataset đầy đủ bước 5 (đếm, chưa xuất): **50.487 / 5.559 ảnh**, ~8,5 GB.
 
-## Giới hạn còn tồn tại
+| Phương án | Tổng GPU, hai model tuần tự |
+|:--|:--|
+| **Bước 5, 15 epoch (đề xuất)** | **~57 h** (cao ~74 h) |
+| Bước 10, 15 epoch | ~29 h (cao ~38 h) |
 
-- **Chưa xác thực bằng archive gốc** (md5 `6be40e0c…`); train chưa có tham chiếu độc lập theo từng annotation.
-- Lớp/ignore khác giữa native và COCO, chưa biết bên nào đúng hơn. **Giữ COCO val** cho đánh giá đã bàn giao và các kết quả
-  lịch sử.
-- Nếu sau này có archive gốc: đối chiếu đường dẫn và sha256 từng file, báo khác biệt **trước** khi thay snapshot.
-- Test suite: **NOT_RUN** vì không đổi mã dự án. Script nhập nằm trong `logs/review34/`, kiểm thử fixture 9/9.
+- VRAM ≤ ~3,1 / 4 GB.
+- **RAM là rủi ro chính**: còn trống 16–146 MiB khi các ứng dụng khác đang mở.
 
-## Bước tiếp theo — CHƯA CHẠY
+## Cần quyết định
 
-Khóa split → xuất dataset → smoke YOLOv8n và YOLO11n trên dữ liệu thật theo `DETECTOR_TRAIN_PLAN.md`; huấn luyện local trên
-PC. **Training dài, epoch và ngân sách chưa được duyệt.**
+1. Epoch, bước frame và ngân sách.
+2. Xuất dataset đầy đủ.
+3. Có chạy pilot ngắn có warmup trước không (lượt thêm, cần duyệt).
+4. Đóng bớt ứng dụng khi train dài.
 
-## Đề nghị reviewer xem
+## Giới hạn
 
-1. `logs/review34/nhap_nhan_train.py`: kiểm trước khi ghi, xử lý xung đột (không ghi đè, không xóa), kiểm sau khi nhập.
-2. Các log `02`–`05` và manifest nhập; tính nhất quán giữa `PLAN_DA_CHOT`, `BDD100K_INVENTORY` và `CODEX_HANDOFF`.
+- Test suite NOT_RUN vì `src/` không đổi.
+- Dự toán ngoại suy từ một epoch 42 batch.
+- Nhãn là snapshot bên thứ ba (phương án C).
+
+**Nên xem**: `logs/review35/09_*`, `08_*` → `10b/10c_*`, `12_ket_qua_runner_*_lan2.json`, `13*_*`, `15_du_toan_training.py`.

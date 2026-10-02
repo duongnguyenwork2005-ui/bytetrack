@@ -12,6 +12,38 @@ chưa lấy được từ nguồn chính thức nào, nên `kiem-nguon` vẫn ex
 **khác** COCO val của dự án; nhãn vẫn cách ly; phương án C chờ chốt.
 **Cập nhật 2026-10-02 (vòng 34)**: review `4e71d32` **PASS WITH LIMITATIONS**. Người dùng **chọn phương án C**. Đã nhập
 nguyên byte 1.400 JSON native train; `kiem-nguon` đường chính **exit 0**.
+**Cập nhật 2026-10-02 (vòng 35)**: review `ccd801f` **PASS WITH LIMITATIONS**. **Đã khóa split** `bdd5_train_v1`, xuất
+tập con smoke (334 / 84 ảnh), smoke 2 model trên dữ liệu thật **đạt**. Dataset đầy đủ chưa xuất; training dài chưa duyệt.
+
+## Vòng 35 (2026-10-02) — split đã khóa, tập con smoke đã xuất, smoke 2 model đạt
+
+Chi tiết: `REVIEW35_CHI_TIET.md`; log ở `logs/review35/`.
+
+- **Nghiệm thu `ccd801f`**: PASS WITH LIMITATIONS cho bước nhập nhãn train theo phương án C. Base review → `ccd801f`.
+- **Split đã khóa** `configs/phase2/detector/splits/bdd5_train_v1.json` (commit `4237149`, trước mọi train/AP):
+
+  | Mục | Giá trị |
+  |:--|:--|
+  | train-fit / dev | **1.261 / 139 video**; 250.566 / 27.513 frame; 0 video chung |
+  | Cách chia | Theo video, dev 10%, seed 0, phân tầng motorcycle/bicycle |
+  | Vân tay nguồn nhãn | `d2024493…`, khớp manifest nhập vòng 34 (phương án C) |
+  | Hash | `sha256_danh_sach` `a59a8d06…`; file `b8a2848e…` (giữ nguyên byte CRLF trong git từ `aeed110`) |
+  | Trùng tên video với BDD val (200) / UA-DETRAC test (40) | 0 / 0 |
+
+- **Tập con smoke đã xuất**: `data/yolo_bdd5_v1_smoke/` (không commit), 55,9 MB, 997 file.
+  - 16 + 4 video, bước 10: **334 / 84 ảnh**.
+  - Hợp đồng `bdd5-dataset-v2`: 0 lỗi.
+  - Trùng nội dung train/dev: 0. BDD val: trùng tên 0, trùng nội dung 0 (đã băm 39.973 ảnh val).
+  - Ultralytics tạo `labels/train.cache` và `labels/dev.cache` trong dataset smoke khi train. Runner đối chiếu nhãn thực nạp
+    với dataset đã xác minh: 0 lệch.
+- **Dataset đầy đủ** (bước 5): **chưa xuất**.
+  - Đếm bằng chính hàm của bộ xuất: **50.487 ảnh train-fit / 5.559 ảnh dev**, 6,85 GB ảnh nguồn.
+  - Dung lượng ước ~8,5 GB, vì ảnh tô xám ghi lại JPEG q95 nặng ~1,55× nguồn.
+- **Smoke 1 epoch** trên dữ liệu thật: **đạt cho YOLOv8n và YOLO11n** (lượt `*_smoke_lan2`). Lượt `*_smoke` hỏng do công cụ
+  đo, được giữ làm bằng chứng. Thư mục lượt ở `models/finetune_phase2/` (không commit).
+- **Giữ nguyên**: COCO val `074ff795…`, native val cách ly, kết quả BDD lịch sử. Nhãn vẫn là snapshot bên thứ ba, **chưa xác
+  thực** bằng archive gốc.
+- **Bước tiếp theo** (chưa chạy, chờ duyệt): epoch / bước frame / ngân sách → xuất dataset đầy đủ → training dài local.
 
 ## Vòng 34 (2026-10-02) — phương án C: đã nhập nhãn train (snapshot bên thứ ba có điều kiện)
 
