@@ -1,0 +1,250 @@
+{
+  "scope": "Exact functions selected by AST; synthetic YAML config and callback fixture, clock and torch.cuda mocked; no training.",
+  "checks": [
+    {
+      "name": "inheritance only changes epochs",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "bad inherited hash rejected",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "extra LR override rejected",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "extra training block rejected",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "empty pilot rejected",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "inherited text hash stable across LF/CRLF",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "changed inherited contents rejected",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "old callback overwrite reproduced",
+      "pass": true,
+      "detail": {
+        "epoch": 2,
+        "train_s": 10.0,
+        "loss": {
+          "box_loss": 1.0
+        },
+        "loss_huu_han": true,
+        "lr": [
+          0.01
+        ],
+        "so_batch": 1,
+        "on_dinh": null,
+        "val_s": 52.0,
+        "metrics": {
+          "metric": 0.999
+        },
+        "fitness": 0.1
+      }
+    },
+    {
+      "name": "target preserves epoch metrics/time",
+      "pass": true,
+      "detail": {
+        "epoch": 2,
+        "train_s": 10.0,
+        "loss": {
+          "box_loss": 1.0
+        },
+        "loss_huu_han": true,
+        "lr": [
+          0.01
+        ],
+        "so_batch": 1,
+        "on_dinh": null,
+        "val_s": 2.0,
+        "metrics": {
+          "metric": 0.2
+        },
+        "fitness": 0.1
+      }
+    },
+    {
+      "name": "target records final evaluation separately",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "target callback no recorded error",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "callback_results": {
+    "base": {
+      "hieu_luc": {
+        "amp": false,
+        "batch_size": 8,
+        "accumulate": 8,
+        "optimizer": "SimpleNamespace",
+        "param_groups": [
+          {
+            "lr": 0.01,
+            "initial_lr": null,
+            "momentum": null,
+            "betas": null,
+            "weight_decay": null,
+            "nesterov": null,
+            "param_group": null,
+            "so_tensor": 1
+          }
+        ],
+        "scheduler": "SimpleNamespace",
+        "workers_dataloader": 0,
+        "n_anh_train": 16,
+        "n_anh_val": 16,
+        "batch_moi_epoch": 2,
+        "nc": 5,
+        "names": {
+          "0": "car"
+        },
+        "save_dir": "fixture",
+        "args": {}
+      },
+      "_t_epoch": 174.0,
+      "epoch": [
+        {
+          "epoch": 1,
+          "train_s": 10.0,
+          "loss": {
+            "box_loss": 1.0
+          },
+          "loss_huu_han": true,
+          "lr": [
+            0.01
+          ],
+          "so_batch": 1,
+          "on_dinh": null,
+          "val_s": 2.0,
+          "metrics": {
+            "metric": 0.1
+          },
+          "fitness": 0.1
+        },
+        {
+          "epoch": 2,
+          "train_s": 10.0,
+          "loss": {
+            "box_loss": 1.0
+          },
+          "loss_huu_han": true,
+          "lr": [
+            0.01
+          ],
+          "so_batch": 1,
+          "on_dinh": null,
+          "val_s": 52.0,
+          "metrics": {
+            "metric": 0.999
+          },
+          "fitness": 0.1
+        }
+      ],
+      "_t_val": 122.0
+    },
+    "target": {
+      "hieu_luc": {
+        "amp": false,
+        "batch_size": 8,
+        "accumulate": 8,
+        "optimizer": "SimpleNamespace",
+        "param_groups": [
+          {
+            "lr": 0.01,
+            "initial_lr": null,
+            "momentum": null,
+            "betas": null,
+            "weight_decay": null,
+            "nesterov": null,
+            "param_group": null,
+            "so_tensor": 1
+          }
+        ],
+        "scheduler": "SimpleNamespace",
+        "workers_dataloader": 0,
+        "n_anh_train": 16,
+        "n_anh_val": 16,
+        "batch_moi_epoch": 2,
+        "nc": 5,
+        "names": {
+          "0": "car"
+        },
+        "save_dir": "fixture",
+        "args": {}
+      },
+      "_t_epoch": 124.0,
+      "epoch": [
+        {
+          "epoch": 1,
+          "train_s": 10.0,
+          "loss": {
+            "box_loss": 1.0
+          },
+          "loss_huu_han": true,
+          "lr": [
+            0.01
+          ],
+          "so_batch": 1,
+          "on_dinh": null,
+          "val_s": 2.0,
+          "metrics": {
+            "metric": 0.1
+          },
+          "fitness": 0.1
+        },
+        {
+          "epoch": 2,
+          "train_s": 10.0,
+          "loss": {
+            "box_loss": 1.0
+          },
+          "loss_huu_han": true,
+          "lr": [
+            0.01
+          ],
+          "so_batch": 1,
+          "on_dinh": null,
+          "val_s": 2.0,
+          "metrics": {
+            "metric": 0.2
+          },
+          "fitness": 0.1
+        }
+      ],
+      "_t_val": 122.0,
+      "_n_het_train": 2,
+      "_n_het_fit": 2,
+      "danh_gia_cuoi_ultralytics": {
+        "metrics": {
+          "metric": 0.999
+        },
+        "trainer_epoch_tam": 2,
+        "thoi_gian_tu_het_train_epoch_cuoi_s": 52.0,
+        "ghi_chu": "ultralytics final_eval: validate best.pt (FP16 tu dia) sau vong lap; gom ca luu checkpoint va don dep cuoi epoch"
+      }
+    }
+  },
+  "pass": 11,
+  "fail": 0
+}

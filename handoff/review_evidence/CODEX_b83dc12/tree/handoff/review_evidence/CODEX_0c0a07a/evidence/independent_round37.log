@@ -1,0 +1,168 @@
+{
+  "pass": 468,
+  "fail": 0,
+  "models": {
+    "yolov8n": {
+      "warmup": {
+        "nw": 42,
+        "max_lr_abs_error": 1.3877787807814457e-17,
+        "max_momentum_abs_error": 0.0,
+        "optimizer_update_batches": [
+          0,
+          1,
+          2,
+          4,
+          6,
+          8,
+          11,
+          14,
+          18,
+          23,
+          29,
+          36,
+          44,
+          52,
+          60,
+          68,
+          76
+        ]
+      },
+      "measurements": {
+        "truoc_hoc_model": {
+          "detections": 0,
+          "car_AP50_receipt": 0.0,
+          "median_max_score_receipt": 0.00018542712496127933
+        },
+        "sau_epoch1_model": {
+          "detections": 631,
+          "car_AP50_receipt": 0.3752817526544788,
+          "median_max_score_receipt": 0.01242252578958869
+        },
+        "sau_epoch1_ema": {
+          "detections": 554,
+          "car_AP50_receipt": 0.3384284408260677,
+          "median_max_score_receipt": 0.007898154202848673
+        },
+        "sau_epoch2_model": {
+          "detections": 7496,
+          "car_AP50_receipt": 0.5101280897055859,
+          "median_max_score_receipt": 0.10908513143658638
+        },
+        "sau_epoch2_ema": {
+          "detections": 6031,
+          "car_AP50_receipt": 0.4982438259105016,
+          "median_max_score_receipt": 0.07020096853375435
+        },
+        "checkpoint_last": {
+          "detections": 6037,
+          "car_AP50_receipt": 0.4982707023120749,
+          "median_max_score_receipt": 0.07053151354193687
+        },
+        "checkpoint_best": {
+          "detections": 6037,
+          "car_AP50_receipt": 0.4982707023120749,
+          "median_max_score_receipt": 0.07053151354193687
+        }
+      },
+      "epoch_durations": [
+        {
+          "train_s": 50.0939998626709,
+          "val_plus_save_s": 3.2180001735687256
+        },
+        {
+          "train_s": 38.9689998626709,
+          "val_plus_save_s": 1.3410000801086426
+        }
+      ],
+      "resources": {
+        "gpu_mib_max": 2655,
+        "available_ram_min_runner_mib": 59,
+        "available_ram_min_external_mib": 19,
+        "rss_main_children_max_mib": 3084,
+        "gpu_samples": 140,
+        "ram_samples": 172
+      }
+    },
+    "yolo11n": {
+      "warmup": {
+        "nw": 42,
+        "max_lr_abs_error": 1.3877787807814457e-17,
+        "max_momentum_abs_error": 0.0,
+        "optimizer_update_batches": [
+          0,
+          1,
+          2,
+          4,
+          6,
+          8,
+          11,
+          14,
+          18,
+          23,
+          29,
+          36,
+          44,
+          52,
+          60,
+          68,
+          76
+        ]
+      },
+      "measurements": {
+        "truoc_hoc_model": {
+          "detections": 0,
+          "car_AP50_receipt": 0.0,
+          "median_max_score_receipt": 0.0002778128837235272
+        },
+        "sau_epoch1_model": {
+          "detections": 18,
+          "car_AP50_receipt": 0.0049504950495049506,
+          "median_max_score_receipt": 0.0005482926208060235
+        },
+        "sau_epoch1_ema": {
+          "detections": 3,
+          "car_AP50_receipt": 0.0049504950495049506,
+          "median_max_score_receipt": 0.00041495071491226554
+        },
+        "sau_epoch2_model": {
+          "detections": 3798,
+          "car_AP50_receipt": 0.41314163490419187,
+          "median_max_score_receipt": 0.05535079725086689
+        },
+        "sau_epoch2_ema": {
+          "detections": 3606,
+          "car_AP50_receipt": 0.3923737754716834,
+          "median_max_score_receipt": 0.04099402390420437
+        },
+        "checkpoint_last": {
+          "detections": 3603,
+          "car_AP50_receipt": 0.39254059320260865,
+          "median_max_score_receipt": 0.04101761057972908
+        },
+        "checkpoint_best": {
+          "detections": 3603,
+          "car_AP50_receipt": 0.39254059320260865,
+          "median_max_score_receipt": 0.04101761057972908
+        }
+      },
+      "epoch_durations": [
+        {
+          "train_s": 58.00600004196167,
+          "val_plus_save_s": 4.065999984741211
+        },
+        {
+          "train_s": 46.3529999256134,
+          "val_plus_save_s": 1.874000072479248
+        }
+      ],
+      "resources": {
+        "gpu_mib_max": 2892,
+        "available_ram_min_runner_mib": 35,
+        "available_ram_min_external_mib": 7,
+        "rss_main_children_max_mib": 3064,
+        "gpu_samples": 146,
+        "ram_samples": 174
+      }
+    }
+  }
+}

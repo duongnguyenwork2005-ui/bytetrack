@@ -1,0 +1,38 @@
+# 2026-10-02 17:11:09 +0700 HEAD 2b15b88
+# lenh: python handoff/logs/review36/04_doi_chieu_R35-F1.py   (chi doc log/JSON vong 35; khong nap model, khong inference)
+# A. Phep so cua 13_chan_doan_khong_detection.py (CKPT): checkpoint nao, bao nhieu lop dau
+  yolov8n_khoi_tao_coco      models/yolov8n.pt                                                      so_lop_dau=80 | diem lop max/anh trung vi 0.819386 | box>=0,001: 8620
+  yolov8n_smoke_lan2_best    models/finetune_phase2/train_bdd5_v1_yolov8n_smoke_lan2/weights/best.pt so_lop_dau= 5 | diem lop max/anh trung vi 0.012857 | box>=0,001: 424
+  yolo11n_khoi_tao_coco      models/candidates/yolo11n.pt                                           so_lop_dau=80 | diem lop max/anh trung vi 0.796253 | box>=0,001: 7069
+  yolo11n_smoke_lan2_best    models/finetune_phase2/train_bdd5_v1_yolo11n_smoke_lan2/weights/best.pt so_lop_dau= 5 | diem lop max/anh trung vi 0.000334 | box>=0,001: 0
+  -> so sanh COCO 80 lop (truoc chuyen) voi 5 lop SAU smoke. KHONG co checkpoint/so do model 5 lop sau khoi tao/nap trong so va TRUOC buoc toi uu dau tien.
+
+# B. Log khoi tao model 5 lop trong smoke lan 2 (chuyen 80 -> 5 lop)
+  yolov8n: Overriding model.yaml nc=80 with nc=5
+  yolov8n: Remapped 5/5 cls head rows from pretrained weights by class name
+  yolov8n: Transferred 322/355 items from pretrained weights
+  yolo11n: Overriding model.yaml nc=80 with nc=5
+  yolo11n: Remapped 5/5 cls head rows from pretrained weights by class name
+  yolo11n: Transferred 451/499 items from pretrained weights
+  -> 5 hang phan lop chep tu lop COCO cung ten, nhung KHONG phai moi tensor duoc chuyen; anh huong cua buoc chuyen 80 -> 5 lop len diem lop CHUA duoc do rieng.
+
+# C. Warmup / LR / buoc toi uu: bang chung thuc chay co trong ket qua runner
+  yolov8n: khai bao epochs=1 warmup_epochs=1.0 warmup_bias_lr=0.1 | luc on_train_start: accumulate=8, lr nhom = [0.01, 0.01, 0.01] | cuoi epoch: lr=[0.01, 0.01, 0.01] | so_batch=42
+  yolo11n: khai bao epochs=1 warmup_epochs=1.0 warmup_bias_lr=0.1 | luc on_train_start: accumulate=8, lr nhom = [0.01, 0.01, 0.01] | cuoi epoch: lr=[0.01, 0.01, 0.01] | so_batch=42
+  -> runner chi chup LR luc bat dau va cuoi epoch; KHONG co log tung buoc (so warmup iteration, LR, accumulate, so buoc optimizer thuc chay). Nhan dinh 'khong co warmup khi epochs=1' chi dua tren DOC MA NGUON ultralytics (xem logs/review36/00_trang_thai_dau.log), khong phai log thuc chay.
+
+# D. Danh gia chinh (conf 0,001, giu nguyen) va chan doan conf 1e-6 (13b, rieng)
+  yolov8n car        n_gt 542 | conf 0,001: n_det   424 AP50 0.2929026019131906 | conf 1e-6: n_det 21014 AP50 0.3714817645321565
+  yolov8n truck      n_gt   6 | conf 0,001: n_det     0 AP50 0.0 | conf 1e-6: n_det  4186 AP50 0.025522965840791046
+  yolov8n bus        n_gt   4 | conf 0,001: n_det     0 AP50 0.0 | conf 1e-6: n_det     0 AP50 0.0
+  yolov8n motorcycle n_gt   0 | conf 0,001: n_det     0 AP50 None | conf 1e-6: n_det     0 AP50 None
+  yolov8n bicycle    n_gt   0 | conf 0,001: n_det     0 AP50 None | conf 1e-6: n_det     0 AP50 None
+  yolo11n car        n_gt 542 | conf 0,001: n_det     0 AP50 0.0 | conf 1e-6: n_det 25199 AP50 0.2333976919424776
+  yolo11n truck      n_gt   6 | conf 0,001: n_det     0 AP50 0.0 | conf 1e-6: n_det     1 AP50 0.0
+  yolo11n bus        n_gt   4 | conf 0,001: n_det     0 AP50 0.0 | conf 1e-6: n_det     0 AP50 0.0
+  yolo11n motorcycle n_gt   0 | conf 0,001: n_det     0 AP50 None | conf 1e-6: n_det     0 AP50 None
+  yolo11n bicycle    n_gt   0 | conf 0,001: n_det     0 AP50 None | conf 1e-6: n_det     0 AP50 None
+  -> o conf 1e-6, YOLO11n co du doan car khop GT (AP50 ~0,233) tren 84 anh dev smoke; truck/bus AP50 0 (11n: 1 / 0 du doan); motorcycle/bicycle KHONG co GT. Khong suy rong cho moi lop, moi toa do hay toan duong ong.
+
+# KET LUAN DOI CHIEU: da QUAN SAT diem lop cua checkpoint smoke 5 lop thap hon checkpoint COCO 80 lop; NGUYEN NHAN CHUA XAC DINH (chuyen 80 -> 5 lop/khoi tao va cac buoc hoc -- gom warmup -- chua duoc tach).
+# exit=0

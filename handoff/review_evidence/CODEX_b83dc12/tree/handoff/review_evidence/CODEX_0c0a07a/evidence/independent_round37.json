@@ -1,0 +1,2043 @@
+{
+  "scope": "Independent arithmetic/hash/receipt checks; no image, checkpoint, GPU or training rerun.",
+  "models": {
+    "yolov8n": {
+      "warmup": {
+        "nw": 42,
+        "max_lr_abs_error": 1.3877787807814457e-17,
+        "max_momentum_abs_error": 0.0,
+        "optimizer_update_batches": [
+          0,
+          1,
+          2,
+          4,
+          6,
+          8,
+          11,
+          14,
+          18,
+          23,
+          29,
+          36,
+          44,
+          52,
+          60,
+          68,
+          76
+        ]
+      },
+      "measurements": {
+        "truoc_hoc_model": {
+          "detections": 0,
+          "car_AP50_receipt": 0.0,
+          "median_max_score_receipt": 0.00018542712496127933
+        },
+        "sau_epoch1_model": {
+          "detections": 631,
+          "car_AP50_receipt": 0.3752817526544788,
+          "median_max_score_receipt": 0.01242252578958869
+        },
+        "sau_epoch1_ema": {
+          "detections": 554,
+          "car_AP50_receipt": 0.3384284408260677,
+          "median_max_score_receipt": 0.007898154202848673
+        },
+        "sau_epoch2_model": {
+          "detections": 7496,
+          "car_AP50_receipt": 0.5101280897055859,
+          "median_max_score_receipt": 0.10908513143658638
+        },
+        "sau_epoch2_ema": {
+          "detections": 6031,
+          "car_AP50_receipt": 0.4982438259105016,
+          "median_max_score_receipt": 0.07020096853375435
+        },
+        "checkpoint_last": {
+          "detections": 6037,
+          "car_AP50_receipt": 0.4982707023120749,
+          "median_max_score_receipt": 0.07053151354193687
+        },
+        "checkpoint_best": {
+          "detections": 6037,
+          "car_AP50_receipt": 0.4982707023120749,
+          "median_max_score_receipt": 0.07053151354193687
+        }
+      },
+      "epoch_durations": [
+        {
+          "train_s": 50.0939998626709,
+          "val_plus_save_s": 3.2180001735687256
+        },
+        {
+          "train_s": 38.9689998626709,
+          "val_plus_save_s": 1.3410000801086426
+        }
+      ],
+      "resources": {
+        "gpu_mib_max": 2655,
+        "available_ram_min_runner_mib": 59,
+        "available_ram_min_external_mib": 19,
+        "rss_main_children_max_mib": 3084,
+        "gpu_samples": 140,
+        "ram_samples": 172
+      }
+    },
+    "yolo11n": {
+      "warmup": {
+        "nw": 42,
+        "max_lr_abs_error": 1.3877787807814457e-17,
+        "max_momentum_abs_error": 0.0,
+        "optimizer_update_batches": [
+          0,
+          1,
+          2,
+          4,
+          6,
+          8,
+          11,
+          14,
+          18,
+          23,
+          29,
+          36,
+          44,
+          52,
+          60,
+          68,
+          76
+        ]
+      },
+      "measurements": {
+        "truoc_hoc_model": {
+          "detections": 0,
+          "car_AP50_receipt": 0.0,
+          "median_max_score_receipt": 0.0002778128837235272
+        },
+        "sau_epoch1_model": {
+          "detections": 18,
+          "car_AP50_receipt": 0.0049504950495049506,
+          "median_max_score_receipt": 0.0005482926208060235
+        },
+        "sau_epoch1_ema": {
+          "detections": 3,
+          "car_AP50_receipt": 0.0049504950495049506,
+          "median_max_score_receipt": 0.00041495071491226554
+        },
+        "sau_epoch2_model": {
+          "detections": 3798,
+          "car_AP50_receipt": 0.41314163490419187,
+          "median_max_score_receipt": 0.05535079725086689
+        },
+        "sau_epoch2_ema": {
+          "detections": 3606,
+          "car_AP50_receipt": 0.3923737754716834,
+          "median_max_score_receipt": 0.04099402390420437
+        },
+        "checkpoint_last": {
+          "detections": 3603,
+          "car_AP50_receipt": 0.39254059320260865,
+          "median_max_score_receipt": 0.04101761057972908
+        },
+        "checkpoint_best": {
+          "detections": 3603,
+          "car_AP50_receipt": 0.39254059320260865,
+          "median_max_score_receipt": 0.04101761057972908
+        }
+      },
+      "epoch_durations": [
+        {
+          "train_s": 58.00600004196167,
+          "val_plus_save_s": 4.065999984741211
+        },
+        {
+          "train_s": 46.3529999256134,
+          "val_plus_save_s": 1.874000072479248
+        }
+      ],
+      "resources": {
+        "gpu_mib_max": 2892,
+        "available_ram_min_runner_mib": 35,
+        "available_ram_min_external_mib": 7,
+        "rss_main_children_max_mib": 3064,
+        "gpu_samples": 146,
+        "ram_samples": 174
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "yolov8n: declared/runtime params equal",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: locked cau_hinh",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: locked checkpoint_khoi_tao",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: locked tham_so_khai_bao",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: locked tham_so_resolve_tinh",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: locked pilot_khac_smoke",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: original checkpoint",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: epochs only changed 1->2",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: 334/84",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: round35 dataset hashes",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: loaded dataset counts and labels",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: two complete epochs and success",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: before first optimizer update",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: recorded warmup source hash",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: exactly 84 ordered batches",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: numeric finite losses",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: nw 42",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 0",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 0",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 1",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 1",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 2",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 2",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 3",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 3",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 4",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 4",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 5",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 5",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 6",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 6",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 7",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 7",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 8",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 8",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 9",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 9",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 10",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 10",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 11",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 11",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 12",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 12",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 13",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 13",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 14",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 14",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 15",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 15",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 16",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 16",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 17",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 17",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 18",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 18",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 19",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 19",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 20",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 20",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 21",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 21",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 22",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 22",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 23",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 23",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 24",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 24",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 25",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 25",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 26",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 26",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 27",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 27",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 28",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 28",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 29",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 29",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 30",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 30",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 31",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 31",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 32",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 32",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 33",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 33",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 34",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 34",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 35",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 35",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 36",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 36",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 37",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 37",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 38",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 38",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 39",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 39",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 40",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 40",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 41",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 41",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 42",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 42",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 43",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 43",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 44",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 44",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 45",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 45",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 46",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 46",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 47",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 47",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 48",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 48",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 49",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 49",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 51",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 51",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 52",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 52",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 53",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 53",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 54",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 54",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 55",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 55",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 56",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 56",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 57",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 57",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 58",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 58",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 59",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 59",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 60",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 60",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 61",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 61",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 62",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 62",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 63",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 63",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 64",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 64",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 65",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 65",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 66",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 66",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 67",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 67",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 68",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 68",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 69",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 69",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 70",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 70",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 71",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 71",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 72",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 72",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 73",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 73",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 74",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 74",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 76",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 76",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 77",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 77",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 78",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 78",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 79",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 79",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 80",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 80",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 81",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 81",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 82",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 82",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: accumulate batch 83",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: EMA increment batch 83",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: LR formula",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: momentum formula",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: independent update schedule",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: no mosaic",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: seven measurements",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: truoc_hoc_model protocol",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: truoc_hoc_model count sums",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: truoc_hoc_model class support",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: truoc_hoc_model mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: truoc_hoc_model restoration receipt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch1_model protocol",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch1_model count sums",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch1_model class support",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch1_model mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch1_model restoration receipt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch1_ema protocol",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch1_ema count sums",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch1_ema class support",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch1_ema mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch1_ema restoration receipt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch2_model protocol",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch2_model count sums",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch2_model class support",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch2_model mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch2_model restoration receipt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch2_ema protocol",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch2_ema count sums",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch2_ema class support",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch2_ema mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: sau_epoch2_ema restoration receipt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: checkpoint_last protocol",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: checkpoint_last count sums",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: checkpoint_last class support",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: checkpoint_last mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: checkpoint_best protocol",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: checkpoint_best count sums",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: checkpoint_best class support",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: checkpoint_best mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: zero detections before learning",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: weight accounting",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: checkpoint last receipt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: checkpoint best receipt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: before learning ordered timestamps",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: epoch1 train timing",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: epoch1 val timing",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: epoch2 train timing",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: epoch2 val timing",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: peak resource summaries",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: supplied summary reproducible",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: declared/runtime params equal",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: locked cau_hinh",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: locked checkpoint_khoi_tao",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: locked tham_so_khai_bao",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: locked tham_so_resolve_tinh",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: locked pilot_khac_smoke",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: original checkpoint",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: epochs only changed 1->2",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: 334/84",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: round35 dataset hashes",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: loaded dataset counts and labels",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: two complete epochs and success",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: before first optimizer update",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: recorded warmup source hash",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: exactly 84 ordered batches",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: numeric finite losses",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: nw 42",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 0",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 0",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 1",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 1",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 2",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 2",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 3",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 3",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 4",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 4",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 5",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 5",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 6",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 6",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 7",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 7",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 8",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 8",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 9",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 9",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 10",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 10",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 11",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 11",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 12",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 12",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 13",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 13",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 14",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 14",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 15",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 15",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 16",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 16",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 17",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 17",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 18",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 18",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 19",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 19",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 20",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 20",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 21",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 21",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 22",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 22",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 23",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 23",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 24",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 24",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 25",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 25",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 26",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 26",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 27",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 27",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 28",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 28",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 29",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 29",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 30",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 30",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 31",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 31",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 32",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 32",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 33",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 33",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 34",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 34",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 35",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 35",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 36",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 36",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 37",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 37",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 38",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 38",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 39",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 39",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 40",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 40",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 41",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 41",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 42",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 42",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 43",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 43",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 44",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 44",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 45",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 45",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 46",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 46",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 47",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 47",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 48",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 48",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 49",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 49",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 51",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 51",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 52",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 52",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 53",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 53",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 54",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 54",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 55",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 55",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 56",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 56",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 57",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 57",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 58",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 58",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 59",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 59",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 60",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 60",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 61",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 61",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 62",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 62",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 63",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 63",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 64",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 64",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 65",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 65",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 66",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 66",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 67",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 67",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 68",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 68",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 69",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 69",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 70",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 70",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 71",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 71",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 72",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 72",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 73",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 73",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 74",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 74",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 75",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 75",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 76",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 76",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 77",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 77",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 78",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 78",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 79",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 79",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 80",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 80",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 81",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 81",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 82",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 82",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: accumulate batch 83",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: EMA increment batch 83",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: LR formula",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: momentum formula",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: independent update schedule",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: no mosaic",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: seven measurements",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: truoc_hoc_model protocol",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: truoc_hoc_model count sums",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: truoc_hoc_model class support",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: truoc_hoc_model mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: truoc_hoc_model restoration receipt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch1_model protocol",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch1_model count sums",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch1_model class support",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch1_model mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch1_model restoration receipt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch1_ema protocol",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch1_ema count sums",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch1_ema class support",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch1_ema mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch1_ema restoration receipt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch2_model protocol",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch2_model count sums",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch2_model class support",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch2_model mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch2_model restoration receipt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch2_ema protocol",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch2_ema count sums",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch2_ema class support",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch2_ema mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: sau_epoch2_ema restoration receipt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: checkpoint_last protocol",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: checkpoint_last count sums",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: checkpoint_last class support",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: checkpoint_last mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: checkpoint_best protocol",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: checkpoint_best count sums",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: checkpoint_best class support",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: checkpoint_best mAP averages supported classes",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: zero detections before learning",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: weight accounting",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: checkpoint last receipt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: checkpoint best receipt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: before learning ordered timestamps",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: epoch1 train timing",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: epoch1 val timing",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: epoch2 train timing",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: epoch2 val timing",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: peak resource summaries",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: supplied summary reproducible",
+      "pass": true
+    }
+  ],
+  "pass": 468,
+  "fail": 0
+}

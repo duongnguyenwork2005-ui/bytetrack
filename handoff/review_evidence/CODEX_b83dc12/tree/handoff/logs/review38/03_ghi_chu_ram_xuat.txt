@@ -1,0 +1,13 @@
+# 2026-10-02 23:50:40 +0700 -- GHI CHU sau khi chay (khong sua file do goc)
+# Bo do RAM ngoai (logs/review37/do_tai_nguyen_ngoai.py ram --mau prepare_mixed_yolo_dataset.py) chon tien trinh DAU TIEN
+# co chuoi mau trong command line. Luc khoi dong, shell (bash) cua lenh Monitor theo doi tien do do Claude chay song song
+# cung chua chuoi 'prepare_mixed_yolo_dataset.py' -> bo do bam NHAM tien trinh do (pid 23788), KHONG phai exporter.
+# Bang chung:
+#  - kiem tien trinh luc 23:36 (sau 55 s): exporter python.exe pid 20304 ('-u src/prepare_mixed_yolo_dataset.py ...');
+#  - 03_ram_xuat.json: pid 23788, 781 mau, RSS tien trinh chinh trung vi 10 MiB / max 10 MiB,
+#    so tien trinh con 0..4 -- khop mot shell + cac lan goi python ngan cua Monitor, KHONG khop exporter
+# KET LUAN: cot RSS tien trinh trong 03_ram_xuat*.{json,csv} KHONG HOP LE cho exporter (khong dung so nay).
+#   Cot RAM he thong con trong (psutil.virtual_memory().available, toan may) VAN HOP LE: 781 mau,
+#   thap nhat 449 MiB, trung vi 727 MiB, cao nhat 1274 MiB trong 790.1 s xuat.
+# Khong chay lai xuat de do lai RAM tien trinh (ngoai pham vi, dataset da dat hop dong).
+# De xuat (chua lam): truoc training dai, bo do chi chon tien trinh python (hoac nhan PID truc tiep) va test lai.

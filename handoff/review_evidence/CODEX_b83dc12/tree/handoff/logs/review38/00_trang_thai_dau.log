@@ -1,0 +1,31 @@
+# 2026-10-02 23:31:44 +0700 -- trang thai dau vong 38 (ghi nhan review 0c0a07a; xuat dataset day du buoc 5; KHONG train)
+nhanh: phase2-mixed-traffic
+HEAD: 0c0a07a3995ace893610c3d68603a6e3cf949f61
+commit sau 0c0a07a: 0
+base review hien tai: 2351c677c9a330050ebd152f10f46ed3922a431f
+--- git status --short (bo qua results/ outputs/ va file rieng da biet):
+ M .gitignore
+ M src/demo/rerun_with_state_log.py
+?? CODEX_REVIEW_c4d64a1_EVIDENCE/
+?? handoff/logs/review38/
+?? src/demo/build_buffer90_demo.py
+?? src/demo/find_buffer90_candidates.py
+?? src/demo/find_buffer90_moving_candidates.py
+?? src/demo/live_view.py
+?? src/demo/single_case_buffer90.py
+?? src/demo/turning_case_buffer90.py
+--- review 0c0a07a (doc tu D:\LABOTARY\review_codex):
+b3330e631a02d9ef04bad7f38fd320776abf2e6c2da06733554c1c22f8025a3b *CODEX_REVIEW_0c0a07a.md
+86c596a4d8f11c6bcb201f6039987aef60062ee6d109a9addef3327242310de3 *CODEX_REVIEW_0c0a07a_EVIDENCE.zip
+11643 B CODEX_REVIEW_0c0a07a.md
+360375 B CODEX_REVIEW_0c0a07a_EVIDENCE.zip
+SHA256SUMS bang chung: 91/91 khop (giai nen o D:\LABOTARY\review_codex\CODEX_REVIEW_0c0a07a_EVIDENCE\, ZIP goc giu nguyen); bao cao trong ZIP trung byte ban rieng
+--- goi delta hien tai (phai la goi da nghiem thu): 967546 B a2985214d9e2e25f2abd1f9578b4517582fc6684ad79418b471d99a5e9e4928d
+--- moi truong:
+python 3.11.9 | Windows-10-10.0.26200-SP0 | ultralytics 8.4.141 | torch 2.6.0+cu124 | numpy 2.4.6 | opencv 5.0.0
+NVIDIA GeForce GTX 1650, 555.97, 4096 MiB, 406 MiB
+RAM tong 8.4 GB, con trong 1.15 GB; D: con trong 63.21 GB
+--- thu muc dich dataset day du:
+drwxr-xr-x 1 Mikuno 197609 0 Oct  2 12:58 yolo_bdd5_v1_smoke
+ls: cannot access 'data/yolo_bdd5_v1': No such file or directory
+ls: cannot access 'data/yolo_bdd5_v1.dang_tao': No such file or directory

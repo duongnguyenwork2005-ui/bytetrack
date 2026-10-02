@@ -1,0 +1,90 @@
+{
+  "scope": "receipt/hash/arithmetic consistency; not an independent validation of dataset bytes",
+  "prior_evidence_files": 91,
+  "dataset_receipt": {
+    "hashes": {
+      "sha256_data_yaml": "1280e57bcc5c6927a3a1143f59b3ffaf2a05fc9d16b63507ab4f81be2eaeecd1",
+      "sha256_tom_tat": "9eae5eb3ee0a70a13dee0dca7afd682044b480d55690257f2ac4cbe574749010",
+      "manifest_sha256": "1ee6174f8be328f4f62ea10e3a9bb0502fd18c4e55f9b9aa0d2512cd565f6069",
+      "sha256_video_json": "05140872cc35b4399700960139ce287810640985e2ee20f9700e848826a09750"
+    },
+    "stats": {
+      "train": {
+        "so_anh": 50487,
+        "so_video": 1261,
+        "am_tinh": 686,
+        "anh_co_vung_ignore": 17040,
+        "box": {
+          "car": 383387,
+          "truck": 27358,
+          "bus": 10708,
+          "motorcycle": 2235,
+          "bicycle": 4747
+        },
+        "anh_co_lop": {
+          "car": 49530,
+          "truck": 16882,
+          "bus": 8160,
+          "motorcycle": 1822,
+          "bicycle": 3598
+        },
+        "video_co_lop": {
+          "car": 1261,
+          "truck": 906,
+          "bus": 532,
+          "motorcycle": 230,
+          "bicycle": 397
+        }
+      },
+      "dev": {
+        "so_anh": 5559,
+        "so_video": 139,
+        "am_tinh": 95,
+        "anh_co_vung_ignore": 1560,
+        "box": {
+          "car": 42211,
+          "truck": 2971,
+          "bus": 984,
+          "motorcycle": 226,
+          "bicycle": 407
+        },
+        "anh_co_lop": {
+          "car": 5407,
+          "truck": 1957,
+          "bus": 780,
+          "motorcycle": 205,
+          "bicycle": 334
+        },
+        "video_co_lop": {
+          "car": 139,
+          "truck": 94,
+          "bus": 55,
+          "motorcycle": 24,
+          "bicycle": 44
+        }
+      }
+    },
+    "box_total": 475234,
+    "file_count_receipt": 130699,
+    "hashed_content_files": 130692,
+    "bytes_receipt": 8034288965
+  },
+  "ram_system": {
+    "samples": 781,
+    "min_mib": 449,
+    "median_mib": 727,
+    "max_mib": 1274,
+    "process_rss_usable": false
+  },
+  "nonblocking_note_optimizer_steps": {
+    "full_dataset_static_estimate": 789,
+    "pilot_static_estimate_per_epoch": 6,
+    "pilot_observed_per_epoch": [
+      12,
+      5
+    ],
+    "interpretation": "static estimate excludes dynamic warmup accumulation and update boundary effects; not a full-dataset measured count"
+  },
+  "pass": 188,
+  "fail": 0
+}
