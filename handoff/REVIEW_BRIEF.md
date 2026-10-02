@@ -1,65 +1,57 @@
-# REVIEW_BRIEF — vòng 35: khóa split, smoke 2 model trên dữ liệu thật, dự toán training local
+# REVIEW_BRIEF — vòng 36: đính chính R35-F1 và R35-F2 (chỉ diễn giải)
 
 <!-- BASE_TARGET -->
 
-Chi tiết: **`handoff/REVIEW35_CHI_TIET.md`**.
+Chi tiết: **`handoff/REVIEW36_CHI_TIET.md`**.
 
-**Phạm vi**: nghiệm thu `ccd801f` → khóa split → tập con smoke → smoke → dự toán, rồi **dừng**.
+**Phạm vi**: ghi nhận nghiệm thu `2351c67`, đính chính hai điểm diễn giải, rồi **dừng**.
 
-- Training dài, epoch và ngân sách **chưa duyệt, chưa chạy**.
-- `src/` không đổi.
-- Không Nano, không tracking.
+- Không train, inference, pilot, xuất dataset hay chạy lại smoke.
+- Split, dataset smoke, checkpoint, ngưỡng đánh giá và số liệu **giữ nguyên**.
+- `src/` không đổi; không Nano.
 
-## Đã chạy
+## Ghi nhận nghiệm thu — ĐÃ CHẠY
 
-| Bước | Kết quả |
-|:--|:--|
-| Nghiệm thu `ccd801f` | PASS WITH LIMITATIONS; bằng chứng 15/15 khớp; **base → `ccd801f`** |
-| Khóa split (`4237149`, trước mọi train/AP) | Theo video, dev 10%, seed 0, phân tầng motorcycle/bicycle. **train-fit 1.261 video / dev 139**, 0 video chung. Trùng tên với BDD val / UA-DETRAC test: 0 |
-| Giữ byte split (`aeed110`) | `text=auto` từng đổi blob CRLF→LF, không kiểm được sha256 `b8a2848e…`; thêm `-text`, nội dung không đổi |
-| Tập con smoke | **334 / 84 ảnh**; hợp đồng v2 0 lỗi; trùng nội dung train/dev và BDD val: 0 |
-| Smoke lần 1 | **FAIL trước vòng train**: bộ gắn mốc giờ **của tôi** chết vì ký tự "━", pipe đứt, runner báo `OSError [Errno 22]`. Đã lưu log |
-| Sửa công cụ đo | Regression: mã cũ FAIL (tái hiện errno 22), mã mới 12/12 |
-| Smoke lần 2 | **PASS cả hai** (exit 0). Nạp 334/84 ảnh khớp dataset đã xác minh; checkpoint nạp lại đúng 5 lớp |
+- Codex `2351c67`: **PASS WITH LIMITATIONS** cho split, tập con và smoke. Bằng chứng 69/69 khớp.
+- Gói 378.096 B, `76e7d2ad…` khớp, đã lưu archive. **Base → `2351c67`**; 13 khai báo NPZ giữ nguyên.
+- Reviewer không lặp lại training GPU và không xác minh toàn cây Git.
 
-| Smoke lần 2 | YOLOv8n | YOLO11n |
+## R35-F1 — quan sát và nguyên nhân — ĐÃ SỬA
+
+Đối chiếu lại log và JSON có sẵn (`logs/review36/04_*`, không nạp model):
+
+- `13_*` so **COCO 80 lớp** với **checkpoint smoke 5 lớp**. Model 5 lớp sau khởi tạo, trước bước học, **chưa được đo**.
+- Warmup thực chạy không có log; nhận định "không warmup khi 1 epoch" chỉ dựa trên đọc mã nguồn.
+
+**Câu đính chính**: checkpoint smoke có confidence thấp hơn checkpoint COCO 80 lớp; **nguyên nhân chưa xác định**. Warmup và
+trạng thái khởi tạo model 5 lớp là các yếu tố cần phân biệt.
+
+- Conf 1e-6 cho car AP50 ≈ 0,233: chỉ cho thấy có dự đoán **car** khớp GT ở điểm thấp trên 84 ảnh dev smoke. Đã rút câu
+  "không phải lỗi đường ống".
+- Đánh giá chính ở conf 0,001 giữ nguyên. Dev smoke không có motorcycle hay bicycle.
+
+## R35-F2 — dự toán là kịch bản — ĐÃ SỬA
+
+- Sửa **tại nguồn** `15_du_toan_training.py`, chỉ chuỗi mô tả. Sinh lại vào `logs/review36/02_*`.
+- **162 giá trị số và cấu trúc giống hệt** JSON gốc và JSON reviewer (`03_*`; bộ đối chiếu tự kiểm 7 ca).
+- Tài liệu: "cao", "cận trên", `≤` → **kịch bản dự toán theo giả định**; thực tế có thể vượt.
+
+| Bước / epoch | Kịch bản | Kịch bản chậm hơn |
 |:--|--:|--:|
-| Khởi tạo / train / val | 40 / 51 / 34 s | 36 / 63 / 9 s |
-| s/batch ổn định | 0,991 | 1,131 |
-| torch reserved / cả GPU | 2.134 / 2.624 MiB | 2.344 / 2.840 MiB |
-| dev smoke mAP50 | 0,098 | **0** |
+| 5 / 15 | 56,64 h | 73,95 h |
+| 10 / 15 | 29,10 h | 37,99 h |
 
-AP chỉ để kiểm pipeline, không so sánh model.
+## Kiểm không đổi — ĐẠT
 
-**YOLO11n ra 0 detection**:
+`logs/review36/05b_*`:
 
-- Điểm lớp lớn nhất giảm 0,80 → 0,0003, dưới ngưỡng 0,001.
-- Ở conf 1e-6, car AP50 = 0,233, nên **không phải lỗi đường ống**.
-- Smoke 1 epoch không có warmup (quy tắc ultralytics), nên không phản ánh training 15 epoch.
+- split `b8a2848e…`, dataset smoke, kết quả runner và 4 checkpoint khớp ghi nhận;
+- log và số đo gốc vòng 35 không đổi.
 
-## Dự toán (ước tính)
+`05a_*` báo sai vì phép kiểm bắt cả file riêng của người dùng; giữ lại, có ghi chú. Full suite NOT_RUN vì `src/` không đổi.
 
-Dataset đầy đủ bước 5 (đếm, chưa xuất): **50.487 / 5.559 ảnh**, ~8,5 GB.
+## Chờ người dùng duyệt
 
-| Phương án | Tổng GPU, hai model tuần tự |
-|:--|:--|
-| **Bước 5, 15 epoch (đề xuất)** | **~57 h** (cao ~74 h) |
-| Bước 10, 15 epoch | ~29 h (cao ~38 h) |
+Pilot · xuất dataset đầy đủ · số epoch · bước frame · ngân sách training local.
 
-- VRAM ≤ ~3,1 / 4 GB.
-- **RAM là rủi ro chính**: còn trống 16–146 MiB khi các ứng dụng khác đang mở.
-
-## Cần quyết định
-
-1. Epoch, bước frame và ngân sách.
-2. Xuất dataset đầy đủ.
-3. Có chạy pilot ngắn có warmup trước không (lượt thêm, cần duyệt).
-4. Đóng bớt ứng dụng khi train dài.
-
-## Giới hạn
-
-- Test suite NOT_RUN vì `src/` không đổi.
-- Dự toán ngoại suy từ một epoch 42 batch.
-- Nhãn là snapshot bên thứ ba (phương án C).
-
-**Nên xem**: `logs/review35/09_*`, `08_*` → `10b/10c_*`, `12_ket_qua_runner_*_lan2.json`, `13*_*`, `15_du_toan_training.py`.
+**Nên xem**: `REVIEW35_CHI_TIET.md` mục 7, 9, 10 (đã đính chính); `logs/review36/03_*`, `04_*`, `05b_*`.

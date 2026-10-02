@@ -1,5 +1,15 @@
 # Vòng 35 — khóa split, xuất tập con smoke, smoke 2 model trên dữ liệu thật, dự toán training local (chi tiết)
 
+> **Đính chính vòng 36** (review `2351c67`, R35-F1 và R35-F2; chi tiết ở `REVIEW36_CHI_TIET.md`). Số liệu, log, checkpoint
+> và ngưỡng đánh giá **giữ nguyên**; chỉ sửa diễn giải.
+>
+> - **Mục 7 và 10 (R35-F1)**: checkpoint smoke có confidence thấp hơn checkpoint COCO 80 lớp; **nguyên nhân chưa xác
+>   định**. Chuyển sang 5 lớp/khởi tạo và các bước học (gồm có hay không warmup) **chưa được tách riêng**.
+> - **Mục 7 (R35-F1)**: kết quả conf 1e-6 chỉ cho thấy có dự đoán **car** khớp GT ở điểm thấp trên 84 ảnh dev smoke. Kết quả
+>   này không chứng minh toàn đường ống, mọi lớp hay tọa độ không có lỗi.
+> - **Mục 9 và 10 (R35-F2)**: các mức thời gian, RAM và VRAM là **kịch bản dự toán theo các giả định đã nêu**, không phải
+>   cận trên hay bảo đảm. Thực tế có thể vượt cả kịch bản chậm hơn.
+
 **Phạm vi**: làm đúng chuỗi người dùng duyệt: ghi nhận nghiệm thu `ccd801f` → khóa split → xuất tập con smoke → smoke trên
 dữ liệu thật → cập nhật dự toán training local, **dừng sau smoke**.
 
@@ -195,8 +205,8 @@ python -u src/train_detector.py --model <M> --che-do smoke --ten train_bdd5_v1_<
 - **`val_s`**: từ `on_train_epoch_end` tới `on_fit_epoch_end`; gồm val, lưu checkpoint, dọn dẹp.
 - **wall**: `date` quanh pipeline.
 - **RAM**:
-  - bộ đo ngoài: psutil RSS (working set) của tiến trình train + mọi tiến trình con, mỗi 1 s. Đây là **cận trên**, có thể đếm
-    trùng trang chia sẻ;
+  - bộ đo ngoài: psutil RSS (working set) của tiến trình train + mọi tiến trình con, mỗi 1 s. Tổng có thể đếm trùng trang chia
+    sẻ giữa các tiến trình, nên có thể cao hơn bộ nhớ thực dùng (đính chính câu chữ vòng 36);
   - RAM hệ thống còn trống: psutil `available`.
 - **VRAM**:
   - torch `max_memory_allocated` / `max_memory_reserved` trong pha train, riêng tiến trình;
@@ -215,7 +225,7 @@ python -u src/train_detector.py --model <M> --che-do smoke --ten train_bdd5_v1_<
 | `model.train` / wall | 124,2 s / 134 s | 110,6 s / 121 s |
 | torch allocated / reserved | 1.695 / 2.134 MiB | 1.941 / 2.344 MiB |
 | nvidia-smi max cả GPU | 2.624 MiB | 2.840 MiB |
-| RSS train + con: max (trung vị) | 3.018 (1.469) MiB, ≤ 7 con | 2.828 (1.693) MiB, ≤ 8 con |
+| RSS train + con: max (trung vị) | 3.018 (1.469) MiB, quan sát nhiều nhất 7 con | 2.828 (1.693) MiB, quan sát nhiều nhất 8 con |
 | RAM hệ thống còn trống thấp nhất (bộ đo ngoài / runner) | **16** / 51 MiB | 82 / 146 MiB |
 | GPU util trung vị cả lượt (gồm khởi tạo, val) | 16% | 13% |
 | Loss box / cls / dfl | 1,622 / 3,683 / 1,221 | 1,650 / 4,284 / 1,239 |
@@ -240,26 +250,49 @@ Ghi chú:
 - `val_s` của v8n (33,5 s) gồm khoảng 23 s từ lúc in kết quả val tới hết epoch. Khoảng này chưa đo tách được; có thể do lưu
   checkpoint và dọn dẹp trong lúc RAM bị phân trang.
 
-## 7. Chẩn đoán YOLO11n 0 detection (ĐÃ CHẠY, chỉ đọc)
+## 7. Chẩn đoán YOLO11n 0 detection (ĐÃ CHẠY, chỉ đọc) — diễn giải đã đính chính ở vòng 36 (R35-F1)
 
-Commit `2ab107b`. Không train, không đổi tham số.
+Commit `2ab107b`. Không train, không đổi tham số. Đối chiếu lại ở vòng 36: `logs/review36/04_doi_chieu_R35-F1.log`.
 
-- `13_*` so 4 checkpoint: khởi tạo COCO (lấy đúng các hàng lớp cùng tên mà `cls_remap` đã chép) và `best.pt` smoke của từng model.
-  - **Bias lớp gần như không đổi**: car P3 −9,633 → −9,609 (v8n), −10,117 → −10,094 (11n).
-  - **Điểm lớp lớn nhất mỗi ảnh** giảm mạnh sau epoch smoke:
+**Đã quan sát** (`13_*`, số liệu giữ nguyên):
 
-    | Model | Khởi tạo → smoke (trung vị) |
-    |:--|:--|
-    | v8n | 0,82 → 0,013 |
-    | 11n | 0,80 → 0,0003 (max 0,0005) |
+- Phép so là **checkpoint COCO 80 lớp** (file khởi tạo; lấy các hàng lớp cùng tên với 5 lớp) với **checkpoint smoke 5 lớp**
+  (`best.pt`).
+- Bias lớp hai bên gần nhau: car P3 −9,633 so với −9,609 (v8n); −10,117 so với −10,094 (11n).
+- Điểm lớp lớn nhất mỗi ảnh (trung vị) của checkpoint smoke **thấp hơn** nhiều:
 
-  - Điểm của 11n nằm dưới ngưỡng 0,001 của evaluator, nên ra 0 detection.
-- `13b_*` chạy **chính** evaluator nhưng hạ conf xuống 1e-6. 11n có 25.199 detection, **car AP50 0,233**, nên ánh xạ lớp và
-  tọa độ đúng; **không phải lỗi đường ống**. JSON 13b ban đầu có `NaN`; đã ghi lại thành `null`, có ghi chú trong log.
-- **Bối cảnh**:
-  - ultralytics 8.4.141 đặt `warmup_epochs = min(1.0, max(epochs − 1, 0))`;
-  - smoke 1 epoch vì vậy **không có warmup**: lr 0,01 ngay từ bước đầu, accumulate 8, ~5 bước tối ưu;
-  - cấu hình 15 epoch có 1 epoch warmup (~6.311 bước). Smoke **không** dự đoán được động học của training dài.
+  | Model | COCO 80 lớp | Smoke 5 lớp |
+  |:--|:--|:--|
+  | v8n | 0,82 | 0,013 |
+  | 11n | 0,80 | 0,0003 (max 0,0005) |
+
+- Điểm của 11n nằm dưới ngưỡng 0,001 của evaluator, nên ra 0 detection.
+
+**Chưa đo**:
+
+- Model **5 lớp sau khi khởi tạo/nạp trọng số nhưng trước bước tối ưu đầu tiên**. Log khởi tạo ghi
+  `Overriding model.yaml nc=80 with nc=5`, "Remapped 5/5 cls head rows", và chỉ chuyển **322/355** (v8n), **451/499** (11n)
+  tensor. Phép so trên vì vậy gộp ảnh hưởng của bước chuyển sang 5 lớp với ảnh hưởng của các bước học.
+- **Warmup/LR/accumulate thực chạy theo từng bước**: runner chỉ chụp LR lúc `on_train_start` và cuối epoch (0,01). Nhận
+  định "ultralytics 8.4.141 không warmup khi `epochs=1`" chỉ dựa trên **đọc mã nguồn**: hàm `_get_warmup_iterations`,
+  `trainer.py` sha256 `7532ff0b…`, ghi ở `logs/review36/00_*`. Đây không phải log thực chạy.
+
+**Kết luận đã đính chính**: checkpoint smoke có confidence thấp hơn checkpoint COCO 80 lớp; **nguyên nhân chưa xác định**.
+Chuyển sang 5 lớp/khởi tạo và các bước học (gồm có hay không warmup) là các yếu tố **cần phân biệt**, chưa được tách. Bản
+vòng 35 viết "smoke 1 epoch không warmup làm điểm lớp giảm mạnh" là **vượt bằng chứng** và được rút lại.
+
+**Chẩn đoán conf 1e-6** (`13b_*`, riêng):
+
+- Chạy chính evaluator với conf 1e-6. YOLO11n có 25.199 detection; **car AP50 ≈ 0,233** trên 84 ảnh dev smoke.
+- Truck và bus AP50 = 0 (11n: 1 và 0 dự đoán). Motorcycle và bicycle không có GT.
+- Điều này chỉ chứng minh **có dự đoán car khớp GT ở điểm thấp** trên tập đã kiểm. Câu "ánh xạ lớp và tọa độ đúng; không
+  phải lỗi đường ống" ở bản vòng 35 là **suy rộng quá mức** và được rút lại.
+- JSON 13b ban đầu có `NaN`; đã ghi lại thành `null`, có ghi chú trong log.
+
+**Đánh giá chính giữ nguyên** ở conf 0,001: YOLO11n AP = 0 cho mọi lớp có GT. Dev smoke không có motorcycle hay bicycle.
+
+**Đề xuất chờ duyệt** (chưa làm): nếu cần chẩn đoán nguyên nhân, đo model 5 lớp trước bước học và lưu số warmup
+iteration/LR thực tế từng bước. Chỉ tăng epoch không tạo được phép đối chứng nguyên nhân sạch.
 
 ## 8. Đếm dataset đầy đủ (ĐÃ CHẠY, không xuất)
 
@@ -289,15 +322,18 @@ tổng(E) = khởi tạo + chờ batch đầu + E × (train/epoch + val/epoch) +
 - **Khởi tạo** cho dataset đầy đủ cộng thêm:
   - băm hợp đồng: 42 MB/s, đo ở smoke;
   - quét nhãn: ~1.100 ảnh/s.
-- **Mức cao** cộng thêm 5 ms/ảnh hậu xử lý val (model đã học có nhiều box hơn), rồi nhân tất cả với **1,3** cho rủi ro chưa đo:
-  GPU nóng hoặc giảm xung khi chạy nhiều giờ, phân trang RAM.
+- **Kịch bản chậm hơn** giả định thêm 5 ms/ảnh hậu xử lý val (model đã học có thể có nhiều box hơn), rồi nhân tất cả với
+  **1,3** cho rủi ro chưa đo: GPU nóng hoặc giảm xung khi chạy nhiều giờ, phân trang RAM.
+- **Hai mức là kịch bản dự toán theo các giả định trên, không phải cận trên hay bảo đảm** (đính chính vòng 36, R35-F2). Thời
+  gian thực tế có thể vượt cả kịch bản chậm hơn. Số liệu không đổi: đối chiếu 162 giá trị số ở
+  `logs/review36/03_doi_chieu_so_du_toan.log`.
 
 | Phương án | YOLOv8n | YOLO11n | Tổng tuần tự |
 |:--|--:|--:|--:|
-| **Bước 5, 15 epoch** (đề xuất, **chưa duyệt**) | 1,74 h/epoch train + 1,3–1,7 ph val → **26,5 h** (cao 34,6 h) | 1,98 h/epoch + 1,2–1,7 ph → **30,2 h** (cao 39,4 h) | **56,6 h ≈ 2,4 ngày** (cao 74,0 h) |
-| Bước 5, 30 epoch | 52,9 h (cao 69,0 h) | 60,2 h (cao 78,6 h) | 113,1 h (cao 147,6 h) |
-| Bước 10, 15 epoch | 13,6 h (cao 17,8 h) | 15,5 h (cao 20,2 h) | 29,1 h (cao 38,0 h) |
-| Bước 10, 30 epoch | 27,2 h (cao 35,5 h) | 30,9 h (cao 40,3 h) | 58,1 h (cao 75,8 h) |
+| **Bước 5, 15 epoch** (đề xuất, **chưa duyệt**) | 1,74 h/epoch train + 1,3–1,7 ph val → **26,5 h** (chậm hơn 34,6 h) | 1,98 h/epoch + 1,2–1,7 ph → **30,2 h** (chậm hơn 39,4 h) | **56,64 h ≈ 2,4 ngày** (chậm hơn 73,95 h) |
+| Bước 5, 30 epoch | 52,9 h (chậm hơn 69,0 h) | 60,2 h (chậm hơn 78,6 h) | 113,08 h (chậm hơn 147,61 h) |
+| Bước 10, 15 epoch | 13,6 h (chậm hơn 17,8 h) | 15,5 h (chậm hơn 20,2 h) | 29,10 h (chậm hơn 37,99 h) |
+| Bước 10, 30 epoch | 27,2 h (chậm hơn 35,5 h) | 30,9 h (chậm hơn 40,3 h) | 58,08 h (chậm hơn 75,81 h) |
 
 - Mỗi epoch ở bước 5 có 6.311 batch. Khởi tạo dataset đầy đủ ~4,9 phút mỗi lượt.
 - Bảng trên **không** tính dừng sớm (`patience 5` có thể rút ngắn). Cũng không tính thời gian xuất dataset đầy đủ: ước thô
@@ -305,18 +341,19 @@ tổng(E) = khởi tạo + chờ batch đầu + E × (train/epoch + val/epoch) +
 - s/batch thật gần với fixture vòng 27–28 (v8n 0,991 so với 0,95–0,97; 11n 1,131 so với 1,14–1,16). Ước tính cũ ~59 h; ước
   tính mới 56,6 h.
 
-**RAM, VRAM, đĩa** (ước tính cho dataset đầy đủ, bước 5):
+**RAM, VRAM, đĩa** (kịch bản ước tính từ smoke cho dataset đầy đủ, bước 5; **không phải bảo đảm**, thực tế có thể vượt):
 
 | | YOLOv8n | YOLO11n |
 |:--|--:|--:|
-| RSS train + con: đo → ước | 3.018 → 3.118–3.518 MiB | 2.828 → 2.928–3.328 MiB |
-| torch reserved: đo → ước | 2.134 → ≤ 2.434 MiB | 2.344 → ≤ 2.644 MiB |
-| Cả GPU: đo → ước (card 4.096 MiB) | 2.624 → ≤ 2.924 MiB | 2.840 → ≤ 3.140 MiB |
+| RSS train + con: đo ở smoke → kịch bản | 3.018 → 3.118–3.518 MiB | 2.828 → 2.928–3.328 MiB |
+| torch reserved: đo ở smoke → kịch bản | 2.134 → 2.134–2.434 MiB | 2.344 → 2.344–2.644 MiB |
+| Cả GPU: đo ở smoke → kịch bản (card 4.096 MiB) | 2.624 → 2.624–2.924 MiB | 2.840 → 2.840–3.140 MiB |
 
-- **RAM tăng thêm**: nhãn của ~56K ảnh nằm trong tiến trình chính và trong từng worker (Windows dùng spawn), cộng 100–500 MiB.
-  **Chưa đo.**
-- **VRAM tăng thêm**: bộ gán nhãn TAL cấp phát theo số box lớn nhất trong lô, cộng 0–300 MiB. Smoke tối đa ~180 box/lô.
-  **Chưa đo.**
+- **RAM tăng thêm**: nhãn của ~56K ảnh nằm trong tiến trình chính và trong từng worker (Windows dùng spawn). Giả định cộng
+  100–500 MiB. **Chưa đo.**
+- **VRAM tăng thêm**: bộ gán nhãn TAL cấp phát theo số box lớn nhất trong lô. Giả định cộng 0–300 MiB; lô nhiều box nhất quan
+  sát ở smoke ~180 box. **Chưa đo** trên dữ liệu đầy đủ. Lô thực tế có thể nhiều box hơn, và VRAM (kể cả OOM) có thể vượt
+  kịch bản.
 - **Đĩa**: dataset bước 5 ~**8,5 GB** (bước 10: ~4,3 GB).
   - Hiệu chỉnh trên smoke: ảnh tô xám ghi lại JPEG q95 nặng **1,55×** nguồn; ảnh khác chép nguyên byte.
   - Cộng file nhỏ theo cấp phát NTFS.
@@ -326,12 +363,14 @@ tổng(E) = khởi tạo + chờ batch đầu + E × (train/epoch + val/epoch) +
 
 ## 10. Cần người dùng quyết định
 
-1. **Ngân sách training dài**: số epoch (đề xuất 15) và bước frame (5) → ~57 h GPU cho hai model (cao ~74 h); phương án khác ở
-   mục 9. **Chưa chạy, chưa bật cờ.**
+1. **Ngân sách training dài**: số epoch (đề xuất 15) và bước frame (5) → kịch bản ~56,6 h GPU cho hai model (kịch bản chậm
+   hơn ~74 h; không phải bảo đảm); phương án khác ở mục 9. **Chưa chạy, chưa bật cờ.**
 2. **Xuất dataset đầy đủ** (bước 5, ~8,5 GB) là điều kiện trước khi train dài. Vòng này không làm.
-3. **Tín hiệu rủi ro từ smoke** (mục 7): epoch không warmup làm điểm lớp giảm mạnh.
-   - Có thể chạy một pilot ngắn có warmup (≥ 2 epoch) để xem điểm lớp có hồi lại không, trước khi chi ~57 h.
-   - Đây là **lượt chạy thêm ngoài kế hoạch**, cần người dùng duyệt. Tôi chưa làm.
+3. **Quan sát từ smoke** (mục 7): checkpoint smoke có confidence thấp hơn checkpoint COCO 80 lớp; **nguyên nhân chưa xác
+   định** (đính chính vòng 36).
+   - **Pilot thêm epoch**: chưa duyệt, chưa làm. Chỉ tăng epoch không tách được nguyên nhân.
+   - **Chẩn đoán nguyên nhân**, nếu cần: đo model 5 lớp trước bước học và lưu warmup/LR thực tế. Đây là đề xuất chờ duyệt,
+     chưa làm.
 4. **RAM**: đóng bớt ứng dụng (~3,9 GB) trong lúc train dài.
 5. **Smoke chưa thử AP lớp hiếm**: dev smoke không có motorcycle hay bicycle, nên AP hai lớp này chỉ xác định được trên dev đầy đủ.
 
@@ -342,7 +381,8 @@ tổng(E) = khởi tạo + chờ batch đầu + E × (train/epoch + val/epoch) +
   - training dài (chưa duyệt);
   - tracking và Nano (ngoài phạm vi).
 - **Test suite NOT_RUN** vì `src/` không đổi. Mã mới chỉ là công cụ đo trong `logs/review35/`, có regression riêng (12/12).
-- Thời gian, RAM và VRAM ở mục 9 là ước tính, ngoại suy từ một epoch 42 batch.
+- Thời gian, RAM và VRAM ở mục 9 là **kịch bản dự toán theo giả định**, ngoại suy từ một epoch 42 batch. Đây không phải bảo
+  đảm; thực tế có thể vượt.
 - Các số đo trong vòng chịu ảnh hưởng của RAM thấp và ứng dụng khác đang mở.
 - Nhãn vẫn là snapshot bên thứ ba (phương án C); chưa xác thực bằng archive gốc.
 

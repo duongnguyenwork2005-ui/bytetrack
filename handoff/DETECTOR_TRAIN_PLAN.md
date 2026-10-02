@@ -16,6 +16,14 @@ và cập nhật ước lượng (mục 5) **bị chặn**. Tập con smoke đư
 Dataset đầy đủ **chưa xuất**. Training dài **chưa chạy**. Epoch, bước frame và ngân sách **vẫn chờ duyệt**. Chi tiết:
 `REVIEW35_CHI_TIET.md`.
 
+**Vòng 36** (base `2351c67`): Codex `2351c67` **PASS WITH LIMITATIONS** cho split và smoke. Vòng này chỉ đính chính diễn
+giải theo R35-F1 và R35-F2; số liệu, split, dataset smoke và checkpoint không đổi.
+
+- **R35-F1**: nguyên nhân confidence thấp ở checkpoint smoke **chưa xác định** (mục 5a).
+- **R35-F2**: dự toán là **kịch bản theo giả định**, không phải bảo đảm.
+
+Chi tiết: `REVIEW36_CHI_TIET.md`.
+
 Tài liệu này dùng ba nhãn nguồn số liệu:
 
 - **fixture**: đo thật trên GPU của PC, nhưng với dữ liệu tổng hợp;
@@ -183,30 +191,33 @@ Cách tính:
 - train/epoch = ⌈ảnh train / 8⌉ × s/batch ổn định đo ở smoke thật.
 - val/epoch = `val_s` của smoke + (ảnh dev − 84) × ms/ảnh val của ultralytics.
 - Khởi tạo dataset đầy đủ: thêm băm hợp đồng và quét nhãn, ~4,9 phút mỗi lượt.
-- **Mức cao**: thêm 5 ms/ảnh hậu xử lý val, rồi ×1,3 cho rủi ro chưa đo (GPU nóng hoặc giảm xung khi chạy nhiều giờ, phân
-  trang RAM).
+- **Kịch bản chậm hơn**: giả định thêm 5 ms/ảnh hậu xử lý val, rồi ×1,3 cho rủi ro chưa đo (GPU nóng hoặc giảm xung khi chạy
+  nhiều giờ, phân trang RAM).
+- **Đính chính vòng 36 (R35-F2)**: mọi mức dưới đây là **kịch bản dự toán theo các giả định đã nêu**, không phải cận trên hay
+  bảo đảm. Thời gian và bộ nhớ thực tế có thể vượt cả kịch bản chậm hơn. Số liệu không đổi (`logs/review36/03_*`).
 
 | Lựa chọn | YOLOv8n | YOLO11n | Tổng GPU tuần tự |
 |:--|--:|--:|--:|
-| **Đề xuất**: bước 5 (50.487 ảnh), **15 epoch** | 1,74 h/epoch → **26,5 h** (cao 34,6 h) | 1,98 h/epoch → **30,2 h** (cao 39,4 h) | **56,6 h ≈ 2,4 ngày** (cao 74,0 h) |
-| Bước 5, 30 epoch | 52,9 h | 60,2 h | 113,1 h (cao 147,6 h) |
-| Bước 10 (25.848 ảnh), 15 epoch | 13,6 h | 15,5 h | 29,1 h (cao 38,0 h) |
-| Bước 10, 30 epoch | 27,2 h | 30,9 h | 58,1 h (cao 75,8 h) |
+| **Đề xuất**: bước 5 (50.487 ảnh), **15 epoch** | 1,74 h/epoch → **26,5 h** (chậm hơn 34,6 h) | 1,98 h/epoch → **30,2 h** (chậm hơn 39,4 h) | **56,64 h ≈ 2,4 ngày** (chậm hơn 73,95 h) |
+| Bước 5, 30 epoch | 52,9 h | 60,2 h | 113,08 h (chậm hơn 147,61 h) |
+| Bước 10 (25.848 ảnh), 15 epoch | 13,6 h | 15,5 h | 29,10 h (chậm hơn 37,99 h) |
+| Bước 10, 30 epoch | 27,2 h | 30,9 h | 58,08 h (chậm hơn 75,81 h) |
 
 - **Chưa tính**: dừng sớm (`patience 5`), và xuất dataset đầy đủ (ước thô 15–30 phút, chưa đo).
-- **RAM / VRAM / đĩa** cho dataset đầy đủ (ước):
+- **RAM / VRAM / đĩa** cho dataset đầy đủ: kịch bản ước tính từ smoke, **không phải bảo đảm**.
   - RSS train + con ~2,9–3,5 GB;
-  - torch reserved ≤ ~2,4 / 2,6 GB;
-  - cả GPU ≤ ~2,9 / 3,1 GB trên 4 GB;
+  - torch reserved ~2,1–2,4 GB (v8n), ~2,3–2,6 GB (11n);
+  - cả GPU ~2,6–2,9 GB (v8n), ~2,8–3,1 GB (11n), trên card 4 GB. Lô nhiều box hơn smoke có thể làm VRAM vượt kịch bản;
   - dataset bước 5 ~8,5 GB (bước 10 ~4,3 GB). D: còn ~63 GB.
 - **Bất định**: dự toán ngoại suy từ một epoch 42 batch (36 khoảng đo). Hành vi khi chạy nhiều giờ với RAM thấp chưa đo.
-  Mức cao là cận trên khuyến nghị.
-- **Smoke không kiểm động học training dài**:
-  - ultralytics tắt warmup khi `epochs=1`;
-  - sau epoch smoke, điểm lớp giảm mạnh, và YOLO11n không còn detection nào ≥ 0,001;
-  - cấu hình 15 epoch có 1 epoch warmup.
+  Kịch bản chậm hơn **không** bao trùm mọi trường hợp xấu.
+- **Smoke không kiểm động học training dài** (đã đính chính ở vòng 36, R35-F1):
+  - checkpoint smoke 5 lớp có confidence thấp hơn checkpoint COCO 80 lớp; YOLO11n không còn detection nào ≥ 0,001;
+  - **nguyên nhân chưa xác định**: chuyển sang 5 lớp/khởi tạo và các bước học (gồm warmup) chưa được tách. "Không warmup khi
+    `epochs=1`" chỉ dựa trên đọc mã nguồn ultralytics, không phải log thực chạy;
+  - cấu hình 15 epoch khai báo 1 epoch warmup.
 
-  Xem `REVIEW35_CHI_TIET.md` mục 7.
+  Xem `REVIEW35_CHI_TIET.md` mục 7 và `REVIEW36_CHI_TIET.md`.
 
 ### 5b. Ước tính cũ từ fixture (vòng 27–30, giữ để đối chiếu)
 
@@ -290,11 +301,13 @@ Còn phải **xuất dataset đầy đủ** (bước 5, ~8,5 GB) trước khi tr
 
 ## 8. Chưa làm / cần quyết định
 
-- **Cần duyệt**: số epoch (15) và bước frame (5). Hai tham số này quyết định ngân sách: vòng 35 ước **~57 h GPU** (cao
-  ~74 h), mục 5a.
-- **Cần quyết định (vòng 35)**:
-  - Có chạy **pilot ngắn có warmup** (≥ 2 epoch) trước training dài không. Smoke 1 epoch không warmup làm điểm lớp giảm mạnh
-    (mục 5a). Đây là lượt thêm ngoài kế hoạch: **chưa chạy, cần duyệt**.
+- **Cần duyệt**: số epoch (15) và bước frame (5). Hai tham số này quyết định ngân sách: vòng 35 có kịch bản **~56,6 h GPU**
+  (kịch bản chậm hơn ~74 h; không phải bảo đảm), mục 5a.
+- **Cần quyết định** (vòng 35, đính chính vòng 36):
+  - **Pilot thêm epoch** trước training dài: chưa chạy, cần duyệt. Chỉ tăng epoch không tách được nguyên nhân confidence thấp
+    ở smoke.
+  - **Chẩn đoán nguyên nhân**, nếu cần: đo model 5 lớp trước bước học và lưu warmup/LR thực tế. Đề xuất chờ duyệt, chưa làm.
+  - Xuất dataset đầy đủ.
   - Đóng bớt ứng dụng để có RAM khi train dài.
 - **Cần hỏi người dùng**: có dùng gói detection 100K hay không.
 - **Chưa làm (mốc 3)**: detection cache từ model fine-tune. `detector_classes.sang_id_coco()` đã sẵn để giữ quy ước
