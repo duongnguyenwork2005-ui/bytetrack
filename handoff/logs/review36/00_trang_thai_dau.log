@@ -1,0 +1,31 @@
+# 2026-10-02 17:05:37 +0700 -- trang thai dau vong 36 (dinh chinh R35-F1, R35-F2 cua review 2351c67; KHONG train/pilot/xuat)
+nhanh: phase2-mixed-traffic
+HEAD: 2351c677c9a330050ebd152f10f46ed3922a431f
+commit sau 2351c67: 0
+base review hien tai: ccd801fb7c517edd3c61b412d015a8ae4d7faba6
+--- git status --short (bo qua results/ outputs/ va file rieng da biet):
+ M .gitignore
+ M src/demo/rerun_with_state_log.py
+?? CODEX_REVIEW_c4d64a1_EVIDENCE/
+?? handoff/logs/review36/
+?? src/demo/build_buffer90_demo.py
+?? src/demo/find_buffer90_candidates.py
+?? src/demo/find_buffer90_moving_candidates.py
+?? src/demo/live_view.py
+?? src/demo/single_case_buffer90.py
+?? src/demo/turning_case_buffer90.py
+--- review 2351c67 (doc tu D:\LABOTARY\review_codex):
+e65a90a447283c9e40ecc735927b26bb8089c969baf878f7f2354f6648ff89f2 *CODEX_REVIEW_2351c67.md
+2f8c66bd693693d3f6c14e89f39ca7d9c16d7a7e32eda562f0cf0dcabf8f18ac *CODEX_REVIEW_2351c67_EVIDENCE.zip
+9139 B CODEX_REVIEW_2351c67.md
+294707 B CODEX_REVIEW_2351c67_EVIDENCE.zip
+SHA256SUMS bang chung: 69/69 khop (giai nen o D:\LABOTARY\review_codex\CODEX_REVIEW_2351c67_EVIDENCE\, ZIP goc giu nguyen); bao cao trong ZIP trung byte ban rieng
+--- goi delta hien tai (phai la goi da nghiem thu): 378096 B 76e7d2addaad29fdc3a42e91fb0a7fd2851864dcf47fc233ea52dbd688b68c1d
+--- moi truong:
+python 3.11.9 | Windows-10-10.0.26200-SP0 | ultralytics 8.4.141 | torch 2.6.0+cu124
+--- tham chieu MA NGUON ultralytics da cai (khong phai log thuc chay):
+trainer.py sha256 7532ff0bf3e4dc60f3c8a3f80f9b0cd7dac53997874b75a5ec99b280ce90b4a0, 67616 B
+260:    def _get_warmup_iterations(self, num_batches):
+261-        """Return warmup iterations, leaving at least the final epoch for regular training."""
+262-        warmup_epochs = min(self.args.warmup_epochs, max(self.epochs - 1, 0))
+263-        return round(warmup_epochs * num_batches) if warmup_epochs > 0 else 0

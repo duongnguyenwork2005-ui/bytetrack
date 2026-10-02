@@ -1,0 +1,19 @@
+# 2026-10-02 13:22:30 +0700 HEAD bf7c0a2
+# lenh: python handoff/logs/review35/13b_danh_gia_conf_thap.py --ra handoff/logs/review35/13b_danh_gia_conf_thap.json
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+yolov8n: car n_gt 542 n_det 21014 AP50 0.3715 | truck n_gt 6 n_det 4186 AP50 0.0255 | bus n_gt 4 n_det 0 AP50 0.0 | motorcycle n_gt 0 n_det 0 AP50 nan | bicycle n_gt 0 n_det 0 AP50 nan | mAP50 0.1323 mAP50_95 0.0773
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+yolo11n: car n_gt 542 n_det 25199 AP50 0.2334 | truck n_gt 6 n_det 1 AP50 0.0 | bus n_gt 4 n_det 0 AP50 0.0 | motorcycle n_gt 0 n_det 0 AP50 nan | bicycle n_gt 0 n_det 0 AP50 nan | mAP50 0.0778 mAP50_95 0.0465
+[ra] handoff/logs/review35/13b_danh_gia_conf_thap.json
+# exit=0
+# GHI CHU (sau khi chay): JSON ra ban dau co NaN (AP lop khong co GT) -> khong phai JSON chuan; da ghi lai NaN -> null (sha256 truoc c0d809daf4ba7034, sau 2d8af7aebe73a8e6); so lieu khong doi. Script da sua de lan chay sau ghi null truc tiep.

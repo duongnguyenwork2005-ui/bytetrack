@@ -1,0 +1,224 @@
+{
+ "muc_dich": "tren dev smoke (evaluator conf 0,001: n_det = 0 moi lop; ultralytics val P/R/mAP = 0), trong khi YOLOv8n cung du lieu,",
+ "ultralytics": "8.4.141",
+ "torch": "2.6.0+cu124",
+ "so_anh_dev": 84,
+ "checkpoint": {
+  "yolov8n_khoi_tao_coco": {
+   "duong_dan": "models/yolov8n.pt",
+   "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+   "bytes": 6549796,
+   "so_lop_dau": 80,
+   "hang_lop_dung": {
+    "car": 2,
+    "truck": 7,
+    "bus": 5,
+    "motorcycle": 3,
+    "bicycle": 1
+   },
+   "ten_hang": {
+    "car": "car",
+    "truck": "truck",
+    "bus": "bus",
+    "motorcycle": "motorcycle",
+    "bicycle": "bicycle"
+   },
+   "bias_phan_lop_theo_tang_P3_P4_P5": {
+    "car": [
+     -9.633,
+     -8.945,
+     -8.633
+    ],
+    "truck": [
+     -11.57,
+     -9.859,
+     -8.648
+    ],
+    "bus": [
+     -12.414,
+     -10.734,
+     -9.453
+    ],
+    "motorcycle": [
+     -11.969,
+     -10.578,
+     -9.25
+    ],
+    "bicycle": [
+     -11.492,
+     -10.961,
+     -9.703
+    ]
+   },
+   "diem_lop_max_moi_anh": {
+    "trung_vi": 0.819385826587677,
+    "max": 0.9377173781394958,
+    "min": 0.03380068391561508
+   },
+   "so_box_conf_ge_0_001": 8620,
+   "so_box_conf_ge_0_25": 412
+  },
+  "yolov8n_smoke_lan2_best": {
+   "duong_dan": "models/finetune_phase2/train_bdd5_v1_yolov8n_smoke_lan2/weights/best.pt",
+   "sha256": "31a9ff9e6641592b43965714878adcefcddca39a7621c4b9cc5a8b19e654f469",
+   "bytes": 6220707,
+   "so_lop_dau": 5,
+   "hang_lop_dung": {
+    "car": 0,
+    "truck": 1,
+    "bus": 2,
+    "motorcycle": 3,
+    "bicycle": 4
+   },
+   "ten_hang": {
+    "car": "car",
+    "truck": "truck",
+    "bus": "bus",
+    "motorcycle": "motorcycle",
+    "bicycle": "bicycle"
+   },
+   "bias_phan_lop_theo_tang_P3_P4_P5": {
+    "car": [
+     -9.609,
+     -8.922,
+     -8.625
+    ],
+    "truck": [
+     -11.57,
+     -9.859,
+     -8.648
+    ],
+    "bus": [
+     -12.414,
+     -10.734,
+     -9.453
+    ],
+    "motorcycle": [
+     -11.969,
+     -10.578,
+     -9.25
+    ],
+    "bicycle": [
+     -11.492,
+     -10.961,
+     -9.703
+    ]
+   },
+   "diem_lop_max_moi_anh": {
+    "trung_vi": 0.012856858782470226,
+    "max": 0.36588627099990845,
+    "min": 0.0001980349625227973
+   },
+   "so_box_conf_ge_0_001": 424,
+   "so_box_conf_ge_0_25": 1
+  },
+  "yolo11n_khoi_tao_coco": {
+   "duong_dan": "models/candidates/yolo11n.pt",
+   "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+   "bytes": 5613764,
+   "so_lop_dau": 80,
+   "hang_lop_dung": {
+    "car": 2,
+    "truck": 7,
+    "bus": 5,
+    "motorcycle": 3,
+    "bicycle": 1
+   },
+   "ten_hang": {
+    "car": "car",
+    "truck": "truck",
+    "bus": "bus",
+    "motorcycle": "motorcycle",
+    "bicycle": "bicycle"
+   },
+   "bias_phan_lop_theo_tang_P3_P4_P5": {
+    "car": [
+     -10.117,
+     -9.055,
+     -8.195
+    ],
+    "truck": [
+     -11.781,
+     -9.945,
+     -8.336
+    ],
+    "bus": [
+     -12.586,
+     -10.828,
+     -9.039
+    ],
+    "motorcycle": [
+     -11.781,
+     -10.367,
+     -8.68
+    ],
+    "bicycle": [
+     -11.609,
+     -10.578,
+     -9.109
+    ]
+   },
+   "diem_lop_max_moi_anh": {
+    "trung_vi": 0.7962526679039001,
+    "max": 0.9260525107383728,
+    "min": 0.014291812665760517
+   },
+   "so_box_conf_ge_0_001": 7069,
+   "so_box_conf_ge_0_25": 372
+  },
+  "yolo11n_smoke_lan2_best": {
+   "duong_dan": "models/finetune_phase2/train_bdd5_v1_yolo11n_smoke_lan2/weights/best.pt",
+   "sha256": "e11622465145a669ef2dbddcf799687246d66f3db0f18a6ef0e2fe4cb7a985cd",
+   "bytes": 5443219,
+   "so_lop_dau": 5,
+   "hang_lop_dung": {
+    "car": 0,
+    "truck": 1,
+    "bus": 2,
+    "motorcycle": 3,
+    "bicycle": 4
+   },
+   "ten_hang": {
+    "car": "car",
+    "truck": "truck",
+    "bus": "bus",
+    "motorcycle": "motorcycle",
+    "bicycle": "bicycle"
+   },
+   "bias_phan_lop_theo_tang_P3_P4_P5": {
+    "car": [
+     -10.094,
+     -9.039,
+     -8.188
+    ],
+    "truck": [
+     -11.781,
+     -9.945,
+     -8.336
+    ],
+    "bus": [
+     -12.586,
+     -10.828,
+     -9.039
+    ],
+    "motorcycle": [
+     -11.781,
+     -10.367,
+     -8.68
+    ],
+    "bicycle": [
+     -11.609,
+     -10.578,
+     -9.109
+    ]
+   },
+   "diem_lop_max_moi_anh": {
+    "trung_vi": 0.0003339934628456831,
+    "max": 0.0005164029425941408,
+    "min": 0.0003117443702649325
+   },
+   "so_box_conf_ge_0_001": 0,
+   "so_box_conf_ge_0_25": 0
+  }
+ }
+}

@@ -1,0 +1,11 @@
+buoc  5, 15 epoch (50487 anh train): yolov8n 1.74 h/epoch train + 1.3-1.7 ph val -> 26.48 h (cao 34.58 h) | yolo11n 1.98 h/epoch train + 1.2-1.7 ph val -> 30.16 h (cao 39.37 h) || tong 56.64 h (cao 73.95 h)
+buoc  5, 30 epoch (50487 anh train): yolov8n 1.74 h/epoch train + 1.3-1.7 ph val -> 52.85 h (cao 69.02 h) | yolo11n 1.98 h/epoch train + 1.2-1.7 ph val -> 60.22 h (cao 78.6 h) || tong 113.08 h (cao 147.61 h)
+buoc 10, 15 epoch (25848 anh train): yolov8n 0.89 h/epoch train + 0.9-1.1 ph val -> 13.63 h (cao 17.8 h) | yolo11n 1.02 h/epoch train + 0.7-0.9 ph val -> 15.47 h (cao 20.19 h) || tong 29.1 h (cao 37.99 h)
+buoc 10, 30 epoch (25848 anh train): yolov8n 0.89 h/epoch train + 0.9-1.1 ph val -> 27.2 h (cao 35.52 h) | yolo11n 1.02 h/epoch train + 0.7-0.9 ph val -> 30.87 h (cao 40.29 h) || tong 58.08 h (cao 75.81 h)
+dia buoc_5: dataset ~8.46 GB + 2 luot train ~0.1 GB
+dia buoc_10: dataset ~4.34 GB + 2 luot train ~0.1 GB
+yolov8n: RAM RSS do 3018 MiB -> uoc [3118, 3518] MiB; RAM he thong con trong min 16 MiB; torch reserved 2134 -> [2134, 2434] MiB; ca GPU 2624 -> [2624, 2924] MiB / 4096
+yolo11n: RAM RSS do 2828 MiB -> uoc [2928, 3328] MiB; RAM he thong con trong min 82 MiB; torch reserved 2344 -> [2344, 2644] MiB; ca GPU 2840 -> [2840, 3140] MiB / 4096
+[ra] review_2351c67/evidence/du_toan_recomputed.json
+
+exit=0

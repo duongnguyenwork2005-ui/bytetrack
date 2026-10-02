@@ -1,0 +1,22 @@
+ls: cannot access 'models/finetune_phase2/': No such file or directory
+ls: cannot access 'results/phase2/detector_smoke/': No such file or directory
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review35\do_tai_nguyen_ngoai.py", line 106, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review35\do_tai_nguyen_ngoai.py", line 100, in main
+    moc_gio(a.ra)
+  File "D:\LABOTARY\bytetrack\handoff\logs\review35\do_tai_nguyen_ngoai.py", line 30, in moc_gio
+    f.write(f"[+{time.time() - t0:8.1f}s] {buf}\n")
+UnicodeEncodeError: 'utf-8' codec can't encode character '\udc81' in position 151: surrogates not allowed
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review35\do_tai_nguyen_ngoai.py", line 106, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review35\do_tai_nguyen_ngoai.py", line 100, in main
+    moc_gio(a.ra)
+  File "D:\LABOTARY\bytetrack\handoff\logs\review35\do_tai_nguyen_ngoai.py", line 30, in moc_gio
+    f.write(f"[+{time.time() - t0:8.1f}s] {buf}\n")
+UnicodeEncodeError: 'utf-8' codec can't encode character '\udc81' in position 151: surrogates not allowed
+
+[exited with code 0]

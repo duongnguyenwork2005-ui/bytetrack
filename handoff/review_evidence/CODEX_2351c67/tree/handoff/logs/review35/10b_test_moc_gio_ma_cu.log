@@ -1,0 +1,24 @@
+# 2026-10-02 13:12:39 +0700 HEAD f27895a
+# lenh: PYTHONIOENCODING=utf-8 python handoff/logs/review35/test_do_tai_nguyen_ngoai.py --ma <ban f27895a (ma da chay o smoke lan 1), sha256 c5f8fa56f32488b72c56d2daf958c0ed57704abf3d467799bdcdaf26dcca883c>
+# (PYTHONIOENCODING chi cho output cua chinh test; test tu dat moi truong cho tien trinh con E1/E2)
+# ky vong: E1 (dieu kien smoke lan 1) T1a FAIL nhu smoke -- ben ghi bi OSError Errno 22
+# ma kiem: C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\do_tai_nguyen_ngoai_f27895a.py
+# python: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe 3.11.9
+# moi truong E1 nhu smoke lan 1, khong PYTHONIOENCODING: stdin pipe cua tien trinh con = cp1252 surrogateescape
+[FAIL] E1 T1a ben ghi (gia lap runner) khong bi dut pipe: exit 0 -- exit 7 BEN_GHI_OSERROR errno=22 [Errno 22] Invalid argument
+[FAIL] E1 T1b bo doc moc-gio exit 0, khong traceback -- exit 1 UnicodeEncodeError: 'utf-8' codec can't encode character '\udc81' in position 33: surrogates not allowed
+[FAIL] E1 T1c log du 24 dong dung noi dung (tach \r va \n, UTF-8, byte hong -> U+FFFD, dong cuoi khong newline) -- 0 dong; dong lech dau tien: None
+[FAIL] E1 T1d moc gio khong giam va phu khoang ghi (>= 0,5 s) -- moc dau [] cuoi []
+[FAIL] E1 T2a 50.000 dong (\r/\n xen ke) + XONG: ca hai ben exit 0 -- ghi 7 doc 1 BEN_GHI_OSERROR errno=32 [Errno 32] Broken pipe o
+    f.write(f"[+{time.time() - t0:8.1f}s] {buf}\n")
+UnicodeEncodeError: 'utf-8' codec can't encode character '\udc81' in position 23: surrogates not allowed
+[FAIL] E1 T2b log du 50.001 dong, dung thu tu -- 0 dong, 0.1 s
+# moi truong E2 PYTHONIOENCODING=utf-8: stdin pipe cua tien trinh con = utf-8 strict
+[PASS] E2 T1a ben ghi (gia lap runner) khong bi dut pipe: exit 0 -- exit 0 
+[FAIL] E2 T1b bo doc moc-gio exit 0, khong traceback -- exit 1 UnicodeDecodeError: 'utf-8' codec can't decode byte 0x81 in position 10: invalid start byte
+[FAIL] E2 T1c log du 24 dong dung noi dung (tach \r va \n, UTF-8, byte hong -> U+FFFD, dong cuoi khong newline) -- 22 dong; dong lech dau tien: None
+[PASS] E2 T1d moc gio khong giam va phu khoang ghi (>= 0,5 s) -- moc dau [0.0] cuoi [1.0]
+[PASS] E2 T2a 50.000 dong (\r/\n xen ke) + XONG: ca hai ben exit 0 -- ghi 0 doc 0  
+[PASS] E2 T2b log du 50.001 dong, dung thu tu -- 50001 dong, 0.7 s
+# tong: 4/12 PASS
+# exit=1
