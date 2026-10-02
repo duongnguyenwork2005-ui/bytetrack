@@ -14,6 +14,39 @@ chưa lấy được từ nguồn chính thức nào, nên `kiem-nguon` vẫn ex
 nguyên byte 1.400 JSON native train; `kiem-nguon` đường chính **exit 0**.
 **Cập nhật 2026-10-02 (vòng 35)**: review `ccd801f` **PASS WITH LIMITATIONS**. **Đã khóa split** `bdd5_train_v1`, xuất
 tập con smoke (334 / 84 ảnh), smoke 2 model trên dữ liệu thật **đạt**. Dataset đầy đủ chưa xuất; training dài chưa duyệt.
+**Cập nhật 2026-10-03 (vòng 38)**: review `0c0a07a` **PASS WITH LIMITATIONS**. **Đã xuất dataset đầy đủ** bước 5:
+50.487 / 5.559 ảnh, 8,03 GB, hợp đồng v2 0 lỗi. Training dài chưa duyệt.
+
+## Vòng 38 (2026-10-02/03) — dataset YOLO đầy đủ đã xuất (bước 5)
+
+Chi tiết: `REVIEW38_CHI_TIET.md`; log ở `logs/review38/`.
+
+- **Nghiệm thu `0c0a07a`**: PASS WITH LIMITATIONS (đính chính vòng 36 + pilot vòng 37). Base review → `0c0a07a`.
+- **Nguồn không đổi**:
+  - ảnh MOT train và snapshot nhãn train phương án C (vân tay `d2024493…`);
+  - split `bdd5_train_v1` `b8a2848e…`;
+  - cấu hình `bdd5_train.yaml` `ca5d602b…`.
+- **`kiem-nguon` exit 0** (1.400 video, 278.079 frame) trước khi xuất.
+- **Dataset đầy đủ** `data/yolo_bdd5_v1/` (có `.gitignore` riêng, không commit):
+
+  | Mục | Giá trị |
+  |:--|:--|
+  | Bước frame | 5 (chỉ số 0-based % 5 == 0, trong khoảng frame có nhãn) |
+  | Ảnh train-fit / dev | **50.487 / 5.559** (1.261 / 139 video) |
+  | Ảnh âm tính / có vùng ignore | 686 / 17.040 (train-fit); 95 / 1.560 (dev) |
+  | Dev motorcycle / bicycle | 226 / 407 box; 205 / 334 ảnh; 24 / 44 video |
+  | Hash | `data.yaml` `1280e57b…`, manifest `1ee6174f…`, `tom_tat.json` `9eae5eb3…` |
+  | Dung lượng | 8.034.288.965 B, 130.699 file; D: còn 54,83 GB |
+
+- **Kiểm**:
+  - hợp đồng `bdd5-dataset-v2`: 0 lỗi, cả lúc xuất và chạy lại; 0 `.npy`;
+  - tập frame khớp từng phần tử với tập tính lại từ nguồn nhãn;
+  - trùng nội dung train/dev: 0; BDD val: 0 trùng tên + 0 trùng nội dung;
+  - UA-DETRAC test: **chỉ so tên video**.
+- **Giữ nguyên**:
+  - dataset smoke `data/yolo_bdd5_v1_smoke/`;
+  - COCO val `074ff795…`, native val cách ly, kết quả lịch sử.
+- **Bước tiếp** (chưa chạy, chờ duyệt): training dài local.
 
 ## Vòng 35 (2026-10-02) — split đã khóa, tập con smoke đã xuất, smoke 2 model đạt
 

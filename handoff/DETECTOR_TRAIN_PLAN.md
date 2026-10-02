@@ -36,6 +36,16 @@ Chi tiết: `REVIEW36_CHI_TIET.md`.
 
 Chi tiết: `REVIEW37_CHI_TIET.md`.
 
+**Vòng 38** (base `0c0a07a`; Codex `0c0a07a` PASS WITH LIMITATIONS, đóng R35-F1/F2):
+
+- **Đã xuất dataset đầy đủ** `data/yolo_bdd5_v1/` (bước 5, split đã khóa): **50.487 ảnh train-fit / 5.559 ảnh dev**, khớp số
+  đếm vòng 35; 8,03 GB.
+- Hợp đồng v2: 0 lỗi; kiểm độc lập ĐẠT.
+- Dry-run hai model (không train) nhận đúng dataset.
+- **Training dài, số epoch, ngân sách, thời điểm vẫn chờ duyệt.**
+
+Chi tiết: `REVIEW38_CHI_TIET.md`.
+
 Tài liệu này dùng ba nhãn nguồn số liệu:
 
 - **fixture**: đo thật trên GPU của PC, nhưng với dữ liệu tổng hợp;
@@ -81,7 +91,10 @@ Bảng theo lớp ở `REVIEW35_CHI_TIET.md` mục 2 và 8.
     dùng quyết định; không tự loại ảnh.
 
   Vòng 35, trên **tập con smoke** (418 ảnh): trùng nội dung train/dev 0; BDD val trùng tên 0 và trùng nội dung 0 (so với
-  39.973 ảnh val đã băm). Với **dataset đầy đủ**, kết quả sẽ có khi xuất (chưa chạy).
+  39.973 ảnh val đã băm). Vòng 38, **dataset đầy đủ** (56.046 ảnh):
+  - trùng nội dung train/dev: **0 cặp**;
+  - BDD val: trùng tên 0, trùng nội dung 0;
+  - UA-DETRAC test: chỉ so tên video, 0 trùng.
 - **Hợp đồng dataset dùng chung** (vòng 28, `bdd_yolo_export.kiem_hop_dong_dataset`), gọi ở ba nơi: cuối bước xuất,
   trong runner trước khi nạp model, và trong evaluator trước khi dự đoán.
   - Kiểm đúng đường dẫn ultralytics resolve từ `data.yaml`: `train` = `images/train`, `val` = `images/dev`, `path` tuyệt đối.
@@ -101,7 +114,10 @@ Bảng theo lớp ở `REVIEW35_CHI_TIET.md` mục 2 và 8.
     - Runner từ chối cấu hình `cache` khác `false`.
     - Callback trước vòng train kiểm lại nguồn pixel của dataset thật (không cache ảnh, không `.npy`).
 - **Quy mô**: ước tính cũ theo mô tả công bố của BDD100K (1.400 video train, ~200 frame/video) là train-fit ~50.400 ảnh, dev
-  ~5.600 ảnh. Vòng 35 đếm thật: **50.487 / 5.559** ở bước 5. Số chính thức lấy từ `--buoc xuat` khi xuất.
+  ~5.600 ảnh. Vòng 35 đếm thật: **50.487 / 5.559** ở bước 5. Vòng 38 xuất thật ra **đúng 50.487 / 5.559**; tập
+  (video, frame) khớp từng phần tử với tập tính lại.
+  - dev: motorcycle 226 box / 205 ảnh / 24 video; bicycle 407 box / 334 ảnh / 44 video;
+  - thống kê đầy đủ ở `REVIEW38_CHI_TIET.md` mục 4.
 - **Ràng buộc cho mốc 4**: tập dev dùng để tinh chỉnh tracker trên BDD sau này phải lấy từ **dev nội bộ** này, không
   lấy từ train-fit. Nếu lấy từ train-fit, detection sẽ chạy trên chính ảnh đã huấn luyện.
 
@@ -287,8 +303,8 @@ C=configs/phase2/detector/bdd5_train.yaml
 $P src/prepare_mixed_yolo_dataset.py --config $C --buoc kiem-nguon          # phải exit 0
 $P src/prepare_mixed_yolo_dataset.py --config $C --buoc chia                # khóa split -> COMMIT file split
 $P src/prepare_mixed_yolo_dataset.py --config $C --buoc xuat --tap-con smoke
-$P src/prepare_mixed_yolo_dataset.py --config $C --buoc xuat                # dataset đầy đủ + kiểm trùng + kiểm sau xuất
-$P src/prepare_mixed_yolo_dataset.py --config $C --buoc kiem
+$P src/prepare_mixed_yolo_dataset.py --config $C --buoc xuat                # dataset đầy đủ + kiểm trùng + kiểm sau xuất (vòng 38: ĐÃ CHẠY, exit 0)
+$P src/prepare_mixed_yolo_dataset.py --config $C --buoc kiem                # (vòng 38: ĐÃ CHẠY lại, exit 0, 0 lỗi)
 # 1. kiểm cấu hình (không train), smoke trên dữ liệu thật cho cả hai model
 for M in yolov8n yolo11n; do
   $P src/train_detector.py --model $M --dry-run
@@ -323,7 +339,10 @@ $P src/eval_detector_5lop.py --data data/yolo_bdd5_v1/data.yaml --split val \
 
 Chi tiết: `handoff/BDD100K_INVENTORY.md`, mục Vòng 31–35.
 
-Còn phải **xuất dataset đầy đủ** (bước 5, ~8,5 GB) trước khi train dài. Bước này chưa chạy.
+**Vòng 38**: dataset đầy đủ **đã xuất**, `data/yolo_bdd5_v1/data.yaml`.
+
+- Hash: `data.yaml` `1280e57b…`, manifest `1ee6174f…`.
+- 8.034.288.965 B, 130.699 file; không commit.
 
 ## 8. Chưa làm / cần quyết định
 
@@ -333,8 +352,14 @@ Còn phải **xuất dataset đầy đủ** (bước 5, ~8,5 GB) trước khi tr
   - **Pilot chẩn đoán**: ĐÃ CHẠY ở vòng 37 (2 model × 2 epoch, có đo model 5 lớp trước bước học và log warmup/LR thực tế).
   - **Đối chứng warmup** (cùng seed, có / không warmup) nếu muốn đóng hẳn câu hỏi warmup của R35-F1: đây là ablation, chờ
     duyệt, chưa làm. Không bắt buộc cho quyết định training dài.
-  - Xuất dataset đầy đủ.
-  - Đóng bớt ứng dụng để có RAM khi train dài: RAM trống tối thiểu chỉ 7–59 MiB trong pilot.
+  - Xuất dataset đầy đủ: **ĐÃ LÀM ở vòng 38**.
+  - Đóng bớt ứng dụng để có RAM khi train dài: RAM trống tối thiểu chỉ 7–59 MiB trong pilot; 1,26 GB lúc kết thúc vòng 38.
+  - **Vòng 38**:
+    - mỗi lượt dài khoảng 26–30 h theo kịch bản, vượt giới hạn tác vụ nền ~2 h, nên nên khởi chạy trong terminal riêng;
+    - runner không có chế độ resume; thêm resume cần duyệt;
+    - bộ đo RAM ngoài cần chọn đúng tiến trình trước lượt dài (đề xuất).
+
+    Lệnh dự kiến ở `REVIEW38_CHI_TIET.md` mục 5.
 - **Cần hỏi người dùng**: có dùng gói detection 100K hay không.
 - **Chưa làm (mốc 3)**: detection cache từ model fine-tune. `detector_classes.sang_id_coco()` đã sẵn để giữ quy ước
   `--classes 1 2 3 5 7`.

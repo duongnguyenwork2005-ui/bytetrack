@@ -1,72 +1,61 @@
-# REVIEW_BRIEF — vòng 37: pilot chẩn đoán 2 epoch trên dataset smoke
+# REVIEW_BRIEF — vòng 38: xuất dataset YOLO đầy đủ (bước 5) và kiểm chứng
 
 <!-- BASE_TARGET -->
 
-Chi tiết: **`handoff/REVIEW37_CHI_TIET.md`**. Base review vẫn là `2351c67`; vòng 36 chưa nghiệm thu nên nằm chung trong delta.
+Chi tiết: **`handoff/REVIEW38_CHI_TIET.md`**.
 
-**Phạm vi** (người dùng duyệt): YOLOv8n và YOLO11n, mỗi model một lượt **2 epoch**, chạy lần lượt trên dataset smoke đã khóa
-(334/84). Không training dài, không xuất dataset, không Nano.
+**Phạm vi** (người dùng duyệt): xuất dataset đầy đủ từ BDD100K MOT train theo split đã khóa, 1 frame mỗi 5 frame; kiểm chứng;
+dừng. Không training, không inference, không Nano.
 
-## Chuẩn bị — ĐÃ CHẠY
+## Ghi nhận nghiệm thu — ĐÃ CHẠY
 
-- Runner có chế độ `pilot` / `kiem-pilot`. Cấu hình pilot kế thừa nguyên cấu hình gốc theo sha256 và **chỉ đổi `epochs`**;
-  tham số hiệu lực khác smoke ở bất kỳ khóa nào khác thì runner từ chối.
-- **Sửa lỗi đo**: ultralytics `final_eval` gọi lại `on_fit_epoch_end` và từng ghi đè `val_s`/`metrics` epoch cuối. `val_s`
-  smoke vòng 35 vì vậy gồm cả `final_eval`.
-- **Test**:
-  - lần 1: 24/30 — lỗi của chính phép đo (`args.half` đã đổi thành `quantize`); đã sửa, log giữ lại;
-  - lần 2: **34/34 PASS**, gồm **A/B CPU**: lượt có đo trùng lượt không đo **từng bit**;
-  - hồi quy detector: **92/92**.
-- Khóa cấu hình commit **trước** khi train. Ngay trước mỗi lượt, cấu hình được so lại: khớp **46/46**.
+- Codex `0c0a07a`: **PASS WITH LIMITATIONS**, đóng R35-F1/F2 về báo cáo. Bằng chứng khớp 91/91.
+- Gói 967.546 B (`a2985214…`) khớp, đã lưu archive. **Base → `0c0a07a`**; 13 khai báo NPZ giữ nguyên.
 
-## Pilot — ĐÃ CHẠY, ĐẠT cả hai
+## Xuất — ĐÃ CHẠY, exit 0
 
-Exit 0. Đủ 2 epoch, 17 lần cập nhật/model, loss hữu hạn, checkpoint nạp lại đúng 5 lớp, đủ 7 phép đo; mọi phép đo trong lúc
-train không đổi trạng thái (RNG CUDA bị tiêu thụ, đã khôi phục).
+- `kiem-nguon` exit 0; split `b8a2848e…`, danh sách `a59a8d06…`, vân tay nhãn `d2024493…` đều khớp khóa.
+- **Bước 5** theo `chon_frame`: chỉ số 0-based chia hết cho 5 trong khoảng frame có nhãn.
+- Wall 777 s. **50.487 ảnh train-fit / 5.559 ảnh dev**, khớp số đếm vòng 35.
+  - 278.079 frame nguồn = 56.046 chọn + 221.729 lệch bước + 304 ngoài khoảng có nhãn.
+- **Kích thước**: 8,03 GB, 130.699 file. D: còn 54,83 GB.
 
-Đo bằng nguyên evaluator, **conf 0,001**, trên 84 ảnh dev:
+## Kiểm chứng — ĐẠT
 
-| | Trước học | Epoch 1 (model / EMA) | Epoch 2 (model / EMA) | Checkpoint |
-|:--|:--|:--|:--|:--|
-| v8n: detection | **0** | 631 / 554 | 7.496 / 6.031 | 6.037 |
-| v8n: car AP50 | 0 | 0,375 / 0,338 | 0,510 / 0,498 | 0,498 |
-| v8n: điểm max/ảnh (trung vị, trước ngưỡng) | **0,00019** | 0,012 / 0,008 | 0,109 / 0,070 | 0,071 |
-| 11n: detection | **0** | 18 / 3 | 3.798 / 3.606 | 3.603 |
-| 11n: car AP50 | 0 | 0,005 / 0,005 | 0,413 / 0,392 | 0,393 |
-| 11n: điểm max/ảnh (trung vị, trước ngưỡng) | **0,00028** | 0,0005 / 0,0004 | 0,055 / 0,041 | 0,041 |
+- **Hợp đồng v2**, chạy cả lúc xuất và chạy lại: **0 lỗi**.
+  - Băm 56.046 ảnh, 56.046 nhãn, 18.600 file ignore; 0 `.npy`; đường dẫn đúng `images/train`, `images/dev`.
+- **Kiểm độc lập**:
+  - tập (split, video, frame) trong manifest **khớp từng phần tử** với tập tính lại từ nguồn nhãn;
+  - 475.234 box hợp lệ; 0 video chung.
+- **Kiểm trùng**:
+  - nội dung train↔dev: 0 cặp;
+  - BDD val: 0 trùng tên + 0 trùng nội dung;
+  - UA-DETRAC test: **chỉ so tên video**.
 
-- **Bằng chứng nạp**, khớp log ultralytics: 33 (v8n) / 48 (11n) tensor nhánh phân lớp `cv3` **khởi tạo mới**; chỉ 3 bias lớp
-  được remap theo tên.
-- **Warmup thực chạy**:
-  - nw = 42, trọn epoch 1; LR/momentum/accumulate từng batch khớp công thức (0 lệch);
-  - epoch 2 LR 0,00505;
-  - cập nhật 12 + 5 lần.
-- **Mosaic** tắt cả hai epoch, như mã dự đoán. Smoke thì có mosaic.
-- **Thời gian**:
-  - train epoch: v8n 50 / 39 s, 11n 58 / 46 s;
-  - mỗi phép đo 8–15 s;
-  - VRAM cả GPU tối đa 2.655 / 2.892 MiB;
-  - RAM trống thấp nhất **7–59 MiB**.
+| | train-fit | dev |
+|:--|--:|--:|
+| Video / ảnh / âm tính / có ignore | 1.261 / 50.487 / 686 / 17.040 | 139 / 5.559 / 95 / 1.560 |
+| Box car / truck / bus | 383.387 / 27.358 / 10.708 | 42.211 / 2.971 / 984 |
+| **Box motorcycle / bicycle** | 2.235 / 4.747 | **226 / 407** |
+| **Ảnh có motorcycle / bicycle** | 1.822 / 3.598 | **205 / 334** |
+| **Video có motorcycle / bicycle** | 230 / 397 | **24 / 44** |
 
-## Kết luận
+- **Lỗi đo**: bộ đo RAM ngoài bám **nhầm** shell của lệnh Monitor chạy song song, nên RSS tiến trình của lần xuất không hợp
+  lệ. RAM hệ thống còn trống vẫn hợp lệ (thấp nhất 449 MiB).
 
-**Có bằng chứng**:
+## Sẵn sàng training — chưa chạy
 
-- Model 5 lớp **trước bước học** đã có điểm lớp gần 0, trước mọi bước tối ưu.
-- Trong pilot, các bước học làm điểm lớp và AP **tăng**.
+- Dry-run hai model (không train) exit 0: runner nhận đúng dataset; 6.311 batch / 789 bước tối ưu mỗi epoch.
+- Kịch bản 56,64 h / 73,95 h không đổi (số ảnh trùng số đã dùng).
+- RAM còn trống 1,26 GB.
+- Lệnh training dự kiến ở phụ lục mục 5.
 
-**Chưa xác định**:
+**Chờ duyệt**:
 
-- trạng thái trước học của chính lượt smoke vòng 35;
-- vai trò của việc không warmup (smoke) — không có đối chứng;
-- ảnh hưởng của mosaic;
-- vì sao 11n tăng chậm hơn ở epoch 1;
-- AP motorcycle/bicycle (không có GT).
+- số epoch (đề xuất 15), ngân sách, thời điểm;
+- khởi chạy trong terminal riêng, vì mỗi lượt khoảng 26–30 h, dài hơn giới hạn tác vụ nền;
+- có thêm resume không;
+- đóng bớt ứng dụng;
+- sửa bộ đo RAM.
 
-Không xếp hạng model.
-
-## Chờ người dùng duyệt
-
-Xuất dataset đầy đủ · bước frame · số epoch · ngân sách training local. Đối chứng warmup chỉ khi được duyệt.
-
-**Nên xem**: `src/pilot_chan_doan.py`, `src/test_pilot_chan_doan.py`, `logs/review37/01_*` (khóa), `06_*`, `07_*`.
+**Nên xem**: `logs/review38/02_*`, `03_*`, `04_*`, `05_*`, `06_*`.
