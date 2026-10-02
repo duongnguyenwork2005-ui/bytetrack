@@ -6,12 +6,15 @@ Chay tu goc repo:  python handoff/logs/review35/15_du_toan_training.py --ra hand
 Chi doc: 12_ket_qua_runner_<model>_lan2.json, 12_smoke_<model>_lan2.log (moc gio, dong "Speed:"),
 12_ram_tien_trinh_<model>_lan2.json, 14_dem_anh_day_du.json. Moi gia dinh ghi trong khoa "gia_dinh". KHONG train.
 Day la UOC TINH; so epoch / buoc frame / ngan sach CHUA duoc duyet -- bang phuong an chi de nguoi dung quyet dinh.
+Moi muc ("trung tam" va "cao") la KICH BAN DU TOAN theo cac gia dinh trong GIA_DINH, KHONG phai can tren hay bao dam:
+thoi gian, RAM va VRAM thuc te co the vuot ca kich ban "cao" (dinh chinh vong 36, R35-F2; cong thuc va so lieu khong doi).
 
 Mo hinh thoi gian (moi model, chay tuan tu, cung cau hinh train_bdd5.yaml: batch 8, imgsz 640, 2 worker, amp tat):
   tong(E) = khoi_tao + cho_batch_dau + E * (train_epoch + val_epoch) + val_cuoi
   train_epoch = ceil(n_train / 8) * s_moi_batch (trung vi on dinh do o smoke, bo 5 batch dau)
   val_epoch   = val_s_smoke (gom phan co dinh: khoi dong worker val, luu checkpoint, don dep) + (n_dev - 84) * ms_anh_val
-  muc "cao" = muc "trung tam" * (1 + bien_cham) cho rui ro chua do: GPU nong/giam xung khi chay nhieu gio, phan trang RAM.
+  kich ban "cao" (cham hon) = kich ban "trung tam" * (1 + bien_cham), gia dinh cho rui ro chua do: GPU nong/giam xung khi
+  chay nhieu gio, phan trang RAM. Day la mot kich ban, khong bao trum moi truong hop xau.
 """
 import argparse
 import json
@@ -36,19 +39,21 @@ GIA_DINH = {
     "ghi_chu": {
         "bien_cham_cao": "smoke chi do 36 khoang batch (~1 phut); chua do duoc giam xung GPU/phan trang RAM khi chay nhieu gio",
         "ms_hau_xu_ly_them_khi_model_da_hoc": "model smoke gan nhu khong co box tren nguong 0,001 nen NMS rat nhanh; model da "
-                                              "hoc co toi 300 box/anh -> cong them toi 5 ms/anh cho muc cao",
+                                              "hoc co the co nhieu box/anh hon (max_det 300) -> kich ban cham hon GIA DINH "
+                                              "cong them 5 ms/anh; chua do, thuc te co the cham hon nua",
         "toc_do_bam_hop_dong_MB_s": "do o smoke: hop dong bam 418 anh + 418 nhan + 152 ignore (~55 MB) trong 1,31 s",
         "toc_do_quet_nhan_ultralytics_anh_s": "do o smoke: 334 nhan quet o ~1,1K it/s khi tao labels/train.cache",
         "ti_le_byte_anh_to_xam_xuat_tren_nguon": "do tren dataset smoke: 152 anh to xam ghi lai JPEG q95 = 1,551 x byte nguon; "
                                                   "anh khong to xam chep nguyen byte (1,000)",
         "byte_nhan_ignore_manifest_moi_anh": "NTFS cap phat >= 4 KiB moi file nho: 1 file nhan + ~0,4 file ignore moi anh, "
-                                              "cong ~600 B manifest/cache -> can tren",
+                                              "cong ~600 B manifest/cache -> gia dinh du, chua do tren dataset day du",
         "dung_luong_luot_train_moi_model_GB": "last.pt + best.pt (5-6 MB sau khi bo optimizer; ~2-3 lan khi con optimizer) + "
                                                  "results.csv + args.yaml; save_period = -1 (khong luu checkpoint tung epoch)",
         "ram_them_cho_dataset_day_du_MiB": "nhan cua ~56K anh nam trong dataset cua tien trinh chinh + moi worker (spawn tren "
                                             "Windows -> moi worker mot ban); UOC, chua do",
-        "vram_them_cho_lo_nhieu_box_MiB": "bo gan nhan TAL cap phat theo so box lon nhat trong lo; smoke toi da ~180 box/lo; "
-                                           "UOC, chua do tren du lieu day du"}}
+        "vram_them_cho_lo_nhieu_box_MiB": "bo gan nhan TAL cap phat theo so box lon nhat trong lo; lo nhieu box nhat quan sat "
+                                           "o smoke ~180 box; UOC, chua do tren du lieu day du, lo thuc te co the nhieu box "
+                                           "hon va VRAM co the vuot kich ban"}}
 
 
 def doc_json(p):
@@ -73,7 +78,9 @@ def main():
     a = ap.parse_args()
     g = GIA_DINH
     dem = doc_json(L / "14_dem_anh_day_du.json")
-    kq = {"loai": "UOC TINH tu smoke 1 epoch tren du lieu that; KHONG phai cam ket ngan sach; epoch/buoc frame CHUA duyet",
+    kq = {"loai": "UOC TINH tu smoke 1 epoch tren du lieu that; KHONG phai cam ket ngan sach; epoch/buoc frame CHUA duyet; "
+                  "moi muc (ke ca 'cao' va khoang RAM/VRAM) la KICH BAN DU TOAN theo gia_dinh, KHONG phai can tren hay "
+                  "bao dam -- thoi gian va bo nho thuc te co the vuot",
           "gia_dinh": g, "do_o_smoke": {}, "dataset_day_du": {}, "thoi_gian_theo_phuong_an": [], "ram_vram": {}, "dia": {}}
     for b, r in dem["theo_buoc"].items():
         kq["dataset_day_du"][f"buoc_{b}"] = {"anh_train": r["train"]["so_anh"], "anh_dev": r["dev"]["so_anh"],
@@ -148,15 +155,17 @@ def main():
         mm = pa["theo_model"]
         print(f"buoc {pa['buoc_frame']:2d}, {pa['epoch']:2d} epoch ({pa['anh_train']} anh train): " + " | ".join(
             f"{m} {v['train_moi_epoch_h']} h/epoch train + {v['val_moi_epoch_phut']}-{v['val_moi_epoch_phut_cao']} ph val"
-            f" -> {v['tong_h_trung_tam']} h (cao {v['tong_h_cao']} h)" for m, v in mm.items())
-            + f" || tong {pa['tong_hai_model_h_trung_tam']} h (cao {pa['tong_hai_model_h_cao']} h)", flush=True)
+            f" -> {v['tong_h_trung_tam']} h (kich ban cham hon {v['tong_h_cao']} h)" for m, v in mm.items())
+            + f" || tong {pa['tong_hai_model_h_trung_tam']} h (kich ban cham hon {pa['tong_hai_model_h_cao']} h)", flush=True)
     for b, v in kq["dia"].items():
         print(f"dia {b}: dataset ~{v['dataset_xuat_GB_uoc']} GB + 2 luot train ~{v['hai_luot_train_GB_uoc']} GB")
     for m, v in kq["ram_vram"].items():
-        print(f"{m}: RAM RSS do {v['ram_rss_tien_trinh_va_con_mib_do']} MiB -> uoc {v['ram_rss_uoc_day_du_mib']} MiB; RAM he thong "
+        print(f"{m} (khoang uoc = kich ban theo gia dinh, thuc te co the vuot): "
+              f"RAM RSS do {v['ram_rss_tien_trinh_va_con_mib_do']} MiB -> uoc {v['ram_rss_uoc_day_du_mib']} MiB; RAM he thong "
               f"con trong min {v['ram_he_thong_con_trong_min_mib_do']} MiB; torch reserved {v['torch_reserved_mib_do']} -> "
               f"{v['torch_reserved_uoc_day_du_mib']} MiB; ca GPU {v['nvidia_smi_ca_gpu_mib_do']} -> "
               f"{v['nvidia_smi_ca_gpu_uoc_day_du_mib']} MiB / 4096")
+    print("# moi so tren la KICH BAN DU TOAN theo gia dinh (xem khoa gia_dinh), KHONG phai can tren hay bao dam")
     print(f"[ra] {a.ra}")
     return 0
 

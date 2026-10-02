@@ -1,0 +1,57 @@
+# 2026-10-02 17:09:34 +0700 HEAD 8a9dec8 -- tu kiem doi_chieu_so_json.py tren 7 ca tong hop (thu muc tam)
+== ca giong_het
+gia tri so da so: 5 | null: 1 | chuoi: 1
+khac SO: 0
+khac CAU TRUC: 0
+chuoi da doi (chi cau chu): 0
+KET LUAN: DAT -- moi gia tri so va cau truc giong het
+exit=0
+== ca khac_so_float
+gia tri so da so: 5 | null: 1 | chuoi: 1
+khac SO: 1
+  $.x: 1.5 != 1.6
+khac CAU TRUC: 0
+chuoi da doi (chi cau chu): 0
+KET LUAN: KHAC -- xem tren
+exit=1
+== ca khac_so_int
+gia tri so da so: 5 | null: 1 | chuoi: 1
+khac SO: 1
+  $.n[2].k: 3 != 4
+khac CAU TRUC: 0
+chuoi da doi (chi cau chu): 0
+KET LUAN: KHAC -- xem tren
+exit=1
+== ca khac_kieu_so
+gia tri so da so: 4 | null: 1 | chuoi: 1
+khac SO: 0
+khac CAU TRUC: 1
+  $.n[2].k: kieu int != float
+chuoi da doi (chi cau chu): 0
+KET LUAN: KHAC -- xem tren
+exit=1
+== ca khac_chuoi
+gia tri so da so: 5 | null: 1 | chuoi: 1
+khac SO: 0
+khac CAU TRUC: 0
+chuoi da doi (chi cau chu): 1
+  $.loai
+KET LUAN: DAT -- moi gia tri so va cau truc giong het
+exit=0
+== ca khac_cau_truc
+gia tri so da so: 0 | null: 0 | chuoi: 0
+khac SO: 0
+khac CAU TRUC: 1
+  $: khoa ['loai', 'x', 'n', 't', 'z'] != ['loai', 'x', 'n', 't', 'z', 'them']
+chuoi da doi (chi cau chu): 0
+KET LUAN: KHAC -- xem tren
+exit=1
+== ca khac_kieu
+gia tri so da so: 4 | null: 1 | chuoi: 1
+khac SO: 0
+khac CAU TRUC: 1
+  $.x: kieu float != str
+chuoi da doi (chi cau chu): 0
+KET LUAN: KHAC -- xem tren
+exit=1
+# ky vong: giong_het 0; khac_so_float 1 (khac SO $.x); khac_so_int 1 (khac SO $.n[2].k); khac_kieu_so 1; khac_chuoi 0 (liet ke $.loai); khac_cau_truc 1; khac_kieu 1

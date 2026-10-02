@@ -1,0 +1,13 @@
+# 2026-10-02 17:09:47 +0700 HEAD 8a9dec8 (+ 15_du_toan_training.py da sua CHUOI MO TA, chua commit; sha256 c5349d384e80aa31f26a1350c70f1b71121f384ab0f43577e8b56552ab117166)
+# lenh: python handoff/logs/review35/15_du_toan_training.py --ra handoff/logs/review36/02_du_toan_sinh_lai.json   (chi doc so do, khong train; dau vao = file vong 35 khong doi)
+buoc  5, 15 epoch (50487 anh train): yolov8n 1.74 h/epoch train + 1.3-1.7 ph val -> 26.48 h (kich ban cham hon 34.58 h) | yolo11n 1.98 h/epoch train + 1.2-1.7 ph val -> 30.16 h (kich ban cham hon 39.37 h) || tong 56.64 h (kich ban cham hon 73.95 h)
+buoc  5, 30 epoch (50487 anh train): yolov8n 1.74 h/epoch train + 1.3-1.7 ph val -> 52.85 h (kich ban cham hon 69.02 h) | yolo11n 1.98 h/epoch train + 1.2-1.7 ph val -> 60.22 h (kich ban cham hon 78.6 h) || tong 113.08 h (kich ban cham hon 147.61 h)
+buoc 10, 15 epoch (25848 anh train): yolov8n 0.89 h/epoch train + 0.9-1.1 ph val -> 13.63 h (kich ban cham hon 17.8 h) | yolo11n 1.02 h/epoch train + 0.7-0.9 ph val -> 15.47 h (kich ban cham hon 20.19 h) || tong 29.1 h (kich ban cham hon 37.99 h)
+buoc 10, 30 epoch (25848 anh train): yolov8n 0.89 h/epoch train + 0.9-1.1 ph val -> 27.2 h (kich ban cham hon 35.52 h) | yolo11n 1.02 h/epoch train + 0.7-0.9 ph val -> 30.87 h (kich ban cham hon 40.29 h) || tong 58.08 h (kich ban cham hon 75.81 h)
+dia buoc_5: dataset ~8.46 GB + 2 luot train ~0.1 GB
+dia buoc_10: dataset ~4.34 GB + 2 luot train ~0.1 GB
+yolov8n (khoang uoc = kich ban theo gia dinh, thuc te co the vuot): RAM RSS do 3018 MiB -> uoc [3118, 3518] MiB; RAM he thong con trong min 16 MiB; torch reserved 2134 -> [2134, 2434] MiB; ca GPU 2624 -> [2624, 2924] MiB / 4096
+yolo11n (khoang uoc = kich ban theo gia dinh, thuc te co the vuot): RAM RSS do 2828 MiB -> uoc [2928, 3328] MiB; RAM he thong con trong min 82 MiB; torch reserved 2344 -> [2344, 2644] MiB; ca GPU 2840 -> [2840, 3140] MiB / 4096
+# moi so tren la KICH BAN DU TOAN theo gia dinh (xem khoa gia_dinh), KHONG phai can tren hay bao dam
+[ra] handoff/logs/review36/02_du_toan_sinh_lai.json
+# exit=0
