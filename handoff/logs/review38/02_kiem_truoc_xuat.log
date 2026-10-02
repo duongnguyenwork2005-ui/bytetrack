@@ -1,0 +1,28 @@
+# 2026-10-02 23:34:10 +0700 HEAD 9347141 -- kiem truoc khi xuat dataset day du (chi doc)
+cau hinh: configs\phase2\detector\bdd5_train.yaml sha256 ca5d602b34d6dc552dc9b624652b15726dcbe46b3d529d9a2f7138c27e543469 (vong 35: ca5d602b...)
+file split: configs\phase2\detector\splits\bdd5_train_v1.json sha256 b8a2848e3da053a2b1b79e7fa6cfad812540315af6e48b12b4174a40efc06cdb (khoa: b8a2848e...)
+sha256_danh_sach tinh lai: a59a8d0672f30d6e9ff90d4347965fa003b299bb79995c0883796712446ca723 | ghi: a59a8d0672f30d6e9ff90d4347965fa003b299bb79995c0883796712446ca723
+van tay nguon nhan hien tai: d20244932880e4d4bce842417f9eaa2cc24787a1fdaa72e64ad2faaafa6fd221 | ghi trong split: d20244932880e4d4bce842417f9eaa2cc24787a1fdaa72e64ad2faaafa6fd221 | so file: 1400
+so video: train_fit 1261 dev 139 | chung: 0
+chon_tap_con(None) = toan bo split: True
+buoc frame hieu luc (xuat day du, khong --tap-con): 5
+ham chon frame (bdd_yolo_export.chon_frame), sha256 ma nguon 65fc568160d18ca8:
+def chon_frame(frames: list[Frame], buoc: int) -> tuple[list[Frame], dict]:
+    """Quy tac 2 + 3: frame co idx % buoc == 0 va nam trong khoang co nhan cua video."""
+    dem = {"khong_theo_buoc": 0, "ngoai_khoang_co_nhan": 0}
+    co_nhan = [f.idx for f in frames if f.nhan]
+    lo, hi = (min(co_nhan), max(co_nhan)) if co_nhan else (1, 0)
+    chon = []
+    for f in sorted(frames, key=lambda f: f.idx):
+        if f.idx % buoc:
+            dem["khong_theo_buoc"] += 1
+        elif not lo <= f.idx <= hi:
+            dem["ngoai_khoang_co_nhan"] += 1
+        else:
+            chon.append(f)
+    return chon, dem
+thu muc dich: D:\LABOTARY\bytetrack\data\yolo_bdd5_v1 ton tai: False | .dang_tao ton tai: False
+tap danh gia cam: [('bdd100k_mot_val', 'bdd_mot'), ('ua_detrac_test', 'detrac_xml')]
+bo nho dem hash tap danh gia: D:\LABOTARY\bytetrack\data\interim\hash_tap_danh_gia ton tai: True | so file: 2
+D: con trong 63.20 GB | du kien dataset ~8,5 GB (vong 35, uoc tinh)
+# exit=0
