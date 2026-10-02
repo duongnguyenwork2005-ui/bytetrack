@@ -97,6 +97,8 @@ TESTS = [
     ("test_bdd100k_coco", [], None),
     # vong 27: dataset BDD MOT train -> YOLO 5 lop, evaluator 5 lop (doi chieu pycocotools), runner huan luyen
     ("test_detector_5lop", [], None),
+    # vong 37: phep do pilot chan doan (diem do truoc hoc, bat bien trang thai, A/B CPU) + cau hinh pilot chi doi epoch
+    ("test_pilot_chan_doan", [], None),
     ("test_pf_ctrv", [], None),
     ("test_sort_tracker", [], None),
     ("test_smoke_phase2", [], None),
