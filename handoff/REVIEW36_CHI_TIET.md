@@ -141,4 +141,5 @@ Commit `2b15b88`.
 |:--|:--|
 | `8a9dec8` | Ghi nhận nghiệm thu `2351c67`, bằng chứng, base → `2351c67` |
 | `2b15b88` | R35-F2 tại nguồn: chuỗi mô tả script dự toán, sinh lại, đối chiếu 162 số |
-| (commit tài liệu) | R35-F1/F2 trong tài liệu, đối chiếu R35-F1, kiểm không đổi, brief, phụ lục này |
+| `961d3ff` | Đối chiếu R35-F1 từ log có sẵn (`04_*`), kiểm không đổi (`05a_*`, `05b_*`) |
+| `99990f6` và commit chứa bảng này | R35-F1/F2 trong tài liệu, brief, phụ lục này |
