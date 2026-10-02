@@ -1,0 +1,19 @@
+# 2026-10-02 13:08:01 +0700 HEAD 4237149
+# Muc dich: blob da commit o 4237149 bi '* text=auto' chuan hoa CRLF->LF, nen sha256 blob != sha256 file tren dia da ghi trong manifest dataset.
+# Kiem TRUOC khi them -text va renormalize (file tren dia KHONG bi sua):
+file tren dia: bytes 35795 CR 1499 sha256 b8a2848e3da053a2b1b79e7fa6cfad812540315af6e48b12b4174a40efc06cdb mtime 2026-10-02T12:56:13
+blob 4237149 : bytes 34296 CR 0 sha256 bc9c85d1e71891ec3247b602c9bb5e54b2c047f9e7fe9405a8baa8c6b8ce429a
+dia thay CRLF->LF == blob: True | CR le (khong di kem LF): 0
+JSON parse giong het: True
+sha256_danh_sach tinh lai: a59a8d0672f30d6e9ff90d4347965fa003b299bb79995c0883796712446ca723 | ghi trong file: a59a8d0672f30d6e9ff90d4347965fa003b299bb79995c0883796712446ca723
+tom_tat.json file_split.sha256 (ghi luc xuat): b8a2848e3da053a2b1b79e7fa6cfad812540315af6e48b12b4174a40efc06cdb
+ban sao trong dataset sha256: b8a2848e3da053a2b1b79e7fa6cfad812540315af6e48b12b4174a40efc06cdb | == file tren dia: True
+# SAU khi them configs/phase2/detector/splits/.gitattributes (* -text) va git add --renormalize (chi index; file tren dia giu nguyen):
+configs/phase2/detector/splits/bdd5_train_v1.json: index==dia True | sha256 index b8a2848e3da053a2b1b79e7fa6cfad812540315af6e48b12b4174a40efc06cdb | bytes 35795 CR 1499
+handoff/logs/review35/00_trang_thai_dau.log: index==dia True | sha256 index f6d2e76e5bc9cf84691fa37fc39c6342d49c1f3c53be9ab01b860c6512daefaa | bytes 1296 CR 6
+handoff/logs/review35/01_kiem_nguon.log: index==dia True | sha256 index 919d21c4df9fc7df5aee6803fb2d6e1e0c23a4fa72b57be349b2a9df47815129 | bytes 425 CR 11
+handoff/logs/review35/02_chia.log: index==dia True | sha256 index eb538c39eb03f7df6041709ddf10f38aedef187f8e88eb0f6f46cd108135433d | bytes 1106 CR 45
+handoff/logs/review35/03_kiem_trung_ten_video.json: index==dia True | sha256 index 41c5ce3f844cb3c363d76e4a71d2df32e5fcc908c5321214016381213b624668 | bytes 399 CR 0
+mtime file split tren dia: 2026-10-02T12:56:13 (khong doi)
+# Ket luan: chi ky tu xuong dong cua blob thay doi (LF -> CRLF nhu file goc); danh sach video, sha256_danh_sach va JSON giu nguyen.
+# Viec nay lam TRUOC khi co epoch/AP nao (smoke lan 1 dung truoc vong train, xem 08_*).
