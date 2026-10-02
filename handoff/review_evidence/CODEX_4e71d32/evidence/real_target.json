@@ -1,0 +1,207 @@
+{
+  "native_files": 1600,
+  "manifest_mismatches": 0,
+  "counts": {
+    "train": {
+      "json_hong": [],
+      "khong_phai_list": [],
+      "theo_lop": {
+        "motorcycle": 12464,
+        "car": 2207116,
+        "bus": 57880,
+        "pedestrian": 381441,
+        "rider": 20365,
+        "bicycle": 28477,
+        "truck": 149823,
+        "other vehicle": 19202,
+        "other person": 4453,
+        "trailer": 4103,
+        "train": 1592
+      },
+      "crowd_theo_lop": {
+        "car": 108014,
+        "bicycle": 2904,
+        "pedestrian": 12268,
+        "other vehicle": 99,
+        "motorcycle": 282,
+        "rider": 196,
+        "bus": 96,
+        "other person": 201,
+        "truck": 258
+      },
+      "so_nhan": 2886916,
+      "so_frame": 278079,
+      "so_track_id": 112819,
+      "so_track_doi_lop": 0,
+      "so_frame_khong_nhan": 3930,
+      "file_khong_co_frame": 0,
+      "frame_sai_dang": 0,
+      "videoName_khac_ten_file": 0,
+      "ten_frame_sai_mau": 0,
+      "frameIndex_lech_ten": 0,
+      "frame_trung_ten": 0,
+      "labels_khong_phai_list": 0,
+      "nhan_sai_dang": 0,
+      "id_sai_kieu": 0,
+      "category_sai_kieu": 0,
+      "box_thieu_hoac_sai_kieu": 0,
+      "box_toa_do_bool": 0,
+      "box_khong_huu_han": 0,
+      "id_trung_trong_frame": 0,
+      "attributes_thieu_hoac_sai_kieu": 0,
+      "box_dao": 0,
+      "box_ra_ngoai_anh": 0
+    },
+    "val": {
+      "json_hong": [],
+      "khong_phai_list": [],
+      "theo_lop": {
+        "car": 358586,
+        "pedestrian": 58130,
+        "bus": 9082,
+        "other vehicle": 2830,
+        "rider": 2540,
+        "bicycle": 4407,
+        "truck": 27471,
+        "other person": 819,
+        "trailer": 424,
+        "motorcycle": 915,
+        "train": 308
+      },
+      "crowd_theo_lop": {
+        "car": 17251,
+        "pedestrian": 1029,
+        "bicycle": 271,
+        "other person": 47,
+        "truck": 57,
+        "motorcycle": 13,
+        "bus": 4
+      },
+      "so_nhan": 465512,
+      "so_frame": 39973,
+      "so_track_id": 18842,
+      "so_track_doi_lop": 0,
+      "so_frame_khong_nhan": 615,
+      "file_khong_co_frame": 0,
+      "frame_sai_dang": 0,
+      "videoName_khac_ten_file": 0,
+      "ten_frame_sai_mau": 0,
+      "frameIndex_lech_ten": 0,
+      "frame_trung_ten": 0,
+      "labels_khong_phai_list": 0,
+      "nhan_sai_dang": 0,
+      "id_sai_kieu": 0,
+      "category_sai_kieu": 0,
+      "box_thieu_hoac_sai_kieu": 0,
+      "box_toa_do_bool": 0,
+      "box_khong_huu_han": 0,
+      "id_trung_trong_frame": 0,
+      "attributes_thieu_hoac_sai_kieu": 0,
+      "box_dao": 0,
+      "box_ra_ngoai_anh": 0
+    }
+  },
+  "schema_errors": {
+    "train": {},
+    "val": {}
+  },
+  "comparison_status": "DIFFERENCES",
+  "comparison": {
+    "coco": "/workspace/scratch/39272c88b7a6/upload/01-bdd_box_track_val_cocofmt.json",
+    "so_annotation_coco": 465512,
+    "so_anh_coco": 39973,
+    "so_video_coco": 200,
+    "so_cap_ghep_duoc": 465512,
+    "nhan_chi_co_o_scalabel_theo_lop": {},
+    "annotation_chi_co_o_coco_theo_lop": {},
+    "anh_xa_lop_scalabel_coco_ignore": {
+      "car -> car (ignore=0)": 358550,
+      "pedestrian -> pedestrian (ignore=0)": 58044,
+      "truck -> truck (ignore=0)": 27396,
+      "bus -> bus (ignore=0)": 9076,
+      "bicycle -> bicycle (ignore=0)": 4406,
+      "other vehicle -> car (ignore=1)": 2825,
+      "rider -> rider (ignore=0)": 2540,
+      "motorcycle -> motorcycle (ignore=0)": 915,
+      "other person -> pedestrian (ignore=1)": 795,
+      "trailer -> truck (ignore=1)": 424,
+      "train -> train (ignore=0)": 308,
+      "truck -> car (ignore=0)": 73,
+      "pedestrian -> car (ignore=0)": 62,
+      "other person -> pedestrian (ignore=0)": 24,
+      "pedestrian -> pedestrian (ignore=1)": 21,
+      "car -> pedestrian (ignore=0)": 20,
+      "car -> bus (ignore=0)": 14,
+      "other vehicle -> car (ignore=0)": 5,
+      "bus -> truck (ignore=0)": 4,
+      "pedestrian -> rider (ignore=0)": 3,
+      "car -> rider (ignore=0)": 2,
+      "bus -> pedestrian (ignore=0)": 2,
+      "bicycle -> rider (ignore=0)": 1,
+      "truck -> pedestrian (ignore=0)": 1,
+      "truck -> bus (ignore=0)": 1
+    },
+    "so_crowd_khac_iscrowd": 4018,
+    "so_box_khop_tuyet_doi": {
+      "w=x2-x1": 0,
+      "w=x2-x1+1": 465512
+    },
+    "lech_box_lon_nhat": {
+      "w=x2-x1": 1.0000000000000568,
+      "w=x2-x1+1": 0.0
+    },
+    "so_track_id_anh_xa_bat_nhat_quan": 0,
+    "lop_khac": {
+      "so_annotation": 183,
+      "so_track": 46,
+      "so_video": 40,
+      "theo_cap": {
+        "truck->car": 73,
+        "pedestrian->car": 62,
+        "car->pedestrian": 20,
+        "car->bus": 14,
+        "bus->truck": 4,
+        "pedestrian->rider": 3,
+        "car->rider": 2,
+        "bus->pedestrian": 2,
+        "bicycle->rider": 1,
+        "truck->pedestrian": 1,
+        "truck->bus": 1
+      }
+    },
+    "ngoai_le_ignore": {
+      "so_annotation": 50,
+      "theo_cap": {
+        "other person->pedestrian (coco ignore=0)": 24,
+        "pedestrian->pedestrian (coco ignore=1)": 21,
+        "other vehicle->car (coco ignore=0)": 5
+      }
+    },
+    "khac_biet": {
+      "nhan_chi_co_o_native": 0,
+      "annotation_chi_co_o_coco": 0,
+      "box_lech": 0,
+      "id_mot_native_nhieu_coco": 0,
+      "id_mot_coco_nhieu_native": 0,
+      "lop_khac_anh_xa": 183,
+      "ngoai_le_ignore": 50,
+      "iscrowd_ngoai_quy_tac": 0,
+      "coco_khoa_trung": 0,
+      "coco_image_id_trung": 0,
+      "coco_tham_chieu_anh_khong_ton_tai": 0
+    },
+    "file_hang": [
+      "/workspace/scratch/39272c88b7a6/review_4e71d32/evidence/real_target_lop_khac.csv",
+      "/workspace/scratch/39272c88b7a6/review_4e71d32/evidence/real_target_ngoai_le_ignore.csv"
+    ],
+    "ghi_chu": "lop_khac va ngoai_le_ignore la HAI phep kiem; khong cong so hang thanh so annotation khac nhau"
+  },
+  "coco_sha256": "074ff79555483296cf7ccadddeeceeec7a83452c900506dc46588ed3a3e65d5d",
+  "scope": "Real native annotations through corrected kiem_file and doi_chieu_coco; no real image inventory available; not a full kiem_split/CLI data run.",
+  "download_bytes": 151436071,
+  "source": "https://huggingface.co/datasets/jaffe03195/bdd100k_sot/resolve/694197099692fe1254e93215e73e68ece8b1f41f/bdd100k.zip",
+  "csv_byte_equal_previous_review": {
+    "real_target_lop_khac.csv": true,
+    "real_target_ngoai_le_ignore.csv": true
+  }
+}

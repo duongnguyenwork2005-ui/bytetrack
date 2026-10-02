@@ -1,0 +1,14 @@
+usage: check_real_target.py [-h] [--snapshot SNAPSHOT] [--coco COCO]
+                            [--out OUT]
+
+Read pinned native labels, verify hashes, exercise corrected parser/COCO
+comparison. No image inventory is synthesized. Image completeness on the
+Windows PC is NOT checked. Requires pip's bundled requests for HTTP and the
+unchanged supplied range reader. Only one temporary native JSON is on disk at
+a time.
+
+options:
+  -h, --help           show this help message and exit
+  --snapshot SNAPSHOT
+  --coco COCO
+  --out OUT

@@ -1,0 +1,321 @@
+{
+  "probes": [
+    {
+      "case": "clean",
+      "exit": 0,
+      "report_keys": [
+        "phien_ban_bo_kiem",
+        "pham_vi",
+        "train",
+        "val",
+        "doi_chieu_val_coco",
+        "trang_thai"
+      ],
+      "control_pass": true,
+      "train_schema_errors": {
+        "file_khong_co_frame": 0,
+        "frame_sai_dang": 0,
+        "videoName_khac_ten_file": 0,
+        "ten_frame_sai_mau": 0,
+        "frameIndex_lech_ten": 0,
+        "frame_trung_ten": 0,
+        "labels_khong_phai_list": 0,
+        "nhan_sai_dang": 0,
+        "id_sai_kieu": 0,
+        "category_sai_kieu": 0,
+        "box_thieu_hoac_sai_kieu": 0,
+        "box_toa_do_bool": 0,
+        "box_khong_huu_han": 0,
+        "id_trung_trong_frame": 0,
+        "attributes_thieu_hoac_sai_kieu": 0,
+        "box_dao": 0,
+        "box_ra_ngoai_anh": 0
+      },
+      "val_box_diff": 0.0,
+      "val_id_inconsistency": 0,
+      "val_class_map": {
+        "car -> car (ignore=0)": 2
+      }
+    },
+    {
+      "case": "missing_root",
+      "exit": 2,
+      "report_keys": [
+        "phien_ban_bo_kiem",
+        "pham_vi",
+        "trang_thai"
+      ],
+      "reproduced": false
+    },
+    {
+      "case": "missing_train",
+      "exit": 2,
+      "report_keys": [
+        "phien_ban_bo_kiem",
+        "pham_vi",
+        "trang_thai"
+      ],
+      "reproduced": false
+    },
+    {
+      "case": "missing_coco",
+      "exit": 2,
+      "report_keys": [
+        "phien_ban_bo_kiem",
+        "pham_vi",
+        "train",
+        "val",
+        "trang_thai"
+      ],
+      "observation_only": true,
+      "success_exit": false,
+      "train_schema_errors": {
+        "file_khong_co_frame": 0,
+        "frame_sai_dang": 0,
+        "videoName_khac_ten_file": 0,
+        "ten_frame_sai_mau": 0,
+        "frameIndex_lech_ten": 0,
+        "frame_trung_ten": 0,
+        "labels_khong_phai_list": 0,
+        "nhan_sai_dang": 0,
+        "id_sai_kieu": 0,
+        "category_sai_kieu": 0,
+        "box_thieu_hoac_sai_kieu": 0,
+        "box_toa_do_bool": 0,
+        "box_khong_huu_han": 0,
+        "id_trung_trong_frame": 0,
+        "attributes_thieu_hoac_sai_kieu": 0,
+        "box_dao": 0,
+        "box_ra_ngoai_anh": 0
+      }
+    },
+    {
+      "case": "nan_train_box",
+      "exit": 1,
+      "report_keys": [
+        "phien_ban_bo_kiem",
+        "pham_vi",
+        "train",
+        "val",
+        "doi_chieu_val_coco",
+        "trang_thai"
+      ],
+      "reproduced": false,
+      "train_schema_errors": {
+        "file_khong_co_frame": 0,
+        "frame_sai_dang": 0,
+        "videoName_khac_ten_file": 0,
+        "ten_frame_sai_mau": 0,
+        "frameIndex_lech_ten": 0,
+        "frame_trung_ten": 0,
+        "labels_khong_phai_list": 0,
+        "nhan_sai_dang": 0,
+        "id_sai_kieu": 0,
+        "category_sai_kieu": 0,
+        "box_thieu_hoac_sai_kieu": 0,
+        "box_toa_do_bool": 0,
+        "box_khong_huu_han": 1,
+        "id_trung_trong_frame": 0,
+        "attributes_thieu_hoac_sai_kieu": 0,
+        "box_dao": 0,
+        "box_ra_ngoai_anh": 0
+      },
+      "val_box_diff": 0.0,
+      "val_id_inconsistency": 0,
+      "val_class_map": {
+        "car -> car (ignore=0)": 2
+      }
+    },
+    {
+      "case": "labels_object",
+      "exit": 1,
+      "report_keys": [
+        "phien_ban_bo_kiem",
+        "pham_vi",
+        "train",
+        "val",
+        "doi_chieu_val_coco",
+        "trang_thai"
+      ],
+      "reproduced": false,
+      "train_schema_errors": {
+        "file_khong_co_frame": 0,
+        "frame_sai_dang": 0,
+        "videoName_khac_ten_file": 0,
+        "ten_frame_sai_mau": 0,
+        "frameIndex_lech_ten": 0,
+        "frame_trung_ten": 0,
+        "labels_khong_phai_list": 1,
+        "nhan_sai_dang": 0,
+        "id_sai_kieu": 0,
+        "category_sai_kieu": 0,
+        "box_thieu_hoac_sai_kieu": 0,
+        "box_toa_do_bool": 0,
+        "box_khong_huu_han": 0,
+        "id_trung_trong_frame": 0,
+        "attributes_thieu_hoac_sai_kieu": 0,
+        "box_dao": 0,
+        "box_ra_ngoai_anh": 0
+      },
+      "val_box_diff": 0.0,
+      "val_id_inconsistency": 0,
+      "val_class_map": {
+        "car -> car (ignore=0)": 2
+      }
+    },
+    {
+      "case": "duplicate_track_in_frame",
+      "exit": 1,
+      "report_keys": [
+        "phien_ban_bo_kiem",
+        "pham_vi",
+        "train",
+        "val",
+        "doi_chieu_val_coco",
+        "trang_thai"
+      ],
+      "reproduced": false,
+      "train_schema_errors": {
+        "file_khong_co_frame": 0,
+        "frame_sai_dang": 0,
+        "videoName_khac_ten_file": 0,
+        "ten_frame_sai_mau": 0,
+        "frameIndex_lech_ten": 0,
+        "frame_trung_ten": 0,
+        "labels_khong_phai_list": 0,
+        "nhan_sai_dang": 0,
+        "id_sai_kieu": 0,
+        "category_sai_kieu": 0,
+        "box_thieu_hoac_sai_kieu": 0,
+        "box_toa_do_bool": 0,
+        "box_khong_huu_han": 0,
+        "id_trung_trong_frame": 1,
+        "attributes_thieu_hoac_sai_kieu": 0,
+        "box_dao": 0,
+        "box_ra_ngoai_anh": 0
+      },
+      "val_box_diff": 0.0,
+      "val_id_inconsistency": 0,
+      "val_class_map": {
+        "car -> car (ignore=0)": 2
+      }
+    },
+    {
+      "case": "val_bbox_diff",
+      "exit": 3,
+      "report_keys": [
+        "phien_ban_bo_kiem",
+        "pham_vi",
+        "train",
+        "val",
+        "doi_chieu_val_coco",
+        "trang_thai"
+      ],
+      "observation_only": true,
+      "success_exit": false,
+      "train_schema_errors": {
+        "file_khong_co_frame": 0,
+        "frame_sai_dang": 0,
+        "videoName_khac_ten_file": 0,
+        "ten_frame_sai_mau": 0,
+        "frameIndex_lech_ten": 0,
+        "frame_trung_ten": 0,
+        "labels_khong_phai_list": 0,
+        "nhan_sai_dang": 0,
+        "id_sai_kieu": 0,
+        "category_sai_kieu": 0,
+        "box_thieu_hoac_sai_kieu": 0,
+        "box_toa_do_bool": 0,
+        "box_khong_huu_han": 0,
+        "id_trung_trong_frame": 0,
+        "attributes_thieu_hoac_sai_kieu": 0,
+        "box_dao": 0,
+        "box_ra_ngoai_anh": 0
+      },
+      "val_box_diff": 5.0,
+      "val_id_inconsistency": 0,
+      "val_class_map": {
+        "car -> car (ignore=0)": 2
+      }
+    },
+    {
+      "case": "val_class_diff",
+      "exit": 3,
+      "report_keys": [
+        "phien_ban_bo_kiem",
+        "pham_vi",
+        "train",
+        "val",
+        "doi_chieu_val_coco",
+        "trang_thai"
+      ],
+      "observation_only": true,
+      "success_exit": false,
+      "train_schema_errors": {
+        "file_khong_co_frame": 0,
+        "frame_sai_dang": 0,
+        "videoName_khac_ten_file": 0,
+        "ten_frame_sai_mau": 0,
+        "frameIndex_lech_ten": 0,
+        "frame_trung_ten": 0,
+        "labels_khong_phai_list": 0,
+        "nhan_sai_dang": 0,
+        "id_sai_kieu": 0,
+        "category_sai_kieu": 0,
+        "box_thieu_hoac_sai_kieu": 0,
+        "box_toa_do_bool": 0,
+        "box_khong_huu_han": 0,
+        "id_trung_trong_frame": 0,
+        "attributes_thieu_hoac_sai_kieu": 0,
+        "box_dao": 0,
+        "box_ra_ngoai_anh": 0
+      },
+      "val_box_diff": 0.0,
+      "val_id_inconsistency": 0,
+      "val_class_map": {
+        "car -> truck (ignore=0)": 1,
+        "car -> car (ignore=0)": 1
+      }
+    },
+    {
+      "case": "val_track_merge",
+      "exit": 3,
+      "report_keys": [
+        "phien_ban_bo_kiem",
+        "pham_vi",
+        "train",
+        "val",
+        "doi_chieu_val_coco",
+        "trang_thai"
+      ],
+      "observation_only": true,
+      "success_exit": false,
+      "train_schema_errors": {
+        "file_khong_co_frame": 0,
+        "frame_sai_dang": 0,
+        "videoName_khac_ten_file": 0,
+        "ten_frame_sai_mau": 0,
+        "frameIndex_lech_ten": 0,
+        "frame_trung_ten": 0,
+        "labels_khong_phai_list": 0,
+        "nhan_sai_dang": 0,
+        "id_sai_kieu": 0,
+        "category_sai_kieu": 0,
+        "box_thieu_hoac_sai_kieu": 0,
+        "box_toa_do_bool": 0,
+        "box_khong_huu_han": 0,
+        "id_trung_trong_frame": 0,
+        "attributes_thieu_hoac_sai_kieu": 0,
+        "box_dao": 0,
+        "box_ra_ngoai_anh": 0
+      },
+      "val_box_diff": 0.0,
+      "val_id_inconsistency": 1,
+      "val_class_map": {
+        "car -> car (ignore=0)": 4
+      }
+    }
+  ],
+  "bug_count": 0,
+  "note": "COCO difference cases expose an informational-only exit policy; source identity is not tested."
+}
