@@ -1,0 +1,11 @@
+# 2026-10-02 13:23:30 +0700 HEAD bf7c0a2
+# lenh: python handoff/logs/review35/14_dem_anh_day_du.py --ra handoff/logs/review35/14_dem_anh_day_du.json   (CHI DEM, khong xuat)
+buoc 5: train 50487 anh (6.18 GB nguon), dev 5559 anh (0.68 GB nguon)
+buoc 10: train 25848 anh (3.17 GB nguon), dev 2848 anh (0.35 GB nguon)
+[ra] handoff/logs/review35/14_dem_anh_day_du.json  (85.2 s)
+# exit=0
+# KIEM CHEO phuong phap dem (cung ham bx.chon_frame/vai_tro) tren TAP CON SMOKE (chon_tap_con 'smoke', buoc 10) so voi manifest/tom_tat.json cua dataset smoke DA XUAT:
+train: dem 334 anh, am tinh 0, to xam 125, box {'car': 2316, 'truck': 204, 'bus': 100, 'motorcycle': 31, 'bicycle': 65} | da xuat 334, 0, 125, {'car': 2316, 'truck': 204, 'bus': 100, 'motorcycle': 31, 'bicycle': 65} | KHOP=True
+dev: dem 84 anh, am tinh 4, to xam 27, box {'car': 542, 'truck': 6, 'bus': 4, 'motorcycle': 0, 'bicycle': 0} | da xuat 84, 4, 27, {'car': 542, 'truck': 6, 'bus': 4, 'motorcycle': 0, 'bicycle': 0} | KHOP=True
+KET LUAN kiem cheo: KHOP HOAN TOAN tren tap con smoke
+# exit=0
