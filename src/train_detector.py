@@ -10,7 +10,19 @@ Ban cu co `--dry-run` THUC SU train 1 epoch va `exist_ok=True` (luot moi ghi de 
   --che-do smoke           1 epoch tren dataset smoke (tap con co manifest): loss huu han, checkpoint ghi + nap lai
                            duoc (dung 5 lop), danh gia dev chay duoc, ghi cau hinh hieu luc / phien ban / thoi gian / VRAM.
                            Ket qua vao results/phase2/detector_smoke/ -- KHONG phai ket qua nghien cuu.
-  --che-do day-du          training dai; bat buoc them --xac-nhan-train-dai.
+  --che-do day-du          training dai; bat buoc them --xac-nhan-train-dai. Vong 39: luot day du ghi nhat ky luot
+                           (`<run_dir>/nhat_ky_luot.jsonl`), theo batch (`theo_batch.csv`) va ban sao khoi phuc moi epoch
+                           (`<run_dir>/khoi_phuc/last_eNNN.pt`) -- src/tiep_tuc_huan_luyen.py.
+  --che-do day-du --tiep-tuc
+                           (vong 39) TIEP TUC luot day du da khai bao (cung --ten / ten mac dinh) tu checkpoint HOP LE
+                           gan nhat, SAU mot epoch da hoan tat (khong tiep tuc giua epoch). Kiem truoc khi train: nhat ky
+                           luot, sha256 checkpoint, du trang thai (epoch, optimizer, EMA, scaler), luot chua hoan tat,
+                           cau hinh hieu luc trung checkpoint (khong cong them epoch, khong doi batch/LR/warmup/aug),
+                           hop dong + van tay dataset trung luot goc, cung phien ban ultralytics/torch. Sai -> exit 2,
+                           KHONG goi train, KHONG tu khoi dong lai tu dau. Dung resume cua ultralytics voi DUONG DAN
+                           checkpoint (khong resume=True). Ket qua: `<ten>__tiep_tuc_<N>.json` (khong ghi de).
+                           `--dry-run --tiep-tuc` = chi kiem dieu kien tiep tuc, in ke hoach, khong ghi gi.
+Ctrl+C trong luc train (vong 39): ghi ket qua do dang + nhat ky ket_thuc 'bi_ngat', exit 130.
   --che-do kiem-pilot      (vong 37) KHONG train: khoa cau hinh pilot -- cau hinh pilot KE THUA NGUYEN cau hinh goc
                            (kiem sha256) va CHI duoc doi `epochs`; in tham so hieu luc, khac biet so voi smoke (phai chi
                            co epochs), checkpoint khoi tao + sha256, dataset smoke da xac minh, so buoc warmup theo ma.
@@ -57,6 +69,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
+import tiep_tuc_huan_luyen as ttl  # noqa: E402
 from detector_classes import LOP_5, loai_checkpoint  # noqa: E402
 
 KHOA_CAM_AUTO = ("optimizer", "batch", "amp", "workers", "imgsz", "epochs", "lr0", "momentum", "weight_decay")
@@ -294,7 +307,10 @@ def suy_ra(ts: dict, n_train: int) -> dict:
     return {"accumulate": acc, "weight_decay_hieu_luc": ts["weight_decay"] * b * acc / nbs,
             "batch_moi_epoch": it_epoch, "buoc_toi_uu_moi_epoch": math.ceil(it_epoch / acc),
             "tong_batch": it_epoch * int(ts["epochs"]),
-            "ghi_chu": "accumulate = max(round(nbs/batch), 1); weight_decay hieu luc = wd*batch*accumulate/nbs (ultralytics)"}
+            "ghi_chu": "accumulate = max(round(nbs/batch), 1); weight_decay hieu luc = wd*batch*accumulate/nbs (ultralytics). "
+                       "buoc_toi_uu_moi_epoch la UOC TINH voi accumulate co dinh, CHUA tinh warmup (accumulate tang dan "
+                       "tu 1) va ranh gioi cap nhat giua cac epoch -- khong phai so buoc thuc chay (R38-N1); tong_batch "
+                       "chi dung neu chay du epochs (patience co the dung som)"}
 
 
 # =========================================================================== moi truong + VRAM
@@ -302,9 +318,10 @@ def moi_truong() -> dict:
     import numpy
     import torch
     import ultralytics
+    import ultralytics.engine.trainer as ut
     out = {"python": sys.version.split()[0], "os": platform.platform(), "ultralytics": ultralytics.__version__,
            "torch": torch.__version__, "cuda": torch.version.cuda, "cudnn": torch.backends.cudnn.version(),
-           "numpy": numpy.__version__}
+           "numpy": numpy.__version__, "ultralytics_trainer_sha256": sha256_file(Path(ut.__file__))}
     try:
         import cv2
         out["opencv"] = cv2.__version__
@@ -483,6 +500,39 @@ def du_doan_warmup_theo_ma(ts: dict, n_train: int) -> dict:
                        "that tinh va dien bien LR/accumulate tung batch"}
 
 
+def _git_head() -> str | None:
+    try:
+        r = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, timeout=10,
+                           cwd=config.PROJECT_ROOT)
+        return r.stdout.strip() or None
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
+def provenance_luot(a, cfg: dict, ts: dict, ds: dict, wt: dict, mt: dict) -> dict:
+    """Provenance ghi vao su kien `bat_dau` cua nhat ky luot day du (moi va moi lan tiep tuc)."""
+    src = Path(__file__).resolve().parent
+    return {"lenh": [sys.executable, *sys.argv], "cau_hinh": {"duong_dan": a.config, "sha256": cfg["_sha256"]},
+            "tham_so_khai_bao": json_safe(ts), "dataset_van_tay": json_safe(ttl.van_tay_dataset(ds)),
+            "checkpoint_khoi_tao": wt, "moi_truong": mt, "ultralytics_trainer_sha256": mt.get("ultralytics_trainer_sha256"),
+            "ma_nguon_sha256": {f: sha256_file(src / f) for f in ("train_detector.py", "tiep_tuc_huan_luyen.py",
+                                                                  "bdd_yolo_export.py", "detector_classes.py")},
+            "git_head": _git_head()}
+
+
+GIOI_HAN_TIEP_TUC = [
+    "chi tiep tuc SAU epoch da hoan tat; phan epoch dang chay luc bi ngat (ca validate) phai chay lai",
+    "model dang hoc duoc dung tu trong so EMA cua checkpoint (ultralytics khong luu model tho)",
+    "momentum SGD va EMA luu FP16 trong checkpoint -> nap lai FP32 (lam tron)",
+    "RNG python/numpy/torch va generator DataLoader tao lai tu seed -> thu tu du lieu / augmentation khac luot lien tuc",
+    "gradient tich luy do dang cuoi epoch truoc bi bo; last_opt_step dat lai -1 -> buoc toi uu dau tien roi vao batch "
+    "dau sau resume (chi gradient cua 1 batch) va ranh gioi buoc toi uu lech",
+    "accumulate lay lai round(nbs/batch); chi khac gia tri cuoi warmup khi nw < 15 (luot dai nw = 6.311 -> bang nhau)",
+    "EarlyStopping duoc runner khoi phuc tu nhat ky luot (ultralytics tao moi)",
+    "ket qua tiep tuc KHONG trung tung bit voi luot lien tuc",
+]
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     ap.add_argument("--config", default=str(config.CONFIGS_DIR / "phase2" / "detector" / "train_bdd5.yaml"))
@@ -490,6 +540,9 @@ def main() -> int:
     ap.add_argument("--che-do", choices=["kiem-cau-hinh", "smoke", "day-du", "kiem-pilot", "pilot"], default=None)
     ap.add_argument("--dry-run", action="store_true", help="= --che-do kiem-cau-hinh (KHONG train)")
     ap.add_argument("--xac-nhan-train-dai", action="store_true", help="bat buoc voi --che-do day-du")
+    ap.add_argument("--tiep-tuc", action="store_true",
+                    help="tiep tuc luot day du da khai bao tu checkpoint hop le gan nhat (sau epoch da xong); di voi "
+                         "--che-do day-du --xac-nhan-train-dai, hoac --dry-run de chi kiem")
     ap.add_argument("--xac-nhan-pilot", action="store_true", help="bat buoc voi --che-do pilot (pilot da duoc duyet)")
     ap.add_argument("--khong-do-chan-doan", action="store_true",
                     help="pilot: BO cac phep do chan doan -- CHI dung cho test A/B bat bien, khong phai luot pilot")
@@ -511,16 +564,20 @@ def main() -> int:
         print("[DUNG] --che-do day-du can --xac-nhan-train-dai (training dai chua duoc duyet trong vong nay)",
               file=sys.stderr)
         return 1
+    if a.tiep_tuc and che_do not in ("day-du", "kiem-cau-hinh"):
+        print("[DUNG] --tiep-tuc chi dung voi --che-do day-du (hoac --dry-run de kiem truoc)", file=sys.stderr)
+        return 1
     if che_do == "pilot" and not a.xac_nhan_pilot:
         print("[DUNG] --che-do pilot can --xac-nhan-pilot", file=sys.stderr)
         return 1
-    if (a.batch or a.workers is not None) and che_do in ("day-du", *CHE_DO_PILOT):
-        print("[DUNG] --batch/--workers chi ghi de duoc o smoke/kiem-cau-hinh; training dai va pilot dung cau hinh",
-              file=sys.stderr)
+    if (a.batch or a.workers is not None) and (che_do in ("day-du", *CHE_DO_PILOT) or a.tiep_tuc):
+        print("[DUNG] --batch/--workers chi ghi de duoc o smoke/kiem-cau-hinh; training dai, tiep tuc va pilot dung cau "
+              "hinh", file=sys.stderr)
         return 1
     if a.khong_do_chan_doan and che_do != "pilot":
         print("[DUNG] --khong-do-chan-doan chi dung voi --che-do pilot (test A/B)", file=sys.stderr)
         return 1
+    kt = None
     try:
         cfg = doc_cfg(p_abs(a.config))
         if che_do in CHE_DO_PILOT and "pilot" not in cfg:
@@ -529,15 +586,20 @@ def main() -> int:
             raise LoiCauHinh(f"{a.config} la cau hinh pilot -- chi dung voi --che-do pilot / kiem-pilot")
         khoa_ds = "smoke" if che_do in ("smoke", *CHE_DO_PILOT) else "day_du"
         data_yaml = p_abs(a.data or cfg["dataset"][khoa_ds])
-        ten = a.ten or f"{cfg['ten']}_{a.model}_{'pilot' if che_do in CHE_DO_PILOT else che_do.replace('-', '_')}"
+        hau_to = ("pilot" if che_do in CHE_DO_PILOT else
+                  "day_du" if a.tiep_tuc else che_do.replace("-", "_"))
+        ten = a.ten or f"{cfg['ten']}_{a.model}_{hau_to}"
         project = p_abs(a.project)
         run_dir = project / ten
         thu_muc_kq = {"day-du": "detector_train", "pilot": "detector_pilot", "kiem-pilot": "detector_pilot"}
         kq_dir = p_abs(a.ket_qua_dir or (config.RESULTS_DIR / "phase2" / thu_muc_kq.get(che_do, "detector_smoke")))
         kq_file = kq_dir / f"{ten}.json"
-        if run_dir.exists():
-            raise LoiCauHinh(f"{run_dir} da ton tai -- khong ghi de luot cu (doi --ten)")
-        if kq_file.exists() and che_do not in ("kiem-cau-hinh", "kiem-pilot"):
+        if run_dir.exists() and not a.tiep_tuc:
+            raise LoiCauHinh(f"{run_dir} da ton tai -- khong ghi de luot cu (doi --ten, hoac --tiep-tuc de tiep tuc "
+                             f"luot day du bi ngat)")
+        if a.tiep_tuc and not run_dir.is_dir():
+            raise LoiCauHinh(f"--tiep-tuc: thu muc luot {run_dir} khong ton tai -- chua co luot nao de tiep tuc")
+        if kq_file.exists() and che_do not in ("kiem-cau-hinh", "kiem-pilot") and not a.tiep_tuc:
             raise LoiCauHinh(f"{kq_file} da ton tai -- khong ghi de ket qua cu")
         ds = kiem_dataset(data_yaml)          # HOP DONG dataset: TRUOC khi nap checkpoint / model, TRUOC moi mkdir
         wt = kiem_weights(cfg, a.model)
@@ -545,9 +607,15 @@ def main() -> int:
         ts = tham_so(cfg, che_do, data_yaml, project, ten, a.batch, a.device, a.workers)
         ts["model"] = wt["weights"]
         rs = resolve_tinh(ts)
-        rec = {"loai": {"kiem-cau-hinh": "KIEM CAU HINH (khong train)",
+        mt = moi_truong()
+        if a.tiep_tuc:
+            kt = ttl.chuan_bi_tiep_tuc(run_dir, ten, ts, ds, wt, mt)     # LoiTiepTuc -> exit 2, khong goi train
+            kq_file = kq_dir / f"{ten}__tiep_tuc_{kt['lan']}.json"
+            if kq_file.exists() and che_do != "kiem-cau-hinh":
+                raise LoiCauHinh(f"{kq_file} da ton tai -- khong ghi de ket qua cu")
+        rec = {"loai": {"kiem-cau-hinh": "KIEM CAU HINH (khong train)" + (" + KIEM TIEP TUC" if a.tiep_tuc else ""),
                         "smoke": "SMOKE -- chi kiem duong chay, KHONG dung de so sanh model hay chon tham so",
-                        "day-du": "training day du",
+                        "day-du": "training day du" + (" -- TIEP TUC" if a.tiep_tuc else ""),
                         "kiem-pilot": "KIEM CAU HINH PILOT (khong train)",
                         "pilot": ("PILOT CHAN DOAN -- KHONG dung de so sanh / chon model" if not a.khong_do_chan_doan
                                   else "PILOT KHONG DO (CHI cho test A/B bat bien)")}[che_do],
@@ -555,21 +623,31 @@ def main() -> int:
                "cau_hinh": {"duong_dan": a.config, "sha256": cfg["_sha256"], "ke_thua": cfg.get("_ke_thua")},
                "pilot_khac_smoke": khac_smoke, "dataset": ds, "checkpoint_khoi_tao": wt,
                "tham_so_khai_bao": json_safe(ts), "batch_ghi_de": a.batch, "workers_ghi_de": a.workers,
-               "tham_so_resolve_tinh": rs, "suy_ra": suy_ra(ts, ds["so_anh"]["train"]), "moi_truong": moi_truong(),
+               "tham_so_resolve_tinh": rs, "suy_ra": suy_ra(ts, ds["so_anh"]["train"]), "moi_truong": mt,
                "run_dir": str(run_dir)}
         if che_do in CHE_DO_PILOT:
             rec["warmup_du_doan_theo_ma"] = du_doan_warmup_theo_ma(ts, ds["so_anh"]["train"])
-    except LoiCauHinh as e:
+        if kt is not None:
+            rec["tiep_tuc"] = kt
+            rec["gioi_han_tiep_tuc"] = GIOI_HAN_TIEP_TUC
+    except (LoiCauHinh, ttl.LoiTiepTuc) as e:
         print(f"[LOI CAU HINH] {e}", file=sys.stderr)
         return 2
     if che_do == "kiem-cau-hinh":
         print(json.dumps({k: rec[k] for k in ("loai", "ten", "dataset", "checkpoint_khoi_tao", "tham_so_khai_bao",
                                               "suy_ra", "run_dir")}, ensure_ascii=False, indent=1))
+        if kt is not None:
+            print(json.dumps(json_safe({k: kt[k] for k in ("lan", "chon", "epoch_da_luu", "epoch_bat_dau_tiep",
+                                                            "tong_epoch", "epoch_phai_chay_lai_vi_checkpoint_moi_hon_hong",
+                                                            "ung_vien", "canh_bao_nhat_ky", "lich_su")}),
+                             ensure_ascii=False, indent=1))
+            print(f"[OK] kiem tiep tuc xong: se tiep tuc tu epoch {kt['epoch_bat_dau_tiep']}/{kt['tong_epoch']} "
+                  f"(checkpoint {Path(kt['chon']['duong_dan']).name}); KHONG train, KHONG ghi gi")
+            return 0
         print(f"[OK] kiem cau hinh xong, KHONG train, KHONG tao {run_dir}")
         return 0
     if che_do == "kiem-pilot":
-        import ultralytics.engine.trainer as ut
-        rec["ultralytics_trainer_py_sha256"] = sha256_file(Path(ut.__file__))
+        rec["ultralytics_trainer_py_sha256"] = mt["ultralytics_trainer_sha256"]
         rec["lenh_pilot"] = (f"python -u src/train_detector.py --config {a.config} --model {a.model} --che-do pilot "
                              f"--xac-nhan-pilot")
         print(json.dumps(json_safe(rec), ensure_ascii=False, indent=1))
@@ -582,13 +660,30 @@ def main() -> int:
     if not gi.exists():
         gi.write_text("*\n", encoding="utf-8")
     kq_dir.mkdir(parents=True, exist_ok=True)
-    model = YOLO(wt["weights"])
+    train_kwargs = {k: v for k, v in ts.items() if k != "model"}
+    if kt is not None:
+        try:
+            kt["sao_luu"] = ttl.sao_luu_truoc_tiep_tuc(run_dir, Path(kt["chon"]["duong_dan"]), kt["lan"])
+        except ttl.LoiTiepTuc as e:
+            print(f"[LOI CAU HINH] {e}", file=sys.stderr)
+            return 2
+        # resume cua ultralytics voi DUONG DAN tuong minh: moi tham so lay tu checkpoint (da kiem trung cau hinh)
+        model = YOLO(kt["sao_luu"]["nguon"])
+        train_kwargs = {"resume": kt["sao_luu"]["nguon"], "data": str(data_yaml), "device": a.device}
+    else:
+        model = YOLO(wt["weights"])
+    rec["train_kwargs"] = json_safe(train_kwargs)
     gan_callback(model, rec)
     mong_doi = nhan_mong_doi(data_yaml)
 
     def kiem_nap(tr):                              # KHONG boc an_toan: sai lech phai DUNG truoc vong train
         rec["dau_vao_da_nap"] = kiem_dau_vao_da_nap(tr, mong_doi)
     model.add_callback("on_pretrain_routine_end", kiem_nap)
+    gl = None
+    if che_do == "day-du":
+        gl = ttl.GhiLuotDayDu(rec, run_dir, ts, "tiep_tuc" if kt is not None else "moi", kt["lan"] if kt else 0, kt,
+                              provenance_luot(a, cfg, ts, ds, wt, mt))
+        gl.gan(model)                              # SAU kiem_nap: chi ghi bat_dau khi du lieu thuc nap da dat
     gp = None
     if che_do == "pilot":
         import pilot_chan_doan as pcd
@@ -597,9 +692,11 @@ def main() -> int:
     vram = DoVram()
     vram.start()
     t0 = time.time()
-    loi = None
+    loi, bi_ngat = None, False
     try:
-        res = model.train(**{k: v for k, v in ts.items() if k != "model"})
+        res = model.train(**train_kwargs)
+    except KeyboardInterrupt:                      # Ctrl+C: ghi ket qua do dang (checkpoint epoch da xong van con)
+        loi, bi_ngat, res = "KeyboardInterrupt: bi ngat (Ctrl+C) trong luc train", True, None
     except Exception as e:                         # ghi lai loi (vd het VRAM) roi tra ma loi
         loi = f"{type(e).__name__}: {e}"
         res = None
@@ -626,10 +723,10 @@ def main() -> int:
             t1 = time.time()
             try:
                 dt_dev, anh, gt = ev.chuan_bi_danh_gia(data_yaml, "val")    # kiem lai hop dong (noi dung dev)
-                dd, mt = ev.du_doan_ultralytics(str(sd / "weights" / "best.pt"), anh, ev.QUY_TAC["du_doan"],
-                                                device=a.device)
+                dd, mt_ = ev.du_doan_ultralytics(str(sd / "weights" / "best.pt"), anh, ev.QUY_TAC["du_doan"],
+                                                 device=a.device)
                 rec["danh_gia_dev_smoke"] = {"ghi_chu": "best.pt tren dev smoke; chi kiem duong chay; KHONG so sanh model",
-                                             "dataset_da_xac_minh": dt_dev, "quy_tac": ev.QUY_TAC, "anh_xa_lop": mt,
+                                             "dataset_da_xac_minh": dt_dev, "quy_tac": ev.QUY_TAC, "anh_xa_lop": mt_,
                                              "thoi_gian_s": round(time.time() - t1, 1), **ev.danh_gia(gt, dd)}
             except Exception as e:  # noqa: BLE001
                 rec["loi"] = rec["loi"] or f"danh gia dev sau train: {type(e).__name__}: {e}"
@@ -647,19 +744,32 @@ def main() -> int:
         rec["pilot"]["file"] = {"batch_csv": str(f_batch), "tai_nguyen_csv": str(f_tn),
                                 "cach_lay_mau_tai_nguyen": "luong DoVram trong runner moi ~1 s: nvidia-smi memory.used + "
                                                            "utilization.gpu (CA GPU) va psutil.virtual_memory().available"}
-    kq_file.write_text(json.dumps(json_safe(rec), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    print(f"[ket qua] {kq_file}")
     ok = rec["loi"] is None and not rec.get("loi_callback") and rec.get("loss_huu_han") and all(
         c["dung_5_lop"] and not c["train_args_lech_cau_hinh"] for c in rec.get("checkpoint", {}).values()) \
         and {"last", "best"} <= set(rec.get("checkpoint", {}))
     if gp is not None:
         ok = bool(ok) and rec["pilot"]["tom_tat"]["dat"]
-    print(f"[{'DAT' if ok else 'LOI'}] {che_do} {a.model}: loi={rec['loi']} loi_callback={rec.get('loi_callback')} "
-          f"loss_huu_han={rec.get('loss_huu_han')} "
+    if gl is not None:
+        f_tn = kq_file.with_name(kq_file.stem + "_tai_nguyen_nvidia_smi.csv")
+        vram.ghi_tho(f_tn)
+        rec["kiem_khoi_phuc"] = gl.kiem_khoi_phuc
+        rec["luot_day_du"] = {"nhat_ky": str(run_dir / ttl.TEN_NHAT_KY), "theo_batch": str(run_dir / ttl.TEN_BATCH_CSV),
+                              "khoi_phuc": str(run_dir / ttl.THU_MUC_KP), "epoch_da_luu_lan_nay": gl.epoch_da_luu,
+                              "tai_nguyen_csv": str(f_tn)}
+        if (run_dir / ttl.TEN_NHAT_KY).is_file():  # chi khi luot da qua buoc bat_dau (nhat ky da co)
+            trang_thai = "bi_ngat" if bi_ngat else ("hoan_tat" if res is not None else "loi")
+            ttl.ghi_nhat_ky(run_dir, "ket_thuc", lan=gl.lan, trang_thai=trang_thai, loi=rec["loi"],
+                            kiem_sau_train_dat=bool(ok), epoch_da_luu_lan_nay=gl.epoch_da_luu,
+                            exit_code=130 if bi_ngat else (0 if ok else 3), ket_qua=str(kq_file))
+    kq_file.write_text(json.dumps(json_safe(rec), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    print(f"[ket qua] {kq_file}")
+    print(f"[{'DAT' if ok else ('BI NGAT' if bi_ngat else 'LOI')}] {che_do} {a.model}: loi={rec['loi']} "
+          f"loi_callback={rec.get('loi_callback')} loss_huu_han={rec.get('loss_huu_han')} "
           f"checkpoint={sorted(rec.get('checkpoint', {}))} thoi_gian={rec['thoi_gian_s']} s "
           f"vram_max={rec['vram_nvidia_smi']['max_mib']} MiB"
-          + (f" pilot={rec['pilot']['tom_tat']}" if gp is not None else ""))
-    return 0 if ok else 3
+          + (f" pilot={rec['pilot']['tom_tat']}" if gp is not None else "")
+          + (f" epoch_da_luu={gl.epoch_da_luu}" if gl is not None else ""))
+    return 130 if bi_ngat else (0 if ok else 3)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,59 @@
+# 2026-10-03 06:32:19 +0700 HEAD 53dfc22 (+ ma vong 39 chua commit)
+# lenh: python src/test_chay_giam_sat.py
+
+== M1 bam dung PID giua shell cung ten + python khac
+  [PASS] M1a exit 0; PID trong trang_thai/tom_tat = PID tien trinh con tu in ra; KHAC PID shell gia monitor  (exit 0, pid 15984, con 15984, gia monitor 752)
+  [PASS] M1b create_time ghi lai = create_time that cua PID do (doi chieu psutil truoc khi con thoat)  (1790983941.286474)
+  [PASS] M1c moi mau CSV deu cua PID con; RSS chinh max >= 150 MiB (con cap phat 160 MiB) -- khong phai shell gia (~10 MiB) hay python khac (~60 MiB)  (pid csv {15984}, rss max 170.2, so mau 10)
+  [PASS] M1d khong mau nao co rss rong / 0  (10 mau)
+
+== M2 worker tao / ket thuc
+  [PASS] M2a exit 0; co mau voi >= 2 worker con, rss_tong - rss_chinh >= 150 MiB khi worker song  (so_con max 2, 11 mau co worker)
+  [PASS] M2b sau khi worker ket thuc: so_con ve 0 trong mau sau; chi_tiet_con liet ke PID:ten:RSS khi con song  (8 mau sau, vd chi tiet 26264:python.exe:105;25908:python.exe:105)
+  [PASS] M2c khong mau nao 0 gia: rss_chinh co so > 0 o moi mau  (20 mau)
+
+== M3 thoat loi
+  [PASS] M3 tien trinh con exit 3 -> cong cu exit 3, log ket thuc '# exit=3', tom_tat exit 3, trang_thai ket_thuc  (exit 3)
+
+== M4 bi kill
+  [PASS] M4a tien trinh con bi kill -> cong cu thoat sau con, exit = ma cua con (khac 0), tom_tat cung ma  (cong cu 15, tom_tat 15 (0x0000000F))
+  [PASS] M4b lay mau dung voi ly do 'tien trinh chinh da ket thuc' hoac 'dung theo yeu cau'; khong mau 0 / rong  (6 mau, ly do dung theo yeu cau (tien trinh chinh da thoat))
+
+== M5 ma NTSTATUS
+  [PASS] M5 ma NTSTATUS 0xC000013A giu nguyen: returncode 32 bit cua cong cu == 3221225786, tom_tat cung ma  (returncode 3221225786 (0xc000013a), tom_tat 0xC000013A)
+
+== M6 Ctrl+Break
+  [PASS] M6 Ctrl+Break toi nhom (cong cu + con): cong cu ghi nhan tin hieu, KHONG chet truoc con, ghi tom_tat va tra dung ma cua con  (cong cu 0xc000013a, con 0xC000013A, tin hieu [{'tin_hieu': 21, 't_tuong_doi_s': 1.6}])
+
+== M7 stdout UTF-8 / byte hong / khoi luong
+  [PASS] M7 m7a: exit 0, log du 50007 dong dung noi dung (\r tach dong, byte hong -> U+FFFD, dong cuoi khong newline)  (exit 0, 50007 dong, lech dau tien None)
+  [PASS] M7 m7b: exit 0, log du 50007 dong dung noi dung (\r tach dong, byte hong -> U+FFFD, dong cuoi khong newline) -- con tu reconfigure UTF-8, cong cu khong them env  (exit 0, 50007 dong, lech dau tien None)
+
+== M8 gan PID
+  [PASS] M8a gan PID khong ton tai -> exit 2, KHONG tao thu muc / mau  ([LOI] PID 31687 khong ton tai -- khong gan, khong ghi mau)
+  [PASS] M8b gan voi create_time SAI (PID tai su dung) -> exit 2, khong tao thu muc  ([LOI] PID 12576 co create_time 1790983955.335673 khac 1790983950.335673 (PID bi tai su dung?) -- khong gan)
+  [PASS] M8c gan PID hop le ket thuc giua chung -> exit 0, dung voi ly do, chi mau hop le (> 0), exit_code None  (11 mau, ly do tien trinh chinh da ket thuc)
+
+== M9 khong ghi de
+  [PASS] M9 thu muc dau ra da co noi dung -> exit 2, file cu giu nguyen, khong chay lenh  (Users\Mikuno\AppData\Local\Temp\test_giam_sat_9ntfjy2j\m9 da ton tai va khong rong -- khong ghi de ket qua giam sat cu
+)
+
+== M10 trang-thai
+  [PASS] M10a trang-thai luot da xong -> ket_thuc, exit 3  ({'trang_thai': 'ket_thuc', 'exit_code': 3, 'ket_thuc': '2026-10-03T06:32:29+07:00'})
+  [PASS] M10b trang_thai 'dang_chay' nhung ca hai PID khong con (create_time khac) -> bi_ngat_khong_co_exit_code  ({'trang_thai': 'bi_ngat_khong_co_exit_code', 'tien_trinh_con_song': False, 'cong_cu_song': False, 'pid': 4, 'bat_dau': None, 'ghi_chu': 'ca cong cu lan tien trinh con khong con chay ma chua ghi ket_thuc (vd dong cua so terminal / mat dien) -> khong co exit code'})
+  [PASS] M10c PID con song dung create_time -> dang_chay  ({'trang_thai': 'dang_chay', 'tien_trinh_con_song': True, 'cong_cu_song': False, 'pid': 12172, 'bat_dau': None, 'ghi_chu': None})
+
+== M11 tinh-lai
+  [PASS] M11a tinh-lai tu CSV khop tom_tat (exit 0)  (h + moi tien trinh con (dem trung trang chia se -> co the cao hon bo nho thuc dung); ram_he_thong_con_trong = psutil.virtual_memory().available (toan may); KHONG gom VRAM"
+ },
+ "khop_tom_tat": true
+}
+)
+  [PASS] M11b tom_tat bi sua -> tinh-lai phat hien (exit 1)  (g); ram_he_thong_con_trong = psutil.virtual_memory().available (toan may); KHONG gom VRAM"
+ },
+ "khop_tom_tat": false
+}
+)
+
+KET QUA: 23/23 PASS
+# exit=0

@@ -99,6 +99,9 @@ TESTS = [
     ("test_detector_5lop", [], None),
     # vong 37: phep do pilot chan doan (diem do truoc hoc, bat bien trang thai, A/B CPU) + cau hinh pilot chi doi epoch
     ("test_pilot_chan_doan", [], None),
+    # vong 39: tiep tuc (resume) luot day du sau epoch da xong + cong cu giam sat bam PID tien trinh do no tao
+    ("test_tiep_tuc_huan_luyen", [], None),
+    ("test_chay_giam_sat", [], None),
     ("test_pf_ctrv", [], None),
     ("test_sort_tracker", [], None),
     ("test_smoke_phase2", [], None),
