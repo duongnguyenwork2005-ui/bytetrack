@@ -1,0 +1,24 @@
+# 2026-10-02 12:48:43 +0700 -- trang thai dau vong 35 (khoa split -> xuat tap con smoke -> smoke 2 model -> du toan)
+nhanh: phase2-mixed-traffic
+HEAD: ccd801fb7c517edd3c61b412d015a8ae4d7faba6
+commit sau ccd801f: 0
+base review hien tai: 4e71d3217aed3b0757136b4c388abd3e3ed4da4a
+--- git status --short (bo qua results/ outputs/ va file rieng da biet):
+ M .gitignore
+ M src/demo/rerun_with_state_log.py
+?? CODEX_REVIEW_c4d64a1_EVIDENCE/
+?? handoff/logs/review35/
+--- review ccd801f (doc tu D:\LABOTARY\review_codex):
+af86db9c8707d8943c571026b73d1e58c5f791fd2b8741db8e827f156d54f5d6 *CODEX_REVIEW_ccd801f.md
+716dd9006fab86b50e2aee467e76b84e90696412da92209269122dfefc032d02 *CODEX_REVIEW_ccd801f_EVIDENCE.zip
+SHA256SUMS bang chung: 15/15 khop (giai nen o D:\LABOTARY\review_codex\CODEX_REVIEW_ccd801f_EVIDENCE\)
+--- goi delta hien tai: 805621 B 4880e54fc98c0de6749d81294c2e93c5bf716718b07cac2e3131b58e147dfd39
+--- moi truong:
+python 3.11.9 | Windows-10-10.0.26200-SP0
+torch 2.6.0+cu124 | cuda 12.4 | cudnn 90100 | cuda_available True
+gpu NVIDIA GeForce GTX 1650 | vram_tong_MB 4096
+ultralytics 8.4.141 | numpy 2.4.6 | opencv 5.0.0
+RAM tong_GB 8.4 con_trong_GB 1.2
+NVIDIA GeForce GTX 1650, 555.97, 4096 MiB, 416 MiB
+D: con_trong 63.5 GB
+-rw-r--r-- 1 Mikuno 197609 6549796 Sep  6 01:27 yolov8n.pt
