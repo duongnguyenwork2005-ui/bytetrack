@@ -10,6 +10,44 @@ chưa lấy được từ nguồn chính thức nào, nên `kiem-nguon` vẫn ex
 Ứng viên **không kiểm được md5 chính thức** nên đang **cách ly**, chưa nhập vào dữ liệu train; chờ review.
 **Cập nhật 2026-10-02 (vòng 33)**: review `c4d64a1` CHANGES REQUESTED (R32-F1, R32-F2), đã sửa. Lớp/ignore của ứng viên
 **khác** COCO val của dự án; nhãn vẫn cách ly; phương án C chờ chốt.
+**Cập nhật 2026-10-02 (vòng 34)**: review `4e71d32` **PASS WITH LIMITATIONS**. Người dùng **chọn phương án C**. Đã nhập
+nguyên byte 1.400 JSON native train; `kiem-nguon` đường chính **exit 0**.
+
+## Vòng 34 (2026-10-02) — phương án C: đã nhập nhãn train (snapshot bên thứ ba có điều kiện)
+
+Chi tiết: `REVIEW34_CHI_TIET.md`; log ở `logs/review34/`.
+
+- **Quyết định**: người dùng chọn **phương án C**, tức dùng **có điều kiện** bản nhãn bên thứ ba đã ghim revision và hash. Đây
+  **không** phải bản gốc đã xác thực.
+- **Provenance**:
+
+  | Mục | Giá trị |
+  |:--|:--|
+  | Nguồn | HF `jaffe03195/bdd100k_sot`, file `bdd100k.zip`, revision **`694197099692fe1254e93215e73e68ece8b1f41f`** |
+  | Manifest nguồn (vòng 32) | `logs/review32/09_manifest_nhan_ung_vien.tsv`, sha256 `a2e416f2…` |
+  | Manifest nhập | `logs/review34/03_manifest_nhap_nhan_train.tsv`, sha256 `c5a548bc…` |
+  | Thời điểm nhập | 2026-10-02 11:40:29–11:40:53 (+07:00) |
+
+- **Kiểm trước khi nhập**: bản cách ly có đúng 1.400 JSON train; 0 thiếu, 0 thừa, 0 lệch byte/sha256 so với manifest. Thư
+  mục đích chưa tồn tại.
+- **Nhập**: chép **nguyên byte** vào `data/raw/bdd100k/labels/box_track_20/train/<video>.json`, ghi mới 1.400 file.
+- **Kiểm sau khi nhập**:
+  - đích có 1.400/1.400 file khớp sha256, không có file lạ;
+  - không có file provenance trong thư mục nhãn (provenance để ở handoff);
+  - bản cách ly giữ nguyên: 1.602/1.602 file vẫn khớp manifest, gồm native val và hai COCO phụ;
+  - COCO val `074ff795…` không đổi.
+- **`kiem-nguon` đường chính**: **exit 0** — `scalabel`, 1.400 video nhãn = 1.400 video ảnh, 278.079 frame, 0 ảnh thiếu,
+  1.400 video dùng được.
+- **Ý nghĩa và giới hạn**:
+  - `kiem-nguon` đạt chỉ có nghĩa là **dữ liệu đủ đầu vào để đi tiếp**;
+  - đối chiếu native val với COCO vẫn có **183 lệch lớp và 50 ngoại lệ ignore**, nguyên nhân **UNKNOWN**;
+  - không điều nào ở trên xác thực nhãn là bản phát hành chính thức; **chưa xác thực bằng archive gốc** (md5 `6be40e0c…`);
+  - train chưa có tham chiếu độc lập theo từng annotation.
+- **Giữ nguyên**: COCO val đang dùng, GT đã khóa, kết quả BDD lịch sử, native val cách ly và hai COCO phụ của mirror.
+- **Nếu sau này có archive gốc**: đối chiếu đường dẫn và sha256 từng file với manifest, báo khác biệt **trước** khi thay
+  snapshot đã dùng. Không âm thầm thay snapshot sau khi đã khóa split hoặc training.
+- **Bước tiếp theo** (chưa chạy): khóa split, xuất dataset, smoke hai model trên dữ liệu thật theo kế hoạch đã chốt. Training
+  dài chưa được duyệt.
 
 ## Vòng 33 (2026-10-02) — sửa R32-F1 / R32-F2; nhãn **vẫn cách ly**
 

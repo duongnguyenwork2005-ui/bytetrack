@@ -1,67 +1,60 @@
-# REVIEW_BRIEF — vòng 33: sửa R32-F1 và R32-F2 của review `c4d64a1`; nhãn **vẫn cách ly**
+# REVIEW_BRIEF — vòng 34: ghi nhận nghiệm thu `4e71d32`; nhập nhãn train theo phương án C
 
 <!-- BASE_TARGET -->
 
-Chi tiết: **`handoff/REVIEW33_CHI_TIET.md`**.
+Chi tiết: **`handoff/REVIEW34_CHI_TIET.md`**.
 
-**Phạm vi**: sửa bộ kiểm, đối chiếu lại nhãn cách ly, đính chính báo cáo. **Không** nhập nhãn, khóa split, xuất, smoke hay
-training. `src/` và `configs/` không đổi. Base giữ **`bcb92f8`**. Bằng chứng reviewer lưu ở
-`review_evidence/CODEX_c4d64a1/`, `SHA256SUMS` khớp 42/42.
+**Phạm vi**: ghi nhận nghiệm thu, nhập nguyên byte 1.400 JSON native train, chạy `kiem-nguon`. **Không** khóa split, xuất,
+smoke hay training. `src/` và `configs/` không đổi. Không SSH Nano.
 
-## R32-F1 — diễn giải lớp/ignore: ĐÃ SỬA
+## Ghi nhận nghiệm thu — ĐÃ CHẠY
 
-- Chạy lại **nguyên** `audit_real_labels.py` trên PC. Kết quả trùng bản reviewer; `class_mismatches.csv` và
-  `ignore_exceptions.csv` **trùng từng byte**.
-- 465.512 cặp: **0 lệch box, 0 xung đột ID hai chiều**.
-- **183 lệch lớp** ngoài ba ánh xạ (46 track, 40 video). Hàng nhiều nhất: truck→car 73, pedestrian→car 62.
-- **50 ngoại lệ ignore**: 24 other person ignore=0, 21 pedestrian ignore=1, 5 other vehicle ignore=0. Đây là hai phép kiểm,
-  không cộng.
-- Nguyên nhân **UNKNOWN**: repo không có mã chuyển đổi hay ghi chép nguồn của COCO val.
-- **Quan sát**: COCO của chính người đóng gói HF trùng native ở cả 183 vị trí và dùng ignore=0 cho mọi annotation. Điều này
-  không cho biết bên nào đúng.
-- **Đính chính** ở `logs/review32/14_nguon_nhan_vong32.md` (khối “Đính chính vòng 33”) và `BDD100K_INVENTORY.md`:
-  - chỉ kết luận **box và ID khớp**;
-  - lớp/ignore còn khác;
-  - thống kê so với bài báo chỉ **tương đồng tổng hợp, có sai lệch**.
+- Codex `4e71d32`: **PASS WITH LIMITATIONS**, đóng R32-F1 và R32-F2. Báo cáo ở `handoff/CODEX_REVIEW_4e71d32.md`.
+- Bằng chứng ở `review_evidence/CODEX_4e71d32/`: `SHA256SUMS` khớp 56/56, cả trên blob đã commit.
+- Gói đã nghiệm thu: 1.156.972 B, sha256 `a34037a1…`, khớp báo cáo; lưu ở `archive/review_delta_4e71d32.zip`.
+- **Base review: `bcb92f8` → `4e71d32`**; 13 khai báo NPZ được mang sang.
 
-## R32-F2 — bộ kiểm báo đạt khi thiếu bằng chứng: ĐÃ SỬA
+## Nhập nhãn train — ĐÃ CHẠY
 
-Sửa `logs/review32/kiem_nhan_ung_vien.py`:
+Người dùng **chọn phương án C**: dùng có điều kiện snapshot bên thứ ba **đã ghim**, gồm HF `jaffe03195/bdd100k_sot`, revision
+`694197099692fe1254e93215e73e68ece8b1f41f` và hash từng file trong manifest vòng 32 `a2e416f2…`.
 
-- **Thiếu đầu vào → exit 2**: root, split bắt buộc, bộ nhãn rỗng, thư mục ảnh, file COCO được yêu cầu. Kiểm một phần phải
-  chọn rõ bằng `--split` hoặc `--khong-doi-chieu-coco`, phần còn lại ghi `NOT_RUN`.
-- **Schema → exit 1**:
-  - `labels` sai kiểu (dict/chuỗi/số) là lỗi; `[]` hợp lệ; `null` hoặc thiếu khóa đếm riêng;
-  - tọa độ phải hữu hạn, không NaN/Inf, không boolean;
-  - ID trùng trong frame, frame trùng.
-- **COCO**:
-  - khóa trùng bị bắt trước khi đưa vào dictionary;
-  - song ánh ID hai chiều theo từng video;
-  - lớp/ignore theo định nghĩa reviewer, thêm iscrowd;
-  - CSV từng hàng.
-- **Trạng thái tách riêng**: schema `DAT`/`LOI`/`NOT_RUN`; COCO `MATCH`/`DIFFERENCES`/`NOT_RUN`/`LOI_DAU_VAO`. **Khác biệt
-  COCO → exit 3**, nên exit 0 không bao giờ có nghĩa “có khác biệt”.
-
-**Kiểm chứng**:
-
-| Phép chạy | Kết quả |
+| Bước | Kết quả |
 |:--|:--|
-| Script Codex (giữ nguyên) | mã cũ exit 1, `bug_count=5` → mã sửa **exit 0, `bug_count=0`**. Đối chứng sạch đạt; quan sát COCO exit 2/3 |
-| Regression mới `logs/review33/test_kiem_nhan_ung_vien.py` | bản sửa **30/30**; bản `c4d64a1` 3/30 |
-| Test cũ vòng 32 | 3/3 |
-| Nhãn thật (1.400 train + 200 val) | schema/độ đầy đủ **DAT**, COCO **DIFFERENCES** (exit 3). Dữ liệu thật: 0 NaN/Inf, 0 ID trùng, 0 sai kiểu, 0 track đổi lớp |
-| Hash nhãn cách ly trước/sau | 1.602/1.602 khớp manifest `a2e416f2…`; COCO `074ff795…` không đổi |
-| `kiem-nguon` | bản cách ly exit 0; đường chính **exit 2** vì nhãn chưa nhập |
+| Kiểm trước (`nhap_nhan_train.py --chi-kiem`, fixture 9/9) | Bản cách ly có **1.400** JSON train: 0 thiếu, 0 thừa, 0 lệch byte/sha256. COCO val `074ff795…` khớp. Thư mục đích chưa có |
+| Nhập nguyên byte vào `data/raw/bdd100k/labels/box_track_20/train/` | Ghi mới 1.400 file, qua file tạm rồi đổi tên |
+| Kiểm sau | Đích **1.400/1.400** khớp sha256, 0 file lạ. Bản cách ly 1.602/1.602 vẫn khớp manifest. COCO val không đổi |
+| Provenance | Để ở handoff, không đặt trong thư mục nhãn. Manifest nhập: `logs/review34/03_manifest_nhap_nhan_train.tsv` (`c5a548bc…`) |
 
-## Trạng thái nguồn và quyết định
+Chỉ nhập native train. Native val, hai COCO phụ của mirror và COCO val của dự án giữ nguyên.
 
-- **Nguồn**: HF `jaffe03195/bdd100k_sot` @ `694197099692…`, hash từng file đã ghim.
-- **Chưa xác thực bằng archive gốc** (md5 `6be40e0c…`). Nhãn **vẫn cách ly**.
-- **Phương án C** đang **chờ người dùng chốt**: nhập nguyên byte 1.400 JSON train, giữ COCO val cho đánh giá.
-- Test suite tracking/Nano: **NOT_RUN**, vì đường chạy đó không đổi.
+## `kiem-nguon` đường chính — ĐÃ CHẠY
+
+`python src/prepare_mixed_yolo_dataset.py --config configs/phase2/detector/bdd5_train.yaml --buoc kiem-nguon` → **exit 0**.
+
+- `scalabel`; **1.400 video nhãn = 1.400 video ảnh**; **278.079 frame**.
+- 0 ảnh thiếu, 0 video lệch; **1.400 video dùng được**.
+
+**Phân biệt**:
+
+- Đạt `kiem-nguon` nghĩa là **đủ đầu vào để đi tiếp**.
+- Native val so với COCO val **vẫn lệch 183 lớp và 50 ngoại lệ ignore**; nguyên nhân UNKNOWN.
+- Không điều nào ở trên xác thực nhãn là bản phát hành chính thức.
+
+## Giới hạn còn tồn tại
+
+- **Chưa xác thực bằng archive gốc** (md5 `6be40e0c…`); train chưa có tham chiếu độc lập theo từng annotation.
+- Lớp/ignore khác giữa native và COCO, chưa biết bên nào đúng hơn. **Giữ COCO val** cho đánh giá đã bàn giao và các kết quả
+  lịch sử.
+- Nếu sau này có archive gốc: đối chiếu đường dẫn và sha256 từng file, báo khác biệt **trước** khi thay snapshot.
+- Test suite: **NOT_RUN** vì không đổi mã dự án. Script nhập nằm trong `logs/review34/`, kiểm thử fixture 9/9.
+
+## Bước tiếp theo — CHƯA CHẠY
+
+Khóa split → xuất dataset → smoke YOLOv8n và YOLO11n trên dữ liệu thật theo `DETECTOR_TRAIN_PLAN.md`; huấn luyện local trên
+PC. **Training dài, epoch và ngân sách chưa được duyệt.**
 
 ## Đề nghị reviewer xem
 
-1. Chính sách exit 0/1/2/3 và phần trạng thái có đủ để không đọc nhầm exit 0 thành “khớp hết” không.
-2. Định nghĩa `labels` `null`/thiếu khóa: hợp lệ nhưng đếm riêng.
-3. Cách đính chính trong `14_nguon_nhan_vong32.md`: sửa tại chỗ, bản gốc vẫn nằm ở `c4d64a1`.
+1. `logs/review34/nhap_nhan_train.py`: kiểm trước khi ghi, xử lý xung đột (không ghi đè, không xóa), kiểm sau khi nhập.
+2. Các log `02`–`05` và manifest nhập; tính nhất quán giữa `PLAN_DA_CHOT`, `BDD100K_INVENTORY` và `CODEX_HANDOFF`.
