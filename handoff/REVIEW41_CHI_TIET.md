@@ -7,6 +7,11 @@ bàn giao, rồi **dừng**.
 - Không thêm guard ở hàm append, không khóa chạy đồng thời; không SSH Nano, không đóng ứng dụng.
 - Base review: **`421dd53`** (Codex nghiệm thu vòng 40). Vòng 41 **chưa** được nghiệm thu.
 
+> **Theo dõi vòng 42**: Codex `6c8e37a` PASS WITH LIMITATIONS, đóng R40-N1 / R40-N2 trong phạm vi chuẩn bị resume thật.
+> **Đính chính R41-N1** (chỉ câu chữ, mục 3 bước 4): bản trước ghi "đọc lại" sau khi ghi. Đúng là mã kiểm nội dung mới và
+> hash file tạm trước khi thay file đích; không đọc lại CSV đích sau `os.replace`; test đọc lại output để xác nhận. Không
+> đổi mã, tiêu chí hay số liệu.
+
 ## 0. Trạng thái đầu vòng
 
 Log: `logs/review41/00_trang_thai_dau.log`.
@@ -81,7 +86,9 @@ Cùng nguyên tắc đã dùng cho nhật ký ở vòng 40. sha256 sau sửa: `t
    - `results.csv`: **giữ quy tắc cũ**, chỉ giữ hàng epoch ≤ epoch đã lưu, nhưng nay áp trên các hàng **đã qua kiểm định
      dạng**, nên không còn hàng dở lọt qua chỉ vì trường đầu chuyển được thành số;
    - `theo_batch.csv`: **giữ mọi hàng lịch sử hợp lệ**, kể cả cột `lan` và các hàng của epoch bị ngắt; không cắt theo epoch.
-4. Ghi qua file tạm + fsync + `os.replace`; đọc lại và kiểm: sạch, đủ cột, các hàng hợp lệ đúng như mong đợi.
+4. Kiểm nội dung mới trong bộ nhớ (sạch, đủ cột, các hàng hợp lệ đúng như mong đợi) và hash file tạm (ghi + fsync)
+   **trước** khi `os.replace` thay file đích. Hàm **không** đọc lại CSV đích sau `os.replace`; test đọc lại output để xác
+   nhận. *(Đính chính vòng 42, R41-N1.)*
 5. Biên nhận `khoi_phuc/truoc_tiep_tuc_N/xu_ly_<file>.json`: sha256 trước/sau, hành động, lý do, số byte bỏ, sha256 phần
    bỏ, số hàng bỏ theo epoch, vị trí bản sao. Cùng nội dung được ghi vào sự kiện `bat_dau` (`tiep_tuc.sao_luu.csv`).
 

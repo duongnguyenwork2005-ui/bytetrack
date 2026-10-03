@@ -393,7 +393,9 @@ def sua_duoi_csv(run_dir: Path, ten: str, kieu: str, thu_muc_luu: Path, ke_hoach
       2. cat hang cuoi ghi do HOAC them newline sau hang cuoi hop le (phan_tich_duoi_csv);
       3. results.csv: GIU quy tac cu -- chi giu hang epoch <= epoch_da_luu (hang da qua kiem dinh dang, khong con hang do);
          theo_batch.csv: GIU MOI hang lich su hop le (ca cot lan), khong cat theo epoch;
-      4. ghi file tam + fsync + os.replace; doc lai: sach, dung cot, hang hop le dung nhu mong doi;
+      4. kiem noi dung moi trong bo nho (sach, dung cot, hang hop le dung nhu mong doi) va hash file tam (ghi_nguyen_tu:
+         file tam + fsync) TRUOC khi os.replace thay file dich; KHONG doc lai file dich sau os.replace (test doc lai
+         output de xac nhan) -- dinh chinh vong 42 (R41-N1);
       5. bien nhan <thu_muc_luu>/xu_ly_<ten>.json."""
     run_dir, thu_muc_luu = Path(run_dir), Path(thu_muc_luu)
     p = run_dir / ten

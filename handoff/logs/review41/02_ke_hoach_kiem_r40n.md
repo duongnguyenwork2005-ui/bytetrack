@@ -115,3 +115,6 @@ Không sửa hay commit trong lúc test đang chạy.
   - Lượt C0 là lượt **mới**: đường mã của lượt mới không đổi ở vòng này.
 - **Không sửa mã hay test vì sự cố này. Tiêu chí không đổi.** Chạy lại thành lần 2 khi đang cắm sạc (lúc kiểm: pin 14%,
   `power_plugged=True`), với giới hạn tác vụ nền tối đa 2 giờ. Không đổi cài đặt nguồn hay Windows.
+- **Đính chính vòng 42 (R41-N1, review `6c8e37a`), chỉ câu chữ**: mục 2 bước 4 ghi "đọc lại và kiểm". Đúng là: mã kiểm
+  nội dung mới trong bộ nhớ và hash file tạm trước khi `os.replace` thay file đích; không đọc lại CSV đích sau
+  `os.replace`; các test đọc lại output để xác nhận. Mục 1–3 giữ nguyên như đã đăng ký; mã, tiêu chí và kết quả không đổi.
