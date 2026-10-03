@@ -95,3 +95,23 @@ Bốn ca `x`, mỗi ca ghi dạng (`results.csv` → hành động; `theo_batch.
 
 Không dùng tolerance. Lỗi nào phát sinh thì giữ log, tìm nguyên nhân có bằng chứng, sửa, rồi chạy lại với tên log mới.
 Không sửa hay commit trong lúc test đang chạy.
+
+## 4. Phụ lục sửa đổi sau đăng ký (ghi thêm; mục 1–3 giữ nguyên)
+
+- **Lần 1** (`03_test_tiep_tuc_huan_luyen_lan1.log`, commit `8d5d3c8`): **không hoàn tất**. Log dừng giữa nhóm C, không có
+  dòng `KET QUA` / `# exit=`.
+  - Tới lúc dừng: 107 phép đạt, gồm toàn bộ nhóm U (cả U11, U12, U12b), R, S (cả S21, S22), K và nhóm N của R39-F1.
+  - 1 phép không đạt: **C0**, vì bộ đợi hết hạn 1.200 s mà không thấy epoch 1 được lưu.
+  - Sau đó tác vụ nền bị dừng vì vượt giới hạn 1 giờ.
+- **Nguyên nhân, có bằng chứng: máy tự ngủ vì pin cạn**, không phải lỗi mã.
+  - Bằng chứng từ log System (`03_su_kien_nguon_lan1.log`):
+    - 16:54:10 Kernel-Power 524 "Critical Battery Trigger Met";
+    - 16:54:14 Kernel-Power 42 "entering sleep, Sleep Reason: Battery";
+    - Power-Troubleshooter: ngủ **16:54:10 → 17:53:42**; lại ngủ vì pin 17:54:41 → 17:55:14; 17:55:13 đổi nguồn (cắm sạc).
+  - Mốc file (`03_moc_thoi_gian_lan1.log`, log runner C0 `03_…_lan1_c0_runner.log`):
+    - epoch 1 của C0 xong (`theo_batch.csv` 16:54:11, `results.csv` 16:54:17), rồi mọi tiến trình đứng yên trong lúc máy
+      ngủ;
+    - khi máy thức, bộ đợi thấy đã quá hạn nên kill runner, ghi C0 thất bại; test ghi file ca đầu lúc 17:53:43 rồi bị dừng.
+  - Lượt C0 là lượt **mới**: đường mã của lượt mới không đổi ở vòng này.
+- **Không sửa mã hay test vì sự cố này. Tiêu chí không đổi.** Chạy lại thành lần 2 khi đang cắm sạc (lúc kiểm: pin 14%,
+  `power_plugged=True`), với giới hạn tác vụ nền tối đa 2 giờ. Không đổi cài đặt nguồn hay Windows.
