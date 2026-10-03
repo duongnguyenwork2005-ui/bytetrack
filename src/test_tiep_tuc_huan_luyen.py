@@ -33,9 +33,17 @@ Phan biet:
       loi); phan doc/kiem trong tien trinh test van dung ham doc cua ma hien tai.
   U9/U10 (vong 40): phan_tich_duoi_nhat_ky / sua_duoi_nhat_ky (ham that, thu muc tam); U10b MOCK os.replace loi -> nhat
       ky cu con nguyen.
+  C   (vong 41, R40-N1/N2; yolov8n, CHAY THAT qua subprocess) results.csv + theo_batch.csv cua luot that bi kill sau
+      epoch 1, duoi: sach / NUL + hang do / so dang do + hang hoan chinh thieu newline / hang hoan chinh thieu newline +
+      thu_tu_batch bi cat. Moi ca 0a, 0b, A (ghi tiep that: dung cot, lich su), B, C, D, B2; + hong o giua results.csv,
+      header sai theo_batch.csv -> exit 2. `--chi-nhom-c --ma-nguon <src cu>`: chay rieng voi ma cu.
+  U11/U12/U12b (vong 41): phan_tich_duoi_csv (CRLF/LF, o tuy chon rong...), sao_luu_truoc_tiep_tuc + writer THAT
+      (ultralytics save_metrics, het_epoch_train), MOCK os.replace loi khi thay results.csv. S21/S22 (SPY): CSV hong o
+      giua / header sai -> exit 2, khong goi train.
 
     python src/test_tiep_tuc_huan_luyen.py [--model yolov8n|yolo11n ...] [--bo-spy]
     python src/test_tiep_tuc_huan_luyen.py --chi-nhom-n [--ma-nguon DIR]
+    python src/test_tiep_tuc_huan_luyen.py --chi-nhom-c [--ma-nguon DIR]
 """
 from __future__ import annotations
 
@@ -462,6 +470,134 @@ def nhom_u(tmp: Path):
     _check("U10b (MOCK os.replace loi khi thay nhat ky) -> LoiTiepTuc; nhat ky cu con NGUYEN BYTE, ban sao da co (khong "
            "de lai nhat ky do dang)", u10b and (r / ttl.TEN_NHAT_KY).read_bytes() == goc_u10b
            and (r / "kp" / ttl.TEN_NHAT_KY).read_bytes() == goc_u10b)
+    nhom_u_csv(tmp)
+
+
+def hang_batch(lan, ep, i, loss="1.5", tt="0123456789abcdef") -> dict:
+    return {"lan": lan, "epoch": ep, "i": i, "ni": i + 10 * (ep - 1), "t": 1790000000.5, "loss_tong": loss,
+            "box_loss": loss, "cls_loss": loss, "dfl_loss": loss, "loss_huu_han": True, "lr_weight": 0.01, "lr_bn": 0.01,
+            "lr_bias": 0.01, "momentum_weight": 0.9, "momentum_bn": 0.9, "momentum_bias": 0.9, "accumulate": 8,
+            "ema_updates": 3, "batch_size": 8, "thu_tu_batch": tt}
+
+
+def bytes_batch(rows, nl="\r\n") -> bytes:
+    import tiep_tuc_huan_luyen as ttl
+    buf = io.StringIO(newline="")
+    w = csv.DictWriter(buf, fieldnames=ttl.COT_BATCH, restval="", lineterminator=nl)
+    w.writeheader()
+    w.writerows(rows)
+    return buf.getvalue().encode()
+
+
+def doc_csv(p: Path) -> list[dict]:
+    return list(csv.DictReader(open(p, newline="", encoding="utf-8"))) if p.is_file() else []
+
+
+def csv_dung_cot(rows: list[dict]) -> bool:
+    """DictReader: truong THUA -> khoa None; THIEU truong -> gia tri None."""
+    return all(None not in r and None not in r.values() for r in rows)
+
+
+def nhom_u_csv(tmp: Path):
+    """U11 / U12 / U12b (vong 41, R40-N1 / R40-N2): ham THAT tren bytes / thu muc tam; writer THAT."""
+    from types import SimpleNamespace
+
+    from ultralytics.engine.trainer import BaseTrainer
+
+    import tiep_tuc_huan_luyen as ttl
+    R = b"epoch,time,x\r\n" + b"".join(f"{i},{i * 10},0.5\r\n".encode() for i in range(1, 10))
+    RLF = R.replace(b"\r\n", b"\n")
+    B = bytes_batch([hang_batch(0, 1, 0), hang_batch(0, 1, 1, loss="", tt="")])       # hang 2: o tuy chon RONG hop le
+    BLF = bytes_batch([hang_batch(0, 1, 0), hang_batch(0, 1, 1, loss="", tt="")], nl="\n")
+    hex_cat = B + B.split(b"\r\n")[1][:-6]            # hang du 20 truong nhung thu_tu_batch bi cat (10/16 hex), khong newline
+    ca = [("results", "sach CRLF", R, "khong", 0), ("results", "sach LF", RLF, "khong", 0),
+          ("results", "hang cuoi hoan chinh thieu newline CRLF", R[:-2], "them_newline", 0),
+          ("results", "hang cuoi hoan chinh thieu newline LF", RLF[:-1], "them_newline", 0),
+          ("results", "CRLF ghi do mot nua (\\r)", R[:-1], "them_newline", 0),
+          ("results", "byte NUL", R + b"\x00" * 4, "cat_duoi", 4), ("results", "so dang do '1'", R + b"1", "cat_duoi", 1),
+          ("results", "hang thieu cot", R + b"10,100", "cat_duoi", 6),
+          ("batch", "sach CRLF (co o tuy chon rong)", B, "khong", 0), ("batch", "sach LF", BLF, "khong", 0),
+          ("batch", "hang cuoi hoan chinh thieu newline", B[:-2], "them_newline", 0),
+          ("batch", "hang do '0,1,'", B + b"0,1,", "cat_duoi", 4), ("batch", "byte NUL", B + b"\x00\x00", "cat_duoi", 2),
+          ("batch", "thu_tu_batch bi cat", hex_cat, "cat_duoi", len(hex_cat) - len(B))]
+    u11 = {}
+    for kieu, ten, b, hd, bo in ca:
+        kh = ttl.phan_tich_duoi_csv(b, kieu, ten, 9 if kieu == "results" else None)
+        nl_dung = kh["them"] in (None, "\\r\\n" if b.split(b"\n")[0].endswith(b"\r") else "\\n") or b.endswith(b"\r")
+        u11[ten + f" [{kieu}]"] = kh["hanh_dong"] == hd and kh["bo_bytes"] == bo and nl_dung
+    tu_choi = {}
+    for kieu, ten, b in (("results", "hong o giua", R.replace(b"5,50,0.5", b"5,50")),
+                         ("results", "header sai", b"epok,time,x" + R[12:]),
+                         ("batch", "hong o giua", bytes_batch([hang_batch(0, 1, 0)]) + b"0,1,\r\n"
+                          + bytes_batch([hang_batch(0, 1, 1)]).split(b"\r\n", 1)[1]),
+                         ("batch", "header sai", B.replace(b"lan,epoch", b"lan,epok", 1)), ("batch", "file rong", b"")):
+        try:
+            ttl.phan_tich_duoi_csv(b, kieu, ten)
+            tu_choi[f"{ten} [{kieu}]"] = False
+        except ttl.LoiTiepTuc:
+            tu_choi[f"{ten} [{kieu}]"] = True
+    _check(f"U11 phan_tich_duoi_csv (chi doc): {len(u11)} ca dung hanh dong + so byte bo + ky tu xuong dong (CRLF/LF; o "
+           f"tuy chon rong hop le; NUL / so dang do / thieu cot / hex bi cat -> cat_duoi; hoan chinh thieu newline -> "
+           f"them_newline); hong o giua / header sai / file rong -> LoiTiepTuc",
+           all(u11.values()) and all(tu_choi.values()), f"{ {k: v for k, v in u11.items() if not v} } | {tu_choi}")
+    # U12: sao_luu_truoc_tiep_tuc THAT + ghi tiep bang writer THAT (ultralytics save_metrics, het_epoch_train)
+    u12 = {}
+    for ten, r_hau, b_hau, hd_r, hd_b, nl in (("sach", b"", b"", "khong", "khong", "\r\n"),
+                                            ("NUL + hang do", b"\x00" * 4, b"0,1,", "cat_duoi", "cat_duoi", "\r\n"),
+                                            ("so '1' + thieu newline", b"1", None, "cat_duoi", "them_newline", "\r\n"),
+                                            ("LF: thieu newline + hex cat", None, "hex", "them_newline", "cat_duoi", "\n")):
+        r = tmp / f"u12_{len(u12)}"
+        r.mkdir()
+        rr = R if nl == "\r\n" else RLF
+        bb = B if nl == "\r\n" else BLF
+        r_goc = rr[:-len(nl)] if r_hau is None else rr + r_hau
+        b_goc = bb[:-len(nl)] if b_hau is None else (bb + bb.split(nl.encode())[1][:-6] if b_hau == "hex" else bb + b_hau)
+        (r / "results.csv").write_bytes(r_goc)
+        (r / ttl.TEN_BATCH_CSV).write_bytes(b_goc)
+        (r / "nguon.pt").write_bytes(b"ck")
+        ttl.ghi_nhat_ky(r, "bat_dau", che_do_luot="moi", lan=0)
+        sl = ttl.sao_luu_truoc_tiep_tuc(r, r / "nguon.pt", 1, epoch_da_luu=9)
+        kp = r / "khoi_phuc" / "truoc_tiep_tuc_1"
+        bn = {f: json.loads((kp / f"xu_ly_{f}.json").read_text(encoding="utf-8")) for f in ("results.csv", ttl.TEN_BATCH_CSV)}
+        BaseTrainer.save_metrics(SimpleNamespace(csv=r / "results.csv", epoch=9, train_time_start=time.time()),
+                                 {"x": 0.25})                                       # writer that cua ultralytics: epoch 10
+        g = ttl.GhiLuotDayDu({}, r, {}, "tiep_tuc", 1, None, {})
+        g._rows = [hang_batch(1, 2, 0)]
+        g.het_epoch_train(None)                                                    # writer that cua runner
+        rows_r, rows_b = doc_csv(r / "results.csv"), doc_csv(r / ttl.TEN_BATCH_CSV)
+        u12[ten] = ((kp / "results.csv").read_bytes() == r_goc and (kp / ttl.TEN_BATCH_CSV).read_bytes() == b_goc
+                    and bn["results.csv"]["hanh_dong"] == hd_r and bn[ttl.TEN_BATCH_CSV]["hanh_dong"] == hd_b
+                    and bn["results.csv"] == json.loads(json.dumps(sl["csv"]["results.csv"]))
+                    and csv_dung_cot(rows_r) and csv_dung_cot(rows_b)
+                    and [x["epoch"] for x in rows_r] == [str(i) for i in range(1, 11)]
+                    and [(x["lan"], x["epoch"], x["i"]) for x in rows_b] == [("0", "1", "0"), ("0", "1", "1"), ("1", "2", "0")]
+                    and rows_b[1]["loss_tong"] == "" and rows_b[1]["thu_tu_batch"] == "")
+    _check("U12 sao_luu_truoc_tiep_tuc that + ghi tiep bang writer THAT (ultralytics save_metrics, het_epoch_train): ban "
+           "sao CSV nguyen byte; bien nhan = ban ghi tra ve, dung hanh dong; sau ghi tiep: dung cot, results epoch 1..10, "
+           "batch giu lich su (ca o tuy chon rong) + hang moi; CRLF va LF", all(u12.values()), str(u12))
+    r = tmp / "u12b"
+    r.mkdir()
+    goc_r = R + b"1"
+    (r / "results.csv").write_bytes(goc_r)
+    (r / "nguon.pt").write_bytes(b"ck")
+    ttl.ghi_nhat_ky(r, "bat_dau", che_do_luot="moi", lan=0)
+    replace_that = ttl.os.replace
+
+    def replace_loi(src, dst):                 # MOCK: chi lan thay results.csv CUA LUOT bi "ngat"; cac lan khac that
+        if Path(dst).resolve() == (r / "results.csv").resolve():
+            raise OSError("mo phong bi ngat truoc os.replace")
+        return replace_that(src, dst)
+    ttl.os.replace = replace_loi
+    try:
+        ttl.sao_luu_truoc_tiep_tuc(r, r / "nguon.pt", 1, epoch_da_luu=9)
+        u12b = False
+    except ttl.LoiTiepTuc:
+        u12b = True
+    finally:
+        ttl.os.replace = replace_that
+    _check("U12b (MOCK os.replace loi khi thay results.csv) -> LoiTiepTuc; results.csv cu con NGUYEN BYTE, ban sao da co",
+           u12b and (r / "results.csv").read_bytes() == goc_r
+           and (r / "khoi_phuc" / "truoc_tiep_tuc_1" / "results.csv").read_bytes() == goc_r)
 
 
 # =========================================================================== R
@@ -796,6 +932,124 @@ def nhom_n(tmp: Path, data: Path, ma: Path):
            and anh_chup(run) == anh0, f"exit {rc0}/{rc1}; {out1.strip()[-160:]}")
 
 
+# =========================================================================== C (vong 41, R40-N1/N2) -- CHAY THAT
+def csv_sach(p: Path, kieu: str) -> bool:
+    import tiep_tuc_huan_luyen as ttl
+    try:
+        return ttl.phan_tich_duoi_csv(p.read_bytes(), kieu, p.name)["hanh_dong"] == "khong"
+    except (ttl.LoiTiepTuc, OSError):
+        return False
+
+
+def nhom_c(tmp: Path, data: Path, ma: Path):
+    """R40-N1 (results.csv) + R40-N2 (theo_batch.csv) qua DUONG RESUME THAT (train_detector.py cua `ma`, subprocess,
+    CPU, yolov8n). Ghi tiep that: ultralytics save_metrics (results.csv) + het_epoch_train (theo_batch.csv)."""
+    import tiep_tuc_huan_luyen as ttl
+    cfg = cfg_test(tmp, "c_e3")
+    ten = "yolov8n_CK"
+    run, goc = tmp / "runs" / ten, tmp / "nguyen_ban_CK"
+    tb = ttl.TEN_BATCH_CSV
+    fr, fb = run / "results.csv", run / tb
+    ng = chay_va_ngat_khi(lenh_n(ma, cfg, ten, data, tmp, "kq_c0"), run, tmp / "c0.log",
+                          lambda sk: any(s.get("loai") == "epoch_da_luu" and s.get("epoch") == 1 for s in sk))
+    shutil.copytree(run, goc)
+    r_goc, b_goc = (goc / "results.csv").read_bytes(), (goc / tb).read_bytes()
+    hang_b_goc = doc_csv(goc / tb)
+    nb = len(hang_b_goc)
+    _check(f"C0 luot goc {ten} bi KILL ngay sau epoch 1 (chay that, ma {ma}); results.csv (1 hang) + theo_batch.csv "
+           f"({nb} hang) deu ket thuc CRLF", ng["bi_kill"] and len(doc_csv(goc / "results.csv")) == 1 and nb > 0
+           and r_goc.endswith(b"\r\n") and b_goc.endswith(b"\r\n"), str(ng))
+    dong_b = b_goc.split(b"\r\n")
+    ca = [("sach", r_goc, b_goc, "khong", "khong"),
+          ("nul_va_hang_do", r_goc + b"\x00" * 4, b_goc + b"0,1,", "cat_duoi", "cat_duoi"),
+          ("so_dang_do_va_thieu_newline", r_goc + b"1", b_goc[:-2], "cat_duoi", "them_newline"),
+          ("thieu_newline_va_hex_cat", r_goc[:-2], b_goc + dong_b[1][:-6], "them_newline", "cat_duoi")]
+
+    def khoi_phuc():
+        shutil.rmtree(run)
+        shutil.copytree(goc, run)
+
+    def la_epoch(lan, ep):
+        return lambda sk: any(s.get("loai") == "epoch_da_luu" and s.get("lan") == lan and s.get("epoch") == ep for s in sk)
+
+    def bien_nhan(kp: Path) -> dict:
+        return {f: json.loads((kp / f"xu_ly_{f}.json").read_text(encoding="utf-8")) if (kp / f"xu_ly_{f}.json").is_file()
+                else {} for f in ("results.csv", tb)}
+    for ca_ten, rb, bb, hd_r, hd_b in ca:
+        khoi_phuc()
+        fr.write_bytes(rb)
+        fb.write_bytes(bb)
+        anh0 = anh_chup(run)
+        rc0, out0 = chay_lay(lenh_n(ma, cfg, ten, data, tmp, f"kq_c_{ca_ten}_0", "--tiep-tuc", dry=True),
+                             tmp / f"c_{ca_ten}_0.log")
+        _check(f"C-{ca_ten}-0a dry-run --tiep-tuc: exit 0, KHONG doi file (anh chup sha256 thu muc luot trung)",
+               rc0 == 0 and anh_chup(run) == anh0, f"exit {rc0}; {out0.strip()[-160:]}")
+        _check(f"C-{ca_ten}-0b dry-run bao ke hoach CSV: results.csv '{hd_r}', theo_batch.csv '{hd_b}'",
+               f"results.csv: {hd_r}" in out0 and f"{tb}: {hd_b}" in out0, out0.strip()[-200:])
+        ng1 = chay_va_ngat_khi(lenh_n(ma, cfg, ten, data, tmp, f"kq_c_{ca_ten}_1", "--tiep-tuc"), run,
+                               tmp / f"c_{ca_ten}_1.log", la_epoch(1, 2))
+        rows_r, rows_b = doc_csv(fr), doc_csv(fb)
+        _check(f"C-{ca_ten}-A resume THAT (bi kill sau epoch 2), ghi tiep that: hai CSV doc duoc, dung cot, sach; results "
+               f"epoch [1, 2]; theo_batch giu {nb} hang lich su nguyen ven + {nb} hang lan 1 epoch 2",
+               ng1["bi_kill"] and csv_sach(fr, "results") and csv_sach(fb, "batch") and csv_dung_cot(rows_r)
+               and csv_dung_cot(rows_b) and [x["epoch"] for x in rows_r] == ["1", "2"] and rows_b[:nb] == hang_b_goc
+               and [(x["lan"], x["epoch"]) for x in rows_b[nb:]] == [("1", "2")] * nb,
+               f"kill {ng1.get('bi_kill')} exit {ng1.get('exit')}; results epoch {[x.get('epoch') for x in rows_r]}; "
+               f"batch {len(rows_b)} hang, dung cot {csv_dung_cot(rows_b)}")
+        kp = run / "khoi_phuc" / "truoc_tiep_tuc_1"
+        bn = bien_nhan(kp)
+        sk1, _, _ = doc_hoac_loi(run)
+        bd1 = next((s for s in sk1 if s.get("loai") == "bat_dau" and s.get("lan") == 1), {})
+        ghi = ((bd1.get("tiep_tuc") or {}).get("sao_luu") or {}).get("csv") or {}
+        _check(f"C-{ca_ten}-B ban sao hai CSV TRUOC sua trung tung byte; bien nhan xu_ly_<file>.json = ban ghi trong "
+               f"bat_dau lan 1: results '{hd_r}', theo_batch '{hd_b}'",
+               (kp / "results.csv").is_file() and (kp / "results.csv").read_bytes() == rb and (kp / tb).is_file()
+               and (kp / tb).read_bytes() == bb and bn["results.csv"].get("hanh_dong") == hd_r
+               and bn[tb].get("hanh_dong") == hd_b and bn["results.csv"].get("sha256") == hashlib.sha256(rb).hexdigest()
+               and bn[tb].get("sha256") == hashlib.sha256(bb).hexdigest() and ghi.get("results.csv") == bn["results.csv"]
+               and ghi.get(tb) == bn[tb],
+               f"bien nhan {bn['results.csv'].get('hanh_dong')} / {bn[tb].get('hanh_dong')}; trong bat_dau {bool(ghi)}")
+        e1 = goc / "khoi_phuc" / "last_e001.pt"
+        cu = {f: (kp / f.replace("/", "__")).is_file() and sha(kp / f.replace("/", "__")) == sha(goc / f)
+              for f in ("args.yaml", "weights/last.pt", "weights/best.pt")}
+        _check(f"C-{ca_ten}-C checkpoint / file cu bao toan: last_e001.pt va nguon_tiep_tuc_1.pt = e001 goc; args / last / "
+               f"best cu luu truoc khi ghi tiep trung goc",
+               sha(run / "khoi_phuc" / "last_e001.pt") == sha(e1)
+               and (run / "khoi_phuc" / "nguon_tiep_tuc_1.pt").is_file()
+               and sha(run / "khoi_phuc" / "nguon_tiep_tuc_1.pt") == sha(e1) and all(cu.values()), str(cu))
+        rc2, out2 = chay_lay(lenh_n(ma, cfg, ten, data, tmp, f"kq_c_{ca_ten}_2", "--tiep-tuc", dry=True),
+                             tmp / f"c_{ca_ten}_2.log")
+        b_r2, b_b2 = (fr.read_bytes() if fr.is_file() else b""), (fb.read_bytes() if fb.is_file() else b"")
+        rc3, out3 = chay_lay(lenh_n(ma, cfg, ten, data, tmp, f"kq_c_{ca_ten}_3", "--tiep-tuc"), tmp / f"c_{ca_ten}_3.log")
+        rows_r3, rows_b3 = doc_csv(fr), doc_csv(fb)
+        _check(f"C-{ca_ten}-D preflight tiep theo exit 0 'tiep tuc tu epoch 3/3'; resume lan 2 exit 0 toi het; results "
+               f"epoch [1, 2, 3]; theo_batch = lich su + lan 1 epoch 2 + lan 2 epoch 3, dung cot",
+               rc2 == 0 and "tiep tuc tu epoch 3/3" in out2 and rc3 == 0 and csv_dung_cot(rows_r3)
+               and csv_dung_cot(rows_b3) and [x["epoch"] for x in rows_r3] == ["1", "2", "3"]
+               and rows_b3[:nb] == hang_b_goc
+               and [(x["lan"], x["epoch"]) for x in rows_b3[nb:]] == [("1", "2")] * nb + [("2", "3")] * nb,
+               f"preflight {rc2}; resume {rc3}; results epoch {[x.get('epoch') for x in rows_r3]}; batch {len(rows_b3)} "
+               f"hang; {(out2 if rc2 else out3).strip()[-160:]}")
+        kp2 = run / "khoi_phuc" / "truoc_tiep_tuc_2"
+        bn2 = bien_nhan(kp2)
+        _check(f"C-{ca_ten}-B2 lan tiep tuc 2: ban sao hai CSV truoc lan 2 trung tung byte; bien nhan 'khong' ca hai",
+               (kp2 / "results.csv").is_file() and (kp2 / "results.csv").read_bytes() == b_r2 and (kp2 / tb).is_file()
+               and (kp2 / tb).read_bytes() == b_b2 and bn2["results.csv"].get("hanh_dong") == "khong"
+               and bn2[tb].get("hanh_dong") == "khong", f"bien nhan {bn2['results.csv'].get('hanh_dong')} / "
+                                                        f"{bn2[tb].get('hanh_dong')}")
+    for ca_ten, dich, moi, mau in (("results_hong_giua", fr, r_goc.replace(b"\r\n", b"\r\nhong,giua\r\n", 1), "hong o GIUA"),
+                                   ("batch_header_sai", fb, b_goc.replace(b"lan,epoch", b"lan,epok", 1), "header sai")):
+        khoi_phuc()
+        dich.write_bytes(moi)
+        anh0 = anh_chup(run)
+        rc0, out0 = chay_lay(lenh_n(ma, cfg, ten, data, tmp, f"kq_c_{ca_ten}_0", "--tiep-tuc", dry=True),
+                             tmp / f"c_{ca_ten}_0.log")
+        rc1, out1 = chay_lay(lenh_n(ma, cfg, ten, data, tmp, f"kq_c_{ca_ten}_1", "--tiep-tuc"), tmp / f"c_{ca_ten}_1.log")
+        _check(f"C-{ca_ten}: dry-run va resume THAT deu exit 2 '{mau}'; thu muc luot KHONG doi (khong sao luu, khong "
+               f"train)", rc0 == 2 and rc1 == 2 and mau in out0 and mau in out1 and anh_chup(run) == anh0,
+               f"exit {rc0}/{rc1}; {out1.strip()[-160:]}")
+
+
 # =========================================================================== S
 def nhom_s(tmp: Path, data: Path, cfg: Path):
     m = "yolov8n"
@@ -941,6 +1195,18 @@ def nhom_s(tmp: Path, data: Path, cfg: Path):
         d = p.read_bytes().split(b"\n")
         p.write_bytes(d[0] + b"\n" + b'{"loai": "hong\n' + b"\n".join(d[1:]))
     tu_choi("S20 dong hong o GIUA nhat ky (vong 40)", hong_giua, argv(f"{m}_I", "--tiep-tuc"), "hong o GIUA")
+
+    def results_hong_giua(r):               # vong 41: hang hong o GIUA results.csv -> tu choi truoc khi train
+        p = r / "results.csv"
+        p.write_bytes(p.read_bytes().replace(b"\r\n", b"\r\nhong,giua\r\n", 1))
+    tu_choi("S21 results.csv hang hong o GIUA (vong 41)", results_hong_giua, argv(f"{m}_I", "--tiep-tuc"),
+            "results.csv: dong 2 hong o GIUA")
+
+    def batch_header_sai(r):                # vong 41: header theo_batch.csv sai -> tu choi truoc khi train
+        p = r / "theo_batch.csv"
+        p.write_bytes(p.read_bytes().replace(b"lan,epoch", b"lan,epok", 1))
+    tu_choi("S22 theo_batch.csv header sai (vong 41)", batch_header_sai, argv(f"{m}_I", "--tiep-tuc"),
+            "theo_batch.csv: header sai")
     khoi_phuc_i()
     truoc = anh_chup(run_i)
     code, so, se, goi = chay_spy(["--dry-run", "--tiep-tuc", *[x for x in argv(f"{m}_I") if x not in
@@ -962,16 +1228,21 @@ def main() -> int:
     ap.add_argument("--bo-spy", action="store_true")
     ap.add_argument("--chi-nhom-n", action="store_true",
                     help="CHI chay nhom N (vd voi --ma-nguon <src ma cu> de chung minh test moi bat loi R39-F1)")
+    ap.add_argument("--chi-nhom-c", action="store_true",
+                    help="CHI chay nhom C (vong 41, CSV; vd voi --ma-nguon <src ma cu> de chung minh test moi bat loi)")
     ap.add_argument("--ma-nguon", default=str(SRC),
-                    help="thu muc chua train_detector.py cho tien trinh con cua nhom N (mac dinh: src hien tai)")
+                    help="thu muc chua train_detector.py cho tien trinh con cua nhom N / C (mac dinh: src hien tai)")
     a = ap.parse_args()
     ma = Path(a.ma_nguon).resolve()
     tmp = Path(tempfile.mkdtemp(prefix="test_tiep_tuc_"))
     try:
         import test_pilot_chan_doan as tp
-        if a.chi_nhom_n:
+        if a.chi_nhom_n or a.chi_nhom_c:
             data = tp.tao_dataset_fixture(tmp / "fx")
-            _chay(f"N. nhat ky R39-F1 qua resume THAT (train_detector.py o {ma})", lambda: nhom_n(tmp, data, ma))
+            if a.chi_nhom_n:
+                _chay(f"N. nhat ky R39-F1 qua resume THAT (train_detector.py o {ma})", lambda: nhom_n(tmp, data, ma))
+            if a.chi_nhom_c:
+                _chay(f"C. CSV R40-N1/N2 qua resume THAT (train_detector.py o {ma})", lambda: nhom_c(tmp, data, ma))
             return tong_ket()
         _chay("U. don vi", lambda: nhom_u(tmp))
         data = tp.tao_dataset_fixture(tmp / "fx")
@@ -994,6 +1265,7 @@ def main() -> int:
                     so_sanh_k9(tmp, m, ctx[m]["cfg"], rc2, tmp / f"{m}_R2.log")
                 _chay(f"K. {m}: tiep tuc + so sanh voi luot lien tuc", tiep)
         _chay(f"N. nhat ky R39-F1 qua resume THAT (train_detector.py o {ma})", lambda: nhom_n(tmp, data, ma))
+        _chay(f"C. CSV R40-N1/N2 qua resume THAT (train_detector.py o {ma})", lambda: nhom_c(tmp, data, ma))
         print("\nTHONG TIN (khac biet du kien, khong dung nguong):", json.dumps(THONG_TIN, ensure_ascii=False))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

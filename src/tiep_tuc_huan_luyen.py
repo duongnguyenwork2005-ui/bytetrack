@@ -53,6 +53,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import shutil
 import time
 from pathlib import Path
@@ -69,6 +70,13 @@ TRUONG_VAN_TAY_DATASET = ("hop_dong", "phien_ban_manifest", "ten", "tap_con", "s
 COT_BATCH = ["lan", "epoch", "i", "ni", "t", "loss_tong", "box_loss", "cls_loss", "dfl_loss", "loss_huu_han",
              "lr_weight", "lr_bn", "lr_bias", "momentum_weight", "momentum_bn", "momentum_bias", "accumulate",
              "ema_updates", "batch_size", "thu_tu_batch"]
+TEN_RESULTS_CSV = "results.csv"
+#: theo_batch.csv (vong 41, R40-N2): cot BAT BUOC phai co gia tri dung kieu; cot so TUY CHON duoc phep rong (het_batch
+#: ghi "" khi tr.loss None / thieu loss / thieu nhom tham so); thu_tu_batch rong (khong bam duoc) hoac DUNG 16 ky tu hex
+KIEU_BATCH_BAT_BUOC = {"lan": int, "epoch": int, "i": int, "ni": int, "t": float, "loss_huu_han": bool,
+                       "accumulate": int, "ema_updates": int, "batch_size": int}
+SO_TUY_CHON_BATCH = ("loss_tong", "box_loss", "cls_loss", "dfl_loss", "lr_weight", "lr_bn", "lr_bias", "momentum_weight",
+                     "momentum_bn", "momentum_bias")
 
 
 class LoiTiepTuc(RuntimeError):
@@ -267,6 +275,159 @@ def sua_duoi_nhat_ky(run_dir: Path, thu_muc_luu: Path, ke_hoach: dict | None = N
                          f"-- ban goc o {ban_sao}")
     rec.update(sau_bytes=len(b_sau), sau_sha256=hashlib.sha256(b_sau).hexdigest(), so_su_kien_sau=len(sau))
     ghi_nguyen_tu(thu_muc_luu / "xu_ly_nhat_ky.json",
+                  (json.dumps(json_safe(rec), ensure_ascii=False, indent=1) + "\n").encode("utf-8"))
+    return rec
+
+
+# =========================================================================== CSV (vong 41: R40-N1 results.csv, R40-N2 theo_batch.csv)
+def _truong_csv(dong: bytes) -> list[str]:
+    return next(csv.reader([dong.decode("utf-8", "replace").rstrip("\r")]), [])
+
+
+def _ly_do_hang_csv(kieu: str, header: list[str], truong: list[str]) -> str | None:
+    """None neu hang du lieu HOP LE theo dinh dang thuc te; nguoc lai ly do (hang thieu truong, sai kieu...).
+    results.csv (ultralytics save_metrics, moi o '%.6g'): du cot, moi o la so, epoch nguyen >= 1.
+    theo_batch.csv (het_epoch_train): du 20 cot; cot bat buoc co gia tri dung kieu; cot so tuy chon rong HOAC la so
+    (o trong hop le); thu_tu_batch rong hoac dung 16 ky tu hex."""
+    if len(truong) != len(header):
+        return f"{len(truong)}/{len(header)} truong"
+    if kieu == "results":
+        for h, v in zip(header, truong):
+            try:
+                float(v)
+            except ValueError:
+                return f"o '{h}' = {v[:20]!r} khong phai so"
+        e = float(truong[0])
+        return None if e.is_integer() and e >= 1 else f"epoch {truong[0]!r} khong phai so nguyen >= 1"
+    d = dict(zip(header, truong))
+    for c, k in KIEU_BATCH_BAT_BUOC.items():
+        v = d[c]
+        if k is bool:
+            if v not in ("True", "False"):
+                return f"o bat buoc '{c}' = {v[:20]!r}"
+            continue
+        try:
+            k(v)
+        except ValueError:
+            return f"o bat buoc '{c}' = {v[:20]!r} (rong hoac sai kieu)"
+    for c in SO_TUY_CHON_BATCH:
+        if d[c] != "":
+            try:
+                float(d[c])
+            except ValueError:
+                return f"o '{c}' = {d[c][:20]!r} khong phai so"
+    if d["thu_tu_batch"] and not re.fullmatch(r"[0-9a-f]{16}", d["thu_tu_batch"]):
+        return f"thu_tu_batch {d['thu_tu_batch'][:20]!r} khong phai 16 ky tu hex (bi cat?)"
+    return None
+
+
+def _cac_hang_hop_le(b: bytes, kieu: str) -> list[list[str]]:
+    """Cac hang du lieu hop le (truong da tach), theo thu tu, bo header / dong trong / hang khong hop le."""
+    phan = [x for x in b.split(b"\n") if x.decode("utf-8", "replace").strip()]
+    if not phan:
+        return []
+    header = _truong_csv(phan[0])
+    return [t for t in (_truong_csv(x) for x in phan[1:]) if _ly_do_hang_csv(kieu, header, t) is None]
+
+
+def phan_tich_duoi_csv(b: bytes, kieu: str, ten: str, epoch_da_luu: int | None = None) -> dict:
+    """Ke hoach xu ly PHAN DUOI cua results.csv (kieu 'results') / theo_batch.csv ('batch') -- CHI DOC, khong ghi.
+    Cung nguyen tac voi nhat ky:
+      - header phai o dong dau va dung dinh dang (results: 'epoch,time,...'; batch: dung COT_BATCH) -> neu khong:
+        LoiTiepTuc;
+      - moi hang du lieu phai du cot + o bat buoc dung kieu (_ly_do_hang_csv);
+      - chi hang noi dung CUOI duoc phep hong (ghi do: thieu truong, byte NUL, so dang do...) -> 'cat_duoi' tu dau hang;
+      - hang cuoi hop le nhung thieu newline -> 'them_newline' (GIU hang; dung ky tu xuong dong cua file, CRLF/LF);
+      - hang hong o GIUA, file rong -> LoiTiepTuc (khong tu sua).
+    GIOI HAN: hang bi cat dung sau mot o van hop le cu phap (vd so bi cat bot chu so o cot cuoi results.csv) KHONG phan
+    biet duoc voi hang hoan chinh thieu newline. results.csv them: dem so hang hop le co epoch > epoch_da_luu (se bo theo
+    quy tac giu epoch da luu)."""
+    phan = b.split(b"\n")
+    dau, o = [], 0
+    for x in phan:
+        dau.append(o)
+        o += len(x) + 1
+    noi_dung = [i for i, x in enumerate(phan) if x.decode("utf-8", "replace").strip()]
+    if not noi_dung:
+        raise LoiTiepTuc(f"{ten}: file rong / khong co header -- khong tu sua")
+    header = _truong_csv(phan[noi_dung[0]])
+    if noi_dung[0] != 0:
+        raise LoiTiepTuc(f"{ten}: header khong o dong dau -- khong tu sua")
+    if kieu == "results":
+        header_dung = len(header) >= 2 and header[:2] == ["epoch", "time"] and all(h.strip() for h in header)
+    else:
+        header_dung = header == COT_BATCH
+    if not header_dung:
+        raise LoiTiepTuc(f"{ten}: header sai ({','.join(header)[:120]!r}) -- khong tu sua")
+    hong = [(i, ly) for i in noi_dung[1:] if (ly := _ly_do_hang_csv(kieu, header, _truong_csv(phan[i]))) is not None]
+    if any(i != noi_dung[-1] for i, _ in hong):
+        i, ly = hong[0]
+        raise LoiTiepTuc(f"{ten}: dong {i + 1} hong o GIUA ({ly}) -- khong tu sua")
+    co_newline = b.endswith(b"\n")
+    kq = {"file": ten, "kieu": kieu, "bytes": len(b), "sha256": hashlib.sha256(b).hexdigest(),
+          "xuong_dong": "CRLF" if phan[0].endswith(b"\r") else "LF", "so_cot": len(header),
+          "so_hang_hop_le": len(noi_dung) - 1 - len(hong), "hanh_dong": "khong",
+          "ly_do": "sach (hang cuoi hop le, ket thuc bang newline)", "giu_bytes": len(b), "bo_bytes": 0,
+          "bo_sha256": None, "bo_dau": None, "them": None}
+    if hong:
+        i, ly = hong[-1]
+        bo = b[dau[i]:]
+        kq.update(hanh_dong="cat_duoi", giu_bytes=dau[i], bo_bytes=len(bo), bo_sha256=hashlib.sha256(bo).hexdigest(),
+                  bo_dau=repr(bo[:200]), ly_do=f"dong {i + 1} (hang cuoi) ghi do: {ly}; "
+                                              f"{'co' if co_newline else 'khong co'} newline sau no")
+    elif not co_newline:
+        nl = b"\r\n" if kq["xuong_dong"] == "CRLF" else b"\n"
+        them = b"\n" if b.endswith(b"\r") else nl                   # \r da co (CRLF ghi do mot nua) -> chi them \n
+        kq.update(hanh_dong="them_newline", them=them.decode("ascii").replace("\r", "\\r").replace("\n", "\\n"),
+                  ly_do="hang cuoi hop le nhung thieu newline -> giu hang, chi them ranh gioi xuong dong")
+    if kieu == "results" and epoch_da_luu is not None:
+        kq["se_bo_theo_epoch"] = sum(1 for t in _cac_hang_hop_le(b, kieu) if int(float(t[0])) > int(epoch_da_luu))
+    return kq
+
+
+def sua_duoi_csv(run_dir: Path, ten: str, kieu: str, thu_muc_luu: Path, ke_hoach: dict | None = None,
+                 epoch_da_luu: int | None = None) -> dict:
+    """Buoc chuan bi GHI cua resume THAT cho results.csv / theo_batch.csv (vong 41). Goi trong sao_luu_truoc_tiep_tuc SAU
+    khi da chep nguyen byte file vao <thu_muc_luu>/<ten>:
+      1. file phai trung sha256 luc preflight (`ke_hoach`) va trung ban sao; mat / doi giua chung -> LoiTiepTuc;
+      2. cat hang cuoi ghi do HOAC them newline sau hang cuoi hop le (phan_tich_duoi_csv);
+      3. results.csv: GIU quy tac cu -- chi giu hang epoch <= epoch_da_luu (hang da qua kiem dinh dang, khong con hang do);
+         theo_batch.csv: GIU MOI hang lich su hop le (ca cot lan), khong cat theo epoch;
+      4. ghi file tam + fsync + os.replace; doc lai: sach, dung cot, hang hop le dung nhu mong doi;
+      5. bien nhan <thu_muc_luu>/xu_ly_<ten>.json."""
+    run_dir, thu_muc_luu = Path(run_dir), Path(thu_muc_luu)
+    p = run_dir / ten
+    if not p.is_file():
+        if ke_hoach and ke_hoach.get("co_file"):
+            raise LoiTiepTuc(f"{p} mat giua buoc kiem va buoc sao luu -- dung")
+        return {"file": ten, "co_file": False}
+    b = p.read_bytes()
+    kh = phan_tich_duoi_csv(b, kieu, ten, epoch_da_luu)
+    if ke_hoach is not None and ke_hoach.get("sha256") != kh["sha256"]:
+        raise LoiTiepTuc(f"{p} doi giua buoc kiem (sha {str(ke_hoach.get('sha256'))[:12]}) va buoc sao luu -- dung")
+    ban_sao = thu_muc_luu / ten
+    if not ban_sao.is_file() or sha256_file(ban_sao) != kh["sha256"]:
+        raise LoiTiepTuc(f"ban sao {ban_sao} thieu hoac khac {p} -- khong sua")
+    co_so = b[:kh["giu_bytes"]] if kh["hanh_dong"] == "cat_duoi" else (
+        b + kh["them"].replace("\\r", "\r").replace("\\n", "\n").encode("ascii") if kh["hanh_dong"] == "them_newline" else b)
+    truoc = _cac_hang_hop_le(b, kieu)
+    mong = truoc
+    moi = co_so
+    if kieu == "results" and epoch_da_luu is not None:
+        manh = [x for x in re.split(rb"(?<=\n)", co_so) if x]
+        giu = manh[:1] + [x for x in manh[1:] if not x.decode("utf-8", "replace").strip()
+                          or int(float(_truong_csv(x)[0])) <= int(epoch_da_luu)]
+        moi = b"".join(giu)
+        mong = [t for t in truoc if int(float(t[0])) <= int(epoch_da_luu)]
+    kh2 = phan_tich_duoi_csv(moi, kieu, ten, epoch_da_luu)
+    if kh2["hanh_dong"] != "khong" or _cac_hang_hop_le(moi, kieu) != mong:
+        raise LoiTiepTuc(f"sau khi xu ly duoi, {p} khong nhu mong doi ({kh2['hanh_dong']}) -- ban goc o {ban_sao}")
+    if moi != b:
+        ghi_nguyen_tu(p, moi)
+    rec = {"t_iso": dt.datetime.now().astimezone().isoformat(timespec="seconds"), "ban_sao": str(ban_sao),
+           "ban_sao_sha256": kh["sha256"], **kh, "so_hang_bo_theo_epoch": len(truoc) - len(mong),
+           "sau_bytes": len(moi), "sau_sha256": hashlib.sha256(moi).hexdigest(), "so_hang_sau": len(mong)}
+    ghi_nguyen_tu(thu_muc_luu / f"xu_ly_{ten}.json",
                   (json.dumps(json_safe(rec), ensure_ascii=False, indent=1) + "\n").encode("utf-8"))
     return rec
 
@@ -482,6 +643,12 @@ def chuan_bi_tiep_tuc(run_dir: Path, ten: str, ts: dict, ds: dict, wt: dict, moi
         raise LoiTiepTuc(f"tong epoch checkpoint {chon['train_args'].get('epochs')} != cau hinh {E}")
     qd = quy_dao(su_kien, rec)
     best = ke_hoach_best(run_dir, qd)
+    csv_duoi = {}                       # vong 41: ke hoach (chi doc); hang hong o giua / header sai -> LoiTiepTuc o day
+    for ten_csv, kieu in ((TEN_RESULTS_CSV, "results"), (TEN_BATCH_CSV, "batch")):
+        f = run_dir / ten_csv
+        csv_duoi[ten_csv] = ({"co_file": True, **phan_tich_duoi_csv(f.read_bytes(), kieu, ten_csv,
+                                                                    rec["epoch"] if kieu == "results" else None)}
+                             if f.is_file() else {"co_file": False})
     epoch_moi_nhat = max(s["epoch"] for s in luu)
     return {
         "luot_goc": {"ten": ten, "bat_dau": goc.get("t_iso"), "pid": goc.get("pid"), "cau_hinh_sha256": goc.get("cau_hinh",
@@ -493,21 +660,23 @@ def chuan_bi_tiep_tuc(run_dir: Path, ten: str, ts: dict, ds: dict, wt: dict, moi
         "epoch_moi_nhat_trong_nhat_ky": epoch_moi_nhat,
         "epoch_phai_chay_lai_vi_checkpoint_moi_hon_hong": list(range(rec["epoch"] + 1, epoch_moi_nhat + 1)),
         "quy_dao": [[s.get("lan", 0), s["epoch"]] for s in qd], "best": best,
-        "ung_vien": bao_cao_uv, "canh_bao_nhat_ky": canh_bao, "nhat_ky_duoi": nhat_ky_duoi,
+        "ung_vien": bao_cao_uv, "canh_bao_nhat_ky": canh_bao, "nhat_ky_duoi": nhat_ky_duoi, "csv_duoi": csv_duoi,
         "lich_su": [{k: s.get(k) for k in ("loai", "t_iso", "che_do_luot", "lan", "epoch", "trang_thai", "loi")}
                     for s in su_kien if s.get("loai") in ("bat_dau", "ket_thuc")],
     }
 
 
 def sao_luu_truoc_tiep_tuc(run_dir: Path, nguon: Path, lan: int, best: dict | None = None,
-                           epoch_da_luu: int | None = None, nhat_ky_duoi: dict | None = None) -> dict:
+                           epoch_da_luu: int | None = None, nhat_ky_duoi: dict | None = None,
+                           csv_duoi: dict | None = None) -> dict:
     """Bao toan truoc khi ultralytics ghi tiep: chep checkpoint nguon thanh khoi_phuc/nguon_tiep_tuc_N.pt (duong dan nay
     duoc dua cho ultralytics, khong bao gio bi ghi de) + luu file cu cua luot vao khoi_phuc/truoc_tiep_tuc_N/. SAU khi
     luu: (0) nhat ky: sao luu nguyen byte + xu ly duoi ghi do / thieu newline (sua_duoi_nhat_ky, R39-F1) -- day la buoc
     TRUOC lan append dau tien cua lan tiep tuc; (a) best.pt khong thuoc quy dao -> khoi phuc tu ban sao cung byte
-    (ke_hoach_best); (b) results.csv cua ultralytics chi giu dong epoch <= epoch_da_luu (ultralytics resume ghi NOI;
-    dong cua epoch bi ngat sau save_metrics nhung truoc khi nhat ky ghi epoch do se TRUNG khi epoch chay lai).
-    theo_batch.csv giu nguyen (co cot lan)."""
+    (ke_hoach_best); (b) results.csv (vong 41, R40-N1): cat hang cuoi ghi do / them newline sau hang cuoi hop le, roi
+    GIU quy tac cu -- chi giu hang epoch <= epoch_da_luu (ultralytics resume ghi NOI; hang cua epoch bi ngat sau
+    save_metrics nhung truoc khi nhat ky ghi epoch do se TRUNG khi epoch chay lai); (c) theo_batch.csv (R40-N2): cat hang
+    cuoi ghi do / them newline, GIU MOI hang lich su hop le (co cot lan). (b), (c): sua_duoi_csv."""
     run_dir = Path(run_dir)
     kp = run_dir / THU_MUC_KP
     kp.mkdir(exist_ok=True)
@@ -532,16 +701,12 @@ def sao_luu_truoc_tiep_tuc(run_dir: Path, nguon: Path, lan: int, best: dict | No
         if s != best["mong_doi"]["best_sha256"]:
             raise LoiTiepTuc(f"khoi phuc best.pt: sha {s[:12]} != best quy dao {best['mong_doi']['best_sha256'][:12]}")
         kq["best_khoi_phuc"] = {"tu": best["khoi_phuc_tu"], "sha256": s, "ban_cu_sha256": best["hien_tai_sha256"]}
-    rc = run_dir / "results.csv"
-    if epoch_da_luu is not None and rc.is_file():          # xu ly BYTE: giu nguyen xuong dong (Windows: CRLF)
-        dong = rc.read_bytes().splitlines(keepends=True)
-        giu = dong[:1] + [d for d in dong[1:]
-                          if d.strip() and int(float(d.split(b",", 1)[0].decode())) <= int(epoch_da_luu)]
-        if len(giu) != len(dong):
-            tam = rc.with_name(rc.name + ".dang_ghi")
-            tam.write_bytes(b"".join(giu))
-            os.replace(tam, rc)
-        kq["results_csv"] = {"dong_giu": len(giu) - 1, "dong_bo": len(dong) - len(giu)}
+    kq["csv"] = {ten_csv: sua_duoi_csv(run_dir, ten_csv, kieu, thu_muc, (csv_duoi or {}).get(ten_csv),
+                                       epoch_da_luu if kieu == "results" else None)
+                 for ten_csv, kieu in ((TEN_RESULTS_CSV, "results"), (TEN_BATCH_CSV, "batch"))}
+    rcsv = kq["csv"][TEN_RESULTS_CSV]
+    if rcsv.get("co_file", True) and epoch_da_luu is not None:   # tom tat cu (vong 39), giu de doi chieu
+        kq["results_csv"] = {"dong_giu": rcsv["so_hang_sau"], "dong_bo": rcsv["so_hang_bo_theo_epoch"]}
     return kq
 
 
