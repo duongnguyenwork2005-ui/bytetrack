@@ -59,6 +59,10 @@ Chi tiết: `REVIEW38_CHI_TIET.md`.
 
 Chi tiết: `REVIEW39_CHI_TIET.md`.
 
+**Vòng 40**: Codex `1454b3d` REQUEST CHANGES vì R39-F1. Đã sửa: trước lần ghi tiếp đầu tiên, resume sao lưu nguyên
+byte nhật ký rồi xử lý phần đuôi ghi dở / thiếu newline. Cú pháp resume không đổi; `--dry-run --tiep-tuc` in thêm kế
+hoạch nhật ký. Chi tiết: `REVIEW40_CHI_TIET.md`.
+
 Tài liệu này dùng ba nhãn nguồn số liệu:
 
 - **fixture**: đo thật trên GPU của PC, nhưng với dữ liệu tổng hợp;

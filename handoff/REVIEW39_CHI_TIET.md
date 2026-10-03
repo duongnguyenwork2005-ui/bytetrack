@@ -3,6 +3,10 @@
 **Phạm vi** (người dùng duyệt): thêm resume cho runner huấn luyện và sửa bộ đo RAM **trước** lượt training dài. Gồm triển
 khai, kiểm thử kỹ thuật ngắn (fixture CPU và dataset smoke đã khóa trên GPU), bàn giao, rồi **dừng**.
 
+> **Theo dõi vòng 40**: Codex `1454b3d` REQUEST CHANGES vì **R39-F1**: resume nối nhật ký ngay sau dòng cuối ghi dở,
+> làm nhật ký hỏng ở giữa (liên quan mục 3.3–3.4). Đã sửa ở vòng 40; xem `REVIEW40_CHI_TIET.md`. Các số liệu khác của
+> phụ lục này không đổi.
+
 - Không training dài, không chạy trên dataset đầy đủ, không pilot.
 - Không SSH Nano, không xuất lại dataset, không thêm model / dataset / thí nghiệm.
 - Không đổi dataset, split, checkpoint lịch sử hay kết quả đã nghiệm thu.
