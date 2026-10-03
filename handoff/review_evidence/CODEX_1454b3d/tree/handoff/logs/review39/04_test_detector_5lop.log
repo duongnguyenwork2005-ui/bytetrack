@@ -1,0 +1,153 @@
+# 2026-10-03 07:12:24 +0700 HEAD 4e0f80d -- python -u src/test_detector_5lop.py
+
+== A. anh xa lop
+  [PASS] A1 COCO 80 lop -> {2:car,7:truck,5:bus,3:motorcycle,1:bicycle}  ({2: 0, 7: 1, 5: 2, 3: 3, 1: 4})
+  [PASS] A2 checkpoint 5 lop -> dong nhat
+  [PASS] A3 thu tu la -> anh xa THEO TEN, loai 'khac'
+  [PASS] A4 thieu bicycle -> LoiAnhXaLop
+  [PASS] A4 trung car -> LoiAnhXaLop
+  [PASS] A5 sang_id_coco giu quy uoc tracker (--classes 1 2 3 5 7)
+  [PASS] A6 names dataset sai thu tu -> loi
+  [PASS] A7 doc names tu checkpoint that yolov8n: coco80, anh xa dung
+  [PASS] A7 doc names tu checkpoint that yolo11n: coco80, anh xa dung
+
+== B/C/D. xuat dataset BDD -> YOLO 5 lop
+  [PASS] B1 kiem nguon: 8 video, 128 frame nhan, khong thieu anh
+  [PASS] B2 chia theo video: roi nhau, hop = toan bo video, dev > 0  (train 5 dev 3)
+  [PASS] B3 chia tat dinh voi seed, doi seed doi ket qua
+  [PASS] B4 phan tang theo motorcycle/bicycle: so dev moi tang = floor(ti_le * n + 0.5), dev co motorcycle  (tang {'motorcycle=0|bicycle=0': {'so_video': 3, 'so_dev': 1}, 'motorcycle=0|bicycle=1': {'so_video': 2, 'so_dev': 1}, 'motorcycle=1|bicycle=0': {'so_video': 2, 'so_dev': 1}, 'motorcycle=1|bicycle=1': {'so_video': 1, 'so_dev': 0}})
+  [PASS] B5 khoa split: tao lai -> tu choi ghi de
+  [PASS] B6 kiem sau xuat dat, moi anh co file nhan, so anh = frame hop le  (125 anh)
+  [PASS] B7 am tinh HOP LE: frame chi co pedestrian + frame rong trong khoang co nhan -> giu, nhan rong
+  [PASS] B8 duoi video KHONG nhan (3 frame cuoi) -> loai, dem ngoai_khoang_co_nhan = 3
+  [PASS] B9 box tran khung duoc CAT vao khung (x2 = W)
+  [PASS] B10 box < 1 px sau cat -> bo, dem rieng
+  [PASS] B11 toa do theo kich thuoc anh thuc (car 0.55W..0.65W -> cx 0.6, w 0.1)
+  [PASS] B12 to xam: crowd car (ngoai box co nhan), 'other vehicle', 'trailer' -> xam; car co nhan nam trong crowd, crowd pedestrian -> GIU nguyen  (diem kiem [(67, 84, 4.107900142669678), (76, 7, 4.775000095367432), (22, 140, 4.775000095367432)])
+  [PASS] B13 file vung bo qua: 3 vung (crowd car, other vehicle, trailer)  (3)
+  [PASS] B14 anh khong to xam -> sao chep nguyen byte
+  [PASS] B15 data.yaml: val -> images/dev (dev noi bo), names = 5 lop da khoa
+  [PASS] B16 thong ke theo lop co motorcycle (box, anh, video) tren train va dev
+  [PASS] B17 kiem trung tap danh gia co chay (ten video + ten anh + noi dung, 12 anh val da bam)
+  [PASS] B18 tap con smoke: dung so video, buoc frame rieng, ghi loai SMOKE
+  [PASS] C1 COCO-video: cung split train/dev nhu Scalabel
+  [PASS] C2 COCO-video: nhan, vung bo qua, anh xuat GIONG TUNG BYTE ban Scalabel
+  [PASS] C3 COCO-video: cung thong ke + dem
+  [PASS] D1 thieu nhan + anh train -> exit 2, liet ke duong dan, KHONG tao thu muc dich  (exit 2)
+  [PASS] D2 thieu 1 anh le -> ThieuDuLieu (chi_video_du_anh=false)
+  [PASS] D3 chi_video_du_anh=true -> loai video thieu anh, GHI vao file split
+  [PASS] D4 video train trung ten video tap danh gia -> LoiDuLieu
+  [PASS] D5 anh train trung NOI DUNG anh tap danh gia (khac ten) -> LoiDuLieu
+  [PASS] D6 nguon nhan doi sau khi khoa split -> tu choi xuat
+  [PASS] D7 file split bi sua tay (doi video train/dev) -> tu choi
+  [PASS] D8 thu muc dataset dich da ton tai -> tu choi ghi de
+  [PASS] D9 anh THIEU file nhan -> kiem dataset bao loi (khong coi la am tinh)
+  [PASS] D10 CLI cu: khong con nguon mac dinh (tron UA-DETRAC), --nguon bdd bi chan -> exit 1
+  [PASS] D11 cau hinh tron nguon (BDD + UA-DETRAC) -> tu choi
+
+== E. evaluator 5 lop
+  [PASS] E1 AP50 / AP50-95 theo lop KHOP pycocotools (co vung bo qua kieu crowd)  (lech max 0.00e+00)
+  [PASS] E2 lop khong co GT (bus, bicycle) -> AP null, khong vao mAP
+  [PASS] E3 P/R van hanh tinh tay: car TP2 FP2 (det trung + det xa; det trong vung bo qua KHONG tinh), truck conf 0.2 < 0.25 -> FN  ({'TP': 2, 'FP': 2, 'FN': 0, 'precision': 0.5, 'recall': 1.0, 'f1': 0.6666666666666666} {'TP': 0, 'FP': 0, 'FN': 1, 'precision': nan, 'recall': 0.0, 'f1': 0.0})
+  [PASS] E4 GT doi ra pixel theo kich thuoc ANH THUC (200x100), khong theo 960x540
+  [PASS] E5 anh thieu file nhan -> LOI (khong coi la anh am tinh)
+WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead.
+  [PASS] E6 du doan that YOLOv8n COCO (CPU): anh xa theo ten ghi lai, lop dau ra chi trong 0..4  (lop [])
+
+== E7-E9. ghep COCO: hoa IoU, IoU dung nguong, GT chong vung ignore (R27-F3)
+  [PASS] E7 hoa IoU (fixture review 4937c85): TP tai IoU 0,50 cua evaluator = 2  (evaluator 2; AP50 1.0000000000; AP50-95 0.5514851485)
+  [PASS] E7 hoa IoU (fixture review 4937c85): AP50, AP50-95, TP@0,50 KHOP pycocotools (chay that)  (pycocotools AP50 1.0000000000 AP50-95 0.5514851485 TP 2)
+  [PASS] E7 hoa IoU: van hanh TP 2 / FP 0 / FN 0, AP50 = 1,0 (truoc sua: TP 1 / FP 1, AP50 0,50495)  ({'TP': 2, 'FP': 0, 'FN': 0, 'precision': 1.0, 'recall': 1.0, 'f1': 1.0} AP50 1.0)
+  [PASS] E8 IoU dung bang nguong 0,6 / 0,7: TP tai IoU 0,50 cua evaluator = 2  (evaluator 2; AP50 1.0000000000; AP50-95 0.3504950495)
+  [PASS] E8 IoU dung bang nguong 0,6 / 0,7: AP50, AP50-95, TP@0,50 KHOP pycocotools (chay that)  (pycocotools AP50 1.0000000000 AP50-95 0.3504950495 TP 2)
+  [PASS] E9 GT hop le chong vung ignore: TP tai IoU 0,50 cua evaluator = 1  (evaluator 1; AP50 1.0000000000; AP50-95 1.0000000000)
+  [PASS] E9 GT hop le chong vung ignore: AP50, AP50-95, TP@0,50 KHOP pycocotools (chay that)  (pycocotools AP50 1.0000000000 AP50-95 1.0000000000 TP 1)
+  [PASS] E9 van hanh: det khop GT trong vung ignore = TP, det chi trong vung = bo qua, det xa = FP  ({'TP': 1, 'FP': 1, 'FN': 0, 'precision': 0.5, 'recall': 1.0, 'f1': 0.6666666666666666})
+
+== F. runner huan luyen
+  [PASS] F1 --dry-run = kiem cau hinh: exit 0, KHONG train, KHONG tao thu muc luot / file ket qua  (exit 0 )
+  [PASS] F2 thu muc luot da ton tai -> exit 2, khong ghi de
+  [PASS] F3 optimizer 'auto' -> tu choi (phai khai bao gia tri tuong minh)
+  [PASS] F4 day-du thieu --xac-nhan-train-dai -> exit 1
+  [PASS] F5 sha256 checkpoint khoi tao sai -> exit 2
+
+== G. runner qua entry point, spy tai ranh gioi model/training (R27-F1)
+  [PASS] G0 dataset HOP LE -> runner di toi training (spy ghi 1 lan goi train voi dung data.yaml)  (exit 3 (spy chan train -> 3), goi train 1 lan)
+  [PASS] G0b so anh bao cao = so anh ultralytics se dung; nhan RONG hop le duoc chap nhan; danh tinh da xac minh ghi vao ket qua  (so_anh {'train': 77, 'dev': 48} / thuc te {'train': 77, 'dev': 48}, nhan rong hop le {'train': 2, 'dev': 0})
+  [PASS] G1 data.yaml `train: images/dev` -> runner exit 2, KHONG nap model, KHONG goi train, KHONG tao thu muc  (exit 2; spy []; ai DUNG la 'images/train' / 'images/dev' (dev noi bo); gap train='images/dev', val='images/dev' -> ultralytics se train/val tren duong dan khac hop dong da khoa)
+  [PASS] G2 THIEU file nhan cua anh CO box -> runner exit 2, khong nap model / train (thieu != rong)  (exit 2; spy [])
+  [PASS] G3 THIEU file nhan cua anh am tinh (nhan rong) -> runner exit 2, khong nap model / train (thieu != rong)  (exit 2; spy [])
+
+== H. toan ven noi dung dataset: anh / nhan / ignore / manifest (R27-F2)
+  [PASS] H1 anh DOI NOI DUNG, GIU kich thuoc (lat ngang) -> exporter + runner tu choi  (exporter: LoiDuLieu: 1 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: images/train/fx00000000-00000000-0000001.jpg: noi dung anh khac manifest (sha256) -- kich thuoc 160x90 | runner: LoiCauHinh: dataset KHONG dat hop dong: 1 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: images/train/fx00000000-00000000-0000001.jpg: noi dung anh khac manifest (sha256) -- kich thuoc 160x90)
+  [PASS] H1b anh DEV doi noi dung -> evaluator tu choi truoc khi danh gia  (LoiDuLieu: 1 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: images/dev/fx00000003-daa66d13-0000001.jpg: noi dung anh khac manifest (sha256) -- kich thuoc 160x90)
+  [PASS] H2 toa do nhan DOI, GIU lop + so box -> exporter + runner tu choi  (exporter: LoiDuLieu: 1 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: labels/train/fx00000000-00000000-0000001.txt: noi dung nhan khac manifest (sha256) | runner: LoiCauHinh: dataset KHONG dat hop dong: 1 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: labels/train/fx00000000-00000000-0000001.txt: noi dung nhan khac manifest (sha256))
+  [PASS] H3 file ignore DA KHAI BAO bi XOA -> tu choi (khong doc thanh 0 vung)  (exporter: LoiDuLieu: 1 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: THIEU file ignore da khai bao ignore/train/fx00000000-00000000-0000001.txt (3 vung) -- danh gia se coi la 0 vung | runner: LoiCauHinh: dataset KHONG dat hop dong: 1 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: THIEU file ignore da khai bao ignore/train/fx00000000-00000000-0000001.txt (3 vung) -- danh gia se coi la 0 )
+  [PASS] H4 file ignore DA KHAI BAO bi SUA -> tu choi  (exporter: LoiDuLieu: 2 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: ignore/train/fx00000000-00000000-0000001.txt: noi dung vung ignore khac manifest (sha256); ignore/train/fx00000000-00000000-0000001.txt: so vung khac manifest (3) | runner: LoiCauHinh: dataset KHONG dat hop dong: 2 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: ignore/train/fx00000000-00000000-0000001.txt: noi dung vun)
+  [PASS] H3b evaluator: ignore da khai bao ma thieu -> LOI (truoc sua: doc thanh 0 vung)  (FileNotFoundError: thieu file ignore DA KHAI BAO C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\ignore\train\fx00000000-00000000-0000001.txt (khong doc thanh 0 vung))
+  [PASS] H5 anh KHONG co vung ignore ma xuat hien file ignore -> tu choi (khac voi 'khong co vung')  (exporter: LoiDuLieu: 1 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: ignore/train: 1 file ignore KHONG khai bao trong manifest (vd ['ignore/train/fx00000000-00000000-0000004.txt']) | runner: LoiCauHinh: dataset KHONG dat hop dong: 1 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: ignore/train: 1 file ignore KHONG khai bao trong manifest (vd ['ignore/train/fx00000000-00000000-0000004.txt')
+  [PASS] H5b evaluator: anh khai bao 0 vung ma co file ignore -> LOI  (ValueError: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\ignore\train\fx00000000-00000000-0000004.txt: manifest khai bao anh KHONG co vung ignore nhung file ton tai)
+  [PASS] H6 dataset hop le: bam du anh + nhan + ignore; nhan RONG hop le va anh KHONG ignore duoc chap nhan  (da bam {'anh': 125, 'nhan': 125, 'ignore': 11}, nhan rong {'train': 2, 'dev': 0}, co ignore {'train': 11, 'dev': 0})
+  [PASS] H7 manifest PHIEN BAN 1 (khong khoa nhan/ignore) -> tu choi, KHONG tu bo sung hash  (LoiDuLieu: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: manifest phien ban 1 (can 2). Ban 1 (vong 27) chi co sha256 anh, CHUA khoa noi dung file nhan va file ignore -> KHONG du bang chung de xac minh dataset (R27-F2). Xuat lai dataset bang ma hien tai; KHONG bo sung hash vao manifest cu roi coi nhu da xac minh tu luc xuat. | tom_tat khong bi bo sung: True)
+  [PASS] H8 anh THUA trong images/train (ultralytics van se dung) -> runner tu choi  (LoiCauHinh: dataset KHONG dat hop dong: 1 loi hop dong o C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc: images/train: 1 anh KHONG co trong manifest nhung ultralytics van se dung (vd ['images/train/anh_them_ngoai_manifest.jpg']))
+  [PASS] H9 `path` tuong doi trong data.yaml (ultralytics resolve theo DATASETS_DIR) -> tu choi  (LoiCauHinh: dataset KHONG dat hop dong: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\data.yaml: 'path' phai la duong dan TUYET DOI toi chinh thu muc chua data.yaml (C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc); gap 'yolo_tuong_doi' (ultralytics resolve 'path' tuong doi theo DATASETS_DIR, khong theo file YAML))
+  [PASS] H10 anh dev TRUNG NOI DUNG anh train-fit (khac video) -> xuat tu choi TRUOC khi ghi, khong tao thu muc  (LoiDuLieu: 1 anh dev TRUNG NOI DUNG (sha256 anh nguon) voi anh train-fit du khac video, vd [('train/fx00000000-00000000-0000002.jpg', 'dev/fx00000003-daa66d13-0000002.jpg')] -- khong tu loai anh; can nguoi dung quyet dinh cach xu ly)
+
+== I. du lieu ultralytics THUC SU nap (cache nhan) truoc vong train (R27-F2)
+  [PASS] I1 (gia lap trainer) nhan da nap KHOP file nhan da xac minh -> cho qua  ({'train': {'so_anh_nap': 77, 'so_anh_da_xac_minh': 77, 'thieu': 0, 'thua': 0, 'nhan_khac': 0, 'cache_anh': None, 'npy_canh_anh': 0}, 'dev': {'so_anh_nap': 48, 'so_anh_da_xac_minh': 48, 'thieu': 0, 'thua': 0, 'nhan_khac': 0, 'cache_anh': None, 'npy_canh_anh': 0}})
+  [PASS] I2 (gia lap) nhan da nap lech 1 box (vd cache cu) -> LoiDauVaoDaNap, dung truoc vong train  (train: ultralytics nap 77 anh / da xac minh 77; thieu 0, thua 0, nhan khac 1 (vd ['fx00000000-00000000-0000001.jpg']) -- co the do cache .cache cu hoac anh bi ultralytics loai; dung truoc vong train)
+  [PASS] I3 (gia lap) ultralytics nap THIEU 1 anh (vd anh hong bi loai) -> LoiDauVaoDaNap  (dev: ultralytics nap 47 anh / da xac minh 48; thieu 1, thua 0, nhan khac 0 (vd ['fx00000003-daa66d13-0000001.jpg']) -- co the do cache .cache cu hoac anh bi ultralytics loai; dung truoc vong train)
+WARNING Slow image access detected (ping: 0.10.0 ms, read: 35.32.3 MB/s, size: 3.9 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train... 77 images, 2 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 77/77 2.2Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train.cache
+Fast image access  (ping: 0.00.0 ms, read: 54.011.2 MB/s, size: 4.2 KB)
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train.cache... 77 images, 2 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 77/77  0.0s
+WARNING Slow image access detected (ping: 0.00.0 ms, read: 49.63.9 MB/s, size: 3.8 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev... 48 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 48/48 1.9Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev.cache
+  [PASS] I4 (ultralytics THAT) cache nhan cu cung kich thuoc -> hop dong file dat nhung du lieu nap khac -> dung  (hop dong file DAT; nap: train: ultralytics nap 77 anh / da xac minh 77; thieu 0, thua 0, nhan khac 1 (vd ['fx00000000-00000000-0000001.jpg']) -- co the do cache .cache cu hoac anh bi u)
+WARNING Slow image access detected (ping: 0.00.0 ms, read: 37.18.4 MB/s, size: 3.9 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train... 77 images, 2 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 77/77 2.1Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train.cache
+WARNING Slow image access detected (ping: 0.00.0 ms, read: 44.44.6 MB/s, size: 3.8 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev... 48 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 48/48 2.1Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev.cache
+  [PASS] I5 (ultralytics THAT) cache moi tu file da xac minh -> du lieu nap khop, cho qua  ({'train': {'so_anh_nap': 77, 'so_anh_da_xac_minh': 77, 'thieu': 0, 'thua': 0, 'nhan_khac': 0, 'cache_anh': None, 'npy_canh_anh': 0}, 'dev': {'so_anh_nap': 48, 'so_anh_da_xac_minh': 48, 'thieu': 0, 'thua': 0, 'nhan_khac': 0, 'cache_anh': None, 'npy_canh_anh': 0}})
+
+== J. cache ANH .npy: nguon pixel qua YOLODataset that + chot runner (R28-F1)
+WARNING Slow image access detected (ping: 0.00.0 ms, read: 49.58.4 MB/s, size: 4.5 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train... 77 images, 2 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 77/77 2.1Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train.cache
+WARNING Slow image access detected (ping: 0.00.0 ms, read: 45.08.1 MB/s, size: 3.8 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev... 48 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 48/48 2.3Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev.cache
+  [PASS] J0 dataset SACH (doi chung): hop dong chap nhan; YOLODataset THAT (cache=False, truoc augmentation) doc pixel TRUNG JPEG o moi anh train + dev  (hop dong: CHAP NHAN; 125 anh doc qua YOLODataset that, lech pixel 0)
+  [PASS] J0b danh tinh dataset ghi chinh sach cache anh + so .npy canh anh = 0  ({'chinh_sach': 'khong dung cache anh (.npy); pixel nap = JPEG da khoa sha256', 'so_npy_canh_anh': {'train': 0, 'dev': 0}})
+WARNING Slow image access detected (ping: 0.00.0 ms, read: 47.22.6 MB/s, size: 4.2 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train... 77 images, 2 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 77/77 2.3Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train.cache
+  [PASS] J1 .npy anh DEN canh anh train (JPEG/nhan/hash giu nguyen): ultralytics that nap anh den -> hop dong (exporter + chot runner) TU CHOI, neu split / duong dan / ly do  (YOLODataset that nap TB pixel 0.00 (JPEG 90.40); exporter: 'images/train/fx00000000-00000000-0000001.npy']) -- ultralytics load_image() nap .npy THAY anh JPEG ke ca khi cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa) | runner: cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa))
+WARNING Slow image access detected (ping: 0.00.0 ms, read: 46.63.3 MB/s, size: 3.8 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev... 48 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 48/48 2.3Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev.cache
+  [PASS] J2 .npy anh DEN canh anh dev (JPEG/nhan/hash giu nguyen): ultralytics that nap anh den -> hop dong (exporter + chot runner) TU CHOI, neu split / duong dan / ly do  (YOLODataset that nap TB pixel 0.00 (JPEG 89.69); exporter:  ['images/dev/fx00000003-daa66d13-0000001.npy']) -- ultralytics load_image() nap .npy THAY anh JPEG ke ca khi cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa) | runner: cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa))
+  [PASS] J3 entry point runner (spy GIA LAP ranh gioi model/training): .npy canh anh train -> exit 2, KHONG nap model, KHONG goi train, KHONG tao thu muc / file ket qua  (exit 2; spy []; 000-0000001.npy']) -- ultralytics load_image() nap .npy THAY anh JPEG ke ca khi cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa))
+  [PASS] J4 entry point runner (spy GIA LAP ranh gioi model/training): .npy canh anh dev -> exit 2, KHONG nap model, KHONG goi train, KHONG tao thu muc / file ket qua  (exit 2; spy []; d13-0000001.npy']) -- ultralytics load_image() nap .npy THAY anh JPEG ke ca khi cache=False; chinh sach cache: false khong dung cache anh -> di chuyen/xoa TAY cac file .npy nay (hop dong khong tu xoa))
+  [PASS] J6 cau hinh `cache: disk` (khac chinh sach cache: false) -> runner exit 2 truoc khi nap model  (exit 2; spy []; [LOI CAU HINH] huan_luyen.cache = 'disk': chinh sach cache anh hien tai chi cho phep cache: false (pixel nap phai la JPEG da khoa trong manifest))
+WARNING Slow image access detected (ping: 0.00.0 ms, read: 49.23.0 MB/s, size: 3.9 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train... 77 images, 2 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 77/77 2.3Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train.cache
+WARNING Slow image access detected (ping: 0.00.0 ms, read: 44.84.8 MB/s, size: 3.7 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev... 48 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 48/48 2.1Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev.cache
+  [PASS] J5a callback truoc vong train voi YOLODataset THAT: sach -> qua; .npy xuat hien canh anh train sau hop dong -> LoiDauVaoDaNap  (train: 1 file cache anh .npy canh anh ultralytics se nap THAY JPEG da xac minh (vd ['C:\\Users\\Mikuno\\AppData\\Local\\Temp\\test_det5_rkeu4932\\out\\sc\\images\\train\\fx00000000-00000000-0000001.npy']); dung truoc von)
+WARNING Slow image access detected (ping: 0.00.0 ms, read: 45.88.5 MB/s, size: 3.8 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train... 77 images, 2 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 77/77 2.1Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\train.cache
+WARNING Slow image access detected (ping: 0.00.0 ms, read: 46.05.2 MB/s, size: 3.8 KB). Use local storage instead of remote/mounted storage for better performance. See https://docs.ultralytics.com/guides/model-training-tips
+[KScanning C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev... 48 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 48/48 2.4Kit/s 0.0s
+New cache created: C:\Users\Mikuno\AppData\Local\Temp\test_det5_rkeu4932\out\sc\labels\dev.cache
+  [PASS] J5b callback truoc vong train voi YOLODataset THAT: sach -> qua; .npy xuat hien canh anh dev sau hop dong -> LoiDauVaoDaNap  (dev: 1 file cache anh .npy canh anh ultralytics se nap THAY JPEG da xac minh (vd ['C:\\Users\\Mikuno\\AppData\\Local\\Temp\\test_det5_rkeu4932\\out\\sc\\images\\dev\\fx00000003-daa66d13-0000001.npy']); dung truoc vong tr)
+
+KET QUA: 92/92 phep kiem tra PASS
+# exit=0 2026-10-03 07:12:47 +0700

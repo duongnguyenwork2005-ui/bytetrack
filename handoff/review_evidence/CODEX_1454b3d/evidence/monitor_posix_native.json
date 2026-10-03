@@ -1,0 +1,88 @@
+{
+  "scope": "unmodified supplied tests M1,M2,M3,M7,M8,M9,M10,M11 on POSIX",
+  "not_run": [
+    "M4 Windows kill exit semantics",
+    "M5 Windows NTSTATUS",
+    "M6 Windows CtrlBreak"
+  ],
+  "checks": [
+    {
+      "name": "M1a exit 0; PID trong trang_thai/tom_tat = PID tien trinh con tu in ra; KHAC PID shell gia monitor",
+      "pass": true
+    },
+    {
+      "name": "M1b create_time ghi lai = create_time that cua PID do (doi chieu psutil truoc khi con thoat)",
+      "pass": true
+    },
+    {
+      "name": "M1c moi mau CSV deu cua PID con; RSS chinh max >= 150 MiB (con cap phat 160 MiB) -- khong phai shell gia (~10 MiB) hay python khac (~60 MiB)",
+      "pass": true
+    },
+    {
+      "name": "M1d khong mau nao co rss rong / 0",
+      "pass": true
+    },
+    {
+      "name": "M2a exit 0; co mau voi >= 2 worker con, rss_tong - rss_chinh >= 150 MiB khi worker song",
+      "pass": true
+    },
+    {
+      "name": "M2b sau khi worker ket thuc: so_con ve 0 trong mau sau; chi_tiet_con liet ke PID:ten:RSS khi con song",
+      "pass": true
+    },
+    {
+      "name": "M2c khong mau nao 0 gia: rss_chinh co so > 0 o moi mau",
+      "pass": true
+    },
+    {
+      "name": "M3 tien trinh con exit 3 -> cong cu exit 3, log ket thuc '# exit=3', tom_tat exit 3, trang_thai ket_thuc",
+      "pass": true
+    },
+    {
+      "name": "M7 m7a: exit 0, log du 50007 dong dung noi dung (\\r tach dong, byte hong -> U+FFFD, dong cuoi khong newline)",
+      "pass": true
+    },
+    {
+      "name": "M7 m7b: exit 0, log du 50007 dong dung noi dung (\\r tach dong, byte hong -> U+FFFD, dong cuoi khong newline) -- con tu reconfigure UTF-8, cong cu khong them env",
+      "pass": true
+    },
+    {
+      "name": "M8a gan PID khong ton tai -> exit 2, KHONG tao thu muc / mau",
+      "pass": true
+    },
+    {
+      "name": "M8b gan voi create_time SAI (PID tai su dung) -> exit 2, khong tao thu muc",
+      "pass": true
+    },
+    {
+      "name": "M8c gan PID hop le ket thuc giua chung -> exit 0, dung voi ly do, chi mau hop le (> 0), exit_code None",
+      "pass": true
+    },
+    {
+      "name": "M9 thu muc dau ra da co noi dung -> exit 2, file cu giu nguyen, khong chay lenh",
+      "pass": true
+    },
+    {
+      "name": "M10a trang-thai luot da xong -> ket_thuc, exit 3",
+      "pass": true
+    },
+    {
+      "name": "M10b trang_thai 'dang_chay' nhung ca hai PID khong con (create_time khac) -> bi_ngat_khong_co_exit_code",
+      "pass": true
+    },
+    {
+      "name": "M10c PID con song dung create_time -> dang_chay",
+      "pass": true
+    },
+    {
+      "name": "M11a tinh-lai tu CSV khop tom_tat (exit 0)",
+      "pass": true
+    },
+    {
+      "name": "M11b tom_tat bi sua -> tinh-lai phat hien (exit 1)",
+      "pass": true
+    }
+  ],
+  "pass": 19,
+  "fail": 0
+}

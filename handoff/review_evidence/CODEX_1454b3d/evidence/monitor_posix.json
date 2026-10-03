@@ -1,0 +1,63 @@
+{
+  "scope": "unmodified supplied tests selected for POSIX: M1,M2,M3,M7,M8,M9,M10,M11; M4/M5 Windows exit semantics and M6 CtrlBreak NOT_RUN",
+  "checks": [
+    {
+      "name": "M1: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m1/log.txt'",
+      "pass": false
+    },
+    {
+      "name": "M2a exit 0; co mau voi >= 2 worker con, rss_tong - rss_chinh >= 150 MiB khi worker song",
+      "pass": false
+    },
+    {
+      "name": "M2b sau khi worker ket thuc: so_con ve 0 trong mau sau; chi_tiet_con liet ke PID:ten:RSS khi con song",
+      "pass": false
+    },
+    {
+      "name": "M2c khong mau nao 0 gia: rss_chinh co so > 0 o moi mau",
+      "pass": true
+    },
+    {
+      "name": "M3: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m3/log.txt'",
+      "pass": false
+    },
+    {
+      "name": "M7: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m7a/log.txt'",
+      "pass": false
+    },
+    {
+      "name": "M8a gan PID khong ton tai -> exit 2, KHONG tao thu muc / mau",
+      "pass": true
+    },
+    {
+      "name": "M8: loi khong mong doi NoSuchProcess: process PID not found (pid=17)",
+      "pass": false
+    },
+    {
+      "name": "M9 thu muc dau ra da co noi dung -> exit 2, file cu giu nguyen, khong chay lenh",
+      "pass": true
+    },
+    {
+      "name": "M10a trang-thai luot da xong -> ket_thuc, exit 3",
+      "pass": false
+    },
+    {
+      "name": "M10b trang_thai 'dang_chay' nhung ca hai PID khong con (create_time khac) -> bi_ngat_khong_co_exit_code",
+      "pass": true
+    },
+    {
+      "name": "M10c PID con song dung create_time -> dang_chay",
+      "pass": true
+    },
+    {
+      "name": "M11a tinh-lai tu CSV khop tom_tat (exit 0)",
+      "pass": false
+    },
+    {
+      "name": "M11: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m2/tom_tat.json'",
+      "pass": false
+    }
+  ],
+  "pass": 5,
+  "fail": 9
+}

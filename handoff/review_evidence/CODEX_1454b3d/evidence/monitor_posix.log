@@ -1,0 +1,107 @@
+
+== M1
+  [FAIL] M1: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m1/log.txt'
+Traceback (most recent call last):
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/tree/src/test_chay_giam_sat.py", line 58, in _chay
+    fn()
+  File "<stdin>", line 8, in <lambda>
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/tree/src/test_chay_giam_sat.py", line 138, in m1
+    log = (out / "log.txt").read_text(encoding="utf-8")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m1/log.txt'
+
+== M2
+  [FAIL] M2a exit 0; co mau voi >= 2 worker con, rss_tong - rss_chinh >= 150 MiB khi worker song  (so_con max None, 0 mau co worker)
+  [FAIL] M2b sau khi worker ket thuc: so_con ve 0 trong mau sau; chi_tiet_con liet ke PID:ten:RSS khi con song  (0 mau sau, vd chi tiet None)
+  [PASS] M2c khong mau nao 0 gia: rss_chinh co so > 0 o moi mau  (0 mau)
+
+== M3
+  [FAIL] M3: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m3/log.txt'
+Traceback (most recent call last):
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/tree/src/test_chay_giam_sat.py", line 58, in _chay
+    fn()
+  File "<stdin>", line 8, in <lambda>
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/tree/src/test_chay_giam_sat.py", line 181, in m3
+    log = (out / "log.txt").read_text(encoding="utf-8")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m3/log.txt'
+
+== M7
+  [FAIL] M7: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m7a/log.txt'
+Traceback (most recent call last):
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/tree/src/test_chay_giam_sat.py", line 58, in _chay
+    fn()
+  File "<stdin>", line 8, in <lambda>
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/tree/src/test_chay_giam_sat.py", line 265, in m7
+    dong = [ln.split("] ", 1)[1] for ln in (out / "log.txt").read_text(encoding="utf-8").split("\n")
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m7a/log.txt'
+
+== M8
+  [PASS] M8a gan PID khong ton tai -> exit 2, KHONG tao thu muc / mau  ([LOI] PID 4757 khong ton tai -- khong gan, khong ghi mau)
+  [FAIL] M8: loi khong mong doi NoSuchProcess: process PID not found (pid=17)
+Traceback (most recent call last):
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/tree/src/test_chay_giam_sat.py", line 58, in _chay
+    fn()
+  File "<stdin>", line 8, in <lambda>
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/tree/src/test_chay_giam_sat.py", line 287, in m8
+    ct = psutil.Process(song.pid).create_time()
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/testdeps/psutil/__init__.py", line 314, in __init__
+    self._init(pid)
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/testdeps/psutil/__init__.py", line 360, in _init
+    raise NoSuchProcess(pid, msg=msg) from None
+psutil.NoSuchProcess: process PID not found (pid=17)
+
+== M9
+  [PASS] M9 thu muc dau ra da co noi dung -> exit 2, file cu giu nguyen, khong chay lenh  ([LOI] /tmp/review39_monitor_bj71kix1/m9 da ton tai va khong rong -- khong ghi de ket qua giam sat cu
+)
+
+== M10
+  [FAIL] M10a trang-thai luot da xong -> ket_thuc, exit 3  ({'trang_thai': 'khong_co_trang_thai', 'thu_muc': '/tmp/review39_monitor_bj71kix1/m3'})
+  [PASS] M10b trang_thai 'dang_chay' nhung ca hai PID khong con (create_time khac) -> bi_ngat_khong_co_exit_code  ({'trang_thai': 'bi_ngat_khong_co_exit_code', 'tien_trinh_con_song': False, 'cong_cu_song': False, 'pid': 4, 'bat_dau': None, 'ghi_chu': 'ca cong cu lan tien trinh con khong con chay ma chua ghi ket_thuc (vd dong cua so terminal / mat dien) -> khong co exit code'})
+  [PASS] M10c PID con song dung create_time -> dang_chay  ({'trang_thai': 'dang_chay', 'tien_trinh_con_song': True, 'cong_cu_song': False, 'pid': 5, 'bat_dau': None, 'ghi_chu': None})
+
+== M11
+  [FAIL] M11a tinh-lai tu CSV khop tom_tat (exit 0)  ( + moi tien trinh con (dem trung trang chia se -> co the cao hon bo nho thuc dung); ram_he_thong_con_trong = psutil.virtual_memory().available (toan may); KHONG gom VRAM"
+ },
+ "khop_tom_tat": false
+}
+)
+  [FAIL] M11: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m2/tom_tat.json'
+Traceback (most recent call last):
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/tree/src/test_chay_giam_sat.py", line 58, in _chay
+    fn()
+  File "<stdin>", line 8, in <lambda>
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/tree/src/test_chay_giam_sat.py", line 348, in m11
+    t = doc_json(p)
+        ^^^^^^^^^^^
+  File "/workspace/scratch/39272c88b7a6/review_1454b3d/tree/src/test_chay_giam_sat.py", line 81, in doc_json
+    return json.loads(p.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m2/tom_tat.json'
+[("M1: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m1/log.txt'", False), ('M2a exit 0; co mau voi >= 2 worker con, rss_tong - rss_chinh >= 150 MiB khi worker song', False), ('M2b sau khi worker ket thuc: so_con ve 0 trong mau sau; chi_tiet_con liet ke PID:ten:RSS khi con song', False), ('M2c khong mau nao 0 gia: rss_chinh co so > 0 o moi mau', True), ("M3: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m3/log.txt'", False), ("M7: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m7a/log.txt'", False), ('M8a gan PID khong ton tai -> exit 2, KHONG tao thu muc / mau', True), ('M8: loi khong mong doi NoSuchProcess: process PID not found (pid=17)', False), ('M9 thu muc dau ra da co noi dung -> exit 2, file cu giu nguyen, khong chay lenh', True), ('M10a trang-thai luot da xong -> ket_thuc, exit 3', False), ("M10b trang_thai 'dang_chay' nhung ca hai PID khong con (create_time khac) -> bi_ngat_khong_co_exit_code", True), ('M10c PID con song dung create_time -> dang_chay', True), ('M11a tinh-lai tu CSV khop tom_tat (exit 0)', False), ("M11: loi khong mong doi FileNotFoundError: [Errno 2] No such file or directory: '/tmp/review39_monitor_bj71kix1/m2/tom_tat.json'", False)]

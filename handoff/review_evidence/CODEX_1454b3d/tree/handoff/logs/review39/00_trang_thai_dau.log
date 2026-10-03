@@ -1,0 +1,36 @@
+# 2026-10-03 06:09:51 +0700 -- trang thai dau vong 39 (ghi nhan review b83dc12; resume runner + sua bo do RAM; KHONG train dai)
+nhanh: phase2-mixed-traffic
+HEAD: b83dc1295cad821b55c60ae15855331b870fa98f
+commit sau b83dc12: 0
+base review hien tai: 0c0a07a3995ace893610c3d68603a6e3cf949f61
+--- git status --short (bo qua results/ outputs/ va file rieng da biet):
+ M .gitignore
+ M src/demo/rerun_with_state_log.py
+?? CODEX_REVIEW_c4d64a1_EVIDENCE/
+?? handoff/logs/review39/
+?? src/demo/build_buffer90_demo.py
+?? src/demo/find_buffer90_candidates.py
+?? src/demo/find_buffer90_moving_candidates.py
+?? src/demo/live_view.py
+?? src/demo/single_case_buffer90.py
+?? src/demo/turning_case_buffer90.py
+--- review b83dc12 (doc tu D:\LABOTARY\review_codex):
+d58d8f741845d4146251990e333c20cb70bd92c6faf6efaf308164d8f4345df0 *CODEX_REVIEW_b83dc12.md
+668f94ebffcaaaab7dca7f7ee52f83ec496b1f0099b008c93601261c4dfce6f8 *CODEX_REVIEW_b83dc12_EVIDENCE.zip
+9965 B CODEX_REVIEW_b83dc12.md
+585769 B CODEX_REVIEW_b83dc12_EVIDENCE.zip
+SHA256SUMS bang chung: 137/137 khop (giai nen o D:\LABOTARY\review_codex\CODEX_REVIEW_b83dc12_EVIDENCE\, ZIP goc giu nguyen); bao cao trong ZIP trung byte ban rieng
+--- goi delta hien tai (phai la goi da nghiem thu): 816591 B f4efa4782d62bf766d86d3be1e1fb0d2aeade0a1eee5d323ab5472d20c22be7c
+--- moi truong:
+python 3.11.9 | Windows-10-10.0.26200-SP0 | ultralytics 8.4.141 | torch 2.6.0+cu124 | numpy 2.4.6 | psutil 7.2.2
+NVIDIA GeForce GTX 1650, 555.97, 4096 MiB, 405 MiB
+RAM tong 8.4 GB, con trong 0.67 GB; D: con trong 54.83 GB
+ultralytics engine/trainer.py sha256 7532ff0bf3e4dc60f3c8a3f80f9b0cd7dac53997874b75a5ec99b280ce90b4a0
+--- thu muc luot hien co (khong sua):
+train_bdd5_v1_yolo11n_pilot
+train_bdd5_v1_yolo11n_smoke
+train_bdd5_v1_yolo11n_smoke_lan2
+train_bdd5_v1_yolov8n_pilot
+train_bdd5_v1_yolov8n_smoke
+train_bdd5_v1_yolov8n_smoke_lan2
+--- dataset day du (khong sua): anh.csv kiem_sau_xuat.json split_da_khoa.json tom_tat.json video.json 

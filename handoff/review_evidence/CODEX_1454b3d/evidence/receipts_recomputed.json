@@ -1,0 +1,578 @@
+{
+  "scope": "independent byte/hash and CSV/JSON reconciliation; NO checkpoint tensors, GPU training, dataset or Windows signal rerun",
+  "median_convention": "summary uses sorted[n//2], including even n; checked the declared implementation, not statistical inference",
+  "ram": [
+    {
+      "run": "yolov8n_C",
+      "pid": 24984,
+      "samples": 164,
+      "exit": 0,
+      "rss_chinh_mib_max": 1169.2,
+      "rss_tong_mib_max": 2945.0,
+      "available_min_mib": 17.0
+    },
+    {
+      "run": "yolov8n_I",
+      "pid": 12432,
+      "samples": 64,
+      "exit": 15,
+      "rss_chinh_mib_max": 1277.0,
+      "rss_tong_mib_max": 3085.5,
+      "available_min_mib": 45.0
+    },
+    {
+      "run": "yolov8n_R",
+      "pid": 11340,
+      "samples": 124,
+      "exit": 0,
+      "rss_chinh_mib_max": 1262.7,
+      "rss_tong_mib_max": 3393.5,
+      "available_min_mib": 101.0
+    },
+    {
+      "run": "yolo11n_C",
+      "pid": 23488,
+      "samples": 188,
+      "exit": 0,
+      "rss_chinh_mib_max": 1195.0,
+      "rss_tong_mib_max": 3533.1,
+      "available_min_mib": 163.0
+    },
+    {
+      "run": "yolo11n_I",
+      "pid": 15008,
+      "samples": 77,
+      "exit": 15,
+      "rss_chinh_mib_max": 1123.3,
+      "rss_tong_mib_max": 3235.9,
+      "available_min_mib": 263.0
+    },
+    {
+      "run": "yolo11n_R",
+      "pid": 1328,
+      "samples": 137,
+      "exit": 0,
+      "rss_chinh_mib_max": 1393.1,
+      "rss_tong_mib_max": 3864.8,
+      "available_min_mib": 33.0
+    }
+  ],
+  "training": [
+    {
+      "model": "yolov8n",
+      "rows_continuous": 126,
+      "rows_interrupted_resumed": 126,
+      "post_resume_loss_diff": 84,
+      "post_resume_order_diff": 84,
+      "restoration_flags_from_receipts": {
+        "resume_dung_checkpoint": true,
+        "start_epoch": true,
+        "tong_epoch": true,
+        "ema_updates": true,
+        "best_fitness": true,
+        "scheduler_last_epoch": true,
+        "optimizer_momentum": true,
+        "optimizer_param_groups": true,
+        "ema_trong_so": true,
+        "model_dang_hoc_bang_ema_checkpoint": true,
+        "tham_so_trainer_trung_checkpoint": true,
+        "batch_size": true,
+        "dung_som_khoi_phuc": true
+      },
+      "mosaic_p": {
+        "C": {
+          "1": 1.0,
+          "2": 0.0,
+          "3": 0.0
+        },
+        "I": {
+          "1": 1.0,
+          "2": 0.0,
+          "3": 0.0
+        }
+      }
+    },
+    {
+      "model": "yolo11n",
+      "rows_continuous": 126,
+      "rows_interrupted_resumed": 126,
+      "post_resume_loss_diff": 84,
+      "post_resume_order_diff": 84,
+      "restoration_flags_from_receipts": {
+        "resume_dung_checkpoint": true,
+        "start_epoch": true,
+        "tong_epoch": true,
+        "ema_updates": true,
+        "best_fitness": true,
+        "scheduler_last_epoch": true,
+        "optimizer_momentum": true,
+        "optimizer_param_groups": true,
+        "ema_trong_so": true,
+        "model_dang_hoc_bang_ema_checkpoint": true,
+        "tham_so_trainer_trung_checkpoint": true,
+        "batch_size": true,
+        "dung_som_khoi_phuc": true
+      },
+      "mosaic_p": {
+        "C": {
+          "1": 1.0,
+          "2": 0.0,
+          "3": 0.0
+        },
+        "I": {
+          "1": 1.0,
+          "2": 0.0,
+          "3": 0.0
+        }
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "GPU test configuration hash",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: copied evidence hash C__nhat_ky_luot.jsonl",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: copied evidence hash C__theo_batch.csv",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: copied evidence hash C__results.csv",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: copied evidence hash C__args.yaml",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: copied evidence hash I__nhat_ky_luot.jsonl",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: copied evidence hash I__theo_batch.csv",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: copied evidence hash I__results.csv",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: copied evidence hash I__args.yaml",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: copied evidence hash ket_qua_runner__yolov8n_C.json",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: copied evidence hash ket_qua_runner__yolov8n_I__tiep_tuc_1.json",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: PID CSV == monitor == runner journal",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: status PID/create time",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: actual exit recorded in status and summary",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: final log exit",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: sample count and increasing time",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: sampled duration",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: summary rss_chinh_mib",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: summary rss_tong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: summary so_con",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: summary ram_he_thong_con_trong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: all RAM observations positive/finite",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_C: RSS total sum within CSV rounding",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: PID CSV == monitor == runner journal",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: status PID/create time",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: actual exit recorded in status and summary",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: final log exit",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: sample count and increasing time",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: sampled duration",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: summary rss_chinh_mib",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: summary rss_tong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: summary so_con",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: summary ram_he_thong_con_trong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: all RAM observations positive/finite",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_I: RSS total sum within CSV rounding",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: PID CSV == monitor == runner journal",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: status PID/create time",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: actual exit recorded in status and summary",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: final log exit",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: sample count and increasing time",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: sampled duration",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: summary rss_chinh_mib",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: summary rss_tong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: summary so_con",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: summary ram_he_thong_con_trong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: all RAM observations positive/finite",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_R: RSS total sum within CSV rounding",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: 126 batches each, unique ni=0..125",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: resume lane after epoch 1",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: finite losses",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: post-resume LR/momentum/batch match continuous",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: 13 declared restoration checks agree across receipts",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: selected source is recorded epoch 1 checkpoint",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: completed epochs exactly 1,2,3",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: logged mosaic p 1,0,0",
+      "pass": true
+    },
+    {
+      "name": "yolov8n: 84 post-resume loss/order differences",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: copied evidence hash C__nhat_ky_luot.jsonl",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: copied evidence hash C__theo_batch.csv",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: copied evidence hash C__results.csv",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: copied evidence hash C__args.yaml",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: copied evidence hash I__nhat_ky_luot.jsonl",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: copied evidence hash I__theo_batch.csv",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: copied evidence hash I__results.csv",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: copied evidence hash I__args.yaml",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: copied evidence hash ket_qua_runner__yolo11n_C.json",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: copied evidence hash ket_qua_runner__yolo11n_I__tiep_tuc_1.json",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: PID CSV == monitor == runner journal",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: status PID/create time",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: actual exit recorded in status and summary",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: final log exit",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: sample count and increasing time",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: sampled duration",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: summary rss_chinh_mib",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: summary rss_tong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: summary so_con",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: summary ram_he_thong_con_trong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: all RAM observations positive/finite",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_C: RSS total sum within CSV rounding",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: PID CSV == monitor == runner journal",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: status PID/create time",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: actual exit recorded in status and summary",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: final log exit",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: sample count and increasing time",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: sampled duration",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: summary rss_chinh_mib",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: summary rss_tong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: summary so_con",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: summary ram_he_thong_con_trong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: all RAM observations positive/finite",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_I: RSS total sum within CSV rounding",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: PID CSV == monitor == runner journal",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: status PID/create time",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: actual exit recorded in status and summary",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: final log exit",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: sample count and increasing time",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: sampled duration",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: summary rss_chinh_mib",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: summary rss_tong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: summary so_con",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: summary ram_he_thong_con_trong_mib",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: all RAM observations positive/finite",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_R: RSS total sum within CSV rounding",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: 126 batches each, unique ni=0..125",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: resume lane after epoch 1",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: finite losses",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: post-resume LR/momentum/batch match continuous",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: 13 declared restoration checks agree across receipts",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: selected source is recorded epoch 1 checkpoint",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: completed epochs exactly 1,2,3",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: logged mosaic p 1,0,0",
+      "pass": true
+    },
+    {
+      "name": "yolo11n: 84 post-resume loss/order differences",
+      "pass": true
+    }
+  ],
+  "pass": 111,
+  "fail": 0
+}

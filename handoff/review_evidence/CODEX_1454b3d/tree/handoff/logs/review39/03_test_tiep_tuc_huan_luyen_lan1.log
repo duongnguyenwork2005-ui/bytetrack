@@ -1,0 +1,23 @@
+# 2026-10-03 06:53:27 +0700 HEAD 231006c -- python -u src/test_tiep_tuc_huan_luyen.py
+
+== U. don vi
+  [PASS] U1a nhat ky: dong CUOI ghi do -> bo qua + canh bao, 2 su kien hop le  (['dong cuoi 3 cua nhat ky ghi do (bi ngat luc ghi) -- bo qua'])
+  [PASS] U1b nhat ky: dong hong o GIUA -> LoiTiepTuc (khong tin nhat ky)
+  [PASS] U2 kiem_tuong_thich: trung (duong dan chuan hoa, bo qua model) -> []; lech lr0/epochs/device/data -> 4 muc  ([] | ['epochs: checkpoint 4 != cau hinh 3', 'lr0: checkpoint 0.02 != cau hinh 0.01', "data: checkpoint 'C:\\\\Users\\\\Mikuno\\\\AppData\\\\Local\\\\Temp\\\\test_tiep_tuc_j97osdld\\\\b.yaml' != cau hinh 'C:\\\\Users\\\\Mikuno\\\\AppData\\\\Local\\\\Temp\\\\test_tiep_tuc_j97osdld\\\\a\\\\data.yaml'", "device: checkpoint 'cpu' != '0'"])
+  [PASS] U3a checkpoint du trang thai, sha trong nhat ky, khop noi dung -> hop le  ([])
+  [PASS] U3b file co sha256 KHONG co trong nhat ky -> loai, KHONG torch.load (khong co loi nap)  (['sha256 khong co trong nhat ky luot (khong chung minh thuoc luot da khai bao, hoac file ghi do)'])
+  [PASS] U3 checkpoint 'strip' -> loai voi ly do 'epoch -1'  (['epoch -1 (checkpoint da strip optimizer = luot da ket thuc)', 'thieu trang thai optimizer'])
+  [PASS] U3 checkpoint 'thieu_opt' -> loai voi ly do 'thieu trang thai optimizer'  (['thieu trang thai optimizer'])
+  [PASS] U3 checkpoint 'thieu_ema' -> loai voi ly do 'thieu EMA'  (['thieu EMA / updates'])
+  [PASS] U3 checkpoint 'save_dir' -> loai voi ly do 'save_dir'  (['train_args.save_dir C:\\Users\\Mikuno\\AppData\\Local\\Temp\\test_tiep_tuc_j97osdld khac thu muc luot C:\\Users\\Mikuno\\AppData\\Local\\Temp\\test_tiep_tuc_j97osdld\\u_run'])
+  [PASS] U3 checkpoint 'name' -> loai voi ly do 'name'  (["train_args.name 'khac' khac luot 'u_run'"])
+  [PASS] U3 checkpoint 'lech_nk' -> loai voi ly do 'lech nhat ky'  (['noi dung lech nhat ky: epoch 0 / updates 99 / best 0.5 vs nhat ky epoch 0 / 3 / 0.5'])
+  [PASS] U4 so lan tiep tuc = max(lan trong nhat ky, so trong ten nguon_tiep_tuc_N.pt) -> 2 (lan hong truoc bat_dau van giu so)  (2)
+  [PASS] U5 chep nguyen tu: ban chep cung sha256, khong con file tam
+
+== R. yolov8n: C1, C2 lien tuc + I bi kill (CHAY THAT, CPU)
+  [PASS] R0 yolov8n: C1, C2 (lien tuc 3 epoch, chay that CPU) exit 0  ({'C1': {'exit': 0, 's': 35.4}, 'C2': {'exit': 0, 's': 20.5}})
+  [PASS] R1 yolov8n: I bi KILL ngay sau khi epoch 1 da luu; nhat ky: bat_dau + epoch_da_luu 1, KHONG ket_thuc  ({'bi_kill': True, 'exit': 15, 'sau_s': 9.9}, su kien ['bat_dau', 'epoch_da_luu'])
+
+== S. yolov8n: ca tu choi dau vao + chon ban sao + dry-run + Ctrl+C (SPY)
+# exit=2 2026-10-03 06:54:44 +0700
