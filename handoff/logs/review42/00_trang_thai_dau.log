@@ -1,0 +1,115 @@
+# 2026-10-03 19:17:04 +0700 -- trang thai dau vong 42 (ghi nhan nghiem thu 6c8e37a; dinh chinh R41-N1; chuan bi training dai DA DUYET)
+nhanh: phase2-mixed-traffic
+HEAD: 6c8e37aca2326451f0a46f3a8838b6171fe66b3d
+commit sau 6c8e37a: 0
+base review trong HEAD: 421dd53ecbe171ff11219a7efba900cdbbe5a34e vong 40 | khai bao khong ban giao: 13
+base review working tree: 6c8e37aca2326451f0a46f3a8838b6171fe66b3d vong 41 | khai bao: 13 | lich_su 18
+--- git status --short (bo qua results/ outputs/):
+M .gitignore
+A  handoff/CODEX_REVIEW_6c8e37a.md
+ M handoff/review_base.json
+A  handoff/review_evidence/CODEX_6c8e37a/.gitattributes
+A  handoff/review_evidence/CODEX_6c8e37a/CODEX_REVIEW_6c8e37a.md
+A  handoff/review_evidence/CODEX_6c8e37a/README.md
+A  handoff/review_evidence/CODEX_6c8e37a/SHA256SUMS.txt
+A  handoff/review_evidence/CODEX_6c8e37a/audit_evidence.py
+A  handoff/review_evidence/CODEX_6c8e37a/base_preimages/src/test_tiep_tuc_huan_luyen.py
+A  handoff/review_evidence/CODEX_6c8e37a/base_preimages/src/tiep_tuc_huan_luyen.py
+A  handoff/review_evidence/CODEX_6c8e37a/base_preimages/src/train_detector.py
+A  handoff/review_evidence/CODEX_6c8e37a/check_csv_recovery.py
+A  handoff/review_evidence/CODEX_6c8e37a/check_journal_recovery.py
+A  handoff/review_evidence/CODEX_6c8e37a/check_package.py
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/author_counter_rerun.json
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/author_counter_rerun.log
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/csv_recovery.json
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/evidence_audit.json
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/evidence_audit.log
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/journal_recovery.json
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/journal_recovery.log
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/observer_base.json
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/observer_base.log
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/observer_target.json
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/observer_target.log
+A  handoff/review_evidence/CODEX_6c8e37a/evidence/package.json
+A  handoff/review_evidence/CODEX_6c8e37a/observe_csv_risks.py
+A  handoff/review_evidence/CODEX_6c8e37a/package_metadata/DEPENDENCIES.md
+A  handoff/review_evidence/CODEX_6c8e37a/package_metadata/MANIFEST.json
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/REVIEW41_CHI_TIET.md
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/REVIEW_BRIEF.md
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/00_trang_thai_dau.log
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/01_quan_sat_csv_truoc_sua.json
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/02_ke_hoach_kiem_r40n.md
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/03_moc_thoi_gian_lan1.log
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/03_su_kien_nguon_lan1.log
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan1.log
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan1_c0_runner.log
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan2.log
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/04_nhom_c_tren_ma_cu_421dd53.log
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/05_test_detector_5lop.log
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/05_test_pilot_chan_doan.log
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/06_quan_sat_csv_sau_sua.json
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.json
+A  handoff/review_evidence/CODEX_6c8e37a/tree/handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.py
+A  handoff/review_evidence/CODEX_6c8e37a/tree/src/test_tiep_tuc_huan_luyen.py
+A  handoff/review_evidence/CODEX_6c8e37a/tree/src/tiep_tuc_huan_luyen.py
+A  handoff/review_evidence/CODEX_6c8e37a/tree/src/train_detector.py
+ M src/demo/rerun_with_state_log.py
+?? CODEX_REVIEW_c4d64a1_EVIDENCE/
+?? handoff/logs/review16/results_nano/nano-trt-cv_render_tren_PC.mp4
+?? handoff/logs/review20/demo_video/
+?? handoff/logs/review23/video_khong_commit/
+?? handoff/logs/review42/
+?? handoff/nano_transfer/
+?? handoff/patches/moc2_e353b84..7341812.diff
+?? live.bat
+?? src/demo/build_buffer90_demo.py
+?? src/demo/find_buffer90_candidates.py
+?? src/demo/find_buffer90_moving_candidates.py
+?? src/demo/live_view.py
+?? src/demo/single_case_buffer90.py
+?? src/demo/turning_case_buffer90.py
+--- moi truong:
+python 3.11.9 | Windows-10-10.0.26200-SP0 | ultralytics 8.4.141 | torch 2.6.0+cu124 | cuda 12.4 | cudnn 90100 | numpy 2.4.6 | psutil 7.2.2 | opencv 5.0.0
+python: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe
+ultralytics engine/trainer.py sha256 7532ff0bf3e4dc60f3c8a3f80f9b0cd7dac53997874b75a5ec99b280ce90b4a0
+torch.cuda.is_available True | NVIDIA GeForce GTX 1650 | VRAM 4096 MiB
+--- nguon dien:
+pin 97% | cam sac (power_plugged) True | secsleft -2
+goi nguon: Power Scheme GUID: 6fecc5ae-f350-48a5-b669-b472cb895ccf  (High performance)
+STANDBYIDLE: AC ['0x00000000'] DC ['0x00000000'] (giay; 0 = khong bao gio)
+HIBERNATEIDLE: AC ['0x00000000'] DC ['0x00000000'] (giay; 0 = khong bao gio)
+trang thai ngu kha dung (powercfg /a): Standby (S3) | Hibernate | Fast Startup | Standby (S1) | Standby (S2) | Standby (S0 Low Power Idle) | Hybrid Sleep
+khoi dong lai dang cho (chi doc registry): WindowsUpdate RebootRequired=False; CBS RebootPending=False
+--- RAM / dia:
+RAM tong 7.84 GiB, con trong 0.26 GiB (96.7% dung) | swap/pagefile tong 15.50 GiB dung 1.92 GiB
+dia C:\ trong 49.0 GiB / 226.7 GiB
+dia D:\ trong 50.8 GiB / 227.7 GiB
+--- GPU (nvidia-smi):
+name, driver_version, memory.total [MiB], memory.used [MiB], temperature.gpu, power.draw [W], pstate, utilization.gpu [%]
+NVIDIA GeForce GTX 1650, 555.97, 4096 MiB, 258 MiB, 56, 2.98 W, P8, 7 %
+pid, process_name, used_gpu_memory [MiB]
+20852, C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\CrossDeviceResume.exe, [N/A]
+11804, [Insufficient Permissions], [N/A]
+18704, C:\Program Files (x86)\Microsoft\EdgeWebView\Application\154.0.4258.48\msedgewebview2.exe, [N/A]
+12764, C:\Program Files\WindowsApps\B9ECED6F.ArmouryCrate_6.5.14.0_x64__qmba6cd70vzyy\ArmouryCrate.exe, [N/A]
+16124, C:\Users\Mikuno\AppData\Local\Kingsoft\WPS Office\12.1.0.28485\office6\promecefpluginhost.exe, [N/A]
+16060, C:\Program Files\Cloudflare\Cloudflare WARP\Cloudflare WARP.exe, [N/A]
+8228, C:\Users\Mikuno\AppData\Local\Programs\Zalo\Zalo-26.9.10\Zalo.exe, [N/A]
+23660, C:\Users\Mikuno\AppData\Local\Programs\Zalo\Zalo-26.9.10\plugins\capture\ZaloCall.exe, [N/A]
+13504, C:\Windows\System32\ShellHost.exe, [N/A]
+17832, C:\Users\Mikuno\AppData\Local\Programs\Microsoft VS Code\Code.exe, [N/A]
+13132, C:\Program Files\WindowsApps\OpenAI.Codex_26.930.3930.0_x64__2p2nqsd0c76g0\app\ChatGPT.exe, [N/A]
+12148, C:\Users\Mikuno\AppData\Local\OpenAI\Codex\runtimes\cua_node\45309f9050f7314b\bin\node_modules\@oai\sky\bin\windows\swift\x64\codex-computer-use-swift.exe, [N/A]
+18680, C:\Program Files\WindowsApps\OpenAI.Codex_26.930.3930.0_x64__2p2nqsd0c76g0\app\ChatGPT.exe, [N/A]
+25004, C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\TextInputHost.exe, [N/A]
+13284, C:\Windows\SystemApps\Microsoft.LockApp_cw5n1h2txyewy\LockApp.exe, [N/A]
+--- tien trinh python dang chay (tranh trung luot):
+  2096 19:17:04 C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe C:/Users/Mikuno/AppData/Local/Temp/claude/d--LABOTARY-bytetrack/725dbe02-11c7-4caa-9d6c-980457a66fad/scratchpad/v42_trang_thai.py handoff/logs/re
+  16676 19:11:07 C:\Users\Mikuno\AppData\Local\Python\pythoncore-3.14-64\python.exe -u C:\Users\Mikuno\.vscode\extensions\fabioz.vscode-pydev-0.16.0\server\plugins\org.python.pydev.core_13.1.0.202509210817\pysrc\pycom
+--- sha256 ma / cau hinh lien quan:
+44045186de71dbb720d8d19d07f00f898576c3eb41cef950d3943546accbecc0 *src/tiep_tuc_huan_luyen.py
+250302fb045a3b21dea575067700cdfbd7796b125e4ecfd2e528c91df0731544 *src/train_detector.py
+2fd153bf6016f7e217ebfea407378549e54b9d62806d70f99f550555b4b8f842 *src/chay_giam_sat.py
+1ca964b0fc81701ac746335fa20ac6e5231322a4cdd11ad47753a2b25fc31493 *src/bdd_yolo_export.py
+7bba3439987377cb2f161eb31e2cf0afafae3e814f165279087b7a3780699c3e *src/detector_classes.py
+a466a4fa3d07391f47915f45a79fadc2d7f5f0421499c9f887f83b19bdb0553b *configs/phase2/detector/train_bdd5.yaml

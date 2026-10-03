@@ -1,0 +1,843 @@
+{
+  "vong": 40,
+  "base_commit": "421dd53ecbe171ff11219a7efba900cdbbe5a34e",
+  "base_commit_short": "421dd53",
+  "base_snapshot": "handoff/archive/review_delta_421dd53.zip",
+  "base_mo_ta": "Codex nghiem thu 421dd53: PASS WITH LIMITATIONS cho ban sua R39-F1 vong 40, dong R39-F1 (handoff/CODEX_REVIEW_421dd53.md); goi 2.177.781 B sha256 806b1e01... khop. Pham vi reviewer: 254 thanh vien ZIP (248 payload + 84 alias), 332/332 duong dan ap nguoc/xuoi, 8/8 preimage, 97/97 bang chung 1454b3d, 61/61 log vong 39, kiem doc lap nhat ky 54/54 (ham that, thu muc tam, khong torch, os.replace loi duoc gia lap), doi chung 06b bug_count 0; KHONG lap lai test CPU/GPU cua tac gia, KHONG toan cay Git, KHONG xac nhan moi dang mat dien. Hai rui ro CSV R40-N1 (results.csv) va R40-N2 (theo_batch.csv) da xac nhan, sua o vong 41.",
+  "target_commit": "6c8e37aca2326451f0a46f3a8838b6171fe66b3d",
+  "target_commit_short": "6c8e37a",
+  "target_subject": "Ban giao vong 41: brief, phu luc sua R40-N1/N2, handoff hang 36 (421dd53 PASS WITH LIMITATIONS) + hang 37",
+  "tao_luc": "2026-10-03T18:22:53",
+  "commits": [
+    "6c8e37a Ban giao vong 41: brief, phu luc sua R40-N1/N2, handoff hang 36 (421dd53 PASS WITH LIMITATIONS) + hang 37",
+    "9db5532 Vong 41 suite bi anh huong + quan sat CSV sau sua: 92/92, 34/34; script Codex 3 -> 1 (dung du doan), doi chung 0",
+    "6e29adb Vong 41 test moi tren MA CU 421dd53 (nhom C, chay that): 11/31 -- khop dung du doan dang ky truoc",
+    "da1aac2 Vong 41 test resume lan 2: 138/138 PASS (exit 0) -- dung so phep dang ky truoc (102 cu + U11/U12/U12b + S21/S22 + nhom C 31)",
+    "04cf6ea Vong 41 test lan 1 KHONG hoan tat: may tu ngu vi pin can (16:54-17:53) -> C0 het thoi gian doi; giu log + bang chung",
+    "8d5d3c8 Vong 41 sua R40-N1/N2: xu ly duoi results.csv + theo_batch.csv o buoc chuan bi ghi cua resume (kiem cot / kieu)",
+    "508cfad Vong 41 ghi nhan nghiem thu 421dd53: PASS WITH LIMITATIONS (dong R39-F1); base -> 421dd53; tai hien R40-N1/N2"
+  ],
+  "so_file_trong_goi": 78,
+  "so_file_bo_qua": 5,
+  "so_file_ho_tro": 0,
+  "so_duong_dan_trong_patch": 83,
+  "thu_tu_doc": [
+    "REVIEW_BRIEF.md",
+    "patch/delta_421dd53..6c8e37a.diff",
+    "logs/",
+    "data/",
+    "DEPENDENCIES.md"
+  ],
+  "file_trong_goi": [
+    {
+      "status": "sua",
+      "path": "CODEX_HANDOFF.md",
+      "trong_patch": true,
+      "trong_goi": "files/CODEX_HANDOFF.md",
+      "sha256_base": "5ee6ab57fb6f81e38ea36272125d2586e9c242a6a375d0b5c9e246f33b877fba",
+      "sha256_target": "1a6c6d1cb029039d85131c34a550d3d43caed46547d03805d1055de045936146",
+      "bytes": 95182
+    },
+    {
+      "status": "them",
+      "path": "handoff/CODEX_REVIEW_421dd53.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/CODEX_REVIEW_421dd53.md",
+      "sha256_base": "",
+      "sha256_target": "96b1ad70e228f30029fb35b47d86df4e2d4086d2c6273802af138b124023fead",
+      "bytes": 12063
+    },
+    {
+      "status": "sua",
+      "path": "handoff/DETECTOR_TRAIN_PLAN.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/DETECTOR_TRAIN_PLAN.md",
+      "sha256_base": "4d01373ea8bb9ab02d5ac762c9e27c7be6596f6d03a6a45cbd1b21230a70bbf8",
+      "sha256_target": "aa7270df14ae625d836c84c6ddb970972c82bc08db1a634f7c05e39f3e16340f",
+      "bytes": 29742
+    },
+    {
+      "status": "sua",
+      "path": "handoff/PLAN_DA_CHOT.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/PLAN_DA_CHOT.md",
+      "sha256_base": "36bb710e7544930020265aa7d3e873892f792e01c8f79f134dd2a3759e7d01cb",
+      "sha256_target": "8bee5b695aba4e4ddc3446bbe02efb07b35c1425a1a79b3fb0cba5e4b5a59175",
+      "bytes": 7595
+    },
+    {
+      "status": "sua",
+      "path": "handoff/REVIEW40_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/REVIEW40_CHI_TIET.md",
+      "sha256_base": "a28891b7c64f4d933b01869514878eb4f30520b65902d90b4c9c7a56f8e76842",
+      "sha256_target": "b9ed7be17348874b106fb2d8fc37349179ddf12ddfda4640e5bdaccd1d292538",
+      "bytes": 14454
+    },
+    {
+      "status": "them",
+      "path": "handoff/REVIEW41_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/REVIEW41_CHI_TIET.md",
+      "sha256_base": "",
+      "sha256_target": "6711cf02071f3ba00a90684970e5a54ca3ac3915cc79f172438b5330a258b9bc",
+      "bytes": 19162
+    },
+    {
+      "status": "sua",
+      "path": "handoff/REVIEW_BRIEF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/REVIEW_BRIEF.md",
+      "sha256_base": "5e28d420cd5670c184dd5f0ceb5ed1e45992895cf46c49942d06f17595ee1a2e",
+      "sha256_target": "0485699adc82c490044f790d248737ea497b4bedaa2f54e6a69a431e34f55d69",
+      "bytes": 3876
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/.gitattributes",
+      "sha256_base": "",
+      "sha256_target": "008b4ef8f246a72a40312fd425d65103ffc5137ca918da8fbce44eca4fad81b2",
+      "bytes": 77
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/00_trang_thai_dau.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/00_trang_thai_dau.log",
+      "sha256_base": "",
+      "sha256_target": "f5acbd87d159fd8e0a253bea023dbc2833e5f59dc6319bb4b6765113faf23e7b",
+      "bytes": 2586
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/01_quan_sat_csv_truoc_sua.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/01_quan_sat_csv_truoc_sua.json",
+      "sha256_base": "",
+      "sha256_target": "713a75760572fa0aa294768281c213b14f595fd23926b515d1953c8f445bde02",
+      "bytes": 1637
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/01_quan_sat_csv_truoc_sua.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/01_quan_sat_csv_truoc_sua.log",
+      "sha256_base": "",
+      "sha256_target": "845d0b2936d1989f279e3f6dcf5fc81543265509bd707587a29b905531741fe0",
+      "bytes": 2024
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/02_ke_hoach_kiem_r40n.md",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/02_ke_hoach_kiem_r40n.md",
+      "sha256_base": "",
+      "sha256_target": "f10a53a3aeb2dbac954885af3b0b8a40d1e737cbb6eb4f13636778160263ec71",
+      "bytes": 10227
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/03_moc_thoi_gian_lan1.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/03_moc_thoi_gian_lan1.log",
+      "sha256_base": "",
+      "sha256_target": "c78bd1b034bdf624bf5fc99db48fee51c66502fa5cd6ea1f90d954b0ef9891b5",
+      "bytes": 1087
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/03_su_kien_nguon_lan1.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/03_su_kien_nguon_lan1.log",
+      "sha256_base": "",
+      "sha256_target": "b9b2f65f870df1741bc457c953224d75a786125d5f9f2ab24d8915f918e4857e",
+      "bytes": 1880
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan1.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan1.log",
+      "sha256_base": "",
+      "sha256_target": "783e68c8c1f742ce17dc7da5df0c01852f27e346317d73d5379626b038ac2853",
+      "bytes": 29219
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan1_c0_runner.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan1_c0_runner.log",
+      "sha256_base": "",
+      "sha256_target": "ad4656b7bd7472f7bfde964e89256ecee5561eefdd65f3f9e8dc2c5abab02ee2",
+      "bytes": 8638
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan2.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan2.log",
+      "sha256_base": "",
+      "sha256_target": "3f5f952caaeac59282821a9ef8d43d1922625353a1ac3395c64aeaac40929f20",
+      "bytes": 37948
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/04_nhom_c_tren_ma_cu_421dd53.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/04_nhom_c_tren_ma_cu_421dd53.log",
+      "sha256_base": "",
+      "sha256_target": "120ae3664ca173de690fbca03fd4846205384cd91ab1eaff4dcb5fb27f9f16a5",
+      "bytes": 9262
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/05_test_detector_5lop.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/05_test_detector_5lop.log",
+      "sha256_base": "",
+      "sha256_target": "621217400ab5236d2f094a05a3f4ebc843261fc28822694f99b2e7c08ff2210a",
+      "bytes": 24129
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/05_test_pilot_chan_doan.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/05_test_pilot_chan_doan.log",
+      "sha256_base": "",
+      "sha256_target": "975253c3e9625f4fd58c6f4b1b80cf5c93b89df1039fe89931dc39ee52d23173",
+      "bytes": 6604
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/06_quan_sat_csv_sau_sua.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/06_quan_sat_csv_sau_sua.json",
+      "sha256_base": "",
+      "sha256_target": "bfc645e094399881a707b4eac619b2a2d4f897faefa2d372f8c18755a9ff89d3",
+      "bytes": 1468
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/06_quan_sat_csv_sau_sua.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/06_quan_sat_csv_sau_sua.log",
+      "sha256_base": "",
+      "sha256_target": "726a05d504234407c16b6d7c7d2c55e894292e549bf7cf636454a27b0d17fa4c",
+      "bytes": 1951
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.json",
+      "sha256_base": "",
+      "sha256_target": "7fbe1f4dbb2a074f948610f96b11f948ea76623f4eaf332c83008a63e45658b2",
+      "bytes": 2210
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.log",
+      "sha256_base": "",
+      "sha256_target": "4e49a4f843fa0478b9f7280ef4654be054013f89374998edb785d4a68a49034a",
+      "bytes": 2603
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.py",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.py",
+      "sha256_base": "",
+      "sha256_target": "0c808c83df8fac76ed3b30adbd256b9c5c782cf5e8ff5120af867132db9b3109",
+      "bytes": 5759
+    },
+    {
+      "status": "sua",
+      "path": "handoff/review_base.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_base.json",
+      "sha256_base": "18a002737b66d07b92900d62cf7c59dc6251909ff360ac578016b66f154ddb4e",
+      "sha256_target": "eac0cf07304a4448a3474704e9d43b60cc5bd75c93ed6a82f84a63168b78571e",
+      "bytes": 9077
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/.gitattributes",
+      "sha256_base": "",
+      "sha256_target": "3fa9c5704fa10c770f994e151f707483b2c9752f3b8a446c30f357b6bc5ea8b6",
+      "bytes": 85
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/EVIDENCE_README.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/EVIDENCE_README.md",
+      "sha256_base": "",
+      "sha256_target": "a1b95471dada531444a147abe87861f740ac389cb5406bc461687de8af531ea8",
+      "bytes": 1747
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/REPRO_REVIEW_1454b3d.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/REPRO_REVIEW_1454b3d.py",
+      "sha256_base": "",
+      "sha256_target": "af78c15cc4f645c834d861c9c01be083ba74fc8fbbb5acf5b5d68fdefa4cfb7c",
+      "bytes": 3277
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/SHA256SUMS.txt",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/SHA256SUMS.txt",
+      "sha256_base": "",
+      "sha256_target": "ec9d1429fc09fc01ada72741306207454fc25e9c71c288531a905d839fd7f8eb",
+      "bytes": 5431
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/base_preimages/CODEX_HANDOFF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/base_preimages/CODEX_HANDOFF.md",
+      "sha256_base": "",
+      "sha256_target": "ca9208812b718e997071d5d4c111b92286c7c1d52a3a649855f7f1ea74cbd411",
+      "bytes": 89671
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md",
+      "sha256_base": "",
+      "sha256_target": "2c64b264e3b27c42c4d2070c1f50554e3780301ddba01cb17950d705f6470c18",
+      "bytes": 26708
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/base_preimages/handoff/PLAN_DA_CHOT.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/base_preimages/handoff/PLAN_DA_CHOT.md",
+      "sha256_base": "",
+      "sha256_target": "560d20cfcd5cfa241e63e853757272ad0e4815cbfeb6133420ba53f0cd2dd634",
+      "bytes": 6438
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/base_preimages/handoff/REVIEW38_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/base_preimages/handoff/REVIEW38_CHI_TIET.md",
+      "sha256_base": "",
+      "sha256_target": "f2af6d09404ab1d539d903413137457056c8b99a1f45e14592b4da860a2af42a",
+      "bytes": 12795
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/base_preimages/handoff/REVIEW_BRIEF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/base_preimages/handoff/REVIEW_BRIEF.md",
+      "sha256_base": "",
+      "sha256_target": "8d16e64bbe97ca255a2eaf096dc979c2f6c1d3495db2b6f6f8ef04ef2caeb527",
+      "bytes": 3057
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/base_preimages/handoff/review_base.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/base_preimages/handoff/review_base.json",
+      "sha256_base": "",
+      "sha256_target": "9be2f41c7919aaf7596e48f93bf2cb29bbcd213bdca6b3a68600d9e45baf15de",
+      "bytes": 8548
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/base_preimages/src/run_all_tests.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/base_preimages/src/run_all_tests.py",
+      "sha256_base": "",
+      "sha256_target": "dd7d8c80364b74ee3137700e7b4edc38792781848d7321309896260cefec338f",
+      "bytes": 7606
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/base_preimages/src/train_detector.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/base_preimages/src/train_detector.py",
+      "sha256_base": "",
+      "sha256_target": "cd88b6f37e7b9ecbd81c80650fe6a883994c121d340ac13428ee9709d7cba8d9",
+      "bytes": 37456
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/check_journal_recovery.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/check_journal_recovery.py",
+      "sha256_base": "",
+      "sha256_target": "7f40bbb472227c4437e28416cc044b0918c78e2f484593cafdfc84f497b18c65",
+      "bytes": 7745
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/check_package.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/check_package.py",
+      "sha256_base": "",
+      "sha256_target": "81c259bf0f346c7e28c581911a3305b2340c9088c472ac22aecf2c87c426a05d",
+      "bytes": 4644
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/author_4cases_rerun.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/evidence/author_4cases_rerun.json",
+      "sha256_base": "",
+      "sha256_target": "7b0d2842c86e69973faf739c3a4f2c3ea87b4fec6fe91cfaf199daa9be32b9ef",
+      "bytes": 4177
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/author_csv_rerun.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/evidence/author_csv_rerun.log",
+      "sha256_base": "",
+      "sha256_target": "59ef48853a1fd2c12a2bd8a6d7e495ef46c3c64c881e5ba2c6ebc08713c8a677",
+      "bytes": 493
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/continuity.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/evidence/continuity.json",
+      "sha256_base": "",
+      "sha256_target": "391703c694c29272c2e6f39e2a4e9c6f14d0d76d5a212bc46a3b731f9235660c",
+      "bytes": 1019
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/csv_risks.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/evidence/csv_risks.json",
+      "sha256_base": "",
+      "sha256_target": "4986e0fca91d209cc46ba952f8cab592e4da4f0ed33b6003ea2f00207b761ed0",
+      "bytes": 1583
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/journal_recovery.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/evidence/journal_recovery.json",
+      "sha256_base": "",
+      "sha256_target": "38b5240be011a87e30a838b3bf8ef2fe77be6c45e426c5720e41319f5e23b626",
+      "bytes": 6667
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/log_counts.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/evidence/log_counts.json",
+      "sha256_base": "",
+      "sha256_target": "3b34d291809c961d5fe4e79452d7653911c16df62dbcedfa9a788c97dce79292",
+      "bytes": 2121
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/original_repro_new_target.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/evidence/original_repro_new_target.json",
+      "sha256_base": "",
+      "sha256_target": "15e6501be3783f11468fc2489798fc1f0169ac8544266fa32d7beacfd9458e02",
+      "bytes": 4137
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/package.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/evidence/package.json",
+      "sha256_base": "",
+      "sha256_target": "ae35751a2552f25b12415bcc9e50db9cace8ef812ee24f0707cdc6afb7fbb2fb",
+      "bytes": 333
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/observe_csv_risks.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/observe_csv_risks.py",
+      "sha256_base": "",
+      "sha256_target": "e45e5c9dc62b7b49081d5478208ce1186d019b763bf27f215cc04e0ad4f8beeb",
+      "bytes": 3278
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/package_metadata/DEPENDENCIES.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/package_metadata/DEPENDENCIES.md",
+      "sha256_base": "",
+      "sha256_target": "10180ecb476a85c3abaae05e17aac2a453af175de19e8b7d34afb2fba06b5eee",
+      "bytes": 27842
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/package_metadata/MANIFEST.csv",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/package_metadata/MANIFEST.csv",
+      "sha256_base": "",
+      "sha256_target": "ba2e44712206e5fd46f6c74251dbd64192e5b119bd1be9b19b2bd4f4edf6690a",
+      "bytes": 93977
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/package_metadata/MANIFEST.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/package_metadata/MANIFEST.json",
+      "sha256_base": "",
+      "sha256_target": "a4d1d87df0abc12e9e8e49427c1649a83f4735be134b8dacc575aefa3fb7cbd7",
+      "bytes": 156439
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/REVIEW40_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/REVIEW40_CHI_TIET.md",
+      "sha256_base": "",
+      "sha256_target": "a28891b7c64f4d933b01869514878eb4f30520b65902d90b4c9c7a56f8e76842",
+      "bytes": 14141
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/REVIEW_BRIEF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/REVIEW_BRIEF.md",
+      "sha256_base": "",
+      "sha256_target": "5e28d420cd5670c184dd5f0ceb5ed1e45992895cf46c49942d06f17595ee1a2e",
+      "bytes": 3407
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/.gitattributes",
+      "sha256_base": "",
+      "sha256_target": "3cfcfc899e31e1da8a84d7f1e79ca9528383e5b1c3e79fac89141c48b9f28c21",
+      "bytes": 77
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/00_trang_thai_dau.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/00_trang_thai_dau.log",
+      "sha256_base": "",
+      "sha256_target": "a6a852fdacd32efe14a8d2bf7594ed3f7e564de002d851a764539a3d16553d89",
+      "bytes": 2485
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/01_repro_truoc_sua.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/01_repro_truoc_sua.json",
+      "sha256_base": "",
+      "sha256_target": "fb1d38adae33a57d92d2a38f1e9a14e1d5fd1b89df9af5eadd3c2296c5a9030d",
+      "bytes": 4194
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/01_repro_truoc_sua.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/01_repro_truoc_sua.log",
+      "sha256_base": "",
+      "sha256_target": "6682726347eea591ad7c676e719c768790913161b294d56b49a6e4a98331ee2d",
+      "bytes": 4510
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/02_ke_hoach_kiem_r39f1.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/02_ke_hoach_kiem_r39f1.md",
+      "sha256_base": "",
+      "sha256_target": "3aa346e646d528598bf5a09f4de22906710b46a74cfafd4a589733d17582e67a",
+      "bytes": 7426
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/03_test_tiep_tuc_huan_luyen_lan1.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/03_test_tiep_tuc_huan_luyen_lan1.log",
+      "sha256_base": "",
+      "sha256_target": "24b81991fa1b1ae2adb3cca0be599dd83d7c2783fca1a00891240e7e2644b2d7",
+      "bytes": 28470
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/03_test_tiep_tuc_huan_luyen_lan2.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/03_test_tiep_tuc_huan_luyen_lan2.log",
+      "sha256_base": "",
+      "sha256_target": "2deee8f050b7d39a6b0cf67ed5563dff37350e08dc8d883e6813db128eeb71b9",
+      "bytes": 27822
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/04_nhom_n_tren_ma_cu_1454b3d.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/04_nhom_n_tren_ma_cu_1454b3d.log",
+      "sha256_base": "",
+      "sha256_target": "c75029539cfbdeee57138390c8cb9422c4483ecdb0633ca270a635bef1f062af",
+      "bytes": 9693
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/05_test_detector_5lop.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/05_test_detector_5lop.log",
+      "sha256_base": "",
+      "sha256_target": "e107aabf12308bfb5bb5317dac8a48dfd7df939f14c794a45e50af112881a408",
+      "bytes": 23824
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/05_test_pilot_chan_doan.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/05_test_pilot_chan_doan.log",
+      "sha256_base": "",
+      "sha256_target": "9d5b06eb344a55c9f5e1629448c668d03112ba76c4841016e0eb7cf0b118c667",
+      "bytes": 6603
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/06_repro_sau_sua.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/06_repro_sau_sua.json",
+      "sha256_base": "",
+      "sha256_target": "b4df29a02184a2d9d129b0da314a09555027ca6aaa88d4fa9747203ede97f21e",
+      "bytes": 4195
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/06_repro_sau_sua.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/06_repro_sau_sua.log",
+      "sha256_base": "",
+      "sha256_target": "3b0f30c370aadac86286467c2910460616332bdc4fd372b2e2cee46ffa78de5b",
+      "bytes": 4590
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.json",
+      "sha256_base": "",
+      "sha256_target": "80f6d87e64af8f4383799c1eb5570053030cbb61aaf7b77c9c298ec4aea3c775",
+      "bytes": 4243
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.log",
+      "sha256_base": "",
+      "sha256_target": "e875475581af75ef207b12ff78072e66eee42e0575975bb7d1b3178b66be675b",
+      "bytes": 4417
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.py",
+      "sha256_base": "",
+      "sha256_target": "0923bd6019ddd65b6a96aef64586c9bd2193d3e8d04f4371093d888756549254",
+      "bytes": 3539
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/07_de_xuat_duoi_csv.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/07_de_xuat_duoi_csv.log",
+      "sha256_base": "",
+      "sha256_target": "8604732eb03144313ee91423737edc28cad6170821bd1c7d08f2892b0dff67c4",
+      "bytes": 641
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/07_de_xuat_duoi_csv.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/logs/review40/07_de_xuat_duoi_csv.py",
+      "sha256_base": "",
+      "sha256_target": "11a608c7a5fee5000025d6992634ba8f17ad89a25a3b112650df22dd9e554bc9",
+      "bytes": 1716
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/handoff/review_base.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/handoff/review_base.json",
+      "sha256_base": "",
+      "sha256_target": "18a002737b66d07b92900d62cf7c59dc6251909ff360ac578016b66f154ddb4e",
+      "bytes": 8752
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/src/test_tiep_tuc_huan_luyen.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/src/test_tiep_tuc_huan_luyen.py",
+      "sha256_base": "",
+      "sha256_target": "4fe275b71ba13168f4e9fa8ed9c1c50e5326360088d2455753bf17e3b285fe7c",
+      "bytes": 59686
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/src/tiep_tuc_huan_luyen.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/src/tiep_tuc_huan_luyen.py",
+      "sha256_base": "",
+      "sha256_target": "826f233a142d86fa39c2e91f53ac334bf2b088555297ab7dd938a10921cdae43",
+      "bytes": 43637
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/tree/src/train_detector.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_421dd53/tree/src/train_detector.py",
+      "sha256_base": "",
+      "sha256_target": "48e9cabf59b692c3a3734e40aef3873ede0474150c40982e4571f12b4039d1bf",
+      "bytes": 46354
+    },
+    {
+      "status": "sua",
+      "path": "src/test_tiep_tuc_huan_luyen.py",
+      "trong_patch": true,
+      "trong_goi": "files/src/test_tiep_tuc_huan_luyen.py",
+      "sha256_base": "4fe275b71ba13168f4e9fa8ed9c1c50e5326360088d2455753bf17e3b285fe7c",
+      "sha256_target": "133204b35a2555669c5c741664471e76b3081a8294684fbfd58746f9946a524c",
+      "bytes": 78451
+    },
+    {
+      "status": "sua",
+      "path": "src/tiep_tuc_huan_luyen.py",
+      "trong_patch": true,
+      "trong_goi": "files/src/tiep_tuc_huan_luyen.py",
+      "sha256_base": "826f233a142d86fa39c2e91f53ac334bf2b088555297ab7dd938a10921cdae43",
+      "sha256_target": "44045186de71dbb720d8d19d07f00f898576c3eb41cef950d3943546accbecc0",
+      "bytes": 53905
+    },
+    {
+      "status": "sua",
+      "path": "src/train_detector.py",
+      "trong_patch": true,
+      "trong_goi": "files/src/train_detector.py",
+      "sha256_base": "48e9cabf59b692c3a3734e40aef3873ede0474150c40982e4571f12b4039d1bf",
+      "sha256_target": "250302fb045a3b21dea575067700cdfbd7796b125e4ecfd2e528c91df0731544",
+      "bytes": 46941
+    }
+  ],
+  "file_bo_qua": [
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/CODEX_REVIEW_421dd53.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "96b1ad70e228f30029fb35b47d86df4e2d4086d2c6273802af138b124023fead",
+      "bytes": 12063,
+      "trung_noi_dung_voi": "files/handoff/CODEX_REVIEW_421dd53.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/CODEX_REVIEW_421dd53.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/author_4cases_rerun.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "7b0d2842c86e69973faf739c3a4f2c3ea87b4fec6fe91cfaf199daa9be32b9ef",
+      "bytes": 4177,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_421dd53/evidence/author_4cases_rerun.json",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_421dd53/evidence/author_4cases_rerun.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/csv_risks.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "4986e0fca91d209cc46ba952f8cab592e4da4f0ed33b6003ea2f00207b761ed0",
+      "bytes": 1583,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_421dd53/evidence/csv_risks.json",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_421dd53/evidence/csv_risks.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/journal_recovery.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "38b5240be011a87e30a838b3bf8ef2fe77be6c45e426c5720e41319f5e23b626",
+      "bytes": 6667,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_421dd53/evidence/journal_recovery.json",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_421dd53/evidence/journal_recovery.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_421dd53/evidence/original_repro_new_target.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "15e6501be3783f11468fc2489798fc1f0169ac8544266fa32d7beacfd9458e02",
+      "bytes": 4137,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_421dd53/evidence/original_repro_new_target.json",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_421dd53/evidence/original_repro_new_target.json (cung sha256); thay doi van nam trong patch"
+    }
+  ],
+  "file_ho_tro": [],
+  "dau_vao_lon_giu_tren_may": [
+    {
+      "loai": "det_cache",
+      "ten": "fixture_bddfx_gt",
+      "n_file": 3,
+      "bytes": 6802,
+      "sha256_tong_hop": "432c0081404242d88249269c0f53125211a2f51aaa19a5f663794e43c5176274",
+      "vi_tri_tren_may": "data/interim/det_cache/fixture_bddfx_gt"
+    },
+    {
+      "loai": "det_cache",
+      "ten": "fixture_pf_seed_test",
+      "n_file": 1,
+      "bytes": 2585,
+      "sha256_tong_hop": "bcf925be4cf73376a781a5a7928d3605893f5b23c9dc20eb21756d15bedb94e9",
+      "vi_tri_tren_may": "data/interim/det_cache/fixture_pf_seed_test"
+    },
+    {
+      "loai": "det_cache",
+      "ten": "yolov8n-coco_conf0.05_all",
+      "n_file": 52,
+      "bytes": 39735550,
+      "sha256_tong_hop": "b94df663991d6383a79ed9ac958203e4a02429c637f0fbb6557ac96cb32c51e9",
+      "vi_tri_tren_may": "data/interim/det_cache/yolov8n-coco_conf0.05_all"
+    },
+    {
+      "loai": "det_cache",
+      "ten": "yolov8n-coco_conf0.05_all_bddcocovid",
+      "n_file": 200,
+      "bytes": 18431152,
+      "sha256_tong_hop": "35aa20fd3b80f853328ca1d4aad384857351b1c9c5ca42bfcc964397451631bc",
+      "vi_tri_tren_may": "data/interim/det_cache/yolov8n-coco_conf0.05_all_bddcocovid"
+    },
+    {
+      "loai": "det_cache",
+      "ten": "yolov8n-coco_conf0.05_smoke_bdd",
+      "n_file": 3,
+      "bytes": 207776,
+      "sha256_tong_hop": "d8917b915d16a70280d971c00dee166fdd0685e4e0069df6fa374a7c844e3a6d",
+      "vi_tri_tren_may": "data/interim/det_cache/yolov8n-coco_conf0.05_smoke_bdd"
+    },
+    {
+      "loai": "weights",
+      "ten": "yolov8n.pt",
+      "n_file": 1,
+      "bytes": 6549796,
+      "sha256_tong_hop": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+      "vi_tri_tren_may": "models/yolov8n.pt"
+    }
+  ]
+}

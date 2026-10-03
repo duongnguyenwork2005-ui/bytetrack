@@ -1,0 +1,284 @@
+{
+  "scope": "Independent round-41 review: actual CSV planning, backup, recovery and batch writer.\n\nNo torch, Ultralytics, runner CLI or training. Checkpoints contain marker bytes and\nare copied only. The results append below is an explicit plain CSV fixture, not\nUltralytics. Batch appends use the project's actual GhiLuotDayDu.het_epoch_train.\nos.replace failure is injected, not a physical power failure.\n",
+  "source_sha256": "44045186de71dbb720d8d19d07f00f898576c3eb41cef950d3943546accbecc0",
+  "checks": [
+    {
+      "name": "LF_clean: plan read-only",
+      "pass": true
+    },
+    {
+      "name": "LF_clean: exact recovered bytes and batch history",
+      "pass": true
+    },
+    {
+      "name": "LF_clean: byte backups and checkpoint copy",
+      "pass": true
+    },
+    {
+      "name": "LF_clean: receipts",
+      "pass": true
+    },
+    {
+      "name": "LF_clean: append preserves rows, lan and optional blanks",
+      "pass": true
+    },
+    {
+      "name": "LF_clean: second resume preserves outputs and old backups",
+      "pass": true
+    },
+    {
+      "name": "LF_nul_partial: plan read-only",
+      "pass": true
+    },
+    {
+      "name": "LF_nul_partial: exact recovered bytes and batch history",
+      "pass": true
+    },
+    {
+      "name": "LF_nul_partial: byte backups and checkpoint copy",
+      "pass": true
+    },
+    {
+      "name": "LF_nul_partial: receipts",
+      "pass": true
+    },
+    {
+      "name": "LF_nul_partial: append preserves rows, lan and optional blanks",
+      "pass": true
+    },
+    {
+      "name": "LF_nul_partial: second resume preserves outputs and old backups",
+      "pass": true
+    },
+    {
+      "name": "LF_epoch_prefix_missing_nl: plan read-only",
+      "pass": true
+    },
+    {
+      "name": "LF_epoch_prefix_missing_nl: exact recovered bytes and batch history",
+      "pass": true
+    },
+    {
+      "name": "LF_epoch_prefix_missing_nl: byte backups and checkpoint copy",
+      "pass": true
+    },
+    {
+      "name": "LF_epoch_prefix_missing_nl: receipts",
+      "pass": true
+    },
+    {
+      "name": "LF_epoch_prefix_missing_nl: append preserves rows, lan and optional blanks",
+      "pass": true
+    },
+    {
+      "name": "LF_epoch_prefix_missing_nl: second resume preserves outputs and old backups",
+      "pass": true
+    },
+    {
+      "name": "LF_missing_nl_bad_hex: plan read-only",
+      "pass": true
+    },
+    {
+      "name": "LF_missing_nl_bad_hex: exact recovered bytes and batch history",
+      "pass": true
+    },
+    {
+      "name": "LF_missing_nl_bad_hex: byte backups and checkpoint copy",
+      "pass": true
+    },
+    {
+      "name": "LF_missing_nl_bad_hex: receipts",
+      "pass": true
+    },
+    {
+      "name": "LF_missing_nl_bad_hex: append preserves rows, lan and optional blanks",
+      "pass": true
+    },
+    {
+      "name": "LF_missing_nl_bad_hex: second resume preserves outputs and old backups",
+      "pass": true
+    },
+    {
+      "name": "CRLF_clean: plan read-only",
+      "pass": true
+    },
+    {
+      "name": "CRLF_clean: exact recovered bytes and batch history",
+      "pass": true
+    },
+    {
+      "name": "CRLF_clean: byte backups and checkpoint copy",
+      "pass": true
+    },
+    {
+      "name": "CRLF_clean: receipts",
+      "pass": true
+    },
+    {
+      "name": "CRLF_clean: append preserves rows, lan and optional blanks",
+      "pass": true
+    },
+    {
+      "name": "CRLF_clean: second resume preserves outputs and old backups",
+      "pass": true
+    },
+    {
+      "name": "CRLF_nul_partial: plan read-only",
+      "pass": true
+    },
+    {
+      "name": "CRLF_nul_partial: exact recovered bytes and batch history",
+      "pass": true
+    },
+    {
+      "name": "CRLF_nul_partial: byte backups and checkpoint copy",
+      "pass": true
+    },
+    {
+      "name": "CRLF_nul_partial: receipts",
+      "pass": true
+    },
+    {
+      "name": "CRLF_nul_partial: append preserves rows, lan and optional blanks",
+      "pass": true
+    },
+    {
+      "name": "CRLF_nul_partial: second resume preserves outputs and old backups",
+      "pass": true
+    },
+    {
+      "name": "CRLF_epoch_prefix_missing_nl: plan read-only",
+      "pass": true
+    },
+    {
+      "name": "CRLF_epoch_prefix_missing_nl: exact recovered bytes and batch history",
+      "pass": true
+    },
+    {
+      "name": "CRLF_epoch_prefix_missing_nl: byte backups and checkpoint copy",
+      "pass": true
+    },
+    {
+      "name": "CRLF_epoch_prefix_missing_nl: receipts",
+      "pass": true
+    },
+    {
+      "name": "CRLF_epoch_prefix_missing_nl: append preserves rows, lan and optional blanks",
+      "pass": true
+    },
+    {
+      "name": "CRLF_epoch_prefix_missing_nl: second resume preserves outputs and old backups",
+      "pass": true
+    },
+    {
+      "name": "CRLF_missing_nl_bad_hex: plan read-only",
+      "pass": true
+    },
+    {
+      "name": "CRLF_missing_nl_bad_hex: exact recovered bytes and batch history",
+      "pass": true
+    },
+    {
+      "name": "CRLF_missing_nl_bad_hex: byte backups and checkpoint copy",
+      "pass": true
+    },
+    {
+      "name": "CRLF_missing_nl_bad_hex: receipts",
+      "pass": true
+    },
+    {
+      "name": "CRLF_missing_nl_bad_hex: append preserves rows, lan and optional blanks",
+      "pass": true
+    },
+    {
+      "name": "CRLF_missing_nl_bad_hex: second resume preserves outputs and old backups",
+      "pass": true
+    },
+    {
+      "name": "CRLF_half_crlf: plan read-only",
+      "pass": true
+    },
+    {
+      "name": "CRLF_half_crlf: exact recovered bytes and batch history",
+      "pass": true
+    },
+    {
+      "name": "CRLF_half_crlf: byte backups and checkpoint copy",
+      "pass": true
+    },
+    {
+      "name": "CRLF_half_crlf: receipts",
+      "pass": true
+    },
+    {
+      "name": "CRLF_half_crlf: append preserves rows, lan and optional blanks",
+      "pass": true
+    },
+    {
+      "name": "CRLF_half_crlf: second resume preserves outputs and old backups",
+      "pass": true
+    },
+    {
+      "name": "results future epoch removed; all batch history and lan retained",
+      "pass": true
+    },
+    {
+      "name": "results_empty: controlled rejection without writes",
+      "pass": true
+    },
+    {
+      "name": "results_header: controlled rejection without writes",
+      "pass": true
+    },
+    {
+      "name": "results_middle: controlled rejection without writes",
+      "pass": true
+    },
+    {
+      "name": "batch_header: controlled rejection without writes",
+      "pass": true
+    },
+    {
+      "name": "batch_middle: controlled rejection without writes",
+      "pass": true
+    },
+    {
+      "name": "batch_empty: controlled rejection without writes",
+      "pass": true
+    },
+    {
+      "name": "stale: controlled rejection and files unchanged",
+      "pass": true
+    },
+    {
+      "name": "missing_backup: controlled rejection and files unchanged",
+      "pass": true
+    },
+    {
+      "name": "wrong_backup: controlled rejection and files unchanged",
+      "pass": true
+    },
+    {
+      "name": "disappeared: controlled rejection and files unchanged",
+      "pass": true
+    },
+    {
+      "name": "results.csv: replace failure keeps original and backup",
+      "pass": true
+    },
+    {
+      "name": "results.csv: subsequent attempt recovers and preserves failed-attempt backup",
+      "pass": true
+    },
+    {
+      "name": "theo_batch.csv: replace failure keeps original and backup",
+      "pass": true
+    },
+    {
+      "name": "theo_batch.csv: subsequent attempt recovers and preserves failed-attempt backup",
+      "pass": true
+    }
+  ],
+  "pass": 69,
+  "fail": 0
+}

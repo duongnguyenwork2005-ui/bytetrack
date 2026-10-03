@@ -1,0 +1,132 @@
+{
+  "scope": "Cross-check changed-file base snapshots, embedded previous evidence and submitted log counts.\nCounts from author logs are not reruns of those suites.\n",
+  "base_files": [
+    {
+      "path": "CODEX_HANDOFF.md",
+      "previous_available": true,
+      "same": true
+    },
+    {
+      "path": "handoff/DETECTOR_TRAIN_PLAN.md",
+      "previous_available": true,
+      "same": true
+    },
+    {
+      "path": "handoff/PLAN_DA_CHOT.md",
+      "previous_available": true,
+      "same": true
+    },
+    {
+      "path": "handoff/REVIEW40_CHI_TIET.md",
+      "previous_available": true,
+      "same": true
+    },
+    {
+      "path": "handoff/REVIEW_BRIEF.md",
+      "previous_available": true,
+      "same": true
+    },
+    {
+      "path": "handoff/review_base.json",
+      "previous_available": true,
+      "same": true
+    },
+    {
+      "path": "src/test_tiep_tuc_huan_luyen.py",
+      "previous_available": true,
+      "same": true
+    },
+    {
+      "path": "src/tiep_tuc_huan_luyen.py",
+      "previous_available": true,
+      "same": true
+    },
+    {
+      "path": "src/train_detector.py",
+      "previous_available": true,
+      "same": true
+    }
+  ],
+  "previous_evidence": {
+    "checked": 52,
+    "mismatches": []
+  },
+  "author_logs": [
+    {
+      "file": "03_test_tiep_tuc_huan_luyen_lan1.log",
+      "sha256": "783e68c8c1f742ce17dc7da5df0c01852f27e346317d73d5379626b038ac2853",
+      "PASS_markers": 107,
+      "FAIL_markers": 1,
+      "SKIP_markers": 0,
+      "summary": []
+    },
+    {
+      "file": "03_test_tiep_tuc_huan_luyen_lan2.log",
+      "sha256": "3f5f952caaeac59282821a9ef8d43d1922625353a1ac3395c64aeaac40929f20",
+      "PASS_markers": 138,
+      "FAIL_markers": 0,
+      "SKIP_markers": 0,
+      "summary": [
+        "KET QUA: 138/138 PASS",
+        "# exit=0 2026-10-03 18:08:15 +0700"
+      ]
+    },
+    {
+      "file": "04_nhom_c_tren_ma_cu_421dd53.log",
+      "sha256": "120ae3664ca173de690fbca03fd4846205384cd91ab1eaff4dcb5fb27f9f16a5",
+      "PASS_markers": 11,
+      "FAIL_markers": 20,
+      "SKIP_markers": 0,
+      "summary": [
+        "KET QUA: 11/31 PASS",
+        "# exit=1 2026-10-03 18:10:52 +0700"
+      ]
+    },
+    {
+      "file": "05_test_detector_5lop.log",
+      "sha256": "621217400ab5236d2f094a05a3f4ebc843261fc28822694f99b2e7c08ff2210a",
+      "PASS_markers": 92,
+      "FAIL_markers": 0,
+      "SKIP_markers": 0,
+      "summary": [
+        "KET QUA: 92/92 phep kiem tra PASS",
+        "# exit=0 2026-10-03 18:11:46 +0700"
+      ]
+    },
+    {
+      "file": "05_test_pilot_chan_doan.log",
+      "sha256": "975253c3e9625f4fd58c6f4b1b80cf5c93b89df1039fe89931dc39ee52d23173",
+      "PASS_markers": 34,
+      "FAIL_markers": 0,
+      "SKIP_markers": 0,
+      "summary": [
+        "KET QUA: 34/34 PASS",
+        "# exit=0 2026-10-03 18:13:41 +0700"
+      ]
+    }
+  ],
+  "independent": {
+    "csv_recovery.json": {
+      "source_sha256": "44045186de71dbb720d8d19d07f00f898576c3eb41cef950d3943546accbecc0",
+      "pass": 69,
+      "fail": 0
+    },
+    "journal_recovery.json": {
+      "source_sha256": "44045186de71dbb720d8d19d07f00f898576c3eb41cef950d3943546accbecc0",
+      "pass": 54,
+      "fail": 0
+    },
+    "observer_base.json": {
+      "source_sha256": "826f233a142d86fa39c2e91f53ac334bf2b088555297ab7dd938a10921cdae43",
+      "known_risks_reproduced": 3
+    },
+    "observer_target.json": {
+      "source_sha256": "44045186de71dbb720d8d19d07f00f898576c3eb41cef950d3943546accbecc0",
+      "known_risks_reproduced": 1
+    },
+    "author_counter_rerun.json": {
+      "source_sha256": "44045186de71dbb720d8d19d07f00f898576c3eb41cef950d3943546accbecc0",
+      "known_risks_reproduced": 0
+    }
+  }
+}
