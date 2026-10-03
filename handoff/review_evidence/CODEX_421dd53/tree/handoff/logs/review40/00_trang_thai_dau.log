@@ -1,0 +1,39 @@
+# 2026-10-03 08:19:55 +0700 -- trang thai dau vong 40 (sua rieng R39-F1 cua review 1454b3d; KHONG train dai)
+nhanh: phase2-mixed-traffic
+HEAD: 1454b3df4d03edb2536846bec3ec69545c52878b
+target da review: 1454b3df4d03edb2536846bec3ec69545c52878b
+commit sau 1454b3d: 0
+base review hien tai: b83dc1295cad821b55c60ae15855331b870fa98f
+--- git status --short (bo qua results/ outputs/):
+ M .gitignore
+ M src/demo/rerun_with_state_log.py
+?? CODEX_REVIEW_c4d64a1_EVIDENCE/
+?? handoff/logs/review16/results_nano/nano-trt-cv_render_tren_PC.mp4
+?? handoff/logs/review20/demo_video/
+?? handoff/logs/review23/video_khong_commit/
+?? handoff/logs/review40/
+?? handoff/nano_transfer/
+?? handoff/patches/moc2_e353b84..7341812.diff
+?? live.bat
+?? src/demo/build_buffer90_demo.py
+?? src/demo/find_buffer90_candidates.py
+?? src/demo/find_buffer90_moving_candidates.py
+?? src/demo/live_view.py
+?? src/demo/single_case_buffer90.py
+?? src/demo/turning_case_buffer90.py
+--- review 1454b3d (doc tu D:\LABOTARY\review_codex):
+44200551f7401fb3bb9a0645e13c77bd4f8b6d16b3f4b8bb3aec218eade44db0 *CODEX_REVIEW_1454b3d.md
+bb836d0b7b7cbb083b782e592330097dbf53461f90146c94a35a8dab0d2b9ee3 *CODEX_REVIEW_1454b3d_EVIDENCE.zip
+12122 B CODEX_REVIEW_1454b3d.md
+403784 B CODEX_REVIEW_1454b3d_EVIDENCE.zip
+SHA256SUMS bang chung: 97/97 khop (giai nen o D:\LABOTARY\review_codex\CODEX_REVIEW_1454b3d_EVIDENCE\, ZIP goc giu nguyen); bao cao trong ZIP trung byte ban rieng
+--- goi delta dang o handoff (goi da review, CHUA nghiem thu): 1607478 B b7674449fca6a7b6b0ee42d6c245601dd15b4e594ba8674a6e520c7c50d8b397
+--- moi truong:
+python 3.11.9 | Windows-10-10.0.26200-SP0 | ultralytics 8.4.141 | torch 2.6.0+cu124 | numpy 2.4.6 | psutil 7.2.2
+ultralytics engine/trainer.py sha256 7532ff0bf3e4dc60f3c8a3f80f9b0cd7dac53997874b75a5ec99b280ce90b4a0
+RAM tong 7.8 GB, con trong 0.39 GB
+--- sha256 ma lien quan (truoc khi sua):
+2ecf26cd681e594c05df63bdfd71872d84f133ca550a45d60d91a388683d7b1c *src/tiep_tuc_huan_luyen.py
+ba8f7f4e7c2fa1b8f6581807fffcff788f698de9c6a12edf316a34ab054eacfe *src/train_detector.py
+79582b77ac98d1f027bc309828bb85df89b319a5b1050fe1a10525c9b5e05f7e *src/test_tiep_tuc_huan_luyen.py
+--- luu tru (khong doi base): handoff/CODEX_REVIEW_1454b3d.md (trung byte ban rieng); handoff/review_evidence/CODEX_1454b3d/ (SHA256SUMS 97/97 tren blob da stage, -text); goi da review luu handoff/archive/review_delta_1454b3d.zip (git ignore, CHUA nghiem thu) sha256 b7674449fca6a7b6b0ee42d6c245601dd15b4e594ba8674a6e520c7c50d8b397

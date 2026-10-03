@@ -1,0 +1,94 @@
+# 2026-10-03 12:21:58 +0700 HEAD 42b44fc -- test MOI (src/test_tiep_tuc_huan_luyen.py) --chi-nhom-n --ma-nguon <git -c core.autocrlf=false archive 1454b3d src>
+# ma cu: tiep_tuc_huan_luyen.py 2ecf26cd681e594c05df63bdfd71872d84f133ca550a45d60d91a388683d7b1c train_detector.py ba8f7f4e7c2fa1b8f6581807fffcff788f698de9c6a12edf316a34ab054eacfe (= blob 1454b3d)
+
+== N. nhat ky R39-F1 qua resume THAT (train_detector.py o C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\ma_cu_1454b3d\src)
+  [PASS] N0 luot goc yolov8n_NK bi KILL ngay sau epoch 1 (chay that, ma C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\ma_cu_1454b3d\src); nhat ky: bat_dau + epoch_da_luu 1  ({'bi_kill': True, 'exit': 15, 'sau_s': 34.7})
+  [PASS] N-sach-0a dry-run --tiep-tuc: exit 0, KHONG doi file (anh chup sha256 thu muc luot trung)  (exit 0; ot": "moi",
+   "lan": 0,
+   "epoch": null,
+   "trang_thai": null,
+   "loi": null
+  }
+ ]
+}
+[OK] kiem tiep tuc xong: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); KHONG train, KHONG ghi gi)
+  [FAIL] N-sach-0b dry-run bao ke hoach xu ly nhat ky 'khong'  (ull,
+   "trang_thai": null,
+   "loi": null
+  }
+ ]
+}
+[OK] kiem tiep tuc xong: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); KHONG train, KHONG ghi gi)
+  [PASS] N-sach-A resume THAT bi kill sau epoch 2: nhat ky DOC LAI duoc, khong canh bao; 2 su kien hop le cu giu nguyen tung su kien + [bat_dau lan 1, epoch_da_luu 2]  (kill True; loi None; canh bao []; moi [('bat_dau', 1, None), ('epoch_da_luu', 1, 2)])
+  [FAIL] N-sach-B ban sao nhat ky TRUOC sua trung tung byte (sha256 ea70d3b91063); bien nhan xu_ly_nhat_ky.json = ban ghi trong bat_dau lan 1: 'khong', bo 0 byte  (ban sao False; bien nhan None bo None; trong bat_dau False)
+  [PASS] N-sach-C checkpoint / bang chung cu bao toan: last_e001.pt va nguon_tiep_tuc_1.pt = e001 goc; file cu luu truoc khi ghi tiep trung goc  ({'args.yaml': True, 'results.csv': True, 'theo_batch.csv': True, 'weights/last.pt': True, 'weights/best.pt': True})
+  [PASS] N-sach-D preflight tiep theo exit 0 'tiep tuc tu epoch 3/3'; resume tiep (lan 2) exit 0 toi het; nhat ky doc lai du: cu + lan 1 + lan 2 + ket_thuc hoan_tat  (preflight 0; resume 0; loi None; moi [('bat_dau', 1, None), ('epoch_da_luu', 1, 2), ('bat_dau', 2, None), ('epoch_da_luu', 2, 3), ('ket_thuc', 2, None)]; iep_tuc_2.json
+[DAT] day-du yolov8n: loi=None loi_callback=None loss_huu_han=True checkpoint=['best', 'last'] thoi_gian=8.2 s vram_max=427 MiB epoch_da_luu=[3])
+  [FAIL] N-sach-B2 lan tiep tuc 2: ban sao nhat ky truoc lan 2 trung tung byte; bien nhan 'khong' (nhat ky sach sau lan 1)  (ban sao False; bien nhan False)
+  [PASS] N-ghi_do_khong_newline-0a dry-run --tiep-tuc: exit 0, KHONG doi file (anh chup sha256 thu muc luot trung)  (exit 0; ot": "moi",
+   "lan": 0,
+   "epoch": null,
+   "trang_thai": null,
+   "loi": null
+  }
+ ]
+}
+[OK] kiem tiep tuc xong: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); KHONG train, KHONG ghi gi)
+  [FAIL] N-ghi_do_khong_newline-0b dry-run bao ke hoach xu ly nhat ky 'cat_duoi'  (ull,
+   "trang_thai": null,
+   "loi": null
+  }
+ ]
+}
+[OK] kiem tiep tuc xong: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); KHONG train, KHONG ghi gi)
+  [FAIL] N-ghi_do_khong_newline-A resume THAT bi kill sau epoch 2: nhat ky DOC LAI duoc, khong canh bao; 2 su kien hop le cu giu nguyen tung su kien + [bat_dau lan 1, epoch_da_luu 2]  (kill True; loi C:\Users\Mikuno\AppData\Local\Temp\test_tiep_tuc_vk42hk46\runs\yolov8n_NK\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky; canh bao []; moi [])
+  [FAIL] N-ghi_do_khong_newline-B ban sao nhat ky TRUOC sua trung tung byte (sha256 ca4e670daaa8); bien nhan xu_ly_nhat_ky.json = ban ghi trong bat_dau lan 1: 'cat_duoi', bo 56 byte  (ban sao False; bien nhan None bo None; trong bat_dau False)
+  [PASS] N-ghi_do_khong_newline-C checkpoint / bang chung cu bao toan: last_e001.pt va nguon_tiep_tuc_1.pt = e001 goc; file cu luu truoc khi ghi tiep trung goc  ({'args.yaml': True, 'results.csv': True, 'theo_batch.csv': True, 'weights/last.pt': True, 'weights/best.pt': True})
+  [FAIL] N-ghi_do_khong_newline-D preflight tiep theo exit 0 'tiep tuc tu epoch 3/3'; resume tiep (lan 2) exit 0 toi het; nhat ky doc lai du: cu + lan 1 + lan 2 + ket_thuc hoan_tat  (preflight 2; resume 2; loi C:\Users\Mikuno\AppData\Local\Temp\test_tiep_tuc_vk42hk46\runs\yolov8n_NK\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky; moi []; LOI CAU HINH] C:\Users\Mikuno\AppData\Local\Temp\test_tiep_tuc_vk42hk46\runs\yolov8n_NK\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky)
+  [FAIL] N-ghi_do_khong_newline-B2 lan tiep tuc 2: ban sao nhat ky truoc lan 2 trung tung byte; bien nhan 'khong' (nhat ky sach sau lan 1)  (ban sao False; bien nhan False)
+  [PASS] N-ghi_do_co_newline-0a dry-run --tiep-tuc: exit 0, KHONG doi file (anh chup sha256 thu muc luot trung)  (exit 0; ot": "moi",
+   "lan": 0,
+   "epoch": null,
+   "trang_thai": null,
+   "loi": null
+  }
+ ]
+}
+[OK] kiem tiep tuc xong: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); KHONG train, KHONG ghi gi)
+  [FAIL] N-ghi_do_co_newline-0b dry-run bao ke hoach xu ly nhat ky 'cat_duoi'  (ull,
+   "trang_thai": null,
+   "loi": null
+  }
+ ]
+}
+[OK] kiem tiep tuc xong: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); KHONG train, KHONG ghi gi)
+  [FAIL] N-ghi_do_co_newline-A resume THAT bi kill sau epoch 2: nhat ky DOC LAI duoc, khong canh bao; 2 su kien hop le cu giu nguyen tung su kien + [bat_dau lan 1, epoch_da_luu 2]  (kill True; loi C:\Users\Mikuno\AppData\Local\Temp\test_tiep_tuc_vk42hk46\runs\yolov8n_NK\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky; canh bao []; moi [])
+  [FAIL] N-ghi_do_co_newline-B ban sao nhat ky TRUOC sua trung tung byte (sha256 a33ed8747f1f); bien nhan xu_ly_nhat_ky.json = ban ghi trong bat_dau lan 1: 'cat_duoi', bo 57 byte  (ban sao False; bien nhan None bo None; trong bat_dau False)
+  [PASS] N-ghi_do_co_newline-C checkpoint / bang chung cu bao toan: last_e001.pt va nguon_tiep_tuc_1.pt = e001 goc; file cu luu truoc khi ghi tiep trung goc  ({'args.yaml': True, 'results.csv': True, 'theo_batch.csv': True, 'weights/last.pt': True, 'weights/best.pt': True})
+  [FAIL] N-ghi_do_co_newline-D preflight tiep theo exit 0 'tiep tuc tu epoch 3/3'; resume tiep (lan 2) exit 0 toi het; nhat ky doc lai du: cu + lan 1 + lan 2 + ket_thuc hoan_tat  (preflight 2; resume 2; loi C:\Users\Mikuno\AppData\Local\Temp\test_tiep_tuc_vk42hk46\runs\yolov8n_NK\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky; moi []; LOI CAU HINH] C:\Users\Mikuno\AppData\Local\Temp\test_tiep_tuc_vk42hk46\runs\yolov8n_NK\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky)
+  [FAIL] N-ghi_do_co_newline-B2 lan tiep tuc 2: ban sao nhat ky truoc lan 2 trung tung byte; bien nhan 'khong' (nhat ky sach sau lan 1)  (ban sao False; bien nhan False)
+  [PASS] N-hop_le_thieu_newline-0a dry-run --tiep-tuc: exit 0, KHONG doi file (anh chup sha256 thu muc luot trung)  (exit 0;  null,
+   "lan": 0,
+   "epoch": null,
+   "trang_thai": "bi_ngat",
+   "loi": null
+  }
+ ]
+}
+[OK] kiem tiep tuc xong: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); KHONG train, KHONG ghi gi)
+  [FAIL] N-hop_le_thieu_newline-0b dry-run bao ke hoach xu ly nhat ky 'them_newline'  (
+   "trang_thai": "bi_ngat",
+   "loi": null
+  }
+ ]
+}
+[OK] kiem tiep tuc xong: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); KHONG train, KHONG ghi gi)
+  [FAIL] N-hop_le_thieu_newline-A resume THAT bi kill sau epoch 2: nhat ky DOC LAI duoc, khong canh bao; 3 su kien hop le cu giu nguyen tung su kien + [bat_dau lan 1, epoch_da_luu 2]  (kill True; loi C:\Users\Mikuno\AppData\Local\Temp\test_tiep_tuc_vk42hk46\runs\yolov8n_NK\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky; canh bao []; moi [])
+  [FAIL] N-hop_le_thieu_newline-B ban sao nhat ky TRUOC sua trung tung byte (sha256 a90ab4643156); bien nhan xu_ly_nhat_ky.json = ban ghi trong bat_dau lan 1: 'them_newline', bo 0 byte  (ban sao False; bien nhan None bo None; trong bat_dau False)
+  [PASS] N-hop_le_thieu_newline-C checkpoint / bang chung cu bao toan: last_e001.pt va nguon_tiep_tuc_1.pt = e001 goc; file cu luu truoc khi ghi tiep trung goc  ({'args.yaml': True, 'results.csv': True, 'theo_batch.csv': True, 'weights/last.pt': True, 'weights/best.pt': True})
+  [FAIL] N-hop_le_thieu_newline-D preflight tiep theo exit 0 'tiep tuc tu epoch 3/3'; resume tiep (lan 2) exit 0 toi het; nhat ky doc lai du: cu + lan 1 + lan 2 + ket_thuc hoan_tat  (preflight 2; resume 2; loi C:\Users\Mikuno\AppData\Local\Temp\test_tiep_tuc_vk42hk46\runs\yolov8n_NK\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky; moi []; LOI CAU HINH] C:\Users\Mikuno\AppData\Local\Temp\test_tiep_tuc_vk42hk46\runs\yolov8n_NK\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky)
+  [FAIL] N-hop_le_thieu_newline-B2 lan tiep tuc 2: ban sao nhat ky truoc lan 2 trung tung byte; bien nhan 'khong' (nhat ky sach sau lan 1)  (ban sao False; bien nhan False)
+  [PASS] N-giua dong hong o GIUA nhat ky: dry-run va resume THAT deu exit 2 'hong o GIUA'; thu muc luot KHONG doi (khong sao luu, khong train)  (exit 2/2; LOI CAU HINH] C:\Users\Mikuno\AppData\Local\Temp\test_tiep_tuc_vk42hk46\runs\yolov8n_NK\nhat_ky_luot.jsonl: dong 2 hong o GIUA nhat ky -- khong tin duoc nhat ky)
+
+KET QUA: 12/30 PASS
+# exit=1 2026-10-03 12:24:39 +0700

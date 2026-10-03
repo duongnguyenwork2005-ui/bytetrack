@@ -1,0 +1,6 @@
+# 2026-10-03 12:29:19 +0700 HEAD 81fe10c -- python handoff/logs/review40/07_de_xuat_duoi_csv.py (thu muc tam; NGOAI pham vi, CHUA sua)
+results.csv duoi byte_nul: ValueError: could not convert string to float: '\x00\x00\x00\x00' | la LoiTiepTuc: False
+results.csv duoi so_do_dang: khong loi; {'dong_giu': 3, 'dong_bo': 0}; 24 byte cuoi con lai b'x\r\n1,10,0.5\r\n2,20,0.6\r\n1'
+results.csv duoi dong_do: khong loi; {'dong_giu': 2, 'dong_bo': 1}; 24 byte cuoi con lai b',x\r\n1,10,0.5\r\n2,20,0.6\r\n'
+theo_batch.csv: dong cuoi '0,1,' ghi do + append '1,2,0' -> dong doc lai {'lan': '0', 'epoch': '1', 'i': '1', None: ['2', '0']}
+# exit=0

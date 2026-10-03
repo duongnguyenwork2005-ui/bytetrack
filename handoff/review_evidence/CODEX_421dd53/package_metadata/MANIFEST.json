@@ -1,0 +1,3256 @@
+{
+  "vong": 38,
+  "base_commit": "b83dc1295cad821b55c60ae15855331b870fa98f",
+  "base_commit_short": "b83dc12",
+  "base_snapshot": "handoff/archive/review_delta_b83dc12.zip",
+  "base_mo_ta": "Codex nghiem thu b83dc12: PASS WITH LIMITATIONS cho xuat dataset day du vong 38 (handoff/CODEX_REVIEW_b83dc12.md); goi 816.591 B sha256 f4efa478... khop. Pham vi reviewer: 115/115 payload + 3 alias, 118/118 duong dan ap nguoc/xuoi, 6/6 preimage, 91/91 bang chung 0c0a07a, 188/188 dieu kien doi chieu log/hash/so lieu; KHONG kiem truc tiep dataset 8,03 GB, KHONG toan cay Git. Hai ghi chu khong chan R38-N1 (789 buoc/epoch la uoc tinh tinh), R38-N2 (kiem frame dung lai chon_frame) gop vao tai lieu vong 39.",
+  "target_commit": "421dd53ecbe171ff11219a7efba900cdbbe5a34e",
+  "target_commit_short": "421dd53",
+  "target_subject": "Ban giao vong 40: brief, phu luc sua R39-F1, handoff hang 35 (REQUEST CHANGES) + hang 36",
+  "tao_luc": "2026-10-03T12:34:28",
+  "commits": [
+    "421dd53 Ban giao vong 40: brief, phu luc sua R39-F1, handoff hang 35 (REQUEST CHANGES) + hang 36",
+    "72ac1bf Vong 40 suite bi anh huong 92/92 + 34/34; repro Codex sau sua (cap ham) van 3; repro qua buoc chuan bi 0; bang chung de xuat",
+    "81fe10c Vong 40 test moi tren MA CU 1454b3d (nhom N, chay that): 12/30 -- khop dung du doan dang ky truoc",
+    "42b44fc Vong 40 test resume lan 2: 102/102 PASS (exit 0) -- dung so phep dang ky truoc (68 cu + U9/U10/U10b + S20 + N0 + 4x7 N + N-giua)",
+    "074c486 Vong 40 test lan 1: 98/99 (nhom N 30/30 + S20 dat; U dung o U8 thieu nhat ky) -> sua thiet lap U8 + LoiTiepTuc ro rang",
+    "6fc979f Vong 40 sua R39-F1: xu ly duoi nhat ky o buoc chuan bi ghi cua resume that (sao luu nguyen byte, ghi nguyen tu)",
+    "0e58cf8 Vong 40 ghi nhan review 1454b3d: REQUEST CHANGES (R39-F1); base GIU b83dc12; tai hien truoc khi sua",
+    "1454b3d Ban giao vong 39: brief, phu luc (resume + bo giam sat), handoff hang 35",
+    "04528c0 Vong 39 tinh lai DOC LAP RAM 6 luot GPU tu CSV (ma rieng, khong dung ham cong cu): 60/60 dieu kien dat",
+    "b00d3fd Vong 39 test resume lan 5: 68/68 PASS (exit 0) -- R1b/K9 dat ca hai model (resume_training tat mosaic khi tiep tuc sau epoch tat mosaic)",
+    "2625997 Vong 39 test resume: them R1b/K9 -- tiep tuc SAU epoch tat mosaic (nhanh resume_training); chi sua test",
+    "2ff9899 Vong 39 dinh chinh R38-N1 / R38-N2 + cap nhat ke hoach (resume, giam sat, lenh terminal rieng)",
+    "eca9008 Vong 39 kiem resume + bo giam sat tren GPU, dataset smoke, 2 model: DAT 21/21 tieu chi moi model (exit 0)",
+    "c183a12 Vong 39 suite bi anh huong truc tiep (runner doi): test_detector_5lop 92/92, test_pilot_chan_doan 34/34 PASS (exit 0)",
+    "4e0f80d Vong 39 test resume lan 4: 64/64 PASS (exit 0) -- them U7a/U7b/U8/S19 (best.pt theo quy dao, cat results.csv) + K7 mo rong",
+    "2f9eee4 Vong 39 resume: best.pt theo QUY DAO + cat results.csv ve epoch da luu (ngat giua luc ultralytics ghi va nhat ky)",
+    "bfd1e40 Vong 39 test resume lan 3: 60/60 PASS (exit 0) -- K4 dat ca hai model, mosaic p {1: 1,0, 2: 0,0, 3: 0,0} C1 = I/R",
+    "53a328f Vong 39 sua phep do mosaic (lan 2: 57/59, K4 FAIL chi o mosaic): doc p cua transform Mosaic; them U6",
+    "26fdc81 Vong 39 sua test resume: argv spy cat [3:] (lan 1 dung o nhom S do argparse SystemExit 2); SystemExit khong dung ca suite",
+    "231006c Vong 39: resume runner huan luyen (sau epoch da xong) + cong cu giam sat bam PID; ke hoach kiem dang ky truoc",
+    "53dfc22 Vong 39 ghi nhan nghiem thu b83dc12: PASS WITH LIMITATIONS (xuat dataset day du v38); base -> b83dc12"
+  ],
+  "so_file_trong_goi": 248,
+  "so_file_bo_qua": 84,
+  "so_file_ho_tro": 0,
+  "so_duong_dan_trong_patch": 332,
+  "thu_tu_doc": [
+    "REVIEW_BRIEF.md",
+    "patch/delta_b83dc12..421dd53.diff",
+    "logs/",
+    "data/",
+    "DEPENDENCIES.md"
+  ],
+  "file_trong_goi": [
+    {
+      "status": "sua",
+      "path": "CODEX_HANDOFF.md",
+      "trong_patch": true,
+      "trong_goi": "files/CODEX_HANDOFF.md",
+      "sha256_base": "ca9208812b718e997071d5d4c111b92286c7c1d52a3a649855f7f1ea74cbd411",
+      "sha256_target": "5ee6ab57fb6f81e38ea36272125d2586e9c242a6a375d0b5c9e246f33b877fba",
+      "bytes": 93315
+    },
+    {
+      "status": "them",
+      "path": "handoff/CODEX_REVIEW_1454b3d.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/CODEX_REVIEW_1454b3d.md",
+      "sha256_base": "",
+      "sha256_target": "44200551f7401fb3bb9a0645e13c77bd4f8b6d16b3f4b8bb3aec218eade44db0",
+      "bytes": 12122
+    },
+    {
+      "status": "them",
+      "path": "handoff/CODEX_REVIEW_b83dc12.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/CODEX_REVIEW_b83dc12.md",
+      "sha256_base": "",
+      "sha256_target": "d58d8f741845d4146251990e333c20cb70bd92c6faf6efaf308164d8f4345df0",
+      "bytes": 9965
+    },
+    {
+      "status": "sua",
+      "path": "handoff/DETECTOR_TRAIN_PLAN.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/DETECTOR_TRAIN_PLAN.md",
+      "sha256_base": "2c64b264e3b27c42c4d2070c1f50554e3780301ddba01cb17950d705f6470c18",
+      "sha256_target": "4d01373ea8bb9ab02d5ac762c9e27c7be6596f6d03a6a45cbd1b21230a70bbf8",
+      "bytes": 29260
+    },
+    {
+      "status": "sua",
+      "path": "handoff/PLAN_DA_CHOT.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/PLAN_DA_CHOT.md",
+      "sha256_base": "560d20cfcd5cfa241e63e853757272ad0e4815cbfeb6133420ba53f0cd2dd634",
+      "sha256_target": "36bb710e7544930020265aa7d3e873892f792e01c8f79f134dd2a3759e7d01cb",
+      "bytes": 7320
+    },
+    {
+      "status": "sua",
+      "path": "handoff/REVIEW38_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/REVIEW38_CHI_TIET.md",
+      "sha256_base": "f2af6d09404ab1d539d903413137457056c8b99a1f45e14592b4da860a2af42a",
+      "sha256_target": "a67ee49a3c1c3d0be8acb295090c136adb679e9ec9a7530657acba315a6736d3",
+      "bytes": 14092
+    },
+    {
+      "status": "them",
+      "path": "handoff/REVIEW39_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/REVIEW39_CHI_TIET.md",
+      "sha256_base": "",
+      "sha256_target": "59b0703b2c7dcf2da0f669eb5bba4f16ac313c926240b94af70e3eaf9b8381cb",
+      "bytes": 36923
+    },
+    {
+      "status": "them",
+      "path": "handoff/REVIEW40_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/REVIEW40_CHI_TIET.md",
+      "sha256_base": "",
+      "sha256_target": "a28891b7c64f4d933b01869514878eb4f30520b65902d90b4c9c7a56f8e76842",
+      "bytes": 14141
+    },
+    {
+      "status": "sua",
+      "path": "handoff/REVIEW_BRIEF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/REVIEW_BRIEF.md",
+      "sha256_base": "8d16e64bbe97ca255a2eaf096dc979c2f6c1d3495db2b6f6f8ef04ef2caeb527",
+      "sha256_target": "5e28d420cd5670c184dd5f0ceb5ed1e45992895cf46c49942d06f17595ee1a2e",
+      "bytes": 3407
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/.gitattributes",
+      "sha256_base": "",
+      "sha256_target": "9215f026aa9ba45bbd5134b73431a92331a2f178bb7cc23fe2d9c1f1f50828cd",
+      "bytes": 77
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/00_trang_thai_dau.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/00_trang_thai_dau.log",
+      "sha256_base": "",
+      "sha256_target": "d900953716818d7b8de219e9f8363c3aeb2a5b906ba7d0f29ff04ef151679ad8",
+      "bytes": 1962
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/01_ke_hoach_kiem_resume.md",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/01_ke_hoach_kiem_resume.md",
+      "sha256_base": "",
+      "sha256_target": "082112a43b293eb2dd4e2bba216aa097a30aa1b8cf546c4c49d875d7ec1733e8",
+      "bytes": 17607
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/02_test_chay_giam_sat_lan1.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/02_test_chay_giam_sat_lan1.log",
+      "sha256_base": "",
+      "sha256_target": "ef850d0efb57a8b89aa9f389ea6aff22cf9e89a8e22955654329563914c3f501",
+      "bytes": 4427
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan1.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan1.log",
+      "sha256_base": "",
+      "sha256_target": "5884ce2beb17c81c2d5a1766f09e378c88353362e3cccece8555964fdbaeaa05",
+      "bytes": 2647
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan2.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan2.log",
+      "sha256_base": "",
+      "sha256_target": "bdcbbb0039523a369abc2ca6c517a0c813b39e33c77556d8fc76a51d05d7a2af",
+      "bytes": 14798
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan3.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan3.log",
+      "sha256_base": "",
+      "sha256_target": "596c9958165c72bd9c2db22e2b22c2863a47e957d80fbc25378f80569ccb4c33",
+      "bytes": 15136
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan4.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan4.log",
+      "sha256_base": "",
+      "sha256_target": "bd0b14defc3a939f34184085fa26f18dbe4eed74a27f25485e2ebc0910ea7088",
+      "bytes": 16801
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan5.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan5.log",
+      "sha256_base": "",
+      "sha256_target": "11c69cd114ba5c621bba4a41ed1816d41290ac00e3ca75f45ad9ab263fb69e0e",
+      "bytes": 18055
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/04_test_detector_5lop.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/04_test_detector_5lop.log",
+      "sha256_base": "",
+      "sha256_target": "f58ac7f115e4fcbfe89f25cb46bf1becc1fbe0d3ce1ccf8d4583e10eb9f5343d",
+      "bytes": 23976
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/04_test_pilot_chan_doan.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/04_test_pilot_chan_doan.log",
+      "sha256_base": "",
+      "sha256_target": "05d00727cffa75557e7ede239bc1d52995d57d7390c79e303b545116cb40eb9b",
+      "bytes": 6604
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_C/log.txt",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_C/log.txt",
+      "sha256_base": "",
+      "sha256_target": "b22265fbd9395b8ec9cb03350a2fc585472ac380ced11b6e9dcee4e145a110e2",
+      "bytes": 34297
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_C/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_C/ram_mau_tho.csv",
+      "sha256_base": "",
+      "sha256_target": "2842f3a5a6b57a3b2bb025005fe6043ffda0a7e79fa76ad23cd1b249a8e80cd9",
+      "bytes": 31902
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_C/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_C/tom_tat.json",
+      "sha256_base": "",
+      "sha256_target": "9023565617af88ba7e9f165e9af9abb97235d79973225f6fd01e4b16e8add4c2",
+      "bytes": 1850
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_C/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_C/trang_thai.json",
+      "sha256_base": "",
+      "sha256_target": "5eec6283e2d85c1f777664b8f8a2c9859021c4c961debfc38a9ce8ffc292e1b5",
+      "bytes": 1025
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_I/log.txt",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_I/log.txt",
+      "sha256_base": "",
+      "sha256_target": "ba7d64c3414ca81da5d3fff736a0ba7875df6d7fece4407511f58ca4825a5264",
+      "bytes": 15546
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_I/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_I/ram_mau_tho.csv",
+      "sha256_base": "",
+      "sha256_target": "b5b8c72be248ac0f695dcc3ea6b284cc5e25e5fd9a89fe65ac87b68a32f11c90",
+      "bytes": 12480
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_I/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_I/tom_tat.json",
+      "sha256_base": "",
+      "sha256_target": "24a160934250e207bb798cf222f5f63f45769fb398720020732d4d009c241d03",
+      "bytes": 1841
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_I/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_I/trang_thai.json",
+      "sha256_base": "",
+      "sha256_target": "761f6224a180fa1b7a51e0c002b6ddb0f513fc6966904993920ad1336a6a4f9f",
+      "bytes": 1025
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_R/log.txt",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_R/log.txt",
+      "sha256_base": "",
+      "sha256_target": "895d9f16ba624035f148c4e3812cfdc47c7457682ca8563d352c18ae8b12557d",
+      "bytes": 26325
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_R/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_R/ram_mau_tho.csv",
+      "sha256_base": "",
+      "sha256_target": "de15786cf60b72567e5a62cba322461ace958da7cc7f84afec009d0039ae451a",
+      "bytes": 22516
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_R/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_R/tom_tat.json",
+      "sha256_base": "",
+      "sha256_target": "376e5b3b244bfa6f9bb3cc25f1c2fac2314b0821c3b69fef4ad07bd4deb327cb",
+      "bytes": 1864
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_R/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_R/trang_thai.json",
+      "sha256_base": "",
+      "sha256_target": "4e5ca0bc2598151aec8541b29b77fa927f1daf46a99b62b3e1f0ccbaab7f35e0",
+      "bytes": 1039
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_luot/C__args.yaml",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__args.yaml",
+      "sha256_base": "",
+      "sha256_target": "3099dc18b0cddda5eac54f90dc2f295a6b065f569d3e68d157abfeb57495f83a",
+      "bytes": 1959
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_luot/C__nhat_ky_luot.jsonl",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__nhat_ky_luot.jsonl",
+      "sha256_base": "",
+      "sha256_target": "212f5bb465b8eb7147ea5ee35e0ddf8e11d44ed7d7fdd075eb41c88483f67cec",
+      "bytes": 7999
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_luot/C__results.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__results.csv",
+      "sha256_base": "",
+      "sha256_target": "7acbc810915fdd405b97a9504a9b91d3a884168c8652ba2b762f1d25e162b8ed",
+      "bytes": 534
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_luot/C__theo_batch.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__theo_batch.csv",
+      "sha256_base": "",
+      "sha256_target": "4bddf4b83ec5dc803220106929e6f963aea0218160938170ac08f46208530f21",
+      "bytes": 29668
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_luot/I__args.yaml",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__args.yaml",
+      "sha256_base": "",
+      "sha256_target": "11cb5db9ff86a4ba1bbee143c65b539d2af4c08a7a194c7a7304650243f62457",
+      "bytes": 2104
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_luot/I__nhat_ky_luot.jsonl",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__nhat_ky_luot.jsonl",
+      "sha256_base": "",
+      "sha256_target": "9894ab3baeca0d1b4ab1e796e872491c8fd6a30d5db952c2726098998b0b93de",
+      "bytes": 15407
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_luot/I__results.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__results.csv",
+      "sha256_base": "",
+      "sha256_target": "8b41891e4e5a6f9275425a2fc23370396684f15cf7cea6daee4ba09c59b4ef9a",
+      "bytes": 536
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_luot/I__theo_batch.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__theo_batch.csv",
+      "sha256_base": "",
+      "sha256_target": "988721993fc8e2cfe1ff352cdcb066bb6feab151330d5e5aa4ff0c173dd30d77",
+      "bytes": 29670
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_luot/ket_qua_runner__yolo11n_C.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/ket_qua_runner__yolo11n_C.json",
+      "sha256_base": "",
+      "sha256_target": "1b8486c00c7029df066926801ccc978d4e09638d9896cc487bfc4b5240a59687",
+      "bytes": 18107
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolo11n_luot/ket_qua_runner__yolo11n_I__tiep_tuc_1.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/ket_qua_runner__yolo11n_I__tiep_tuc_1.json",
+      "sha256_base": "",
+      "sha256_target": "0a40fdb2a99ee0aebb254b8aa6b5686858eb0f4cc4561c3304c4fe2031398a78",
+      "bytes": 23715
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_C/log.txt",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_C/log.txt",
+      "sha256_base": "",
+      "sha256_target": "863a86662c86dc666c279ea9465af3eb683625e5b05ebf1a5a82a62ba2a91e55",
+      "bytes": 34152
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_C/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_C/ram_mau_tho.csv",
+      "sha256_base": "",
+      "sha256_target": "6a4d397726129872df94a55bbaa1d59f116136651bc6015b6519cf35bf04e535",
+      "bytes": 27990
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_C/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_C/tom_tat.json",
+      "sha256_base": "",
+      "sha256_target": "c574252bca024ceb341ba490a5ebbece64cf6da169090c0c9e9a0a4e51e518e5",
+      "bytes": 1849
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_C/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_C/trang_thai.json",
+      "sha256_base": "",
+      "sha256_target": "16148b19e6862a093d8a00da2b571d8a924f0368443fbf7f70d4148b301c634a",
+      "bytes": 1023
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_I/log.txt",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_I/log.txt",
+      "sha256_base": "",
+      "sha256_target": "450ec08d8021a8e8e20e760ee57b1452034d96bfbf0b29e43da7d69baab72793",
+      "bytes": 15400
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_I/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_I/ram_mau_tho.csv",
+      "sha256_base": "",
+      "sha256_target": "c3cc3dd96086e471e6eba66049bad2fb7930f708eed239f6cfaf5e0201bf9ba3",
+      "bytes": 10236
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_I/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_I/tom_tat.json",
+      "sha256_base": "",
+      "sha256_target": "b25af078dbc82f4019e73281a15a8b927f5c96f9c2eb2e11f0fafbda294d7f04",
+      "bytes": 1842
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_I/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_I/trang_thai.json",
+      "sha256_base": "",
+      "sha256_target": "754b8bfef5d07495937305c29c146adcdeb83c4a44b091261bb22e1a75759140",
+      "bytes": 1025
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_R/log.txt",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_R/log.txt",
+      "sha256_base": "",
+      "sha256_target": "7f6031a5e17be8541f3af5c25ff7c62ff4aecaa1edbde6c9ddcaae91ad928f22",
+      "bytes": 26188
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_R/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_R/ram_mau_tho.csv",
+      "sha256_base": "",
+      "sha256_target": "5e8f02d9cbe9aec1de3c354b094492cf98cf76fa14ad4b1a6d0269669c97d9d5",
+      "bytes": 20283
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_R/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_R/tom_tat.json",
+      "sha256_base": "",
+      "sha256_target": "75df1e02fe62d43124114e1a5c2b3b62e5409e86ebff62db17cff69e6f5a5dba",
+      "bytes": 1867
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_R/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_R/trang_thai.json",
+      "sha256_base": "",
+      "sha256_target": "3558a8db3112af2dc2a563d3afef79960f7222bfab0f5da512fdf7d467734de5",
+      "bytes": 1041
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_luot/C__args.yaml",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__args.yaml",
+      "sha256_base": "",
+      "sha256_target": "c8a342f7564e513470dd00deb7a7b971898f8259c53dfe5beaacb7fa375f78db",
+      "bytes": 1948
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_luot/C__nhat_ky_luot.jsonl",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__nhat_ky_luot.jsonl",
+      "sha256_base": "",
+      "sha256_target": "79900bfb44689eea481dab9fc02123c4f61d833567ef7d58748bdefc19d5011b",
+      "bytes": 7977
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_luot/C__results.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__results.csv",
+      "sha256_base": "",
+      "sha256_target": "261857c7eb27341f87646f6b521b97d4b6cfa4e98abf82cc39cd6cbc3e9f7cdd",
+      "bytes": 538
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_luot/C__theo_batch.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__theo_batch.csv",
+      "sha256_base": "",
+      "sha256_target": "c923c36fb5b19bf8373b9f73b9af79a2f3743c526a0dd94a087449e13eaf514a",
+      "bytes": 29646
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_luot/I__args.yaml",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__args.yaml",
+      "sha256_base": "",
+      "sha256_target": "1451c1e3098f57f6cfa38abe2e5b05c3c6b9ea1c40ea21bec72e4514a72a875f",
+      "bytes": 2104
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_luot/I__nhat_ky_luot.jsonl",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__nhat_ky_luot.jsonl",
+      "sha256_base": "",
+      "sha256_target": "e9e4d9b1182c3ccc199b1f3e23cb3dadee05377dd4f1e27634b097eec5e43ba7",
+      "bytes": 15354
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_luot/I__results.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__results.csv",
+      "sha256_base": "",
+      "sha256_target": "cfdd0bdb31445f1182c6b5797aba37481f16ca1275a6d3e4000ab60a9e040f60",
+      "bytes": 534
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_luot/I__theo_batch.csv",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__theo_batch.csv",
+      "sha256_base": "",
+      "sha256_target": "74b5b295d30de2fd3ac1b020f64938d108a574af6d7ababe4a7b4c967f682b70",
+      "bytes": 29646
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_luot/ket_qua_runner__yolov8n_C.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/ket_qua_runner__yolov8n_C.json",
+      "sha256_base": "",
+      "sha256_target": "d01ff16844fc3a892a884288d0086fd907ed456af0d77bfeae7dbb7878a50d1d",
+      "bytes": 18059
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/05_gpu/yolov8n_luot/ket_qua_runner__yolov8n_I__tiep_tuc_1.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/ket_qua_runner__yolov8n_I__tiep_tuc_1.json",
+      "sha256_base": "",
+      "sha256_target": "5c624ac24cf37e8e4fbd596c696b92d01835d7e0ec2671749e6707b79cca5113",
+      "bytes": 23674
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/06_kiem_resume_gpu.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/06_kiem_resume_gpu.json",
+      "sha256_base": "",
+      "sha256_target": "85bf9b3d4ef7c40e4804e712ea09e1dd61240e184dde1b69c2b8a182fc0cd310",
+      "bytes": 13720
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/06_kiem_resume_gpu.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/06_kiem_resume_gpu.log",
+      "sha256_base": "",
+      "sha256_target": "987e3f97232ce8503cc7cd5313e34c6eb503ab81df00973a463ebec54d63cb26",
+      "bytes": 6821
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/07_tinh_lai_ram_doc_lap.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/07_tinh_lai_ram_doc_lap.log",
+      "sha256_base": "",
+      "sha256_target": "9f8343ddb8d47f9ba12a1450064f8fa7f181f05bb5b201bf755010711ef5a100",
+      "bytes": 3711
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/07_tinh_lai_ram_doc_lap.py",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/07_tinh_lai_ram_doc_lap.py",
+      "sha256_base": "",
+      "sha256_target": "2be726b438e2281a5d9b2128cca4be7d8aa222294e4ae6284c8471be0fa19eea",
+      "bytes": 4417
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/cau_hinh_kiem_resume_3epoch.yaml",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/cau_hinh_kiem_resume_3epoch.yaml",
+      "sha256_base": "",
+      "sha256_target": "82e8c4ae585a7dccdc1c07956494ec2a160ac0724d3a8717fb69164e8651bb8b",
+      "bytes": 3261
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review39/kiem_resume_gpu_smoke.py",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review39/kiem_resume_gpu_smoke.py",
+      "sha256_base": "",
+      "sha256_target": "401ef1e3d45e051a1146f5f27b1d2b3338cf55aa78f493a49374757b67f1b2c3",
+      "bytes": 14913
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/.gitattributes",
+      "sha256_base": "",
+      "sha256_target": "3cfcfc899e31e1da8a84d7f1e79ca9528383e5b1c3e79fac89141c48b9f28c21",
+      "bytes": 77
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/00_trang_thai_dau.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/00_trang_thai_dau.log",
+      "sha256_base": "",
+      "sha256_target": "a6a852fdacd32efe14a8d2bf7594ed3f7e564de002d851a764539a3d16553d89",
+      "bytes": 2485
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/01_repro_truoc_sua.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/01_repro_truoc_sua.json",
+      "sha256_base": "",
+      "sha256_target": "fb1d38adae33a57d92d2a38f1e9a14e1d5fd1b89df9af5eadd3c2296c5a9030d",
+      "bytes": 4194
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/01_repro_truoc_sua.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/01_repro_truoc_sua.log",
+      "sha256_base": "",
+      "sha256_target": "6682726347eea591ad7c676e719c768790913161b294d56b49a6e4a98331ee2d",
+      "bytes": 4510
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/02_ke_hoach_kiem_r39f1.md",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/02_ke_hoach_kiem_r39f1.md",
+      "sha256_base": "",
+      "sha256_target": "3aa346e646d528598bf5a09f4de22906710b46a74cfafd4a589733d17582e67a",
+      "bytes": 7426
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/03_test_tiep_tuc_huan_luyen_lan1.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/03_test_tiep_tuc_huan_luyen_lan1.log",
+      "sha256_base": "",
+      "sha256_target": "24b81991fa1b1ae2adb3cca0be599dd83d7c2783fca1a00891240e7e2644b2d7",
+      "bytes": 28470
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/03_test_tiep_tuc_huan_luyen_lan2.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/03_test_tiep_tuc_huan_luyen_lan2.log",
+      "sha256_base": "",
+      "sha256_target": "2deee8f050b7d39a6b0cf67ed5563dff37350e08dc8d883e6813db128eeb71b9",
+      "bytes": 27822
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/04_nhom_n_tren_ma_cu_1454b3d.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/04_nhom_n_tren_ma_cu_1454b3d.log",
+      "sha256_base": "",
+      "sha256_target": "c75029539cfbdeee57138390c8cb9422c4483ecdb0633ca270a635bef1f062af",
+      "bytes": 9693
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/05_test_detector_5lop.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/05_test_detector_5lop.log",
+      "sha256_base": "",
+      "sha256_target": "e107aabf12308bfb5bb5317dac8a48dfd7df939f14c794a45e50af112881a408",
+      "bytes": 23824
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/05_test_pilot_chan_doan.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/05_test_pilot_chan_doan.log",
+      "sha256_base": "",
+      "sha256_target": "9d5b06eb344a55c9f5e1629448c668d03112ba76c4841016e0eb7cf0b118c667",
+      "bytes": 6603
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/06_repro_sau_sua.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/06_repro_sau_sua.json",
+      "sha256_base": "",
+      "sha256_target": "b4df29a02184a2d9d129b0da314a09555027ca6aaa88d4fa9747203ede97f21e",
+      "bytes": 4195
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/06_repro_sau_sua.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/06_repro_sau_sua.log",
+      "sha256_base": "",
+      "sha256_target": "3b0f30c370aadac86286467c2910460616332bdc4fd372b2e2cee46ffa78de5b",
+      "bytes": 4590
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.json",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.json",
+      "sha256_base": "",
+      "sha256_target": "80f6d87e64af8f4383799c1eb5570053030cbb61aaf7b77c9c298ec4aea3c775",
+      "bytes": 4243
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.log",
+      "sha256_base": "",
+      "sha256_target": "e875475581af75ef207b12ff78072e66eee42e0575975bb7d1b3178b66be675b",
+      "bytes": 4417
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.py",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/06b_repro_qua_buoc_chuan_bi.py",
+      "sha256_base": "",
+      "sha256_target": "0923bd6019ddd65b6a96aef64586c9bd2193d3e8d04f4371093d888756549254",
+      "bytes": 3539
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/07_de_xuat_duoi_csv.log",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/07_de_xuat_duoi_csv.log",
+      "sha256_base": "",
+      "sha256_target": "8604732eb03144313ee91423737edc28cad6170821bd1c7d08f2892b0dff67c4",
+      "bytes": 641
+    },
+    {
+      "status": "them",
+      "path": "handoff/logs/review40/07_de_xuat_duoi_csv.py",
+      "trong_patch": true,
+      "trong_goi": "logs/handoff/logs/review40/07_de_xuat_duoi_csv.py",
+      "sha256_base": "",
+      "sha256_target": "11a608c7a5fee5000025d6992634ba8f17ad89a25a3b112650df22dd9e554bc9",
+      "bytes": 1716
+    },
+    {
+      "status": "sua",
+      "path": "handoff/review_base.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_base.json",
+      "sha256_base": "9be2f41c7919aaf7596e48f93bf2cb29bbcd213bdca6b3a68600d9e45baf15de",
+      "sha256_target": "18a002737b66d07b92900d62cf7c59dc6251909ff360ac578016b66f154ddb4e",
+      "bytes": 8752
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/.gitattributes",
+      "sha256_base": "",
+      "sha256_target": "3fa9c5704fa10c770f994e151f707483b2c9752f3b8a446c30f357b6bc5ea8b6",
+      "bytes": 85
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/EVIDENCE_README.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/EVIDENCE_README.md",
+      "sha256_base": "",
+      "sha256_target": "33117596823d48fc4f6b96e3eef03471844fb641a6e60e270ff2e437d95b92c3",
+      "bytes": 2336
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/REPRO_REVIEW_1454b3d.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/REPRO_REVIEW_1454b3d.py",
+      "sha256_base": "",
+      "sha256_target": "af78c15cc4f645c834d861c9c01be083ba74fc8fbbb5acf5b5d68fdefa4cfb7c",
+      "bytes": 3277
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/SHA256SUMS.txt",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/SHA256SUMS.txt",
+      "sha256_base": "",
+      "sha256_target": "20ad394206f6de7359084ae3b836f533d878fb1fcb96c29c8d1fe80e9a4e853a",
+      "bytes": 11190
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/base_preimages/CODEX_HANDOFF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/CODEX_HANDOFF.md",
+      "sha256_base": "",
+      "sha256_target": "ca9208812b718e997071d5d4c111b92286c7c1d52a3a649855f7f1ea74cbd411",
+      "bytes": 89671
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md",
+      "sha256_base": "",
+      "sha256_target": "2c64b264e3b27c42c4d2070c1f50554e3780301ddba01cb17950d705f6470c18",
+      "bytes": 26708
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/PLAN_DA_CHOT.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/PLAN_DA_CHOT.md",
+      "sha256_base": "",
+      "sha256_target": "560d20cfcd5cfa241e63e853757272ad0e4815cbfeb6133420ba53f0cd2dd634",
+      "bytes": 6438
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/REVIEW38_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/REVIEW38_CHI_TIET.md",
+      "sha256_base": "",
+      "sha256_target": "f2af6d09404ab1d539d903413137457056c8b99a1f45e14592b4da860a2af42a",
+      "bytes": 12795
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/REVIEW_BRIEF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/REVIEW_BRIEF.md",
+      "sha256_base": "",
+      "sha256_target": "8d16e64bbe97ca255a2eaf096dc979c2f6c1d3495db2b6f6f8ef04ef2caeb527",
+      "bytes": 3057
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/review_base.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/review_base.json",
+      "sha256_base": "",
+      "sha256_target": "9be2f41c7919aaf7596e48f93bf2cb29bbcd213bdca6b3a68600d9e45baf15de",
+      "bytes": 8548
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/base_preimages/src/run_all_tests.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/src/run_all_tests.py",
+      "sha256_base": "",
+      "sha256_target": "dd7d8c80364b74ee3137700e7b4edc38792781848d7321309896260cefec338f",
+      "bytes": 7606
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/base_preimages/src/train_detector.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/src/train_detector.py",
+      "sha256_base": "",
+      "sha256_target": "cd88b6f37e7b9ecbd81c80650fe6a883994c121d340ac13428ee9709d7cba8d9",
+      "bytes": 37456
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/check_package.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/check_package.py",
+      "sha256_base": "",
+      "sha256_target": "d88eac7d735e6ef7da816c9ac7a2488707298a810bcc4e6623bbd70f91fac565",
+      "bytes": 4644
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/check_receipts.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/check_receipts.py",
+      "sha256_base": "",
+      "sha256_target": "991287a4b733c720aac903ee0fec781bc13391ab159c546267f1ded3f5937665",
+      "bytes": 6515
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/evidence/base_continuity.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/evidence/base_continuity.json",
+      "sha256_base": "",
+      "sha256_target": "5ed3fda9eeef0a31c370f85daf6daad3e0316baf108ad023d55dfe1fa5cea4c8",
+      "bytes": 1314
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/evidence/monitor_posix.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/evidence/monitor_posix.json",
+      "sha256_base": "",
+      "sha256_target": "bc56634e74376fff4bc06068c5aaa6d5657a075b97b3f9d1a36e4b7c12b02575",
+      "bytes": 2080
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/evidence/monitor_posix.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/evidence/monitor_posix.log",
+      "sha256_base": "",
+      "sha256_target": "96772997e591b05b044882160ccac06c1c89975aabb4982cfd1d800b158aabea",
+      "bytes": 8657
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/evidence/monitor_posix_native.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/evidence/monitor_posix_native.json",
+      "sha256_base": "",
+      "sha256_target": "97eb1fcc00aaad654857731c78b66d5ac275cb456fba2524d462a995022b7fda",
+      "bytes": 2769
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/evidence/monitor_posix_native.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/evidence/monitor_posix_native.log",
+      "sha256_base": "",
+      "sha256_target": "a154eb649d59f669b5ec45cc278cf3ffa897dce4a98fc948d31f055bc1f8beae",
+      "bytes": 6038
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/evidence/package.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/evidence/package.json",
+      "sha256_base": "",
+      "sha256_target": "e0383c4ad86918756fbc80628376c4c809080e36f114324cd52cd144af64a700",
+      "bytes": 333
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/evidence/receipts_recomputed.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/evidence/receipts_recomputed.json",
+      "sha256_base": "",
+      "sha256_target": "bce78451cc96fd0ac68afca523015896a7c369cb53a2173653d9ed9fec7c6d6f",
+      "bytes": 13393
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/evidence/receipts_recomputed.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/evidence/receipts_recomputed.log",
+      "sha256_base": "",
+      "sha256_target": "240235c68cd1b46e2e93a4fc1077859ed792c392904bcd11e7e94b8bf6f3eb35",
+      "bytes": 1258
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/evidence/repro_journal.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/evidence/repro_journal.json",
+      "sha256_base": "",
+      "sha256_target": "288ad425cb4d1002b9ffc2277d9b00e25636f40e7509995ae6317ff8fe3ed322",
+      "bytes": 4131
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/package_metadata/DEPENDENCIES.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/package_metadata/DEPENDENCIES.md",
+      "sha256_base": "",
+      "sha256_target": "c2b92faf6dfc488c02c00bc12a8dd7a40dae31f0688d6afef1edbedaa01852f8",
+      "bytes": 7809
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/package_metadata/MANIFEST.csv",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/package_metadata/MANIFEST.csv",
+      "sha256_base": "",
+      "sha256_target": "ea47f00b489cc5418cf744a9b60ed2e2c947ced058547f6dd6ba6d985090165c",
+      "bytes": 58194
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/package_metadata/MANIFEST.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/package_metadata/MANIFEST.json",
+      "sha256_base": "",
+      "sha256_target": "b8f1e326b383cf2923a3b839cf42dd3fefc628d599d21d6bf1e47842238a5f74",
+      "bytes": 96902
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/run_monitor_checks.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/run_monitor_checks.py",
+      "sha256_base": "",
+      "sha256_target": "73b1332c80ed7db6699be9ee146289178ea6e7cc497abba0d6f2d9cc8d405a68",
+      "bytes": 1219
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/REVIEW39_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/tree/handoff/REVIEW39_CHI_TIET.md",
+      "sha256_base": "",
+      "sha256_target": "62ec8590d4098baa42c70df5df03d9c2559be05ddfefe4eba2cd0f8ff1c9a473",
+      "bytes": 36610
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/REVIEW_BRIEF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/tree/handoff/REVIEW_BRIEF.md",
+      "sha256_base": "",
+      "sha256_target": "4ebe52bffd085d0f9e2b38a34deb01b67ce38fd3c4cdf1221ce057348ba3614f",
+      "bytes": 5099
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/src/chay_giam_sat.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/tree/src/chay_giam_sat.py",
+      "sha256_base": "",
+      "sha256_target": "2fd153bf6016f7e217ebfea407378549e54b9d62806d70f99f550555b4b8f842",
+      "bytes": 17780
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/src/run_all_tests.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/tree/src/run_all_tests.py",
+      "sha256_base": "",
+      "sha256_target": "b047d149681a89847302e2a49f6928d31830cc948fc557f084d07fb62ce35719",
+      "bytes": 7799
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/src/test_chay_giam_sat.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/tree/src/test_chay_giam_sat.py",
+      "sha256_base": "",
+      "sha256_target": "511675e764e2105f87ba5a8f04619dd7c67a1e59d5b7817259be9c2bd94f1aaf",
+      "bytes": 17990
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/src/test_tiep_tuc_huan_luyen.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/tree/src/test_tiep_tuc_huan_luyen.py",
+      "sha256_base": "",
+      "sha256_target": "79582b77ac98d1f027bc309828bb85df89b319a5b1050fe1a10525c9b5e05f7e",
+      "bytes": 44378
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/src/tiep_tuc_huan_luyen.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/tree/src/tiep_tuc_huan_luyen.py",
+      "sha256_base": "",
+      "sha256_target": "2ecf26cd681e594c05df63bdfd71872d84f133ca550a45d60d91a388683d7b1c",
+      "bytes": 37379
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/src/train_detector.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_1454b3d/tree/src/train_detector.py",
+      "sha256_base": "",
+      "sha256_target": "ba8f7f4e7c2fa1b8f6581807fffcff788f698de9c6a12edf316a34ab054eacfe",
+      "bytes": 45788
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/README.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/README.md",
+      "sha256_base": "",
+      "sha256_target": "e479b7881d03423b8dd50de537d2da10a2025ce1b7c0715994e57acdf290d74e",
+      "bytes": 1523
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/SHA256SUMS.txt",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/SHA256SUMS.txt",
+      "sha256_base": "",
+      "sha256_target": "c17ea4e8b10b385979857c5d7975cf16b75c6dff196d5dc9dfba4974e46123fe",
+      "bytes": 18654
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/base_preimages/CODEX_HANDOFF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/base_preimages/CODEX_HANDOFF.md",
+      "sha256_base": "",
+      "sha256_target": "e60415cc85156f23e906ad5467cd8beb95a690dfce8de3aa32fe43f8938203bf",
+      "bytes": 88360
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/BDD100K_INVENTORY.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/BDD100K_INVENTORY.md",
+      "sha256_base": "",
+      "sha256_target": "9b9b6a0ec935105b46e4ed666db3489dabf260fb53962bcac0962ee65440e6e9",
+      "bytes": 35123
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md",
+      "sha256_base": "",
+      "sha256_target": "3a464540efdf7312c6f33f11c0270ad10b8ac86a32929bbe0c669d6f85351a20",
+      "bytes": 25228
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/PLAN_DA_CHOT.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/PLAN_DA_CHOT.md",
+      "sha256_base": "",
+      "sha256_target": "28df96af32adf567bfe5d0307ac408447f0b014087e6046252fe5d29f2cf4ed9",
+      "bytes": 5998
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/REVIEW_BRIEF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/REVIEW_BRIEF.md",
+      "sha256_base": "",
+      "sha256_target": "90ad99b528373cf5dacc7be5e68673df3e8f819b5af60c3b37894255de08e814",
+      "bytes": 3721
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/review_base.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/review_base.json",
+      "sha256_base": "",
+      "sha256_target": "76743dabe48124957005afecdf7f1c3ee19385468da4837f415ab07536dacbb6",
+      "bytes": 8233
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/check_package.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/check_package.py",
+      "sha256_base": "",
+      "sha256_target": "bb577a09cdadf5304fa3914d8697df6b6f3df08b76b6ad6b2247c1d6c6954628",
+      "bytes": 4643
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/check_round38.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/check_round38.py",
+      "sha256_base": "",
+      "sha256_target": "390367ceb02eb2e7d10ab5a5ad4a26584456646dc92f100bc5263f76a685c422",
+      "bytes": 10518
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/delta_metadata/DEPENDENCIES.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/delta_metadata/DEPENDENCIES.md",
+      "sha256_base": "",
+      "sha256_target": "1aaca5b04d23a903c63fcf1a0fb0d638a42208fc7fcbfff21129e66ce287b7b0",
+      "bytes": 5195
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/delta_metadata/MANIFEST.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/delta_metadata/MANIFEST.json",
+      "sha256_base": "",
+      "sha256_target": "bbebbdd25dcff826d13748eb416539bed5f5ccb257ed0a152dc7a4df58f475d0",
+      "bytes": 50576
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/evidence/base_independent.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/evidence/base_independent.json",
+      "sha256_base": "",
+      "sha256_target": "ea98dac0259acd4dc4974587df582cc3e0424100e381b6c7a76b5fff94143616",
+      "bytes": 1172
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/evidence/package.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/evidence/package.json",
+      "sha256_base": "",
+      "sha256_target": "60bcc7d99066b3ac3aad1928e46c6fe7cd2e06d0d426bb2a09f99b2081f3312d",
+      "bytes": 331
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/evidence/receipts.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/evidence/receipts.json",
+      "sha256_base": "",
+      "sha256_target": "785b7d37298883be7317933c40f0fd16445f4d3bbec18d24055808d52ffaa727",
+      "bytes": 20206
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/evidence/receipts.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/evidence/receipts.log",
+      "sha256_base": "",
+      "sha256_target": "18659f1c3c2f38ba1c8a12424f5e7c8f0f0ba62f1c69616f7c329ba53c627111",
+      "bytes": 2415
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/evidence/runtime.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/evidence/runtime.json",
+      "sha256_base": "",
+      "sha256_target": "b4739a429378c520072de443125f00deef0ca38a641a8a75ceca480f87ad97f8",
+      "bytes": 227
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/prior/estimate.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/prior/estimate.json",
+      "sha256_base": "",
+      "sha256_target": "64af4b1aa2c6e732aabaee9d0f9462b6e164b3a908cd9843d6dfa5ebbad1ace1",
+      "bytes": 7427
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/prior/split.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/prior/split.json",
+      "sha256_base": "",
+      "sha256_target": "b8a2848e3da053a2b1b79e7fa6cfad812540315af6e48b12b4174a40efc06cdb",
+      "bytes": 35795
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/BDD100K_INVENTORY.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/BDD100K_INVENTORY.md",
+      "sha256_base": "",
+      "sha256_target": "8c7953715282e6e0df10b07dbab5f127297b7b45a386c1243c77be3bbceffdb8",
+      "bytes": 37035
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/CODEX_REVIEW_0c0a07a.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/CODEX_REVIEW_0c0a07a.md",
+      "sha256_base": "",
+      "sha256_target": "b3330e631a02d9ef04bad7f38fd320776abf2e6c2da06733554c1c22f8025a3b",
+      "bytes": 11643
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/.gitattributes",
+      "sha256_base": "",
+      "sha256_target": "c7e56b3f010c9202fd36538a201ac710a72656a3534ebb446d7c14e330700a31",
+      "bytes": 77
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/00_trang_thai_dau.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/00_trang_thai_dau.log",
+      "sha256_base": "",
+      "sha256_target": "a0b4aca86c4337d5298ae04f022d8f6e70b3483cc9a3098393ee9365733fb458",
+      "bytes": 1766
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/01_kiem_nguon.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/01_kiem_nguon.log",
+      "sha256_base": "",
+      "sha256_target": "0e2c70ac131e7d8b71364d9b859c20ad3c8501963f88ee90444411bc4e006636",
+      "bytes": 425
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/02_kiem_truoc_xuat.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/02_kiem_truoc_xuat.log",
+      "sha256_base": "",
+      "sha256_target": "90dda5d13e8b86615c5c87fe5255b15e33135886df634f473bb1d5e7daf8ee98",
+      "bytes": 1968
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/03_ghi_chu_ram_xuat.txt",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/03_ghi_chu_ram_xuat.txt",
+      "sha256_base": "",
+      "sha256_target": "9b2cb81a6c3b3e9efa3645894c788e96d56821f3149482fe4d86dcfdc134e40c",
+      "bytes": 1263
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/03_ram_xuat.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/03_ram_xuat.json",
+      "sha256_base": "",
+      "sha256_target": "1413b9556e6aa9d4beaa553d48887c7db18a81be95d5c4f4dffa9000a4afcc99",
+      "bytes": 610
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/03_ram_xuat_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/03_ram_xuat_mau_tho.csv",
+      "sha256_base": "",
+      "sha256_target": "0c75a4d3189cfcaf37b97f9ef79885974b913a5a7ce409d9c1eae621855ca6d3",
+      "bytes": 21898
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/03_xuat_day_du.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/03_xuat_day_du.log",
+      "sha256_base": "",
+      "sha256_target": "d2bf8374c90e9d3977f513d82180376e6596d464764ca869f1dc763299abe747",
+      "bytes": 3177
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/03_xuat_day_du.meta.txt",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/03_xuat_day_du.meta.txt",
+      "sha256_base": "",
+      "sha256_target": "d4ccedaa7612c5a074c0e02f43cade2d6d2b2bf71a5b029d561b2b4327bf2f25",
+      "bytes": 411
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/04_kiem_hop_dong.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/04_kiem_hop_dong.log",
+      "sha256_base": "",
+      "sha256_target": "c2243c01c1df04e31bc6003fc1b2a6a7b22627c94b545cc880447c349c46ffdb",
+      "bytes": 1751
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/05_kiem_doc_lap.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/05_kiem_doc_lap.json",
+      "sha256_base": "",
+      "sha256_target": "668405a56421a8ec22e1b746cb35b1c14ce49afe34aa5b9d89cc69f03de39d0e",
+      "bytes": 1880
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/05_kiem_doc_lap.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/05_kiem_doc_lap.log",
+      "sha256_base": "",
+      "sha256_target": "380278004df55256c8349133db94a87cf209a810349aa6ccd738a155df2a9a9e",
+      "bytes": 1788
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/05_kiem_doc_lap.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/05_kiem_doc_lap.py",
+      "sha256_base": "",
+      "sha256_target": "c6ac43b1b50aaac433805145cbb8b82e5ed8f8eba7fd860a2ed723f4ca9aeb5d",
+      "bytes": 7254
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/06_dry_run_yolo11n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/06_dry_run_yolo11n.log",
+      "sha256_base": "",
+      "sha256_target": "ffe194d7e7a0f9fbda1c439ac1eb3ed6afd9b4920d58909c2b6522aeb8d3664b",
+      "bytes": 3877
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/06_dry_run_yolov8n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/06_dry_run_yolov8n.log",
+      "sha256_base": "",
+      "sha256_target": "16cce3f10463a241f1f336d15972e388f0d9677588ea5577574e75aac4cfd681",
+      "bytes": 3853
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/07_tai_nguyen_hien_tai.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/07_tai_nguyen_hien_tai.log",
+      "sha256_base": "",
+      "sha256_target": "e7e3e136995a23046da9650fba393cbe6af39316a072aa0215b65981bb3e9ac4",
+      "bytes": 479
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/chay_xuat_day_du.sh",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/logs/review38/chay_xuat_day_du.sh",
+      "sha256_base": "",
+      "sha256_target": "29f422a159e3363fb61d4731cb89c60f70810e1a1f77f95ad213d4e5a65bac3b",
+      "bytes": 2065
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/README.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/README.md",
+      "sha256_base": "",
+      "sha256_target": "ced5e3e49744076460a7b365fa140c707560a2fb167476e7ea493d9c34913d1f",
+      "bytes": 1456
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/SHA256SUMS.txt",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/SHA256SUMS.txt",
+      "sha256_base": "",
+      "sha256_target": "eb2f999a6b1669eb978be1345ae3623cfe678940038d4b8f0c45186d9cd66634",
+      "bytes": 9994
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/CODEX_HANDOFF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/CODEX_HANDOFF.md",
+      "sha256_base": "",
+      "sha256_target": "5e71bf1e404c2382347316310325ece682ad4118ac4ef288a3abac6c05ef0997",
+      "bytes": 85728
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md",
+      "sha256_base": "",
+      "sha256_target": "2c3c8e44ab70fe2ff0368760baf8a069e88e35d6438b35a5d96c459db08a46cd",
+      "bytes": 21709
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/PLAN_DA_CHOT.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/PLAN_DA_CHOT.md",
+      "sha256_base": "",
+      "sha256_target": "d7592766f217dd99ff7f6ba32321cb2fe3cad428d90122c71fd5c3b0e1890035",
+      "bytes": 5145
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/REVIEW35_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/REVIEW35_CHI_TIET.md",
+      "sha256_base": "",
+      "sha256_target": "78cfe5c18f6fec2e7ca8ecf2040d66774eddb4aea838c550cdfb09ce0d8aa9bf",
+      "bytes": 21524
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/REVIEW_BRIEF.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/REVIEW_BRIEF.md",
+      "sha256_base": "",
+      "sha256_target": "b3edf50786cafc7ba9448d2c55c3bb01c1ff7e4b9b97a8deece7d0819cd8b184",
+      "bytes": 3037
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/logs/review35/15_du_toan_training.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/logs/review35/15_du_toan_training.py",
+      "sha256_base": "",
+      "sha256_target": "d3e646b702ac0d114f4292c541fd373c40fb2bb5a3990f48b2498c8adf33e071",
+      "bytes": 10731
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/review_base.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/handoff/review_base.json",
+      "sha256_base": "",
+      "sha256_target": "0dc2f2d4d9b118a13cfab4ac0682745c9bd215d1abd31ccd5b901f747c12deca",
+      "bytes": 7929
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/src/run_all_tests.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/src/run_all_tests.py",
+      "sha256_base": "",
+      "sha256_target": "952d12b0f5ece94e883e05a6a366a7c3a1fefcb49056961aa0a372556a2e6963",
+      "bytes": 7446
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/src/train_detector.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/base_preimages/src/train_detector.py",
+      "sha256_base": "",
+      "sha256_target": "ccdd93eb76d0613c0af4a2e914c8ed0648d62ebe64564ac7d8f6974f5fd560f7",
+      "bytes": 27234
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/check_package.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/check_package.py",
+      "sha256_base": "",
+      "sha256_target": "98a300353a0153fcf064cdf59acc26ab35703464f01f7dfdf2070f5264939b3a",
+      "bytes": 4131
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/check_round37.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/check_round37.py",
+      "sha256_base": "",
+      "sha256_target": "a72da23c1ef718e8e893cdc7ed5d4f97625a6e6a841cbb8b3fa6c7d6f7608c97",
+      "bytes": 12709
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/check_runner_isolated.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/check_runner_isolated.py",
+      "sha256_base": "",
+      "sha256_target": "8cb65a19baf8c7c409f28484f72e385b10d8c6446a0f92f68e0527ba3e7a3391",
+      "bytes": 7568
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/git_apply_reverse.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/git_apply_reverse.log",
+      "sha256_base": "",
+      "sha256_target": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/independent_round37.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/independent_round37.json",
+      "sha256_base": "",
+      "sha256_target": "8f7ebb5cd1f474b7f44a1581ddd0813a820e96684d893bd393c0b0b04b3d765c",
+      "bytes": 42567
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/independent_round37.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/independent_round37.log",
+      "sha256_base": "",
+      "sha256_target": "cc2ebc7db4c0545aeeea45611a2859010d2a44138a8c54fc32de3ebe0be6663b",
+      "bytes": 4452
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/lock_check_yolo11n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/lock_check_yolo11n.log",
+      "sha256_base": "",
+      "sha256_target": "0fba51861511cba549f56fe2ad6b682a3a4116a95a39a0e38b66bfe48ae35fbd",
+      "bytes": 217
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/lock_check_yolov8n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/lock_check_yolov8n.log",
+      "sha256_base": "",
+      "sha256_target": "1b0639bcc974419d2a1e7e56998b7bfb5b02d376b0e80f20b0836960e288289c",
+      "bytes": 217
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/lock_verification.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/lock_verification.json",
+      "sha256_base": "",
+      "sha256_target": "5c7b6503a0fc945d3ce22ec91094a4d502bdc34d6cc8bd99fd2d461e61d2d760",
+      "bytes": 538
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/old_review_evidence.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/old_review_evidence.json",
+      "sha256_base": "",
+      "sha256_target": "3d21e79deba4ec019fd2d81ed6d56aa6fe4fa5fb30b75f971cc0a500b92de6d3",
+      "bytes": 3776
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/package_check_reproducible.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/package_check_reproducible.json",
+      "sha256_base": "",
+      "sha256_target": "3482774abb812d16baa198a96d7e0d8e8d8eccb58403a15167377ff0cc2e10ba",
+      "bytes": 331
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/package_verification.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/package_verification.json",
+      "sha256_base": "",
+      "sha256_target": "0a9726bd22d95ae8397a314af97d7b9ed2d3e1c3aadd2971aca5b283b1b922b2",
+      "bytes": 1083
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/round36_numeric_comparison.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/round36_numeric_comparison.log",
+      "sha256_base": "",
+      "sha256_target": "1ee01e2ee427cbf2ab9fab66488012a53a0b7d09dfe8b1ef90e2087006ca9fec",
+      "bytes": 500
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/runner_isolated.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/runner_isolated.json",
+      "sha256_base": "",
+      "sha256_target": "ac7cd560d141d88b668e30b281f2bd780321a9e0224d4209f4536e870fe51282",
+      "bytes": 5490
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/runner_isolated.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/runner_isolated.log",
+      "sha256_base": "",
+      "sha256_target": "d2274388102c44f7033837834db06849132fff55f2a60cd93f2152535fdce521",
+      "bytes": 818
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/runtime.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/runtime.json",
+      "sha256_base": "",
+      "sha256_target": "f052da77fa73ba5ebb9783fbf6632e0b95b1a0a06aeef71ed45913b685fae62e",
+      "bytes": 320
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/summary_recomputed.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/summary_recomputed.json",
+      "sha256_base": "",
+      "sha256_target": "634e690d6e2ef86fa8883e1fcfd5dd012bda09d2a56dcfeb045bbff416e323cd",
+      "bytes": 54442
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/configs/phase2/detector/train_bdd5_pilot.yaml",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/configs/phase2/detector/train_bdd5_pilot.yaml",
+      "sha256_base": "",
+      "sha256_target": "5d195826d70564295bf0f9d6bf9e3ae3747389c7f7f25a46f4b5798c901d8723",
+      "bytes": 1172
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/CODEX_REVIEW_2351c67.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/CODEX_REVIEW_2351c67.md",
+      "sha256_base": "",
+      "sha256_target": "e65a90a447283c9e40ecc735927b26bb8089c969baf878f7f2354f6648ff89f2",
+      "bytes": 9139
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/REVIEW35_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/REVIEW35_CHI_TIET.md",
+      "sha256_base": "",
+      "sha256_target": "dbe01028cbfbe91afc075b1bf737caae8300ad53ded9bf1f97dc3c0fcbf22e72",
+      "bytes": 26101
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/REVIEW36_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/REVIEW36_CHI_TIET.md",
+      "sha256_base": "",
+      "sha256_target": "b4a3328c0f37e9d261b8d4b226843d0b2f351d436df1fe7c23cc7257a7fefc21",
+      "bytes": 9948
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/REVIEW37_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/REVIEW37_CHI_TIET.md",
+      "sha256_base": "",
+      "sha256_target": "aab9e60d444a7f61e3594d863d191e19d99be8e6121c8d081cffb3425dd17e61",
+      "bytes": 16005
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review35/15_du_toan_training.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review35/15_du_toan_training.py",
+      "sha256_base": "",
+      "sha256_target": "c5349d384e80aa31f26a1350c70f1b71121f384ab0f43577e8b56552ab117166",
+      "bytes": 11754
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/.gitattributes",
+      "sha256_base": "",
+      "sha256_target": "9f23462500a7a58ccb92a7111f2cdf5248eb162f6f66ed1c33c053dced2bc41b",
+      "bytes": 77
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/00_trang_thai_dau.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/00_trang_thai_dau.log",
+      "sha256_base": "",
+      "sha256_target": "52b9a980701fa332eb8f3db34594f05f41c1f1fea1254166f025f154679c8e1a",
+      "bytes": 1877
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/01_test_doi_chieu_so_json.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/01_test_doi_chieu_so_json.log",
+      "sha256_base": "",
+      "sha256_target": "c803761fd6b6f0dfe0fd22842426abe7fdc71f54c158dc7333fc8ffadc459d0d",
+      "bytes": 1562
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/02_du_toan_sinh_lai.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/02_du_toan_sinh_lai.log",
+      "sha256_base": "",
+      "sha256_target": "3e5f0c1d27e369d4a7c3c6d582f5e00a83bd719fd3a45e87c46dcc0f4eed1216",
+      "bytes": 2077
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/03_doi_chieu_so_du_toan.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/03_doi_chieu_so_du_toan.log",
+      "sha256_base": "",
+      "sha256_target": "7286b5f48b53c40ed51de3f39776158d88523896fc37c0f6635d1deb25822227",
+      "bytes": 1294
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/04_doi_chieu_R35-F1.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/04_doi_chieu_R35-F1.log",
+      "sha256_base": "",
+      "sha256_target": "73f8d512f8cb85b91b358fe1108e6ee65810d16723a502c8e060e46caba02643",
+      "bytes": 4032
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/04_doi_chieu_R35-F1.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/04_doi_chieu_R35-F1.py",
+      "sha256_base": "",
+      "sha256_target": "425b076e6ab46d51a6c1e967b2fa3740706a3b6c1a51019596cec3a42f717134",
+      "bytes": 3996
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/05a_kiem_khong_doi_lan1.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/05a_kiem_khong_doi_lan1.log",
+      "sha256_base": "",
+      "sha256_target": "6623f2c746ab801fe4f842a51b544e6284292dc1bef5ca7ff18818848f08d999",
+      "bytes": 1727
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/05b_kiem_khong_doi.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/05b_kiem_khong_doi.log",
+      "sha256_base": "",
+      "sha256_target": "f1f0218f89b56df6b9eeab3b0dbcb5f7fb6ea671f82feb6a84cb4f4b600bbc10",
+      "bytes": 1063
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/doi_chieu_so_json.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/doi_chieu_so_json.py",
+      "sha256_base": "",
+      "sha256_target": "33c03bffd0ffa99cbc0abe6bd1a4f5eaa28be863ea975256d802fe98b8621cc2",
+      "bytes": 2789
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/.gitattributes",
+      "sha256_base": "",
+      "sha256_target": "7c500965527222d09de5d14914b655236721487ca13dab8114846472ebc8576a",
+      "bytes": 77
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/00_trang_thai_dau.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/00_trang_thai_dau.log",
+      "sha256_base": "",
+      "sha256_target": "55ec5c14451dfcd9cfa9873c56cf5abdc1e75f7ef3fc2b6e82430cef85e4d948",
+      "bytes": 1262
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_ke_hoach_pilot_da_khoa.md",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_ke_hoach_pilot_da_khoa.md",
+      "sha256_base": "",
+      "sha256_target": "580141ff885cd31d27faca80068e8c5d9c86fc82ce8e54f39cacb3960fa939ab",
+      "bytes": 5747
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_khoa_cau_hinh_pilot_yolo11n.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_khoa_cau_hinh_pilot_yolo11n.json",
+      "sha256_base": "",
+      "sha256_target": "8b75321b21d09f757861a7f6fa05cc599948a3a19aeeda7611e8acabfc202cca",
+      "bytes": 7828
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_khoa_cau_hinh_pilot_yolov8n.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_khoa_cau_hinh_pilot_yolov8n.json",
+      "sha256_base": "",
+      "sha256_target": "989ea9ecbe02dcbaa581ceaf11e736a8bbb31819f6763d3c53c4cd8cc5896593",
+      "bytes": 7792
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_kiem_pilot_yolo11n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_kiem_pilot_yolo11n.log",
+      "sha256_base": "",
+      "sha256_target": "98d78b329c0f1413ebb693004db8475887698d8e8fbd6c5427b083735ebdbfb1",
+      "bytes": 8490
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_kiem_pilot_yolov8n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_kiem_pilot_yolov8n.log",
+      "sha256_base": "",
+      "sha256_target": "d63fd76634e388ded85b1003d6aed1c845fde50a19d78c2396f5122a8f2f131c",
+      "bytes": 8454
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_test_so_khop_khoa.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/01_test_so_khop_khoa.log",
+      "sha256_base": "",
+      "sha256_target": "c3026187cbdd7298ec138432c586724432da8532abb3373723c09f8499db7a00",
+      "bytes": 1022
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/02_test_pilot_chan_doan_lan1.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/02_test_pilot_chan_doan_lan1.log",
+      "sha256_base": "",
+      "sha256_target": "9807ceec8f8606167fbe1c05a4bd70b7138868aff4361abb4bfbafd33c8616c0",
+      "bytes": 6746
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/03_test_pilot_chan_doan_lan2.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/03_test_pilot_chan_doan_lan2.log",
+      "sha256_base": "",
+      "sha256_target": "3b3b2011b57cad09dc62a0b67162c27aad0e1339767edc33a2b8ca209e3ddbd2",
+      "bytes": 6659
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/04_test_detector_5lop.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/04_test_detector_5lop.log",
+      "sha256_base": "",
+      "sha256_target": "4a48fc41ec55a57304ee458cbfbb09948c4c4a22db2da5ec6eab1627adccf963",
+      "bytes": 23872
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/05_kiem_pilot_truoc_chay_yolo11n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/05_kiem_pilot_truoc_chay_yolo11n.log",
+      "sha256_base": "",
+      "sha256_target": "3550c323b00495ff3a2d36cde0872fad51b00f298148584868fabe738221834f",
+      "bytes": 8426
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/05_kiem_pilot_truoc_chay_yolov8n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/05_kiem_pilot_truoc_chay_yolov8n.log",
+      "sha256_base": "",
+      "sha256_target": "b12428a4dcd49c7d57bd7736f8408b631fbabc2cd63f28f36bb24351686f2d0d",
+      "bytes": 8390
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/05_so_khop_khoa_yolo11n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/05_so_khop_khoa_yolo11n.log",
+      "sha256_base": "",
+      "sha256_target": "2a291462c07019cd2cb123366dcb89651c628139c2ae1b09296a303f520c60e9",
+      "bytes": 180
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/05_so_khop_khoa_yolov8n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/05_so_khop_khoa_yolov8n.log",
+      "sha256_base": "",
+      "sha256_target": "979b34a09c0c21a03c10c65c8badef09a4d8950b3015ca1308be47a513b05e6f",
+      "bytes": 180
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_batch_yolo11n.csv",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_batch_yolo11n.csv",
+      "sha256_base": "",
+      "sha256_target": "355f451bcb1c0c69830911c1e8a6af2ddf28dc18a7f3db1d22ff04e6076bc087",
+      "bytes": 17720
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_batch_yolov8n.csv",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_batch_yolov8n.csv",
+      "sha256_base": "",
+      "sha256_target": "f33b37af2723425b841b36a6b3a7ab72fce58dbc9a29226198bc7a2642d800ba",
+      "bytes": 17740
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ket_qua_runner_yolo11n.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ket_qua_runner_yolo11n.json",
+      "sha256_base": "",
+      "sha256_target": "e45b267034386973e25046548c8a683d79e1b9681f9c1be9365d66cdcf7ffa91",
+      "bytes": 88551
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ket_qua_runner_yolov8n.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ket_qua_runner_yolov8n.json",
+      "sha256_base": "",
+      "sha256_target": "e57f8306c63a38da9ac5bd27a831206e9d4812631901da5164cfa10bc32120c3",
+      "bytes": 85921
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_pilot_yolo11n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_pilot_yolo11n.log",
+      "sha256_base": "",
+      "sha256_target": "7e57d0a138b5d0c07073fe4e79407d75bcdb3c8360fbb79fd4e2d12702f3ee21",
+      "bytes": 34642
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_pilot_yolo11n.meta.txt",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_pilot_yolo11n.meta.txt",
+      "sha256_base": "",
+      "sha256_target": "37185302e49738a5973b130f16ea38bbc01ca1c6504b84ddabfc26e09d2eda3b",
+      "bytes": 1277
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_pilot_yolov8n.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_pilot_yolov8n.log",
+      "sha256_base": "",
+      "sha256_target": "131100580038b259c8f9bbd60d180bf4addb7f0e729dfbec9a9a9c6bd4786a8d",
+      "bytes": 34493
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_pilot_yolov8n.meta.txt",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_pilot_yolov8n.meta.txt",
+      "sha256_base": "",
+      "sha256_target": "96fbbb9cb98f14c03e6c3dd2b48686bfa67ab560fe8e72321b36479b9cd224ab",
+      "bytes": 1277
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ram_ngoai_yolo11n.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ram_ngoai_yolo11n.json",
+      "sha256_base": "",
+      "sha256_target": "c8ad2f5b572a24e491c3365a614e36bcb9dde5b191a92b8c57568ff9d43686f5",
+      "bytes": 608
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ram_ngoai_yolo11n_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ram_ngoai_yolo11n_mau_tho.csv",
+      "sha256_base": "",
+      "sha256_target": "ff76b67f5e0b04be3730e95045daa5f7dc0d19326e65d84cdc291a851d9c446e",
+      "bytes": 5470
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ram_ngoai_yolov8n.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ram_ngoai_yolov8n.json",
+      "sha256_base": "",
+      "sha256_target": "115a9640f5dae8a270ed1a9dd6fec1d1d8a25ff19626a41d30aec0546d543ba1",
+      "bytes": 608
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ram_ngoai_yolov8n_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_ram_ngoai_yolov8n_mau_tho.csv",
+      "sha256_base": "",
+      "sha256_target": "6f0d767eda8a53853063c060e00f67e320f7eec94cb58bf8eefb0b712809d01e",
+      "bytes": 5391
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_tai_nguyen_nvidia_smi_yolo11n.csv",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_tai_nguyen_nvidia_smi_yolo11n.csv",
+      "sha256_base": "",
+      "sha256_target": "94d30162233931e6e93911cf5ebf9c69798cadd0b3df61891ce4e79945a697f1",
+      "bytes": 4091
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_tai_nguyen_nvidia_smi_yolov8n.csv",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/06_tai_nguyen_nvidia_smi_yolov8n.csv",
+      "sha256_base": "",
+      "sha256_target": "3a403df2b6bef2bb488e259d080b26d91f17964c5dca35b5e443f5a43bd25d94",
+      "bytes": 3899
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/07_tom_tat_pilot.log",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/07_tom_tat_pilot.log",
+      "sha256_base": "",
+      "sha256_target": "96c0ff4cab753ff5379fe44e19a4fdc89f0d82749d6bfe987cdf7b347646aea8",
+      "bytes": 2750
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/07_tom_tat_pilot.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/07_tom_tat_pilot.py",
+      "sha256_base": "",
+      "sha256_target": "3cb295a1cb7c3434119b32f49f1aee80a9b373f50564600bb4998a8d5fd162f4",
+      "bytes": 12688
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/chay_pilot.sh",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/chay_pilot.sh",
+      "sha256_base": "",
+      "sha256_target": "35867bccb7ffa5516ccfeb87fb702876ff80ac46d2bda9c3693c2b31038a92c5",
+      "bytes": 3130
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/do_tai_nguyen_ngoai.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/do_tai_nguyen_ngoai.py",
+      "sha256_base": "",
+      "sha256_target": "d3513193077e83a792479f0baf730fa011f79310d48b1fddbf9f35c5b4753914",
+      "bytes": 6770
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/so_khop_khoa.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/so_khop_khoa.py",
+      "sha256_base": "",
+      "sha256_target": "b0681460e560f1950ece234b66501f49c2f865b1910af340ef571c86a1c1baf4",
+      "bytes": 2771
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/review_evidence/CODEX_2351c67/evidence/du_toan_recomputed.json",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/review_evidence/CODEX_2351c67/evidence/du_toan_recomputed.json",
+      "sha256_base": "",
+      "sha256_target": "dfbedddff9ba9004cecd76b5f1151f8501114584ffa241648692c41d012e9c1f",
+      "bytes": 7090
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/src/pilot_chan_doan.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/src/pilot_chan_doan.py",
+      "sha256_base": "",
+      "sha256_target": "d0c99a231526639be954b133d0c341b11fc30f1a4146e02fb80ecc7f03361c2c",
+      "bytes": 31985
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/src/test_pilot_chan_doan.py",
+      "trong_patch": true,
+      "trong_goi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/src/test_pilot_chan_doan.py",
+      "sha256_base": "",
+      "sha256_target": "28e3e5e6d2f0103f9f2833c40f983fdf6d0f6e4f10ef57e4b1d2dfea9767486d",
+      "bytes": 24428
+    },
+    {
+      "status": "them",
+      "path": "src/chay_giam_sat.py",
+      "trong_patch": true,
+      "trong_goi": "files/src/chay_giam_sat.py",
+      "sha256_base": "",
+      "sha256_target": "2fd153bf6016f7e217ebfea407378549e54b9d62806d70f99f550555b4b8f842",
+      "bytes": 17780
+    },
+    {
+      "status": "sua",
+      "path": "src/run_all_tests.py",
+      "trong_patch": true,
+      "trong_goi": "files/src/run_all_tests.py",
+      "sha256_base": "dd7d8c80364b74ee3137700e7b4edc38792781848d7321309896260cefec338f",
+      "sha256_target": "b047d149681a89847302e2a49f6928d31830cc948fc557f084d07fb62ce35719",
+      "bytes": 7799
+    },
+    {
+      "status": "them",
+      "path": "src/test_chay_giam_sat.py",
+      "trong_patch": true,
+      "trong_goi": "files/src/test_chay_giam_sat.py",
+      "sha256_base": "",
+      "sha256_target": "511675e764e2105f87ba5a8f04619dd7c67a1e59d5b7817259be9c2bd94f1aaf",
+      "bytes": 17990
+    },
+    {
+      "status": "them",
+      "path": "src/test_tiep_tuc_huan_luyen.py",
+      "trong_patch": true,
+      "trong_goi": "files/src/test_tiep_tuc_huan_luyen.py",
+      "sha256_base": "",
+      "sha256_target": "4fe275b71ba13168f4e9fa8ed9c1c50e5326360088d2455753bf17e3b285fe7c",
+      "bytes": 59686
+    },
+    {
+      "status": "them",
+      "path": "src/tiep_tuc_huan_luyen.py",
+      "trong_patch": true,
+      "trong_goi": "files/src/tiep_tuc_huan_luyen.py",
+      "sha256_base": "",
+      "sha256_target": "826f233a142d86fa39c2e91f53ac334bf2b088555297ab7dd938a10921cdae43",
+      "bytes": 43637
+    },
+    {
+      "status": "sua",
+      "path": "src/train_detector.py",
+      "trong_patch": true,
+      "trong_goi": "files/src/train_detector.py",
+      "sha256_base": "cd88b6f37e7b9ecbd81c80650fe6a883994c121d340ac13428ee9709d7cba8d9",
+      "sha256_target": "48e9cabf59b692c3a3734e40aef3873ede0474150c40982e4571f12b4039d1bf",
+      "bytes": 46354
+    }
+  ],
+  "file_bo_qua": [
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/CODEX_REVIEW_1454b3d.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "44200551f7401fb3bb9a0645e13c77bd4f8b6d16b3f4b8bb3aec218eade44db0",
+      "bytes": 12122,
+      "trung_noi_dung_voi": "files/handoff/CODEX_REVIEW_1454b3d.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/CODEX_REVIEW_1454b3d.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/evidence/repro_journal.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "288ad425cb4d1002b9ffc2277d9b00e25636f40e7509995ae6317ff8fe3ed322",
+      "bytes": 4131,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_1454b3d/evidence/repro_journal.json",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_1454b3d/evidence/repro_journal.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "9215f026aa9ba45bbd5134b73431a92331a2f178bb7cc23fe2d9c1f1f50828cd",
+      "bytes": 77,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/.gitattributes",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/.gitattributes (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/00_trang_thai_dau.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "d900953716818d7b8de219e9f8363c3aeb2a5b906ba7d0f29ff04ef151679ad8",
+      "bytes": 1962,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/00_trang_thai_dau.log",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/00_trang_thai_dau.log (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/01_ke_hoach_kiem_resume.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "082112a43b293eb2dd4e2bba216aa097a30aa1b8cf546c4c49d875d7ec1733e8",
+      "bytes": 17607,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/01_ke_hoach_kiem_resume.md",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/01_ke_hoach_kiem_resume.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/02_test_chay_giam_sat_lan1.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "ef850d0efb57a8b89aa9f389ea6aff22cf9e89a8e22955654329563914c3f501",
+      "bytes": 4427,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/02_test_chay_giam_sat_lan1.log",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/02_test_chay_giam_sat_lan1.log (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan1.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "5884ce2beb17c81c2d5a1766f09e378c88353362e3cccece8555964fdbaeaa05",
+      "bytes": 2647,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan1.log",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan1.log (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan2.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "bdcbbb0039523a369abc2ca6c517a0c813b39e33c77556d8fc76a51d05d7a2af",
+      "bytes": 14798,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan2.log",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan2.log (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan3.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "596c9958165c72bd9c2db22e2b22c2863a47e957d80fbc25378f80569ccb4c33",
+      "bytes": 15136,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan3.log",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan3.log (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan4.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "bd0b14defc3a939f34184085fa26f18dbe4eed74a27f25485e2ebc0910ea7088",
+      "bytes": 16801,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan4.log",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan4.log (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan5.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "11c69cd114ba5c621bba4a41ed1816d41290ac00e3ca75f45ad9ab263fb69e0e",
+      "bytes": 18055,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan5.log",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/03_test_tiep_tuc_huan_luyen_lan5.log (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/04_test_detector_5lop.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "f58ac7f115e4fcbfe89f25cb46bf1becc1fbe0d3ce1ccf8d4583e10eb9f5343d",
+      "bytes": 23976,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/04_test_detector_5lop.log",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/04_test_detector_5lop.log (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/04_test_pilot_chan_doan.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "05d00727cffa75557e7ede239bc1d52995d57d7390c79e303b545116cb40eb9b",
+      "bytes": 6604,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/04_test_pilot_chan_doan.log",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/04_test_pilot_chan_doan.log (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_C/log.txt",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "b22265fbd9395b8ec9cb03350a2fc585472ac380ced11b6e9dcee4e145a110e2",
+      "bytes": 34297,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_C/log.txt",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_C/log.txt (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_C/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "2842f3a5a6b57a3b2bb025005fe6043ffda0a7e79fa76ad23cd1b249a8e80cd9",
+      "bytes": 31902,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_C/ram_mau_tho.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_C/ram_mau_tho.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_C/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "9023565617af88ba7e9f165e9af9abb97235d79973225f6fd01e4b16e8add4c2",
+      "bytes": 1850,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_C/tom_tat.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_C/tom_tat.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_C/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "5eec6283e2d85c1f777664b8f8a2c9859021c4c961debfc38a9ce8ffc292e1b5",
+      "bytes": 1025,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_C/trang_thai.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_C/trang_thai.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_I/log.txt",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "ba7d64c3414ca81da5d3fff736a0ba7875df6d7fece4407511f58ca4825a5264",
+      "bytes": 15546,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_I/log.txt",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_I/log.txt (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_I/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "b5b8c72be248ac0f695dcc3ea6b284cc5e25e5fd9a89fe65ac87b68a32f11c90",
+      "bytes": 12480,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_I/ram_mau_tho.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_I/ram_mau_tho.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_I/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "24a160934250e207bb798cf222f5f63f45769fb398720020732d4d009c241d03",
+      "bytes": 1841,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_I/tom_tat.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_I/tom_tat.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_I/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "761f6224a180fa1b7a51e0c002b6ddb0f513fc6966904993920ad1336a6a4f9f",
+      "bytes": 1025,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_I/trang_thai.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_I/trang_thai.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_R/log.txt",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "895d9f16ba624035f148c4e3812cfdc47c7457682ca8563d352c18ae8b12557d",
+      "bytes": 26325,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_R/log.txt",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_R/log.txt (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_R/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "de15786cf60b72567e5a62cba322461ace958da7cc7f84afec009d0039ae451a",
+      "bytes": 22516,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_R/ram_mau_tho.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_R/ram_mau_tho.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_R/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "376e5b3b244bfa6f9bb3cc25f1c2fac2314b0821c3b69fef4ad07bd4deb327cb",
+      "bytes": 1864,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_R/tom_tat.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_R/tom_tat.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_R/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "4e5ca0bc2598151aec8541b29b77fa927f1daf46a99b62b3e1f0ccbaab7f35e0",
+      "bytes": 1039,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_R/trang_thai.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_R/trang_thai.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_luot/C__args.yaml",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "3099dc18b0cddda5eac54f90dc2f295a6b065f569d3e68d157abfeb57495f83a",
+      "bytes": 1959,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__args.yaml",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__args.yaml (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_luot/C__nhat_ky_luot.jsonl",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "212f5bb465b8eb7147ea5ee35e0ddf8e11d44ed7d7fdd075eb41c88483f67cec",
+      "bytes": 7999,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__nhat_ky_luot.jsonl",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__nhat_ky_luot.jsonl (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_luot/C__results.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "7acbc810915fdd405b97a9504a9b91d3a884168c8652ba2b762f1d25e162b8ed",
+      "bytes": 534,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__results.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__results.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_luot/C__theo_batch.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "4bddf4b83ec5dc803220106929e6f963aea0218160938170ac08f46208530f21",
+      "bytes": 29668,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__theo_batch.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_luot/C__theo_batch.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_luot/I__args.yaml",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "11cb5db9ff86a4ba1bbee143c65b539d2af4c08a7a194c7a7304650243f62457",
+      "bytes": 2104,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__args.yaml",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__args.yaml (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_luot/I__nhat_ky_luot.jsonl",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "9894ab3baeca0d1b4ab1e796e872491c8fd6a30d5db952c2726098998b0b93de",
+      "bytes": 15407,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__nhat_ky_luot.jsonl",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__nhat_ky_luot.jsonl (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_luot/I__results.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "8b41891e4e5a6f9275425a2fc23370396684f15cf7cea6daee4ba09c59b4ef9a",
+      "bytes": 536,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__results.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__results.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_luot/I__theo_batch.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "988721993fc8e2cfe1ff352cdcb066bb6feab151330d5e5aa4ff0c173dd30d77",
+      "bytes": 29670,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__theo_batch.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_luot/I__theo_batch.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_luot/ket_qua_runner__yolo11n_C.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "1b8486c00c7029df066926801ccc978d4e09638d9896cc487bfc4b5240a59687",
+      "bytes": 18107,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/ket_qua_runner__yolo11n_C.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_luot/ket_qua_runner__yolo11n_C.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolo11n_luot/ket_qua_runner__yolo11n_I__tiep_tuc_1.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "0a40fdb2a99ee0aebb254b8aa6b5686858eb0f4cc4561c3304c4fe2031398a78",
+      "bytes": 23715,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolo11n_luot/ket_qua_runner__yolo11n_I__tiep_tuc_1.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolo11n_luot/ket_qua_runner__yolo11n_I__tiep_tuc_1.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_C/log.txt",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "863a86662c86dc666c279ea9465af3eb683625e5b05ebf1a5a82a62ba2a91e55",
+      "bytes": 34152,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_C/log.txt",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_C/log.txt (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_C/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "6a4d397726129872df94a55bbaa1d59f116136651bc6015b6519cf35bf04e535",
+      "bytes": 27990,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_C/ram_mau_tho.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_C/ram_mau_tho.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_C/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "c574252bca024ceb341ba490a5ebbece64cf6da169090c0c9e9a0a4e51e518e5",
+      "bytes": 1849,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_C/tom_tat.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_C/tom_tat.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_C/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "16148b19e6862a093d8a00da2b571d8a924f0368443fbf7f70d4148b301c634a",
+      "bytes": 1023,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_C/trang_thai.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_C/trang_thai.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_I/log.txt",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "450ec08d8021a8e8e20e760ee57b1452034d96bfbf0b29e43da7d69baab72793",
+      "bytes": 15400,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_I/log.txt",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_I/log.txt (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_I/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "c3cc3dd96086e471e6eba66049bad2fb7930f708eed239f6cfaf5e0201bf9ba3",
+      "bytes": 10236,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_I/ram_mau_tho.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_I/ram_mau_tho.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_I/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "b25af078dbc82f4019e73281a15a8b927f5c96f9c2eb2e11f0fafbda294d7f04",
+      "bytes": 1842,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_I/tom_tat.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_I/tom_tat.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_I/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "754b8bfef5d07495937305c29c146adcdeb83c4a44b091261bb22e1a75759140",
+      "bytes": 1025,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_I/trang_thai.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_I/trang_thai.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_R/log.txt",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "7f6031a5e17be8541f3af5c25ff7c62ff4aecaa1edbde6c9ddcaae91ad928f22",
+      "bytes": 26188,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_R/log.txt",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_R/log.txt (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_R/ram_mau_tho.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "5e8f02d9cbe9aec1de3c354b094492cf98cf76fa14ad4b1a6d0269669c97d9d5",
+      "bytes": 20283,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_R/ram_mau_tho.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_R/ram_mau_tho.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_R/tom_tat.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "75df1e02fe62d43124114e1a5c2b3b62e5409e86ebff62db17cff69e6f5a5dba",
+      "bytes": 1867,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_R/tom_tat.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_R/tom_tat.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_R/trang_thai.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "3558a8db3112af2dc2a563d3afef79960f7222bfab0f5da512fdf7d467734de5",
+      "bytes": 1041,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_R/trang_thai.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_R/trang_thai.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_luot/C__args.yaml",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "c8a342f7564e513470dd00deb7a7b971898f8259c53dfe5beaacb7fa375f78db",
+      "bytes": 1948,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__args.yaml",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__args.yaml (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_luot/C__nhat_ky_luot.jsonl",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "79900bfb44689eea481dab9fc02123c4f61d833567ef7d58748bdefc19d5011b",
+      "bytes": 7977,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__nhat_ky_luot.jsonl",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__nhat_ky_luot.jsonl (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_luot/C__results.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "261857c7eb27341f87646f6b521b97d4b6cfa4e98abf82cc39cd6cbc3e9f7cdd",
+      "bytes": 538,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__results.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__results.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_luot/C__theo_batch.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "c923c36fb5b19bf8373b9f73b9af79a2f3743c526a0dd94a087449e13eaf514a",
+      "bytes": 29646,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__theo_batch.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_luot/C__theo_batch.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_luot/I__args.yaml",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "1451c1e3098f57f6cfa38abe2e5b05c3c6b9ea1c40ea21bec72e4514a72a875f",
+      "bytes": 2104,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__args.yaml",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__args.yaml (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_luot/I__nhat_ky_luot.jsonl",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "e9e4d9b1182c3ccc199b1f3e23cb3dadee05377dd4f1e27634b097eec5e43ba7",
+      "bytes": 15354,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__nhat_ky_luot.jsonl",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__nhat_ky_luot.jsonl (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_luot/I__results.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "cfdd0bdb31445f1182c6b5797aba37481f16ca1275a6d3e4000ab60a9e040f60",
+      "bytes": 534,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__results.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__results.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_luot/I__theo_batch.csv",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "74b5b295d30de2fd3ac1b020f64938d108a574af6d7ababe4a7b4c967f682b70",
+      "bytes": 29646,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__theo_batch.csv",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_luot/I__theo_batch.csv (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_luot/ket_qua_runner__yolov8n_C.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "d01ff16844fc3a892a884288d0086fd907ed456af0d77bfeae7dbb7878a50d1d",
+      "bytes": 18059,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/ket_qua_runner__yolov8n_C.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_luot/ket_qua_runner__yolov8n_C.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/05_gpu/yolov8n_luot/ket_qua_runner__yolov8n_I__tiep_tuc_1.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "5c624ac24cf37e8e4fbd596c696b92d01835d7e0ec2671749e6707b79cca5113",
+      "bytes": 23674,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/05_gpu/yolov8n_luot/ket_qua_runner__yolov8n_I__tiep_tuc_1.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/05_gpu/yolov8n_luot/ket_qua_runner__yolov8n_I__tiep_tuc_1.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/06_kiem_resume_gpu.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "85bf9b3d4ef7c40e4804e712ea09e1dd61240e184dde1b69c2b8a182fc0cd310",
+      "bytes": 13720,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/06_kiem_resume_gpu.json",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/06_kiem_resume_gpu.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/06_kiem_resume_gpu.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "987e3f97232ce8503cc7cd5313e34c6eb503ab81df00973a463ebec54d63cb26",
+      "bytes": 6821,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/06_kiem_resume_gpu.log",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/06_kiem_resume_gpu.log (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/07_tinh_lai_ram_doc_lap.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "9f8343ddb8d47f9ba12a1450064f8fa7f181f05bb5b201bf755010711ef5a100",
+      "bytes": 3711,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/07_tinh_lai_ram_doc_lap.log",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/07_tinh_lai_ram_doc_lap.log (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/07_tinh_lai_ram_doc_lap.py",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "2be726b438e2281a5d9b2128cca4be7d8aa222294e4ae6284c8471be0fa19eea",
+      "bytes": 4417,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/07_tinh_lai_ram_doc_lap.py",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/07_tinh_lai_ram_doc_lap.py (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/cau_hinh_kiem_resume_3epoch.yaml",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "82e8c4ae585a7dccdc1c07956494ec2a160ac0724d3a8717fb69164e8651bb8b",
+      "bytes": 3261,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/cau_hinh_kiem_resume_3epoch.yaml",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/cau_hinh_kiem_resume_3epoch.yaml (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/logs/review39/kiem_resume_gpu_smoke.py",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "401ef1e3d45e051a1146f5f27b1d2b3338cf55aa78f493a49374757b67f1b2c3",
+      "bytes": 14913,
+      "trung_noi_dung_voi": "logs/handoff/logs/review39/kiem_resume_gpu_smoke.py",
+      "ly_do_khong_gom": "trung noi dung voi logs/handoff/logs/review39/kiem_resume_gpu_smoke.py (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_1454b3d/tree/handoff/review_base.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "18a002737b66d07b92900d62cf7c59dc6251909ff360ac578016b66f154ddb4e",
+      "bytes": 8752,
+      "trung_noi_dung_voi": "files/handoff/review_base.json",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_base.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "3fa9c5704fa10c770f994e151f707483b2c9752f3b8a446c30f357b6bc5ea8b6",
+      "bytes": 85,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_1454b3d/.gitattributes",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_1454b3d/.gitattributes (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/CODEX_REVIEW_b83dc12.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "d58d8f741845d4146251990e333c20cb70bd92c6faf6efaf308164d8f4345df0",
+      "bytes": 9965,
+      "trung_noi_dung_voi": "files/handoff/CODEX_REVIEW_b83dc12.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/CODEX_REVIEW_b83dc12.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/CODEX_HANDOFF.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "ca9208812b718e997071d5d4c111b92286c7c1d52a3a649855f7f1ea74cbd411",
+      "bytes": 89671,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/CODEX_HANDOFF.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_1454b3d/base_preimages/CODEX_HANDOFF.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/DETECTOR_TRAIN_PLAN.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "2c64b264e3b27c42c4d2070c1f50554e3780301ddba01cb17950d705f6470c18",
+      "bytes": 26708,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/PLAN_DA_CHOT.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "560d20cfcd5cfa241e63e853757272ad0e4815cbfeb6133420ba53f0cd2dd634",
+      "bytes": 6438,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/PLAN_DA_CHOT.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/PLAN_DA_CHOT.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/REVIEW38_CHI_TIET.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "f2af6d09404ab1d539d903413137457056c8b99a1f45e14592b4da860a2af42a",
+      "bytes": 12795,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/REVIEW38_CHI_TIET.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/REVIEW38_CHI_TIET.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/REVIEW_BRIEF.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "8d16e64bbe97ca255a2eaf096dc979c2f6c1d3495db2b6f6f8ef04ef2caeb527",
+      "bytes": 3057,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/REVIEW_BRIEF.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/REVIEW_BRIEF.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_base.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "9be2f41c7919aaf7596e48f93bf2cb29bbcd213bdca6b3a68600d9e45baf15de",
+      "bytes": 8548,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/review_base.json",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_1454b3d/base_preimages/handoff/review_base.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/.gitattributes",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "3fa9c5704fa10c770f994e151f707483b2c9752f3b8a446c30f357b6bc5ea8b6",
+      "bytes": 85,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_1454b3d/.gitattributes",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_1454b3d/.gitattributes (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/CODEX_REVIEW_0c0a07a.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "b3330e631a02d9ef04bad7f38fd320776abf2e6c2da06733554c1c22f8025a3b",
+      "bytes": 11643,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/CODEX_REVIEW_0c0a07a.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/CODEX_REVIEW_0c0a07a.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/package_check_reproducible.log",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "3482774abb812d16baa198a96d7e0d8e8d8eccb58403a15167377ff0cc2e10ba",
+      "bytes": 331,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/package_check_reproducible.json",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/package_check_reproducible.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/CODEX_HANDOFF.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "e60415cc85156f23e906ad5467cd8beb95a690dfce8de3aa32fe43f8938203bf",
+      "bytes": 88360,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_b83dc12/base_preimages/CODEX_HANDOFF.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_b83dc12/base_preimages/CODEX_HANDOFF.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/DETECTOR_TRAIN_PLAN.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "3a464540efdf7312c6f33f11c0270ad10b8ac86a32929bbe0c669d6f85351a20",
+      "bytes": 25228,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/DETECTOR_TRAIN_PLAN.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/PLAN_DA_CHOT.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "28df96af32adf567bfe5d0307ac408447f0b014087e6046252fe5d29f2cf4ed9",
+      "bytes": 5998,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/PLAN_DA_CHOT.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/PLAN_DA_CHOT.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/REVIEW_BRIEF.md",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "90ad99b528373cf5dacc7be5e68673df3e8f819b5af60c3b37894255de08e814",
+      "bytes": 3721,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/REVIEW_BRIEF.md",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/REVIEW_BRIEF.md (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review36/02_du_toan_sinh_lai.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "64af4b1aa2c6e732aabaee9d0f9462b6e164b3a908cd9843d6dfa5ebbad1ace1",
+      "bytes": 7427,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_b83dc12/prior/estimate.json",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_b83dc12/prior/estimate.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/logs/review37/07_tom_tat_pilot.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "634e690d6e2ef86fa8883e1fcfd5dd012bda09d2a56dcfeb045bbff416e323cd",
+      "bytes": 54442,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/summary_recomputed.json",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/evidence/summary_recomputed.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/handoff/review_base.json",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "76743dabe48124957005afecdf7f1c3ee19385468da4837f415ab07536dacbb6",
+      "bytes": 8233,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/review_base.json",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_b83dc12/base_preimages/handoff/review_base.json (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/src/run_all_tests.py",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "dd7d8c80364b74ee3137700e7b4edc38792781848d7321309896260cefec338f",
+      "bytes": 7606,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/src/run_all_tests.py",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_1454b3d/base_preimages/src/run_all_tests.py (cung sha256); thay doi van nam trong patch"
+    },
+    {
+      "status": "them",
+      "path": "handoff/review_evidence/CODEX_b83dc12/tree/handoff/review_evidence/CODEX_0c0a07a/tree/src/train_detector.py",
+      "trong_patch": true,
+      "trong_goi": "",
+      "sha256_base": "",
+      "sha256_target": "cd88b6f37e7b9ecbd81c80650fe6a883994c121d340ac13428ee9709d7cba8d9",
+      "bytes": 37456,
+      "trung_noi_dung_voi": "files/handoff/review_evidence/CODEX_1454b3d/base_preimages/src/train_detector.py",
+      "ly_do_khong_gom": "trung noi dung voi files/handoff/review_evidence/CODEX_1454b3d/base_preimages/src/train_detector.py (cung sha256); thay doi van nam trong patch"
+    }
+  ],
+  "file_ho_tro": [],
+  "dau_vao_lon_giu_tren_may": [
+    {
+      "loai": "det_cache",
+      "ten": "fixture_bddfx_gt",
+      "n_file": 3,
+      "bytes": 6802,
+      "sha256_tong_hop": "432c0081404242d88249269c0f53125211a2f51aaa19a5f663794e43c5176274",
+      "vi_tri_tren_may": "data/interim/det_cache/fixture_bddfx_gt"
+    },
+    {
+      "loai": "det_cache",
+      "ten": "fixture_pf_seed_test",
+      "n_file": 1,
+      "bytes": 2585,
+      "sha256_tong_hop": "bcf925be4cf73376a781a5a7928d3605893f5b23c9dc20eb21756d15bedb94e9",
+      "vi_tri_tren_may": "data/interim/det_cache/fixture_pf_seed_test"
+    },
+    {
+      "loai": "det_cache",
+      "ten": "yolov8n-coco_conf0.05_all",
+      "n_file": 52,
+      "bytes": 39735550,
+      "sha256_tong_hop": "b94df663991d6383a79ed9ac958203e4a02429c637f0fbb6557ac96cb32c51e9",
+      "vi_tri_tren_may": "data/interim/det_cache/yolov8n-coco_conf0.05_all"
+    },
+    {
+      "loai": "det_cache",
+      "ten": "yolov8n-coco_conf0.05_all_bddcocovid",
+      "n_file": 200,
+      "bytes": 18431152,
+      "sha256_tong_hop": "35aa20fd3b80f853328ca1d4aad384857351b1c9c5ca42bfcc964397451631bc",
+      "vi_tri_tren_may": "data/interim/det_cache/yolov8n-coco_conf0.05_all_bddcocovid"
+    },
+    {
+      "loai": "det_cache",
+      "ten": "yolov8n-coco_conf0.05_smoke_bdd",
+      "n_file": 3,
+      "bytes": 207776,
+      "sha256_tong_hop": "d8917b915d16a70280d971c00dee166fdd0685e4e0069df6fa374a7c844e3a6d",
+      "vi_tri_tren_may": "data/interim/det_cache/yolov8n-coco_conf0.05_smoke_bdd"
+    },
+    {
+      "loai": "weights",
+      "ten": "yolov8n.pt",
+      "n_file": 1,
+      "bytes": 6549796,
+      "sha256_tong_hop": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+      "vi_tri_tren_may": "models/yolov8n.pt"
+    }
+  ]
+}

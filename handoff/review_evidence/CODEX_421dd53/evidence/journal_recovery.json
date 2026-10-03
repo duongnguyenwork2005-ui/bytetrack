@@ -1,0 +1,268 @@
+{
+  "source_sha256": "826f233a142d86fa39c2e91f53ac334bf2b088555297ab7dd938a10921cdae43",
+  "scope": "Independent round-40 checks: real backup/repair/append/read operations in temp dirs.\n\nNo torch or training. Checkpoint files contain marker bytes and are ONLY copied;\nthis does not test checkpoint validity, optimizer state, or the runner CLI.\nOne os.replace failure is deliberately injected, then the next attempt is run.\n",
+  "cases": [
+    {
+      "case": "clean",
+      "action": "khong",
+      "before_events": 2,
+      "after_two_appends_events": 6
+    },
+    {
+      "case": "partial_no_lf",
+      "action": "cat_duoi",
+      "before_events": 2,
+      "after_two_appends_events": 6
+    },
+    {
+      "case": "partial_with_lf",
+      "action": "cat_duoi",
+      "before_events": 2,
+      "after_two_appends_events": 6
+    },
+    {
+      "case": "valid_no_lf",
+      "action": "them_newline",
+      "before_events": 3,
+      "after_two_appends_events": 7
+    },
+    {
+      "case": "nul_tail",
+      "action": "cat_duoi",
+      "before_events": 2,
+      "after_two_appends_events": 6
+    },
+    {
+      "case": "partial_and_blank_lines",
+      "action": "cat_duoi",
+      "before_events": 2,
+      "after_two_appends_events": 6
+    },
+    {
+      "case": "crlf_valid_no_lf",
+      "action": "them_newline",
+      "before_events": 3,
+      "after_two_appends_events": 7
+    }
+  ],
+  "checks": [
+    {
+      "name": "clean: analysis is read-only",
+      "pass": true
+    },
+    {
+      "name": "clean: exact repaired bytes and old events",
+      "pass": true
+    },
+    {
+      "name": "clean: backup byte-for-byte",
+      "pass": true
+    },
+    {
+      "name": "clean: receipt action/hashes/content",
+      "pass": true
+    },
+    {
+      "name": "clean: old checkpoints and evidence preserved",
+      "pass": true
+    },
+    {
+      "name": "clean: append/read roundtrip",
+      "pass": true
+    },
+    {
+      "name": "clean: second prepare/append/read and first backup preserved",
+      "pass": true
+    },
+    {
+      "name": "partial_no_lf: analysis is read-only",
+      "pass": true
+    },
+    {
+      "name": "partial_no_lf: exact repaired bytes and old events",
+      "pass": true
+    },
+    {
+      "name": "partial_no_lf: backup byte-for-byte",
+      "pass": true
+    },
+    {
+      "name": "partial_no_lf: receipt action/hashes/content",
+      "pass": true
+    },
+    {
+      "name": "partial_no_lf: old checkpoints and evidence preserved",
+      "pass": true
+    },
+    {
+      "name": "partial_no_lf: append/read roundtrip",
+      "pass": true
+    },
+    {
+      "name": "partial_no_lf: second prepare/append/read and first backup preserved",
+      "pass": true
+    },
+    {
+      "name": "partial_with_lf: analysis is read-only",
+      "pass": true
+    },
+    {
+      "name": "partial_with_lf: exact repaired bytes and old events",
+      "pass": true
+    },
+    {
+      "name": "partial_with_lf: backup byte-for-byte",
+      "pass": true
+    },
+    {
+      "name": "partial_with_lf: receipt action/hashes/content",
+      "pass": true
+    },
+    {
+      "name": "partial_with_lf: old checkpoints and evidence preserved",
+      "pass": true
+    },
+    {
+      "name": "partial_with_lf: append/read roundtrip",
+      "pass": true
+    },
+    {
+      "name": "partial_with_lf: second prepare/append/read and first backup preserved",
+      "pass": true
+    },
+    {
+      "name": "valid_no_lf: analysis is read-only",
+      "pass": true
+    },
+    {
+      "name": "valid_no_lf: exact repaired bytes and old events",
+      "pass": true
+    },
+    {
+      "name": "valid_no_lf: backup byte-for-byte",
+      "pass": true
+    },
+    {
+      "name": "valid_no_lf: receipt action/hashes/content",
+      "pass": true
+    },
+    {
+      "name": "valid_no_lf: old checkpoints and evidence preserved",
+      "pass": true
+    },
+    {
+      "name": "valid_no_lf: append/read roundtrip",
+      "pass": true
+    },
+    {
+      "name": "valid_no_lf: second prepare/append/read and first backup preserved",
+      "pass": true
+    },
+    {
+      "name": "nul_tail: analysis is read-only",
+      "pass": true
+    },
+    {
+      "name": "nul_tail: exact repaired bytes and old events",
+      "pass": true
+    },
+    {
+      "name": "nul_tail: backup byte-for-byte",
+      "pass": true
+    },
+    {
+      "name": "nul_tail: receipt action/hashes/content",
+      "pass": true
+    },
+    {
+      "name": "nul_tail: old checkpoints and evidence preserved",
+      "pass": true
+    },
+    {
+      "name": "nul_tail: append/read roundtrip",
+      "pass": true
+    },
+    {
+      "name": "nul_tail: second prepare/append/read and first backup preserved",
+      "pass": true
+    },
+    {
+      "name": "partial_and_blank_lines: analysis is read-only",
+      "pass": true
+    },
+    {
+      "name": "partial_and_blank_lines: exact repaired bytes and old events",
+      "pass": true
+    },
+    {
+      "name": "partial_and_blank_lines: backup byte-for-byte",
+      "pass": true
+    },
+    {
+      "name": "partial_and_blank_lines: receipt action/hashes/content",
+      "pass": true
+    },
+    {
+      "name": "partial_and_blank_lines: old checkpoints and evidence preserved",
+      "pass": true
+    },
+    {
+      "name": "partial_and_blank_lines: append/read roundtrip",
+      "pass": true
+    },
+    {
+      "name": "partial_and_blank_lines: second prepare/append/read and first backup preserved",
+      "pass": true
+    },
+    {
+      "name": "crlf_valid_no_lf: analysis is read-only",
+      "pass": true
+    },
+    {
+      "name": "crlf_valid_no_lf: exact repaired bytes and old events",
+      "pass": true
+    },
+    {
+      "name": "crlf_valid_no_lf: backup byte-for-byte",
+      "pass": true
+    },
+    {
+      "name": "crlf_valid_no_lf: receipt action/hashes/content",
+      "pass": true
+    },
+    {
+      "name": "crlf_valid_no_lf: old checkpoints and evidence preserved",
+      "pass": true
+    },
+    {
+      "name": "crlf_valid_no_lf: append/read roundtrip",
+      "pass": true
+    },
+    {
+      "name": "crlf_valid_no_lf: second prepare/append/read and first backup preserved",
+      "pass": true
+    },
+    {
+      "name": "middle corruption rejected by both read paths without writing",
+      "pass": true
+    },
+    {
+      "name": "changed journal rejected; original and empty backup dir preserved",
+      "pass": true
+    },
+    {
+      "name": "replace failure leaves old journal and backup exact",
+      "pass": true
+    },
+    {
+      "name": "next attempt succeeds after injected replacement failure",
+      "pass": true
+    },
+    {
+      "name": "same attempt number cannot overwrite backup",
+      "pass": true
+    }
+  ],
+  "pass": 54,
+  "fail": 0
+}

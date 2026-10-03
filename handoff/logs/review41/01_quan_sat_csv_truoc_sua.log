@@ -1,0 +1,57 @@
+# 2026-10-03 16:33:14 +0700 HEAD 421dd53 (truoc khi sua) -- python D:/LABOTARY/review_codex/CODEX_REVIEW_421dd53_EVIDENCE/observe_csv_risks.py --repo D:/LABOTARY/bytetrack --out handoff/logs/review41/01_quan_sat_csv_truoc_sua.json
+# script sha256 e45e5c9dc62b7b49081d5478208ce1186d019b763bf27f215cc04e0ad4f8beeb; exit 0 chi nghia la phep QUAN SAT chay xong, KHONG phai CSV dung
+{
+  "scope": "Confirm already disclosed CSV limitations. Temporary fixtures only; no training.\n\nUses the real backup function and real het_epoch_train writer. Checkpoint marker\nbytes are only copied, not loaded. This is not an Ultralytics end-to-end test.\nExit 0 means this observation script completed, NOT that CSV recovery is fixed.\n",
+  "source_sha256": "826f233a142d86fa39c2e91f53ac334bf2b088555297ab7dd938a10921cdae43",
+  "observations": [
+    {
+      "case": "results_nul",
+      "error": {
+        "type": "ValueError",
+        "message": "could not convert string to float: '\\x00\\x00\\x00\\x00'",
+        "is_LoiTiepTuc": false
+      },
+      "trailing_bytes_hex": "2c302e350d0a392c39302c302e350d0a00000000",
+      "last_parsed_row": {
+        "epoch": "\u0000\u0000\u0000\u0000",
+        "time": null,
+        "x": null
+      },
+      "backup_exact": true,
+      "risk_observed": true
+    },
+    {
+      "case": "results_incomplete_epoch10",
+      "error": null,
+      "trailing_bytes_hex": "2c38302c302e350d0a392c39302c302e350d0a31",
+      "last_parsed_row": {
+        "epoch": "1",
+        "time": null,
+        "x": null
+      },
+      "backup_exact": true,
+      "risk_observed": true
+    },
+    {
+      "case": "batch_partial_then_actual_writer",
+      "expected_fields": 20,
+      "unexpected_extra_fields": [
+        "",
+        ""
+      ],
+      "actual_lan_epoch_i": [
+        "0",
+        "1",
+        "1"
+      ],
+      "new_row_should_be": [
+        1,
+        2,
+        0
+      ],
+      "risk_observed": true
+    }
+  ],
+  "known_risks_reproduced": 3
+}
+# exit=0
