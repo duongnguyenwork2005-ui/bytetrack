@@ -179,3 +179,23 @@ Log được lưu với tên mới và exit code thật. Lỗi thì giữ log, s
 - Không train trên dataset đầy đủ, không pilot, không chọn số epoch hay ngân sách.
 - Không sửa dataset, split, checkpoint lịch sử, lượt smoke / pilot cũ.
 - Checkpoint smoke / pilot cũ đã strip optimizer: giữ nguyên, báo là không resume được (S2), không tạo metadata hồi tố.
+
+## 6. Phụ lục sửa đổi sau khi đăng ký (ghi thêm; mục 0–5 giữ nguyên)
+
+- **Lần 1** (`03_..._lan1.log`, commit `231006c`): nhóm U 14/14 PASS, R0/R1 yolov8n PASS. Sau đó cả test thoát mã 2 ngay
+  đầu nhóm S, không có traceback.
+  - Nguyên nhân: lỗi của test. `argv()` cắt `[2:]` nên `sys.argv` còn sót đường dẫn `train_detector.py`, argparse gọi
+    `SystemExit(2)`; `_chay` chỉ bắt `Exception`.
+  - Sửa ở commit `26fdc81`. Tiêu chí không đổi.
+- **Lần 2** (`03_..._lan2.log`, commit `26fdc81`): **57/59 PASS**. FAIL là K4 của cả hai model, **chỉ ở phần mosaic**;
+  epoch, ni, LR, momentum, batch đều trùng (`lech []`).
+  - Mosaic ghi được `False` ở mọi epoch, kể cả epoch 1 (dự đoán bật).
+  - Nguyên nhân: **phép đo sai**. `YOLODataset` của ultralytics 8.4.141 **không có thuộc tính `mosaic`**, nên
+    `getattr(ds, "mosaic", None)` luôn là `None` → `False`. `close_mosaic()` chỉ dựng lại transforms với `hyp.mosaic = 0`.
+  - Sửa: đọc `p` của transform `Mosaic` đầu tiên trong `ds.transforms` (`xac_suat_mosaic`). Nhật ký ghi thêm `mosaic_p`.
+    Thêm **U6**: dựng transforms thật bằng `v8_transforms` (p = 1,0 khi bật, 0,0 khi tắt) và xác nhận lớp `YOLODataset`
+    không có thuộc tính `mosaic`. **Tiêu chí K4 không đổi**: mosaic {1: bật, 2: tắt, 3: tắt}, C1 = I/R.
+  - Cùng cách đọc sai có ở `pilot_chan_doan.py` vòng 37 (trường `mosaic_thuc_te` trong JSON pilot luôn `False`, nên
+    **không có giá trị đo**). Kết luận vòng 37 "mosaic tắt cả 2 epoch" vẫn có bằng chứng riêng: dòng log
+    "Closing dataloader mosaic" xuất hiện đúng 1 lần trong mỗi log pilot, ngay epoch đầu, cộng với mã. Vòng này không sửa
+    `pilot_chan_doan.py` (pilot đã xong, ngoài phạm vi); báo để người dùng quyết định.

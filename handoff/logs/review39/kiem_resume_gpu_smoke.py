@@ -173,6 +173,8 @@ def so_sanh(model: str, run_c: Path, run_i: Path) -> dict:
     k4 = [(x["ni"], k) for x, y in zip(r_rows, c_sau) for k in cot4 if x[k] != y[k]]
     mos = {t: {s["epoch"]: s.get("mosaic_thuc_te") for s in tt.doc_nk(r) if s["loai"] == "epoch_da_luu"}
            for t, r in (("C", run_c), ("I_R", run_i))}
+    mos_p = {t: {s["epoch"]: s.get("mosaic_p") for s in tt.doc_nk(r) if s["loai"] == "epoch_da_luu"}
+             for t, r in (("C", run_c), ("I_R", run_i))}
     mos_mong = {e: e - 1 < E - int(c["close_mosaic"]) for e in range(1, E + 1)}
     mp_c, buoc_c = tt.mo_phong(E, nb, nw, nbs, batch)
     mp_r, buoc_r = tt.mo_phong(E, nb, nw, nbs, batch, tu_epoch=1, updates_dau=nk_i1["ema_updates"])
@@ -211,7 +213,7 @@ def so_sanh(model: str, run_c: Path, run_i: Path) -> dict:
         "K3_nguon": {"chon_sha": bd["tiep_tuc"]["chon"]["sha256"], "e001_sha": nk_i1["last_sha256"],
                      "start_epoch": bd["start_epoch"], "tong_epoch": bd["tong_epoch"]},
         "K4_lr_momentum_ni_batch_trung_C": {"so_dong_R": len(r_rows), "so_dong_C": len(c_sau), "lech": k4[:6],
-                                            "mosaic_theo_epoch": mos, "mosaic_du_doan": mos_mong,
+                                            "mosaic_theo_epoch": mos, "mosaic_p": mos_p, "mosaic_du_doan": mos_mong,
                                             "mosaic_dat": mos["C"] == mos["I_R"] == mos_mong},
         "K5_mo_phong": {"nb": nb, "nw": nw, "lech_C": k5c[:5], "lech_R": k5r[:5],
                         "buoc_C_sau_epoch1": [n for n in buoc_c if n >= nb], "buoc_R": buoc_r,

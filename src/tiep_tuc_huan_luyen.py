@@ -32,7 +32,7 @@ best_fitness duoc khoi phuc va kiem.
 NHAT KY `<run_dir>/nhat_ky_luot.jsonl` (append + fsync), cac su kien:
   - bat_dau: moi | tiep_tuc, kem provenance;
   - epoch_da_luu: moi epoch -- sha256 last.pt va ban sao, fitness, EarlyStopping, ema.updates, lr, thu tu du lieu,
-    trang thai mosaic thuc te (doc o batch dau epoch);
+    trang thai mosaic thuc te (p cua transform Mosaic, doc o batch dau epoch);
   - ket_thuc.
 DIEM KHOI PHUC:
   - `<run_dir>/khoi_phuc/last_eNNN.pt` cho MOI epoch, chep sau khi kiem nap duoc. Mot lan ghi last.pt bi ngat giua chung
@@ -109,6 +109,24 @@ def chep_nguyen_tu(src: Path, dst: Path) -> str:
         raise LoiTiepTuc(f"chep {src} -> {dst}: sha256 lech ({s_tam[:12]} != {s_nguon[:12]})")
     os.replace(tmp, dst)
     return s_nguon
+
+
+def xac_suat_mosaic(ds) -> float | None:
+    """p cua transform Mosaic DAU TIEN trong `ds.transforms` (duyet theo chieu rong cac Compose long nhau).
+    Ultralytics 8.4.141: YOLODataset KHONG co thuoc tinh `mosaic` (getattr(ds, "mosaic") luon None); close_mosaic()
+    dung lai transforms voi hyp.mosaic = 0 -> p = 0.0. None = khong tim thay Mosaic (khong ket luan duoc)."""
+    try:
+        from ultralytics.data.augment import Compose, Mosaic
+    except ImportError:
+        return None
+    hang = [getattr(ds, "transforms", None)]
+    while hang:
+        t = hang.pop(0)
+        if isinstance(t, Mosaic):
+            return float(t.p)
+        if isinstance(t, Compose):
+            hang.extend(t.transforms)
+    return None
 
 
 def van_tay_dataset(ds: dict) -> dict:
@@ -493,9 +511,9 @@ class GhiLuotDayDu:
 
     def bat_dau_batch(self, tr) -> None:
         # ultralytics tat mosaic SAU on_train_epoch_start (epoch == epochs - close_mosaic) hoac trong resume_training
-        # (start_epoch > epochs - close_mosaic) -> doc trang thai thuc te o batch dau cua epoch
+        # (start_epoch > epochs - close_mosaic) -> doc p cua transform Mosaic o batch dau cua epoch
         if self._i == 0:
-            self._mosaic = bool(getattr(tr.train_loader.dataset, "mosaic", None))
+            self._mosaic = xac_suat_mosaic(tr.train_loader.dataset)
 
     def het_batch(self, tr) -> None:
         li = tr.loss_items
@@ -551,7 +569,8 @@ class GhiLuotDayDu:
                       "possible_stop": bool(tr.stopper.possible_stop), "patience": json_safe(tr.stopper.patience)},
             dung=bool(tr.stop), ema_updates=int(tr.ema.updates), accumulate=int(tr.accumulate),
             lr={g: nhom[g]["lr"] for g in nhom}, momentum={g: nhom[g].get("momentum") for g in nhom},
-            thu_tu_du_lieu_epoch=self._thu_tu_epoch.hexdigest(), so_batch=self._i, mosaic_thuc_te=self._mosaic,
+            thu_tu_du_lieu_epoch=self._thu_tu_epoch.hexdigest(), so_batch=self._i, mosaic_p=self._mosaic,
+            mosaic_thuc_te=None if self._mosaic is None else self._mosaic > 0,
             metrics=json_safe(dict(tr.metrics or {})))
         self.epoch_da_luu.append(ep)
         self.rec.setdefault("nhat_ky_epoch", []).append({k: rec[k] for k in ("epoch", "last_sha256", "fitness",

@@ -314,6 +314,23 @@ def nhom_u(tmp: Path):
     s = ttl.chep_nguyen_tu(hop_le, run / "ban_chep.pt")
     _check("U5 chep nguyen tu: ban chep cung sha256, khong con file tam", s == sha(hop_le) == sha(run / "ban_chep.pt")
            and not list(run.glob("*.dang_chep")))
+    import types
+    from copy import copy
+
+    from ultralytics.cfg import get_cfg
+    from ultralytics.data.augment import v8_transforms
+    from ultralytics.data.dataset import YOLODataset
+    from ultralytics.utils import DEFAULT_CFG
+    gia = types.SimpleNamespace(data={}, cache=None, use_obb=False, use_keypoints=False, use_segments=False)
+    h1, h0 = copy(get_cfg(DEFAULT_CFG)), copy(get_cfg(DEFAULT_CFG))
+    h1.mosaic, h0.mosaic = 1.0, 0.0
+    gia.transforms = v8_transforms(gia, 160, h1)
+    p1 = ttl.xac_suat_mosaic(gia)
+    gia.transforms = v8_transforms(gia, 160, h0)
+    p0 = ttl.xac_suat_mosaic(gia)
+    _check("U6 doc mosaic: p cua Mosaic trong transforms that (v8_transforms) = 1,0 khi bat / 0,0 khi tat; YOLODataset "
+           "KHONG co thuoc tinh 'mosaic' (cach doc getattr(ds, 'mosaic') cu luon ra False)",
+           p1 == 1.0 and p0 == 0.0 and not hasattr(YOLODataset, "mosaic"), f"p bat {p1}, p tat {p0}")
 
 
 # =========================================================================== R
@@ -382,12 +399,14 @@ def so_sanh(tmp: Path, model: str, cfg: Path):
     lr_hang = all(len({x["lr_weight"] for x in r_rows if x["epoch"] == str(e)}) == 1 for e in range(2, E + 1))
     mos = {t: {s["epoch"]: s.get("mosaic_thuc_te") for s in doc_nk(run[t]) if s["loai"] == "epoch_da_luu"}
            for t in ("C1", "I")}
+    mos_p = {t: {s["epoch"]: s.get("mosaic_p") for s in doc_nk(run[t]) if s["loai"] == "epoch_da_luu"}
+             for t in ("C1", "I")}
     mos_mong = {e: e - 1 < E - int(c["close_mosaic"]) for e in range(1, E + 1)}
     _check(f"K4 {model}: R (epoch 2..{E}) trung C1 TUNG GIA TRI o epoch / ni / LR 3 nhom / momentum 3 nhom / batch "
            f"({len(r_rows)} dong); LR khong doi trong epoch (khong chay lai warmup); mosaic thuc te theo epoch C1 = "
            f"I/R = du doan close_mosaic {mos_mong}",
            len(r_rows) == len(c_sau) and not k4 and lr_hang and mos["C1"] == mos["I"] == mos_mong,
-           f"lech {k4[:6]}; mosaic C1 {mos['C1']}, I/R {mos['I']}")
+           f"lech {k4[:6]}; mosaic C1 {mos['C1']}, I/R {mos['I']}; p C1 {mos_p['C1']}, I/R {mos_p['I']}")
     # K5
     nw = round(min(float(c["warmup_epochs"]), max(E - 1, 0)) * nb)
     mp_c, buoc_c_tat_ca = mo_phong(E, nb, nw, nbs, batch)
