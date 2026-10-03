@@ -63,6 +63,11 @@ Chi tiết: `REVIEW39_CHI_TIET.md`.
 byte nhật ký rồi xử lý phần đuôi ghi dở / thiếu newline. Cú pháp resume không đổi; `--dry-run --tiep-tuc` in thêm kế
 hoạch nhật ký. Chi tiết: `REVIEW40_CHI_TIET.md`.
 
+**Vòng 41**: Codex `421dd53` PASS WITH LIMITATIONS, đóng R39-F1 trong phạm vi sửa nhật ký. Đã sửa R40-N1/N2: trước
+lần ghi tiếp đầu tiên, resume sao lưu nguyên byte `results.csv` / `theo_batch.csv` rồi xử lý hàng cuối ghi dở / thiếu
+newline; hàng hỏng ở giữa hoặc header sai → dừng (exit 2) trước khi train. Cú pháp resume không đổi; `--dry-run
+--tiep-tuc` in thêm kế hoạch CSV. Chi tiết: `REVIEW41_CHI_TIET.md`.
+
 Tài liệu này dùng ba nhãn nguồn số liệu:
 
 - **fixture**: đo thật trên GPU của PC, nhưng với dữ liệu tổng hợp;

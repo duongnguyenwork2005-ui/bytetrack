@@ -6,6 +6,10 @@
 - Không sửa trường mosaic của pilot vòng 37, không SSH Nano, không đóng ứng dụng.
 - Base review giữ **`b83dc12`**; vòng 39 chưa được nghiệm thu.
 
+> **Theo dõi vòng 41**: Codex `421dd53` PASS WITH LIMITATIONS, đóng R39-F1 trong phạm vi sửa nhật ký. Hai rủi ro CSV
+> ở mục 7 (R40-N1 `results.csv`, R40-N2 `theo_batch.csv`) được sửa ở vòng 41; xem `REVIEW41_CHI_TIET.md`. Các số liệu
+> khác của phụ lục này không đổi.
+
 ## 0. Trạng thái đầu vòng
 
 Log: `logs/review40/00_trang_thai_dau.log`.
