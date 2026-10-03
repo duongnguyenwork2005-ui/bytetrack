@@ -1,0 +1,64 @@
+# 2026-10-03 18:14:45 +0700 HEAD 6e29adb (SAU khi sua) -- python handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.py --out handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.json
+# script sha256 0c808c83df8fac76ed3b30adbd256b9c5c782cf5e8ff5120af867132db9b3109; doi chung cua script Codex: ca theo_batch di qua buoc chuan bi ghi that; exit 0 chi nghia la phep QUAN SAT chay xong
+{
+  "scope": "Vong 41 -- doi chung cua observe_csv_risks.py (Codex, review 421dd53): CUNG 3 tinh huong, CUNG du lieu, CUNG writer\nthat va CUNG dieu kien 'risk_observed', nhung ca theo_batch.csv cung di qua BUOC CHUAN BI GHI cua resume that\n(sao_luu_truoc_tiep_tuc -> sua_duoi_csv) truoc khi goi het_epoch_train (script goc goi thang writer, bo qua buoc nay).\nHai ca results.csv giong het script goc (script goc da goi sao_luu_truoc_tiep_tuc). Khong thay the test tich hop (nhom C).\n\n    python handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.py --out handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.json\n",
+  "source_sha256": "44045186de71dbb720d8d19d07f00f898576c3eb41cef950d3943546accbecc0",
+  "observations": [
+    {
+      "case": "results_nul",
+      "error": null,
+      "trailing_bytes_hex": "382c38302c302e350d0a392c39302c302e350d0a",
+      "last_parsed_row": {
+        "epoch": "9",
+        "time": "90",
+        "x": "0.5"
+      },
+      "backup_exact": true,
+      "risk_observed": false
+    },
+    {
+      "case": "results_incomplete_epoch10",
+      "error": null,
+      "trailing_bytes_hex": "382c38302c302e350d0a392c39302c302e350d0a",
+      "last_parsed_row": {
+        "epoch": "9",
+        "time": "90",
+        "x": "0.5"
+      },
+      "backup_exact": true,
+      "risk_observed": false
+    },
+    {
+      "case": "batch_du_lieu_codex_qua_chuan_bi",
+      "expected_fields": 20,
+      "buoc_chuan_bi": {
+        "type": "LoiTiepTuc",
+        "message": "theo_batch.csv: dong 2 hong o GIUA (o bat buoc 'ni' = '' (rong hoac sai kieu)) -- khong tu sua",
+        "is_LoiTiepTuc": true
+      },
+      "file_khong_doi": true,
+      "unexpected_extra_fields": null,
+      "hang_cuoi_lan_epoch_i": [
+        "0",
+        "1",
+        ""
+      ],
+      "risk_observed": false
+    },
+    {
+      "case": "batch_hang_thuc_te_qua_chuan_bi",
+      "expected_fields": 20,
+      "buoc_chuan_bi": "khong loi",
+      "file_khong_doi": false,
+      "unexpected_extra_fields": null,
+      "hang_cuoi_lan_epoch_i": [
+        "1",
+        "2",
+        "0"
+      ],
+      "risk_observed": false
+    }
+  ],
+  "known_risks_reproduced": 0
+}
+# exit=0

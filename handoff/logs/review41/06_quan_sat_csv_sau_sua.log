@@ -1,0 +1,53 @@
+# 2026-10-03 18:14:45 +0700 HEAD 6e29adb (SAU khi sua) -- python D:/LABOTARY/review_codex/CODEX_REVIEW_421dd53_EVIDENCE/observe_csv_risks.py --repo D:/LABOTARY/bytetrack --out handoff/logs/review41/06_quan_sat_csv_sau_sua.json
+# script sha256 e45e5c9dc62b7b49081d5478208ce1186d019b763bf27f215cc04e0ad4f8beeb; src/tiep_tuc_huan_luyen.py sha256 44045186de71dbb720d8d19d07f00f898576c3eb41cef950d3943546accbecc0; exit 0 chi nghia la phep QUAN SAT chay xong, KHONG phai CSV dung
+{
+  "scope": "Confirm already disclosed CSV limitations. Temporary fixtures only; no training.\n\nUses the real backup function and real het_epoch_train writer. Checkpoint marker\nbytes are only copied, not loaded. This is not an Ultralytics end-to-end test.\nExit 0 means this observation script completed, NOT that CSV recovery is fixed.\n",
+  "source_sha256": "44045186de71dbb720d8d19d07f00f898576c3eb41cef950d3943546accbecc0",
+  "observations": [
+    {
+      "case": "results_nul",
+      "error": null,
+      "trailing_bytes_hex": "382c38302c302e350d0a392c39302c302e350d0a",
+      "last_parsed_row": {
+        "epoch": "9",
+        "time": "90",
+        "x": "0.5"
+      },
+      "backup_exact": true,
+      "risk_observed": false
+    },
+    {
+      "case": "results_incomplete_epoch10",
+      "error": null,
+      "trailing_bytes_hex": "382c38302c302e350d0a392c39302c302e350d0a",
+      "last_parsed_row": {
+        "epoch": "9",
+        "time": "90",
+        "x": "0.5"
+      },
+      "backup_exact": true,
+      "risk_observed": false
+    },
+    {
+      "case": "batch_partial_then_actual_writer",
+      "expected_fields": 20,
+      "unexpected_extra_fields": [
+        "",
+        ""
+      ],
+      "actual_lan_epoch_i": [
+        "0",
+        "1",
+        "1"
+      ],
+      "new_row_should_be": [
+        1,
+        2,
+        0
+      ],
+      "risk_observed": true
+    }
+  ],
+  "known_risks_reproduced": 1
+}
+# exit=0
