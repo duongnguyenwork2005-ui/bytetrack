@@ -3,6 +3,10 @@
 **Phạm vi** (người dùng duyệt): xuất dataset YOLO đầy đủ từ BDD100K MOT train, **1 frame mỗi 5 frame**, theo split đã khóa;
 kiểm chứng; bàn giao; **dừng**.
 
+> **Đính chính vòng 39** (hai ghi chú không chặn của Codex `b83dc12`; chỉ sửa diễn giải, số liệu không đổi):
+> **R38-N1** ở mục 5 (789 bước tối ưu/epoch là ước tính) và **R38-N2** ở mục 4 (phép kiểm danh sách frame dùng lại
+> `chon_frame()` của exporter).
+
 - Không training, không inference, không Nano.
 - Không đổi model, split, chính sách nhãn hay dữ liệu nguồn.
 - Không thêm seed hay ablation.
@@ -94,9 +98,14 @@ Commit `c925b21`.
   - Băm lại **56.046 ảnh, 56.046 nhãn, 18.600 file ignore**, khớp manifest v2. Nhãn rỗng hợp lệ (686 / 95) được phân biệt
     với file thiếu.
   - 0 `.npy` cạnh ảnh; bản sao split khớp `b8a2848e…`.
-- **Kiểm độc lập** (`05_kiem_doc_lap.py`, chỉ đọc): **ĐẠT**.
+- **Kiểm chéo** (`05_kiem_doc_lap.py`, chỉ đọc): **ĐẠT**.
   - Tập (split, video, frame) trong manifest **khớp từng phần tử** với tập tính lại bằng `chon_frame` từ nguồn nhãn:
     56.046 / 56.046, 0 thiếu, 0 thừa.
+  - *Đính chính vòng 39 (R38-N2)*: phép kiểm danh sách frame **dùng lại `chon_frame()` của exporter** (cùng
+    `doc_split()` / `chon_tap_con()`), nên **không phải một triển khai độc lập của quy tắc lấy mẫu**. Nó xác nhận
+    manifest khớp đúng các hàm đó áp lên nguồn nhãn, không kiểm lại bản thân quy tắc. Tên file script giữ nguyên.
+    Phép kiểm nhãn YOLO và `data.yaml` đọc file bằng mã riêng của script; phép kiểm split đọc file split qua
+    `doc_split()` của exporter.
   - Mọi video ở đúng split, 0 video chung, không video nào của split thiếu ảnh.
   - 475.234 dòng box: lớp 0..4, tọa độ trong khung, 0 lỗi; 0 ảnh lệch số box với manifest.
   - `data.yaml`: `nc 5`, lớp `car, truck, bus, motorcycle, bicycle`.
@@ -140,7 +149,10 @@ Commit `553961f`.
   - Runner nhận `data/yolo_bdd5_v1/data.yaml`, hợp đồng 0 lỗi, 50.487 / 5.559 ảnh, manifest `1ee6174f…`.
   - Tham số theo `train_bdd5.yaml`: **epochs 15 (đề xuất, chưa duyệt)**, patience 5, batch 8, imgsz 640, SGD lr0 0,01,
     warmup 1 epoch, close_mosaic 2, AMP tắt, workers 2, `cache: false`, seed 0.
-  - **6.311 batch / 789 bước tối ưu mỗi epoch**; 94.665 batch cho 15 epoch.
+  - **6.311 batch mỗi epoch**; khoảng 789 bước tối ưu mỗi epoch; 94.665 batch cho 15 epoch.
+  - *Đính chính vòng 39 (R38-N1)*: 789 bước tối ưu/epoch là **ước tính với accumulate cố định** (⌈6.311 / 8⌉), chưa
+    tính warmup (accumulate tăng dần từ 1 trong epoch đầu) và ranh giới cập nhật giữa các epoch; không phải số bước
+    thực chạy. Tổng 94.665 batch **chỉ đúng nếu chạy đủ 15 epoch** (patience 5 có thể dừng sớm).
 - **Tài nguyên hiện tại** (`07_*`):
   - RAM còn trống **1.258 MiB / 8.029 MiB**. VS Code ~2,0 GB, ChatGPT ~1,1 GB (RSS cộng theo tên, có thể đếm trùng). Không đóng
     ứng dụng nào.

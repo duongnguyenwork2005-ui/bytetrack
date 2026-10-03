@@ -40,11 +40,24 @@ Chi tiết: `REVIEW37_CHI_TIET.md`.
 
 - **Đã xuất dataset đầy đủ** `data/yolo_bdd5_v1/` (bước 5, split đã khóa): **50.487 ảnh train-fit / 5.559 ảnh dev**, khớp số
   đếm vòng 35; 8,03 GB.
-- Hợp đồng v2: 0 lỗi; kiểm độc lập ĐẠT.
+- Hợp đồng v2: 0 lỗi; kiểm chéo ĐẠT. Danh sách frame được kiểm bằng chính `chon_frame()` của exporter, nên đây không
+  phải triển khai độc lập của quy tắc lấy mẫu (đính chính vòng 39, R38-N2).
 - Dry-run hai model (không train) nhận đúng dataset.
 - **Training dài, số epoch, ngân sách, thời điểm vẫn chờ duyệt.**
 
 Chi tiết: `REVIEW38_CHI_TIET.md`.
+
+**Vòng 39** (base `b83dc12`; Codex `b83dc12` PASS WITH LIMITATIONS; R38-N1 / R38-N2 đã đính chính):
+
+- **Resume** cho runner: `--che-do day-du --xac-nhan-train-dai --tiep-tuc`; kiểm trước bằng `--dry-run --tiep-tuc`.
+  Tiếp tục **sau epoch đã hoàn tất**, bằng resume của ultralytics với đường dẫn checkpoint. Không trùng từng bit với
+  lượt liên tục: RNG, thứ tự dữ liệu và gradient tích lũy dở không được khôi phục.
+- **Bộ giám sát** `src/chay_giam_sat.py` thay bộ đo RAM cũ: bám PID của tiến trình do chính công cụ tạo, giữ exit
+  code, có `trang-thai` và `tinh-lai`.
+- Đã kiểm trên fixture CPU và dataset smoke GPU cho cả hai model; không train trên dataset đầy đủ.
+- **Training dài, số epoch, ngân sách, thời điểm vẫn chờ duyệt.** Lệnh khởi chạy trong terminal riêng: mục 6.
+
+Chi tiết: `REVIEW39_CHI_TIET.md`.
 
 Tài liệu này dùng ba nhãn nguồn số liệu:
 
@@ -316,9 +329,18 @@ for M in yolov8n yolo11n; do
   $P src/train_detector.py --config configs/phase2/detector/train_bdd5_pilot.yaml --model $M --che-do kiem-pilot
   $P -u src/train_detector.py --config configs/phase2/detector/train_bdd5_pilot.yaml --model $M --che-do pilot --xac-nhan-pilot
 done
-# 2. SAU KHI DUYỆT kế hoạch + ngân sách: training dài (bắt buộc cờ xác nhận)
-$P src/train_detector.py --model yolov8n --che-do day-du --xac-nhan-train-dai
-$P src/train_detector.py --model yolo11n --che-do day-du --xac-nhan-train-dai
+# 2. SAU KHI DUYỆT kế hoạch + ngân sách: training dài (bắt buộc cờ xác nhận), trong TERMINAL RIÊNG, qua bộ giám sát
+#    (vòng 39). Lệnh PowerShell / cmd và cách lấy exit code: REVIEW39_CHI_TIET.md mục 8. Thư mục giám sát MỚI mỗi lần.
+$P src/chay_giam_sat.py chay --thu-muc results/phase2/detector_train/giam_sat/yolov8n_lan0 -- \
+   $P -u src/train_detector.py --model yolov8n --che-do day-du --xac-nhan-train-dai
+#    chỉ chạy YOLO11n SAU KHI YOLOv8n kết thúc với exit 0 (tuần tự, không chạy đồng thời)
+$P src/chay_giam_sat.py chay --thu-muc results/phase2/detector_train/giam_sat/yolo11n_lan0 -- \
+   $P -u src/train_detector.py --model yolo11n --che-do day-du --xac-nhan-train-dai
+# 2b. sau gián đoạn: trạng thái lần trước (không đoán từ log) -> kiểm tiếp tục (không train) -> tiếp tục
+$P src/chay_giam_sat.py trang-thai --thu-muc results/phase2/detector_train/giam_sat/yolov8n_lan0
+$P src/train_detector.py --model yolov8n --dry-run --tiep-tuc
+$P src/chay_giam_sat.py chay --thu-muc results/phase2/detector_train/giam_sat/yolov8n_tiep_tuc_1 -- \
+   $P -u src/train_detector.py --model yolov8n --che-do day-du --xac-nhan-train-dai --tiep-tuc
 # 3. đánh giá chung trên dev nội bộ (cùng quy tắc cho 3 detector)
 $P src/eval_detector_5lop.py --data data/yolo_bdd5_v1/data.yaml --split val \
    --model yolov8n_coco=models/yolov8n.pt \
@@ -356,8 +378,9 @@ Chi tiết: `handoff/BDD100K_INVENTORY.md`, mục Vòng 31–35.
   - Đóng bớt ứng dụng để có RAM khi train dài: RAM trống tối thiểu chỉ 7–59 MiB trong pilot; 1,26 GB lúc kết thúc vòng 38.
   - **Vòng 38**:
     - mỗi lượt dài khoảng 26–30 h theo kịch bản, vượt giới hạn tác vụ nền ~2 h, nên nên khởi chạy trong terminal riêng;
-    - runner không có chế độ resume; thêm resume cần duyệt;
-    - bộ đo RAM ngoài cần chọn đúng tiến trình trước lượt dài (đề xuất).
+    - runner không có chế độ resume → **vòng 39 đã thêm** `--tiep-tuc` (`REVIEW39_CHI_TIET.md` mục 3);
+    - bộ đo RAM ngoài chọn nhầm tiến trình → **vòng 39 đã thay** bằng `src/chay_giam_sat.py` (bám PID do công cụ
+      tạo).
 
     Lệnh dự kiến ở `REVIEW38_CHI_TIET.md` mục 5.
 - **Cần hỏi người dùng**: có dùng gói detection 100K hay không.
