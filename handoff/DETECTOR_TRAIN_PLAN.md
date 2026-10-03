@@ -1,6 +1,6 @@
 # Kế hoạch huấn luyện detector 5 lớp (YOLOv8n, YOLO11n) — bản để review
 
-Trạng thái: **đề xuất, chưa chạy training dài.** Vòng 27 chỉ làm chuẩn bị và smoke. Phạm vi chung: `handoff/PLAN_DA_CHOT.md`.
+Trạng thái: **training dài đã được người dùng duyệt ở vòng 42** (đoạn **Vòng 42** bên dưới). Vòng 27 chỉ làm chuẩn bị và smoke. Phạm vi chung: `handoff/PLAN_DA_CHOT.md`.
 Cập nhật vòng 28 (review `4937c85`): thêm hợp đồng kiểm dataset dùng chung (mục 1) và sửa diễn giải về kiểm trùng và
 batch 16 (mục 1, 4). Cập nhật vòng 29 (review `07615ba`, R28-F1): chính sách **cache ảnh** (mục 1, mục 3). Số epoch,
 bước frame và ngân sách **chưa được duyệt** và không đổi.
@@ -67,6 +67,16 @@ hoạch nhật ký. Chi tiết: `REVIEW40_CHI_TIET.md`.
 lần ghi tiếp đầu tiên, resume sao lưu nguyên byte `results.csv` / `theo_batch.csv` rồi xử lý hàng cuối ghi dở / thiếu
 newline; hàng hỏng ở giữa hoặc header sai → dừng (exit 2) trước khi train. Cú pháp resume không đổi; `--dry-run
 --tiep-tuc` in thêm kế hoạch CSV. Chi tiết: `REVIEW41_CHI_TIET.md`.
+
+**Vòng 42**: Codex `6c8e37a` PASS WITH LIMITATIONS (đóng R40-N1/N2; R41-N1 chỉ đính chính câu chữ). **Người dùng
+duyệt training dài** (2026-10-03):
+
+- YOLOv8n rồi YOLO11n, tuần tự; YOLO11n chỉ bắt đầu sau khi YOLOv8n kết thúc thành công.
+- **Tổng 15 epoch mỗi model, kể cả khi resume.** `patience 5` có thể dừng sớm.
+- Dataset đầy đủ `data/yolo_bdd5_v1/` (bước 5, split đã khóa); giữ nguyên tham số mục 3, không tuning.
+- Ngân sách dự toán 56,64 h, kịch bản chậm hơn 73,95 h (mục 5a; không bảo đảm).
+
+Kế hoạch lượt (tên, thư mục, khởi chạy độc lập, theo dõi, phục hồi): `logs/review42/02_ke_hoach_luot_dai.md`.
 
 Tài liệu này dùng ba nhãn nguồn số liệu:
 
