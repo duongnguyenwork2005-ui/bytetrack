@@ -38,7 +38,9 @@ DIEM KHOI PHUC:
   - `<run_dir>/khoi_phuc/last_eNNN.pt` cho MOI epoch, chep sau khi kiem nap duoc. Mot lan ghi last.pt bi ngat giua chung
     khong lam mat diem khoi phuc truoc do;
   - truoc moi lan tiep tuc: chep checkpoint nguon thanh `khoi_phuc/nguon_tiep_tuc_N.pt` (khong bao gio bi ghi de), luu
-    args.yaml / results.csv / theo_batch.csv / last.pt / best.pt cu vao `khoi_phuc/truoc_tiep_tuc_N/`. SAU do:
+    args.yaml / results.csv / theo_batch.csv / last.pt / best.pt cu vao `khoi_phuc/truoc_tiep_tuc_N/`; nhat ky luot
+    duoc sao luu NGUYEN BYTE vao cung thu muc va phan duoi duoc xu ly TRUOC lan append dau tien (sua_duoi_nhat_ky:
+    cat dong cuoi ghi do / them newline sau JSON cuoi hop le; bien nhan xu_ly_nhat_ky.json) -- R39-F1. SAU do:
     best.pt khong phai best cua QUY DAO (nhanh bi bo) -> khoi phuc tu ban sao cung byte; results.csv chi giu epoch <=
     epoch da luu (khong trung dong khi epoch bi ngat chay lai).
 QUY DAO: chuoi epoch da luu dan toi checkpoint duoc chon (lan tiep tuc -> checkpoint nguon cua no -> ... -> lan 0).
@@ -156,7 +158,9 @@ def ghi_nhat_ky(run_dir: Path, loai: str, **du_lieu) -> dict:
 
 
 def doc_nhat_ky(run_dir: Path) -> tuple[list[dict], list[str]]:
-    """Tra (su kien, canh bao). Dong CUOI ghi do (bi ngat luc ghi) -> bo qua + canh bao; dong hong o GIUA -> LoiTiepTuc."""
+    """Tra (su kien, canh bao). Dong CUOI ghi do (bi ngat luc ghi) -> bo qua + canh bao; dong hong o GIUA -> LoiTiepTuc.
+    CHI DOC. Truoc khi resume that ghi tiep, sua_duoi_nhat_ky() xu ly phan duoi (co sao luu) de lan append sau khong
+    noi vao dong ghi do (R39-F1)."""
     p = Path(run_dir) / TEN_NHAT_KY
     if not p.is_file():
         return [], [f"khong co {TEN_NHAT_KY}"]
@@ -173,6 +177,96 @@ def doc_nhat_ky(run_dir: Path) -> tuple[list[dict], list[str]]:
             else:
                 raise LoiTiepTuc(f"{p}: dong {i + 1} hong o GIUA nhat ky -- khong tin duoc nhat ky")
     return su_kien, canh_bao
+
+
+def phan_tich_duoi_nhat_ky(b: bytes) -> dict:
+    """Ke hoach xu ly PHAN DUOI nhat ky (CHI DOC, khong ghi). Cung quy tac voi doc_nhat_ky: chi dong noi dung CUOI
+    duoc phep hong; dong hong o GIUA -> LoiTiepTuc (khong tu sua). Ket qua:
+      - 'khong'        : file ket thuc bang newline va dong noi dung cuoi hop le;
+      - 'them_newline' : dong noi dung cuoi la JSON HOP LE nhung thieu newline -> GIU su kien, chi them b'\\n';
+      - 'cat_duoi'     : dong noi dung cuoi khong parse duoc (ghi do; co hoac khong newline) -> cat tu dau dong do toi
+                         het file. Moi su kien hop le giu nguyen tung byte; phan cat nam nguyen trong ban sao."""
+    phan = b.split(b"\n")
+    dau, o = [], 0
+    for x in phan:
+        dau.append(o)
+        o += len(x) + 1
+    noi_dung = [i for i, x in enumerate(phan) if x.decode("utf-8", "replace").strip()]
+    hong = []
+    for i in noi_dung:
+        try:
+            json.loads(phan[i].decode("utf-8", "replace"))
+        except ValueError:
+            hong.append(i)
+    if any(i != noi_dung[-1] for i in hong):
+        raise LoiTiepTuc(f"nhat ky: dong {hong[0] + 1} hong o GIUA -- khong tin duoc nhat ky, khong tu sua")
+    co_newline = b.endswith(b"\n")
+    kq = {"bytes": len(b), "sha256": hashlib.sha256(b).hexdigest(), "so_su_kien_hop_le": len(noi_dung) - len(hong),
+          "hanh_dong": "khong", "ly_do": "nhat ky sach (dong cuoi hop le, ket thuc bang newline)", "giu_bytes": len(b),
+          "bo_bytes": 0, "bo_sha256": None, "bo_dau": None, "them": None}
+    if hong:
+        i = noi_dung[-1]
+        bo = b[dau[i]:]
+        kq.update(hanh_dong="cat_duoi", giu_bytes=dau[i], bo_bytes=len(bo), bo_sha256=hashlib.sha256(bo).hexdigest(),
+                  bo_dau=repr(bo[:200]), ly_do=f"dong {i + 1} (dong noi dung cuoi) ghi do, khong parse duoc; "
+                                              f"{'co' if co_newline else 'khong co'} newline sau no")
+    elif b and not co_newline:
+        kq.update(hanh_dong="them_newline", them="\\n", ly_do="dong cuoi hop le nhung thieu newline -> giu su kien, "
+                                                              "chi them newline")
+    return kq
+
+
+def ghi_nguyen_tu(dst: Path, data: bytes) -> str:
+    """Ghi bytes qua file tam + fsync roi os.replace (bi ngat giua chung -> file dich cu con nguyen); kiem sha256."""
+    dst = Path(dst)
+    tmp = dst.with_name(dst.name + ".dang_ghi")
+    with open(tmp, "wb") as f:
+        f.write(data)
+        f.flush()
+        os.fsync(f.fileno())
+    s = sha256_file(tmp)
+    if s != hashlib.sha256(data).hexdigest():
+        tmp.unlink(missing_ok=True)
+        raise LoiTiepTuc(f"ghi {dst}: sha256 file tam lech noi dung")
+    try:
+        os.replace(tmp, dst)
+    except OSError as e:
+        raise LoiTiepTuc(f"khong thay duoc {dst} ({type(e).__name__}: {e}); file cu giu nguyen") from e
+    return s
+
+
+def sua_duoi_nhat_ky(run_dir: Path, thu_muc_luu: Path, ke_hoach: dict | None = None) -> dict:
+    """Buoc chuan bi GHI cua resume THAT (sau sao luu checkpoint, TRUOC lan append dau tien) -- R39-F1.
+    1. Doc nguyen byte; nhat ky phai trung sha256 luc preflight (`ke_hoach`), neu khong -> LoiTiepTuc.
+    2. LUON sao luu nguyen byte vao <thu_muc_luu>/nhat_ky_luot.jsonl (ghi nguyen tu, kiem sha256).
+    3. Xu ly theo phan_tich_duoi_nhat_ky: cat dong cuoi ghi do HOAC them newline sau JSON cuoi hop le. Ghi file tam +
+       fsync + os.replace: bi ngat giua chung thi nhat ky cu con nguyen (lan tiep tuc sau xu ly lai, so lan moi).
+    4. Doc lai: khong canh bao, ket thuc bang newline, su kien hop le TRUNG TUNG SU KIEN voi truoc khi sua.
+    5. Bien nhan <thu_muc_luu>/xu_ly_nhat_ky.json (cung noi dung voi gia tri tra ve, vao su kien bat_dau cua lan nay).
+    KHONG them su kien nao, khong tao lich su gia."""
+    run_dir, thu_muc_luu = Path(run_dir), Path(thu_muc_luu)
+    p = run_dir / TEN_NHAT_KY
+    b = p.read_bytes()
+    kh = phan_tich_duoi_nhat_ky(b)
+    if ke_hoach is not None and ke_hoach.get("sha256") != kh["sha256"]:
+        raise LoiTiepTuc(f"{p} doi giua buoc kiem (sha {str(ke_hoach.get('sha256'))[:12]}) va buoc sao luu "
+                         f"(sha {kh['sha256'][:12]}) -- dung, khong sua")
+    truoc, _ = doc_nhat_ky(run_dir)
+    ban_sao = thu_muc_luu / TEN_NHAT_KY
+    rec = {"t_iso": dt.datetime.now().astimezone().isoformat(timespec="seconds"), "nhat_ky": str(p),
+           "ban_sao": str(ban_sao), "ban_sao_sha256": ghi_nguyen_tu(ban_sao, b), **kh}
+    moi = {"cat_duoi": b[:kh["giu_bytes"]], "them_newline": b + b"\n"}.get(kh["hanh_dong"])
+    if moi is not None:
+        ghi_nguyen_tu(p, moi)
+    b_sau = p.read_bytes()
+    sau, cb = doc_nhat_ky(run_dir)
+    if cb or sau != truoc or (b_sau and not b_sau.endswith(b"\n")) or (moi is not None and b_sau != moi):
+        raise LoiTiepTuc(f"sau khi xu ly duoi, {p} khong nhu mong doi (canh bao {cb}, {len(sau)}/{len(truoc)} su kien) "
+                         f"-- ban goc o {ban_sao}")
+    rec.update(sau_bytes=len(b_sau), sau_sha256=hashlib.sha256(b_sau).hexdigest(), so_su_kien_sau=len(sau))
+    ghi_nguyen_tu(thu_muc_luu / "xu_ly_nhat_ky.json",
+                  (json.dumps(json_safe(rec), ensure_ascii=False, indent=1) + "\n").encode("utf-8"))
+    return rec
 
 
 # =========================================================================== checkpoint
@@ -328,6 +422,7 @@ def chuan_bi_tiep_tuc(run_dir: Path, ten: str, ts: dict, ds: dict, wt: dict, moi
         raise LoiTiepTuc(f"{run_dir}: khong co nhat ky luot ({TEN_NHAT_KY}) -- khong phai luot day du cua runner nay "
                          f"(vd luot smoke/pilot cu, checkpoint da strip optimizer) -> khong tiep tuc; khong tao metadata "
                          f"hoi to")
+    nhat_ky_duoi = phan_tich_duoi_nhat_ky((run_dir / TEN_NHAT_KY).read_bytes())   # chi ke hoach; sua o sao_luu
     goc = [s for s in su_kien if s.get("loai") == "bat_dau" and s.get("che_do_luot") == "moi"]
     if len(goc) != 1:
         raise LoiTiepTuc(f"{run_dir}: nhat ky co {len(goc)} su kien bat_dau 'moi' (can dung 1)")
@@ -396,19 +491,21 @@ def chuan_bi_tiep_tuc(run_dir: Path, ten: str, ts: dict, ds: dict, wt: dict, moi
         "epoch_moi_nhat_trong_nhat_ky": epoch_moi_nhat,
         "epoch_phai_chay_lai_vi_checkpoint_moi_hon_hong": list(range(rec["epoch"] + 1, epoch_moi_nhat + 1)),
         "quy_dao": [[s.get("lan", 0), s["epoch"]] for s in qd], "best": best,
-        "ung_vien": bao_cao_uv, "canh_bao_nhat_ky": canh_bao,
+        "ung_vien": bao_cao_uv, "canh_bao_nhat_ky": canh_bao, "nhat_ky_duoi": nhat_ky_duoi,
         "lich_su": [{k: s.get(k) for k in ("loai", "t_iso", "che_do_luot", "lan", "epoch", "trang_thai", "loi")}
                     for s in su_kien if s.get("loai") in ("bat_dau", "ket_thuc")],
     }
 
 
 def sao_luu_truoc_tiep_tuc(run_dir: Path, nguon: Path, lan: int, best: dict | None = None,
-                           epoch_da_luu: int | None = None) -> dict:
+                           epoch_da_luu: int | None = None, nhat_ky_duoi: dict | None = None) -> dict:
     """Bao toan truoc khi ultralytics ghi tiep: chep checkpoint nguon thanh khoi_phuc/nguon_tiep_tuc_N.pt (duong dan nay
     duoc dua cho ultralytics, khong bao gio bi ghi de) + luu file cu cua luot vao khoi_phuc/truoc_tiep_tuc_N/. SAU khi
-    luu: (a) best.pt khong thuoc quy dao -> khoi phuc tu ban sao cung byte (ke_hoach_best); (b) results.csv cua
-    ultralytics chi giu dong epoch <= epoch_da_luu (ultralytics resume ghi NOI; dong cua epoch bi ngat sau save_metrics
-    nhung truoc khi nhat ky ghi epoch do se TRUNG khi epoch chay lai). theo_batch.csv giu nguyen (co cot lan)."""
+    luu: (0) nhat ky: sao luu nguyen byte + xu ly duoi ghi do / thieu newline (sua_duoi_nhat_ky, R39-F1) -- day la buoc
+    TRUOC lan append dau tien cua lan tiep tuc; (a) best.pt khong thuoc quy dao -> khoi phuc tu ban sao cung byte
+    (ke_hoach_best); (b) results.csv cua ultralytics chi giu dong epoch <= epoch_da_luu (ultralytics resume ghi NOI;
+    dong cua epoch bi ngat sau save_metrics nhung truoc khi nhat ky ghi epoch do se TRUNG khi epoch chay lai).
+    theo_batch.csv giu nguyen (co cot lan)."""
     run_dir = Path(run_dir)
     kp = run_dir / THU_MUC_KP
     kp.mkdir(exist_ok=True)
@@ -423,7 +520,9 @@ def sao_luu_truoc_tiep_tuc(run_dir: Path, nguon: Path, lan: int, best: dict | No
         f = run_dir / rel
         if f.is_file():
             da_luu[rel] = chep_nguyen_tu(f, thu_muc / rel.replace("/", "__"))
-    kq = {"nguon": str(dich), "nguon_sha256": sha, "thu_muc_luu_cu": str(thu_muc), "file_cu": da_luu,
+    nk = sua_duoi_nhat_ky(run_dir, thu_muc, nhat_ky_duoi)
+    da_luu[TEN_NHAT_KY] = nk["ban_sao_sha256"]
+    kq = {"nguon": str(dich), "nguon_sha256": sha, "thu_muc_luu_cu": str(thu_muc), "file_cu": da_luu, "nhat_ky": nk,
           "best_khoi_phuc": None, "results_csv": None}
     if best and best.get("khoi_phuc_tu"):
         (run_dir / "weights").mkdir(exist_ok=True)

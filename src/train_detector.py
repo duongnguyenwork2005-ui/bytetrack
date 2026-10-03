@@ -21,6 +21,9 @@ Ban cu co `--dry-run` THUC SU train 1 epoch va `exist_ok=True` (luot moi ghi de 
                            hop dong + van tay dataset trung luot goc, cung phien ban ultralytics/torch. Sai -> exit 2,
                            KHONG goi train, KHONG tu khoi dong lai tu dau. Dung resume cua ultralytics voi DUONG DAN
                            checkpoint (khong resume=True). Ket qua: `<ten>__tiep_tuc_<N>.json` (khong ghi de).
+                           Vong 40 (R39-F1): truoc lan ghi tiep dau tien, nhat ky luot duoc sao luu nguyen byte vao
+                           khoi_phuc/truoc_tiep_tuc_N/ roi xu ly phan duoi (cat dong cuoi ghi do / them newline sau
+                           JSON cuoi hop le; dong hong o GIUA van bi tu choi).
                            `--dry-run --tiep-tuc` = chi kiem dieu kien tiep tuc, in ke hoach, khong ghi gi.
 Ctrl+C trong luc train (vong 39): ghi ket qua do dang + nhat ky ket_thuc 'bi_ngat', exit 130.
   --che-do kiem-pilot      (vong 37) KHONG train: khoa cau hinh pilot -- cau hinh pilot KE THUA NGUYEN cau hinh goc
@@ -640,10 +643,12 @@ def main() -> int:
             print(json.dumps(json_safe({k: kt[k] for k in ("lan", "chon", "epoch_da_luu", "epoch_bat_dau_tiep",
                                                             "tong_epoch", "epoch_phai_chay_lai_vi_checkpoint_moi_hon_hong",
                                                             "quy_dao", "best", "ung_vien", "canh_bao_nhat_ky",
-                                                            "lich_su")}),
+                                                            "nhat_ky_duoi", "lich_su")}),
                              ensure_ascii=False, indent=1))
+            nkd = kt["nhat_ky_duoi"]
             print(f"[OK] kiem tiep tuc xong: se tiep tuc tu epoch {kt['epoch_bat_dau_tiep']}/{kt['tong_epoch']} "
-                  f"(checkpoint {Path(kt['chon']['duong_dan']).name}); KHONG train, KHONG ghi gi")
+                  f"(checkpoint {Path(kt['chon']['duong_dan']).name}); nhat ky: {nkd['hanh_dong']} ({nkd['ly_do']}) -- "
+                  f"chi lam khi tiep tuc that, sau khi sao luu; KHONG train, KHONG ghi gi")
             return 0
         print(f"[OK] kiem cau hinh xong, KHONG train, KHONG tao {run_dir}")
         return 0
@@ -665,7 +670,8 @@ def main() -> int:
     if kt is not None:
         try:
             kt["sao_luu"] = ttl.sao_luu_truoc_tiep_tuc(run_dir, Path(kt["chon"]["duong_dan"]), kt["lan"],
-                                                       best=kt["best"], epoch_da_luu=kt["epoch_da_luu"])
+                                                       best=kt["best"], epoch_da_luu=kt["epoch_da_luu"],
+                                                       nhat_ky_duoi=kt["nhat_ky_duoi"])
         except ttl.LoiTiepTuc as e:
             print(f"[LOI CAU HINH] {e}", file=sys.stderr)
             return 2

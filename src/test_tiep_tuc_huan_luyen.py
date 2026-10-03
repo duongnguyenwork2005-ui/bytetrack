@@ -20,9 +20,22 @@ Phan biet:
       K7 nhat ky / provenance / sao luu. K8 trang thai cuoi + tu choi tiep tuc luot da xong.
       K9 I2 = ngat SAU epoch 2 (sau epoch tat mosaic) roi tiep tuc -> nhanh resume_training tu tat mosaic.
   S   (yolov8n, SPY) ca tu choi dau vao: phai exit != 0 va KHONG goi train; + ca chon ban sao khi last.pt hong,
-      dry-run tiep tuc, Ctrl+C.
+      dry-run tiep tuc, Ctrl+C. S20 (vong 40): dong hong o GIUA nhat ky -> exit 2, khong goi train.
+  N   (vong 40, R39-F1; yolov8n, CHAY THAT qua subprocess) nhat ky co phan duoi: sach / JSON ghi do khong newline / JSON
+      ghi do co newline / JSON hop le thieu newline. Moi ca:
+        0a dry-run khong doi file; 0b dry-run bao ke hoach;
+        A  resume that (kill sau epoch 2): doc lai duoc, su kien hop le cu giu nguyen + su kien moi;
+        B  ban sao nhat ky truoc sua trung tung byte + bien nhan;
+        C  checkpoint / bang chung cu bao toan;
+        D  preflight tiep theo chay duoc va resume tiep toi het; B2 ban sao truoc lan tiep tuc 2.
+      N-giua: dong hong o GIUA -> dry-run va resume that exit 2, thu muc luot khong doi.
+      `--chi-nhom-n --ma-nguon <thu muc src cu>`: chay rieng nhom N voi train_detector.py cua MA CU (chung minh test bat
+      loi); phan doc/kiem trong tien trinh test van dung ham doc cua ma hien tai.
+  U9/U10 (vong 40): phan_tich_duoi_nhat_ky / sua_duoi_nhat_ky (ham that, thu muc tam); U10b MOCK os.replace loi -> nhat
+      ky cu con nguyen.
 
     python src/test_tiep_tuc_huan_luyen.py [--model yolov8n|yolo11n ...] [--bo-spy]
+    python src/test_tiep_tuc_huan_luyen.py --chi-nhom-n [--ma-nguon DIR]
 """
 from __future__ import annotations
 
@@ -393,6 +406,62 @@ def nhom_u(tmp: Path):
            and (rs / "khoi_phuc" / "truoc_tiep_tuc_1" / "results.csv").read_bytes() == goc_csv
            and sl["results_csv"] == {"dong_giu": 2, "dong_bo": 1}, str(sl["results_csv"]))
 
+    # U9 / U10 (vong 40, R39-F1): phan duoi nhat ky -- ham THAT, thu muc tam
+    pre = b'{"loai": "bat_dau", "lan": 0}\n{"loai": "epoch_da_luu", "lan": 0, "epoch": 1}\n'
+    ca_duoi = [("sach", b"", "khong", pre), ("ghi_do_khong_newline", b'{"loai": "epoch_da_luu", "ep', "cat_duoi", pre),
+               ("ghi_do_co_newline", b'{"loai": "epoch_da_luu", "ep\n', "cat_duoi", pre),
+               ("hop_le_thieu_newline", b'{"loai": "ket_thuc", "lan": 0}', "them_newline",
+                pre + b'{"loai": "ket_thuc", "lan": 0}\n'), ("byte_nul", b"\x00" * 8, "cat_duoi", pre)]
+    u9 = {}
+    for ten, hau, hd, _ in ca_duoi:
+        kh = ttl.phan_tich_duoi_nhat_ky(pre + hau)
+        u9[ten] = kh["hanh_dong"] == hd and (hd != "cat_duoi" or (kh["giu_bytes"], kh["bo_bytes"]) == (len(pre), len(hau)))
+    dg = pre.split(b"\n")
+    try:
+        ttl.phan_tich_duoi_nhat_ky(dg[0] + b"\n" + b'{"loai": "ho\n' + b"\n".join(dg[1:]))
+        u9["giua_tu_choi"] = False
+    except ttl.LoiTiepTuc:
+        u9["giua_tu_choi"] = True
+    _check("U9 phan_tich_duoi_nhat_ky (chi doc): sach -> khong; JSON ghi do khong/co newline, byte NUL -> cat_duoi dung "
+           "ranh gioi dong; JSON hop le thieu newline -> them_newline; dong hong o GIUA -> LoiTiepTuc", all(u9.values()),
+           str(u9))
+    u10 = {}
+    for ten, hau, hd, mong in ca_duoi:
+        r = tmp / f"u10_{ten}"
+        (r / "kp").mkdir(parents=True)
+        (r / ttl.TEN_NHAT_KY).write_bytes(pre + hau)
+        truoc, _ = ttl.doc_nhat_ky(r)
+        rec = ttl.sua_duoi_nhat_ky(r, r / "kp", ttl.phan_tich_duoi_nhat_ky(pre + hau))
+        sau, cb = ttl.doc_nhat_ky(r)
+        bn = json.loads((r / "kp" / "xu_ly_nhat_ky.json").read_text(encoding="utf-8"))
+        u10[ten] = ((r / "kp" / ttl.TEN_NHAT_KY).read_bytes() == pre + hau and (r / ttl.TEN_NHAT_KY).read_bytes() == mong
+                    and sau == truoc and not cb and bn == json.loads(json.dumps(rec)) and bn["hanh_dong"] == hd
+                    and bn["sau_sha256"] == hashlib.sha256(mong).hexdigest() and not list(r.rglob("*.dang_ghi")))
+    _check("U10 sua_duoi_nhat_ky: ban sao nguyen byte; nhat ky sau sua dung byte mong doi (cat dong ghi do / them newline / "
+           "giu nguyen); su kien hop le trung tung su kien; bien nhan = gia tri tra ve; khong con file tam", all(u10.values()),
+           str(u10))
+    r = tmp / "u10b"
+    (r / "kp").mkdir(parents=True)
+    goc_u10b = pre + b'{"loai": "epoch_da_luu", "ep'
+    (r / ttl.TEN_NHAT_KY).write_bytes(goc_u10b)
+    os_replace_that = ttl.os.replace
+
+    def replace_loi(src, dst):                 # MOCK: chi lan thay NHAT KY CUA LUOT bi "ngat"; ban sao o kp/ ghi that
+        if Path(dst).resolve() == (r / ttl.TEN_NHAT_KY).resolve():
+            raise OSError("mo phong bi ngat truoc os.replace")
+        return os_replace_that(src, dst)
+    ttl.os.replace = replace_loi
+    try:
+        ttl.sua_duoi_nhat_ky(r, r / "kp", None)
+        u10b = False
+    except ttl.LoiTiepTuc:
+        u10b = True
+    finally:
+        ttl.os.replace = os_replace_that
+    _check("U10b (MOCK os.replace loi khi thay nhat ky) -> LoiTiepTuc; nhat ky cu con NGUYEN BYTE, ban sao da co (khong "
+           "de lai nhat ky do dang)", u10b and (r / ttl.TEN_NHAT_KY).read_bytes() == goc_u10b
+           and (r / "kp" / ttl.TEN_NHAT_KY).read_bytes() == goc_u10b)
+
 
 # =========================================================================== R
 def nhom_r(tmp: Path, data: Path, model: str) -> dict:
@@ -571,6 +640,161 @@ def so_sanh_k9(tmp: Path, model: str, cfg: Path, rc: int, log_r: Path):
            f"{bd.get('start_epoch')}")
 
 
+# =========================================================================== N (vong 40, R39-F1) -- CHAY THAT
+DUOI_N = [("sach", b"", "khong"),
+          ("ghi_do_khong_newline", b'{"loai": "epoch_da_luu", "lan": 0, "epoch": 2, "last_sha', "cat_duoi"),
+          ("ghi_do_co_newline", b'{"loai": "epoch_da_luu", "lan": 0, "epoch": 2, "last_sha\n', "cat_duoi"),
+          ("hop_le_thieu_newline", b'{"loai": "ket_thuc", "lan": 0, "trang_thai": "bi_ngat", "t": 1.0}', "them_newline")]
+
+
+def lenh_n(ma: Path, cfg: Path, ten: str, data: Path, tmp: Path, kq: str, *them, dry: bool = False) -> list[str]:
+    che = ["--dry-run"] if dry else ["--che-do", "day-du", "--xac-nhan-train-dai"]
+    return [PY, "-u", str(Path(ma) / "train_detector.py"), "--config", str(cfg), "--model", "yolov8n", *che, "--data",
+            str(data), "--ten", ten, "--project", str(tmp / "runs"), "--ket-qua-dir", str(tmp / kq), "--device", "cpu",
+            *them]
+
+
+def chay_lay(argv: list[str], log: Path, timeout=1800) -> tuple[int, str]:
+    r = subprocess.run(argv, capture_output=True, timeout=timeout)
+    out = (r.stdout + r.stderr).decode("utf-8", "replace")
+    log.write_text(out, encoding="utf-8")
+    return r.returncode, out
+
+
+def doc_khoan_dung(run_dir: Path) -> list[dict]:
+    """CHI de theo doi tien do khi cho ngat (khong phai phep kiem): parse tung dong, bo dong khong parse duoc."""
+    p = run_dir / "nhat_ky_luot.jsonl"
+    out = []
+    for x in (p.read_bytes().decode("utf-8", "replace").split("\n") if p.is_file() else []):
+        try:
+            out.append(json.loads(x))
+        except ValueError:
+            pass
+    return out
+
+
+def chay_va_ngat_khi(argv: list[str], run_dir: Path, log: Path, dk, timeout=1200) -> dict:
+    """Nhu chay_va_ngat, dieu kien ngat dk(su kien doc khoan dung) -- van theo doi duoc khi ma cu lam hong nhat ky."""
+    import psutil
+    with open(log, "wb") as f:
+        p = subprocess.Popen(argv, stdout=f, stderr=subprocess.STDOUT)
+        t0 = time.time()
+        try:
+            while time.time() - t0 < timeout:
+                if p.poll() is not None:
+                    return {"bi_kill": False, "exit": p.returncode, "ly_do": "tien trinh tu thoat truoc khi ngat"}
+                if dk(doc_khoan_dung(run_dir)):
+                    pr = psutil.Process(p.pid)
+                    for c in pr.children(recursive=True):
+                        c.kill()
+                    pr.kill()
+                    return {"bi_kill": True, "exit": p.wait(timeout=60), "sau_s": round(time.time() - t0, 1)}
+                time.sleep(0.1)
+            return {"bi_kill": False, "exit": None, "ly_do": "het thoi gian cho"}
+        finally:
+            if p.poll() is None:
+                p.kill()
+                p.wait()
+
+
+def doc_hoac_loi(run_dir: Path) -> tuple[list[dict], list[str], str | None]:
+    import tiep_tuc_huan_luyen as ttl
+    try:
+        sk, cb = ttl.doc_nhat_ky(run_dir)
+        return sk, cb, None
+    except ttl.LoiTiepTuc as e:
+        return [], [], str(e)
+
+
+def nhom_n(tmp: Path, data: Path, ma: Path):
+    """R39-F1 qua DUONG RESUME THAT (train_detector.py cua `ma`, subprocess, CPU). Doc/kiem dung ham doc hien tai."""
+    import tiep_tuc_huan_luyen as ttl
+    cfg = cfg_test(tmp, "n_e3")
+    ten = "yolov8n_NK"
+    run, goc = tmp / "runs" / ten, tmp / "nguyen_ban_NK"
+    p = run / ttl.TEN_NHAT_KY
+    ng = chay_va_ngat_khi(lenh_n(ma, cfg, ten, data, tmp, "kq_n0"), run, tmp / "n0.log",
+                          lambda sk: any(s.get("loai") == "epoch_da_luu" and s.get("epoch") == 1 for s in sk))
+    _check(f"N0 luot goc {ten} bi KILL ngay sau epoch 1 (chay that, ma {ma}); nhat ky: bat_dau + epoch_da_luu 1",
+           ng["bi_kill"] and [s["loai"] for s in doc_nk(run)] == ["bat_dau", "epoch_da_luu"], str(ng))
+    shutil.copytree(run, goc)
+    b_goc = (goc / ttl.TEN_NHAT_KY).read_bytes()
+    file_cu = ("args.yaml", "results.csv", "theo_batch.csv", "weights/last.pt", "weights/best.pt")
+
+    def khoi_phuc():
+        shutil.rmtree(run)
+        shutil.copytree(goc, run)
+
+    def la_epoch(lan, ep):
+        return lambda sk: any(s.get("loai") == "epoch_da_luu" and s.get("lan") == lan and s.get("epoch") == ep for s in sk)
+    for ca, hau, hd in DUOI_N:
+        khoi_phuc()
+        p.write_bytes(b_goc + hau)
+        b_truoc = p.read_bytes()
+        hop_le_truoc, _ = ttl.doc_nhat_ky(run)          # dong cuoi ghi do (neu co) duoc bo qua + canh bao
+        anh0 = anh_chup(run)
+        rc0, out0 = chay_lay(lenh_n(ma, cfg, ten, data, tmp, f"kq_n_{ca}_0", "--tiep-tuc", dry=True), tmp / f"n_{ca}_0.log")
+        _check(f"N-{ca}-0a dry-run --tiep-tuc: exit 0, KHONG doi file (anh chup sha256 thu muc luot trung)",
+               rc0 == 0 and anh_chup(run) == anh0, f"exit {rc0}; {out0.strip()[-200:]}")
+        _check(f"N-{ca}-0b dry-run bao ke hoach xu ly nhat ky '{hd}'",
+               f'"hanh_dong": "{hd}"' in out0 and f"nhat ky: {hd}" in out0, out0.strip()[-160:])
+        ng1 = chay_va_ngat_khi(lenh_n(ma, cfg, ten, data, tmp, f"kq_n_{ca}_1", "--tiep-tuc"), run, tmp / f"n_{ca}_1.log",
+                               la_epoch(1, 2))
+        sk1, cb1, loi1 = doc_hoac_loi(run)
+        moi1 = [(s.get("loai"), s.get("lan"), s.get("epoch")) for s in sk1[len(hop_le_truoc):]]
+        _check(f"N-{ca}-A resume THAT bi kill sau epoch 2: nhat ky DOC LAI duoc, khong canh bao; {len(hop_le_truoc)} su "
+               f"kien hop le cu giu nguyen tung su kien + [bat_dau lan 1, epoch_da_luu 2]",
+               ng1["bi_kill"] and loi1 is None and not cb1 and sk1[:len(hop_le_truoc)] == hop_le_truoc
+               and moi1 == [("bat_dau", 1, None), ("epoch_da_luu", 1, 2)],
+               f"kill {ng1.get('bi_kill')}; loi {loi1}; canh bao {cb1}; moi {moi1}")
+        kp = run / "khoi_phuc" / "truoc_tiep_tuc_1"
+        f_bn = kp / "xu_ly_nhat_ky.json"
+        bn = json.loads(f_bn.read_text(encoding="utf-8")) if f_bn.is_file() else {}
+        bd1 = next((s for s in sk1 if s.get("loai") == "bat_dau" and s.get("lan") == 1), {})
+        ghi = ((bd1.get("tiep_tuc") or {}).get("sao_luu") or {}).get("nhat_ky")
+        bo = len(hau) if hd == "cat_duoi" else 0
+        _check(f"N-{ca}-B ban sao nhat ky TRUOC sua trung tung byte (sha256 {hashlib.sha256(b_truoc).hexdigest()[:12]}); "
+               f"bien nhan xu_ly_nhat_ky.json = ban ghi trong bat_dau lan 1: '{hd}', bo {bo} byte",
+               (kp / ttl.TEN_NHAT_KY).is_file() and (kp / ttl.TEN_NHAT_KY).read_bytes() == b_truoc
+               and bn.get("hanh_dong") == hd and bn.get("sha256") == hashlib.sha256(b_truoc).hexdigest()
+               and bn.get("bo_bytes") == bo and ghi == bn,
+               f"ban sao {(kp / ttl.TEN_NHAT_KY).is_file()}; bien nhan {bn.get('hanh_dong')} bo {bn.get('bo_bytes')}; "
+               f"trong bat_dau {ghi is not None}")
+        e1 = goc / "khoi_phuc" / "last_e001.pt"
+        cu = {f: (kp / f.replace("/", "__")).is_file() and sha(kp / f.replace("/", "__")) == sha(goc / f) for f in file_cu}
+        _check(f"N-{ca}-C checkpoint / bang chung cu bao toan: last_e001.pt va nguon_tiep_tuc_1.pt = e001 goc; file cu "
+               f"luu truoc khi ghi tiep trung goc",
+               sha(run / "khoi_phuc" / "last_e001.pt") == sha(e1) == sha(run / "khoi_phuc" / "nguon_tiep_tuc_1.pt")
+               and all(cu.values()), str(cu))
+        rc2, out2 = chay_lay(lenh_n(ma, cfg, ten, data, tmp, f"kq_n_{ca}_2", "--tiep-tuc", dry=True), tmp / f"n_{ca}_2.log")
+        b_truoc2 = p.read_bytes()
+        rc3, out3 = chay_lay(lenh_n(ma, cfg, ten, data, tmp, f"kq_n_{ca}_3", "--tiep-tuc"), tmp / f"n_{ca}_3.log")
+        sk3, cb3, loi3 = doc_hoac_loi(run)
+        moi3 = [(s.get("loai"), s.get("lan"), s.get("epoch")) for s in sk3[len(hop_le_truoc):]]
+        _check(f"N-{ca}-D preflight tiep theo exit 0 'tiep tuc tu epoch 3/3'; resume tiep (lan 2) exit 0 toi het; nhat ky "
+               f"doc lai du: cu + lan 1 + lan 2 + ket_thuc hoan_tat",
+               rc2 == 0 and "tiep tuc tu epoch 3/3" in out2 and rc3 == 0 and loi3 is None and not cb3
+               and sk3[:len(hop_le_truoc)] == hop_le_truoc and bool(sk3) and sk3[-1].get("trang_thai") == "hoan_tat"
+               and moi3 == [("bat_dau", 1, None), ("epoch_da_luu", 1, 2), ("bat_dau", 2, None), ("epoch_da_luu", 2, 3),
+                            ("ket_thuc", 2, None)],
+               f"preflight {rc2}; resume {rc3}; loi {loi3}; moi {moi3}; {(out2 if rc2 else out3).strip()[-160:]}")
+        bs2 = run / "khoi_phuc" / "truoc_tiep_tuc_2" / ttl.TEN_NHAT_KY
+        bn2 = run / "khoi_phuc" / "truoc_tiep_tuc_2" / "xu_ly_nhat_ky.json"
+        _check(f"N-{ca}-B2 lan tiep tuc 2: ban sao nhat ky truoc lan 2 trung tung byte; bien nhan 'khong' (nhat ky sach sau "
+               f"lan 1)", bs2.is_file() and bs2.read_bytes() == b_truoc2 and bn2.is_file()
+               and json.loads(bn2.read_text(encoding="utf-8")).get("hanh_dong") == "khong",
+               f"ban sao {bs2.is_file()}; bien nhan {bn2.is_file()}")
+    khoi_phuc()
+    dg = b_goc.split(b"\n")
+    p.write_bytes(dg[0] + b"\n" + b'{"loai": "hong\n' + b"\n".join(dg[1:]))
+    anh0 = anh_chup(run)
+    rc0, out0 = chay_lay(lenh_n(ma, cfg, ten, data, tmp, "kq_n_giua_0", "--tiep-tuc", dry=True), tmp / "n_giua_0.log")
+    rc1, out1 = chay_lay(lenh_n(ma, cfg, ten, data, tmp, "kq_n_giua_1", "--tiep-tuc"), tmp / "n_giua_1.log")
+    _check("N-giua dong hong o GIUA nhat ky: dry-run va resume THAT deu exit 2 'hong o GIUA'; thu muc luot KHONG doi (khong "
+           "sao luu, khong train)", rc0 == 2 and rc1 == 2 and "hong o GIUA" in out0 and "hong o GIUA" in out1
+           and anh_chup(run) == anh0, f"exit {rc0}/{rc1}; {out1.strip()[-160:]}")
+
+
 # =========================================================================== S
 def nhom_s(tmp: Path, data: Path, cfg: Path):
     m = "yolov8n"
@@ -710,6 +934,12 @@ def nhom_s(tmp: Path, data: Path, cfg: Path):
     tu_choi("S15 luot goc chay voi phien ban ultralytics khac", ul, argv(f"{m}_I", "--tiep-tuc"), "moi truong khac")
     tu_choi("S16 --tiep-tuc --batch 4 (khong doi batch khi tiep tuc)", None, argv(f"{m}_I", "--tiep-tuc", "--batch", "4"),
             "--batch", ma_mong=1)
+
+    def hong_giua(r):                       # vong 40: dong hong o GIUA (khong phai duoi ghi do) -> van tu choi
+        p = r / "nhat_ky_luot.jsonl"
+        d = p.read_bytes().split(b"\n")
+        p.write_bytes(d[0] + b"\n" + b'{"loai": "hong\n' + b"\n".join(d[1:]))
+    tu_choi("S20 dong hong o GIUA nhat ky (vong 40)", hong_giua, argv(f"{m}_I", "--tiep-tuc"), "hong o GIUA")
     khoi_phuc_i()
     truoc = anh_chup(run_i)
     code, so, se, goi = chay_spy(["--dry-run", "--tiep-tuc", *[x for x in argv(f"{m}_I") if x not in
@@ -729,11 +959,20 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     ap.add_argument("--model", nargs="+", default=["yolov8n", "yolo11n"])
     ap.add_argument("--bo-spy", action="store_true")
+    ap.add_argument("--chi-nhom-n", action="store_true",
+                    help="CHI chay nhom N (vd voi --ma-nguon <src ma cu> de chung minh test moi bat loi R39-F1)")
+    ap.add_argument("--ma-nguon", default=str(SRC),
+                    help="thu muc chua train_detector.py cho tien trinh con cua nhom N (mac dinh: src hien tai)")
     a = ap.parse_args()
+    ma = Path(a.ma_nguon).resolve()
     tmp = Path(tempfile.mkdtemp(prefix="test_tiep_tuc_"))
     try:
-        _chay("U. don vi", lambda: nhom_u(tmp))
         import test_pilot_chan_doan as tp
+        if a.chi_nhom_n:
+            data = tp.tao_dataset_fixture(tmp / "fx")
+            _chay(f"N. nhat ky R39-F1 qua resume THAT (train_detector.py o {ma})", lambda: nhom_n(tmp, data, ma))
+            return tong_ket()
+        _chay("U. don vi", lambda: nhom_u(tmp))
         data = tp.tao_dataset_fixture(tmp / "fx")
         ctx = {}
         for m in a.model:
@@ -753,9 +992,14 @@ def main() -> int:
                     rc2 = chay_that(lenh(ctx[m]["cfg"], m, f"{m}_I2", data, tmp, "--tiep-tuc"), tmp / f"{m}_R2.log")
                     so_sanh_k9(tmp, m, ctx[m]["cfg"], rc2, tmp / f"{m}_R2.log")
                 _chay(f"K. {m}: tiep tuc + so sanh voi luot lien tuc", tiep)
+        _chay(f"N. nhat ky R39-F1 qua resume THAT (train_detector.py o {ma})", lambda: nhom_n(tmp, data, ma))
         print("\nTHONG TIN (khac biet du kien, khong dung nguong):", json.dumps(THONG_TIN, ensure_ascii=False))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+    return tong_ket()
+
+
+def tong_ket() -> int:
     n = sum(ok for _, ok in KQ)
     print(f"\nKET QUA: {n}/{len(KQ)} PASS" + (f", {len(SKIP)} SKIP (CHUA KIEM): {[s for s, _ in SKIP]}" if SKIP else ""))
     return 0 if KQ and n == len(KQ) else 1
