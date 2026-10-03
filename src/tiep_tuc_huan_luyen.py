@@ -38,7 +38,10 @@ DIEM KHOI PHUC:
   - `<run_dir>/khoi_phuc/last_eNNN.pt` cho MOI epoch, chep sau khi kiem nap duoc. Mot lan ghi last.pt bi ngat giua chung
     khong lam mat diem khoi phuc truoc do;
   - truoc moi lan tiep tuc: chep checkpoint nguon thanh `khoi_phuc/nguon_tiep_tuc_N.pt` (khong bao gio bi ghi de), luu
-    args.yaml / results.csv / theo_batch.csv / last.pt / best.pt cu vao `khoi_phuc/truoc_tiep_tuc_N/`.
+    args.yaml / results.csv / theo_batch.csv / last.pt / best.pt cu vao `khoi_phuc/truoc_tiep_tuc_N/`. SAU do:
+    best.pt khong phai best cua QUY DAO (nhanh bi bo) -> khoi phuc tu ban sao cung byte; results.csv chi giu epoch <=
+    epoch da luu (khong trung dong khi epoch bi ngat chay lai).
+QUY DAO: chuoi epoch da luu dan toi checkpoint duoc chon (lan tiep tuc -> checkpoint nguon cua no -> ... -> lan 0).
 """
 from __future__ import annotations
 
@@ -271,6 +274,50 @@ def so_lan_tiep_tuc_da_co(run_dir: Path) -> int:
     return max(lan, default=0)
 
 
+def quy_dao(su_kien: list[dict], rec: dict) -> list[dict]:
+    """Cac su kien epoch_da_luu tren QUY DAO dan toi checkpoint `rec` (theo epoch tang dan): cac epoch cua lan chua rec
+    toi epoch cua rec, noi voi lan NGUON cua lan do (bat_dau.tiep_tuc.chon.sha256 -> su kien da luu checkpoint do), ...
+    ve lan 0. Nhanh bi bo (epoch da luu nhung sau do tiep tuc tu checkpoint cu hon) KHONG thuoc quy dao."""
+    luu = [s for s in su_kien if s.get("loai") == "epoch_da_luu"]
+    bat_dau = {s.get("lan"): s for s in su_kien if s.get("loai") == "bat_dau"}
+    out, cur, da_qua = [], rec, set()
+    while True:
+        lan, ep = cur.get("lan", 0), cur["epoch"]
+        if lan in da_qua:
+            raise LoiTiepTuc(f"nhat ky co vong lap nguon o lan {lan}")
+        da_qua.add(lan)
+        out = sorted((s for s in luu if s.get("lan", 0) == lan and s["epoch"] <= ep), key=lambda s: s["epoch"]) + out
+        if not lan:
+            return out
+        sha = (((bat_dau.get(lan) or {}).get("tiep_tuc") or {}).get("chon") or {}).get("sha256")
+        nguon = [s for s in luu if s.get("lan", 0) < lan and sha and sha in (s.get("last_sha256"), s.get("ban_sao_sha256"))]
+        if not nguon:
+            raise LoiTiepTuc(f"khong truy duoc checkpoint nguon cua lan tiep tuc {lan} trong nhat ky")
+        cur = max(nguon, key=lambda s: s.get("t", 0))
+
+
+def ke_hoach_best(run_dir: Path, qd: list[dict]) -> dict:
+    """best.pt phai la best cua QUY DAO (ultralytics ghi best.pt = cung byte last.pt cua epoch dat best). best.pt cua
+    nhanh bi bo (vd bi ngat sau khi ultralytics ghi best.pt nhung truoc khi runner ghi nhat ky) -> khoi phuc tu ban sao
+    khoi_phuc/last_eNNN.pt cua epoch best tren quy dao. Khong co ban sao dung byte -> LoiTiepTuc (khong doan)."""
+    co_best = [s for s in qd if s.get("best_ghi_epoch_nay")]
+    p = Path(run_dir) / "weights" / "best.pt"
+    hien_tai = sha256_file(p) if p.is_file() else None
+    if not co_best:
+        return {"mong_doi": None, "hien_tai_sha256": hien_tai, "khop": None, "khoi_phuc_tu": None}
+    b = co_best[-1]
+    kq = {"mong_doi": {k: b.get(k) for k in ("lan", "epoch", "best_sha256", "ban_sao", "ban_sao_sha256")},
+          "hien_tai_sha256": hien_tai, "khop": hien_tai == b.get("best_sha256"), "khoi_phuc_tu": None}
+    if not kq["khop"]:
+        bs = Path(run_dir) / str(b.get("ban_sao"))
+        if b.get("best_sha256") != b.get("ban_sao_sha256") or not bs.is_file() or sha256_file(bs) != b["best_sha256"]:
+            raise LoiTiepTuc(f"best.pt (sha {str(hien_tai)[:12]}) khong phai best cua quy dao (lan {b.get('lan')} epoch "
+                             f"{b.get('epoch')}, sha {str(b.get('best_sha256'))[:12]}) va khong con ban sao dung byte de "
+                             f"khoi phuc -- xu ly tay, khong tiep tuc")
+        kq["khoi_phuc_tu"] = str(b["ban_sao"])
+    return kq
+
+
 def chuan_bi_tiep_tuc(run_dir: Path, ten: str, ts: dict, ds: dict, wt: dict, moi_truong: dict) -> dict:
     """Kiem MOI dieu kien tiep tuc (khong ghi gi). Sai -> LoiTiepTuc (runner exit 2, khong goi train)."""
     run_dir = Path(run_dir)
@@ -336,6 +383,8 @@ def chuan_bi_tiep_tuc(run_dir: Path, ten: str, ts: dict, ds: dict, wt: dict, moi
                          "epoch): " + "; ".join(khac[:8]))
     if int(chon["train_args"].get("epochs", -1)) != E:
         raise LoiTiepTuc(f"tong epoch checkpoint {chon['train_args'].get('epochs')} != cau hinh {E}")
+    qd = quy_dao(su_kien, rec)
+    best = ke_hoach_best(run_dir, qd)
     epoch_moi_nhat = max(s["epoch"] for s in luu)
     return {
         "luot_goc": {"ten": ten, "bat_dau": goc.get("t_iso"), "pid": goc.get("pid"), "cau_hinh_sha256": goc.get("cau_hinh",
@@ -346,15 +395,20 @@ def chuan_bi_tiep_tuc(run_dir: Path, ten: str, ts: dict, ds: dict, wt: dict, moi
         "epoch_da_luu": rec["epoch"], "epoch_bat_dau_tiep": rec["epoch"] + 1, "tong_epoch": E,
         "epoch_moi_nhat_trong_nhat_ky": epoch_moi_nhat,
         "epoch_phai_chay_lai_vi_checkpoint_moi_hon_hong": list(range(rec["epoch"] + 1, epoch_moi_nhat + 1)),
+        "quy_dao": [[s.get("lan", 0), s["epoch"]] for s in qd], "best": best,
         "ung_vien": bao_cao_uv, "canh_bao_nhat_ky": canh_bao,
         "lich_su": [{k: s.get(k) for k in ("loai", "t_iso", "che_do_luot", "lan", "epoch", "trang_thai", "loi")}
                     for s in su_kien if s.get("loai") in ("bat_dau", "ket_thuc")],
     }
 
 
-def sao_luu_truoc_tiep_tuc(run_dir: Path, nguon: Path, lan: int) -> dict:
+def sao_luu_truoc_tiep_tuc(run_dir: Path, nguon: Path, lan: int, best: dict | None = None,
+                           epoch_da_luu: int | None = None) -> dict:
     """Bao toan truoc khi ultralytics ghi tiep: chep checkpoint nguon thanh khoi_phuc/nguon_tiep_tuc_N.pt (duong dan nay
-    duoc dua cho ultralytics, khong bao gio bi ghi de) + luu file cu cua luot vao khoi_phuc/truoc_tiep_tuc_N/."""
+    duoc dua cho ultralytics, khong bao gio bi ghi de) + luu file cu cua luot vao khoi_phuc/truoc_tiep_tuc_N/. SAU khi
+    luu: (a) best.pt khong thuoc quy dao -> khoi phuc tu ban sao cung byte (ke_hoach_best); (b) results.csv cua
+    ultralytics chi giu dong epoch <= epoch_da_luu (ultralytics resume ghi NOI; dong cua epoch bi ngat sau save_metrics
+    nhung truoc khi nhat ky ghi epoch do se TRUNG khi epoch chay lai). theo_batch.csv giu nguyen (co cot lan)."""
     run_dir = Path(run_dir)
     kp = run_dir / THU_MUC_KP
     kp.mkdir(exist_ok=True)
@@ -369,7 +423,25 @@ def sao_luu_truoc_tiep_tuc(run_dir: Path, nguon: Path, lan: int) -> dict:
         f = run_dir / rel
         if f.is_file():
             da_luu[rel] = chep_nguyen_tu(f, thu_muc / rel.replace("/", "__"))
-    return {"nguon": str(dich), "nguon_sha256": sha, "thu_muc_luu_cu": str(thu_muc), "file_cu": da_luu}
+    kq = {"nguon": str(dich), "nguon_sha256": sha, "thu_muc_luu_cu": str(thu_muc), "file_cu": da_luu,
+          "best_khoi_phuc": None, "results_csv": None}
+    if best and best.get("khoi_phuc_tu"):
+        (run_dir / "weights").mkdir(exist_ok=True)
+        s = chep_nguyen_tu(run_dir / best["khoi_phuc_tu"], run_dir / "weights" / "best.pt")
+        if s != best["mong_doi"]["best_sha256"]:
+            raise LoiTiepTuc(f"khoi phuc best.pt: sha {s[:12]} != best quy dao {best['mong_doi']['best_sha256'][:12]}")
+        kq["best_khoi_phuc"] = {"tu": best["khoi_phuc_tu"], "sha256": s, "ban_cu_sha256": best["hien_tai_sha256"]}
+    rc = run_dir / "results.csv"
+    if epoch_da_luu is not None and rc.is_file():          # xu ly BYTE: giu nguyen xuong dong (Windows: CRLF)
+        dong = rc.read_bytes().splitlines(keepends=True)
+        giu = dong[:1] + [d for d in dong[1:]
+                          if d.strip() and int(float(d.split(b",", 1)[0].decode())) <= int(epoch_da_luu)]
+        if len(giu) != len(dong):
+            tam = rc.with_name(rc.name + ".dang_ghi")
+            tam.write_bytes(b"".join(giu))
+            os.replace(tam, rc)
+        kq["results_csv"] = {"dong_giu": len(giu) - 1, "dong_bo": len(dong) - len(giu)}
+    return kq
 
 
 # =========================================================================== callback luot day du
@@ -422,7 +494,8 @@ class GhiLuotDayDu:
                     pid=os.getpid(), start_epoch=tr.start_epoch, tong_epoch=tr.epochs, **self.provenance,
                     kiem_khoi_phuc=self.kiem_khoi_phuc,
                     tiep_tuc={k: self.ctx.get(k) for k in ("lan", "chon", "epoch_da_luu", "epoch_bat_dau_tiep",
-                                                            "sao_luu", "epoch_phai_chay_lai_vi_checkpoint_moi_hon_hong")}
+                                                            "sao_luu", "epoch_phai_chay_lai_vi_checkpoint_moi_hon_hong",
+                                                            "quy_dao", "best")}
                     if self.che_do_luot == "tiep_tuc" else None)
 
     def _kiem_khoi_phuc(self, tr) -> dict:

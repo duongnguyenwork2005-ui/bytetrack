@@ -199,3 +199,28 @@ Log được lưu với tên mới và exit code thật. Lỗi thì giữ log, s
     **không có giá trị đo**). Kết luận vòng 37 "mosaic tắt cả 2 epoch" vẫn có bằng chứng riêng: dòng log
     "Closing dataloader mosaic" xuất hiện đúng 1 lần trong mỗi log pilot, ngay epoch đầu, cộng với mã. Vòng này không sửa
     `pilot_chan_doan.py` (pilot đã xong, ngoài phạm vi); báo để người dùng quyết định.
+- **Lần 3** (`03_..._lan3.log`, commit `53a328f`): **60/60 PASS**, exit 0. K4 đạt ở cả hai model; mosaic `p` ở C1 và I/R
+  đều là {1: 1,0, 2: 0,0, 3: 0,0}.
+- **Bổ sung sau lần 3** (ghi trước lần 4): xử lý một tình huống biên chưa có trong kế hoạch ban đầu.
+  - Tình huống: bị ngắt **sau khi** ultralytics ghi `results.csv`, `last.pt`, `best.pt` của epoch k nhưng **trước khi**
+    runner ghi `epoch_da_luu` k. Cửa sổ này dài khoảng 1–3 s mỗi epoch: chép bản sao, băm, fsync.
+  - Khi đó resume chọn epoch k−1 (đúng), nhưng còn hai lỗi:
+    - `best.pt` có thể thuộc **nhánh bị bỏ**, và `final_eval` của ultralytics đánh giá chính `best.pt`;
+    - `results.csv` có **dòng trùng** epoch k, vì ultralytics resume ghi nối tiếp.
+  - Mã mới:
+    - `quy_dao()` dựng chuỗi epoch đã lưu dẫn tới checkpoint được chọn (lần tiếp tục → checkpoint nguồn → … → lần 0);
+    - `ke_hoach_best()`: `best.pt` phải bằng best của quỹ đạo. Nếu lệch, khôi phục từ bản sao `last_eNNN.pt` cùng byte
+      (ultralytics ghi `best.pt` từ cùng byte với `last.pt`). Không còn bản sao đúng byte → từ chối, exit 2;
+    - `sao_luu_truoc_tiep_tuc` cắt `results.csv` về epoch ≤ epoch đã lưu, xử lý theo byte nên giữ CRLF.
+    - Cả hai thao tác chạy **sau** khi đã lưu bản cũ vào `truoc_tiep_tuc_N/`.
+  - Tiêu chí mới (đạt / không đạt):
+    - **U7a**: quỹ đạo qua 2 lần tiếp tục đúng thứ tự; best của quỹ đạo không lấy nhánh bị bỏ; nguồn không truy được →
+      `LoiTiepTuc`;
+    - **U7b**: khớp → không làm gì; lệch → khôi phục từ bản sao; bản sao hỏng → `LoiTiepTuc`;
+    - **U8**: `results.csv` chỉ còn epoch ≤ epoch đã lưu, đúng byte CRLF, bản gốc được lưu;
+    - **S19** (spy): `best.pt` của nhánh bị bỏ cùng dòng `results.csv` epoch 2 → trước `train()`: `best.pt` = best e001,
+      bản cũ được lưu, `results.csv` chỉ còn epoch 1;
+    - **K7** thêm: mọi epoch ghi best có `best_sha256 == ban_sao_sha256` (giả định dùng để khôi phục); quỹ đạo của R là
+      `[[0, 1]]`.
+  - Trước khi đăng ký, đã chạy riêng nhóm U một lần để bắt lỗi cú pháp: 17/17. Đây là kiểm phát triển, không phải lần
+    chạy chính thức.

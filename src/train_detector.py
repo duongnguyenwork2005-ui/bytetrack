@@ -639,7 +639,8 @@ def main() -> int:
         if kt is not None:
             print(json.dumps(json_safe({k: kt[k] for k in ("lan", "chon", "epoch_da_luu", "epoch_bat_dau_tiep",
                                                             "tong_epoch", "epoch_phai_chay_lai_vi_checkpoint_moi_hon_hong",
-                                                            "ung_vien", "canh_bao_nhat_ky", "lich_su")}),
+                                                            "quy_dao", "best", "ung_vien", "canh_bao_nhat_ky",
+                                                            "lich_su")}),
                              ensure_ascii=False, indent=1))
             print(f"[OK] kiem tiep tuc xong: se tiep tuc tu epoch {kt['epoch_bat_dau_tiep']}/{kt['tong_epoch']} "
                   f"(checkpoint {Path(kt['chon']['duong_dan']).name}); KHONG train, KHONG ghi gi")
@@ -663,7 +664,8 @@ def main() -> int:
     train_kwargs = {k: v for k, v in ts.items() if k != "model"}
     if kt is not None:
         try:
-            kt["sao_luu"] = ttl.sao_luu_truoc_tiep_tuc(run_dir, Path(kt["chon"]["duong_dan"]), kt["lan"])
+            kt["sao_luu"] = ttl.sao_luu_truoc_tiep_tuc(run_dir, Path(kt["chon"]["duong_dan"]), kt["lan"],
+                                                       best=kt["best"], epoch_da_luu=kt["epoch_da_luu"])
         except ttl.LoiTiepTuc as e:
             print(f"[LOI CAU HINH] {e}", file=sys.stderr)
             return 2

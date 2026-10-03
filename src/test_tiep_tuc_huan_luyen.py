@@ -332,6 +332,66 @@ def nhom_u(tmp: Path):
            "KHONG co thuoc tinh 'mosaic' (cach doc getattr(ds, 'mosaic') cu luon ra False)",
            p1 == 1.0 and p0 == 0.0 and not hasattr(YOLODataset, "mosaic"), f"p bat {p1}, p tat {p0}")
 
+    # U7 quy dao: lan 0 luu e1..e5; lan 1 tiep tu e3 (e4, e5 cua lan 0 thanh NHANH BI BO), luu e4..e6; lan 2 tiep tu e5
+    def ev(lan, e, best, s, t):
+        return {"loai": "epoch_da_luu", "lan": lan, "epoch": e, "best_ghi_epoch_nay": best, "best_sha256": s if best
+                else None, "last_sha256": s, "ban_sao_sha256": s, "ban_sao": f"khoi_phuc/last_e{e:03d}.pt", "t": t}
+    sk = [{"loai": "bat_dau", "lan": 0, "che_do_luot": "moi", "t": 0}]
+    sk += [ev(0, e, b, f"a{e}", e) for e, b in ((1, True), (2, True), (3, False), (4, True), (5, False))]
+    sk += [{"loai": "bat_dau", "lan": 1, "che_do_luot": "tiep_tuc", "t": 10, "tiep_tuc": {"chon": {"sha256": "a3"}}}]
+    sk += [ev(1, e, b, f"b{e}", 10 + e) for e, b in ((4, False), (5, True), (6, False))]
+    sk += [{"loai": "bat_dau", "lan": 2, "che_do_luot": "tiep_tuc", "t": 20, "tiep_tuc": {"chon": {"sha256": "b5"}}}]
+    sk += [ev(2, 6, False, "c6", 26)]
+
+    def lay(lan, e):
+        return next(s for s in sk if s["loai"] == "epoch_da_luu" and s["lan"] == lan and s["epoch"] == e)
+    q_c6 = [(s["lan"], s["epoch"]) for s in ttl.quy_dao(sk, lay(2, 6))]
+    qd_b4 = ttl.quy_dao(sk, lay(1, 4))
+    best_b4 = [s for s in qd_b4 if s["best_ghi_epoch_nay"]][-1]["best_sha256"]
+    gay = [dict(s) for s in sk]
+    next(s for s in gay if s["loai"] == "bat_dau" and s["lan"] == 1)["tiep_tuc"] = {"chon": {"sha256": "zz"}}
+    try:
+        ttl.quy_dao(gay, next(s for s in gay if s["loai"] == "epoch_da_luu" and s["lan"] == 1 and s["epoch"] == 4))
+        gay_loi = False
+    except ttl.LoiTiepTuc:
+        gay_loi = True
+    _check("U7a quy dao qua 2 lan tiep tuc: lan2 e6 -> [(0,1),(0,2),(0,3),(1,4),(1,5),(2,6)]; lan1 e4 -> best quy dao = a2 "
+           "(KHONG phai a4 cua nhanh bi bo); nguon khong truy duoc -> LoiTiepTuc",
+           q_c6 == [(0, 1), (0, 2), (0, 3), (1, 4), (1, 5), (2, 6)] and [(s["lan"], s["epoch"]) for s in qd_b4]
+           == [(0, 1), (0, 2), (0, 3), (1, 4)] and best_b4 == "a2" and gay_loi, f"{q_c6} | best {best_b4}")
+    rb = tmp / "u_best"
+    (rb / "weights").mkdir(parents=True)
+    (rb / "khoi_phuc").mkdir()
+    (rb / "khoi_phuc" / "last_e002.pt").write_bytes(b"best e2")
+    s2 = hashlib.sha256(b"best e2").hexdigest()
+    qd = [{"lan": 0, "epoch": 1, "best_ghi_epoch_nay": False},
+          {"lan": 0, "epoch": 2, "best_ghi_epoch_nay": True, "best_sha256": s2, "ban_sao": "khoi_phuc/last_e002.pt",
+           "ban_sao_sha256": s2}]
+    (rb / "weights" / "best.pt").write_bytes(b"best e2")
+    k_khop = ttl.ke_hoach_best(rb, qd)
+    (rb / "weights" / "best.pt").write_bytes(b"best cua nhanh bi bo")
+    k_mc = ttl.ke_hoach_best(rb, qd)
+    (rb / "khoi_phuc" / "last_e002.pt").write_bytes(b"ban sao hong")
+    try:
+        ttl.ke_hoach_best(rb, qd)
+        hong_loi = False
+    except ttl.LoiTiepTuc:
+        hong_loi = True
+    _check("U7b ke hoach best.pt: khop quy dao -> khong lam gi; lech -> khoi phuc tu ban sao cung byte; ban sao hong -> "
+           "LoiTiepTuc (khong doan)", k_khop["khop"] and k_khop["khoi_phuc_tu"] is None and k_mc["khop"] is False
+           and k_mc["khoi_phuc_tu"] == "khoi_phuc/last_e002.pt" and hong_loi, f"{k_khop} | {k_mc}")
+    # U8 cat results.csv (BYTE, giu CRLF cua ultralytics tren Windows) sau khi da luu ban goc
+    rs = tmp / "u_csv"
+    rs.mkdir()
+    goc_csv = b"epoch,time,x\r\n1,10,0.5\r\n2,20,0.6\r\n3,30,0.7\r\n"
+    (rs / "results.csv").write_bytes(goc_csv)
+    (rs / "nguon.pt").write_bytes(b"ck")
+    sl = ttl.sao_luu_truoc_tiep_tuc(rs, rs / "nguon.pt", 1, best=None, epoch_da_luu=2)
+    _check("U8 results.csv: chi giu epoch <= epoch da luu (dong epoch 3 bi bo), giu nguyen byte/CRLF; ban goc luu o "
+           "truoc_tiep_tuc_1", (rs / "results.csv").read_bytes() == b"epoch,time,x\r\n1,10,0.5\r\n2,20,0.6\r\n"
+           and (rs / "khoi_phuc" / "truoc_tiep_tuc_1" / "results.csv").read_bytes() == goc_csv
+           and sl["results_csv"] == {"dong_giu": 2, "dong_bo": 1}, str(sl["results_csv"]))
+
 
 # =========================================================================== R
 def nhom_r(tmp: Path, data: Path, model: str) -> dict:
@@ -447,9 +507,13 @@ def so_sanh(tmp: Path, model: str, cfg: Path):
     prov = all(k in bd for k in ("lenh", "ma_nguon_sha256", "moi_truong", "git_head", "t_iso", "dataset_van_tay",
                                  "cau_hinh")) and bd["tiep_tuc"]["epoch_da_luu"] == 1
     n_res = len(list(csv.DictReader(open(run["I"] / "results.csv", encoding="utf-8"))))
+    co_best = [s for t in ("C1", "I") for s in doc_nk(run[t]) if s["loai"] == "epoch_da_luu" and s["best_ghi_epoch_nay"]]
+    best_cung_byte = bool(co_best) and all(s["best_sha256"] == s["ban_sao_sha256"] for s in co_best)
     _check(f"K7 {model}: nhat ky {loai == mong} (lich su lan 0 giu nguyen); provenance tiep tuc du {prov}; file cu luu "
-           f"truoc khi ghi tiep {luu_cu}; results.csv {n_res} epoch",
-           loai == mong and prov and all(luu_cu.values()) and n_res == E, f"{loai}")
+           f"truoc khi ghi tiep {luu_cu}; results.csv {n_res} epoch; quy dao {bd['tiep_tuc'].get('quy_dao')}; moi epoch "
+           f"ghi best: best.pt cung byte ban sao last ({len(co_best)} epoch) {best_cung_byte}",
+           loai == mong and prov and all(luu_cu.values()) and n_res == E and best_cung_byte
+           and bd["tiep_tuc"].get("quy_dao") == [[0, 1]], f"{loai}")
     # K8
     fin = json.loads((tmp / "kq" / f"{model}_I__tiep_tuc_1.json").read_text(encoding="utf-8"))
     import torch
@@ -541,6 +605,24 @@ def nhom_s(tmp: Path, data: Path, cfg: Path):
         (r / "khoi_phuc" / "last_e001.pt").unlink()
     tu_choi("S6 last.pt la checkpoint cua LUOT KHAC (C1 e002), khong con ban sao", la, argv(f"{m}_I", "--tiep-tuc"),
             "khong co trong nhat ky")
+
+    khoi_phuc_i()                           # S19: bi ngat SAU khi ultralytics ghi best.pt + dong results.csv epoch 2
+    shutil.copyfile(run_c1 / "khoi_phuc" / "last_e002.pt", run_i / "weights" / "best.pt")   # nhung TRUOC nhat ky
+    dong = (run_i / "results.csv").read_bytes().splitlines(keepends=True)
+    (run_i / "results.csv").write_bytes(b"".join(dong) + b"2" + dong[-1][dong[-1].index(b","):])
+    sha_mo_coi, csv_mo_coi = sha(run_i / "weights" / "best.pt"), (run_i / "results.csv").read_bytes()
+    code, so, se, goi = chay_spy(argv(f"{m}_I", "--tiep-tuc"))
+    e1 = next(s for s in doc_nk(goc) if s["loai"] == "epoch_da_luu" and s["epoch"] == 1)
+    kp = run_i / "khoi_phuc" / "truoc_tiep_tuc_1"
+    ep_csv = [r["epoch"].strip() for r in csv.DictReader(open(run_i / "results.csv", newline="", encoding="utf-8"))]
+    _check("S19 best.pt + dong results.csv cua NHANH BI BO (ghi sau epoch 1, truoc nhat ky) -> TRUOC khi train: best.pt = "
+           "best quy dao (e001, chep tu ban sao cung byte), ban cu luu o truoc_tiep_tuc_1; results.csv chi con epoch 1 "
+           "(ban cu luu nguyen byte); train van duoc goi",
+           co_train(goi) and sha(run_i / "weights" / "best.pt") == e1["best_sha256"] == sha(goc / "weights" / "best.pt")
+           and sha(kp / "weights__best.pt") == sha_mo_coi and ep_csv == ["1"]
+           and (kp / "results.csv").read_bytes() == csv_mo_coi,
+           f"exit {code}; best {sha(run_i / 'weights' / 'best.pt')[:12]} vs e001 {e1['best_sha256'][:12]}; csv {ep_csv}")
+    (tmp / "kq" / f"{m}_I__tiep_tuc_1.json").unlink(missing_ok=True)
     nhan = sorted((data.parent / "labels" / "train").glob("*.txt"))[0]
     b_nhan = nhan.read_bytes()
     nhan.write_bytes(b_nhan + b"0 0.5 0.5 0.1 0.1\n")
