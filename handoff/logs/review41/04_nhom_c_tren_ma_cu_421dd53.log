@@ -1,0 +1,46 @@
+# 2026-10-03 18:08:40 +0700 HEAD da1aac2 -- test MOI (src/test_tiep_tuc_huan_luyen.py) --chi-nhom-c --ma-nguon <git -c core.autocrlf=false archive 421dd53 src> (pin 31% cam sac True)
+# ma cu: tiep_tuc_huan_luyen.py 826f233a142d86fa39c2e91f53ac334bf2b088555297ab7dd938a10921cdae43 train_detector.py 48e9cabf59b692c3a3734e40aef3873ede0474150c40982e4571f12b4039d1bf (= blob 421dd53)
+
+== C. CSV R40-N1/N2 qua resume THAT (train_detector.py o C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\ma_cu_421dd53\src)
+  [PASS] C0 luot goc yolov8n_CK bi KILL ngay sau epoch 1 (chay that, ma C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\ma_cu_421dd53\src); results.csv (1 hang) + theo_batch.csv (10 hang) deu ket thuc CRLF  ({'bi_kill': True, 'exit': 15, 'sau_s': 8.6})
+  [PASS] C-sach-0a dry-run --tiep-tuc: exit 0, KHONG doi file (anh chup sha256 thu muc luot trung)  (exit 0;  last_e001.pt); nhat ky: khong (nhat ky sach (dong cuoi hop le, ket thuc bang newline)) -- chi lam khi tiep tuc that, sau khi sao luu; KHONG train, KHONG ghi gi)
+  [FAIL] C-sach-0b dry-run bao ke hoach CSV: results.csv 'khong', theo_batch.csv 'khong'  (ng: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); nhat ky: khong (nhat ky sach (dong cuoi hop le, ket thuc bang newline)) -- chi lam khi tiep tuc that, sau khi sao luu; KHONG train, KHONG ghi gi)
+  [PASS] C-sach-A resume THAT (bi kill sau epoch 2), ghi tiep that: hai CSV doc duoc, dung cot, sach; results epoch [1, 2]; theo_batch giu 10 hang lich su nguyen ven + 10 hang lan 1 epoch 2  (kill True exit 15; results epoch ['1', '2']; batch 20 hang, dung cot True)
+  [FAIL] C-sach-B ban sao hai CSV TRUOC sua trung tung byte; bien nhan xu_ly_<file>.json = ban ghi trong bat_dau lan 1: results 'khong', theo_batch 'khong'  (bien nhan None / None; trong bat_dau False)
+  [PASS] C-sach-C checkpoint / file cu bao toan: last_e001.pt va nguon_tiep_tuc_1.pt = e001 goc; args / last / best cu luu truoc khi ghi tiep trung goc  ({'args.yaml': True, 'weights/last.pt': True, 'weights/best.pt': True})
+  [PASS] C-sach-D preflight tiep theo exit 0 'tiep tuc tu epoch 3/3'; resume lan 2 exit 0 toi het; results epoch [1, 2, 3]; theo_batch = lich su + lan 1 epoch 2 + lan 2 epoch 3, dung cot  (preflight 0; resume 0; results epoch ['1', '2', '3']; batch 30 hang; iep_tuc_2.json
+[DAT] day-du yolov8n: loi=None loi_callback=None loss_huu_han=True checkpoint=['best', 'last'] thoi_gian=7.7 s vram_max=253 MiB epoch_da_luu=[3])
+  [FAIL] C-sach-B2 lan tiep tuc 2: ban sao hai CSV truoc lan 2 trung tung byte; bien nhan 'khong' ca hai  (bien nhan None / None)
+  [PASS] C-nul_va_hang_do-0a dry-run --tiep-tuc: exit 0, KHONG doi file (anh chup sha256 thu muc luot trung)  (exit 0;  last_e001.pt); nhat ky: khong (nhat ky sach (dong cuoi hop le, ket thuc bang newline)) -- chi lam khi tiep tuc that, sau khi sao luu; KHONG train, KHONG ghi gi)
+  [FAIL] C-nul_va_hang_do-0b dry-run bao ke hoach CSV: results.csv 'cat_duoi', theo_batch.csv 'cat_duoi'  (ng: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); nhat ky: khong (nhat ky sach (dong cuoi hop le, ket thuc bang newline)) -- chi lam khi tiep tuc that, sau khi sao luu; KHONG train, KHONG ghi gi)
+  [FAIL] C-nul_va_hang_do-A resume THAT (bi kill sau epoch 2), ghi tiep that: hai CSV doc duoc, dung cot, sach; results epoch [1, 2]; theo_batch giu 10 hang lich su nguyen ven + 10 hang lan 1 epoch 2  (kill False exit 1; results epoch ['1', '\x00\x00\x00\x00']; batch 11 hang, dung cot False)
+  [FAIL] C-nul_va_hang_do-B ban sao hai CSV TRUOC sua trung tung byte; bien nhan xu_ly_<file>.json = ban ghi trong bat_dau lan 1: results 'cat_duoi', theo_batch 'cat_duoi'  (bien nhan None / None; trong bat_dau False)
+  [PASS] C-nul_va_hang_do-C checkpoint / file cu bao toan: last_e001.pt va nguon_tiep_tuc_1.pt = e001 goc; args / last / best cu luu truoc khi ghi tiep trung goc  ({'args.yaml': True, 'weights/last.pt': True, 'weights/best.pt': True})
+  [FAIL] C-nul_va_hang_do-D preflight tiep theo exit 0 'tiep tuc tu epoch 3/3'; resume lan 2 exit 0 toi het; results epoch [1, 2, 3]; theo_batch = lich su + lan 1 epoch 2 + lan 2 epoch 3, dung cot  (preflight 0; resume 1; results epoch ['1', '\x00\x00\x00\x00']; batch 11 hang; ecode())) <= int(epoch_da_luu)]
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: '\x00\x00\x00\x00')
+  [FAIL] C-nul_va_hang_do-B2 lan tiep tuc 2: ban sao hai CSV truoc lan 2 trung tung byte; bien nhan 'khong' ca hai  (bien nhan None / None)
+  [PASS] C-so_dang_do_va_thieu_newline-0a dry-run --tiep-tuc: exit 0, KHONG doi file (anh chup sha256 thu muc luot trung)  (exit 0;  last_e001.pt); nhat ky: khong (nhat ky sach (dong cuoi hop le, ket thuc bang newline)) -- chi lam khi tiep tuc that, sau khi sao luu; KHONG train, KHONG ghi gi)
+  [FAIL] C-so_dang_do_va_thieu_newline-0b dry-run bao ke hoach CSV: results.csv 'cat_duoi', theo_batch.csv 'them_newline'  (ng: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); nhat ky: khong (nhat ky sach (dong cuoi hop le, ket thuc bang newline)) -- chi lam khi tiep tuc that, sau khi sao luu; KHONG train, KHONG ghi gi)
+  [FAIL] C-so_dang_do_va_thieu_newline-A resume THAT (bi kill sau epoch 2), ghi tiep that: hai CSV doc duoc, dung cot, sach; results epoch [1, 2]; theo_batch giu 10 hang lich su nguyen ven + 10 hang lan 1 epoch 2  (kill True exit 15; results epoch ['1', '12']; batch 19 hang, dung cot False)
+  [FAIL] C-so_dang_do_va_thieu_newline-B ban sao hai CSV TRUOC sua trung tung byte; bien nhan xu_ly_<file>.json = ban ghi trong bat_dau lan 1: results 'cat_duoi', theo_batch 'them_newline'  (bien nhan None / None; trong bat_dau False)
+  [PASS] C-so_dang_do_va_thieu_newline-C checkpoint / file cu bao toan: last_e001.pt va nguon_tiep_tuc_1.pt = e001 goc; args / last / best cu luu truoc khi ghi tiep trung goc  ({'args.yaml': True, 'weights/last.pt': True, 'weights/best.pt': True})
+  [FAIL] C-so_dang_do_va_thieu_newline-D preflight tiep theo exit 0 'tiep tuc tu epoch 3/3'; resume lan 2 exit 0 toi het; results epoch [1, 2, 3]; theo_batch = lich su + lan 1 epoch 2 + lan 2 epoch 3, dung cot  (preflight 0; resume 0; results epoch ['1', '3']; batch 29 hang; iep_tuc_2.json
+[DAT] day-du yolov8n: loi=None loi_callback=None loss_huu_han=True checkpoint=['best', 'last'] thoi_gian=7.4 s vram_max=258 MiB epoch_da_luu=[3])
+  [FAIL] C-so_dang_do_va_thieu_newline-B2 lan tiep tuc 2: ban sao hai CSV truoc lan 2 trung tung byte; bien nhan 'khong' ca hai  (bien nhan None / None)
+  [PASS] C-thieu_newline_va_hex_cat-0a dry-run --tiep-tuc: exit 0, KHONG doi file (anh chup sha256 thu muc luot trung)  (exit 0;  last_e001.pt); nhat ky: khong (nhat ky sach (dong cuoi hop le, ket thuc bang newline)) -- chi lam khi tiep tuc that, sau khi sao luu; KHONG train, KHONG ghi gi)
+  [FAIL] C-thieu_newline_va_hex_cat-0b dry-run bao ke hoach CSV: results.csv 'them_newline', theo_batch.csv 'cat_duoi'  (ng: se tiep tuc tu epoch 2/3 (checkpoint last_e001.pt); nhat ky: khong (nhat ky sach (dong cuoi hop le, ket thuc bang newline)) -- chi lam khi tiep tuc that, sau khi sao luu; KHONG train, KHONG ghi gi)
+  [FAIL] C-thieu_newline_va_hex_cat-A resume THAT (bi kill sau epoch 2), ghi tiep that: hai CSV doc duoc, dung cot, sach; results epoch [1, 2]; theo_batch giu 10 hang lich su nguyen ven + 10 hang lan 1 epoch 2  (kill True exit 15; results epoch ['1']; batch 20 hang, dung cot False)
+  [FAIL] C-thieu_newline_va_hex_cat-B ban sao hai CSV TRUOC sua trung tung byte; bien nhan xu_ly_<file>.json = ban ghi trong bat_dau lan 1: results 'them_newline', theo_batch 'cat_duoi'  (bien nhan None / None; trong bat_dau False)
+  [PASS] C-thieu_newline_va_hex_cat-C checkpoint / file cu bao toan: last_e001.pt va nguon_tiep_tuc_1.pt = e001 goc; args / last / best cu luu truoc khi ghi tiep trung goc  ({'args.yaml': True, 'weights/last.pt': True, 'weights/best.pt': True})
+  [FAIL] C-thieu_newline_va_hex_cat-D preflight tiep theo exit 0 'tiep tuc tu epoch 3/3'; resume lan 2 exit 0 toi het; results epoch [1, 2, 3]; theo_batch = lich su + lan 1 epoch 2 + lan 2 epoch 3, dung cot  (preflight 0; resume 0; results epoch ['1', '3']; batch 30 hang; iep_tuc_2.json
+[DAT] day-du yolov8n: loi=None loi_callback=None loss_huu_han=True checkpoint=['best', 'last'] thoi_gian=6.6 s vram_max=258 MiB epoch_da_luu=[3])
+  [FAIL] C-thieu_newline_va_hex_cat-B2 lan tiep tuc 2: ban sao hai CSV truoc lan 2 trung tung byte; bien nhan 'khong' ca hai  (bien nhan None / None)
+  [FAIL] C-results_hong_giua: dry-run va resume THAT deu exit 2 'hong o GIUA'; thu muc luot KHONG doi (khong sao luu, khong train)  (exit 0/1; ",", 1)[0].decode())) <= int(epoch_da_luu)]
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: 'hong')
+  [FAIL] C-batch_header_sai: dry-run va resume THAT deu exit 2 'header sai'; thu muc luot KHONG doi (khong sao luu, khong train)  (exit 0/0; _tuc_1.json
+[DAT] day-du yolov8n: loi=None loi_callback=None loss_huu_han=True checkpoint=['best', 'last'] thoi_gian=9.9 s vram_max=258 MiB epoch_da_luu=[2, 3])
+
+KET QUA: 11/31 PASS
+# exit=1 2026-10-03 18:10:52 +0700
