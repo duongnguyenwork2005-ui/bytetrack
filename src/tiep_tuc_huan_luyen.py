@@ -246,6 +246,8 @@ def sua_duoi_nhat_ky(run_dir: Path, thu_muc_luu: Path, ke_hoach: dict | None = N
     KHONG them su kien nao, khong tao lich su gia."""
     run_dir, thu_muc_luu = Path(run_dir), Path(thu_muc_luu)
     p = run_dir / TEN_NHAT_KY
+    if not p.is_file():                   # preflight da bao dam co nhat ky; mat giua chung -> dung, khong tao moi
+        raise LoiTiepTuc(f"{p} khong ton tai luc sao luu -- khong sao luu / xu ly duoc nhat ky")
     b = p.read_bytes()
     kh = phan_tich_duoi_nhat_ky(b)
     if ke_hoach is not None and ke_hoach.get("sha256") != kh["sha256"]:

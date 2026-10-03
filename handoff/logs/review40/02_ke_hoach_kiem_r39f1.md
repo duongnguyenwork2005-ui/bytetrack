@@ -78,3 +78,13 @@ Phân biệt ba loại phép kiểm:
 
 Không dùng tolerance. Lỗi nào phát sinh thì giữ log, tìm nguyên nhân có bằng chứng, sửa, rồi chạy lại với tên log mới.
 Không sửa hay commit trong lúc test đang chạy.
+
+## 4. Phụ lục sửa đổi sau đăng ký (ghi thêm; mục 1–3 giữ nguyên)
+
+- **Lần 1** (`03_..._lan1.log`, commit `6fc979f`): **98/99**, exit 1.
+  - Nhóm N (30 phép) và S20 **đều đạt**.
+  - FAIL duy nhất: nhóm U dừng ở U8 với `FileNotFoundError` (`u_csv/nhat_ky_luot.jsonl`), nên U9 / U10 / U10b chưa chạy.
+  - Nguyên nhân (traceback trong log): U8 cũ gọi thẳng `sao_luu_truoc_tiep_tuc` trên thư mục tạm không có nhật ký, mà
+    bước sao lưu nay luôn xử lý nhật ký. Trong đường thật, preflight đã bảo đảm có nhật ký.
+  - Sửa: U8 tạo một nhật ký hợp lệ trước khi gọi; `sua_duoi_nhat_ky` báo `LoiTiepTuc` rõ ràng khi mất nhật ký (thay vì
+    `FileNotFoundError` thô). **Tiêu chí không đổi.**

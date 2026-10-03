@@ -400,6 +400,7 @@ def nhom_u(tmp: Path):
     goc_csv = b"epoch,time,x\r\n1,10,0.5\r\n2,20,0.6\r\n3,30,0.7\r\n"
     (rs / "results.csv").write_bytes(goc_csv)
     (rs / "nguon.pt").write_bytes(b"ck")
+    ttl.ghi_nhat_ky(rs, "bat_dau", che_do_luot="moi", lan=0)   # vong 40: sao luu luon xu ly nhat ky (preflight bao dam co)
     sl = ttl.sao_luu_truoc_tiep_tuc(rs, rs / "nguon.pt", 1, best=None, epoch_da_luu=2)
     _check("U8 results.csv: chi giu epoch <= epoch da luu (dong epoch 3 bi bo), giu nguyen byte/CRLF; ban goc luu o "
            "truoc_tiep_tuc_1", (rs / "results.csv").read_bytes() == b"epoch,time,x\r\n1,10,0.5\r\n2,20,0.6\r\n"
