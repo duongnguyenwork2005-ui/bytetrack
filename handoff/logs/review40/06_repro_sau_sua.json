@@ -1,0 +1,55 @@
+{
+  "source_sha256": "826f233a142d86fa39c2e91f53ac334bf2b088555297ab7dd938a10921cdae43",
+  "scope": "real doc_nhat_ky + ghi_nhat_ky; no torch, checkpoint, dataset, GPU or training",
+  "bug_count": 3,
+  "cases": [
+    {
+      "case": "clean_control",
+      "accepted_events_before": 2,
+      "warnings_before": [],
+      "expected_events_after": 4,
+      "actual_events_after": 4,
+      "error_after": null,
+      "original_valid_prefix_unchanged": true,
+      "pass": true,
+      "journal_after": "{\"loai\": \"bat_dau\", \"t\": 1791005306.749, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"che_do_luot\": \"moi\", \"lan\": 0, \"ten\": \"fixture\"}\n{\"loai\": \"epoch_da_luu\", \"t\": 1791005306.752, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"epoch\": 1, \"lan\": 0}\n{\"loai\": \"bat_dau\", \"t\": 1791005306.756, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"che_do_luot\": \"tiep_tuc\", \"lan\": 1, \"ten\": \"fixture\"}\n{\"loai\": \"epoch_da_luu\", \"t\": 1791005306.758, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"epoch\": 2, \"lan\": 1}\n"
+    },
+    {
+      "case": "partial_tail_no_newline",
+      "accepted_events_before": 2,
+      "warnings_before": [
+        "dong cuoi 3 cua nhat ky ghi do (bi ngat luc ghi) -- bo qua"
+      ],
+      "expected_events_after": 4,
+      "actual_events_after": 0,
+      "error_after": "<fixture>\\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky",
+      "original_valid_prefix_unchanged": true,
+      "pass": false,
+      "journal_after": "{\"loai\": \"bat_dau\", \"t\": 1791005306.761, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"che_do_luot\": \"moi\", \"lan\": 0, \"ten\": \"fixture\"}\n{\"loai\": \"epoch_da_luu\", \"t\": 1791005306.763, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"epoch\": 1, \"lan\": 0}\n{\"loai\":\"epoch_da_luu\",\"epoch\":2{\"loai\": \"bat_dau\", \"t\": 1791005306.766, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"che_do_luot\": \"tiep_tuc\", \"lan\": 1, \"ten\": \"fixture\"}\n{\"loai\": \"epoch_da_luu\", \"t\": 1791005306.768, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"epoch\": 2, \"lan\": 1}\n"
+    },
+    {
+      "case": "partial_tail_with_newline",
+      "accepted_events_before": 2,
+      "warnings_before": [
+        "dong cuoi 3 cua nhat ky ghi do (bi ngat luc ghi) -- bo qua"
+      ],
+      "expected_events_after": 4,
+      "actual_events_after": 0,
+      "error_after": "<fixture>\\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky",
+      "original_valid_prefix_unchanged": true,
+      "pass": false,
+      "journal_after": "{\"loai\": \"bat_dau\", \"t\": 1791005306.771, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"che_do_luot\": \"moi\", \"lan\": 0, \"ten\": \"fixture\"}\n{\"loai\": \"epoch_da_luu\", \"t\": 1791005306.773, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"epoch\": 1, \"lan\": 0}\n{\"loai\":\"epoch_da_luu\",\"epoch\":2\n{\"loai\": \"bat_dau\", \"t\": 1791005306.777, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"che_do_luot\": \"tiep_tuc\", \"lan\": 1, \"ten\": \"fixture\"}\n{\"loai\": \"epoch_da_luu\", \"t\": 1791005306.778, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"epoch\": 2, \"lan\": 1}\n"
+    },
+    {
+      "case": "valid_record_no_newline",
+      "accepted_events_before": 3,
+      "warnings_before": [],
+      "expected_events_after": 5,
+      "actual_events_after": 0,
+      "error_after": "<fixture>\\nhat_ky_luot.jsonl: dong 3 hong o GIUA nhat ky -- khong tin duoc nhat ky",
+      "original_valid_prefix_unchanged": true,
+      "pass": false,
+      "journal_after": "{\"loai\": \"bat_dau\", \"t\": 1791005306.781, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"che_do_luot\": \"moi\", \"lan\": 0, \"ten\": \"fixture\"}\n{\"loai\": \"epoch_da_luu\", \"t\": 1791005306.783, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"epoch\": 1, \"lan\": 0}\n{\"loai\":\"ket_thuc\",\"trang_thai\":\"bi_ngat\"}{\"loai\": \"bat_dau\", \"t\": 1791005306.785, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"che_do_luot\": \"tiep_tuc\", \"lan\": 1, \"ten\": \"fixture\"}\n{\"loai\": \"epoch_da_luu\", \"t\": 1791005306.787, \"t_iso\": \"2026-10-03T12:28:26+07:00\", \"epoch\": 2, \"lan\": 1}\n"
+    }
+  ]
+}
