@@ -18,6 +18,7 @@ Phan biet:
       K5 accumulate + vi tri buoc toi uu cua C1 va R khop mo phong tu ma ultralytics.
       K6 khac biet du kien (loss, trong so cuoi, thu tu du lieu) -- bao do lon, khong dung nguong.
       K7 nhat ky / provenance / sao luu. K8 trang thai cuoi + tu choi tiep tuc luot da xong.
+      K9 I2 = ngat SAU epoch 2 (sau epoch tat mosaic) roi tiep tuc -> nhanh resume_training tu tat mosaic.
   S   (yolov8n, SPY) ca tu choi dau vao: phai exit != 0 va KHONG goi train; + ca chon ban sao khi last.pt hong,
       dry-run tiep tuc, Ctrl+C.
 
@@ -411,6 +412,13 @@ def nhom_r(tmp: Path, data: Path, model: str) -> dict:
            f"{ng}, su kien {[s['loai'] for s in nk_i]}")
     kq["I"] = ng
     shutil.copytree(run_i, tmp / f"nguyen_ban_{model}_I")         # ban goc cua I truoc moi thao tac (spy, resume)
+    run_i2 = tmp / "runs" / f"{model}_I2"                          # K9: ngat SAU epoch tat mosaic
+    ng2 = chay_va_ngat(lenh(cfg, model, f"{model}_I2", data, tmp), run_i2, tmp / f"{model}_I2.log", epoch_ngat=2)
+    nk2 = doc_nk(run_i2)
+    _check(f"R1b {model}: I2 bi KILL ngay sau khi epoch 2 da luu; nhat ky: bat_dau + epoch_da_luu 1, 2, KHONG ket_thuc",
+           ng2["bi_kill"] and [(s["loai"], s.get("epoch")) for s in nk2] == [("bat_dau", None), ("epoch_da_luu", 1),
+                                                                           ("epoch_da_luu", 2)], f"{ng2}")
+    kq["I2"] = ng2
     return {"cfg": cfg, "kq": kq}
 
 
@@ -523,6 +531,44 @@ def so_sanh(tmp: Path, model: str, cfg: Path):
            f"{E}; checkpoint nap lai dung 5 lop", ket.get("trang_thai") == "hoan_tat" and ket.get("exit_code") == 0
            and last["epoch"] == -1 and last["optimizer"] is None and int(last["train_args"]["epochs"]) == E
            and all(v["dung_5_lop"] for v in fin["checkpoint"].values()), f"{ket.get('trang_thai')}")
+
+
+def so_sanh_k9(tmp: Path, model: str, cfg: Path, rc: int, log_r: Path):
+    """K9: tiep tuc SAU epoch tat mosaic (start_epoch 2 > epochs - close_mosaic = 1) -> nhanh resume_training cua
+    ultralytics tu tat mosaic (_close_dataloader_mosaic) truoc vong train; vong lap khong tat lai."""
+    import yaml
+    c = yaml.safe_load(cfg.read_text(encoding="utf-8"))["huan_luyen"]
+    E, nbs, batch = int(c["epochs"]), int(c["nbs"]), int(c["batch"])
+    run_c1, run_i2 = tmp / "runs" / f"{model}_C1", tmp / "runs" / f"{model}_I2"
+    b_c1, b_i2 = doc_batch(run_c1), doc_batch(run_i2)
+    loai_bo = ("t", "lan")
+    truoc = [x for x in b_i2 if x["lan"] == "0"]
+    k9a = [x["ni"] for x, y in zip(truoc, b_c1) if any(x[k] != y[k] for k in x if k not in loai_bo)]
+    nb = sum(1 for x in b_c1 if x["epoch"] == "1")
+    nw = round(min(float(c["warmup_epochs"]), max(E - 1, 0)) * nb)
+    f_kq = tmp / "kq" / f"{model}_I2__tiep_tuc_1.json"
+    kk = (json.loads(f_kq.read_text(encoding="utf-8")).get("kiem_khoi_phuc") or {}) if f_kq.is_file() else {}
+    nk = doc_nk(run_i2)
+    bd = next((s for s in nk if s["loai"] == "bat_dau" and s.get("che_do_luot") == "tiep_tuc"), {})
+    e2 = next(s for s in nk if s["loai"] == "epoch_da_luu" and s["epoch"] == 2 and s["lan"] == 0)
+    r_rows = [x for x in b_i2 if x["lan"] == "1"]
+    c_e3 = [x for x in b_c1 if x["epoch"] == str(E)]
+    cot4 = ("epoch", "i", "ni", "lr_weight", "lr_bn", "lr_bias", "momentum_weight", "momentum_bn", "momentum_bias",
+            "batch_size")
+    k9b = [(x["ni"], k) for x, y in zip(r_rows, c_e3) for k in cot4 if x[k] != y[k]]
+    mp_r, buoc_r = mo_phong(E, nb, nw, nbs, batch, tu_epoch=2, updates_dau=e2["ema_updates"])
+    k9c = [x["ni"] for x in r_rows if (int(x["accumulate"]), int(x["ema_updates"])) != mp_r[int(x["ni"])]]
+    mos = {s["epoch"]: s.get("mosaic_p") for s in nk if s["loai"] == "epoch_da_luu"}
+    log = log_r.read_text(encoding="utf-8", errors="replace") if log_r.is_file() else ""
+    _check(f"K9 {model}: tiep tuc SAU epoch tat mosaic (I2 ngat sau epoch 2): exit 0; I2 epoch 1-2 trung C1 tung bit "
+           f"({len(truoc)} dong); runner tu kiem {len(kk)} muc dat; start_epoch 2; epoch 3 ({len(r_rows)} dong) trung C1 o "
+           f"ni/LR/momentum/batch; accumulate/updates khop mo phong (buoc {buoc_r}); mosaic p {{1: 1,0, 2: 0,0, 3: 0,0}}; "
+           f"log tiep tuc co 'Closing dataloader mosaic' (nhanh resume_training)",
+           rc == 0 and len(truoc) == 2 * nb and not k9a and len(kk) >= 13 and all(v["dat"] for v in kk.values())
+           and bd.get("start_epoch") == 2 and len(r_rows) == len(c_e3) == nb and not k9b and not k9c
+           and mos == {1: 1.0, 2: 0.0, 3: 0.0} and "Closing dataloader mosaic" in log,
+           f"exit {rc}; lech truoc {k9a[:5]}; lech e3 {k9b[:5]}; mo phong {k9c[:5]}; mosaic {mos}; start "
+           f"{bd.get('start_epoch')}")
 
 
 # =========================================================================== S
@@ -704,6 +750,8 @@ def main() -> int:
                     _check(f"R2 {m}: --tiep-tuc I (CHAY THAT) exit 0", rc == 0,
                            f"exit {rc}, {round(time.time() - t0, 1)} s; log {(tmp / f'{m}_R.log').read_text(encoding='utf-8', errors='replace')[-400:] if rc else ''}")
                     so_sanh(tmp, m, ctx[m]["cfg"])
+                    rc2 = chay_that(lenh(ctx[m]["cfg"], m, f"{m}_I2", data, tmp, "--tiep-tuc"), tmp / f"{m}_R2.log")
+                    so_sanh_k9(tmp, m, ctx[m]["cfg"], rc2, tmp / f"{m}_R2.log")
                 _chay(f"K. {m}: tiep tuc + so sanh voi luot lien tuc", tiep)
         print("\nTHONG TIN (khac biet du kien, khong dung nguong):", json.dumps(THONG_TIN, ensure_ascii=False))
     finally:

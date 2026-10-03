@@ -224,3 +224,18 @@ Log được lưu với tên mới và exit code thật. Lỗi thì giữ log, s
       `[[0, 1]]`.
   - Trước khi đăng ký, đã chạy riêng nhóm U một lần để bắt lỗi cú pháp: 17/17. Đây là kiểm phát triển, không phải lần
     chạy chính thức.
+- **Lần 4** (`03_..._lan4.log`, commit `2f9eee4`): **64/64 PASS**, exit 0.
+- **Kiểm GPU** (`06_*`, commit `eca9008`): cả hai model **ĐẠT** 21/21 tiêu chí của mục 3.
+- **Bổ sung sau lần 4** (ghi trước lần 5; **chỉ sửa file test**, runner không đổi nên bằng chứng GPU vẫn ứng với mã hiện
+  tại):
+  - Lý do: ở mọi phép kiểm trước, điểm tiếp tục trùng đúng epoch tắt mosaic (`start_epoch = epochs − close_mosaic`), nên
+    nhánh `resume_training` tự tắt mosaic khi `start_epoch > epochs − close_mosaic` **chưa chạy**. Với lượt dài, nhánh này
+    chạy nếu bị ngắt sau epoch 14.
+  - **R1b**: I2 cùng cấu hình bị kill ngay sau khi nhật ký ghi epoch 2.
+  - **K9** (đạt / không đạt), tiếp tục I2:
+    - exit 0;
+    - I2 epoch 1–2 trùng C1 từng bit;
+    - runner tự kiểm ≥ 13 mục đều đạt; `start_epoch` 2;
+    - epoch 3 trùng C1 ở ni, LR, momentum, batch; accumulate / `ema.updates` khớp mô phỏng;
+    - mosaic `p` {1: 1,0, 2: 0,0, 3: 0,0};
+    - log của lần tiếp tục có "Closing dataloader mosaic", tức nhánh `resume_training` đã chạy.
