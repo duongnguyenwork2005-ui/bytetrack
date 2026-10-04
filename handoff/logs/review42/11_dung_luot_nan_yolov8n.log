@@ -1,0 +1,26 @@
+# 2026-10-04 23:29:10 +0700 loss epoch 12 (lan 1) thanh NaN tu batch 4597/6311 (~23:20:40, +31321 s); nguoi dung hoi 'co tam dung duoc khong' -> chon 'Dung ngay, resume sau'. Lenh: python handoff/logs/review42/dung_luot.py --giam-sat results/phase2/detector_train/giam_sat/yolov8n_tiep_tuc_1 --cho-s 120
+# 7 dong log quanh diem NaN:
+[+  31313.2s] [K      12/15      2.11G      1.059     0.6719      0.948        171        640: 72% ━━━━━━━━╸─── 4594/6311 2.7s/it 1:21:11<1:17:02
+[+  31316.0s] [K      12/15      2.11G      1.059     0.6719      0.948        102        640: 72% ━━━━━━━━╸─── 4595/6311 2.7s/it 1:21:13<1:16:56
+[+  31318.7s] [K      12/15      2.11G      1.059      0.672      0.948        136        640: 72% ━━━━━━━━╸─── 4596/6311 2.7s/it 1:21:16<1:17:37
+[+  31321.4s] [K      12/15      2.11G        nan        nan        nan        117        640: 72% ━━━━━━━━╸─── 4597/6311 2.7s/it 1:21:19<1:17:14
+[+  31324.1s] [K      12/15      2.11G        nan        nan        nan         96        640: 72% ━━━━━━━━╸─── 4598/6311 2.7s/it 1:21:21<1:17:00
+[+  31326.8s] [K      12/15      2.11G        nan        nan        nan        141        640: 72% ━━━━━━━━╸─── 4599/6311 2.7s/it 1:21:24<1:17:01
+[+  31329.5s] [K      12/15      2.11G        nan        nan        nan         76        640: 72% ━━━━━━━━╸─── 4600/6311 2.7s/it 1:21:27<1:16:58
+# dong cuoi truoc khi dung:
+[+  31830.4s] [K      12/15      2.11G        nan        nan        nan        125        640: 75% ━━━━━━━━━─── 4786/6311 2.7s/it 1:29:48<1:08:32
+2026-10-04T23:29:11+07:00 truoc khi dung: runner 4388 song=True, cong cu 12784 song=True
+2026-10-04T23:29:11+07:00 CTRL_C_EVENT gui=True (loi 187) vao console cua cong cu 12784
+2026-10-04T23:29:19+07:00 runner da thoat sau 8 s sau Ctrl+C
+2026-10-04T23:29:19+07:00 cach dung: ctrl_c; runner song=False, cong cu song=False; trang_thai.json: ket_thuc exit_code=130
+# exit=0
+# --- kiem sau khi dung (23:30, CHI DOC) ---
+# runner: [BI NGAT] KeyboardInterrupt, ket qua do dang results/phase2/detector_train/train_bdd5_v1_yolov8n_day_du__tiep_tuc_1.json; bo giam sat exit 130, ghi ctrl_c (t+31831,4 s).
+# nhat ky: ket_thuc lan 1 bi_ngat exit 130, epoch_da_luu_lan_nay [8, 9, 10, 11]; epoch da luu 1..11; 11 ban sao khoi_phuc khop sha256.
+# weights/last.pt = epoch 11 (sha khop nhat ky); best.pt = epoch 11 (3ebfa4b6...), best_fitness 0,27515.
+# checkpoint epoch 11 nap tren CPU: 0/355 tensor EMA va 0/183 momentum KHONG huu han -> nguon resume sach.
+# theo_batch.csv 69.421 hang (11 x 6311), 0 hang loss_huu_han False (hang epoch 12 chua ghi vi epoch chua xong); results.csv epoch 1..11.
+# khong con tien trinh train_detector.
+# toc do epoch 12: ~1,0 it/s toi batch 4400 (23:12); 4400 -> 4591 cham ~2,6 s/it; NaN tu batch 4597 (23:20:40).
+# RAM trong 23:07-23:21 on dinh 590-690 MiB (ram_mau_tho.csv); log System 14:30-23:22: khong co nvlddmkm / TDR 4101 / WHEA.
+# Nguyen nhan NaN CHUA XAC DINH (chi co quan sat: cham truoc NaN; khong thay loi driver / RAM can luc do).
