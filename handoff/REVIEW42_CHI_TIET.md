@@ -8,6 +8,16 @@
 - Chỉ training và validation dev theo cấu hình hiện có; **dừng trước giai đoạn đánh giá test**.
 - Base review: **`6c8e37a`**. Vòng 42 **chưa** được nghiệm thu.
 
+> **Đính chính vòng 43** (review `4d54744`: PASS WITH LIMITATIONS cho hồ sơ training; chỉ sửa câu chữ / bảng trình
+> bày, CSV và log giữ nguyên):
+>
+> - **R42-N1**: RAM trống thấp nhất ghi theo **từng nguồn** (bộ giám sát / bộ lấy mẫu trong runner; cùng đo
+>   `psutil.virtual_memory().available` nhưng ở thời điểm khác nhau). VRAM là `nvidia-smi memory.used` của **cả GPU**;
+>   tổng RSS có thể đếm trùng trang bộ nhớ chia sẻ.
+> - **R42-N2**: NaN xuất hiện từ batch 4597/6311 (≈73 %); dòng tiến độ cuối trước khi dừng là 4786/6311 (≈76 %). Dòng
+>   log đó không phải bằng chứng chính xác batch cuối đã thực thi. Toàn bộ phần epoch 12 chưa hoàn tất bị bỏ.
+> - **R42-N3**: sửa 5 ô làm tròn lệch trong bảng dev theo epoch (làm tròn một lần từ `results.csv`).
+
 ## 0. Trạng thái đầu vòng
 
 Log: `logs/review42/00_trang_thai_dau.log`.
@@ -76,8 +86,8 @@ Hàm **không** đọc lại CSV đích sau `os.replace`; test đọc lại outp
 
 | Lần | Thư mục giám sát | Chạy | Epoch lưu | Kết thúc |
 |:--|:--|:--|:--|:--|
-| 0 | `yolov8n_lan0` | 2026-10-03 19:27 → 10-04 08:41 (13,24 h) | 1–7 | **Ctrl+C theo yêu cầu "tạm dừng"** của người dùng ("Dừng training ngay"); exit 130, `bi_ngat`; epoch 8 bỏ ở 95 % |
-| 1 | `yolov8n_tiep_tuc_1` | 10-04 14:38 → 23:29 (8,84 h) | 8–11 | **Loss NaN** từ batch 4597/6311 của epoch 12; người dùng chọn "Dừng ngay, resume sau"; Ctrl+C, exit 130; epoch 12 bỏ ở 73 % |
+| 0 | `yolov8n_lan0` | 2026-10-03 19:27 → 10-04 08:41 (13,24 h) | 1–7 | **Ctrl+C theo yêu cầu "tạm dừng"** của người dùng ("Dừng training ngay"); exit 130, `bi_ngat`; dòng tiến độ cuối trước khi dừng 6027/6311 (≈95 %); toàn bộ phần epoch 8 chưa hoàn tất bị bỏ |
+| 1 | `yolov8n_tiep_tuc_1` | 10-04 14:38 → 23:29 (8,84 h) | 8–11 | **Loss NaN** từ batch 4597/6311 (≈73 %) của epoch 12; người dùng chọn "Dừng ngay, resume sau"; Ctrl+C, exit 130; dòng tiến độ cuối trước khi dừng 4786/6311 (≈76 %); toàn bộ phần epoch 12 chưa hoàn tất bị bỏ |
 | 2 | `yolov8n_tiep_tuc_2` | 10-05 02:48 → 09:37 (6,82 h) | 12–15 | **hoàn tất**, exit 0, `[DAT]` |
 
 Trước mỗi lần resume:
@@ -117,8 +127,8 @@ Trước mỗi lần resume:
 
 | Epoch | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
 |:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|
-| mAP50-95 | 0,143 | 0,177 | 0,220 | 0,224 | 0,240 | 0,251 | 0,252 | 0,253 | 0,266 | 0,266 | 0,275 | 0,275 | 0,278 | 0,278 | **0,280** |
-| mAP50 | 0,233 | 0,282 | 0,343 | 0,351 | 0,375 | 0,388 | 0,394 | 0,393 | 0,412 | 0,413 | 0,428 | 0,427 | 0,431 | 0,432 | 0,435 |
+| mAP50-95 | 0,143 | 0,176 | 0,220 | 0,224 | 0,240 | 0,251 | 0,252 | 0,253 | 0,266 | 0,266 | 0,275 | 0,275 | 0,278 | 0,278 | **0,280** |
+| mAP50 | 0,233 | 0,282 | 0,343 | 0,350 | 0,375 | 0,388 | 0,393 | 0,393 | 0,412 | 0,413 | 0,428 | 0,427 | 0,431 | 0,432 | 0,435 |
 
 Epoch 14–15 tắt mosaic, đúng `close_mosaic 2`.
 
@@ -140,9 +150,12 @@ Epoch 14–15 tắt mosaic, đúng `close_mosaic 2`.
 - 15 bản sao `khoi_phuc/last_eNNN.pt` khớp sha256 nhật ký.
 - Thời gian runner 3 lần: 103.525 s (28,8 h), gồm cả phần epoch 8 và 12 bị bỏ. Một epoch: 5.864–7.221 s train +
   52–80 s val.
-- VRAM tối đa 2.933 MiB.
-- RSS runner + tiến trình con tối đa 4.083 MiB.
-- RAM máy trống thấp nhất 5 MiB, lúc máy ngủ vì pin cạn; trung vị 554–870 MiB tùy lần.
+- VRAM tối đa 2.933 MiB: `nvidia-smi memory.used` của **cả GPU**, gồm cả tiến trình khác.
+- Tổng RSS / working set của runner và tiến trình con tối đa 4.083 MiB; có thể đếm trùng trang bộ nhớ chia sẻ.
+- RAM máy trống thấp nhất, theo từng nguồn:
+  - bộ giám sát (`tom_tat.json`, `ram.ram_he_thong_con_trong_mib.min`): 22 / **5** / 162 MiB ở lần 0 / 1 / 2. Mức
+    5 MiB rơi vào lúc máy ngủ vì pin cạn. Trung vị 554–870 MiB tùy lần;
+  - bộ lấy mẫu trong runner (`vram_nvidia_smi.ram_con_trong_min_mib`): 27 / 23 / 73 MiB.
 
 ## 5. YOLO11n — **HOÀN TẤT 15/15 epoch** (1 lần chạy, không resume)
 
@@ -156,7 +169,7 @@ Epoch 14–15 tắt mosaic, đúng `close_mosaic 2`.
 | Epoch | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
 |:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|:--|
 | mAP50-95 | 0,140 | 0,181 | 0,200 | 0,207 | 0,222 | 0,238 | 0,242 | 0,243 | 0,252 | 0,256 | 0,266 | 0,268 | **0,272** | 0,269 | 0,270 |
-| mAP50 | 0,230 | 0,280 | 0,314 | 0,323 | 0,346 | 0,367 | 0,374 | 0,375 | 0,388 | 0,395 | 0,413 | 0,411 | 0,416 | 0,410 | 0,411 |
+| mAP50 | 0,229 | 0,280 | 0,314 | 0,323 | 0,346 | 0,367 | 0,373 | 0,375 | 0,388 | 0,395 | 0,413 | 0,411 | 0,416 | 0,410 | 0,411 |
 
 Epoch 14–15 tắt mosaic, không vượt epoch 13. `best.pt` là epoch 13.
 
@@ -176,9 +189,15 @@ Epoch 14–15 tắt mosaic, không vượt epoch 13. `best.pt` là epoch 13.
 - `weights/last.pt` sha256 `3dbd9fb00208e99471513b45ee7f9ff6149633f0f14597d67ecbc52db49c26f4`.
 - Mỗi file 5.445.075 B; sha256 tính lại trùng giá trị runner ghi. 15 bản sao `khoi_phuc` khớp nhật ký.
 - Thời gian runner 108.820 s (30,2 h). Một epoch: 7.180–7.226 s train + 52–56 s val.
-- VRAM tối đa 3.123 MiB.
-- RSS runner + tiến trình con tối đa 4.200 MiB, trung vị 1.074 MiB.
-- RAM máy trống thấp nhất 81 MiB, trung vị 951 MiB; 107.295 mẫu, 0 mẫu không đọc được.
+- VRAM tối đa 3.123 MiB: `nvidia-smi memory.used` của **cả GPU**, gồm cả tiến trình khác.
+- Tổng RSS / working set của runner và tiến trình con tối đa 4.200 MiB, trung vị 1.074 MiB; có thể đếm trùng trang
+  bộ nhớ chia sẻ.
+- RAM máy trống thấp nhất, theo từng nguồn:
+  - **81 MiB theo bộ giám sát** (`tom_tat.json`), trung vị 951 MiB; 107.295 mẫu, 0 mẫu không đọc được;
+  - **6 MiB theo bộ lấy mẫu trong runner** (`vram_nvidia_smi.ram_con_trong_min_mib`).
+
+  Hai nguồn đo cùng một đại lượng nhưng ở thời điểm khác nhau, nên không gọi 81 MiB là mức thấp nhất chung của cả
+  lượt.
 
 **Thời gian cả hai model**: thời gian runner tổng 59,0 h. Con số này nằm giữa kịch bản 56,64 h và 73,95 h, và gồm khoảng
 3 h epoch dở bị bỏ của YOLOv8n. Thời gian đồng hồ từ lúc khởi chạy đầu tới lúc kết thúc là khoảng 68,5 h, vì có các
@@ -209,7 +228,8 @@ khoảng tạm dừng.
   - Mỗi model chỉ một lượt (một seed). Chưa kiểm định thống kê.
   - Chênh lệch giữa hai model trên dev (0,280 / 0,272 mAP50-95) **chưa đủ để kết luận** model nào tốt hơn.
 - **YOLOv8n qua 2 lần resume**: không trùng từng bit với lượt liên tục (RNG, thứ tự dữ liệu, gradient tích lũy dở;
-  giới hạn đã công khai từ vòng 39). Phần epoch 8 (95 %) và epoch 12 (73 %) bị bỏ rồi chạy lại.
+  giới hạn đã công khai từ vòng 39). Phần chưa hoàn tất của epoch 8 (dòng tiến độ cuối ≈95 %) và của epoch 12 (NaN từ
+  ≈73 %, dòng tiến độ cuối ≈76 %) bị bỏ rồi chạy lại.
 - **NaN**: nguyên nhân chưa xác định. Chưa kiểm cơ chế tự phục hồi NaN của Ultralytics, vì đã dừng trước khi epoch kết
   thúc. Nếu cơ chế đó chạy, runner sẽ coi lượt là lỗi (exit 3, `hoan_tat`), nên resume bị chặn.
 - **Thời gian epoch** chịu ảnh hưởng của tải khác trên máy và các lần ngủ; không dùng làm số đo tốc độ chuẩn.
@@ -217,8 +237,9 @@ khoảng tạm dừng.
   - 10-05 23:49 → 10-06 01:08 (79 phút);
   - 10-06 11:53 → 14:22 (149 phút).
 
-  Với YOLOv8n, ảnh chụp chỉ trống trong lúc lượt đã dừng. Log của bộ giám sát (lấy mẫu mỗi giây) liên tục ở cả hai
-  model.
+  Với YOLOv8n, ảnh chụp chỉ trống trong lúc lượt đã dừng. Bộ giám sát lấy mẫu RAM với chu kỳ 1 giây, nhưng CSV thô không
+  nằm trong gói, và số mẫu cũng như "0 mẫu không đọc được" không tự chứng minh không có khoảng trống giữa các mẫu
+  (đính chính vòng 43).
 - **Kết quả runner theo từng lần**: file JSON của lần cuối chỉ chứa các epoch của lần đó. Nhật ký lượt chứa đủ 15 epoch.
 
 ## 8. Lệnh (từ gốc repo) và mã thoát

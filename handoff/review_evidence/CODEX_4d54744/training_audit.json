@@ -1,0 +1,702 @@
+{
+  "scope": "Reconcile supplied log/JSON/CSV bytes only; no training, inference, tensor reload or raw RAM CSV check.",
+  "models": {
+    "yolov8n": {
+      "epochs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "attempt_exits": [
+        130,
+        130,
+        0
+      ],
+      "resumes": [
+        {
+          "attempt": 1,
+          "last_saved_epoch": 7,
+          "next_epoch": 8,
+          "checkpoint_sha256": "4300aaa362e70cd7a2648e2aeebc11eeef5c624a8c81cb4a3588d80514676b49",
+          "restoration_checks": 13
+        },
+        {
+          "attempt": 2,
+          "last_saved_epoch": 11,
+          "next_epoch": 12,
+          "checkpoint_sha256": "3ebfa4b6bfc69be624582b3c7e2becee1a9d21f49ff295a0b84cdac3f33557a4",
+          "restoration_checks": 13
+        }
+      ],
+      "best_epoch": 15,
+      "best_sha256": "5f66776d3202389ca484f3d9e2f107dddb354d21a9f1762d19401d690a4a0d8a",
+      "final_dev_metrics": {
+        "metrics/precision(B)": 0.6047334458819208,
+        "metrics/recall(B)": 0.4200043764909613,
+        "metrics/mAP50(B)": 0.43515493684328516,
+        "metrics/mAP50-95(B)": 0.2801804207193345
+      },
+      "runner_seconds": 103524.9,
+      "monitor_seconds": 104059.8,
+      "train_seconds_range": [
+        5864.09,
+        7220.68
+      ],
+      "val_seconds_range": [
+        52.72,
+        79.52
+      ],
+      "gpu_total_memory_max_MiB": 2933,
+      "RSS_sum_max_MiB": 4083.0,
+      "monitor_available_RAM_min_MiB": 5.0,
+      "runner_available_RAM_min_MiB": 23,
+      "snapshots": 92,
+      "active_snapshot_gaps_over_60_minutes": []
+    },
+    "yolo11n": {
+      "epochs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "attempt_exits": [
+        0
+      ],
+      "resumes": [],
+      "best_epoch": 13,
+      "best_sha256": "d7d1c7e86d03c69d913febe79e4cbb6c2e1bcf9f17f034724af4de2ccfba7923",
+      "final_dev_metrics": {
+        "metrics/precision(B)": 0.5751766419718125,
+        "metrics/recall(B)": 0.382148084064007,
+        "metrics/mAP50(B)": 0.4163501647760281,
+        "metrics/mAP50-95(B)": 0.2721987133052971
+      },
+      "runner_seconds": 108820.3,
+      "monitor_seconds": 108964.7,
+      "train_seconds_range": [
+        7179.99,
+        7226.07
+      ],
+      "val_seconds_range": [
+        51.64,
+        56.19
+      ],
+      "gpu_total_memory_max_MiB": 3123,
+      "RSS_sum_max_MiB": 4200.3,
+      "monitor_available_RAM_min_MiB": 81.0,
+      "runner_available_RAM_min_MiB": 6,
+      "snapshots": 83,
+      "active_snapshot_gaps_over_60_minutes": [
+        {
+          "from": "2026-10-05T23:49:27+07:00",
+          "to": "2026-10-06T01:08:52+07:00",
+          "minutes": 79.41666666666667
+        },
+        {
+          "from": "2026-10-06T11:53:29+07:00",
+          "to": "2026-10-06T14:22:15+07:00",
+          "minutes": 148.76666666666668
+        }
+      ]
+    }
+  },
+  "checks": [
+    {
+      "check": "src change is docstring-only (AST)",
+      "pass": true
+    },
+    {
+      "check": "prior evidence CODEX_REVIEW_6c8e37a.md",
+      "pass": true
+    },
+    {
+      "check": "prior evidence README.md",
+      "pass": true
+    },
+    {
+      "check": "prior evidence audit_evidence.py",
+      "pass": true
+    },
+    {
+      "check": "prior evidence base_preimages/src/test_tiep_tuc_huan_luyen.py",
+      "pass": true
+    },
+    {
+      "check": "prior evidence base_preimages/src/tiep_tuc_huan_luyen.py",
+      "pass": true
+    },
+    {
+      "check": "prior evidence base_preimages/src/train_detector.py",
+      "pass": true
+    },
+    {
+      "check": "prior evidence check_csv_recovery.py",
+      "pass": true
+    },
+    {
+      "check": "prior evidence check_journal_recovery.py",
+      "pass": true
+    },
+    {
+      "check": "prior evidence check_package.py",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/author_counter_rerun.json",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/author_counter_rerun.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/csv_recovery.json",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/evidence_audit.json",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/evidence_audit.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/journal_recovery.json",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/journal_recovery.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/observer_base.json",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/observer_base.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/observer_target.json",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/observer_target.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence evidence/package.json",
+      "pass": true
+    },
+    {
+      "check": "prior evidence observe_csv_risks.py",
+      "pass": true
+    },
+    {
+      "check": "prior evidence package_metadata/DEPENDENCIES.md",
+      "pass": true
+    },
+    {
+      "check": "prior evidence package_metadata/MANIFEST.json",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/REVIEW41_CHI_TIET.md",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/REVIEW_BRIEF.md",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/00_trang_thai_dau.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/01_quan_sat_csv_truoc_sua.json",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/02_ke_hoach_kiem_r40n.md",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/03_moc_thoi_gian_lan1.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/03_su_kien_nguon_lan1.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan1.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan1_c0_runner.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/03_test_tiep_tuc_huan_luyen_lan2.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/04_nhom_c_tren_ma_cu_421dd53.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/05_test_detector_5lop.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/05_test_pilot_chan_doan.log",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/06_quan_sat_csv_sau_sua.json",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.json",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/handoff/logs/review41/06b_quan_sat_qua_buoc_chuan_bi.py",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/src/test_tiep_tuc_huan_luyen.py",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/src/tiep_tuc_huan_luyen.py",
+      "pass": true
+    },
+    {
+      "check": "prior evidence tree/src/train_detector.py",
+      "pass": true
+    },
+    {
+      "check": "prior reviewed source equals base",
+      "pass": true
+    },
+    {
+      "check": "54 excluded files declared uniquely",
+      "pass": true
+    },
+    {
+      "check": "excluded declarations syntactically valid",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt sequence",
+      "pass": true
+    },
+    {
+      "check": "yolov8n journal has exactly 15 unique ordered epochs",
+      "pass": true
+    },
+    {
+      "check": "yolov8n CSV has exactly 15 unique ordered epochs",
+      "pass": true
+    },
+    {
+      "check": "yolov8n CSV finite",
+      "pass": true
+    },
+    {
+      "check": "yolov8n journal timestamps monotonic",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt exits",
+      "pass": true
+    },
+    {
+      "check": "yolov8n final completion",
+      "pass": true
+    },
+    {
+      "check": "yolov8n runner epochs exactly 1..15",
+      "pass": true
+    },
+    {
+      "check": "yolov8n all completed batches and losses",
+      "pass": true
+    },
+    {
+      "check": "yolov8n journal/runner/CSV metrics",
+      "pass": true
+    },
+    {
+      "check": "yolov8n journal backup declarations",
+      "pass": true
+    },
+    {
+      "check": "yolov8n mosaic only closed epochs 14,15",
+      "pass": true
+    },
+    {
+      "check": "yolov8n best selection",
+      "pass": true
+    },
+    {
+      "check": "yolov8n best running maxima",
+      "pass": true
+    },
+    {
+      "check": "yolov8n best final checkpoint declarations",
+      "pass": true
+    },
+    {
+      "check": "yolov8n best recorded reload checks",
+      "pass": true
+    },
+    {
+      "check": "yolov8n last final checkpoint declarations",
+      "pass": true
+    },
+    {
+      "check": "yolov8n last recorded reload checks",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 0 declared args",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 0 effective args",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 0 dataset identity",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 0 loaded dataset counts",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 0 final event epoch subset",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 0 source hashes",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 1 declared args",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 1 effective args",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 1 dataset identity",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 1 loaded dataset counts",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 1 final event epoch subset",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 1 source hashes",
+      "pass": true
+    },
+    {
+      "check": "yolov8n resume 1 correct boundary and hash",
+      "pass": true
+    },
+    {
+      "check": "yolov8n resume 1 13 restoration checks",
+      "pass": true
+    },
+    {
+      "check": "yolov8n resume 1 no CSV history removed",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 2 declared args",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 2 effective args",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 2 dataset identity",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 2 loaded dataset counts",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 2 final event epoch subset",
+      "pass": true
+    },
+    {
+      "check": "yolov8n attempt 2 source hashes",
+      "pass": true
+    },
+    {
+      "check": "yolov8n resume 2 correct boundary and hash",
+      "pass": true
+    },
+    {
+      "check": "yolov8n resume 2 13 restoration checks",
+      "pass": true
+    },
+    {
+      "check": "yolov8n resume 2 no CSV history removed",
+      "pass": true
+    },
+    {
+      "check": "yolov8n monitor 0 PID/exit match journal",
+      "pass": true
+    },
+    {
+      "check": "yolov8n monitor 0 encloses journal",
+      "pass": true
+    },
+    {
+      "check": "yolov8n monitor 1 PID/exit match journal",
+      "pass": true
+    },
+    {
+      "check": "yolov8n monitor 1 encloses journal",
+      "pass": true
+    },
+    {
+      "check": "yolov8n monitor 2 PID/exit match journal",
+      "pass": true
+    },
+    {
+      "check": "yolov8n monitor 2 encloses journal",
+      "pass": true
+    },
+    {
+      "check": "yolov8n final DAT marker",
+      "pass": true
+    },
+    {
+      "check": "yolov8n summaries runner seconds",
+      "pass": true
+    },
+    {
+      "check": "yolo11n attempt sequence",
+      "pass": true
+    },
+    {
+      "check": "yolo11n journal has exactly 15 unique ordered epochs",
+      "pass": true
+    },
+    {
+      "check": "yolo11n CSV has exactly 15 unique ordered epochs",
+      "pass": true
+    },
+    {
+      "check": "yolo11n CSV finite",
+      "pass": true
+    },
+    {
+      "check": "yolo11n journal timestamps monotonic",
+      "pass": true
+    },
+    {
+      "check": "yolo11n attempt exits",
+      "pass": true
+    },
+    {
+      "check": "yolo11n final completion",
+      "pass": true
+    },
+    {
+      "check": "yolo11n runner epochs exactly 1..15",
+      "pass": true
+    },
+    {
+      "check": "yolo11n all completed batches and losses",
+      "pass": true
+    },
+    {
+      "check": "yolo11n journal/runner/CSV metrics",
+      "pass": true
+    },
+    {
+      "check": "yolo11n journal backup declarations",
+      "pass": true
+    },
+    {
+      "check": "yolo11n mosaic only closed epochs 14,15",
+      "pass": true
+    },
+    {
+      "check": "yolo11n best selection",
+      "pass": true
+    },
+    {
+      "check": "yolo11n best running maxima",
+      "pass": true
+    },
+    {
+      "check": "yolo11n best final checkpoint declarations",
+      "pass": true
+    },
+    {
+      "check": "yolo11n best recorded reload checks",
+      "pass": true
+    },
+    {
+      "check": "yolo11n last final checkpoint declarations",
+      "pass": true
+    },
+    {
+      "check": "yolo11n last recorded reload checks",
+      "pass": true
+    },
+    {
+      "check": "yolo11n attempt 0 declared args",
+      "pass": true
+    },
+    {
+      "check": "yolo11n attempt 0 effective args",
+      "pass": true
+    },
+    {
+      "check": "yolo11n attempt 0 dataset identity",
+      "pass": true
+    },
+    {
+      "check": "yolo11n attempt 0 loaded dataset counts",
+      "pass": true
+    },
+    {
+      "check": "yolo11n attempt 0 final event epoch subset",
+      "pass": true
+    },
+    {
+      "check": "yolo11n attempt 0 source hashes",
+      "pass": true
+    },
+    {
+      "check": "yolo11n monitor 0 PID/exit match journal",
+      "pass": true
+    },
+    {
+      "check": "yolo11n monitor 0 encloses journal",
+      "pass": true
+    },
+    {
+      "check": "yolo11n final DAT marker",
+      "pass": true
+    },
+    {
+      "check": "yolo11n summaries runner seconds",
+      "pass": true
+    },
+    {
+      "check": "all attempts common declared configuration",
+      "pass": true
+    },
+    {
+      "check": "all attempts same dataset/config/source identities",
+      "pass": true
+    },
+    {
+      "check": "training sequential",
+      "pass": true
+    }
+  ],
+  "source": {
+    "base_sha256": "44045186de71dbb720d8d19d07f00f898576c3eb41cef950d3943546accbecc0",
+    "target_sha256": "d5b875bce7cdac5bfae92e726b5a3c15db739215adbdf025b205bfa14f6c8007",
+    "syntax_compile": true
+  },
+  "prior_evidence_files": 43,
+  "total_runner_hours": 58.98477777777778,
+  "total_monitor_hours": 59.17347222222222,
+  "elapsed_calendar_hours": 68.47166666666666,
+  "document_rounding_differences": [
+    {
+      "model": "yolov8n",
+      "epoch": 2,
+      "metric": "mAP50-95",
+      "source": "0.17648",
+      "printed": "0.177",
+      "correct_3dp": "0.176"
+    },
+    {
+      "model": "yolov8n",
+      "epoch": 4,
+      "metric": "mAP50",
+      "source": "0.35046",
+      "printed": "0.351",
+      "correct_3dp": "0.350"
+    },
+    {
+      "model": "yolov8n",
+      "epoch": 7,
+      "metric": "mAP50",
+      "source": "0.39345",
+      "printed": "0.394",
+      "correct_3dp": "0.393"
+    },
+    {
+      "model": "yolo11n",
+      "epoch": 1,
+      "metric": "mAP50",
+      "source": "0.22947",
+      "printed": "0.230",
+      "correct_3dp": "0.229"
+    },
+    {
+      "model": "yolo11n",
+      "epoch": 7,
+      "metric": "mAP50",
+      "source": "0.37348",
+      "printed": "0.374",
+      "correct_3dp": "0.373"
+    }
+  ],
+  "nan_progress": {
+    "onset_batch": 4597,
+    "onset_percent": 72.84107114561877,
+    "last_logged_batch_before_stop": 4786,
+    "last_logged_percent_before_stop": 75.83584218032009,
+    "source": "11_dung_luot_nan_yolov8n.log; this is the last logged progress, not proof of exact last executed batch"
+  },
+  "checks_passed": 128,
+  "checks_total": 128,
+  "all_consistency_checks_pass": true
+}
