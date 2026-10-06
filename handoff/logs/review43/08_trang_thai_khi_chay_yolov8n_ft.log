@@ -1,0 +1,35 @@
+# 2026-10-06 20:51:03 +0700 -- trang thai GHI SAU KHI KHOI CHAY luot yolov8n_ft (luot dang chay, ~+5 phut).
+# Ghi chu: log 'truoc khi chay' day du (nhu 05_*) KHONG duoc ghi cho luot nay -- toi khoi chay ngay sau kiem nguon
+# (dong dau 07_khoi_chay_yolov8n_ft.log). Log nay bu lai bang lenh CHI DOC, khong import torch / khong cham GPU de
+# khong anh huong luot dang chay. Moi truong Python/torch/ultralytics: xem 05_* (cung python.exe, khong cai dat gi sau do).
+--- git rev-parse HEAD:
+b9ea1d8974f6f029729296e52ccc9897e43c0866
+--- git log -1 --format='%H %ci %s':
+b9ea1d8974f6f029729296e52ccc9897e43c0866 2026-10-06 20:27:04 +0700 Vong 43 launcher WMI cho luot danh gia BDD val (checkpoint + sha256 co dinh theo ke hoach khoa; tu choi ghi de / chay chong)
+--- git status --short src/ configs/ handoff/review_base.json (ma + cau hinh):
+ M src/demo/rerun_with_state_log.py
+?? src/demo/build_buffer90_demo.py
+?? src/demo/find_buffer90_candidates.py
+?? src/demo/find_buffer90_moving_candidates.py
+?? src/demo/live_view.py
+?? src/demo/single_case_buffer90.py
+?? src/demo/turning_case_buffer90.py
+--- sha256 ma danh gia (fingerprint evaluator; doi chieu 05_*):
+d1e2fd22a01a5fa117e64d909b13434a1f5226b27b5c0ed0f768ddfb6cc84ba1 *src/danh_gia_detector_bdd_val.py
+30a1fd5a63641f1cebc22e4e7ef7e4600a48a45ed6f7d533bf319af0fa156f7f *src/eval_detector_5lop.py
+1ca964b0fc81701ac746335fa20ac6e5231322a4cdd11ad47753a2b25fc31493 *src/bdd_yolo_export.py
+7bba3439987377cb2f161eb31e2cf0afafae3e814f165279087b7a3780699c3e *src/detector_classes.py
+5028ffb98ddff6ba423bef14ff9331fd02f8e40b1055438c88224182914f8363 *src/mot_datasets/bdd100k_coco.py
+2fd153bf6016f7e217ebfea407378549e54b9d62806d70f99f550555b4b8f842 *src/chay_giam_sat.py
+--- nguon dien (psutil.sensors_battery + powercfg /getactivescheme):
+pin 100% | cam sac True
+Invalid Parameters -- try "/?" for help
+--- RAM (psutil.virtual_memory):
+tong 7.84 GiB, con trong 0.51 GiB (93.6% dung)
+--- GPU (nvidia-smi, chi doc):
+name, memory.total [MiB], memory.used [MiB], temperature.gpu, power.draw [W], pstate, utilization.gpu [%]
+NVIDIA GeForce GTX 1650, 4096 MiB, 937 MiB, 63, 13.33 W, P3, 17 %
+--- tien trinh luot (trang_thai.json cua bo giam sat):
+dang_chay pid_cong_cu 6412 True | pid 11132 True | bat_dau 2026-10-06T20:47:16+07:00
+--- powercfg /getactivescheme (chay lai voi MSYS_NO_PATHCONV=1: o tren Git Bash doi tham so '/getactivescheme' thanh duong dan -> 'Invalid Parameters'):
+Power Scheme GUID: 6fecc5ae-f350-48a5-b669-b472cb895ccf  (High performance)

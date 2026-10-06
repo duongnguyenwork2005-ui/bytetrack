@@ -1,0 +1,50 @@
+# 2026-10-06 22:09:54 +0700 HEAD b9ea1d8 -- python handoff/logs/review43/tong_hop_danh_gia.py --out handoff/logs/review43/ket_qua --tai-tinh
+# lan 2 (lan 1 dung vi cham: 11a_tong_hop_lan1_dung_vi_cham.log); script sha256 27d17ad84cbb773684f17f2af1bde88b8bbe373dbfd494ccd0212a7eda236777
+# (sau khi ca 3 luot ket thuc; khong co tien trinh danh gia nao dang chay)
+== ma danh gia: sha256 hien tai so voi luc truoc khi chay
+  [DAT] sha256 src/danh_gia_detector_bdd_val.py == gia tri 05_*.log -- d1e2fd22a01a
+  [DAT] sha256 src/eval_detector_5lop.py == gia tri 05_*.log -- 30a1fd5a6364
+  [DAT] sha256 src/bdd_yolo_export.py == gia tri 05_*.log -- 1ca964b0fc81
+  [DAT] sha256 src/detector_classes.py == gia tri 05_*.log -- 7bba34399873
+  [DAT] sha256 src/mot_datasets/bdd100k_coco.py == gia tri 05_*.log -- 5028ffb98ddf
+  [DAT] sha256 src/chay_giam_sat.py == gia tri 05_*.log -- 2fd153bf6016
+== yolov8n_coco: results/phase2/detector_eval/bdd_val_cocovid/r43_yolov8n_coco
+  [DAT] yolov8n_coco: exit code that = 0 (tom_tat.json) -- {'exit_code': 0, 'ctrl_c': [], 'thoi_gian_s': 1143.1}
+  [DAT] yolov8n_coco: lenh dung mau khoa (khong tham so phu) -- ['-u', 'src\\danh_gia_detector_bdd_val.py', '--model', 'yolov8n_coco=models/yolov8n.pt', '--sha256', 'yolov8n_coco=f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36', '--out', 'results\\phase2\\detector_eval\\bdd_val_cocovid\\r43_yolov8n_coco']
+  [DAT] yolov8n_coco: chi mot model trong ket_qua.json -- ['yolov8n_coco']
+  [DAT] yolov8n_coco: so anh du kien = da du doan = 39973 -- {'n_anh': 39973, 'so_anh_da_du_doan': 39973, 'gioi_han_anh': 0}
+  [DAT] yolov8n_coco: kiem du lieu (sha256 nhan / manifest / bang hash, 200 video, noi dung anh khop het) -- {'nhan': '074ff7955548', 'video': 200, 'khop_noi_dung': '39973/39973', 'lech': 0}
+  [DAT] yolov8n_coco: sha256 checkpoint + duong dan + anh xa lop dung muc 2 -- {'sha256': 'f59b3d833e2f', 'loai': 'coco80', 'model_id_sang_lop5': {'1': 4, '2': 0, '3': 3, '5': 2, '7': 1}}
+  [DAT] yolov8n_coco: quy tac du doan / van hanh dung muc 5 -- {'imgsz': 640, 'conf': 0.001, 'iou_nms': 0.7, 'max_det': 300, 'agnostic_nms': False, 'half': False}
+  [DAT] yolov8n_coco: theo_lop.csv == ket_qua.json (5 lop, so thuc ==) -- 5
+== yolov8n_ft: results/phase2/detector_eval/bdd_val_cocovid/r43_yolov8n_ft
+  [DAT] yolov8n_ft: exit code that = 0 (tom_tat.json) -- {'exit_code': 0, 'ctrl_c': [], 'thoi_gian_s': 1206.4}
+  [DAT] yolov8n_ft: lenh dung mau khoa (khong tham so phu) -- ['-u', 'src\\danh_gia_detector_bdd_val.py', '--model', 'yolov8n_ft=models/finetune_phase2/train_bdd5_v1_yolov8n_day_du/weights/best.pt', '--sha256', 'yolov8n_ft=5f66776d3202389ca484f3d9e2f107dddb354d21a9f1762d19401d690a4a0d8a', '--out', 'results\\phase2\\detector_eval\\bdd_val_cocovid\\r43_yolov8n_ft']
+  [DAT] yolov8n_ft: chi mot model trong ket_qua.json -- ['yolov8n_ft']
+  [DAT] yolov8n_ft: so anh du kien = da du doan = 39973 -- {'n_anh': 39973, 'so_anh_da_du_doan': 39973, 'gioi_han_anh': 0}
+  [DAT] yolov8n_ft: kiem du lieu (sha256 nhan / manifest / bang hash, 200 video, noi dung anh khop het) -- {'nhan': '074ff7955548', 'video': 200, 'khop_noi_dung': '39973/39973', 'lech': 0}
+  [DAT] yolov8n_ft: sha256 checkpoint + duong dan + anh xa lop dung muc 2 -- {'sha256': '5f66776d3202', 'loai': 'lop5', 'model_id_sang_lop5': {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4}}
+  [DAT] yolov8n_ft: quy tac du doan / van hanh dung muc 5 -- {'imgsz': 640, 'conf': 0.001, 'iou_nms': 0.7, 'max_det': 300, 'agnostic_nms': False, 'half': False}
+  [DAT] yolov8n_ft: theo_lop.csv == ket_qua.json (5 lop, so thuc ==) -- 5
+== yolo11n_ft: results/phase2/detector_eval/bdd_val_cocovid/r43_yolo11n_ft
+  [DAT] yolo11n_ft: exit code that = 0 (tom_tat.json) -- {'exit_code': 0, 'ctrl_c': [], 'thoi_gian_s': 1181.4}
+  [DAT] yolo11n_ft: lenh dung mau khoa (khong tham so phu) -- ['-u', 'src\\danh_gia_detector_bdd_val.py', '--model', 'yolo11n_ft=models/finetune_phase2/train_bdd5_v1_yolo11n_day_du/weights/best.pt', '--sha256', 'yolo11n_ft=d7d1c7e86d03c69d913febe79e4cbb6c2e1bcf9f17f034724af4de2ccfba7923', '--out', 'results\\phase2\\detector_eval\\bdd_val_cocovid\\r43_yolo11n_ft']
+  [DAT] yolo11n_ft: chi mot model trong ket_qua.json -- ['yolo11n_ft']
+  [DAT] yolo11n_ft: so anh du kien = da du doan = 39973 -- {'n_anh': 39973, 'so_anh_da_du_doan': 39973, 'gioi_han_anh': 0}
+  [DAT] yolo11n_ft: kiem du lieu (sha256 nhan / manifest / bang hash, 200 video, noi dung anh khop het) -- {'nhan': '074ff7955548', 'video': 200, 'khop_noi_dung': '39973/39973', 'lech': 0}
+  [DAT] yolo11n_ft: sha256 checkpoint + duong dan + anh xa lop dung muc 2 -- {'sha256': 'd7d1c7e86d03', 'loai': 'lop5', 'model_id_sang_lop5': {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4}}
+  [DAT] yolo11n_ft: quy tac du doan / van hanh dung muc 5 -- {'imgsz': 640, 'conf': 0.001, 'iou_nms': 0.7, 'max_det': 300, 'agnostic_nms': False, 'half': False}
+  [DAT] yolo11n_ft: theo_lop.csv == ket_qua.json (5 lop, so thuc ==) -- 5
+  [DAT] yolov8n_ft: quy_tac trung luot yolov8n_coco
+  [DAT] yolov8n_ft: quy_tac_gt trung luot yolov8n_coco
+  [DAT] yolov8n_ft: dataset_da_xac_minh trung luot yolov8n_coco (moi dem, moi sha256)
+  [DAT] yolo11n_ft: quy_tac trung luot yolov8n_coco
+  [DAT] yolo11n_ft: quy_tac_gt trung luot yolov8n_coco
+  [DAT] yolo11n_ft: dataset_da_xac_minh trung luot yolov8n_coco (moi dem, moi sha256)
+== tai tinh tu NPZ
+  doc lai GT: 39973 anh (57 s, khong bam lai noi dung)
+  [DAT] yolov8n_coco: tai tinh tu du_doan_yolov8n_coco.npz == ket_qua.json (moi so theo lop, macro, chan doan) -- {'so_detection': 4920095, 'thoi_gian_s': 72.2}
+  [DAT] yolov8n_ft: tai tinh tu du_doan_yolov8n_ft.npz == ket_qua.json (moi so theo lop, macro, chan doan) -- {'so_detection': 4624928, 'thoi_gian_s': 58.9}
+  [DAT] yolo11n_ft: tai tinh tu du_doan_yolo11n_ft.npz == ket_qua.json (moi so theo lop, macro, chan doan) -- {'so_detection': 4661420, 'thoi_gian_s': 65.4}
+KET LUAN: 39/39 phep kiem dat -> DAT
+# exit=0 2026-10-06 22:14:10 +0700
