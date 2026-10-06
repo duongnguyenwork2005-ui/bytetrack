@@ -1,0 +1,44 @@
+# 2026-10-07 01:36:35 +0700 HEAD 5cbd434 -- chung minh regression B5 (R43-N1): CUNG test moi (blob 5cbd434), 3 ban entry point, cay sach ngoai repo
+# cay: blob git 5cbd434 cua 9 file support loi + test; entry point thay theo tung ca (--thay). --chan-pyarrow (Smart App Control chan pyarrow._compute, xem 02_*).
+# ca 1 CU   : entry point a03f6e1 sha256 d1e2fd22a01a5fa117e64d909b13434a1f5226b27b5c0ed0f768ddfb6cc84ba1 -> DU KIEN B5b, B5c FAIL (exit 1)
+# ca 2 SAI  : bien the sinh boi tao_bien_the_sai.py (sua TRUC TIEP QUY_TAC dung chung) sha256 82cf997b4a153e335ff24ea594befb5c64eb112928f3bc404e797b408e9710c4 -> DU KIEN B5c FAIL (exit 1)
+# ca 3 MOI  : entry point 5cbd434 sha256 de2c06f4db2eb99c15b44d873cc63b6b6b446bc632000701671dedd65677020a -> DU KIEN 22/22 PASS (exit 0)
+
+===== ca 1_cu
+cay: git 5cbd434 -> 11 file trong C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\v44_reg_1_cu\cay
+[KHONG DAT] src/test_danh_gia_bdd_val.py: exit 1, PASS 20 FAIL 2 SKIP 0, 2.1 s; 10 module du an tu cay, 0 tu repo goc, 1 tien trinh ghi nguon; KET QUA: 20/22 PASS
+goi ngoai da nap: {'PIL': 'pillow 12.3.0', '_distutils_hack': 'setuptools 83.0.0', 'cv2': 'opencv-python 5.0.0.93', 'dateutil': 'python-dateutil 2.9.0.post0', 'numpy': 'numpy 2.4.6', 'pandas': 'pandas 2.3.3', 'pytz': 'pytz 2026.3.post1', 'six': 'six 1.17.0'}
+cay sau khi chay: 0 file doi [], 0 file moi []
+KET LUAN: KHONG DAT
+# exit kiem_cay_sach=1
+# dong B5 / FAIL trong stdout cua test:
+  [PASS] B5a mac dinh (khong --conf-van-hanh): metadata quy_tac.van_hanh = nguong scorer = 0.25  (rc 0, metadata {'conf': 0.25, 'iou': 0.5}, scorer {'conf': 0.25, 'iou': 0.5})
+  [FAIL] B5b --conf-van-hanh 0.5: metadata = nguong scorer = 0.5; P/R + chan doan = goi truc tiep voi 0.5 (khac ket qua 0.25)  (rc 0, metadata {'conf': 0.25, 'iou': 0.5}, scorer {'conf': 0.5, 'iou': 0.5})
+  [FAIL] B5c 2 lan goi lien tiep trong cung tien trinh (0.4 roi mac dinh): moi lan dung nguong cua no; QUY_TAC dung chung + mac dinh CLI van 0.25  (lan 1: rc 0, metadata {'conf': 0.25, 'iou': 0.5}, scorer {'conf': 0.4, 'iou': 0.5} | lan 2: rc 0, metadata {'conf': 0.25, 'iou': 0.5}, scorer {'conf': 0.25, 'iou': 0.5} | QUY_TAC.van_hanh {'conf': 0.25, 'iou': 0.5})
+KET QUA: 20/22 PASS
+
+===== ca 2_bien_the_sai
+cay: git 5cbd434 -> 11 file trong C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\v44_reg_2_bien_the_sai\cay
+[KHONG DAT] src/test_danh_gia_bdd_val.py: exit 1, PASS 21 FAIL 1 SKIP 0, 1.8 s; 10 module du an tu cay, 0 tu repo goc, 1 tien trinh ghi nguon; KET QUA: 21/22 PASS
+goi ngoai da nap: {'PIL': 'pillow 12.3.0', '_distutils_hack': 'setuptools 83.0.0', 'cv2': 'opencv-python 5.0.0.93', 'dateutil': 'python-dateutil 2.9.0.post0', 'numpy': 'numpy 2.4.6', 'pandas': 'pandas 2.3.3', 'pytz': 'pytz 2026.3.post1', 'six': 'six 1.17.0'}
+cay sau khi chay: 0 file doi [], 0 file moi []
+KET LUAN: KHONG DAT
+# exit kiem_cay_sach=1
+# dong B5 / FAIL trong stdout cua test:
+  [PASS] B5a mac dinh (khong --conf-van-hanh): metadata quy_tac.van_hanh = nguong scorer = 0.25  (rc 0, metadata {'conf': 0.25, 'iou': 0.5}, scorer {'conf': 0.25, 'iou': 0.5})
+  [PASS] B5b --conf-van-hanh 0.5: metadata = nguong scorer = 0.5; P/R + chan doan = goi truc tiep voi 0.5 (khac ket qua 0.25)  (rc 0, metadata {'conf': 0.5, 'iou': 0.5}, scorer {'conf': 0.5, 'iou': 0.5})
+  [FAIL] B5c 2 lan goi lien tiep trong cung tien trinh (0.4 roi mac dinh): moi lan dung nguong cua no; QUY_TAC dung chung + mac dinh CLI van 0.25  (lan 1: rc 0, metadata {'conf': 0.4, 'iou': 0.5}, scorer {'conf': 0.4, 'iou': 0.5} | lan 2: rc 0, metadata {'conf': 0.4, 'iou': 0.5}, scorer {'conf': 0.4, 'iou': 0.5} | QUY_TAC.van_hanh {'conf': 0.4, 'iou': 0.5})
+KET QUA: 21/22 PASS
+
+===== ca 3_moi
+cay: git 5cbd434 -> 11 file trong C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\v44_reg_3_moi\cay
+[DAT] src/test_danh_gia_bdd_val.py: exit 0, PASS 22 FAIL 0 SKIP 0, 2.2 s; 10 module du an tu cay, 0 tu repo goc, 1 tien trinh ghi nguon; KET QUA: 22/22 PASS
+goi ngoai da nap: {'PIL': 'pillow 12.3.0', '_distutils_hack': 'setuptools 83.0.0', 'cv2': 'opencv-python 5.0.0.93', 'dateutil': 'python-dateutil 2.9.0.post0', 'numpy': 'numpy 2.4.6', 'pandas': 'pandas 2.3.3', 'pytz': 'pytz 2026.3.post1', 'six': 'six 1.17.0'}
+cay sau khi chay: 0 file doi [], 0 file moi []
+KET LUAN: DAT
+# exit kiem_cay_sach=0
+# dong B5 / FAIL trong stdout cua test:
+  [PASS] B5a mac dinh (khong --conf-van-hanh): metadata quy_tac.van_hanh = nguong scorer = 0.25  (rc 0, metadata {'conf': 0.25, 'iou': 0.5}, scorer {'conf': 0.25, 'iou': 0.5})
+  [PASS] B5b --conf-van-hanh 0.5: metadata = nguong scorer = 0.5; P/R + chan doan = goi truc tiep voi 0.5 (khac ket qua 0.25)  (rc 0, metadata {'conf': 0.5, 'iou': 0.5}, scorer {'conf': 0.5, 'iou': 0.5})
+  [PASS] B5c 2 lan goi lien tiep trong cung tien trinh (0.4 roi mac dinh): moi lan dung nguong cua no; QUY_TAC dung chung + mac dinh CLI van 0.25  (lan 1: rc 0, metadata {'conf': 0.4, 'iou': 0.5}, scorer {'conf': 0.4, 'iou': 0.5} | lan 2: rc 0, metadata {'conf': 0.25, 'iou': 0.5}, scorer {'conf': 0.25, 'iou': 0.5} | QUY_TAC.van_hanh {'conf': 0.25, 'iou': 0.5})
+KET QUA: 22/22 PASS

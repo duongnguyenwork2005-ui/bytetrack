@@ -1,0 +1,34 @@
+# 2026-10-07 01:28:31 +0700 HEAD c9e673f (+ sua R43-N1 CHUA commit: src/danh_gia_detector_bdd_val.py, src/test_danh_gia_bdd_val.py) -- python src/test_danh_gia_bdd_val.py (trong repo, kiem nhanh sau khi sua)
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\src\test_danh_gia_bdd_val.py", line 321, in main
+    nhom_b(Path(td))
+  File "D:\LABOTARY\bytetrack\src\test_danh_gia_bdd_val.py", line 112, in nhom_b
+    dt_, anh, gt = m.kiem_va_doc_gt(fx["nhan"], fx["anh"], fx["manifest"], fx["hash"])
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\src\danh_gia_detector_bdd_val.py", line 92, in kiem_va_doc_gt
+    co = nguon.danh_sach_video()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\src\bdd_yolo_export.py", line 239, in danh_sach_video
+    return sorted(self._nap())
+                  ^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\src\bdd_yolo_export.py", line 209, in _nap
+    from mot_datasets.bdd100k_coco import check_schema
+  File "D:\LABOTARY\bytetrack\src\mot_datasets\bdd100k_coco.py", line 41, in <module>
+    import pandas as pd
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\pandas\__init__.py", line 61, in <module>
+    from pandas.core.api import (
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\pandas\core\api.py", line 28, in <module>
+    from pandas.core.arrays import Categorical
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\pandas\core\arrays\__init__.py", line 1, in <module>
+    from pandas.core.arrays.arrow import ArrowExtensionArray
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\pandas\core\arrays\arrow\__init__.py", line 1, in <module>
+    from pandas.core.arrays.arrow.accessors import (
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\pandas\core\arrays\arrow\accessors.py", line 23, in <module>
+    import pyarrow.compute as pc
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\pyarrow\compute.py", line 18, in <module>
+    from pyarrow._compute import (  # noqa
+ImportError: DLL load failed while importing _compute: An Application Control policy has blocked this file.
+  [FAIL] loi khong mong doi ImportError: DLL load failed while importing _compute: An Application Control policy has blocked this file.
+
+KET QUA: 0/1 PASS
+# exit=1 01:28:32
