@@ -1,6 +1,6 @@
 # Kế hoạch huấn luyện detector 5 lớp (YOLOv8n, YOLO11n) — bản để review
 
-Trạng thái: **training dài đã chạy xong ở vòng 42** cho cả hai model (đoạn **Vòng 42** bên dưới); đánh giá test chờ duyệt. Vòng 27 chỉ làm chuẩn bị và smoke. Phạm vi chung: `handoff/PLAN_DA_CHOT.md`.
+Trạng thái: **training dài đã chạy xong ở vòng 42** cho cả hai model (đoạn **Vòng 42** bên dưới); **vòng 43 đã đánh giá detector trên BDD val** (đoạn **Vòng 43**); UA-DETRAC test chờ quyết định ánh xạ lớp. Vòng 27 chỉ làm chuẩn bị và smoke. Phạm vi chung: `handoff/PLAN_DA_CHOT.md`.
 Cập nhật vòng 28 (review `4937c85`): thêm hợp đồng kiểm dataset dùng chung (mục 1) và sửa diễn giải về kiểm trùng và
 batch 16 (mục 1, 4). Cập nhật vòng 29 (review `07615ba`, R28-F1): chính sách **cache ảnh** (mục 1, mục 3). Số epoch,
 bước frame và ngân sách **chưa được duyệt** và không đổi.
@@ -89,6 +89,17 @@ Kế hoạch lượt (tên, thư mục, khởi chạy độc lập, theo dõi, p
 
 YOLOv8n có loss NaN giữa epoch 12 (lần 1), chưa xác định nguyên nhân. Đã dừng, resume từ checkpoint epoch 11 sạch,
 và lần 2 không tái diễn. Chi tiết: `REVIEW42_CHI_TIET.md`.
+
+**Vòng 43**: Codex `4d54744` PASS WITH LIMITATIONS (hồ sơ training; không phải nghiệm thu chất lượng test). **Người dùng duyệt đánh giá detector** (2026-10-06) cho baseline YOLOv8n COCO và `best.pt` hai model, trên BDD val và UA-DETRAC test; không train thêm, không tuning theo test. Kế hoạch khóa trước khi chạy: `logs/review43/04_ke_hoach_danh_gia.md`.
+
+**Kết quả vòng 43 — BDD100K MOT val** (COCO-video, 200 video / 39.973 ảnh; evaluator 5 lớp; ảnh không tô xám; **không phải dev**):
+
+| | Baseline YOLOv8n COCO | YOLOv8n fine-tune | YOLO11n fine-tune |
+|:--|--:|--:|--:|
+| mAP50 (5 lớp) | 0,244 | 0,384 | 0,376 |
+| mAP50-95 (5 lớp) | 0,157 | 0,251 | 0,247 |
+
+Một lượt mỗi model, chỉ mô tả; chênh 0,251 / 0,247 không đủ để chọn model. Không so với số dev ở trên vì khác tập và khác cách đo. **UA-DETRAC test chưa chạy**: chờ người dùng chốt ánh xạ lớp. Chi tiết: `REVIEW43_CHI_TIET.md`.
 
 Tài liệu này dùng ba nhãn nguồn số liệu:
 

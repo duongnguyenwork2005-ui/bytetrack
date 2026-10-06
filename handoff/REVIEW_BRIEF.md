@@ -1,57 +1,70 @@
-# REVIEW_BRIEF — vòng 42: training dài YOLOv8n → YOLO11n (15 epoch mỗi model, dataset đầy đủ)
+# REVIEW_BRIEF — vòng 43: đánh giá detector trên BDD100K MOT val (3 checkpoint); UA-DETRAC chờ quyết định
 
 <!-- BASE_TARGET -->
 
-Chi tiết: **`handoff/REVIEW42_CHI_TIET.md`**. Kế hoạch đăng ký trước: `handoff/logs/review42/02_ke_hoach_luot_dai.md`.
+Chi tiết: **`handoff/REVIEW43_CHI_TIET.md`**. Kế hoạch khóa trước khi chạy: `handoff/logs/review43/04_ke_hoach_danh_gia.md`.
 
-**Phạm vi** (người dùng duyệt): training dài trên PC, tuần tự YOLOv8n rồi YOLO11n; tổng 15 epoch mỗi model kể cả khi
-resume; dataset đầy đủ bước 5, split đã khóa; giữ nguyên tham số đã duyệt. Chỉ training + validation dev; **dừng trước
-đánh giá test**.
+**Phạm vi** (người dùng duyệt): đánh giá trên PC local cho baseline YOLOv8n COCO và `best.pt` của YOLOv8n / YOLO11n
+(vòng 42), trên BDD val và UA-DETRAC test. Không train, không tuning theo test. Báo cáo rồi dừng.
 
-## Review `6c8e37a` — đã ghi nhận
+## Review `4d54744` — đã ghi nhận
 
-PASS WITH LIMITATIONS, đóng R40-N1 / R40-N2. Bằng chứng khớp 43/43. Base → **`6c8e37a`**, giữ 13 khai báo.
-**R41-N1** chỉ sửa câu chữ: docstring `sua_duoi_csv` (AST sau khi bỏ docstring trùng bản cũ), mục 3 phụ lục vòng 41,
-đính chính ở phụ lục kế hoạch.
+PASS WITH LIMITATIONS cho hồ sơ training. Bằng chứng 10/10. Base → **`4d54744`**, giữ 13 khai báo. R42-N1/N2/N3 chỉ
+sửa câu chữ / bảng.
 
-## Chuẩn bị
+## Chuẩn bị (trước khi xem metric)
 
-- Dry-run cả hai model đạt: hợp đồng dataset 0 lỗi; đã băm 56.046 ảnh và nhãn; định danh trùng bản xuất vòng 38;
-  checkpoint khởi tạo đúng hash.
-- `train_bdd5.yaml` giữ nguyên byte, vì cấu hình pilot ghim sha256 của nó.
-- Khởi chạy **độc lập với phiên Claude** qua WMI `Win32_Process.Create` → `chay_giam_sat.py` → runner. Tiến trình cha là
-  `WmiPrvSE.exe`, không có Job Object, môi trường người dùng chuẩn (đã thăm dò trước).
+- Ba checkpoint kiểm trực tiếp từ file: sha256 khớp, nạp được, tensor hữu hạn, tên lớp đúng.
+- Evaluator đã nghiệm thu không đọc được BDD val (đã tái hiện: exit 2). Thêm điểm vào **chỉ đọc GT** theo quy tắc
+  exporter; dự đoán, ghép, AP dùng nguyên hàm evaluator. Test mới 19/19, gồm phép chứng minh GT trùng đường đã nghiệm
+  thu; suite liên quan 92/92.
+- Kế hoạch được khóa và commit trước lượt đầu; không sửa sau đó.
 
-## Kết quả — ĐÃ CHẠY
+## Kết quả BDD val — ĐÃ CHẠY
 
-| | YOLOv8n | YOLO11n |
-|:--|:--|:--|
-| Epoch | **15/15**, 3 lần chạy (resume 2 lần) | **15/15**, 1 lần |
-| Điều kiện thành công | 12/12 | 12/12 |
-| Exit lần cuối | 0, `[DAT]` | 0, `[DAT]` |
-| `best.pt` | epoch 15, `5f66776d…` | epoch 13, `d7d1c7e8…` |
-| Dev mAP50-95 / mAP50 (`final_eval`) | 0,280 / 0,435 | 0,272 / 0,416 |
-| Thời gian runner | 28,8 h | 30,2 h |
-| VRAM tối đa | 2.933 MiB | 3.123 MiB |
+3 lượt tuần tự, khởi chạy độc lập với phiên Claude. Mỗi lượt:
+- exit 0; 39.973/39.973 ảnh;
+- nhãn, tập video, tập ảnh, w/h và nội dung ảnh 39.973/39.973 khớp; sha256 checkpoint khớp.
 
-**Sự cố YOLOv8n** (có log):
-- Người dùng yêu cầu tạm dừng. Dừng bằng Ctrl+C, exit 130; epoch 8 đang dở bị bỏ.
-- Rút sạc làm máy ngủ 2 lần. Lượt không bị ngắt.
-- Loss **NaN** giữa epoch 12. Người dùng chọn dừng; checkpoint epoch 11 đã được kiểm là sạch.
+Kiểm hợp lệ 39/39. Tái tính metric từ dự đoán đã lưu trùng tuyệt đối `ket_qua.json`.
 
-Mỗi lần resume: dry-run `--tiep-tuc` đạt, kiểm khôi phục 13/13, đang cắm sạc. Lần 2 không còn NaN. **Nguyên nhân NaN
-chưa xác định.**
+| Model | mAP50 | mAP50–95 | Δ mAP50–95 (điểm) | P / R macro @ conf 0,25, IoU 0,5 |
+|:--|--:|--:|--:|:--|
+| `yolov8n_coco` (baseline) | 0,244 | 0,157 | — | 0,572 / 0,219 |
+| `yolov8n_ft` | 0,384 | 0,251 | +9,4 | 0,613 / 0,347 |
+| `yolo11n_ft` | 0,376 | 0,247 | +9,0 | 0,613 / 0,338 |
+
+AP50–95 theo lớp (số GT):
+
+| Lớp | baseline | `yolov8n_ft` | `yolo11n_ft` |
+|:--|--:|--:|--:|
+| car (341.436) | 0,337 | 0,518 | 0,514 |
+| truck (27.343) | 0,135 | 0,268 | 0,263 |
+| bus (9.087) | 0,201 | 0,298 | 0,280 |
+| motorcycle (902) | 0,058 | 0,080 | 0,080 |
+| bicycle (4.135) | 0,055 | 0,090 | 0,096 |
+
+mAP là trung bình 5 lớp. Ba model dùng cùng ảnh, cùng GT, cùng thiết lập.
+
+## UA-DETRAC test — CHƯA CHẠY
+
+Ánh xạ lớp chưa chốt. Cần người dùng quyết định:
+- `van` (38.519 box): vùng bỏ qua, hay GT car?
+- `others` (16.915 box): vùng bỏ qua, hay GT truck?
+- lớp báo AP (motorcycle / bicycle là N/A);
+- 173 ảnh không có `<frame>`: ảnh âm tính, hay loại?
+- `ignored_region`: dùng làm vùng bỏ qua theo IoA (đề xuất).
 
 ## Giới hạn
 
-- Chỉ **dev nội bộ**; `best.pt` chọn theo chính dev này nên điểm thiên lạc quan.
-- Mỗi model một lượt. Chênh lệch 0,280 / 0,272 **chưa đủ để kết luận**.
-- YOLOv8n qua 2 lần resume, không trùng từng bit với lượt liên tục.
-- Không đóng gói checkpoint và log lớn; có bảng sha256 (`ket_qua/tep_lon_khong_ban_giao.csv`).
+- Mỗi model một lượt, một seed; chênh lệch là mô tả, không kiểm định. Chênh 0,251 / 0,247 không đủ để chọn model.
+- Baseline là model COCO ánh xạ theo tên lớp. Chênh lệch với baseline gộp cả khác biệt miền dữ liệu lẫn định nghĩa lớp.
+- BDD val đã được xem ở các vòng trước, nhưng không dùng để chọn checkpoint. Kết quả dev nội bộ (vòng 42) để riêng.
+- P/R tại cùng conf 0,25 phụ thuộc độ hiệu chỉnh confidence của từng model.
+- Log trạng thái trước lượt `yolov8n_ft` được bù sau khi khởi chạy. Không đóng gói NPZ, checkpoint, dữ liệu; chỉ có hash.
 
 ## Trạng thái
 
-Training dài đã xong cả hai model. **Chưa nghiệm thu.** Đánh giá test (BDD val / UA-DETRAC), so sánh bộ lọc, tracking
-và tối ưu Nano **chờ duyệt**.
+BDD val xong. **Chưa nghiệm thu.** UA-DETRAC chờ quyết định ánh xạ. So sánh bộ lọc, tracking và Nano chưa làm.
 
-**Nên xem**: `logs/review42/02_*`, `15_*`, `19_*`, `11_*`, `ket_qua/`.
+**Nên xem**: `logs/review43/04_*`, `ket_qua/bang_ket_qua.md`, `ket_qua/kiem_hop_le.json`, `11_*`.
