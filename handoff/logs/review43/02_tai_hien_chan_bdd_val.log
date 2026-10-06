@@ -1,0 +1,12 @@
+# 2026-10-06 20:17:58 +0700 HEAD 4fa1839 -- tai hien: evaluator 5 lop da nghiem thu KHONG doc duoc BDD val COCO-video
+# (1) --split chi nhan khoa trong hop dong (val = dev noi bo, train):
+python src/eval_detector_5lop.py --data data/yolo_bdd5_v1/data.yaml --split test --model yolov8n_coco=models/yolov8n.pt --out <tam>
+[LOI DATASET] split 'test' khong thuoc hop dong (val = dev noi bo, train)
+# exit=2
+# (2) --data phai la data.yaml theo hop dong bdd_yolo_export (manifest v2); BDD val chi co anh goc + mot JSON COCO-video, khong co data.yaml:
+bdd_box_track_val_cocofmt.json
+data/yolo_bdd5_v1/data.yaml
+data/yolo_bdd5_v1_smoke/data.yaml
+# (3) chuan_bi_danh_gia() chi anh xa split {'val': 'dev', 'train': 'train'} (src/eval_detector_5lop.py dong 123) -> khong co duong cho tap danh gia cuoi
+123:    ten_split = {"val": "dev", "train": "train"}.get(split)
+thu muc out khong bi tao (dung)

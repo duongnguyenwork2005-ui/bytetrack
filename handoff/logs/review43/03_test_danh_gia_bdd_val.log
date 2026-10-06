@@ -1,0 +1,28 @@
+# 2026-10-06 20:24:15 +0700 HEAD 4fa1839 (+ file moi chua commit: src/danh_gia_detector_bdd_val.py, src/test_danh_gia_bdd_val.py) -- python src/test_danh_gia_bdd_val.py
+  [PASS] B1a 6 anh (ca 3 anh khong annotation) -- khong bo anh am tinh  (6 anh, khong annotation 3)
+  [PASS] B1b car thuong -> GT lop 0, toa do pixel  ([[2.5, 3.25, 22.5, 13.25]])
+  [PASS] B1c truck crowd + car ignore=1 -> 2 vung bo qua; pedestrian (thuong / crowd) -> khong GT, khong vung  ([[30.0, 5.0, 50.0, 20.0], [40.0, 25.0, 50.0, 35.0]])
+  [PASS] B1d rider / train -> bo; motorcycle vuot khung -> cat [50,30,64,48]; bicycle < 1 px -> bo; bus -> lop 2  (cls [3, 2] xyxy [[50.0, 30.0, 64.0, 48.0], [1.0, 1.0, 13.0, 13.0]])
+  [PASS] B1e dem: GT theo lop, vung, lop khac, box cat, box < 1 px  ({"anh": 6, "anh_khong_annotation": 3, "anh_khong_gt_5_lop": 3, "anh_co_vung_bo_qua": 1, "gt_theo_lop": {"car": 1, "truck": 0, "bus": 1, "motorcycle": 1, "bicycle": 1}, "vung_bo_qua": 2, "annotation_lop_khac": 4, "box_nho_hon_1px_sau_cat": 1, "vung_bo_qua_rong": 0, "box_bi_cat_vao_khung": 1})
+  [PASS] B1f doi chieu bang hash: 6/6 khop
+  [PASS] B2 GT truc tiep == duong exporter -> evaluator da nghiem thu (6 anh)  (v1-0000001.jpg:ok v1-0000002.jpg:ok v1-0000003.jpg:ok v2-0000001.jpg:ok v2-0000002.jpg:ok v2-0000003.jpg:ok)
+  [PASS] B3a sha256 nhan khac manifest -> LoiDuLieu  (C:\Users\Mikuno\AppData\Local\Temp\test_bdd_val_sx5lup1y\fx_sha\nhan_cocofmt.json: sha256 )
+  [PASS] B3b tap video khac manifest -> LoiDuLieu  (tap video trong nhan (2) khac manifest (1): thieu [], thua ['v2'])
+  [PASS] B3c anh thua tren dia (khong co trong nhan) -> LoiDuLieu  (tap anh trong nhan (6) khac tren dia (7): thieu tren dia [], anh khong co trong nhan ['v1/)
+  [PASS] B3d anh thieu tren dia -> LoiDuLieu  (tap anh trong nhan (6) khac tren dia (5): thieu tren dia ['v2/v2-0000003.jpg'], anh khong )
+  [PASS] B3e w/h khai bao khac anh thuc -> LoiDuLieu  (C:\Users\Mikuno\AppData\Local\Temp\test_bdd_val_sx5lup1y\fx_wh\anh\v1\v1-0000001.jpg: nhan)
+  [PASS] B3f noi dung anh khac bang hash (cung ten, cung kich thuoc) -> LoiDuLieu  (noi dung anh khac bang hash: 1 anh lech, bang co 6 / doc 6)
+[du lieu] 6 anh, 2 video, GT {'car': 1, 'truck': 0, 'bus': 1, 'motorcycle': 1, 'bicycle': 1}, vung bo qua 2, kiem 0 s
+[gia] mAP50 1.0000  mAP50-95 0.6750  car:AP50=1.000  truck:AP50=nan  bus:AP50=1.000  motorcycle:AP50=1.000  bicycle:AP50=1.000
+[LOI] C:\Users\Mikuno\AppData\Local\Temp\test_bdd_val_sx5lup1y\ra da ton tai -- khong ghi de ket qua cu
+[LOI CHECKPOINT] gia: C:\Users\Mikuno\AppData\Local\Temp\test_bdd_val_sx5lup1y\ck.pt sha256 acf5aee9804d9494 khac khai bao ffffffffffffffff
+[LOI] --model ['gia'] va --sha256 ['khac'] khong cung tap ten
+  [PASS] B4a main() exit 0; ket_qua.json + theo_lop.csv + du_doan_gia.npz; so anh du doan = 6  (rc 0)
+  [PASS] B4b metric trong ket_qua = eval_detector_5lop.danh_gia goi truc tiep (cung GT + du doan), metric > 0  ({'so_lop_co_gt': 4, 'lop_khong_co_gt': ['truck'], 'mAP50': 1.0, 'mAP50_95': 0.675, 'precision_vh': 0.3208333333333333, 'recall_vh': 1.0} vs {'so_lop_co_gt': 4, 'lop_khong_co_gt': ['truck'], 'mAP50': 1.0, 'mAP50_95': 0.675, 'precision_vh': 0.3208333333333333, 'recall_vh': 1.0})
+  [PASS] B4c ket qua ghi quy tac GT + danh tinh du lieu (sha256 nhan, doi chieu hash)
+  [PASS] B4d thu muc ra da ton tai -> exit 1 (khong ghi de)  (rc 1)
+  [PASS] B4e sha256 checkpoint sai -> exit 2, KHONG goi du doan, khong tao thu muc  (rc 2)
+  [PASS] B4f ten --model / --sha256 khong khop -> exit 2  (rc 2)
+
+KET QUA: 19/19 PASS
+# exit=0

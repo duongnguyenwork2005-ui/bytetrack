@@ -1,0 +1,286 @@
+{
+ "tao_luc": "2026-10-06T20:17:35+07:00",
+ "moi_truong": {
+  "python": "3.11.9",
+  "torch": "2.6.0+cu124",
+  "ultralytics": "8.4.141"
+ },
+ "checkpoint": [
+  {
+   "ten": "yolov8n_coco",
+   "duong_dan": "models/yolov8n.pt",
+   "bytes": 6549796,
+   "sha256_mong_doi": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+   "sha256_file": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+   "sha256_khop": true,
+   "cau_truc": {
+    "khoa": [
+     "best_fitness",
+     "date",
+     "docs",
+     "ema",
+     "epoch",
+     "license",
+     "model",
+     "optimizer",
+     "train_args",
+     "updates",
+     "version"
+    ],
+    "kieu_model": "DetectionModel",
+    "ema": null,
+    "optimizer": null,
+    "epoch": -1,
+    "version": "8.0.0.dev0",
+    "date": "2022-12-30T00:12:08.084698",
+    "so_tensor_state_dict": 355,
+    "so_tensor_so_thuc": 298,
+    "so_tham_so": 3157200,
+    "dtype_tham_so": [
+     "torch.float16"
+    ],
+    "train_args_chinh": {
+     "model": "yolov8n.yaml",
+     "data": "coco.yaml",
+     "epochs": 500,
+     "imgsz": 640,
+     "batch": 16,
+     "optimizer": "SGD",
+     "seed": 0,
+     "name": "yolov8n"
+    }
+   },
+   "tensor_huu_han": {
+    "so_tensor_kiem": 298,
+    "khong_huu_han": [],
+    "dat": true
+   },
+   "lop": {
+    "so_lop": 80,
+    "loai_checkpoint": "coco80",
+    "loai_mong_doi": "coco80",
+    "ten_0_4": [
+     "person",
+     "bicycle",
+     "car",
+     "motorcycle",
+     "airplane"
+    ],
+    "anh_xa_sang_lop5": {
+     "loai_checkpoint": "coco80",
+     "so_lop_model": 80,
+     "model_id_sang_lop5": {
+      "1": 4,
+      "2": 0,
+      "3": 3,
+      "5": 2,
+      "7": 1
+     },
+     "ten": {
+      "1": "bicycle",
+      "2": "car",
+      "3": "motorcycle",
+      "5": "bus",
+      "7": "truck"
+     },
+     "lop5": [
+      "car",
+      "truck",
+      "bus",
+      "motorcycle",
+      "bicycle"
+     ]
+    },
+    "dat": true
+   },
+   "dat": true
+  },
+  {
+   "ten": "yolov8n_ft",
+   "duong_dan": "models/finetune_phase2/train_bdd5_v1_yolov8n_day_du/weights/best.pt",
+   "bytes": 6222691,
+   "sha256_mong_doi": "5f66776d3202389ca484f3d9e2f107dddb354d21a9f1762d19401d690a4a0d8a",
+   "sha256_file": "5f66776d3202389ca484f3d9e2f107dddb354d21a9f1762d19401d690a4a0d8a",
+   "sha256_khop": true,
+   "cau_truc": {
+    "khoa": [
+     "best_fitness",
+     "date",
+     "docs",
+     "ema",
+     "epoch",
+     "git",
+     "license",
+     "model",
+     "optimizer",
+     "scaler",
+     "train_args",
+     "train_metrics",
+     "train_results",
+     "updates",
+     "version"
+    ],
+    "kieu_model": "DetectionModel",
+    "ema": null,
+    "optimizer": null,
+    "epoch": -1,
+    "version": "8.4.141",
+    "date": "2026-10-05T09:36:29.512081+07:00",
+    "so_tensor_state_dict": 355,
+    "so_tensor_so_thuc": 298,
+    "so_tham_so": 3011823,
+    "dtype_tham_so": [
+     "torch.float16"
+    ],
+    "train_args_chinh": {
+     "model": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolov8n_day_du\\khoi_phuc\\nguon_tiep_tuc_2.pt",
+     "data": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1\\data.yaml",
+     "epochs": 15,
+     "imgsz": 640,
+     "batch": 8,
+     "optimizer": "SGD",
+     "seed": 0,
+     "name": "train_bdd5_v1_yolov8n_day_du"
+    }
+   },
+   "tensor_huu_han": {
+    "so_tensor_kiem": 298,
+    "khong_huu_han": [],
+    "dat": true
+   },
+   "lop": {
+    "so_lop": 5,
+    "loai_checkpoint": "lop5",
+    "loai_mong_doi": "lop5",
+    "ten_0_4": [
+     "car",
+     "truck",
+     "bus",
+     "motorcycle",
+     "bicycle"
+    ],
+    "anh_xa_sang_lop5": {
+     "loai_checkpoint": "lop5",
+     "so_lop_model": 5,
+     "model_id_sang_lop5": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+     },
+     "ten": {
+      "0": "car",
+      "1": "truck",
+      "2": "bus",
+      "3": "motorcycle",
+      "4": "bicycle"
+     },
+     "lop5": [
+      "car",
+      "truck",
+      "bus",
+      "motorcycle",
+      "bicycle"
+     ]
+    },
+    "dat": true
+   },
+   "dat": true
+  },
+  {
+   "ten": "yolo11n_ft",
+   "duong_dan": "models/finetune_phase2/train_bdd5_v1_yolo11n_day_du/weights/best.pt",
+   "bytes": 5445075,
+   "sha256_mong_doi": "d7d1c7e86d03c69d913febe79e4cbb6c2e1bcf9f17f034724af4de2ccfba7923",
+   "sha256_file": "d7d1c7e86d03c69d913febe79e4cbb6c2e1bcf9f17f034724af4de2ccfba7923",
+   "sha256_khop": true,
+   "cau_truc": {
+    "khoa": [
+     "best_fitness",
+     "date",
+     "docs",
+     "ema",
+     "epoch",
+     "git",
+     "license",
+     "model",
+     "optimizer",
+     "scaler",
+     "train_args",
+     "train_metrics",
+     "train_results",
+     "updates",
+     "version"
+    ],
+    "kieu_model": "DetectionModel",
+    "ema": null,
+    "optimizer": null,
+    "epoch": -1,
+    "version": "8.4.141",
+    "date": "2026-10-06T11:53:02.289723+07:00",
+    "so_tensor_state_dict": 499,
+    "so_tensor_so_thuc": 418,
+    "so_tham_so": 2590815,
+    "dtype_tham_so": [
+     "torch.float16"
+    ],
+    "train_args_chinh": {
+     "model": "D:\\LABOTARY\\bytetrack\\models\\candidates\\yolo11n.pt",
+     "data": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1\\data.yaml",
+     "epochs": 15,
+     "imgsz": 640,
+     "batch": 8,
+     "optimizer": "SGD",
+     "seed": 0,
+     "name": "train_bdd5_v1_yolo11n_day_du"
+    }
+   },
+   "tensor_huu_han": {
+    "so_tensor_kiem": 418,
+    "khong_huu_han": [],
+    "dat": true
+   },
+   "lop": {
+    "so_lop": 5,
+    "loai_checkpoint": "lop5",
+    "loai_mong_doi": "lop5",
+    "ten_0_4": [
+     "car",
+     "truck",
+     "bus",
+     "motorcycle",
+     "bicycle"
+    ],
+    "anh_xa_sang_lop5": {
+     "loai_checkpoint": "lop5",
+     "so_lop_model": 5,
+     "model_id_sang_lop5": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+     },
+     "ten": {
+      "0": "car",
+      "1": "truck",
+      "2": "bus",
+      "3": "motorcycle",
+      "4": "bicycle"
+     },
+     "lop5": [
+      "car",
+      "truck",
+      "bus",
+      "motorcycle",
+      "bicycle"
+     ]
+    },
+    "dat": true
+   },
+   "dat": true
+  }
+ ],
+ "dat_ca_ba": true
+}
