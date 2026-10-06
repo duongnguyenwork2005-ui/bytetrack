@@ -1,6 +1,6 @@
 # Kế hoạch huấn luyện detector 5 lớp (YOLOv8n, YOLO11n) — bản để review
 
-Trạng thái: **training dài đã được người dùng duyệt ở vòng 42** (đoạn **Vòng 42** bên dưới). Vòng 27 chỉ làm chuẩn bị và smoke. Phạm vi chung: `handoff/PLAN_DA_CHOT.md`.
+Trạng thái: **training dài đã chạy xong ở vòng 42** cho cả hai model (đoạn **Vòng 42** bên dưới); đánh giá test chờ duyệt. Vòng 27 chỉ làm chuẩn bị và smoke. Phạm vi chung: `handoff/PLAN_DA_CHOT.md`.
 Cập nhật vòng 28 (review `4937c85`): thêm hợp đồng kiểm dataset dùng chung (mục 1) và sửa diễn giải về kiểm trùng và
 batch 16 (mục 1, 4). Cập nhật vòng 29 (review `07615ba`, R28-F1): chính sách **cache ảnh** (mục 1, mục 3). Số epoch,
 bước frame và ngân sách **chưa được duyệt** và không đổi.
@@ -77,6 +77,18 @@ duyệt training dài** (2026-10-03):
 - Ngân sách dự toán 56,64 h, kịch bản chậm hơn 73,95 h (mục 5a; không bảo đảm).
 
 Kế hoạch lượt (tên, thư mục, khởi chạy độc lập, theo dõi, phục hồi): `logs/review42/02_ke_hoach_luot_dai.md`.
+
+**Kết quả vòng 42** (dev nội bộ, validation của Ultralytics; **không phải test**):
+
+| | YOLOv8n | YOLO11n |
+|:--|:--|:--|
+| Epoch | 15/15 (3 lần chạy, resume 2 lần) | 15/15 (1 lần) |
+| `best.pt` | epoch 15, `5f66776d…` | epoch 13, `d7d1c7e8…` |
+| mAP50-95 / mAP50 (`final_eval`) | 0,280 / 0,435 | 0,272 / 0,416 |
+| Thời gian runner | 28,8 h | 30,2 h |
+
+YOLOv8n có loss NaN giữa epoch 12 (lần 1), chưa xác định nguyên nhân. Đã dừng, resume từ checkpoint epoch 11 sạch,
+và lần 2 không tái diễn. Chi tiết: `REVIEW42_CHI_TIET.md`.
 
 Tài liệu này dùng ba nhãn nguồn số liệu:
 

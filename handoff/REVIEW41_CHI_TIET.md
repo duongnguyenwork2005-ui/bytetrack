@@ -10,7 +10,7 @@ bàn giao, rồi **dừng**.
 > **Theo dõi vòng 42**: Codex `6c8e37a` PASS WITH LIMITATIONS, đóng R40-N1 / R40-N2 trong phạm vi chuẩn bị resume thật.
 > **Đính chính R41-N1** (chỉ câu chữ, mục 3 bước 4): bản trước ghi "đọc lại" sau khi ghi. Đúng là mã kiểm nội dung mới và
 > hash file tạm trước khi thay file đích; không đọc lại CSV đích sau `os.replace`; test đọc lại output để xác nhận. Không
-> đổi mã, tiêu chí hay số liệu.
+> đổi mã, tiêu chí hay số liệu. Vòng 42 cũng chạy training dài; xem `REVIEW42_CHI_TIET.md`.
 
 ## 0. Trạng thái đầu vòng
 
