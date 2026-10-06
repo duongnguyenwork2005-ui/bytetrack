@@ -13,6 +13,10 @@ COCO-video tu tao) trong thu muc tam. Khong dung BDD val that, khong nap model t
       / theo_lop.csv / npz; metric = `eval_detector_5lop.danh_gia` goi truc tiep tren cung GT + du doan; so anh du doan
       = so anh; thu muc ra da ton tai -> exit 1; sha256 checkpoint sai -> exit 2 va KHONG goi du doan; ten
       --model / --sha256 khong khop -> exit 2.
+  B5  (vong 44, R43-N1) nguong van hanh HIEU LUC qua entry point `main()`; nguong scorer bat bang ham boc quanh
+      `danh_gia` THAT: mac dinh -> metadata `quy_tac.van_hanh` = nguong scorer = 0.25; `--conf-van-hanh 0.5` -> ca hai
+      0.5, P/R + chan doan = goi truc tiep voi 0.5; hai lan goi lien tiep (0.4 roi mac dinh) trong cung tien trinh ->
+      moi lan dung nguong cua no, `QUY_TAC` dung chung va mac dinh CLI van 0.25 (khong ro ri cau hinh).
 
     python src/test_danh_gia_bdd_val.py
 """
@@ -216,10 +220,10 @@ def nhom_b(tmp: Path) -> None:
     goc = m.du_doan_ultralytics
     m.du_doan_ultralytics = gia_lap
     try:
-        def chay(out, sha_ck, ten_sha="gia"):
+        def chay(out, sha_ck, ten_sha="gia", them=()):
             argv = ["x", "--nhan-cocovid", str(fx["nhan"]), "--anh-goc", str(fx["anh"]), "--manifest-video",
                     str(fx["manifest"]), "--hash-anh", str(fx["hash"]), "--model", f"gia={ck}",
-                    "--sha256", f"{ten_sha}={sha_ck}", "--out", str(out), "--device", "cpu"]
+                    "--sha256", f"{ten_sha}={sha_ck}", "--out", str(out), "--device", "cpu", *them]
             cu = sys.argv
             sys.argv = argv
             try:
@@ -251,6 +255,62 @@ def nhom_b(tmp: Path) -> None:
                rc3 == 2 and len(goi) == n_goi and not (tmp / "ra_sai_sha").exists(), f"rc {rc3}")
         rc4 = chay(tmp / "ra_ten", sha(ck), ten_sha="khac")
         _check("B4f ten --model / --sha256 khong khop -> exit 2", rc4 == 2 and not (tmp / "ra_ten").exists(), f"rc {rc4}")
+
+        # B5 (vong 44, R43-N1): nguong van hanh HIEU LUC. Nguong scorer THUC dung = gia tri `danh_gia` that tra ve
+        # (`van_hanh`), bat bang ham boc; metadata, scorer va chan doan phai cung mot gia tri; QUY_TAC khong doi.
+        goc_dg = m.danh_gia
+        nguong_scorer = []
+
+        def dg_theo_doi(*a, **kw):
+            r_ = goc_dg(*a, **kw)
+            nguong_scorer.append(dict(r_["van_hanh"]))
+            return r_
+        anh_chup = json.dumps(ev.QUY_TAC, sort_keys=True)
+        m.danh_gia = dg_theo_doi
+        try:
+            def chay_nguong(ten_out, nguong):
+                o = tmp / ten_out
+                rc_ = chay(o, sha(ck), them=[] if nguong is None else ["--conf-van-hanh", str(nguong)])
+                k_ = json.loads((o / "ket_qua.json").read_text(encoding="utf-8")) if (o / "ket_qua.json").exists() else {}
+                return rc_, k_, (nguong_scorer[-1] if nguong_scorer else None)
+
+            def khop(k_, ns, mong):
+                qt_ = k_.get("quy_tac", {}).get("van_hanh", {})
+                mh_ = k_.get("mo_hinh", {}).get("gia", {})
+                return (qt_.get("conf") == mong and ns is not None and ns.get("conf") == mong and qt_ == ns
+                        and mh_.get("van_hanh", {}).get("conf") == mong
+                        and f"so_det_conf_ge_{mong}_tren_anh_khong_gt" in mh_.get("chan_doan", {}))
+
+            def mo_ta(rc_, k_, ns):
+                return f"rc {rc_}, metadata {k_.get('quy_tac', {}).get('van_hanh')}, scorer {ns}"
+
+            nguong_scorer.clear()
+            rc5a, k5a, ns5a = chay_nguong("ra_b5a", None)
+            _check("B5a mac dinh (khong --conf-van-hanh): metadata quy_tac.van_hanh = nguong scorer = 0.25",
+                   rc5a == 0 and khop(k5a, ns5a, 0.25), mo_ta(rc5a, k5a, ns5a))
+            nguong_scorer.clear()
+            rc5b, k5b, ns5b = chay_nguong("ra_b5b", 0.5)
+            tt5 = ev.danh_gia(gt, dd, 0.5)
+            mh5, mh5a = k5b.get("mo_hinh", {}).get("gia", {}), k5a.get("mo_hinh", {}).get("gia", {})
+            vh_khop = bool(mh5) and all(mh5["theo_lop"][c]["van_hanh"] == ev._json_safe(tt5["theo_lop"][c]["van_hanh"])
+                                        for c in tt5["theo_lop"])
+            khac_025 = bool(mh5) and bool(mh5a) and any(mh5["theo_lop"][c]["van_hanh"] != mh5a["theo_lop"][c]["van_hanh"]
+                                                        for c in tt5["theo_lop"])
+            _check("B5b --conf-van-hanh 0.5: metadata = nguong scorer = 0.5; P/R + chan doan = goi truc tiep voi 0.5 "
+                   "(khac ket qua 0.25)", rc5b == 0 and khop(k5b, ns5b, 0.5) and vh_khop and khac_025
+                   and mh5.get("chan_doan") == m.chan_doan(gt, dd, 0.5), mo_ta(rc5b, k5b, ns5b))
+            nguong_scorer.clear()
+            rc5c1, k5c1, ns5c1 = chay_nguong("ra_b5c_1", 0.4)
+            rc5c2, k5c2, ns5c2 = chay_nguong("ra_b5c_2", None)
+            _check("B5c 2 lan goi lien tiep trong cung tien trinh (0.4 roi mac dinh): moi lan dung nguong cua no; QUY_TAC "
+                   "dung chung + mac dinh CLI van 0.25",
+                   rc5c1 == 0 and rc5c2 == 0 and khop(k5c1, ns5c1, 0.4) and khop(k5c2, ns5c2, 0.25)
+                   and json.dumps(ev.QUY_TAC, sort_keys=True) == anh_chup and ev.QUY_TAC["van_hanh"]["conf"] == 0.25
+                   and m.QUY_TAC is ev.QUY_TAC,
+                   f"lan 1: {mo_ta(rc5c1, k5c1, ns5c1)} | lan 2: {mo_ta(rc5c2, k5c2, ns5c2)} | "
+                   f"QUY_TAC.van_hanh {ev.QUY_TAC['van_hanh']}")
+        finally:
+            m.danh_gia = goc_dg
     finally:
         m.du_doan_ultralytics = goc
 

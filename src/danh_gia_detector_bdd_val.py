@@ -6,7 +6,11 @@ Vi sao co file nay (vong 43): `eval_detector_5lop.py` (evaluator 5 lop da nghiem
 + mot file nhan COCO-video, nen evaluator KHONG co duong vao (tai hien: logs/review43/02_tai_hien_chan_bdd_val.log).
 File nay CHI them buoc DOC GT; du doan, ghep, AP va van hanh dung NGUYEN ham cua evaluator:
     du_doan_ultralytics (imgsz 640, conf 0.001, NMS IoU 0.7 theo lop, max_det 300, FP32, loc lop theo TEN truoc NMS),
-    danh_gia (ghep COCO, vung bo qua theo IoA, AP 101 diem x 10 nguong IoU, van hanh conf 0.25 / IoU 0.5), luu_du_doan.
+    danh_gia (ghep COCO, vung bo qua theo IoA, AP 101 diem x 10 nguong IoU, van hanh conf `--conf-van-hanh` (mac dinh
+    0.25) / IoU 0.5), luu_du_doan.
+Cau hinh HIEU LUC (vong 44, R43-N1): moi luot dung `quy_tac_hieu_luc(conf)` -- ban SAO SAU cua `QUY_TAC` mang nguong van
+hanh thuc dung; metadata `ket_qua.json` -> `quy_tac`, scorer `danh_gia` va `chan_doan` cung lay nguong tu ban sao nay
+(scorer tra ve nguong khac -> exit 3). Hang dung chung `QUY_TAC` KHONG bi sua (khong ro ri giua cac lan goi).
 
 GT tu COCO-video -- dung NGUYEN quy tac cua exporter 5 lop (`bdd_yolo_export`, da nghiem thu cho train / dev):
   - doc nhan bang `NguonCocoVid` (iscrowd, ignore giu nguyen cua file; KHONG sua 183 lech lop / 50 ngoai le ignore so voi
@@ -30,6 +34,7 @@ Kiem truoc moi du doan (sai -> exit 2, khong du doan):
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import datetime as dt
 import hashlib
@@ -152,6 +157,14 @@ def kiem_va_doc_gt(nhan: Path, anh_goc: Path, manifest: Path, hash_anh: Path | N
     return danh_tinh, anh, gt
 
 
+def quy_tac_hieu_luc(conf_van_hanh: float) -> dict:
+    """Cau hinh HIEU LUC cua MOT luot (R43-N1): ban SAO SAU cua `QUY_TAC` voi nguong van hanh thuc dung. Metadata,
+    scorer va chan doan cung lay nguong tu day; `QUY_TAC` dung chung khong bi sua."""
+    qt = copy.deepcopy(QUY_TAC)
+    qt["van_hanh"]["conf"] = float(conf_van_hanh)
+    return qt
+
+
 def chan_doan(gt: list[dict], dd: list[dict], conf: float) -> dict:
     """So detection conf >= conf tren anh khong co GT 5 lop (chi de mo ta, khong doi metric)."""
     n_khong_gt = sum(1 for g in gt if len(g["cls"]) == 0)
@@ -201,22 +214,28 @@ def main() -> int:
     if a.gioi_han_anh:
         anh, gt = anh[:a.gioi_han_anh], gt[:a.gioi_han_anh]
     out.mkdir(parents=True)
-    kq = {"tao_luc": dt.datetime.now().isoformat(timespec="seconds"), "quy_tac": QUY_TAC, "quy_tac_gt": QUY_TAC_GT,
+    qt = quy_tac_hieu_luc(a.conf_van_hanh)                  # R43-N1: MOT nguon nguong cho metadata / scorer / chan doan
+    conf_vh = qt["van_hanh"]["conf"]
+    kq = {"tao_luc": dt.datetime.now().isoformat(timespec="seconds"), "quy_tac": qt, "quy_tac_gt": QUY_TAC_GT,
           "dataset": {"ten": "bdd100k_mot_val_cocovid", "n_anh": len(anh), "gioi_han_anh": a.gioi_han_anh,
                       "dataset_da_xac_minh": danh_tinh},
           "lenh": [sys.executable, *sys.argv], "mo_hinh": {}}
     rows = []
     for ten, w in mo_hinh.items():
         t1 = dt.datetime.now()
-        dd, mt = du_doan_ultralytics(str(p_abs(w)), anh, QUY_TAC["du_doan"], a.batch, a.device)
+        dd, mt = du_doan_ultralytics(str(p_abs(w)), anh, qt["du_doan"], a.batch, a.device)
         if len(dd) != len(anh):
             print(f"[LOI] {ten}: {len(dd)} ket qua du doan cho {len(anh)} anh", file=sys.stderr)
             return 3
         luu_du_doan(out / f"du_doan_{ten}.npz", anh, dd)
-        r = danh_gia(gt, dd, a.conf_van_hanh)
+        r = danh_gia(gt, dd, conf_vh)
+        if r.get("van_hanh") != qt["van_hanh"]:
+            print(f"[LOI] {ten}: nguong van hanh cua scorer {r.get('van_hanh')} khac cau hinh hieu luc {qt['van_hanh']}",
+                  file=sys.stderr)
+            return 3
         kq["mo_hinh"][ten] = {"checkpoint": w, "sha256": sha_kb[ten], "anh_xa_lop": mt,
                               "so_anh_da_du_doan": len(dd), "thoi_gian_s": round((dt.datetime.now() - t1).total_seconds(), 1),
-                              "chan_doan": chan_doan(gt, dd, a.conf_van_hanh), **r}
+                              "chan_doan": chan_doan(gt, dd, conf_vh), **r}
         for lop, v in r["theo_lop"].items():
             rows.append({"mo_hinh": ten, "lop": lop, "n_gt": v["n_gt"], "AP50": v["AP50"], "AP50_95": v["AP50_95"],
                          "precision_vh": v["van_hanh"]["precision"], "recall_vh": v["van_hanh"]["recall"]})
