@@ -1,0 +1,103 @@
+# 2026-10-03T19:27:08+07:00 chay_giam_sat: pid 13100 create_time 1791030428.2275984
+# lenh: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe -u src\train_detector.py --model yolov8n --che-do day-du --xac-nhan-train-dai
+[+    195.3s] New https://pypi.org/project/ultralytics/8.4.172 available  Update with 'pip install -U ultralytics'
+[+    195.3s] Ultralytics 8.4.141  Python-3.11.9 torch-2.6.0+cu124 CUDA:0 (NVIDIA GeForce GTX 1650, 4096MiB)
+[+    195.8s] [34m[1mengine\trainer: [0magnostic_nms=False, amp=False, angle=1.0, augment=False, auto_augment=randaugment, batch=8, bgr=0.0, box=7.5, cache=False, cfg=None, channels_last=None, classes=None, close_mosaic=2, cls=0.5, cls_pw=0.0, cls_remap=True, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=D:\LABOTARY\bytetrack\data\yolo_bdd5_v1\data.yaml, degrees=0.0, deterministic=True, device=0, dfl=1.5, dgrad=0.5, dis=6.0, distill_model=None, dlam=1.0, dlog=1.0, dnn=False, dropout=0.0, dynamic=False, embed=None, end2end=None, epochs=15, erasing=0.4, exist_ok=False, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=640, iou=0.7, keras=False, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=D:\LABOTARY\bytetrack\models\yolov8n.pt, momentum=0.937, mosaic=1.0, multi_scale=0.0, name=train_bdd5_v1_yolov8n_day_du, nbs=64, nms=False, opset=None, optimize=False, optimizer=SGD, overlap_mask=True, patience=5, perspective=0.0, plots=False, pose=12.0, pretrained=True, profile=False, project=D:\LABOTARY\bytetrack\models\finetune_phase2, quantize=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=D:\LABOTARY\bytetrack\models\finetune_phase2\train_bdd5_v1_yolov8n_day_du, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=0, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=tracktrack.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=1.0, warmup_momentum=0.8, weight_decay=0.0005, workers=2, workspace=None
+[+    196.0s] Overriding model.yaml nc=80 with nc=5
+[+    196.0s]                    from  n    params  module                                       arguments                     
+[+    196.1s]   0                  -1  1       464  ultralytics.nn.modules.conv.Conv             [3, 16, 3, 2]                 
+[+    196.1s]   1                  -1  1      4672  ultralytics.nn.modules.conv.Conv             [16, 32, 3, 2]                
+[+    196.1s]   2                  -1  1      7360  ultralytics.nn.modules.block.C2f             [32, 32, 1, True]             
+[+    196.1s]   3                  -1  1     18560  ultralytics.nn.modules.conv.Conv             [32, 64, 3, 2]                
+[+    196.1s]   4                  -1  2     49664  ultralytics.nn.modules.block.C2f             [64, 64, 2, True]             
+[+    196.1s]   5                  -1  1     73984  ultralytics.nn.modules.conv.Conv             [64, 128, 3, 2]               
+[+    196.1s]   6                  -1  2    197632  ultralytics.nn.modules.block.C2f             [128, 128, 2, True]           
+[+    196.1s]   7                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]              
+[+    196.1s]   8                  -1  1    460288  ultralytics.nn.modules.block.C2f             [256, 256, 1, True]           
+[+    196.1s]   9                  -1  1    164608  ultralytics.nn.modules.block.SPPF            [256, 256, 5]                 
+[+    196.1s]  10                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+[+    196.1s]  11             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+[+    196.1s]  12                  -1  1    148224  ultralytics.nn.modules.block.C2f             [384, 128, 1]                 
+[+    196.1s]  13                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+[+    196.1s]  14             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+[+    196.1s]  15                  -1  1     37248  ultralytics.nn.modules.block.C2f             [192, 64, 1]                  
+[+    196.1s]  16                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+[+    196.1s]  17            [-1, 12]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+[+    196.1s]  18                  -1  1    123648  ultralytics.nn.modules.block.C2f             [192, 128, 1]                 
+[+    196.1s]  19                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+[+    196.1s]  20             [-1, 9]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+[+    196.1s]  21                  -1  1    493056  ultralytics.nn.modules.block.C2f             [384, 256, 1]                 
+[+    196.1s]  22        [15, 18, 21]  1    752287  ultralytics.nn.modules.head.Detect           [5, 16, None, [64, 128, 256]] 
+[+    196.4s] Model summary: 129 layers, 3,011,823 parameters, 3,011,807 gradients, 8.2 GFLOPs
+[+    196.4s] Remapped 5/5 cls head rows from pretrained weights by class name
+[+    196.4s] Transferred 322/355 items from pretrained weights
+[+    196.8s] Freezing layer 'model.22.dfl.conv.weight'
+[+    197.8s] [34m[1mtrain: [0mFast image access  (ping: 0.10.1 ms, read: 250.5106.1 MB/s, size: 104.1 KB)
+[+    235.6s] [K[34m[1mtrain: [0mScanning D:\LABOTARY\bytetrack\data\yolo_bdd5_v1\labels\train... 50487 images, 686 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 50487/50487 1.7Kit/s 30.2s
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000021.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000026.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000031.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000036.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000041.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000046.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000051.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000056.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000061.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000066.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000071.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000076.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000081.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000086.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000091.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000096.jpg: 1 duplicate labels removed
+[+    235.6s] [34m[1mtrain: [0mD:\LABOTARY\bytetrack\data\yolo_bdd5_v1\images\train\0309a59f-1c34bcb8-0000101.jpg: 1 duplicate labels removed
+[+    241.3s] [34m[1mtrain: [0mNew cache created: D:\LABOTARY\bytetrack\data\yolo_bdd5_v1\labels\train.cache
+[+    252.4s] [34m[1mval: [0mFast image access  (ping: 0.20.1 ms, read: 191.879.1 MB/s, size: 111.4 KB)
+[+    256.7s] [K[34m[1mval: [0mScanning D:\LABOTARY\bytetrack\data\yolo_bdd5_v1\labels\dev... 5559 images, 95 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 5559/5559 1.7Kit/s 3.3s
+[+    257.0s] [34m[1mval: [0mNew cache created: D:\LABOTARY\bytetrack\data\yolo_bdd5_v1\labels\dev.cache
+[+    276.0s] [34m[1moptimizer:[0m SGD(lr=0.01, momentum=0.937) with parameter groups 57 weight(decay=0.0), 64 weight(decay=0.0005), 63 bias(decay=0.0)
+[+    295.2s] Using 50487 train, 5559 val images for fraction=1.0 at imgsz=640
+[+    295.2s] Using 2 dataloader workers
+[+    295.2s] Logging results to [1mD:\LABOTARY\bytetrack\models\finetune_phase2\train_bdd5_v1_yolov8n_day_du[0m
+[+    295.2s] Starting training for 15 epochs...
+[+    297.7s]       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+[+    299.9s] [K       1/15      2.09G      1.802      4.644      1.467         89        640: 0% ──────────── 0/6311  3.6s
+[+   6233.9s] [K       1/15      2.09G      1.326      1.148      1.066        115        640: 100% ━━━━━━━━━━━━ 6311/6311 1.1it/s 1:38:59
+[+   6308.4s] [K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 348/348 4.9it/s 1:11
+[+   6311.0s]                    all       5559      46799      0.308      0.253      0.233      0.143
+[+   6313.7s]       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+[+   6315.9s] [K       2/15      2.09G      1.564      1.058      1.065        174        640: 0% ──────────── 0/6311  1.2s
+[+  12259.9s] [K       2/15      2.09G      1.282     0.9593      1.042        169        640: 100% ━━━━━━━━━━━━ 6311/6311 1.1it/s 1:39:06
+[+  12321.5s] [K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 348/348 6.0it/s 58.3s
+[+  12323.2s]                    all       5559      46799      0.387      0.307      0.282      0.176
+[+  12324.2s]       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+[+  12326.2s] [K       3/15      2.09G      1.112     0.8066      1.082         95        640: 0% ──────────── 0/6311  1.1s
+[+  18219.7s] [K       3/15      2.09G      1.213     0.8645      1.014         75        640: 100% ━━━━━━━━━━━━ 6311/6311 1.1it/s 1:38:16
+[+  18279.6s] [K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 348/348 6.1it/s 56.7s
+[+  18281.1s]                    all       5559      46799      0.456      0.365      0.343       0.22
+[+  18282.1s]       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+[+  18284.1s] [K       4/15      2.09G      1.101      0.732      1.052         90        640: 0% ──────────── 0/6311  1.1s
+[+  24167.6s] [K       4/15      2.11G      1.177     0.8181     0.9973         97        640: 100% ━━━━━━━━━━━━ 6311/6311 1.1it/s 1:38:06
+[+  24227.6s] [K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 348/348 6.0it/s 57.9s
+[+  24229.1s]                    all       5559      46799      0.478      0.379       0.35      0.224
+[+  24229.8s]       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+[+  24231.8s] [K       5/15       2.1G      1.094     0.9101      1.003        142        640: 0% ──────────── 0/6311  1.1s
+[+  30111.9s] [K       5/15      2.11G      1.152     0.7859     0.9881        101        640: 100% ━━━━━━━━━━━━ 6311/6311 1.1it/s 1:38:02
+[+  30173.4s] [K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 348/348 5.9it/s 59.2s
+[+  30174.6s]                    all       5559      46799      0.486      0.384      0.375       0.24
+[+  30175.3s]       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+[+  30177.5s] [K       6/15       2.1G      1.115     0.7575     0.9694        135        640: 0% ──────────── 0/6311  1.2s
+[+  36052.5s] [K       6/15      2.11G      1.133     0.7632     0.9796        104        640: 100% ━━━━━━━━━━━━ 6311/6311 1.1it/s 1:37:57
+[+  36109.8s] [K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 348/348 6.3it/s 55.2s
+[+  36110.8s]                    all       5559      46799      0.514      0.382      0.388      0.251
+[+  36111.4s]       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+[+  36113.3s] [K       7/15      2.08G      1.092     0.7834     0.9556        172        640: 0% ──────────── 0/6311  1.0s
+[+  41988.3s] [K       7/15      2.09G      1.121     0.7474     0.9735        136        640: 100% ━━━━━━━━━━━━ 6311/6311 1.1it/s 1:37:57
+[+  42044.7s] [K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 348/348 6.4it/s 54.3s
+[+  42046.0s]                    all       5559      46799      0.496      0.411      0.393      0.252
+[+  42046.8s]       Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+[+  42048.9s] [K       8/15      2.09G      1.015     0.6495     0.9883        138        640: 0% ──────────── 0/6311  1.1s
+[+  47663.2s] [ket qua] D:\LABOTARY\bytetrack\results\phase2\detector_train\train_bdd5_v1_yolov8n_day_du.json
+[+  47663.3s] [BI NGAT] day-du yolov8n: loi=KeyboardInterrupt: bi ngat (Ctrl+C) trong luc train loi_callback=None loss_huu_han=None checkpoint=[] thoi_gian=47467.9 s vram_max=2805 MiB epoch_da_luu=[1, 2, 3, 4, 5, 6, 7]
+# 2026-10-04T08:41:38+07:00 ket thuc sau 47669.9 s
+# exit=130
