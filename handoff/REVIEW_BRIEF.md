@@ -1,70 +1,43 @@
-# REVIEW_BRIEF — vòng 43: đánh giá detector trên BDD100K MOT val (3 checkpoint); UA-DETRAC chờ quyết định
+# REVIEW_BRIEF — vòng 44: review `a03f6e1` — bổ sung mã phụ thuộc (R43-B1), sửa metadata ngưỡng vận hành (R43-N1)
 
 <!-- BASE_TARGET -->
 
-Chi tiết: **`handoff/REVIEW43_CHI_TIET.md`**. Kế hoạch khóa trước khi chạy: `handoff/logs/review43/04_ke_hoach_danh_gia.md`.
+Chi tiết: **`handoff/REVIEW44_CHI_TIET.md`**. Phạm vi: chỉ xử lý review `a03f6e1`. Không train, không chạy lại inference,
+không UA-DETRAC (D1–D5 chưa duyệt). Base **giữ `4d54744`**, vì review chưa PASS đầy đủ.
 
-**Phạm vi** (người dùng duyệt): đánh giá trên PC local cho baseline YOLOv8n COCO và `best.pt` của YOLOv8n / YOLO11n
-(vòng 42), trên BDD val và UA-DETRAC test. Không train, không tuning theo test. Báo cáo rồi dừng.
+## R43-B1 — bổ sung dependency (không phải lỗi evaluator)
 
-## Review `4d54744` — đã ghi nhận
+- Gói kèm **17 file không đổi** trong `support/` (cơ chế `--support`, blob target nguyên byte). Đây là bao đóng import của
+  entry point BDD, `test_danh_gia_bdd_val.py` và test evaluator cũ `test_detector_5lop.py`. Danh sách, vai trò và gói
+  Python ngoài: `logs/review44/phu_thuoc_python.md`.
+- **Hash**: `eval_detector_5lop` và `detector_classes` khớp bảng review. `bdd_yolo_export` (`1ca964b0`) và `bdd100k_coco`
+  (`5028ffb9`) trong bảng là hash **file trên đĩa (CRLF)**, đo lúc chạy; gói gửi blob LF (`2fbc2314`, `c6c3ad28`).
+  Đổi LF của blob thành CRLF thì trùng từng byte. Đây chỉ là EOL lúc checkout, không phải snapshot khác (`06_*`).
+- **Cây sạch ngoài repo** (`kiem_cay_sach.py`: mọi tiến trình được ghi nguồn mô-đun, 0 mô-đun từ repo gốc):
+  - test BDD **22/22**;
+  - test cũ **76/76 + 6 SKIP** khi không có weights, **92/92** khi có weights ngoài gói.
 
-PASS WITH LIMITATIONS cho hồ sơ training. Bằng chứng 10/10. Base → **`4d54744`**, giữ 13 khai báo. R42-N1/N2/N3 chỉ
-sửa câu chữ / bảng.
+## R43-N1 — metadata `--conf-van-hanh`
 
-## Chuẩn bị (trước khi xem metric)
+- Tái hiện bằng script reviewer: `bug_count 1`.
+- Sửa: `quy_tac_hieu_luc()` tạo bản sao sâu theo từng lượt; metadata, scorer và chẩn đoán dùng cùng ngưỡng; `QUY_TAC`
+  không bị sửa. Không đổi AP / ghép / ignore / NMS / ánh xạ lớp.
+- Regression B5 qua entry point:
+  - mã cũ **20/22** (bắt lỗi);
+  - biến thể sửa trực tiếp hằng **21/22** (bắt rò cấu hình);
+  - mã mới **22/22**.
 
-- Ba checkpoint kiểm trực tiếp từ file: sha256 khớp, nạp được, tensor hữu hạn, tên lớp đúng.
-- Evaluator đã nghiệm thu không đọc được BDD val (đã tái hiện: exit 2). Thêm điểm vào **chỉ đọc GT** theo quy tắc
-  exporter; dự đoán, ghép, AP dùng nguyên hàm evaluator. Test mới 19/19, gồm phép chứng minh GT trùng đường đã nghiệm
-  thu; suite liên quan 92/92.
-- Kế hoạch được khóa và commit trước lượt đầu; không sửa sau đó.
-
-## Kết quả BDD val — ĐÃ CHẠY
-
-3 lượt tuần tự, khởi chạy độc lập với phiên Claude. Mỗi lượt:
-- exit 0; 39.973/39.973 ảnh;
-- nhãn, tập video, tập ảnh, w/h và nội dung ảnh 39.973/39.973 khớp; sha256 checkpoint khớp.
-
-Kiểm hợp lệ 39/39. Tái tính metric từ dự đoán đã lưu trùng tuyệt đối `ket_qua.json`.
-
-| Model | mAP50 | mAP50–95 | Δ mAP50–95 (điểm) | P / R macro @ conf 0,25, IoU 0,5 |
-|:--|--:|--:|--:|:--|
-| `yolov8n_coco` (baseline) | 0,244 | 0,157 | — | 0,572 / 0,219 |
-| `yolov8n_ft` | 0,384 | 0,251 | +9,4 | 0,613 / 0,347 |
-| `yolo11n_ft` | 0,376 | 0,247 | +9,0 | 0,613 / 0,338 |
-
-AP50–95 theo lớp (số GT):
-
-| Lớp | baseline | `yolov8n_ft` | `yolo11n_ft` |
-|:--|--:|--:|--:|
-| car (341.436) | 0,337 | 0,518 | 0,514 |
-| truck (27.343) | 0,135 | 0,268 | 0,263 |
-| bus (9.087) | 0,201 | 0,298 | 0,280 |
-| motorcycle (902) | 0,058 | 0,080 | 0,080 |
-| bicycle (4.135) | 0,055 | 0,090 | 0,096 |
-
-mAP là trung bình 5 lớp. Ba model dùng cùng ảnh, cùng GT, cùng thiết lập.
-
-## UA-DETRAC test — CHƯA CHẠY
-
-Ánh xạ lớp chưa chốt. Cần người dùng quyết định:
-- `van` (38.519 box): vùng bỏ qua, hay GT car?
-- `others` (16.915 box): vùng bỏ qua, hay GT truck?
-- lớp báo AP (motorcycle / bicycle là N/A);
-- 173 ảnh không có `<frame>`: ảnh âm tính, hay loại?
-- `ignored_region`: dùng làm vùng bỏ qua theo IoA (đề xuất).
+  Script reviewer sau sửa: `bug_count 0`.
+- Ba lượt BDD vòng 43 dùng 0,25, nên lỗi không kích hoạt. Kết quả, checkpoint và file riêng không đổi (`07_*`).
 
 ## Giới hạn
 
-- Mỗi model một lượt, một seed; chênh lệch là mô tả, không kiểm định. Chênh 0,251 / 0,247 không đủ để chọn model.
-- Baseline là model COCO ánh xạ theo tên lớp. Chênh lệch với baseline gộp cả khác biệt miền dữ liệu lẫn định nghĩa lớp.
-- BDD val đã được xem ở các vòng trước, nhưng không dùng để chọn checkpoint. Kết quả dev nội bộ (vòng 42) để riêng.
-- P/R tại cùng conf 0,25 phụ thuộc độ hiệu chỉnh confidence của từng model.
-- Log trạng thái trước lượt `yolov8n_ft` được bù sau khi khởi chạy. Không đóng gói NPZ, checkpoint, dữ liệu; chỉ có hash.
+- Kiểm trên Windows, Python 3.11. Smart App Control chặn DLL của pyarrow, nên các lần kiểm dùng `--chan-pyarrow` (pandas
+  chạy không có pyarrow); lần chạy trong repo FAIL vì lý do này, log được giữ. Linux / 3.12 **chưa chạy**.
+- B5 và script reviewer chỉ kiểm tính nhất quán của ngưỡng, không chứng minh AP đúng.
 
-## Trạng thái
+## Kiểm gói cuối
 
-BDD val xong. **Chưa nghiệm thu.** UA-DETRAC chờ quyết định ánh xạ. So sánh bộ lọc, tracking và Nano chưa làm.
+Chạy `kiem_cay_sach.py --zip <gói>` (lệnh ở `phu_thuoc_python.md`). Kết quả của tác giả nằm trong tin nhắn bàn giao.
 
-**Nên xem**: `logs/review43/04_*`, `ket_qua/bang_ket_qua.md`, `ket_qua/kiem_hop_le.json`, `11_*`.
+**Nên xem**: `logs/review44/03_*`, `04_*`, `05_*`, `06_*`, `phu_thuoc_python.md`, `DEPENDENCIES.md` (mục support).
