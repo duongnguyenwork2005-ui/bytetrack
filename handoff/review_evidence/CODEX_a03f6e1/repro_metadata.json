@@ -1,0 +1,21 @@
+{
+  "scope": "Probe the new CLI's configuration metadata, not the AP implementation.\nUses the exact supplied entrypoint, with explicit dependency/test doubles.\nNo actual GT reader, predictor, scoring implementation, model or dataset is tested.",
+  "source_sha256": "d1e2fd22a01a5fa117e64d909b13434a1f5226b27b5c0ed0f768ddfb6cc84ba1",
+  "cases": [
+    {
+      "requested_conf": 0.25,
+      "scorer_received": 0.25,
+      "exit": 0,
+      "top_level_rules_conf": 0.25,
+      "model_rules_conf": 0.25
+    },
+    {
+      "requested_conf": 0.5,
+      "scorer_received": 0.5,
+      "exit": 0,
+      "top_level_rules_conf": 0.25,
+      "model_rules_conf": 0.5
+    }
+  ],
+  "bug_count": 1
+}

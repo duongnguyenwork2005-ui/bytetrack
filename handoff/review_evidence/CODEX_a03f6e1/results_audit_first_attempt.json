@@ -1,0 +1,762 @@
+{
+  "scope": "Independent arithmetic / cross-file audit of handed-over round-43 results.\nDoes NOT recompute AP from predictions, read real GT, or load checkpoints.",
+  "checks": [
+    {
+      "name": "yolov8n_coco: report checkpoint hash consistent",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco: monitor exit zero",
+      "pass": false
+    },
+    {
+      "name": "yolov8n_coco: complete image count",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco: no image limit",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco: 200 videos and image hash checks reported",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco: annotations partition",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco: effective conf agrees with rules",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/car: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/car: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/car: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/car: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/car: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/car: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/car: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/car: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/truck: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/truck: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/truck: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/truck: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/truck: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/truck: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/truck: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/truck: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bus: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bus: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bus: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bus: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bus: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bus: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bus: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bus: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/motorcycle: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/motorcycle: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/motorcycle: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/motorcycle: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/motorcycle: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/motorcycle: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/motorcycle: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/motorcycle: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bicycle: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bicycle: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bicycle: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bicycle: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bicycle: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bicycle: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bicycle: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco/bicycle: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco: macro mAP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco: macro mAP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco: macro precision_vh",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_coco: macro recall_vh",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: report checkpoint hash consistent",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: monitor exit zero",
+      "pass": false
+    },
+    {
+      "name": "yolov8n_ft: complete image count",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: no image limit",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: 200 videos and image hash checks reported",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: annotations partition",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: effective conf agrees with rules",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: common quy_tac",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: common quy_tac_gt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: identical dataset identity/counts",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/car: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/car: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/car: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/car: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/car: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/car: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/car: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/car: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/truck: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/truck: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/truck: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/truck: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/truck: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/truck: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/truck: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/truck: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bus: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bus: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bus: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bus: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bus: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bus: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bus: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bus: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/motorcycle: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/motorcycle: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/motorcycle: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/motorcycle: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/motorcycle: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/motorcycle: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/motorcycle: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/motorcycle: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bicycle: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bicycle: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bicycle: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bicycle: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bicycle: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bicycle: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bicycle: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bicycle: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: macro mAP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: macro mAP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: macro precision_vh",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft: macro recall_vh",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/car: delta AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/car: delta AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/truck: delta AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/truck: delta AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bus: delta AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bus: delta AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/motorcycle: delta AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/motorcycle: delta AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bicycle: delta AP50",
+      "pass": true
+    },
+    {
+      "name": "yolov8n_ft/bicycle: delta AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: report checkpoint hash consistent",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: monitor exit zero",
+      "pass": false
+    },
+    {
+      "name": "yolo11n_ft: complete image count",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: no image limit",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: 200 videos and image hash checks reported",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: annotations partition",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: effective conf agrees with rules",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: common quy_tac",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: common quy_tac_gt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: identical dataset identity/counts",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/car: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/car: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/car: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/car: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/car: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/car: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/car: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/car: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/truck: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/truck: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/truck: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/truck: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/truck: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/truck: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/truck: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/truck: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bus: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bus: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bus: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bus: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bus: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bus: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bus: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bus: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/motorcycle: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/motorcycle: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/motorcycle: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/motorcycle: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/motorcycle: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/motorcycle: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/motorcycle: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/motorcycle: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bicycle: GT and FN",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bicycle: P/R/F1 arithmetic",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bicycle: table AP50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bicycle: table AP75",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bicycle: table AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bicycle: table n_gt",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bicycle: table n_anh_co_lop",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bicycle: AP ordered/range",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: macro mAP50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: macro mAP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: macro precision_vh",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft: macro recall_vh",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/car: delta AP50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/car: delta AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/truck: delta AP50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/truck: delta AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bus: delta AP50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bus: delta AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/motorcycle: delta AP50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/motorcycle: delta AP50_95",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bicycle: delta AP50",
+      "pass": true
+    },
+    {
+      "name": "yolo11n_ft/bicycle: delta AP50_95",
+      "pass": true
+    },
+    {
+      "name": "entrypoint bytes match pre-run code hash",
+      "pass": true
+    }
+  ],
+  "passed": 177,
+  "failed": 3,
+  "models": [
+    {
+      "model": "yolov8n_coco",
+      "so_lop_co_gt": 5,
+      "lop_khong_co_gt": [],
+      "mAP50": 0.2439417100477798,
+      "mAP50_95": 0.15707284575072744,
+      "precision_vh": 0.5716428678417435,
+      "recall_vh": 0.21903970073058562,
+      "wall_seconds_monitor": 1143.1,
+      "detections_reported": 4920095
+    },
+    {
+      "model": "yolov8n_ft",
+      "so_lop_co_gt": 5,
+      "lop_khong_co_gt": [],
+      "mAP50": 0.3835045639728157,
+      "mAP50_95": 0.2506992858027398,
+      "precision_vh": 0.6131432584100055,
+      "recall_vh": 0.34657865899036233,
+      "wall_seconds_monitor": 1206.4,
+      "detections_reported": 4624928
+    },
+    {
+      "model": "yolo11n_ft",
+      "so_lop_co_gt": 5,
+      "lop_khong_co_gt": [],
+      "mAP50": 0.3757858771970387,
+      "mAP50_95": 0.2467297055830572,
+      "precision_vh": 0.6130155453381347,
+      "recall_vh": 0.3375114776501552,
+      "wall_seconds_monitor": 1181.4,
+      "detections_reported": 4661420
+    }
+  ]
+}
