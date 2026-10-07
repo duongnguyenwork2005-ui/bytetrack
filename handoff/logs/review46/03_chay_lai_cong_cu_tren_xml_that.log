@@ -1,0 +1,44 @@
+# 2026-10-07 17:59:22 +0700 HEAD 85b8eda -- chay lai cong cu DA SUA tren XML / anh that (CHI DOC, khong GPU, khong --anh-out)
+# lenh 1: python handoff/logs/review46/phan_tich_detrac_test.py --out handoff/logs/review46/phan_tich
+# exit=0
+# lenh 2: python handoff/logs/review46/dem_theo_phuong_an.py --out handoff/logs/review46/phan_tich/dem_theo_phuong_an.json --out-csv handoff/logs/review46/phan_tich/vung_tren_anh_khong_frame.csv
+_don_vi_vung_bo_qua_cong_moi_anh "so LUOT vung ap dung tren anh (dem lap qua anh): ignored_region cap sequence x so anh cham + box van / others chuyen thanh vung bo qua; KHONG phai so vung hinh hoc duy nhat"
+_so_ignored_region_hinh_hoc 163
+_anh_khong_frame 173
+_luot_ignored_region_tren_anh_khong_frame 265
+D1_van=bo_qua|D2_others=bo_qua|D4=loai_173 {"so_anh_cham": 56167, "gt_theo_lop": {"car": 548555, "bus": 71785}, "so_anh_co_lop": {"car": 55764, "bus": 30922}, "anh_khong_gt_hop_le": 72, "vung_bo_qua_cong_moi_anh": 275724, "lop_bao_AP": ["bus", "car"], "lop_NA": ["bicycle", "motorcycle", "truck"]}
+D1_van=bo_qua|D2_others=bo_qua|D4=giu_173_am_tinh {"so_anh_cham": 56340, "gt_theo_lop": {"car": 548555, "bus": 71785}, "so_anh_co_lop": {"car": 55764, "bus": 30922}, "anh_khong_gt_hop_le": 245, "vung_bo_qua_cong_moi_anh": 275989, "lop_bao_AP": ["bus", "car"], "lop_NA": ["bicycle", "motorcycle", "truck"]}
+D1_van=bo_qua|D2_others=truck|D4=loai_173 {"so_anh_cham": 56167, "gt_theo_lop": {"car": 548555, "bus": 71785, "truck": 16915}, "so_anh_co_lop": {"car": 55764, "bus": 30922, "truck": 15957}, "anh_khong_gt_hop_le": 72, "vung_bo_qua_cong_moi_anh": 258809, "lop_bao_AP": ["bus", "car", "truck"], "lop_NA": ["bicycle", "motorcycle"]}
+D1_van=bo_qua|D2_others=truck|D4=giu_173_am_tinh {"so_anh_cham": 56340, "gt_theo_lop": {"car": 548555, "bus": 71785, "truck": 16915}, "so_anh_co_lop": {"car": 55764, "bus": 30922, "truck": 15957}, "anh_khong_gt_hop_le": 245, "vung_bo_qua_cong_moi_anh": 259074, "lop_bao_AP": ["bus", "car", "truck"], "lop_NA": ["bicycle", "motorcycle"]}
+D1_van=car|D2_others=bo_qua|D4=loai_173 {"so_anh_cham": 56167, "gt_theo_lop": {"car": 587074, "bus": 71785}, "so_anh_co_lop": {"car": 55994, "bus": 30922}, "anh_khong_gt_hop_le": 0, "vung_bo_qua_cong_moi_anh": 237205, "lop_bao_AP": ["bus", "car"], "lop_NA": ["bicycle", "motorcycle", "truck"]}
+D1_van=car|D2_others=bo_qua|D4=giu_173_am_tinh {"so_anh_cham": 56340, "gt_theo_lop": {"car": 587074, "bus": 71785}, "so_anh_co_lop": {"car": 55994, "bus": 30922}, "anh_khong_gt_hop_le": 173, "vung_bo_qua_cong_moi_anh": 237470, "lop_bao_AP": ["bus", "car"], "lop_NA": ["bicycle", "motorcycle", "truck"]}
+D1_van=car|D2_others=truck|D4=loai_173 {"so_anh_cham": 56167, "gt_theo_lop": {"car": 587074, "bus": 71785, "truck": 16915}, "so_anh_co_lop": {"car": 55994, "bus": 30922, "truck": 15957}, "anh_khong_gt_hop_le": 0, "vung_bo_qua_cong_moi_anh": 220290, "lop_bao_AP": ["bus", "car", "truck"], "lop_NA": ["bicycle", "motorcycle"]}
+D1_van=car|D2_others=truck|D4=giu_173_am_tinh {"so_anh_cham": 56340, "gt_theo_lop": {"car": 587074, "bus": 71785, "truck": 16915}, "so_anh_co_lop": {"car": 55994, "bus": 30922, "truck": 15957}, "anh_khong_gt_hop_le": 173, "vung_bo_qua_cong_moi_anh": 220555, "lop_bao_AP": ["bus", "car", "truck"], "lop_NA": ["bicycle", "motorcycle"]}
+# exit=0
+# vung_tren_anh_khong_frame.csv:
+video,anh_khong_frame,frame,ignored_region_moi_anh,luot_vung
+MVI_39051,69,992 993 994 995 996 997 998 999 1000 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019 1020 1021 1022 1023 1024 1025 1026 1027 1028 1029 1030 1031 1032 1033 1034 1035 1036 1037 1038 1039 1040 1041 1042 1043 1044 1045 1046 1047 1048 1049 1050 1051 1052 1053 1054 1055 1056 1057 1058 1059 1060,2,138
+MVI_39211,94,477 478 479 480 481 482 483 484 485 486 487 488 489 490 491 492 493 494 495 496 497 498 499 500 501 502 503 504 505 506 507 508 509 510 511 512 513 514 515 516 517 518 519 520 521 522 523 524 525 526 527 528 529 530 531 532 533 534 535 536 537 538 539 540 541 542 543 544 545 546 547 548 549 550 551 552 553 554 555 556 557 558 559 560 561 562 563 564 565 566 567 568 569 570,1,94
+MVI_39271,4,77 78 79 80,4,16
+MVI_40743,1,1630,6,6
+MVI_40763,4,1742 1743 1744 1745,2,8
+MVI_40793,1,1960,3,3
+TONG,173,,,265
+
+# --- doi chieu dau ra vong 46 (cong cu sua) voi vong 45 (cong cu cu):
+anh_khong_frame.csv: trung tung byte = True
+mau_box_xem_tay.csv: trung tung byte = True
+tong_hop.json: trung tung byte = True
+theo_video.csv: 40 / 40 hang; cot khac: {'camera_state': 40, 'weather': 40}
+  gia tri moi camera_state: {'unstable': 9, 'stable': 31}
+  gia tri moi weather     : {'sunny': 8, 'cloudy': 11, 'night': 12, 'rainy': 9}
+  vong 45 cot trong       : 40 hang
+dem_theo_phuong_an D1_van=bo_qua|D2_others=bo_qua|D4=loai_173: khong doi
+dem_theo_phuong_an D1_van=bo_qua|D2_others=bo_qua|D4=giu_173_am_tinh: {'vung_bo_qua_cong_moi_anh': (275724, 275989)}
+dem_theo_phuong_an D1_van=bo_qua|D2_others=truck|D4=loai_173: khong doi
+dem_theo_phuong_an D1_van=bo_qua|D2_others=truck|D4=giu_173_am_tinh: {'vung_bo_qua_cong_moi_anh': (258809, 259074)}
+dem_theo_phuong_an D1_van=car|D2_others=bo_qua|D4=loai_173: khong doi
+dem_theo_phuong_an D1_van=car|D2_others=bo_qua|D4=giu_173_am_tinh: {'vung_bo_qua_cong_moi_anh': (237205, 237470)}
+dem_theo_phuong_an D1_van=car|D2_others=truck|D4=loai_173: khong doi
+dem_theo_phuong_an D1_van=car|D2_others=truck|D4=giu_173_am_tinh: {'vung_bo_qua_cong_moi_anh': (220290, 220555)}
+khoa moi (chi o vong 46): ['_don_vi_vung_bo_qua_cong_moi_anh', '_so_ignored_region_hinh_hoc', '_anh_khong_frame', '_luot_ignored_region_tren_anh_khong_frame']

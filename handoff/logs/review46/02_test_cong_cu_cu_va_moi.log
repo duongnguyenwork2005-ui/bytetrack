@@ -1,0 +1,32 @@
+# 2026-10-07 17:59:02 +0700 HEAD 85b8eda -- test_cong_cu_detrac.py tren ban CU (logs/review45, = d4715aa) va ban SUA (logs/review46)
+# loai test: X, D = test tich hop nho qua main() / ham that tren fixture tong hop (CPU); E = DOI CHIEU hanh vi evaluator (khong sua evaluator)
+
+===== --cong-cu-dir handoff/logs/review45
+# sha256 phan_tich_detrac_test.py f39e547db54a0973 dem_theo_phuong_an.py 27df5bfd7ab49698
+cong cu: D:\LABOTARY\bytetrack\handoff\logs\review45; evaluator: D:\LABOTARY\bytetrack\src
+  [FAIL] X1 fixture reviewer: sequence_attribute tu dong -> doc du camera_state / sence_weather  (attr {})
+  [FAIL] X2 fixture sat XML that: thuoc tinh + 3 vung + 2 frame + loai box doc dung  (attr {}, loai ['car', 'others', 'van'])
+  [FAIL] X3 XML KHONG co sequence_attribute -> attr rong VA co danh dau 'khong co phan tu'  (attr {}, co_sequence_attribute None)
+  [FAIL] X4 main(): cot camera_state / weather = gia tri XML; thieu phan tu / thieu thuoc tinh ghi RO, khong de trong  (rc 0, {'MVI_A': ('', ''), 'MVI_B': ('', ''), 'MVI_C': ('', '')})
+  [FAIL] D1 fixture reviewer (2 anh, 1 <frame>, 2 vung tinh): giu -> 2 anh, 4 luot vung; loai -> 1 anh, 2 luot  (rc 0, giu 2 anh / 2 luot, loai 1 / 2)
+  [FAIL] D2 hai video + van / others: so anh + luot vung moi phuong an D1 x D2 x D4 = tinh tay  (rc 0; lech: [('D1_van=bo_qua|D2_others=bo_qua|D4=giu_173_am_tinh', (7, 10), (7, 13)), ('D1_van=bo_qua|D2_others=truck|D4=giu_173_am_tinh', (7, 8), (7, 11)), ('D1_van=car|D2_others=bo_qua|D4=giu_173_am_tinh', (7, 8), (7, 11)), ('D1_van=car|D2_others=truck|D4=giu_173_am_tinh', (7, 6), (7, 9))])
+  [PASS] E1 (doi chieu) lop khong GT: scorer VAN dem FP = 1, precision = 0, AP = null; macro 2 lop, mAP50 = 1  ({"TP": 0, "FP": 1, "FN": 0, "precision": 0.0, "recall": null, "f1": null})
+  [PASS] E2 (doi chieu) phan vi du D5: chuyen GT trong vung ignore thanh ignore lam AP50 GIAM (khong tang chac chan)  (giu GT: AP50 0.5049504950 R 0.5; chuyen: AP50 0.0 R 0.0)
+
+KET QUA: 2/8 PASS
+# exit=1 (ban cu: DU KIEN 2/8, exit 1; ban sua: DU KIEN 8/8, exit 0)
+
+===== --cong-cu-dir handoff/logs/review46
+# sha256 phan_tich_detrac_test.py e8f0fa3915f562f9 dem_theo_phuong_an.py 9f66f32fcf444aed
+cong cu: D:\LABOTARY\bytetrack\handoff\logs\review46; evaluator: D:\LABOTARY\bytetrack\src
+  [PASS] X1 fixture reviewer: sequence_attribute tu dong -> doc du camera_state / sence_weather  (attr {'camera_state': 'stable', 'sence_weather': 'cloudy'})
+  [PASS] X2 fixture sat XML that: thuoc tinh + 3 vung + 2 frame + loai box doc dung  (attr {'camera_state': 'unstable', 'sence_weather': 'sunny'}, loai ['car', 'others', 'van'])
+  [PASS] X3 XML KHONG co sequence_attribute -> attr rong VA co danh dau 'khong co phan tu'  (attr {}, co_sequence_attribute False)
+  [PASS] X4 main(): cot camera_state / weather = gia tri XML; thieu phan tu / thieu thuoc tinh ghi RO, khong de trong  (rc 0, {'MVI_A': ('unstable', 'sunny'), 'MVI_B': ('(XML khong co phan tu sequence_attribute)', '(XML khong co phan tu sequence_attribute)'), 'MVI_C': ('stable', '(phan tu sequence_attribute khong co thuoc tinh nay)')})
+  [PASS] D1 fixture reviewer (2 anh, 1 <frame>, 2 vung tinh): giu -> 2 anh, 4 luot vung; loai -> 1 anh, 2 luot  (rc 0, giu 2 anh / 4 luot, loai 1 / 2)
+  [PASS] D2 hai video + van / others: so anh + luot vung moi phuong an D1 x D2 x D4 = tinh tay  (rc 0; lech: [])
+  [PASS] E1 (doi chieu) lop khong GT: scorer VAN dem FP = 1, precision = 0, AP = null; macro 2 lop, mAP50 = 1  ({"TP": 0, "FP": 1, "FN": 0, "precision": 0.0, "recall": null, "f1": null})
+  [PASS] E2 (doi chieu) phan vi du D5: chuyen GT trong vung ignore thanh ignore lam AP50 GIAM (khong tang chac chan)  (giu GT: AP50 0.5049504950 R 0.5; chuyen: AP50 0.0 R 0.0)
+
+KET QUA: 8/8 PASS
+# exit=0 (ban cu: DU KIEN 2/8, exit 1; ban sua: DU KIEN 8/8, exit 0)
