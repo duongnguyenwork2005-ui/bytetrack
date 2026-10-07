@@ -1,0 +1,62 @@
+# 2026-10-07 17:54:07 +0700 -- tai hien R45-F1..F4 TRUOC sua: script reviewer audit_review45.py NGUYEN BYTE (sha256 7f427b92e0ae76fa2084b0faf9abc3a9c70f18295614fc196609798633882bb1) tren goi d4715aa (input/review_delta_latest.zip sha256 b1c207dfef8ebadcc7177039aea7a3eb8acb29d14610370a1cca2767ce96cd3d)
+# ban sao tam: <scratchpad>/v46_tai_hien_truoc (chep tu bang chung); python khoaluan-mot 3.11.9 numpy 2.4.6 (reviewer: 3.12.14 / numpy 2.3.5); CPU, fixture, khong inference
+# lenh 1: python -c '<kiem sha256 + giai nen input zip vao package>' (theo README)
+# exit=0
+# lenh 2: python -B audit_review45.py --package package --out recheck
+Traceback (most recent call last):
+  File "C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\v46_tai_hien_truoc\audit_review45.py", line 315, in <module>
+    main()
+  File "C:\Users\Mikuno\AppData\Local\Temp\claude\d--LABOTARY-bytetrack\725dbe02-11c7-4caa-9d6c-980457a66fad\scratchpad\v46_tai_hien_truoc\audit_review45.py", line 86, in main
+    changed_paths = re.findall(r'^diff --git a/.* b/(.*)$', patch.read_text(), re.M)
+                                                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\pathlib.py", line 1059, in read_text
+    return f.read()
+           ^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\encodings\cp1252.py", line 23, in decode
+    return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'charmap' codec can't decode byte 0x9d in position 4571: character maps to <undefined>
+# exit=1
+# recheck/summary.json:
+cat: recheck/summary.json: No such file or directory
+
+# --- lan 2 (17:54:21): lan 1 FAIL do MOI TRUONG (read_text() khong chi dinh encoding -> cp1252 tren Windows; Linux cua reviewer mac dinh UTF-8). KHONG sua script; bat che do UTF-8 cua Python (-X utf8) de khop hanh vi Linux
+# lenh: python -X utf8 -B audit_review45.py --package package --out recheck2
+{
+  "integrity_pass": true,
+  "findings_reproduced": [
+    "D3_FP_despite_no_GT",
+    "D4_missing_static_ignore",
+    "D5_AP_not_guaranteed_to_increase",
+    "XML_metadata_loss"
+  ],
+  "design_note": "NPZ_basename_collision",
+  "package_unchanged": true,
+  "training": false,
+  "model_inference": false,
+  "gpu": false,
+  "ssh": false
+}
+# exit=0
+# recheck2/summary.json:
+{
+  "integrity_pass": true,
+  "findings_reproduced": [
+    "D3_FP_despite_no_GT",
+    "D4_missing_static_ignore",
+    "D5_AP_not_guaranteed_to_increase",
+    "XML_metadata_loss"
+  ],
+  "design_note": "NPZ_basename_collision",
+  "package_unchanged": true,
+  "training": false,
+  "model_inference": false,
+  "gpu": false,
+  "ssh": false
+}
+
+# sha256 script sau khi chay: 7f427b92e0ae76fa2084b0faf9abc3a9c70f18295614fc196609798633882bb1
+probes trung ket qua reviewer (bo environment): True
+tables trung ket qua reviewer (bo environment): True
+summary trung ket qua reviewer (bo environment): True
+integrity trung ket qua reviewer (bo environment): True

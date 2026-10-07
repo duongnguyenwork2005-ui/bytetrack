@@ -1,0 +1,123 @@
+{
+  "totals": {
+    "so_frame_xml": 56167,
+    "so_anh": 56340,
+    "anh_khong_frame": 173,
+    "frame_khong_anh": 0,
+    "so_box": 675774,
+    "so_vung_bo_qua": 163
+  },
+  "csv_rows": {
+    "phan_loai_bang_mat_others.csv": 31,
+    "mau_track_car.csv": 24,
+    "mau_box_xem_tay.csv": 192,
+    "theo_video.csv": 40,
+    "mau_track_others.csv": 31,
+    "phan_loai_bang_mat_van.csv": 48,
+    "mau_track_van.csv": 48,
+    "mau_track_bus.csv": 24,
+    "anh_khong_frame.csv": 173
+  },
+  "classification": {
+    "others": {
+      "xe tai cho hang (ben / thung / san / buu chinh)": {
+        "tracks": 21,
+        "boxes": 5897
+      },
+      "khong ro (nhin tu tren xuong, nhu nap thung xe tai)": {
+        "tracks": 1,
+        "boxes": 876
+      },
+      "xe cuu ho / keo xe": {
+        "tracks": 7,
+        "boxes": 9171
+      },
+      "khong ro (xe nho, co the la xe cuu ho nhin truc dien)": {
+        "tracks": 1,
+        "boxes": 575
+      },
+      "trong giong xe buyt": {
+        "tracks": 1,
+        "boxes": 396
+      }
+    },
+    "van": {
+      "van cho nguoi / minivan / MPV (kieu xe con)": {
+        "tracks": 45,
+        "boxes": 12788
+      },
+      "minibus / xe khach nho (kieu xe buyt)": {
+        "tracks": 2,
+        "boxes": 1036
+      },
+      "van cho hang (panel van)": {
+        "tracks": 1,
+        "boxes": 116
+      }
+    }
+  },
+  "classification_regenerated_byte_equal": true,
+  "missing_image_static_regions": [
+    {
+      "video": "MVI_39051",
+      "images_without_frame": 69,
+      "static_regions": 2,
+      "omitted_instances": 138
+    },
+    {
+      "video": "MVI_39211",
+      "images_without_frame": 94,
+      "static_regions": 1,
+      "omitted_instances": 94
+    },
+    {
+      "video": "MVI_39271",
+      "images_without_frame": 4,
+      "static_regions": 4,
+      "omitted_instances": 16
+    },
+    {
+      "video": "MVI_40743",
+      "images_without_frame": 1,
+      "static_regions": 6,
+      "omitted_instances": 6
+    },
+    {
+      "video": "MVI_40763",
+      "images_without_frame": 4,
+      "static_regions": 2,
+      "omitted_instances": 8
+    },
+    {
+      "video": "MVI_40793",
+      "images_without_frame": 1,
+      "static_regions": 3,
+      "omitted_instances": 3
+    }
+  ],
+  "omitted_total": 265,
+  "corrected_retained_image_options": [
+    {
+      "option": "D1_van=bo_qua|D2_others=bo_qua|D4=giu_173_am_tinh",
+      "reported": 275724,
+      "expected_with_static_ignore_on_retained_images": 275989
+    },
+    {
+      "option": "D1_van=bo_qua|D2_others=truck|D4=giu_173_am_tinh",
+      "reported": 258809,
+      "expected_with_static_ignore_on_retained_images": 259074
+    },
+    {
+      "option": "D1_van=car|D2_others=bo_qua|D4=giu_173_am_tinh",
+      "reported": 237205,
+      "expected_with_static_ignore_on_retained_images": 237470
+    },
+    {
+      "option": "D1_van=car|D2_others=truck|D4=giu_173_am_tinh",
+      "reported": 220290,
+      "expected_with_static_ignore_on_retained_images": 220555
+    }
+  ],
+  "blank_camera_weather_rows": 40,
+  "scope": "All supplied CSV/JSON rows parsed and cross-checked; not recounted from original XML/images."
+}
