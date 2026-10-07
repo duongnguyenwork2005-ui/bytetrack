@@ -1,0 +1,30 @@
+usage: danh_gia_detector_bdd_val.py [-h] [--nhan-cocovid NHAN_COCOVID]
+                                    [--anh-goc ANH_GOC]
+                                    [--manifest-video MANIFEST_VIDEO]
+                                    [--hash-anh HASH_ANH] --model
+                                    TEN=DUONG_DAN --sha256 TEN=SHA256 --out
+                                    OUT [--conf-van-hanh CONF_VAN_HANH]
+                                    [--batch BATCH] [--device DEVICE]
+                                    [--gioi-han-anh GIOI_HAN_ANH]
+
+Danh gia detector 5 lop tren BDD100K MOT val (COCO-video) -- ham du doan /
+ghep / AP cua eval_detector_5lop
+
+options:
+  -h, --help            show this help message and exit
+  --nhan-cocovid NHAN_COCOVID
+  --anh-goc ANH_GOC
+  --manifest-video MANIFEST_VIDEO
+  --hash-anh HASH_ANH   bang sha256 anh da luu ('' = bo doi chieu)
+  --model TEN=DUONG_DAN
+  --sha256 TEN=SHA256   sha256 bat buoc cua checkpoint (lech -> exit 2, khong
+                        du doan)
+  --out OUT
+  --conf-van-hanh CONF_VAN_HANH
+  --batch BATCH
+  --device DEVICE
+  --gioi-han-anh GIOI_HAN_ANH
+                        chi N anh dau (0 = tat ca) -- CHI cho smoke ky thuat
+
+
+EXIT_CODE=0

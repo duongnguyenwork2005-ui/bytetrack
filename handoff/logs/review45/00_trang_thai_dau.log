@@ -1,0 +1,77 @@
+# 2026-10-07 12:50:17 +0700 -- trang thai dau vong 45 (ghi nhan review 3e94b21 PASS WITH LIMITATIONS; chuan bi quyet dinh UA-DETRAC D1-D5, KHONG chay GPU)
+nhanh: phase2-mixed-traffic
+HEAD: 3e94b21683b7e63c5852a7ddc04baf513952ddc4
+commit sau 6c8e37a: 18
+base review trong HEAD: 4d54744e4163d6f2c3ef3e9e0f67299bba00d349 vong 42 | khai bao khong ban giao: 13
+base review working tree: 4d54744e4163d6f2c3ef3e9e0f67299bba00d349 vong 42 | khai bao: 13 | lich_su 19
+--- git status --short (bo qua results/ outputs/):
+M .gitignore
+ M src/demo/rerun_with_state_log.py
+?? CODEX_REVIEW_c4d64a1_EVIDENCE/
+?? handoff/logs/review16/results_nano/nano-trt-cv_render_tren_PC.mp4
+?? handoff/logs/review20/demo_video/
+?? handoff/logs/review23/video_khong_commit/
+?? handoff/logs/review45/
+?? handoff/nano_transfer/
+?? handoff/patches/moc2_e353b84..7341812.diff
+?? live.bat
+?? src/demo/build_buffer90_demo.py
+?? src/demo/find_buffer90_candidates.py
+?? src/demo/find_buffer90_moving_candidates.py
+?? src/demo/live_view.py
+?? src/demo/single_case_buffer90.py
+?? src/demo/turning_case_buffer90.py
+--- moi truong:
+python 3.11.9 | Windows-10-10.0.26200-SP0 | ultralytics 8.4.141 | torch 2.6.0+cu124 | cuda 12.4 | cudnn 90100 | numpy 2.4.6 | psutil 7.2.2 | opencv 5.0.0
+python: C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe
+ultralytics engine/trainer.py sha256 7532ff0bf3e4dc60f3c8a3f80f9b0cd7dac53997874b75a5ec99b280ce90b4a0
+torch.cuda.is_available True | NVIDIA GeForce GTX 1650 | VRAM 4096 MiB
+--- nguon dien:
+pin 100% | cam sac (power_plugged) True | secsleft -2
+goi nguon: Power Scheme GUID: 6fecc5ae-f350-48a5-b669-b472cb895ccf  (High performance)
+STANDBYIDLE: AC ['0x00000000'] DC ['0x00000000'] (giay; 0 = khong bao gio)
+HIBERNATEIDLE: AC ['0x00000000'] DC ['0x00000000'] (giay; 0 = khong bao gio)
+trang thai ngu kha dung (powercfg /a): Standby (S3) | Hibernate | Fast Startup | Standby (S1) | Standby (S2) | Standby (S0 Low Power Idle) | Hybrid Sleep
+khoi dong lai dang cho (chi doc registry): WindowsUpdate RebootRequired=False; CBS RebootPending=False
+--- RAM / dia:
+RAM tong 7.84 GiB, con trong 0.36 GiB (95.4% dung) | swap/pagefile tong 16.32 GiB dung 1.54 GiB
+dia C:\ trong 42.1 GiB / 226.7 GiB
+dia D:\ trong 50.0 GiB / 227.7 GiB
+--- GPU (nvidia-smi):
+name, driver_version, memory.total [MiB], memory.used [MiB], temperature.gpu, power.draw [W], pstate, utilization.gpu [%]
+NVIDIA GeForce GTX 1650, 555.97, 4096 MiB, 450 MiB, 50, 2.02 W, P8, 3 %
+pid, process_name, used_gpu_memory [MiB]
+22996, C:\Windows\System32\ShellHost.exe, [N/A]
+8368, C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\SearchHost.exe, [N/A]
+27556, C:\Windows\SystemApps\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\StartMenuExperienceHost.exe, [N/A]
+16984, C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\CrossDeviceResume.exe, [N/A]
+20036, [Insufficient Permissions], [N/A]
+21544, C:\Program Files (x86)\Microsoft\EdgeWebView\Application\154.0.4258.53\msedgewebview2.exe, [N/A]
+12688, C:\Windows\SystemApps\Microsoft.LockApp_cw5n1h2txyewy\LockApp.exe, [N/A]
+5684, C:\Program Files\WindowsApps\B9ECED6F.ArmouryCrate_6.5.14.0_x64__qmba6cd70vzyy\ArmouryCrate.exe, [N/A]
+20204, C:\Program Files\Cloudflare\Cloudflare WARP\Cloudflare WARP.exe, [N/A]
+2484, C:\Users\Mikuno\AppData\Local\Programs\Zalo\Zalo-26.9.10\Zalo.exe, [N/A]
+25960, C:\Users\Mikuno\AppData\Local\Kingsoft\WPS Office\12.1.0.28485\office6\promecefpluginhost.exe, [N/A]
+16592, C:\Users\Mikuno\AppData\Local\Programs\Zalo\Zalo-26.9.10\plugins\capture\ZaloCall.exe, [N/A]
+23272, C:\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\TextInputHost.exe, [N/A]
+22860, C:\Users\Mikuno\AppData\Local\Programs\Microsoft VS Code\Code.exe, [N/A]
+9844, C:\Program Files\WindowsApps\OpenAI.Codex_26.930.7945.0_x64__2p2nqsd0c76g0\app\ChatGPT.exe, [N/A]
+25176, C:\Users\Mikuno\AppData\Local\OpenAI\Codex\runtimes\cua_node\71e3f41277f96d73\bin\node_modules\@oai\sky\bin\windows\swift\x64\codex-computer-use-swift.exe, [N/A]
+14544, C:\Program Files\WindowsApps\Claude_2.19675.1.0_x64__pzs8sxrjxfjjc\app\claude.exe, [N/A]
+2496, C:\Program Files\WindowsApps\Claude_2.19675.1.0_x64__pzs8sxrjxfjjc\app\claude.exe, [N/A]
+--- tien trinh python dang chay (tranh trung luot):
+  2872 12:50:17 C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\python.exe handoff/logs/review42/ghi_trang_thai_may.py handoff/logs/review45/00_trang_thai_dau.log trang thai dau vong 45 (ghi nhan review 3e94b21 PASS WITH
+--- sha256 ma / cau hinh lien quan:
+d5b875bce7cdac5bfae92e726b5a3c15db739215adbdf025b205bfa14f6c8007 *src/tiep_tuc_huan_luyen.py
+250302fb045a3b21dea575067700cdfbd7796b125e4ecfd2e528c91df0731544 *src/train_detector.py
+2fd153bf6016f7e217ebfea407378549e54b9d62806d70f99f550555b4b8f842 *src/chay_giam_sat.py
+1ca964b0fc81701ac746335fa20ac6e5231322a4cdd11ad47753a2b25fc31493 *src/bdd_yolo_export.py
+7bba3439987377cb2f161eb31e2cf0afafae3e814f165279087b7a3780699c3e *src/detector_classes.py
+a466a4fa3d07391f47915f45a79fadc2d7f5f0421499c9f887f83b19bdb0553b *configs/phase2/detector/train_bdd5.yaml
+--- review 3e94b21 (doc truc tiep D:\LABOTARY\review_codex):
+CODEX_REVIEW_3e94b21.md 8566 B sha256 26f0d0d06ca78928ee25fdfff81956152167311be4aa63b3337656a3d553e0bb
+CODEX_REVIEW_3e94b21_EVIDENCE.zip 176037 B sha256 72f5f61a6f6a7b798604b9d267cd37be059d17bed74b68a04675f8e1d8c3619e | giai nen vao thu muc MOI CODEX_REVIEW_3e94b21_EVIDENCE (44 file), ZIP KHONG DOI; SHA256SUMS 43/43; bao cao trong ZIP trung ban rieng
+ket luan: PASS WITH LIMITATIONS, dong R43-B1 + R43-N1 (pham vi: ma / fixture / ho so ban giao; reviewer KHONG chay lai inference du lieu that, KHONG kiem truc tiep checkpoint, KHONG nghiem thu UA-DETRAC)
+goi da nghiem thu handoff/review_delta_latest.zip 600666 B sha256 9bb1bbab25134e8615fb0794fd1d6d2968592eab25ac7d4dbc9403727d198e11 (= review muc 1) -> handoff/archive/review_delta_3e94b21.zip
+commit sau 3e94b21 truoc vong 45: 0
+base review working tree sau --set-base: 3e94b21 (vong 44), khai bao 13 giu nguyen

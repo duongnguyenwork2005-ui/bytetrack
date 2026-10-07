@@ -1,0 +1,64 @@
+{
+  "pass": 13,
+  "fail": 0,
+  "skip": [
+    [
+      "E6 du doan that YOLOv8n COCO (CPU)",
+      "khong co /workspace/scratch/39272c88b7a6/review_3e94b21/tree/models/yolov8n.pt hoac dataset fixture"
+    ]
+  ],
+  "checks": [
+    [
+      "E1 AP50 / AP50-95 theo lop KHOP pycocotools (co vung bo qua kieu crowd)",
+      true
+    ],
+    [
+      "E2 lop khong co GT (bus, bicycle) -> AP null, khong vao mAP",
+      true
+    ],
+    [
+      "E3 P/R van hanh tinh tay: car TP2 FP2 (det trung + det xa; det trong vung bo qua KHONG tinh), truck conf 0.2 < 0.25 -> FN",
+      true
+    ],
+    [
+      "E4 GT doi ra pixel theo kich thuoc ANH THUC (200x100), khong theo 960x540",
+      true
+    ],
+    [
+      "E5 anh thieu file nhan -> LOI (khong coi la anh am tinh)",
+      true
+    ],
+    [
+      "E7 hoa IoU (fixture review 4937c85): TP tai IoU 0,50 cua evaluator = 2",
+      true
+    ],
+    [
+      "E7 hoa IoU (fixture review 4937c85): AP50, AP50-95, TP@0,50 KHOP pycocotools (chay that)",
+      true
+    ],
+    [
+      "E7 hoa IoU: van hanh TP 2 / FP 0 / FN 0, AP50 = 1,0 (truoc sua: TP 1 / FP 1, AP50 0,50495)",
+      true
+    ],
+    [
+      "E8 IoU dung bang nguong 0,6 / 0,7: TP tai IoU 0,50 cua evaluator = 2",
+      true
+    ],
+    [
+      "E8 IoU dung bang nguong 0,6 / 0,7: AP50, AP50-95, TP@0,50 KHOP pycocotools (chay that)",
+      true
+    ],
+    [
+      "E9 GT hop le chong vung ignore: TP tai IoU 0,50 cua evaluator = 1",
+      true
+    ],
+    [
+      "E9 GT hop le chong vung ignore: AP50, AP50-95, TP@0,50 KHOP pycocotools (chay that)",
+      true
+    ],
+    [
+      "E9 van hanh: det khop GT trong vung ignore = TP, det chi trong vung = bo qua, det xa = FP",
+      true
+    ]
+  ]
+}

@@ -1,0 +1,27 @@
+  [PASS] E1 AP50 / AP50-95 theo lop KHOP pycocotools (co vung bo qua kieu crowd)  (lech max 0.00e+00)
+  [PASS] E2 lop khong co GT (bus, bicycle) -> AP null, khong vao mAP
+  [PASS] E3 P/R van hanh tinh tay: car TP2 FP2 (det trung + det xa; det trong vung bo qua KHONG tinh), truck conf 0.2 < 0.25 -> FN  ({'TP': 2, 'FP': 2, 'FN': 0, 'precision': 0.5, 'recall': 1.0, 'f1': 0.6666666666666666} {'TP': 0, 'FP': 0, 'FN': 1, 'precision': nan, 'recall': 0.0, 'f1': 0.0})
+  [PASS] E4 GT doi ra pixel theo kich thuoc ANH THUC (200x100), khong theo 960x540
+  [PASS] E5 anh thieu file nhan -> LOI (khong coi la anh am tinh)
+  [SKIP] E6 du doan that YOLOv8n COCO (CPU)  (khong co /workspace/scratch/39272c88b7a6/review_3e94b21/tree/models/yolov8n.pt hoac dataset fixture) -- CHUA KIEM, khong tinh PASS
+  [PASS] E7 hoa IoU (fixture review 4937c85): TP tai IoU 0,50 cua evaluator = 2  (evaluator 2; AP50 1.0000000000; AP50-95 0.5514851485)
+  [PASS] E7 hoa IoU (fixture review 4937c85): AP50, AP50-95, TP@0,50 KHOP pycocotools (chay that)  (pycocotools AP50 1.0000000000 AP50-95 0.5514851485 TP 2)
+  [PASS] E7 hoa IoU: van hanh TP 2 / FP 0 / FN 0, AP50 = 1,0 (truoc sua: TP 1 / FP 1, AP50 0,50495)  ({'TP': 2, 'FP': 0, 'FN': 0, 'precision': 1.0, 'recall': 1.0, 'f1': 1.0} AP50 1.0)
+  [PASS] E8 IoU dung bang nguong 0,6 / 0,7: TP tai IoU 0,50 cua evaluator = 2  (evaluator 2; AP50 1.0000000000; AP50-95 0.3504950495)
+  [PASS] E8 IoU dung bang nguong 0,6 / 0,7: AP50, AP50-95, TP@0,50 KHOP pycocotools (chay that)  (pycocotools AP50 1.0000000000 AP50-95 0.3504950495 TP 2)
+  [PASS] E9 GT hop le chong vung ignore: TP tai IoU 0,50 cua evaluator = 1  (evaluator 1; AP50 1.0000000000; AP50-95 1.0000000000)
+  [PASS] E9 GT hop le chong vung ignore: AP50, AP50-95, TP@0,50 KHOP pycocotools (chay that)  (pycocotools AP50 1.0000000000 AP50-95 1.0000000000 TP 1)
+  [PASS] E9 van hanh: det khop GT trong vung ignore = TP, det chi trong vung = bo qua, det xa = FP  ({'TP': 1, 'FP': 1, 'FN': 0, 'precision': 0.5, 'recall': 1.0, 'f1': 0.6666666666666666})
+{
+  "pass": 13,
+  "fail": 0,
+  "skip": [
+    [
+      "E6 du doan that YOLOv8n COCO (CPU)",
+      "khong co /workspace/scratch/39272c88b7a6/review_3e94b21/tree/models/yolov8n.pt hoac dataset fixture"
+    ]
+  ]
+}
+
+
+EXIT_CODE=0

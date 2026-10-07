@@ -1,0 +1,70 @@
+# Chinh sach huan luyen CHUNG cho YOLOv8n va YOLO11n fine-tune 5 lop tren BDD100K MOT train (plan da chot, vong 27).
+# Dung boi: python src/train_detector.py --config configs/phase2/detector/train_bdd5.yaml --model <yolov8n|yolo11n> ...
+# KHONG dung gia tri 'auto' (optimizer / batch / amp): gia tri khai bao = gia tri hieu luc; runner ghi lai ca gia tri
+# ultralytics resolve luc chay (optimizer, lr, accumulate, weight_decay hieu luc, amp, so worker, VRAM).
+# Chon checkpoint + dung som CHI dua tren DEV NOI BO (khoa 'val' trong data.yaml). BDD val / UA-DETRAC test khong tham gia.
+ten: train_bdd5_v1
+
+model:
+  yolov8n:
+    weights: models/yolov8n.pt
+    sha256: f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36    # YOLOv8n COCO = baseline hien tai
+  yolo11n:
+    weights: models/candidates/yolo11n.pt
+    sha256: 0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1
+
+dataset:
+  day_du: data/yolo_bdd5_v1/data.yaml
+  smoke: data/yolo_bdd5_v1_smoke/data.yaml
+
+huan_luyen:                       # tham so truyen NGUYEN cho ultralytics train(), giong het cho hai model
+  epochs: 15                      # DE XUAT (chua duyet): ngan sach ~27 h YOLOv8n + ~32 h YOLO11n, DETECTOR_TRAIN_PLAN muc 5
+  imgsz: 640
+  batch: 8                        # do tren GTX 1650 (fixture 1280x720): batch 16 HOAN TAT nhung cham 2-4x, PyTorch reserved
+                                  # sat/vuot VRAM con trong (khong co OOM; paging chi la gia thuyet, chua do); 12 khong nhanh hon
+  optimizer: SGD
+  lr0: 0.01
+  lrf: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  nbs: 64
+  warmup_epochs: 1.0              # mac dinh 3/100 epoch -> ti le tuong ung voi 15 epoch
+  warmup_momentum: 0.8
+  warmup_bias_lr: 0.1
+  cos_lr: false
+  close_mosaic: 2                 # mac dinh 10/100 epoch -> ~13% cuoi khong mosaic
+  patience: 5                     # dung som theo fitness ultralytics 8.4.141 (= mAP50-95 tren DEV)
+  seed: 0
+  deterministic: true              # tat chi nhanh ~6% tren fixture -> giu tat dinh
+  amp: false                      # GTX 1650: ultralytics tu tat AMP (nguy co NaN) -> khai bao tuong minh
+  workers: 2                      # do that: 2 worker nhanh hon 0 (0,96 vs 1,13 s/batch); RAM 7,8 GB han che them worker
+  cache: false
+  rect: false
+  multi_scale: 0.0
+  fraction: 1.0
+  single_cls: false
+  cls_remap: true                 # khoi tao hang phan lop 5 lop tu lop COCO cung ten (mac dinh ultralytics 8.4)
+  pretrained: true
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+  degrees: 0.0
+  translate: 0.1
+  scale: 0.5
+  shear: 0.0
+  perspective: 0.0
+  flipud: 0.0
+  fliplr: 0.5
+  bgr: 0.0
+  mosaic: 1.0
+  mixup: 0.0
+  cutmix: 0.0
+  copy_paste: 0.0
+  val: true
+  save_period: -1
+  plots: false
+  verbose: true
+
+smoke:                            # CHI kiem duong chay -- khong dung de so sanh model hay chon tham so
+  epochs: 1
+  patience: 1
