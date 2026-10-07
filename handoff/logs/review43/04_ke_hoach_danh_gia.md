@@ -165,3 +165,9 @@ Không dùng `last.pt` hay checkpoint khác. Lượt đánh giá tự kiểm l�
 ## 10. Phụ lục sửa đổi sau khi khóa
 
 (trống lúc khóa)
+
+- **Vòng 46 (đính chính mô tả, không đổi giao thức BDD đã chạy)**: mục 8, ý 3, câu "dự đoán của các lớp này không
+  tính FP" không đúng với scorer `danh_gia`. Scorer vẫn đếm TP / FP thô và precision cho lớp không có GT; chỉ AP /
+  recall / F1 = null và macro loại lớp đó (review `d4715aa`, R45-F1; fixture `logs/review46/test_cong_cu_detrac.py`
+  E1). Mục 8 là phần chờ quyết định UA-DETRAC, chưa khóa hay chạy. Phần BDD (mục 1–7, 9) không đổi; kết quả BDD
+  không bị ảnh hưởng vì cả 5 lớp đều có GT.

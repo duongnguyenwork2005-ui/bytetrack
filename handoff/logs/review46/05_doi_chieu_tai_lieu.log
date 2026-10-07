@@ -1,0 +1,35 @@
+# 2026-10-07 18:08:19 +0700 HEAD c5b6074 (+ tai lieu dang sua, chua commit) -- DOI CHIEU TAI LIEU (grep + doc lai thu cong), khong phai test chay ma
+# lenh: grep -n -E '<mau>' <tai lieu>; mau = cac cum da bi review chi ra (R45-F1 / R45-F2)
+
+== handoff/REVIEW45_CHI_TIET.md
+11:> - **R45-F1**: lớp N/A ở D3 **không** phải "không FP". Scorer giữ nguyên vẫn đếm TP / FP thô và precision cho lớp
+94:  (nhị phân): **chưa xác minh** *(đính chính vòng 46; bản trước viết "toolkit chấm một lớp vehicle" như đã biết)*.
+101:| **D2** `others` | 16.915 box, chỉ 31 track / 21 video. Mẫu: 21 xe tải chở hàng, 7 xe cứu hộ (54,2 % box), 1 giống xe buýt, 2 không rõ | (a) vùng bỏ qua; (b) GT truck | **(a)** | Không đủ bằng chứ
+113:   vùng), bằng hình học số thực. Nếu IoA ≥ t thì detection **bị bỏ qua** (không TP, không FP); ngược lại là **FP**.
+
+== handoff/logs/review45/06_du_thao_giao_thuc_detrac.md
+95:  - nó bị bỏ qua (không TP, không FP) nếu `IoA = diện tích(det ∩ vùng_k) / diện tích(det)`, lấy **max theo từng vùng k**
+
+== handoff/REVIEW43_CHI_TIET.md
+13:> không tính FP" **không đúng** với scorer hiện tại. `danh_gia` vẫn đếm TP / FP thô và precision cho lớp không có GT;
+87:**Sửa tối thiểu**: `src/danh_gia_detector_bdd_val.py` (mới, sha256 `d1e2fd22…`) **chỉ thêm phần đọc GT**.
+201:**Điểm vận hành** conf ≥ 0,25, IoU 0,5 (ngưỡng tracker c25). Detection không ghép mà IoA với vùng bỏ qua ≥ ngưỡng thì không tính FP.
+286:2. Viết bộ đọc GT UA-DETRAC, giống cách làm ở mục 4: chỉ thêm phần đọc GT, kèm test hồi quy và kiểm fingerprint (manifest,
+
+== handoff/logs/review43/04_ke_hoach_danh_gia.md
+109:  - File mới **chỉ thêm phần đọc GT**. Dự đoán, ghép, AP, điểm vận hành và lưu dự đoán dùng nguyên hàm của evaluator.
+
+== handoff/REVIEW_BRIEF.md
+26:- **R45-F2**: rút kết luận "recall / AP tăng". Phản ví dụ AP50 0,505 → 0; chiều trên dữ liệu thật chưa biết. Toolkit
+
+== handoff/REVIEW46_CHI_TIET.md
+128:  Vậy "bỏ GT trong vùng ignore làm recall / AP tăng" **không** đúng tổng quát.
+132:  - gỡ luôn câu "D5(a) cho AP thấp hơn cách chấm kiểu toolkit";
+141:    `vehicle_type`. Câu cũ "toolkit chấm một lớp vehicle" như đã biết đã được rút.
+
+# --- PHAN LOAI (doc lai thu cong tung dong o tren):
+# DUNG NGU CANH (giu): REVIEW45:11, :94 (ghi chu dinh chinh trich cau cu); REVIEW45:101 (D2: 'khong FP' kem dieu kien IoA >= nguong); REVIEW45:113, du thao:95, REVIEW43:201 (detection BI BO QUA thi khong TP / FP -- dung voi ghep_anh_lop); REVIEW43:13 (ghi chu dinh chinh); REVIEW43:87, ke hoach 04:109 (entry point BDD vong 43 -- chi them doc GT la DUNG cho BDD); REVIEW_BRIEF:26, REVIEW46:128/132/141 (trich cau cu de noi da rut).
+# DA SUA them sau grep: REVIEW43:286 (buoc UA-DETRAC 'chi them phan doc GT' -> them dinh chinh: can chuan hoa bao cao D3 + danh sach anh co thu tu).
+# grep lai sau sua REVIEW43:
+87:**Sửa tối thiểu**: `src/danh_gia_detector_bdd_val.py` (mới, sha256 `d1e2fd22…`) **chỉ thêm phần đọc GT**.
+286:2. Viết bộ đọc GT UA-DETRAC, giống cách làm ở mục 4: chỉ thêm phần đọc GT, kèm test hồi quy và kiểm fingerprint (manifest,

@@ -6,6 +6,18 @@
 - **Không** chạy đánh giá GPU, không viết bộ đọc GT, không sửa mã lõi, dataset hay checkpoint.
 - Base review: **`3e94b21`**. Vòng 45 **chưa** được nghiệm thu.
 
+> **Đính chính vòng 46** (review `d4715aa`: REQUEST CHANGES; chi tiết `REVIEW46_CHI_TIET.md`). Số đếm car / bus / van /
+> others, danh sách 173 ảnh và các phương án loại 173 ảnh không đổi.
+> - **R45-F1**: lớp N/A ở D3 **không** phải "không FP". Scorer giữ nguyên vẫn đếm TP / FP thô và precision cho lớp
+>   không có GT; chỉ AP / recall / F1 = null và macro loại lớp đó. Báo N/A cần bước chuẩn hoá báo cáo phải triển
+>   khai sau khi duyệt D3.
+> - **R45-F2**: bỏ các kết luận một chiều về recall / AP ở D5. Phát biểu về toolkit giới hạn theo phần mã đã đọc.
+>   40.835 chỉ là số GT XML car / bus đạt ngưỡng trong thống kê này, không phải số GT toolkit chắc chắn loại.
+> - **R45-F3**: phương án giữ 173 ảnh thiếu 265 lượt vùng ignore cấp sequence; đã tính lại ở
+>   `logs/review46/phan_tich/dem_theo_phuong_an.json`.
+> - **R45-F4**: cột camera / thời tiết của `theo_video.csv` vòng 45 bị bỏ trống do lỗi parser. Bản đúng:
+>   `logs/review46/phan_tich/theo_video.csv`; cả 40 video đều có đủ hai thuộc tính.
+
 Mọi số đo về UA-DETRAC ở đây đến từ thao tác **chỉ đọc** XML và ảnh (`logs/review45/01`–`05`).
 
 ## 0. Trạng thái đầu vòng
@@ -73,20 +85,23 @@ Phân loại là **chủ quan** của tác giả, mỗi track một crop ở fra
   sai lớp.
 
 **Toolkit DETRAC chính thức** (`data/extracted/DETRAC-MOT-toolkit`, chỉ đọc mã):
-- `dropDetections.m` loại detection có tỉ lệ pixel nằm trong **hợp** các vùng ≥ 0,5, **trước** khi chấm.
-- `parseGT.m` (đường MOT) bỏ box GT có IoA ≥ 0,5 ở hai đầu quỹ đạo.
-- Phần chấm detection nằm trong `AP_DET_EVAL.exe`, là file nhị phân, không đọc được. Toolkit chấm một lớp "vehicle", AP
-  theo PR trên ngưỡng score 0:0,05:1.
+- `dropDetections.m`, được gọi trong bước tiền xử lý `preProcessDetectionResults.m` **trước** khi gọi
+  `AP_DET_EVAL.exe`, loại detection có tỉ lệ pixel nằm trong **hợp** các vùng ≥ 0,5.
+- `parseGT.m` (**chỉ đường MOT**) cắt box GT có IoA ≥ 0,5 ở hai đầu quỹ đạo.
+- Đầu vào detection có 7 cột, không có trường lớp (`checkResultFormat.m`). `README_curve.txt` mô tả PR theo ngưỡng score
+  0:0,05:1.
+- Phần chấm detection, gồm cả cách xử lý GT trong vùng bỏ qua và cách dùng `vehicle_type`, nằm trong `AP_DET_EVAL.exe`
+  (nhị phân): **chưa xác minh** *(đính chính vòng 46; bản trước viết "toolkit chấm một lớp vehicle" như đã biết)*.
 
 ## 3. Năm quyết định cần người dùng duyệt
 
 | # | Dữ liệu quan sát | Lựa chọn | **Đề xuất** | Lý do | Ảnh hưởng TP / FP / FN / AP |
 |:--|:--|:--|:--|:--|:--|
 | **D1** `van` | 38.519 box, 126 track, 35 video. Mẫu: phần lớn van / MPV kiểu xe con, ~2/48 track là minibus. Repo **không có** bằng chứng BDD gán van vào lớp nào | (a) vùng bỏ qua cho mọi lớp; (b) GT car | **(a)** | `van` là lớp riêng của DETRAC, trộn van kiểu xe con với minibus. Gán vào car là giả định taxonomy chưa kiểm cho model học BDD; (a) trung tính | (a) car GT 548.555 (55.764 ảnh). Detection bất kỳ lớp trên van **không** FP nếu IoA ≥ ngưỡng; bỏ sót van **không** FN. (b) car GT +38.519 (+7,0 %) → 587.074: detect van là car → TP, bỏ sót → FN car; detection bus trên minibus → FP bus + FN car |
-| **D2** `others` | 16.915 box, chỉ 31 track / 21 video. Mẫu: 21 xe tải chở hàng, 7 xe cứu hộ (54,2 % box), 1 giống xe buýt, 2 không rõ | (a) vùng bỏ qua; (b) GT truck | **(a)** | Không đủ bằng chứng mọi `others` là truck; AP truck sẽ bị vài track dài chi phối (31 track, 7 xe cứu hộ chiếm hơn nửa box) | (a) không có AP truck; detection trên `others` không FP. (b) truck GT 16.915 box / 15.957 ảnh; detection bus đúng trên track giống xe buýt → FP bus + FN truck; mAP thành 3 lớp |
-| **D3** lớp báo AP | GT tương thích: car (xe con / taxi), bus (xe buýt thành phố). Không có GT truck, xe máy, xe đạp | car, bus; thêm truck nếu D2 = (b) | **car, bus; "mAP (car, bus)" = trung bình 2 lớp; truck / motorcycle / bicycle = N/A** | Chỉ báo lớp có GT tương thích. Evaluator đã trả AP `null` (không phải 0) cho lớp không GT, và macro chỉ lấy lớp có GT | Dự đoán lớp N/A vẫn lưu trong NPZ nhưng **không chấm**: không TP, không FP, không vào mAP. P của các lớp này không báo. mAP 2 lớp **không** so với mAP 5 lớp của BDD |
-| **D4** 173 ảnh không có `<frame>` | 6 video. Khe giữa: MVI_39051 992–1060 (69 ảnh), MVI_39211 477–570 (94), MVI_39271 77–80 (4); frame có nhãn liền kề đều 1 xe. Đuôi video: MVI_40743 1630, MVI_40763 1742–1745, MVI_40793 1960; frame liền trước có 8 / 4 / 2 xe. XML không có frame rỗng nào. Xem ảnh: MVI_39271 f78 có xe **ngoài** vùng bỏ qua (chính chiếc xe có nhãn ở f76) mà không có nhãn; ảnh đuôi thấy xe trên đường (chưa đối chiếu từng xe với vùng bỏ qua); MVI_39051 f1025 trông trống | (a) loại khỏi đánh giá, ghi danh sách; (b) giữ làm ảnh âm tính | **(a)** — đề xuất, chưa áp dụng | Đây là "**không có annotation**", không phải "đã xác nhận không có xe". Ở BDD, ảnh không box vẫn được **liệt kê** trong file nhãn nên được giữ; ở đây XML hoàn toàn **không liệt kê** 173 ảnh này. Tập chấm = đúng các frame nguồn nhãn liệt kê | (a) 56.167 ảnh; GT không đổi. (b) +173 ảnh (0,31 %) không GT: mọi detection ngoài vùng bỏ qua là **FP**, kể cả trên xe có thật nhưng không gán nhãn (ít nhất MVI_39271 f77–80) → P và AP thiên thấp; FN không đổi |
-| **D5** `ignored_region` | 163 vùng, 4 cặp chồng nhau. GT car / bus có IoA ≥ 0,5 với vùng: 35.248 / 5.587 (max từng vùng); 7.779 car nằm trọn trong vùng. Pipeline tracking tô xám vùng này trên ảnh trước khi detect | (a) quy tắc BDD hiện dùng, không đổi; (b) kiểu toolkit (hợp vùng, ngưỡng cố định 0,5, loại trước khi ghép, bỏ GT trong vùng) — cần sửa evaluator, ngoài kế hoạch; (c) giữ evaluator nhưng chuyển GT có IoA ≥ 0,5 thành vùng bỏ qua — quy tắc GT mới, khác BDD | **(a)** | Giữ một quy tắc chấm cho BDD và DETRAC; không tự đổi ngưỡng hay thuật toán | Chi tiết quy tắc ở mục 4. (a) vùng chỉ áp cho detection **không** ghép được GT; GT trong vùng vẫn là GT (detect → TP, sót → FN), nên AP thấp hơn cách chấm kiểu toolkit nếu model sót các xe xa / nhỏ ở đó. Không tô xám ảnh (khác pipeline tracking). (b)/(c) bớt khoảng 41 nghìn GT car / bus khỏi chấm, recall / AP tăng, nhưng khác giao thức BDD |
+| **D2** `others` | 16.915 box, chỉ 31 track / 21 video. Mẫu: 21 xe tải chở hàng, 7 xe cứu hộ (54,2 % box), 1 giống xe buýt, 2 không rõ | (a) vùng bỏ qua; (b) GT truck | **(a)** | Không đủ bằng chứng mọi `others` là truck; AP truck sẽ bị vài track dài chi phối (31 track, 7 xe cứu hộ chiếm hơn nửa box) | (a) không có AP truck; detection không ghép GT mà IoA với box `others` ≥ ngưỡng thì không FP. (b) truck GT 16.915 box / 15.957 ảnh; detection bus đúng trên track giống xe buýt → FP bus + FN truck; mAP thành 3 lớp |
+| **D3** lớp báo AP | GT tương thích: car (xe con / taxi), bus (xe buýt thành phố). Không có GT truck, xe máy, xe đạp | car, bus; thêm truck nếu D2 = (b) | **car, bus; "mAP (car, bus)" = trung bình 2 lớp; truck / motorcycle / bicycle = N/A** | Chỉ báo lớp có GT tương thích. Evaluator trả AP `null` (không phải 0) cho lớp không GT, và macro chỉ lấy lớp có GT | *(Đính chính vòng 46)* Scorer giữ nguyên **vẫn** đếm TP / FP thô và precision (= 0 nếu có detection lớp đó với conf ≥ 0,25) cho lớp không GT; AP / recall / F1 = null; lớp không vào mAP / macro. Các số thô này **không** phải metric. Để bảng báo cáo hiển thị N/A (JSON và CSV), adapter cần bước chuẩn hoá D3: **thay đổi phải triển khai sau khi D3 được duyệt**, chưa có sẵn. mAP 2 lớp **không** so với mAP 5 lớp của BDD |
+| **D4** 173 ảnh không có `<frame>` | 6 video. Khe giữa: MVI_39051 992–1060 (69 ảnh), MVI_39211 477–570 (94), MVI_39271 77–80 (4); frame có nhãn liền kề đều 1 xe. Đuôi video: MVI_40743 1630, MVI_40763 1742–1745, MVI_40793 1960; frame liền trước có 8 / 4 / 2 xe. XML không có frame rỗng nào. Xem ảnh: MVI_39271 f78 có xe **ngoài** vùng bỏ qua (chính chiếc xe có nhãn ở f76) mà không có nhãn; ảnh đuôi thấy xe trên đường (chưa đối chiếu từng xe với vùng bỏ qua); MVI_39051 f1025 trông trống | (a) loại khỏi đánh giá, ghi danh sách; (b) giữ làm ảnh âm tính | **(a)** — đề xuất, chưa áp dụng | Đây là "**không có annotation**", không phải "đã xác nhận không có xe". Ở BDD, ảnh không box vẫn được **liệt kê** trong file nhãn nên được giữ; ở đây XML hoàn toàn **không liệt kê** 173 ảnh này. Tập chấm = đúng các frame nguồn nhãn liệt kê | (a) 56.167 ảnh; GT không đổi. (b) +173 ảnh (0,31 %) không GT, vẫn chịu `ignored_region` cấp sequence (265 lượt vùng): mọi detection ngoài vùng bỏ qua là **FP**, kể cả trên xe có thật nhưng không gán nhãn (ít nhất MVI_39271 f77–80) → chỉ thêm FP, không thêm TP / FN, nên P và AP không thể tăng; FN không đổi |
+| **D5** `ignored_region` | 163 vùng, 4 cặp chồng nhau. GT car / bus có IoA ≥ 0,5 với vùng: 35.248 / 5.587 (max từng vùng); 7.779 car nằm trọn trong vùng. Pipeline tracking tô xám vùng này trên ảnh trước khi detect | (a) quy tắc BDD hiện dùng, không đổi; (b) dựa trên phần mã toolkit đã đọc (hợp vùng, ngưỡng cố định 0,5, loại detection trước khi chấm; xử lý GT của đường DET chưa xác minh) — cần sửa evaluator, ngoài kế hoạch; (c) **tự định nghĩa**: giữ evaluator nhưng chuyển GT có IoA ≥ 0,5 thành vùng bỏ qua — quy tắc GT mới, khác BDD | **(a)** | Giữ một quy tắc chấm cho BDD và DETRAC; không tự đổi ngưỡng hay thuật toán | Chi tiết quy tắc ở mục 4. (a) vùng chỉ áp cho detection **không** ghép được GT; GT trong vùng vẫn là GT (detect → TP, sót → FN). Không tô xám ảnh (khác pipeline tracking). *(Đính chính vòng 46)* (b)/(c) thay đổi tập GT và cách tính TP / FP / FN; recall / AP có thể **tăng hoặc giảm** (phản ví dụ fixture: AP50 0,5050 → 0); chiều và mức trên dữ liệu thật **chưa biết** khi chưa có prediction. 40.835 (= 35.248 + 5.587) chỉ là GT XML gốc đạt ngưỡng trong thống kê này, không phải số GT toolkit chắc chắn loại |
 
 ## 4. Quy tắc ignore hiện dùng (D5 = (a)) và khác biệt với toolkit
 
@@ -113,10 +128,10 @@ ngược lại.
 - bảng hash nội dung ảnh dựng **trước** khi khóa;
 - báo cáo tách khỏi BDD.
 
-Sau khi duyệt:
-1. kế hoạch khóa mới;
-2. bộ đọc GT XML (chỉ thêm phần đọc GT, như vòng 43) + test fixture từng quy tắc;
-3. bảng hash ảnh;
+Sau khi duyệt *(trình tự sửa ở vòng 46, làm rõ 1)*:
+1. fingerprint dữ liệu: bảng hash mọi ảnh, w/h mọi ảnh, danh sách ảnh có thứ tự;
+2. adapter: bộ đọc GT XML + chuẩn hoá báo cáo D3 + lưu danh sách `video/frame` có thứ tự; kèm fixture qua entry point thật, kiểm JSON lẫn CSV;
+3. khóa kế hoạch mới tham chiếu đúng các hash, commit trước suy luận;
 4. chạy tuần tự.
 
 ## 6. Giới hạn

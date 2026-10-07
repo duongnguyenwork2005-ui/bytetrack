@@ -9,6 +9,11 @@
 - Báo cáo rồi dừng; chưa so sánh bộ lọc, thuật toán tracking hay tối ưu Nano.
 - Base review: **`4d54744`**. Vòng 43 **chưa** được nghiệm thu.
 
+> **Đính chính vòng 46** (review `d4715aa`, R45-F1): ở mục 8, D3, câu "dự đoán của hai lớp này không được chấm và
+> không tính FP" **không đúng** với scorer hiện tại. `danh_gia` vẫn đếm TP / FP thô và precision cho lớp không có GT;
+> chỉ AP / recall / F1 = null và macro loại lớp đó. Kết quả BDD vòng 43 **không** bị ảnh hưởng, vì cả 5 lớp đều có GT
+> trong BDD val.
+
 **Trạng thái**:
 - **BDD val: ĐÃ CHẠY** 3/3 lượt; cả ba đạt tiêu chí lượt hợp lệ của kế hoạch khóa (exit 0, 39.973/39.973 ảnh, kiểm dữ
   liệu và checkpoint đạt).
@@ -272,14 +277,15 @@ xạ mới. Ánh xạ hiện **chưa đủ rõ**, nên vòng này dừng ở BDD
 |:--|:--|:--|:--|
 | D1 | `van` (38.519 box) | (a) vùng bỏ qua cho mọi lớp; (b) GT lớp car; (c) cách khác | (a) không tạo GT; detection không ghép được mà nằm trên van (IoA ≥ ngưỡng) thì không bị tính FP, dù dự đoán lớp nào. (b) van là GT của car: detection car trên van có thể là TP, còn detection truck trên van thường là FP |
 | D2 | `others` (16.915 box) | (a) vùng bỏ qua; (b) GT lớp truck; (c) cách khác | (a) không báo AP truck. (b) báo thêm AP truck, nhưng AP đó phụ thuộc định nghĩa "others" của UA-DETRAC |
-| D3 | Lớp báo AP | car, bus, và thêm truck chỉ khi D2 = (b) | motorcycle và bicycle là **N/A**: không có GT; dự đoán của hai lớp này không được chấm và không tính FP |
+| D3 | Lớp báo AP | car, bus, và thêm truck chỉ khi D2 = (b) | motorcycle và bicycle là **N/A**: không có GT; *(đính chính vòng 46)* scorer hiện tại vẫn đếm TP / FP thô và precision cho lớp không GT; báo N/A cần bước chuẩn hoá báo cáo, phải triển khai sau khi D3 được duyệt |
 | D4 | 173 ảnh không có `<frame>` | (a) giữ làm ảnh âm tính; (b) loại và ghi rõ danh sách | Chưa biết các ảnh này không có xe, hay có xe mà chưa được gán nhãn. (a) mọi detection trên các ảnh này là FP, trừ phần nằm trong `ignored_region`. (b) không tính các ảnh này |
 | D5 | `ignored_region` (163) | đề xuất: vùng bỏ qua theo IoA, như BDD val | detection không ghép được mà IoA ≥ ngưỡng thì bỏ qua |
 
 Sau khi có quyết định:
 1. Ghi quyết định vào phụ lục kế hoạch và **khóa trước khi chạy**.
 2. Viết bộ đọc GT UA-DETRAC, giống cách làm ở mục 4: chỉ thêm phần đọc GT, kèm test hồi quy và kiểm fingerprint (manifest,
-   XML, nội dung ảnh).
+   XML, nội dung ảnh). *(Đính chính vòng 46: adapter UA-DETRAC còn cần bước chuẩn hoá báo cáo theo D3 và danh sách
+   ảnh `video/frame` có thứ tự; xem dự thảo `logs/review45/06_du_thao_giao_thuc_detrac.md` mục 8.)*
 3. Chạy tuần tự ba model như BDD val.
 
 mAP UA-DETRAC sẽ tính trên tập lớp khác BDD val, nên **không** so trực tiếp với mAP BDD val.
