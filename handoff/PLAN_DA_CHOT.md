@@ -17,7 +17,9 @@ File này là phạm vi làm việc cho các vòng sau. Thay đổi phạm vi ph
 3. **Kiểm chứng PF** (suy biến trọng số, số hạt, thiết kế nhiễu).
 4. **Hoãn** tối ưu Jetson Nano (mốc 6) cho tới khi người dùng mở lại.
 
-Kế hoạch chi tiết cho báo cáo 17/10: **chưa có file trong repo** (chưa rõ; người dùng sẽ duyệt kế hoạch mới).
+Kế hoạch chi tiết cho báo cáo 17/10: `handoff/KE_HOACH_BAO_CAO_20261017.md` (bản giao việc người dùng duyệt
+2026-10-10, M0–M6; giữ nguyên, không sửa). Plan orchestrator chuyển đổi từ bản này: lượt R48 (mục "Việc đang làm");
+tiếp nhận + bảng kế thừa (M0): `handoff/logs/review48/00_tiep_nhan_va_ke_thua.md`.
 
 **Quyết định đã chốt** (nguyên văn ở file dẫn):
 - Phạm vi + thứ tự mốc 1–6, quy tắc "hỏi trước", dev nội bộ, hai tập đánh giá cuối: các mục dưới đây của file này.
@@ -39,16 +41,20 @@ Kế hoạch chi tiết cho báo cáo 17/10: **chưa có file trong repo** (chư
 - Fingerprint UA-DETRAC test (R47 bước 1: 40 video, 56.340 ảnh, D4 loại 173): `handoff/logs/review47/01_fingerprint_detrac_test.md`.
 - Detector trên UA-DETRAC test (R47 bước 4): mAP50 (car, bus) baseline `yolov8n_coco` 0,870 > `yolov8n_ft` 0,586 /
   `yolo11n_ft` 0,564; Codex nghiệm thu **approve** sau một vòng sửa diễn giải —
-  `handoff/logs/review47/04_ket_qua_danh_gia_detrac_test.md`; số liệu `results/phase2/detector_eval/detrac_test/`.
+  `handoff/logs/review47/04_ket_qua_danh_gia_detrac_test.md`; số liệu `results/phase2/detector_eval/detrac_test/`
+  (commit `482baaf`, không gồm 3 NPZ dự đoán — chỉ trên máy, sha256 ở mục 7 báo cáo 04). Tài liệu R46 (gồm mục 11.4
+  D1–D5): commit `43cd0de`.
 
-**Việc đang dở / chưa chốt**
-- Kết quả R47 bước 1–4 (`handoff/logs/review47/`, `src/fingerprint_detrac_test.py`, `src/danh_gia_detector_detrac_test.py`,
-  `src/test_danh_gia_detector_detrac_test.py`, `results/phase2/detector_eval/`) và các sửa tài liệu vòng 46 **chưa
-  commit** — người dùng quyết định. Bản sao nguyên byte: nhánh `backup/pre-cleanup-20261010-1429` (không gồm NPZ).
-- Lượt orchestrator R46 và R47 đều **đã dừng** (R47: dừng tay 02:48 ngày 10/10 khi chờ hạn mức); repo đã khác mốc
-  lưu của cả hai, nên không `start`/`recover` lại hai lượt này nếu chưa kiểm — lập kế hoạch mới thay vì chạy tiếp.
+**Việc đang làm:** lượt orchestrator **R48** thực hiện bản giao việc 17/10 theo 4 mốc, mỗi mốc một cổng Codex:
+`R48A_LY_THUYET_DOI_CHIEU_PF` (M1) → `R48B_AUDIT_DU_LIEU` (M2) → `R48C_GIAO_THUC_VA_DUNG_DAN_PF` (M3 + test tính
+đúng) → `R48D_THI_NGHIEM_VA_TONG_HOP` (M4, M5 chỉ thiết kế, M6). Báo cáo của lượt: `handoff/logs/review48/`.
+Hồ sơ lượt: `D:\LABOTARY\automation\runs\bytetrack_r48_bao_cao_20261017_*` (xem `status`).
 
-**Bước tiếp theo:** người dùng duyệt kế hoạch báo cáo 17/10 (theo thứ tự ưu tiên trên). Không tự mở việc mới.
+**Chưa chốt / ngoài R48**
+- Kết quả detector BDD val vòng 43 (`results/phase2/detector_eval/bdd_val_cocovid/`) vẫn chưa commit.
+- Lượt R46 và R47 đã dừng; repo khác mốc lưu của cả hai — không `start`/`recover` lại, hồ sơ giữ nguyên.
+
+**Bước tiếp theo:** theo mốc hiện tại của lượt R48. Không tự mở việc ngoài bản giao việc.
 
 **Điểm chưa rõ**
 - Nguyên nhân recall bus thấp (~0,34) của hai checkpoint fine-tune trên UA-DETRAC test; mức đóng góp của nhầm lớp
