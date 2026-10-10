@@ -1,0 +1,45 @@
+{
+  "demo": "demo_ekf_turning_buffer90",
+  "status": "KHONG TIM DUOC UNG VIEN - khong dung video",
+  "date": "2026-09-11",
+  "branch": "fix/tracker-evaluation-correctness",
+  "configuration": {
+    "condition": "Stage E mo rong: conf=0.25, track_buffer=90 (khong phai A/B)",
+    "split": "DETRAC-all", "part": "train", "n_videos": 60,
+    "saved_results": {
+      "cv": "data/processed/trackers/DETRAC-all/sweep-cv-buf90/data/ (60 file, 0 rong)",
+      "ekf": "data/processed/trackers/DETRAC-all/sweep-ekf_ctrv-buf90/data/ (60 file, 0 rong)",
+      "ukf": "data/processed/trackers/DETRAC-all/sweep-ukf_ctrv-buf90/data/ (60 file, 0 rong)"
+    },
+    "yaml": {
+      "cv": "configs/buffer_sweep/cv_buf90.yaml", "ekf": "configs/buffer_sweep/ekf_ctrv_buf90.yaml", "ukf": "configs/buffer_sweep/ukf_ctrv_buf90.yaml",
+      "diff": "chi khac tracker_type (bytetrack / bytetrack_ekf_ctrv / bytetrack_ukf_ctrv)",
+      "track_high_thresh": 0.25, "track_low_thresh": 0.1, "new_track_thresh": 0.25, "match_thresh": 0.8, "fuse_score": true, "track_buffer": 90
+    },
+    "detector": "models/yolov8n.pt", "weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "conf": 0.25, "classes": [2, 3, 5, 7],
+    "provenance": "commit 02b0a02 (2026-09-06), src/baseline_track.py --tracker-cfg configs/buffer_sweep/<model>_buf90.yaml"
+  },
+  "turn_definition": {
+    "window_frames_W": 10, "min_window_frames_required_by_task": 5, "max_gap_between_windows": 40,
+    "min_vector_px": 15.0, "min_median_speed_px_per_frame": 3.0, "min_gt_visibility_in_window": 0.5,
+    "gt_box_not_touching_image_border_px": 2, "min_angle_deg": 30.0,
+    "note": "vis >= 0.5 va khong cham bien la hai dieu kien an toan them vao vi hai ung vien 'giu' duy nhat khi khong co chung deu la re gia (GT noi suy trong che khuat hoan toan; box GT bi cat o bien anh). Do nhay: turn_sensitivity.csv"
+  },
+  "ekf_wins_definition": {
+    "cv_failure": "switched hoac lost, ID CV da on dinh >= 5 frame, that bai keo dai >= 10 frame (khong quay ve ID cu)",
+    "ekf_hold": ">= 10 frame GT lien tiep dung ID (offset None toi da 5 frame), EKF va CV khong doi ID trong 25 frame truoc",
+    "fail_near_turn": "f_fail trong [turn_start - W, turn_end + W + 10]",
+    "motion": "path >= 30 px va net >= 0.5 x median bbox diagonal trong cua so demo",
+    "ukf": "khong dung de loc"
+  },
+  "counts": {
+    "gt_objects": 5952,
+    "objects_with_true_turn": 9, "true_turn_segments": 10,
+    "cv_failure_moments_on_turning_objects": 14,
+    "ekf_hold_ge10": 1, "plus_cv_fail_persists": 0, "plus_stable_before": 0, "plus_fail_in_turn_window": 0, "qualifies": 0
+  },
+  "outputs_not_produced": ["demo_ekf_turning_buffer90.mp4", "before_turn.png", "during_turn.png", "after_turn.png", "match_cost_at_key_frame.csv"],
+  "reason": "Khong co GT object nao dong thoi 're that su' (>= 30 deg voi cua so on dinh) va 'EKF thang CV on dinh' (EKF giu dung ID >= 10 frame sau khi CV that bai). Khong noi tieu chi.",
+  "artefacts": ["DEMO_TURNING_REPORT.md", "candidates_turning.csv", "turns_detected.csv", "turns_tracker_chains.csv", "turn_sensitivity.csv", "metadata.json"]
+}

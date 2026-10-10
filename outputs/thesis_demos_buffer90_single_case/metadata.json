@@ -1,0 +1,420 @@
+{
+  "demo": "demo_ekf_wins_cv_buffer90",
+  "selection": {
+    "rank": 1,
+    "table": "outputs\\thesis_demos_buffer90_single_case\\candidates_single_case.csv",
+    "criteria": {
+      "min_median_speed_px": 3.0,
+      "min_path_px": 30.0,
+      "min_net_over_diag": 0.5,
+      "min_ekf_hold_frames": 10,
+      "min_established_frames": 5,
+      "max_ekf_start_offset": 5,
+      "window": 25
+    }
+  },
+  "source": {
+    "split": "DETRAC-all",
+    "part": "train",
+    "video": "MVI_40991",
+    "gt_id": 27,
+    "clip_frames": [
+      1702,
+      1777
+    ],
+    "cv_failure_frame": 1727,
+    "cv_failure_kind": "switched",
+    "keyframes": {
+      "before": 1705,
+      "failure_or_occlusion": 1717,
+      "after": 1737
+    }
+  },
+  "configuration": {
+    "condition": "Stage E mo rong: conf=0.25, track_buffer=90 (khong phai A/B)",
+    "detector": "models/yolov8n.pt",
+    "weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "conf": 0.25,
+    "classes": [
+      2,
+      3,
+      5,
+      7
+    ],
+    "tracker_runtime": {
+      "cv": {
+        "filter_runtime": "KalmanFilterXYAH",
+        "tracker_cfg": "configs/buffer_sweep/cv_buf90.yaml",
+        "track_high_thresh": 0.25,
+        "track_low_thresh": 0.1,
+        "new_track_thresh": 0.25,
+        "track_buffer": 90,
+        "match_thresh": 0.8,
+        "fuse_score": true
+      },
+      "ekf": {
+        "filter_runtime": "EKFTrackerCTRV",
+        "tracker_cfg": "configs/buffer_sweep/ekf_ctrv_buf90.yaml",
+        "track_high_thresh": 0.25,
+        "track_low_thresh": 0.1,
+        "new_track_thresh": 0.25,
+        "track_buffer": 90,
+        "match_thresh": 0.8,
+        "fuse_score": true
+      },
+      "ukf": {
+        "filter_runtime": "UKFTrackerCTRV",
+        "tracker_cfg": "configs/buffer_sweep/ukf_ctrv_buf90.yaml",
+        "track_high_thresh": 0.25,
+        "track_low_thresh": 0.1,
+        "new_track_thresh": 0.25,
+        "track_buffer": 90,
+        "match_thresh": 0.8,
+        "fuse_score": true
+      }
+    },
+    "saved_results": {
+      "cv": "D:\\LABOTARY\\bytetrack\\data\\processed\\trackers\\DETRAC-all\\sweep-cv-buf90\\data\\MVI_40991.txt",
+      "ekf": "D:\\LABOTARY\\bytetrack\\data\\processed\\trackers\\DETRAC-all\\sweep-ekf_ctrv-buf90\\data\\MVI_40991.txt",
+      "ukf": "D:\\LABOTARY\\bytetrack\\data\\processed\\trackers\\DETRAC-all\\sweep-ukf_ctrv-buf90\\data\\MVI_40991.txt"
+    }
+  },
+  "candidate": {
+    "video": "MVI_40991",
+    "gt_id": 27,
+    "gt_first": 1676,
+    "gt_last": 1806,
+    "gt_frames": 131,
+    "f_fail": 1727,
+    "cv_kind": "switched",
+    "cv_id_before": 365,
+    "cv_id_after": 376.0,
+    "cv_gap_before_fail": 21,
+    "cv_lost_streak": 0,
+    "cv_established_before": 26,
+    "cv_fail_persists_10": true,
+    "cv_recovers_old_id_ever": false,
+    "cv_new_id_hold": 34,
+    "cv_id_changes_25_before": 0,
+    "ekf_id_changes_25_before": 0,
+    "ekf_wins": true,
+    "ekf_id": 379,
+    "ekf_established_before": 21,
+    "ekf_start_offset": 0.0,
+    "ekf_hold_after": 34,
+    "ekf_id_at_fail": 379.0,
+    "ekf_hold_until_change": 57,
+    "ukf_id_before": 378,
+    "ukf_id_at_fail": 378.0,
+    "ukf_hold_after": 34,
+    "ukf_hold_until_change": 57,
+    "win_frames": 51,
+    "win_start": 1702,
+    "win_end": 1752,
+    "median_speed_px": 5.269822103259292,
+    "mean_speed_px": 6.704787333334923,
+    "path_px": 335.2393666667461,
+    "net_px": 326.6807491267278,
+    "median_bbox_diag_px": 125.40926441056897,
+    "net_over_diag": 2.6049171938145625,
+    "turn_deg": -3.800183288339497,
+    "min_vis": 0.0,
+    "mean_vis": 0.4882411764705883,
+    "occ_ratio_near_fail": 0.9942,
+    "occ_segment_overlaps": true,
+    "occ_segment_max_ratio": 1.0,
+    "moving_speed_ok": true,
+    "moving_path_ok": true,
+    "moving_net_ok": true,
+    "moving_win_ok": true,
+    "moving": true,
+    "has_occlusion": true,
+    "has_turn": false,
+    "stable_before": true,
+    "qualifies": true,
+    "rank": 1.0,
+    "reason": "giu: hang 1"
+  },
+  "motion": {
+    "median_speed_px": 5.269822103259292,
+    "mean_speed_px": 6.704787333334923,
+    "path_px": 335.2393666667461,
+    "net_px": 326.6807491267278,
+    "median_bbox_diag_px": 125.40926441056897,
+    "net_over_diag": 2.6049171938145625,
+    "turn_deg": -3.800183288339497,
+    "window": [
+      1702,
+      1752
+    ]
+  },
+  "occlusion": {
+    "has_occlusion": true,
+    "occ_ratio_near_fail": 0.9942,
+    "occ_segment_overlaps": true,
+    "min_vis_in_window": 0.0
+  },
+  "outcomes": {
+    "cv": {
+      "id_before": 365,
+      "id_at_fail": 376,
+      "id_after_10": 376,
+      "hold_consecutive_after_fail": 0,
+      "hold_until_id_change_after_fail": 0,
+      "window": [
+        1705,
+        1737
+      ],
+      "id_match": false,
+      "id_continuous": false
+    },
+    "ekf": {
+      "id_before": 379,
+      "id_at_fail": 379,
+      "id_after_10": 379,
+      "hold_consecutive_after_fail": 34,
+      "hold_until_id_change_after_fail": 57,
+      "window": [
+        1705,
+        1737
+      ],
+      "id_match": true,
+      "id_continuous": false
+    },
+    "ukf": {
+      "id_before": 378,
+      "id_at_fail": 378,
+      "id_after_10": 378,
+      "hold_consecutive_after_fail": 34,
+      "hold_until_id_change_after_fail": 57,
+      "window": [
+        1705,
+        1737
+      ],
+      "id_match": true,
+      "id_continuous": false
+    }
+  },
+  "rerun_verification": {
+    "cv": {
+      "frames": 76,
+      "saved_boxes": 101,
+      "rerun_boxes": 101,
+      "geometry_iou90_matches": 101,
+      "geometry_match_pct": 100.0,
+      "raw_same_id_matches": 101,
+      "raw_same_id_pct": 100.0,
+      "mapped_same_id_matches": 101,
+      "mapped_same_id_pct": 100.0,
+      "rerun_to_saved_id_map": {
+        "365": 365,
+        "369": 369,
+        "374": 374,
+        "376": 376,
+        "377": 377,
+        "379": 379
+      },
+      "basic_check_raw_ids": {
+        "frames": 55,
+        "n_rerun": 101,
+        "n_saved": 101,
+        "frames_same_id_set": 55,
+        "pct_frames_same_id_set": 100.0,
+        "boxes_matched_iou90": 101,
+        "boxes_matched_iou90_same_id": 101,
+        "pct_same_id": 100.0
+      },
+      "filter_runtime": "KalmanFilterXYAH",
+      "target_timeline_frames": 76,
+      "target_timeline_same_after_mapping": 76,
+      "target_timeline_same_pct": 100.0,
+      "target_id_at_fail_saved": 376,
+      "target_id_at_fail_rerun": 376,
+      "target_id_before_fail_saved": null,
+      "target_id_before_fail_rerun": null
+    },
+    "ekf": {
+      "frames": 76,
+      "saved_boxes": 101,
+      "rerun_boxes": 101,
+      "geometry_iou90_matches": 101,
+      "geometry_match_pct": 100.0,
+      "raw_same_id_matches": 101,
+      "raw_same_id_pct": 100.0,
+      "mapped_same_id_matches": 101,
+      "mapped_same_id_pct": 100.0,
+      "rerun_to_saved_id_map": {
+        "379": 379,
+        "382": 382,
+        "387": 387,
+        "390": 390,
+        "392": 392
+      },
+      "basic_check_raw_ids": {
+        "frames": 55,
+        "n_rerun": 101,
+        "n_saved": 101,
+        "frames_same_id_set": 55,
+        "pct_frames_same_id_set": 100.0,
+        "boxes_matched_iou90": 101,
+        "boxes_matched_iou90_same_id": 101,
+        "pct_same_id": 100.0
+      },
+      "filter_runtime": "EKFTrackerCTRV",
+      "target_timeline_frames": 76,
+      "target_timeline_same_after_mapping": 76,
+      "target_timeline_same_pct": 100.0,
+      "target_id_at_fail_saved": 379,
+      "target_id_at_fail_rerun": 379,
+      "target_id_before_fail_saved": null,
+      "target_id_before_fail_rerun": null
+    },
+    "ukf": {
+      "frames": 76,
+      "saved_boxes": 101,
+      "rerun_boxes": 101,
+      "geometry_iou90_matches": 101,
+      "geometry_match_pct": 100.0,
+      "raw_same_id_matches": 101,
+      "raw_same_id_pct": 100.0,
+      "mapped_same_id_matches": 101,
+      "mapped_same_id_pct": 100.0,
+      "rerun_to_saved_id_map": {
+        "378": 378,
+        "381": 381,
+        "386": 386,
+        "389": 389,
+        "391": 391
+      },
+      "basic_check_raw_ids": {
+        "frames": 55,
+        "n_rerun": 101,
+        "n_saved": 101,
+        "frames_same_id_set": 55,
+        "pct_frames_same_id_set": 100.0,
+        "boxes_matched_iou90": 101,
+        "boxes_matched_iou90_same_id": 101,
+        "pct_same_id": 100.0
+      },
+      "filter_runtime": "UKFTrackerCTRV",
+      "target_timeline_frames": 76,
+      "target_timeline_same_after_mapping": 76,
+      "target_timeline_same_pct": 100.0,
+      "target_id_at_fail_saved": 378,
+      "target_id_at_fail_rerun": 378,
+      "target_id_before_fail_saved": null,
+      "target_id_before_fail_rerun": null
+    }
+  },
+  "rerun_source": "doc lai tu rerun/ (lan chay lai khong cache truoc do, cung phien)",
+  "association_replay": [
+    {
+      "frame": 1727,
+      "model": "KF + CV",
+      "tracker": "sweep-cv-buf90",
+      "old_track_id": 365,
+      "old_track_state": "lost",
+      "pred_x1": 298.1595764160156,
+      "pred_y1": 142.44297790527344,
+      "pred_x2": 423.8255310058594,
+      "pred_y2": 229.4490203857422,
+      "det_x1": 263.86309814453125,
+      "det_y1": 169.81874084472656,
+      "det_x2": 369.42291259765625,
+      "det_y2": 240.8975830078125,
+      "detection_score": 0.6458768844604492,
+      "detection_iou_with_gt": 0.7891480367976232,
+      "predict_detection_iou": 0.29952484369277954,
+      "fused_similarity_iou_times_score": 0.19345617286279548,
+      "bytetrack_cost": 0.8065438271372045,
+      "cost_threshold": 0.8,
+      "direct_pair_passes": false,
+      "full_lap_assigned_det_index": NaN,
+      "target_det_index": 0,
+      "old_track_wins_target_det_in_full_lap": false,
+      "target_det_winner_track_id": NaN,
+      "actual_target_id_after_frame": 376,
+      "old_id_preserved_in_saved": false
+    },
+    {
+      "frame": 1727,
+      "model": "EKF + CTRV",
+      "tracker": "sweep-ekf_ctrv-buf90",
+      "old_track_id": 379,
+      "old_track_state": "lost",
+      "pred_x1": 295.35577392578125,
+      "pred_y1": 149.86672973632812,
+      "pred_x2": 425.2167663574219,
+      "pred_y2": 237.33551025390625,
+      "det_x1": 263.86309814453125,
+      "det_y1": 169.81874084472656,
+      "det_x2": 369.42291259765625,
+      "det_y2": 240.8975830078125,
+      "detection_score": 0.6458768844604492,
+      "detection_iou_with_gt": 0.7891480367976232,
+      "predict_detection_iou": 0.3607780933380127,
+      "fused_similarity_iou_times_score": 0.2330182309067368,
+      "bytetrack_cost": 0.7669817690932632,
+      "cost_threshold": 0.8,
+      "direct_pair_passes": true,
+      "full_lap_assigned_det_index": 0.0,
+      "target_det_index": 0,
+      "old_track_wins_target_det_in_full_lap": true,
+      "target_det_winner_track_id": 379.0,
+      "actual_target_id_after_frame": 379,
+      "old_id_preserved_in_saved": true
+    },
+    {
+      "frame": 1727,
+      "model": "UKF + CTRV",
+      "tracker": "sweep-ukf_ctrv-buf90",
+      "old_track_id": 378,
+      "old_track_state": "lost",
+      "pred_x1": 304.5113830566406,
+      "pred_y1": 152.2445068359375,
+      "pred_x2": 434.37237548828125,
+      "pred_y2": 239.71328735351562,
+      "det_x1": 263.86309814453125,
+      "det_y1": 169.81874084472656,
+      "det_x2": 369.42291259765625,
+      "det_y2": 240.8975830078125,
+      "detection_score": 0.6458768844604492,
+      "detection_iou_with_gt": 0.7891480367976232,
+      "predict_detection_iou": 0.31671881675720215,
+      "fused_similarity_iou_times_score": 0.20456136261714164,
+      "bytetrack_cost": 0.7954386373828584,
+      "cost_threshold": 0.8,
+      "direct_pair_passes": true,
+      "full_lap_assigned_det_index": 0.0,
+      "target_det_index": 0,
+      "old_track_wins_target_det_in_full_lap": true,
+      "target_det_winner_track_id": 378.0,
+      "actual_target_id_after_frame": 378,
+      "old_id_preserved_in_saved": true
+    }
+  ],
+  "association_note": "Replay offline tai frame that bai tren predicted pool cua lan chay lai + detection tinh lai; khong phai log runtime lich su.",
+  "render": {
+    "crop": [
+      91,
+      0,
+      668,
+      540
+    ],
+    "output": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 12.0,
+      "frames": 118,
+      "codec": "H.264 (libx264)",
+      "duration_s": 9.83
+    },
+    "caption": "Ví dụ minh họa trên tập train với track_buffer=90: trong trường hợp này, EKF duy trì ID của xe đang di chuyển lâu hơn CV. Đây là case study được chọn, không chứng minh EKF vượt trội trên toàn bộ dữ liệu.",
+    "hold_after_fail_in_clip": {
+      "cv": 0,
+      "ekf": 34,
+      "ukf": 34
+    }
+  },
+  "interpretation_limit": "Mot case study chon co chu dich tren tap train theo tieu chi EKF thang CV; khong phai bang chung hieu nang tong quat, khong dung tap test."
+}

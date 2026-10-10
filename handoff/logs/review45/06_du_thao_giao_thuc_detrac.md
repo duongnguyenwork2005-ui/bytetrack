@@ -8,6 +8,10 @@
 > - R45-F2: bỏ kết luận một chiều về recall / AP; giới hạn phát biểu về toolkit theo đúng phần mã đã đọc (mục 4, 10).
 > - Làm rõ 1–3: trình tự fingerprint → adapter → khóa; danh sách ảnh có thứ tự; kiểm w/h mọi ảnh (đầu tài liệu, mục 7, 8).
 
+> **Đính chính R46-N1** (review `e4a0311`; kế hoạch R46 mốc B, 2026-10-09): mục 6 thêm điều kiện sau xử lý ignore cho
+> precision của lớp không GT. Chỉ sửa câu chữ; scorer không đổi, không chạy lại. Dự thảo vẫn **chưa khóa**; D1–D5 vẫn
+> **chưa duyệt**.
+
 Trình tự **sau khi** người dùng duyệt D1–D5:
 1. **dựng fingerprint dữ liệu**: bảng hash nội dung **mọi** ảnh (kèm kiểm w/h mọi ảnh), danh sách ảnh `video/frame` có
    thứ tự, danh sách ảnh bị loại theo D4 (nếu có);
@@ -100,8 +104,10 @@ chạy.
 - **Lớp không có GT** — hành vi **hiện tại** của `danh_gia`, đối chiếu bằng fixture (`logs/review46/test_cong_cu_detrac.py`,
   E1):
   - AP50 / AP75 / AP50–95, recall và F1 = `null`; lớp không vào mAP hay macro P / R;
-  - nhưng TP / FP thô tại điểm vận hành **vẫn được đếm**, precision = TP / (TP + FP) vẫn được tính (= 0 nếu có detection
-    lớp đó với conf ≥ 0,25), `n_det` vẫn đếm;
+  - nhưng TP / FP thô tại điểm vận hành **vẫn được đếm**, precision = TP / (TP + FP) vẫn được tính, `n_det` vẫn đếm.
+    Với lớp không GT, P=0 khi còn FP>0 sau xử lý ignore; P=null khi TP+FP=0.
+    *(Đính chính R46-N1, kế hoạch R46 mốc B: bản trước ghi "(= 0 nếu có detection lớp đó với conf ≥ 0,25)", rộng hơn
+    hành vi thật — detection không ghép GT mà có IoA ≥ 0,5 với một vùng bỏ qua thì không bị đếm FP.)*;
   - entry point kiểu vòng 43 ghi các số này vào `ket_qua.json` và `theo_lop.csv` cho cả 5 lớp;
   - chẩn đoán "detection trên ảnh không có GT" cũng đếm mọi lớp.
 

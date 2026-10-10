@@ -1,0 +1,63 @@
+{
+ "ke_hoach": "handoff/logs/review47/03_ke_hoach_khoa_danh_gia_detrac_test.md",
+ "ke_hoach_sha256": "7028a291d2595ee55ead9b055fa1001225733ff8075eec0773680178842d4dfd",
+ "bat_dau": "2026-10-10T06:34:01+07:00",
+ "pid": 4900,
+ "luot": {
+  "yolov8n_coco": {
+   "lenh": [
+    "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+    "-u",
+    "src/danh_gia_detector_detrac_test.py",
+    "--model",
+    "yolov8n_coco=models/yolov8n.pt",
+    "--sha256",
+    "yolov8n_coco=f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "--out",
+    "results/phase2/detector_eval/detrac_test/20261010_yolov8n_coco"
+   ],
+   "out": "results/phase2/detector_eval/detrac_test/20261010_yolov8n_coco",
+   "bat_dau": "2026-10-10T06:34:01+07:00",
+   "trang_thai": "xong",
+   "ket_thuc": "2026-10-10T06:52:39+07:00",
+   "exit": 0
+  },
+  "yolov8n_ft": {
+   "lenh": [
+    "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+    "-u",
+    "src/danh_gia_detector_detrac_test.py",
+    "--model",
+    "yolov8n_ft=models/finetune_phase2/train_bdd5_v1_yolov8n_day_du/weights/best.pt",
+    "--sha256",
+    "yolov8n_ft=5f66776d3202389ca484f3d9e2f107dddb354d21a9f1762d19401d690a4a0d8a",
+    "--out",
+    "results/phase2/detector_eval/detrac_test/20261010_yolov8n_ft"
+   ],
+   "out": "results/phase2/detector_eval/detrac_test/20261010_yolov8n_ft",
+   "bat_dau": "2026-10-10T06:52:39+07:00",
+   "trang_thai": "xong",
+   "ket_thuc": "2026-10-10T07:10:11+07:00",
+   "exit": 0
+  },
+  "yolo11n_ft": {
+   "lenh": [
+    "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+    "-u",
+    "src/danh_gia_detector_detrac_test.py",
+    "--model",
+    "yolo11n_ft=models/finetune_phase2/train_bdd5_v1_yolo11n_day_du/weights/best.pt",
+    "--sha256",
+    "yolo11n_ft=d7d1c7e86d03c69d913febe79e4cbb6c2e1bcf9f17f034724af4de2ccfba7923",
+    "--out",
+    "results/phase2/detector_eval/detrac_test/20261010_yolo11n_ft"
+   ],
+   "out": "results/phase2/detector_eval/detrac_test/20261010_yolo11n_ft",
+   "bat_dau": "2026-10-10T07:10:11+07:00",
+   "trang_thai": "xong",
+   "ket_thuc": "2026-10-10T07:27:41+07:00",
+   "exit": 0
+  }
+ },
+ "ket_thuc": "2026-10-10T07:27:41+07:00"
+}
