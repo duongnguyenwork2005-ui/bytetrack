@@ -1,5 +1,9 @@
 # CODEX_HANDOFF — điểm bắt đầu cho người review (mốc 2 đã chốt, đang chuẩn bị mốc 3)
 
+> **Từ 2026-10-10: tài liệu này là LỊCH SỬ của mốc 2.** Trạng thái hiện hành: `handoff/PLAN_DA_CHOT.md` mục 0.
+> Lộ trình đọc cho agent: `AGENTS.md`. Chỉ mục tài liệu cũ, lưu trữ, khôi phục: `handoff/LUU_TRU.md`.
+> Kết luận đo được của mốc 2 (mục 5, 8 dưới đây) vẫn có hiệu lực.
+
 Tài liệu này dành cho **người/agent review không có quyền truy cập máy của tác giả**. Mọi đường dẫn là
 **tương đối từ gốc repository**.
 

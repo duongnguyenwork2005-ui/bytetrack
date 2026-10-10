@@ -3,6 +3,60 @@
 Nguồn: yêu cầu của người dùng sau khi Codex nghiệm thu `239b9c6` (**PASS WITH LIMITATIONS**, `handoff/CODEX_REVIEW_239b9c6.md`).
 File này là phạm vi làm việc cho các vòng sau. Thay đổi phạm vi phải do người dùng quyết định.
 
+## 0. TRẠNG THÁI HIỆN TẠI — tài liệu trạng thái chuẩn (cập nhật 2026-10-10)
+
+> Mục này là **nguồn trạng thái duy nhất**. Brief, handoff, REVIEW*_CHI_TIET là lịch sử theo vòng; khi chúng
+> mâu thuẫn với mục này thì mục này đúng, trừ khi có commit/bằng chứng mới hơn (khi đó sửa mục này).
+> Mỗi vòng xong việc: cập nhật mục 0 trước, rồi mới viết brief/handoff. Lộ trình đọc: `AGENTS.md`.
+> Chỉ mục tài liệu cũ và vùng lưu trữ: `handoff/LUU_TRU.md`.
+
+**Mục tiêu hiện tại.** Chuẩn bị báo cáo ngày **17/10/2026**. Thứ tự ưu tiên do người dùng đặt (10/10/2026):
+1. Làm vững **lý thuyết** KF / EKF / PF, **SIS / SIR** (lấy mẫu trọng số tuần tự, tái chọn mẫu) — gắn với mã
+   `src/ekf_ctrv.py`, `src/ukf_ctrv.py`, `src/pf_ctrv.py` và số liệu đã đo.
+2. **Audit dữ liệu** (UA-DETRAC, BDD100K): nguồn, split, nhãn, fingerprint.
+3. **Kiểm chứng PF** (suy biến trọng số, số hạt, thiết kế nhiễu).
+4. **Hoãn** tối ưu Jetson Nano (mốc 6) cho tới khi người dùng mở lại.
+
+Kế hoạch chi tiết cho báo cáo 17/10: **chưa có file trong repo** (chưa rõ; người dùng sẽ duyệt kế hoạch mới).
+
+**Quyết định đã chốt** (nguyên văn ở file dẫn):
+- Phạm vi + thứ tự mốc 1–6, quy tắc "hỏi trước", dev nội bộ, hai tập đánh giá cuối: các mục dưới đây của file này.
+- Lớp detector 5 lớp `0 car, 1 truck, 2 bus, 3 motorcycle, 4 bicycle` (`src/detector_classes.py`).
+- Nhãn BDD MOT train: phương án C (snapshot HF đã ghim, vòng 34) — `handoff/REVIEW34_CHI_TIET.md`.
+- Split `bdd5_train_v1` (train-fit 1.261 / dev 139 video, vòng 35) — `handoff/REVIEW35_CHI_TIET.md`.
+- **D1–D5** giao thức đánh giá detector trên UA-DETRAC test: người dùng duyệt 2026-10-09 —
+  `handoff/REVIEW46_CHI_TIET.md` mục 11.4; kế hoạch khóa trước suy luận:
+  `handoff/logs/review47/03_ke_hoach_khoa_danh_gia_detrac_test.md` (sha256 `7028a291…`).
+- Moc 2 tracking: tiền đăng ký + khóa cấu hình `configs/phase2/PREREG_moc2.md`, `configs/phase2/LOCK_moc2.md`.
+
+**Kết quả đã xác minh** (đọc file dẫn, không chép lại số khác):
+- Tracking UA-DETRAC test 40 video (mốc 2): EKF–CTRV hơn KF–CV có ý nghĩa ở `c10`, CI chứa 0 ở `c25`; PF–CTRV
+  kém rõ rệt so với EKF; thứ tự ảnh hưởng Nhóm B `_fix1` — `CODEX_HANDOFF.md` mục 5 và mục 8, `PHASE2_REPORT.md`.
+- PF: ESS/N ~1 % ở các lần cập nhật sau mất dấu dài; khoảng cách với EKF thu hẹp khi N 100 → 300 → 500 nhưng
+  không hết — `CODEX_HANDOFF.md` mục 5 ý 7; `src/pf_diag_report.py`; `handoff/logs/pf_diag_report.log`.
+- BDD transfer (COCO-video val): `results/phase2/bdd_transfer_cocovid_val/bao_cao/` (`bang_chinh.md`, `pf_seed.md`).
+- Detector trên BDD val (vòng 43): `handoff/REVIEW43_CHI_TIET.md`; số liệu `results/phase2/detector_eval/bdd_val_cocovid/`.
+- Fingerprint UA-DETRAC test (R47 bước 1: 40 video, 56.340 ảnh, D4 loại 173): `handoff/logs/review47/01_fingerprint_detrac_test.md`.
+- Detector trên UA-DETRAC test (R47 bước 4): mAP50 (car, bus) baseline `yolov8n_coco` 0,870 > `yolov8n_ft` 0,586 /
+  `yolo11n_ft` 0,564; Codex nghiệm thu **approve** sau một vòng sửa diễn giải —
+  `handoff/logs/review47/04_ket_qua_danh_gia_detrac_test.md`; số liệu `results/phase2/detector_eval/detrac_test/`.
+
+**Việc đang dở / chưa chốt**
+- Kết quả R47 bước 1–4 (`handoff/logs/review47/`, `src/fingerprint_detrac_test.py`, `src/danh_gia_detector_detrac_test.py`,
+  `src/test_danh_gia_detector_detrac_test.py`, `results/phase2/detector_eval/`) và các sửa tài liệu vòng 46 **chưa
+  commit** — người dùng quyết định. Bản sao nguyên byte: nhánh `backup/pre-cleanup-20261010-1429` (không gồm NPZ).
+- Lượt orchestrator R46 và R47 đều **đã dừng** (R47: dừng tay 02:48 ngày 10/10 khi chờ hạn mức); repo đã khác mốc
+  lưu của cả hai, nên không `start`/`recover` lại hai lượt này nếu chưa kiểm — lập kế hoạch mới thay vì chạy tiếp.
+
+**Bước tiếp theo:** người dùng duyệt kế hoạch báo cáo 17/10 (theo thứ tự ưu tiên trên). Không tự mở việc mới.
+
+**Điểm chưa rõ**
+- Nguyên nhân recall bus thấp (~0,34) của hai checkpoint fine-tune trên UA-DETRAC test; mức đóng góp của nhầm lớp
+  bus → truck / car chưa xác định (`04_ket_qua_danh_gia_detrac_test.md` mục 4).
+- PF với thiết kế nhiễu khác (roughening / proposal / Q riêng) chưa chạy; số hạt chưa giải thích hết khoảng cách.
+- Nguồn gốc cấu hình 53/56 sequence cache `legacy` và 113 thư mục run `LEGACY` không xác minh được bằng hash.
+- Nhãn BDD MOT train chưa xác thực bằng archive gốc (chỉ snapshot bên thứ ba đã ghim).
+
 ## Thứ tự các mốc
 
 | # | Mốc | Trạng thái (vòng 27) |
