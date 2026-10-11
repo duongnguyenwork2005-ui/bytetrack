@@ -1,0 +1,101 @@
+{
+  "goal": "Đồng bộ hồ sơ sau R48 theo duyệt của người dùng ngày 12/10/2026: chỉ cập nhật mục 0 của handoff/PLAN_DA_CHOT.md theo nội dung đã được Codex nghiệm thu và làm rõ đường dẫn, mẫu số trong handoff/logs/review48/07_tong_hop_bao_cao_17_10.md. Một mốc, một cổng nghiệm thu Codex gộp; xong thì dừng, không mở thêm mốc.",
+  "context": "Repo D:/LABOTARY/bytetrack, nhánh phase2-mixed-traffic. Đọc AGENTS.md rồi handoff/PLAN_DA_CHOT.md mục 0. Lượt trước: D:/LABOTARY/automation/runs/bytetrack_r48_tiep_effort_high_20261011_1507 (R48C, R48D, R48E, P9a8ee8bf, Pfca67152 đều đã được Codex approve). Biên bản Codex của R48C/R48D/R48E đã được sao nguyên văn vào handoff/logs/review48/nghiem_thu_r48cde/ (MANIFEST.md có nguồn và sha256): 0002_review (R48C approve), 0006 (R48D revise) → 0009 (R48D approve), 0013 (R48E revise) → 0015 (R48E approve). Hồ sơ đề xuất P9a6c2078 ('Ghi R48E vào mục 0 PLAN_DA_CHOT') và các quyết định đã ghi về nó: handoff/logs/review48/nghiem_thu_r48cde/P9a6c2078_ho_so.json — đây là quyết định gốc cần đọc để ghi đúng trạng thái; không suy đoán. Báo cáo của lượt R48: handoff/logs/review48/ (01–07, 05b, 05c, 03 mục 14). Chính sách: Claude-first; ưu tiên lý thuyết/dữ liệu/PF; tiếp tục hoãn tối ưu Jetson Nano. Python: không cần chạy; mốc này chỉ đọc và sửa văn bản.",
+  "steps": [
+    {
+      "id": "R49A_DONG_BO_MUC0_VA_MAU_SO",
+      "task": "Theo duyệt của người dùng ngày 12/10/2026. (1) Đối chiếu ba biên bản Codex approve của R48C, R48D, R48E (và các revise trước đó để biết điểm đã sửa) trong handoff/logs/review48/nghiem_thu_r48cde/. Chỉ cập nhật MỤC 0 của handoff/PLAN_DA_CHOT.md theo đúng nội dung đã được nghiệm thu: kết quả đã xác minh kèm đường dẫn, GIỮ RÕ các giới hạn mà Codex ghi trong limitations và các việc còn tồn đọng (đề xuất còn chờ quyết định, phần chưa chạy, phần bị chặn). Không thêm kết luận ngoài biên bản. (2) Trong handoff/logs/review48/07_tong_hop_bao_cao_17_10.md: sửa đường dẫn sai/thiếu cho đúng file có thật trong repo, và làm rõ mẫu số của mọi số liệu: đơn vị đếm (ảnh, frame, video, track, sự kiện, lượt chạy…), tập dữ liệu, điều kiện chọn/loại, phạm vi áp dụng. KHÔNG đổi bất kỳ số liệu nào và không tự tính thêm kết quả; nếu không tìm được mẫu số trong báo cáo nguồn thì ghi rõ \"chưa xác định trong nguồn\" kèm file đã tra. (3) Trong mục 0, ghi đúng trạng thái đề xuất P9a6c2078 theo P9a6c2078_ho_so.json (đề xuất có/không có quyết định đã ghi); lần duyệt đồng bộ này KHÔNG phải là duyệt thực hiện P9a6c2078 — nếu ghi kết quả R48E vào mục 0 thì ghi rõ nguồn là biên bản approve R48E (0015_review), còn P9a6c2078 vẫn giữ trạng thái theo hồ sơ. Trong báo cáo JSON: liệt kê từng thay đổi (file, mục/dòng, trước → sau) và nguồn đối chiếu của từng thay đổi.",
+      "write_paths": [
+        "handoff/PLAN_DA_CHOT.md",
+        "handoff/logs/review48/07_tong_hop_bao_cao_17_10.md"
+      ],
+      "acceptance": "Chỉ hai file đổi: handoff/PLAN_DA_CHOT.md (chỉ trong mục 0) và handoff/logs/review48/07_tong_hop_bao_cao_17_10.md. Mọi khẳng định mới trong mục 0 khớp biên bản approve R48C (0002), R48D (0009), R48E (0015) và giữ các giới hạn của chúng; việc tồn đọng được liệt kê. Trong 07: mọi đường dẫn trỏ tới file có thật; mỗi số liệu có đơn vị đếm, tập dữ liệu, điều kiện chọn/loại và phạm vi, hoặc ghi \"chưa xác định trong nguồn\"; không số liệu nào bị đổi (so diff). Trạng thái P9a6c2078 ghi đúng theo hồ sơ, không coi là đã duyệt. Không chạy test/thí nghiệm, không sửa code/dataset/cấu hình."
+    }
+  ],
+  "constraints": [
+    "Chỉ sửa hai file trong write_paths; với handoff/PLAN_DA_CHOT.md chỉ sửa mục 0.",
+    "Không chạy test, huấn luyện, suy luận hay thí nghiệm; không chạy script Python; không sửa code, dataset, cấu hình đánh giá hay kết quả.",
+    "Không đổi số liệu, không tự tính thêm kết quả; chỉ làm rõ đường dẫn và mẫu số từ nguồn đã có.",
+    "Không suy đoán trạng thái đề xuất; P9a6c2078 ghi theo hồ sơ, lần duyệt này không phải duyệt thực hiện P9a6c2078.",
+    "Giữ chính sách Claude-first; ưu tiên lý thuyết/dữ liệu/PF; tiếp tục hoãn tối ưu Jetson Nano.",
+    "Không ghi gì ngoài repo, kể cả thư mục memory của Claude Code (C:/Users/Mikuno/.claude/).",
+    "Không Git stage/commit/push/merge/checkout/reset/clean.",
+    "Ý tưởng mới chỉ ghi vào ideas, không thực hiện. Một mốc duy nhất; xong thì dừng, không mở thêm mốc."
+  ],
+  "protected": [
+    "**/AGENTS.md",
+    "**/CLAUDE.md",
+    ".claude/**",
+    ".codex/**",
+    ".gitignore",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "data/extracted/DETRAC-Test-Annotations-XML/**",
+    "data/interim/hash_tap_danh_gia/bdd100k_mot_val_sha256.csv",
+    "handoff/CODEX_REVIEW_*.md",
+    "handoff/KE_HOACH_BAO_CAO_20261017.md",
+    "handoff/archive/**",
+    "handoff/logs/**/*.csv",
+    "handoff/logs/**/*.json",
+    "handoff/logs/**/*.log",
+    "handoff/logs/**/*.npz",
+    "handoff/logs/review47/**",
+    "handoff/logs/review48/.gitattributes",
+    "handoff/logs/review48/00_tiep_nhan_va_ke_thua.md",
+    "handoff/logs/review48/01_ly_thuyet_kf_ekf_pf.md",
+    "handoff/logs/review48/02_doi_chieu_code_pf.md",
+    "handoff/logs/review48/nghiem_thu_r48cde/MANIFEST.md",
+    "handoff/review_evidence/**",
+    "live.bat",
+    "outputs/**",
+    "results/phase2/kc48_audit/overlay/.gitignore",
+    "results/phase2/kc48_pf_code/so_huu_hat.json",
+    "results/trackeval/DETRAC-all/lassoc*",
+    "results/trackeval/DETRAC-all/p2-exp*",
+    "results/trackeval/DETRAC-all/p2-group*",
+    "results/trackeval/DETRAC-all/run*",
+    "results/trackeval/DETRAC-all/sweep*",
+    "results/trackeval/DETRAC-all/yolov8n*",
+    "src/danh_gia_detector_bdd_val.py",
+    "src/danh_gia_detector_detrac_test.py",
+    "src/demo/**",
+    "src/eval_detector_5lop.py",
+    "src/fingerprint_detrac_test.py",
+    "src/kc48/kiem_so_huu_hat.py",
+    "src/run_trackeval.py",
+    "src/trackeval_ext.py",
+    "tai_lieu_nguon/.gitignore",
+    "tai_lieu_nguon/README.md"
+  ],
+  "cli": {
+    "claude": [
+      "claude",
+      "--model",
+      "claude-opus-5-5",
+      "--effort",
+      "high"
+    ],
+    "codex": [
+      "codex",
+      "--model",
+      "gpt-6-astra",
+      "-c",
+      "model_reasoning_effort=\"high\""
+    ]
+  },
+  "claude_allowed_tools": [
+    "Read",
+    "Glob",
+    "Grep",
+    "Edit",
+    "Write",
+    "Bash(git status *)",
+    "Bash(git diff *)",
+    "Bash(git log *)",
+    "Bash(git show *)",
+    "Bash(git rev-parse *)"
+  ],
+  "max_rounds": 2,
+  "max_turns": 80,
+  "timeout_seconds": 3600
+}

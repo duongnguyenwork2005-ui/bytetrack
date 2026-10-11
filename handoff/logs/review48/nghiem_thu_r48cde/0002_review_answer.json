@@ -1,0 +1,18 @@
+{
+  "verdict": "approve",
+  "issues": [],
+  "evidence": [
+    "Blocker test 11 đã đóng: log thực thi calls/0001_coder/stdout.log:286–289 ghi lệnh src/test_pf_ctrv.py, 26/26 đạt, gồm chạy lại seed 0 và kiểm seed 1 khác seed 0. Các bộ test còn lại có đầu ra đạt tại dòng 344–348.",
+    "Đã đối chiếu fixture_truoc.json và fixture_sau.json: 24.164 file ngoài fixture giữ nguyên danh sách, kích thước và mtime_ns; hash hiện tại của cả 15 file fixture khớp snapshot sau.",
+    "04_giao_thuc_kiem_chung_pf.md:260–274 rút ngoại lệ bằng phụ lục P1. Tự tính hash xác nhận 22.510 byte đầu vẫn là 7063c532…; toàn file là 479497fc…, khớp bằng chứng khóa.",
+    "Tự so byte xác nhận tracking EKF và data_cls của MVI_20052, MVI_20062 trùng giữa smoke và mốc 2. Đối chiếu eval_meta thực tế và git show 935a445 xác nhận chênh hash do chuẩn hóa CRLF thành LF; kết luận và giới hạn trong 05b phù hợp.",
+    "Log smoke ghi track/eval exit 0; năm run đều complete, mỗi run đủ hai video. Thời gian trong summary.csv khớp báo cáo. Không có diff ở src/pf_ctrv.py hoặc src/tracker_ctrv.py; phần sau mục 0 của PLAN_DA_CHOT.md giữ nguyên so với bản đầu mốc."
+  ],
+  "limitations": [
+    "Review tĩnh, không chạy lại test hoặc smoke; kết quả thực thi được kiểm từ log và artifact. Các lệnh tự chạy chỉ đọc, so byte/hash và đối chiếu snapshot.",
+    "Ngoài fixture, snapshot kiểm kích thước và mtime_ns, không hash toàn bộ nội dung.",
+    "Đối chiếu EKF chỉ bao phủ điều kiện A trên 2/12 video; tái lập seed qua runner chỉ kiểm fixture tổng hợp 40 frame. Không suy rộng sang bộ lọc, video hoặc chỉ số đánh giá khác."
+  ],
+  "next_task": "",
+  "ideas": []
+}

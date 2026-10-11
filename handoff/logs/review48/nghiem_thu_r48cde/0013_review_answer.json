@@ -1,0 +1,20 @@
+{
+  "verdict": "revise",
+  "issues": [
+    "F1 — Diễn giải vượt bằng chứng: 03_audit_du_lieu.md:679 kết luận “không phải lỗi xử lý vùng”; 08_de_cuong_slide.md:38 ghi “do nén lại JPEG”. Hậu kiểm chỉ cho thấy sai số phù hợp với nén lại, chưa xác định duy nhất nguyên nhân, như chính 03:669–674 thừa nhận. Sửa thành “phù hợp với mất mát do nén lại JPEG; chưa chứng minh nguyên nhân”, giữ nguyên 3 ảnh không đạt. Câu quy nguyên nhân tại 03:648 cũng cần ghi là giả thuyết.",
+    "F2 — 03_audit_du_lieu.md:612 mô tả quá rộng cơ chế khóa tiêu chí. src/kc48/kiem_pixel_to_xam.py:156–161 chỉ kiểm chuỗi dung sai xám và bán kính lõi; không kiểm các ngưỡng T1/T2/T3 trước khi dùng hằng số. Các ngưỡng hiện tại khớp file công bố, nên chỉ cần sửa mô tả cho đúng phạm vi kiểm tra thực tế."
+  ],
+  "evidence": [
+    "Đã tự chạy kiểm tra chỉ đọc bằng Python -B, exit 0: CSV có đúng 160 dòng và 160 ảnh duy nhất, khớp tập ảnh to_xam trong yolo_kiem_mau.csv; mỗi tầng có 40 ảnh.",
+    "Đếm lại CSV khớp JSON: 131 đạt / 26 chưa kết luận / 3 không đạt; T1 134/0/26, T2 160/0/0, T3 83/3/74. Phân loại tổng hợp nhất quán.",
+    "Tự tính SHA256 tiêu chí được 4f62d1654e1b8c84e54868220759b81ab4cb1f26e1d9a6346708646147da0ca0, khớp tóm tắt. Log calls/0010_coder/stdout.log:110–118 ghi công bố trước phép tính và tool_result thành công, không bị ngắt; calls/0012_coder/stdout.log:77–80 ghi hậu kiểm thành công.",
+    "Đối chiếu mã: cách chọn mẫu khớp phan_yolo; mặt nạ loại phần box có nhãn khớp exporter. Các đường ghi kết quả đi qua _duong_ghi, giới hạn trong results/phase2/kc48_audit/."
+  ],
+  "limitations": [
+    "Review tĩnh, không chạy lại phép đo pixel hoặc hậu kiểm JPEG; lệnh tự chạy chỉ kiểm CSV, JSON, hash và log.",
+    "Không có snapshot toàn bộ data/ trước–sau để chứng minh độc lập không thay đổi dữ liệu; đã kiểm đường ghi trong mã và các lệnh được lưu.",
+    "PLAN_DA_CHOT.md chưa cập nhật R48E và nằm ngoài write_paths của bước này; không yêu cầu Claude sửa."
+  ],
+  "next_task": "Trong một vòng sửa tài liệu, sửa F1 tại 03 mục 14 và 08 dòng 38; sửa F2 tại 03 dòng 612. Giữ nguyên tiêu chí, CSV/JSON và kết quả 131/26/3; không cần chạy lại phép đo. Kiểm diff chỉ có các đính chính diễn giải trong hai file này.",
+  "ideas": []
+}

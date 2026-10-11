@@ -1,0 +1,22 @@
+{
+  "verdict": "revise",
+  "issues": [
+    "F1 — src/kc48/phan_tich_dev.py:113–117 giải Hungarian trên mọi IoU rồi mới loại cặp dưới 0,5, làm sai phép ghép dùng tính giữ ID/đổi ID. Đối chiếu trực tiếp MVI_20052, run ekf, frame 445: GT 38 được ghép tracker 350 (IoU 0,72466), trong khi ghép có ràng buộc ngưỡng chọn tracker 290 (0,74063). Repo đã có occlusion_eval.match_frame xử lý đúng tại src/occlusion_eval.py:123–146. Cần sửa phần phân tầng và tính lại các bảng liên quan.",
+    "F2 — src/kc48/thi_nghiem_mo_phong.py:139–147 dùng trực tiếp trường ESS/resample của nhánh tái khởi tạo. src/pf_ctrv.py:318–321 ghi ESS=0 và resample=True như giá trị quy ước, không phải ESS thực hay systematic resampling. Ô cua_deu, N=100, L=20, κ=1, h0=24 có 43/90 lần tái khởi tạo; trung bình ess_tr=0,005615, được báo thành 0,006 tại 07:95, dù ESS/N hợp lệ phải ≥0,01. Trung bình trên 47 lần không tái khởi tạo là 0,010752. Cách tổng hợp hiện tại trộn hai cơ chế, ảnh hưởng diễn giải ESS và tần suất resampling. Ngoài ra n_deg tại dòng 184 là bộ đếm tích lũy qua nhiều quỹ đạo, không phải số lần của từng quỹ đạo.",
+    "F3 — src/kc48/phan_tich_dev.py:67,79 lấy trung bình trường thô giữa seed trước khi tính metric/bootstrap. Giao thức 04 mục 5.2 yêu cầu tính COMBINED rồi trung bình ba seed trong mỗi mẫu bootstrap. Hai phép tính không tương đương với HOTA/IDF1. Ví dụ pf500-k1: HOTA đang báo 0,5547515202, trung bình COMBINED thực của ba seed là 0,5547572114. Chênh điểm nhỏ nhưng CI hiện cũng ước lượng sai đại lượng đã khóa; phụ lục P2 chưa ghi nhận lệch này."
+  ],
+  "evidence": [
+    "Đọc log thực thi calls/0003_coder/stdout.log:203–231: test K1/K2 ghi 16/16; correctness 29/29; PF cũ 1–10 ghi 21/21; EKF 14/14, UKF 12/12, lifecycle 20/20, init 17/17. Đây là bằng chứng log, không phải test reviewer chạy lại.",
+    "Tự tính hash xác nhận 22.510 byte đầu giao thức vẫn là 7063c532de0c1ec84aced98fb21f7a93645be01b843a1eb3f160bbf09b50e2e4. Phần sau mục 0 của PLAN_DA_CHOT.md trùng snapshot đầu mốc.",
+    "Đọc và kiểm khóa dữ liệu của 96 CSV mô phỏng: 115.200 dòng, đủ seed d=0–29 và số tổ hợp dự kiến, không trùng khóa trong từng file.",
+    "Nhật ký wrapper có 26 lượt track và một lượt eval, đều ghi exit 0. Tự so hash xác nhận sáu file tracking mặc định trùng smoke R48C.",
+    "Đã xem hình hạt theo track, đọc mã K1/test độc lập và các báo cáo 06–08. M5 được trình bày là thiết kế; báo cáo có nêu kết quả bất lợi cho PF."
+  ],
+  "limitations": [
+    "Review tĩnh, không chạy lại test, mô phỏng hoặc pipeline. Các phép tự chạy chỉ đọc file, tính hash và đối chiếu số liệu/phép ghép trong bộ nhớ.",
+    "Test 11 chưa chạy lại sau K1; không yêu cầu ghi fixture ngoài write_paths R48D.",
+    "Bằng chứng không ghi đè kết quả cũ hiện dựa trên mtime, không chứng minh toàn vẹn nội dung bằng hash trước/sau."
+  ],
+  "next_task": "Chỉ sửa R48D trong write_paths hiện tại. (1) Dùng phép ghép có ràng buộc IoU≥0,5 cho phân tầng, có thể gọi occlusion_eval.match_frame mà không sửa evaluator. Thêm test phản ví dụ lọc ngưỡng sau Hungarian và kiểm ca MVI_20052/frame 445; tính lại phân tầng từ tracking đã có. (2) Tách tái khởi tạo khỏi ESS hợp lệ và systematic resampling; ghi cờ/số lần riêng, mẫu số rõ ràng, n_deg theo từng quỹ đạo. Thêm test ép nhánh tái khởi tạo và kiểm chẩn đoán không đổi đầu ra bộ lọc. Tính lại chẩn đoán bị ảnh hưởng từ dữ liệu đủ thông tin; nếu cần chạy bổ sung mô phỏng thì giữ nguyên cấu hình/seed và ngân sách đã duyệt. (3) Trong mỗi mẫu bootstrap video, tính COMBINED riêng từng seed rồi lấy trung bình; triển khai trong src/kc48/, không sửa boot_stats.py. Thêm test với các seed có thống kê khác nhau để phân biệt hai thứ tự tính, rồi tính lại bảng chính/CI từ raw_fields hiện có. Chạy các test mới, lưu lệnh/exit/bằng chứng; cập nhật mục 0 trước rồi 07/08 và phụ lục 04 nếu cần. Không chạy lại tracking, không chuyển R48E khi chưa nghiệm thu.",
+  "ideas": []
+}

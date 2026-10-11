@@ -1,0 +1,22 @@
+{
+  "verdict": "approve",
+  "issues": [
+    "Lỗi dẫn nguồn nhỏ, không chặn nghiệm thu: 07_tong_hop_bao_cao_17_10.md:316 thiếu đoạn phan_tich/ trong đường dẫn JSON so sánh dev. File thực tế là results/phase2/kc48_pf_dev/phan_tich/so_sanh_truoc_sau_vong_sua.json."
+  ],
+  "evidence": [
+    "F1 đã đóng: src/kc48/phan_tich_dev.py:100–123 gọi occlusion_eval.match_frame với ngưỡng 0,5. Log 0008_coder/stdout.log:327 ghi phản ví dụ và ca MVI_20052/frame 445: GT 38 → tracker 290.",
+    "F2 đã đóng: thi_nghiem_mo_phong.py:139–156 loại tái khởi tạo khỏi ESS/systematic resampling; dòng 195–199 đếm theo từng quỹ đạo. Đọc CSV trực tiếp xác nhận ô cua_deu có 43/90 lần tái khởi tạo, 47 ESS hợp lệ, trung bình gộp 0,01075155.",
+    "Bằng chứng F2: chan_doan_v2/so_sanh_ban_cu.json ghi 80/80 đơn vị đạt, 12.235 quỹ đạo chạy bổ sung và 1.838 đối chứng. Mã đối chiếu kiểm đầu ra bộ lọc trùng khít; log thực thi tương ứng tồn tại.",
+    "F3 đã đóng: boot_seed.py tính COMBINED riêng từng seed trong mỗi mẫu bootstrap; phan_tich_dev.py dùng hàm mới cho bảng chính và CI. CSV hiện tại ghi HOTA pf500-k1 = 0,5547572114485771.",
+    "Log thực thi ghi test_sua_r48d 29/29, test_k1_k2 16/16 và test_pf_dung_dan 29/29, các lời gọi không báo lỗi. Đây là bằng chứng Tier 1 đã đọc, không phải test do reviewer chạy lại.",
+    "Tự kiểm hash chỉ đọc: 14 file sao lưu khớp manifest; tiền tố giao thức 22.510 byte giữ nguyên SHA256 7063c532de0c1ec84aced98fb21f7a93645be01b843a1eb3f160bbf09b50e2e4. Mục 0, báo cáo 07/08 và phụ lục P3 đã cập nhật."
+  ],
+  "limitations": [
+    "Review tĩnh, không chạy lại test, tracking hoặc mô phỏng.",
+    "Bằng chứng không ghi đè kết quả cũ vẫn dựa trên mtime; hash sao lưu chỉ xác nhận các bản sao R48D đã liệt kê.",
+    "Mẫu số ESS/resampling khi bám là n_upd_bam − n_reinit_bam; thống kê tổ tiên chỉ dùng các lần systematic resampling. Câu tại 07:343 viết tắt chưa phân biệt rõ các mẫu số này.",
+    "Test runner seed 11 chưa chạy lại sau K1; đề xuất này vẫn chờ người dùng. Không thực hiện R48E trong lượt review."
+  ],
+  "next_task": "",
+  "ideas": []
+}

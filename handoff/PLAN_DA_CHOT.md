@@ -3,7 +3,7 @@
 Nguồn: yêu cầu của người dùng sau khi Codex nghiệm thu `239b9c6` (**PASS WITH LIMITATIONS**, `handoff/CODEX_REVIEW_239b9c6.md`).
 File này là phạm vi làm việc cho các vòng sau. Thay đổi phạm vi phải do người dùng quyết định.
 
-## 0. TRẠNG THÁI HIỆN TẠI — tài liệu trạng thái chuẩn (cập nhật 2026-10-10)
+## 0. TRẠNG THÁI HIỆN TẠI — tài liệu trạng thái chuẩn (cập nhật 2026-10-12)
 
 > Mục này là **nguồn trạng thái duy nhất**. Brief, handoff, REVIEW*_CHI_TIET là lịch sử theo vòng; khi chúng
 > mâu thuẫn với mục này thì mục này đúng, trừ khi có commit/bằng chứng mới hơn (khi đó sửa mục này).
@@ -44,24 +44,239 @@ tiếp nhận + bảng kế thừa (M0): `handoff/logs/review48/00_tiep_nhan_va_
   `handoff/logs/review47/04_ket_qua_danh_gia_detrac_test.md`; số liệu `results/phase2/detector_eval/detrac_test/`
   (commit `482baaf`, không gồm 3 NPZ dự đoán — chỉ trên máy, sha256 ở mục 7 báo cáo 04). Tài liệu R46 (gồm mục 11.4
   D1–D5): commit `43cd0de`.
+- **R48A / M1** (2026-10-10; Claude tự kiểm; Codex cổng A: vòng 1 **revise** F1–F4, vòng 2 **approve** —
+  `D:\LABOTARY\automation\runs\bytetrack_r48_bao_cao_20261017_1825\reports\review_002.json`; chưa commit): lý thuyết KF–CV (XYAH 8-D),
+  EKF–CTRV, PF–CTRV, SIS / SIR, ESS, log-sum-exp có phương trình, đơn vị bước, góc, ω ≈ 0 và trạng thái nguồn —
+  `handoff/logs/review48/01_ly_thuyet_kf_ekf_pf.md` (ByteTrack: đã đối chiếu toàn văn tr. 2–7; Arulampalam 2002: chỉ
+  metadata, mọi ý ghi "chưa đối chiếu toàn văn"). Bảng khái niệm → `file:hàm:dòng` tại `eaf2e87`, giả thuyết H1–H7 —
+  `handoff/logs/review48/02_doi_chieu_code_pf.md`. **Sở hữu trạng thái**: mỗi track PF có mảng particle, log-trọng số và
+  rng riêng; chỉ `PFCTRV` (cấu hình + bộ đếm chẩn đoán) dùng chung — đọc mã + `src/kc48/kiem_so_huu_hat.py` exit 0
+  (`results/phase2/kc48_pf_code/so_huu_hat.json`); "cạnh tranh hạt toàn cục" không áp dụng cho cấu trúc mã hiện tại.
+  `src/test_pf_ctrv.py` 26/26 PASS. Không sửa mã tracker. Vòng sửa 1 (chỉ tài liệu, theo
+  `D:\LABOTARY\automation\runs\bytetrack_r48_bao_cao_20261017_1825\reports\review_001.json`): F1 σ_θ, σ_ω là độ lệch
+  chuẩn gia số mỗi predict, đơn vị [rad], [rad/bước] (bảng đơn vị từng thành phần Q ở `01` mục 3; chú thích mã
+  `src/config.py:304-305` ghi [rad/frame], [rad/frame²], chưa sửa); F2 tách mô hình lý tưởng khỏi 6 heuristic triển
+  khai, phép chặn h ≥ 10⁻³ dồn khối xác suất vào biên chứ không phải Gauss cắt cụt; F3 `pf_estimate: map` là particle
+  trọng số lớn nhất, không phải MAP (không cấu hình nào tại HEAD dùng `map`); F4 ghi nhận lệch phạm vi ngay dưới.
+  Danh sách chỗ sửa: `01` mục 10, `02` mục 7.
+- **Lệch phạm vi R48A** (F4): lệnh `src/test_pf_ctrv.py` (test 11 sẵn có) đã xóa và ghi lại
+  `data/interim/det_cache/fixture_pf_seed_test/`, ghi `data/processed/trackers/DETRAC-sample/p2-pftest-s{0,1}/`, ngoài
+  `write_paths` của R48A. Log thực thi:
+  `D:\LABOTARY\automation\runs\bytetrack_r48_bao_cao_20261017_1825\calls\0001_coder\stdout.log` dòng 162 (lệnh), 165
+  (kết quả). Không xác minh được trạng thái trước lệnh (đường dẫn bị git bỏ qua, không có hash trước); không xóa, khôi
+  phục hay chạy lại. Chi tiết: `02` mục 6.1.
+- **R48B / M2** (audit 2026-10-10; Claude tự kiểm. Codex cổng B vòng 1 **revise** F1–F4 —
+  `D:\LABOTARY\automation\runs\bytetrack_r48_bao_cao_20261017_1825\reports\review_003.json`. Sửa hậu audit 2026-10-11,
+  Claude tự kiểm. Vòng 2 **revise** —
+  `D:\LABOTARY\automation\runs\bytetrack_r48_bao_cao_20261017_1825\reports\review_005.json`: F1–F4 đã đóng, thêm F5
+  (ghi ngoài phạm vi, chỉ yêu cầu ghi nhận; xem "Lệch phạm vi R48B" ngay dưới). Đã ghi nhận F5; vòng 3 **approve** —
+  `D:\LABOTARY\automation\runs\bytetrack_r48_bao_cao_20261017_1825\reports\review_007.json`; chưa commit). Báo cáo
+  `handoff/logs/review48/03_audit_du_lieu.md` (sửa hậu audit ở mục 13, F5 ở mục 13.3), số liệu
+  `results/phase2/kc48_audit/*.csv`, script chỉ đọc `src/kc48/audit_du_lieu.py`. Tiêu chí
+  (quỹ đạo, mẫu trực quan, gần trùng, xe nhỏ cạnh xe lớn) công bố trước khi tính:
+  `results/phase2/kc48_audit/tieu_chi_cong_bo.json`, sha256 `d7543fff…`, không đổi khi sửa.
+  - Mốc slide lần 2 khớp khi đếm lại từ 2–3 nguồn: BDD train-fit 1.261 / 50.487, dev nội bộ 139 / 5.559, BDD val
+    200 / 39.973 (`moc_doi_chieu.csv`). Tập chỉ có vài chục video: UA-DETRAC dev 12, test 40, train 60.
+  - Toàn bộ 458.183 ảnh đọc được: sha256, header, SOI / EOI 0 lỗi. Giải mã 6.783 ảnh mẫu: 0 lỗi. 320/320 mẫu YOLO khớp
+    nhãn gốc. Với ảnh tô xám, mẫu này chỉ kiểm siêu dữ liệu; **chưa kiểm pixel**. 1.400/1.400 file nhãn BDD train khớp
+    manifest nhập vòng 34.
+  - Trùng sha256 chỉ trong cùng video: 3 nhóm frame đứng hình, gồm 2 nhóm ở BDD train-fit và 1 nhóm ở BDD val. Có 3 cặp
+    gần trùng, đều xác nhận là cùng cảnh; 1 cặp xuyên train-fit / dev BDD. 70/139 video dev có chung tiền tố tên với
+    train-fit. Giữa BDD train / val và DETRAC train / test **chưa phát hiện** chồng lấn trong phạm vi đã kiểm (sha256
+    toàn bộ ảnh, dHash 4 frame mỗi video, tiền tố tên). Video là đơn vị chia split, không chắc là đơn vị độc lập thống kê.
+  - **F1, lỗi mã quỹ đạo (đã sửa)**: trước đây track `nghi_nhieu` (max Δψ > 150°) vẫn nằm trong tập hợp lệ, và p90 phân
+    loại độc lập. Nay track này bị loại khỏi tập hợp lệ của cả max lẫn p90; đã chạy lại 4 phần `nhan` và `tong_hop`.
+    Kiểm bằng `src/kc48/kiem_loc_quy_dao.py`: trước sửa exit 1 (4.687 track vi phạm); sau sửa exit 0, 21/21
+    (`results/phase2/kc48_audit/kiem_loc_quy_dao.json`). So hash trước / sau: chỉ đổi đầu ra quỹ đạo, nhật ký chạy và
+    một ô ví dụ của `chat_luong.csv` (`03` mục 13). BDD sau sửa: 37,5–42,0 % track hợp lệ đổi hướng trên ảnh ≥ 30° theo
+    max, 28,2–32,2 % theo p90; bản trước ghi khoảng 30 %. DETRAC đổi ≤ 15 track mỗi tập.
+  - Augmentation thực chạy: mosaic 1,0 (tắt 2 epoch cuối), translate 0,1, scale 0,5, HSV, fliplr 0,5. Albumentations
+    không chạy vì không cài gói. `auto_augment` / `erasing` chỉ dùng cho classify.
+  - UA-DETRAC dev12: 32 track cua (8 theo p90), 14 track bus, 88 sự kiện xe nhỏ cạnh xe lớn. Dev12 không có track
+    `nghi_nhieu`, nên sửa F1 không đổi các số này.
+- **Lệch phạm vi R48B** (F5): lời gọi sửa hậu audit đã ghi hai file memory của Claude Code, ngoài repo và ngoài
+  `write_paths` của R48B: tạo `C:\Users\Mikuno\.claude\projects\D--LABOTARY-bytetrack\memory\ket-luan-tu-nguon-day-du.md`
+  (`Write`) và chèn 1 dòng trỏ vào `C:\Users\Mikuno\.claude\projects\D--LABOTARY-bytetrack\memory\MEMORY.md` (`Edit`).
+  Log thực thi: `D:\LABOTARY\automation\runs\bytetrack_r48_bao_cao_20261017_1825\calls\0010_coder\stdout.log` dòng
+  842–843 (tạo), 844–845 (sửa). Không xác minh độc lập được trạng thái trước sửa: vùng này ngoài git, orchestrator
+  không chụp hash, chỉ có tự khai của công cụ ở dòng 843, 845. Không đổi file nào trong repo. Không sửa, xóa hay khôi
+  phục memory. Chi tiết: `03` mục 13.3.
+- **R48C / M3 + tính đúng M4** (2026-10-11; Claude tự kiểm; chưa commit). Lượt cũ: Codex trả **BLOCKED** vì test 11
+  chưa chạy. Người dùng quyết định ngày 11/10: cho test 11 ghi fixture và gộp việc truy nguyên lệch EKF vào R48C. Bản
+  sửa theo quyết định này được Codex cổng C **approve**, không có issue —
+  `handoff/logs/review48/nghiem_thu_r48cde/0002_review_answer.json` (bản sao nguyên văn, nguồn + sha256 ở `MANIFEST.md`
+  cùng thư mục). Báo cáo `handoff/logs/review48/05_dung_dan_pf_va_smoke.md` và `05b_truy_nguyen_lech_ekf.md`.
+  Giới hạn Codex ghi trong biên bản: review tĩnh, không chạy lại test hay smoke (kết quả thực thi kiểm từ log và
+  artifact); ngoài fixture, snapshot chỉ kiểm kích thước và `mtime_ns`, không hash toàn bộ nội dung; đối chiếu EKF chỉ
+  bao điều kiện A trên 2/12 video, tái lập seed qua runner chỉ kiểm fixture tổng hợp 40 frame — không suy rộng sang bộ
+  lọc, video hay chỉ số khác.
+  - Giao thức kiểm chứng PF `handoff/logs/review48/04_giao_thuc_kiem_chung_pf.md` viết **trước** mọi so sánh bộ lọc.
+    Khóa bằng sha256 `7063c532…`: chụp 04:29:39, chụp lại 06:51:50 trước smoke và 15:12:53, cả ba trùng nhau
+    (`results/phase2/kc48_pf_code/giao_thuc_sha256.json`). Phụ lục P1 rút ngoại lệ "trừ test 11" ở mục 10. Sau P1,
+    file có sha256 `479497fc…`; lần chụp 4 kiểm 22.510 byte đầu vẫn là `7063c532…`, tức mục 1–12 không đổi.
+  - **Test 11 đã chạy đủ**: `python src/test_pf_ctrv.py` exit 0, 26/26, gồm "chạy lại seed 0: file txt
+    bit-identical". `results/phase2/kc48_pf_code/fixture_{truoc,sau}.json` cho thấy chỉ 3 thư mục fixture được phép
+    đổi; 24.164 file khác trong `data/interim` + `data/processed`: đổi 0, thêm 0, mất 0. `data/synth.txt` của cả hai
+    seed trùng sha256 với bản có từ trước.
+  - **EKF tái tạo trùng byte mốc 2** (`05b`; `results/phase2/kc48_ekf_tai_lap/so_sanh_dong.json`): file tracking EKF
+    điều kiện A của smoke (`eaf2e87`) và của run mốc 2 (`1c7ce8c`) trùng từng byte trên `MVI_20052` và `MVI_20062`;
+    0 frame lệch. Nhận định "khác nhau" trước đây là **sai**. Nó đến từ quy ước hash: commit `935a445` đổi
+    `run_fingerprint.sha256_file` sang hash `.txt` sau chuẩn hóa CRLF → LF, nên hai `eval_meta.json` khác đời ghi hash
+    khác nhau. Mới kiểm 2/12 video, chỉ EKF, điều kiện A.
+  - Giao thức chốt: mô phỏng biết liên kết gồm 8 kịch bản, trong đó có 4 kịch bản lệch mô hình; pipeline dev12; K1
+    proposal tối ưu (mới, tùy chọn); K2 roughening (đã có trong mã, không phải đóng góp mới); không đổi association;
+    bootstrap theo video / seed nhiễu.
+  - Cache dev trùng khít mốc 2 (`results/phase2/kc48_pf_code/cache_dev.json`). Bộ mô phỏng
+    `src/kc48/mo_phong_quy_dao.py --tu-kiem` đạt 10/10.
+  - Test, tất cả exit 0, chạy lại ngày 11/10 sau 15:12: `src/kc48/test_pf_dung_dan.py` 29/29; `src/test_pf_ctrv.py`
+    đủ 11 test 26/26; EKF 14/14, UKF 12/12, lifecycle 20/20, init 17/17.
+  - **Không sửa mã tracker**: không có test hỏng do mã. Lần chạy đầu của test mới hỏng 2 phép kiểm, cả hai do thiết kế
+    test (`05` mục 3).
+  - Smoke `kc48_pf_smoke` (2 video dev; ekf, pf100 × 2 seed, pf300, pf500) qua wrapper `src/kc48/chay_thi_nghiem_kc48.py`
+    (đổi gốc `PROCESSED_DIR` vào `results/phase2/kc48_pf_smoke/_processed/`): track và eval đều exit 0.
+  - Thời gian: ms / frame `ekf` 1,62, `pf100` 3,48, `pf300` 4,78, `pf500` 5,90 (`results/phase2/kc48_pf_smoke/thoi_gian.json`).
+    Kịch bản dự toán cho P1–P3 của R48D: 37–55 phút, trong ngân sách 120 phút. Chỉ số của smoke không dùng cho kết luận.
+- **R48D / M4 + M5 (thiết kế) + M6** (2026-10-11; Claude tự kiểm; cổng Codex D vòng 1 **revise** F1–F3 —
+  `handoff/logs/review48/nghiem_thu_r48cde/0006_review_answer.json`; vòng 2 **approve** —
+  `handoff/logs/review48/nghiem_thu_r48cde/0009_review_answer.json`; chưa commit). Giới hạn Codex ghi ở vòng 2: review
+  tĩnh, không chạy lại test, tracking hay mô phỏng; bằng chứng không ghi đè kết quả cũ vẫn dựa trên mtime, hash sao lưu
+  chỉ xác nhận các bản sao R48D đã liệt kê; mẫu số ESS / resampling khi bám là `n_upd_bam` − `n_reinit_bam`, thống kê
+  tổ tiên chỉ dùng các lần systematic resampling (câu tóm tắt trong `07` mục 11 đã được R49A làm rõ); test runner seed 11
+  chưa chạy lại sau K1, đề xuất này vẫn chờ người dùng. Issue nhỏ không chặn: đường dẫn JSON so sánh dev ở `07` mục 10 thiếu
+  `phan_tich/` — R49A đã sửa thành `results/phase2/kc48_pf_dev/phan_tich/so_sanh_truoc_sau_vong_sua.json`. Tổng hợp
+  `handoff/logs/review48/07_tong_hop_bao_cao_17_10.md`, đề cương slide `08_de_cuong_slide.md`, thiết kế M5
+  `06_thiet_ke_augmentation.md` (chỉ thiết kế, không huấn luyện). Giao thức `04` chụp lại trước R48D lúc 15:31:12:
+  22.510 byte đầu vẫn `7063c532…` (`results/phase2/kc48_mo_phong/giao_thuc_sha256_r48d.jsonl`); lệch ghi ở phụ lục P2.
+  - Tùy chọn mới: K1 `pf_optimal_proposal` (proposal tối ưu, mặc định tắt) trong `src/pf_ctrv.py`, `src/tracker_ctrv.py`;
+    K2 dùng khóa `pf_roughening` có sẵn (không phải đóng góp mới). `src/kc48/test_k1_k2.py` 16/16, exit 0: mặc định
+    bit-identical với mã `eaf2e87`. File tracking `ekf`, `pf100-s0/s1` dev trùng sha256 với smoke R48C trên 2 video
+    (`results/phase2/kc48_pf_dev/phan_tich/mac_dinh_vs_smoke.json`). Test cũ exit 0; test 11 **không chạy lại** sau K1
+    (ghi ngoài `write_paths` của R48D).
+  - Mô phỏng (`results/phase2/kc48_mo_phong/`, 30 seed nhiễu ghép cặp × 3 seed PF): `pf100` kém `ekf` nhất quán (F, e_r),
+    cả nhóm lệch mô hình. K1 giảm nhất quán F, e_r và triệu chứng nghèo hạt khi đang bám, nhưng không sửa sụp ESS sau mất
+    đo dài. K2 chỉ giảm e_r. Không biến thể PF nào đạt EKF.
+  - Pipeline dev12 (26 run, `results/phase2/kc48_pf_dev/`, `results/trackeval/DETRAC-all/p2-kc48_pf_dev-*`; bootstrap
+    theo video): K1, K2, K1+K2 cải thiện `pf100` có CI loại 0. Mọi biến thể PF, kể cả `pf500-k1`, vẫn kém EKF (HOTA
+    −0,038 [−0,065; −0,021]). EKF đã chỉnh không khác EKF mặc định. Tầng xe nhỏ cạnh xe lớn (42 sự kiện / 7 video):
+    K1 không phân biệt được với EKF (CI chạm 0), cỡ mẫu rất nhỏ. Không chạy trên tập test / BDD val.
+  - Không ghi đè kết quả cũ: `src/kc48/kiem_khong_ghi_de.py` exit 0 (bằng chứng mtime,
+    `results/phase2/kc48_pf_dev/kiem_khong_ghi_de.json`).
+  - **Vòng sửa sau cổng D vòng 1** (Codex **revise** F1–F3,
+    `D:\LABOTARY\automation\runs\bytetrack_r48_tiep_effort_high_20261011_1507\reports\review_003.json`, bản sao
+    `nghiem_thu_r48cde/0006_review_answer.json`; Claude tự kiểm 2026-10-11; cổng D vòng 2 **approve**, `0009`: F1, F2,
+    F3 đã đóng). Không chạy lại tracking. Bản trước sửa sao nguyên byte ở
+    `results/phase2/{kc48_pf_dev,kc48_mo_phong}/**/_ban_cu_truoc_vong_sua/` (có `manifest.json` sha256). Chi tiết `07` mục 11,
+    phụ lục `04` P3.
+    - F1: phân tầng ghép bằng `occlusion_eval.match_frame` (ràng buộc IoU ≥ 0,5 trước Hungarian). Ca MVI_20052 / frame 445:
+      GT 38 → 290 (trước: 350). 167/30.810 dòng track-run đổi; tầng lệch tối đa 0,0005; không tầng nào đổi trạng thái CI.
+    - F2: tái khởi tạo tách khỏi ESS và systematic resampling; n_deg theo từng quỹ đạo, có mẫu số. Chạy lại có chọn lọc
+      12.235 quỹ đạo PF có tái khởi tạo ngoài t_r + 1.838 quỹ đạo đối chứng, cùng cấu hình/seed (169 s, 6 tiến trình).
+      Đầu ra bộ lọc trùng khít bản cũ (`results/phase2/kc48_mo_phong/chan_doan_v2/so_sanh_ban_cu.json`, 80/80 đơn vị).
+      ESS/N tại t_r của `pf100` ô `cua_deu` L 20 h0 24: 0,011 trên 47/90 quỹ đạo hợp lệ (43 tái khởi tạo); trước ghi 0,006.
+      C3 (K2) ESS/N tại t_r: 10 ô CI > 0 trước sửa → 0 ô sau sửa. Các kết luận C1–C3 về F, e_r không đổi.
+    - F3: COMBINED tính riêng từng seed rồi trung bình, trong mỗi mẫu bootstrap (`src/kc48/boot_seed.py`). Bảng chính lệch
+      tối đa: HOTA 2,8·10⁻⁵, AssA 8,7·10⁻⁵. Không đối chiếu nào đổi trạng thái CI.
+    - Test: `src/kc48/test_sua_r48d.py` 29/29 exit 0; `test_k1_k2.py` 16/16, `test_pf_dung_dan.py` 29/29,
+      `kiem_khong_ghi_de.py` exit 0.
+- **R48E / kiểm pixel ảnh tô xám** (2026-10-11; mốc người dùng duyệt qua email 11/10; Claude tự kiểm; chưa commit).
+  Nguồn ghi mục này: biên bản Codex — vòng 1 **revise** F1 (diễn giải vượt bằng chứng về nguyên nhân 3 ảnh không đạt) và
+  F2 (mô tả quá rộng cơ chế khóa tiêu chí) — `handoff/logs/review48/nghiem_thu_r48cde/0013_review_answer.json`; vòng 2
+  **approve**, F1 và F2 đã đóng, không issue mới — `handoff/logs/review48/nghiem_thu_r48cde/0015_review_answer.json`.
+  Báo cáo `handoff/logs/review48/03_audit_du_lieu.md` mục 14; số liệu `results/phase2/kc48_audit/pixel_to_xam_*`
+  (`pixel_to_xam_tung_anh.csv`, `pixel_to_xam_tom_tat.json`, `pixel_to_xam_chan_doan_K.{csv,json}`,
+  `pixel_to_xam_nhat_ky.jsonl`), tiêu chí công bố trước `results/phase2/kc48_audit/tieu_chi_pixel_to_xam.json` (sha256
+  `4f62d165…`), script `src/kc48/kiem_pixel_to_xam.py`.
+  - Mẫu: đúng 160 ảnh `to_xam` trong mẫu 320 ảnh của `03` mục 6.3 (4 tầng × 40 ảnh). Kết quả theo ảnh: **131 đạt / 26
+    chưa kết luận / 3 không đạt**; theo tiêu chí T1 134 / 0 / 26, T2 160 / 0 / 0, T3 83 / 3 / 74 (đạt / không đạt / không
+    áp dụng) — Codex tự đếm lại CSV khớp JSON (0013, 0015).
+  - 3 ảnh không đạt (đều ở T3, MAE > 2,0): sai số **phù hợp với** mất mát do nén lại JPEG; **chưa chứng minh** nguyên nhân,
+    chưa loại trừ lỗi xử lý vùng. Ngưỡng không sửa sau khi xem; 3 ảnh vẫn ghi `khong_dat`.
+  - Cơ chế khóa tiêu chí: `--phan tinh` chỉ tự kiểm chuỗi dung sai xám và bán kính lõi so với file tiêu chí; ngưỡng
+    T1 / T2 / T3 là hằng số trong mã, không đối chiếu tự động (khớp file tiêu chí khi đối chiếu thủ công).
+  - Giới hạn Codex ghi: review tĩnh, không chạy lại phép đo, hậu kiểm JPEG hay test; không có snapshot toàn bộ `data/`
+    trước–sau để chứng minh độc lập dữ liệu không đổi (chỉ kiểm đường ghi trong mã và lệnh đã lưu); kết luận đo **chỉ áp
+    dụng cho mẫu 160 ảnh**, không suy ra toàn bộ 18.600 ảnh tô xám.
+  - Đề xuất **P9a6c2078** ("Ghi R48E vào mục 0 PLAN_DA_CHOT", tùy chọn, hỏi lúc 2026-10-11 21:36:28 +07): theo
+    `handoff/logs/review48/nghiem_thu_r48cde/P9a6c2078_ho_so.json`, `quyet_dinh_da_ghi` rỗng, tức **chưa có quyết định
+    của người dùng — chưa duyệt**. Mục R48E này được ghi trong bước đồng bộ R49A (người dùng duyệt 12/10/2026) với nguồn
+    là biên bản approve `0015`; lần duyệt R49A **không** phải là duyệt thực hiện P9a6c2078, và trạng thái P9a6c2078 giữ
+    nguyên theo hồ sơ.
+- **Kiểm chẩn đoán PF mốc 2: tái khởi tạo có trộn vào ESS không** (bước P9a8ee8bf, người dùng duyệt qua email; 2026-10-11;
+  chỉ đọc, không sửa kết quả cũ; chưa commit) — `handoff/logs/review48/05c_kiem_pf_diag_moc2.md`; số liệu
+  `results/phase2/kc48_pf_code/ess_moc2_tach_tai_khoi_tao/` (`ket_qua.json`, `theo_{run,tracker,n_lost}{,_test}.csv`).
+  Về công thức, `src/pf_diag_report.py` **có** trộn dòng suy biến vào ESS / tỉ lệ resample. Trên số liệu mốc 2 thì
+  **không** bị trộn: dev 18 run, **0/1.664.036** update là tái khởi tạo; tính lại chỉ trên update hợp lệ trùng số cũ,
+  lệch tối đa **1,1·10⁻¹⁶** (sai số làm tròn). `handoff/logs/pf_diag_report.log` và các trích dẫn ESS ở `01`, `02`, `04`
+  không phải sửa. Test UA-DETRAC (6 run, 0/3.400.029 tái khởi tạo) là số mới, chỉ để báo cáo, không dùng chọn tham số.
 
 **Việc đang làm:** lượt orchestrator **R48** thực hiện bản giao việc 17/10 theo 4 mốc, mỗi mốc một cổng Codex:
 `R48A_LY_THUYET_DOI_CHIEU_PF` (M1) → `R48B_AUDIT_DU_LIEU` (M2) → `R48C_GIAO_THUC_VA_DUNG_DAN_PF` (M3 + test tính
-đúng) → `R48D_THI_NGHIEM_VA_TONG_HOP` (M4, M5 chỉ thiết kế, M6). Báo cáo của lượt: `handoff/logs/review48/`.
-Hồ sơ lượt: `D:\LABOTARY\automation\runs\bytetrack_r48_bao_cao_20261017_*` (xem `status`).
+đúng) → `R48D_THI_NGHIEM_VA_TONG_HOP` (M4, M5 chỉ thiết kế, M6), thêm mốc `R48E_KIEM_PIXEL_TO_XAM` (người dùng duyệt qua
+email 11/10). Cả năm mốc đã được Codex approve (xem tiến độ dưới). Báo cáo của lượt: `handoff/logs/review48/`.
+Hồ sơ lượt: `D:\LABOTARY\automation\runs\bytetrack_r48_bao_cao_20261017_*` (R48A, R48B) và
+`D:\LABOTARY\automation\runs\bytetrack_r48_tiep_effort_high_20261011_1507` (R48C, R48D, R48E). Biên bản Codex của R48C–E
+sao nguyên văn ở `handoff/logs/review48/nghiem_thu_r48cde/` (`MANIFEST.md`: nguồn + sha256). Tiến độ:
+- **R48A** approve ở vòng 2.
+- **R48B** approve ở vòng 3 (`review_007.json`).
+- **R48C** approve (`0002_review_answer.json`), sau BLOCKED ở lượt cũ (test 11) và quyết định người dùng 11/10.
+- **R48D** approve ở vòng 2 (`0009_review_answer.json`), sau revise F1–F3 (`0006_review_answer.json`).
+- **R48E** approve ở vòng 2 (`0015_review_answer.json`), sau revise F1–F2 (`0013_review_answer.json`).
+- **R49A** (2026-10-12, người dùng duyệt 12/10): chỉ đồng bộ hồ sơ — mục 0 này và đường dẫn / mẫu số trong
+  `handoff/logs/review48/07_tong_hop_bao_cao_17_10.md`; không chạy lại gì, không đổi số liệu, không mở mốc mới.
+  Chờ cổng nghiệm thu Codex.
 
 **Chưa chốt / ngoài R48**
 - Kết quả detector BDD val vòng 43 (`results/phase2/detector_eval/bdd_val_cocovid/`) vẫn chưa commit.
 - Lượt R46 và R47 đã dừng; repo khác mốc lưu của cả hai — không `start`/`recover` lại, hồ sơ giữ nguyên.
 
-**Bước tiếp theo:** theo mốc hiện tại của lượt R48. Không tự mở việc ngoài bản giao việc.
+**Bước tiếp theo:** cổng nghiệm thu Codex cho R49A; xong thì dừng. Không có mốc nào khác đang được duyệt. Việc tồn đọng,
+mỗi việc cần người dùng quyết định trước khi làm:
+- Đề xuất P9a6c2078 (ghi R48E vào mục 0): chưa có quyết định trong hồ sơ (xem mục R48E ở trên).
+- Chạy lại test 11 (runner seed) trên mã có K1: đề xuất chờ người dùng (Codex `0009`); test này ghi fixture ngoài
+  `write_paths` của R48D nên chưa chạy.
+- Commit các sản phẩm R48A–R48E và R49A: chưa commit; người dùng quyết định.
+- Giữ hay gỡ hai thay đổi memory ngoài phạm vi của R48B (F5): người dùng quyết định.
+- Kiểm cách evaluator xử lý ảnh không có `<frame>`: đề xuất riêng đang chờ người dùng (`04` mục 2).
+- Chạy K1 trên tập đánh giá cuối, thực thi thiết kế M5 `06_thiet_ke_augmentation.md`, split BDD mới, kiểm pixel ngoài
+  mẫu 160 ảnh: chưa chạy, là việc mới.
+
+Mọi so sánh chỉ dùng các run tạo tại cùng commit, theo giao thức. So dấu vân tay tracking qua mốc `935a445` phải tính
+lại theo cùng quy ước trên chính file, không so `eval_meta.json` khác đời (`05b` mục 6). Không tự mở việc ngoài bản giao
+việc.
 
 **Điểm chưa rõ**
 - Nguyên nhân recall bus thấp (~0,34) của hai checkpoint fine-tune trên UA-DETRAC test; mức đóng góp của nhầm lớp
   bus → truck / car chưa xác định (`04_ket_qua_danh_gia_detrac_test.md` mục 4).
-- PF với thiết kế nhiễu khác (roughening / proposal / Q riêng) chưa chạy; số hạt chưa giải thích hết khoảng cách.
+- Khoảng cách PF – EKF: R48D kiểm được một phần H4–H7 trên mô phỏng (`07` mục 5.3). H2 (association) và H3 (likelihood
+  trên sai số detector thật) chưa kiểm. Vì sao DetA của PF thấp hơn EKF trên dev12 chưa rõ. Q riêng cho PF chưa chạy.
+- Test 11 (runner seed) chưa chạy lại trên mã có K1. Bằng chứng thay thế: `test_k1_k2.py` test 1 và
+  `mac_dinh_vs_smoke.json` (`04` P2).
+- Toàn văn Arulampalam et al. 2002 không có trên máy: các ý lấy từ bài này ghi "chưa đối chiếu toàn văn".
+- Tái tạo mốc 2 tại HEAD mới kiểm cho EKF điều kiện A trên 2/12 video dev (trùng byte). 10 video còn lại, CV / UKF,
+  các điều kiện khác và số liệu TrackEval của mốc 2: chưa kiểm (`05b` mục 6).
+- Phép chạy lại seed qua runner mới kiểm trên fixture tổng hợp 40 frame (`run_tracking.py`), chưa kiểm qua
+  `run_experiment.py` trên video dev.
+- Bản fixture có trước có mtime khoảng 2026-10-10 18:29–18:30 +07, khớp khung thời gian lệnh `src/test_pf_ctrv.py` của
+  R48A (lệch phạm vi F4 ở trên). Đây là giả thuyết, chưa đối chiếu với log (`05` mục 4).
+- Chú thích đơn vị trong mã (`src/config.py:304-305`, `src/time_units.py:33-34`, `src/ekf_ctrv.py:299-300`) ghi
+  σ_θ [rad/bước], σ_ω [rad/bước²], khác cách đọc theo gia số trong `01` mục 3. Giá trị số không đổi; chưa sửa vì ngoài
+  phạm vi R48A.
 - Nguồn gốc cấu hình 53/56 sequence cache `legacy` và 113 thư mục run `LEGACY` không xác minh được bằng hash.
-- Nhãn BDD MOT train chưa xác thực bằng archive gốc (chỉ snapshot bên thứ ba đã ghim).
+- Nhãn BDD MOT train chưa xác thực bằng archive gốc (chỉ snapshot bên thứ ba đã ghim). R48B xác nhận nhãn trên máy
+  đúng là bản đã nhập và đã khóa; không xác nhận trùng nhãn gốc. COCO-video val có 17 track đổi lớp, nguyên nhân chưa
+  kiểm.
+- Dev nội bộ BDD không độc lập theo lần ghi hình với train-fit (70/139 video dev chung tiền tố tên; 1 cặp cùng cảnh).
+  Mức lạc quan của chỉ số dev chưa đo. Split mới cần người dùng quyết định (`03_audit_du_lieu.md` mục 10).
+- Tính độc lập giữa các video chưa xác định được: ngay trong một tập đã có video cùng cảnh (DETRAC test `MVI_40773` /
+  `MVI_40775`). Kiểm chồng lấn giữa tập huấn luyện và tập đánh giá chỉ bao 4 frame mẫu mỗi video (`03` mục 6.4).
+- Pixel ảnh tô xám của bản xuất YOLO: R48E mới kiểm trên mẫu 160 ảnh (131 đạt / 26 chưa kết luận / 3 không đạt, `03`
+  mục 14). Toàn bộ 18.600 ảnh tô xám chưa kiểm. Nguyên nhân 3 ảnh không đạt T3 chưa chứng minh (phù hợp với nén lại JPEG,
+  chưa loại trừ lỗi xử lý vùng); bản cv2 lúc export chưa xác minh (`03` mục 14.4).
+- Evaluator tracking xử lý 572 ảnh dev12 không có `<frame>` (và 173 ảnh test, 1.706 ảnh train60) thế nào: chưa kiểm.
+  Giao thức 04 mục 2 ghi đây là hạn chế: mọi biến thể chấm trên cùng GT, nhưng mức ảnh hưởng lên hiệu số chưa biết.
+- Ranh giới car / truck / van mơ hồ trên mẫu trực quan, chưa đo tác động lên nhầm lớp.
+- Giữ hay gỡ hai thay đổi memory ngoài phạm vi của R48B (F5, `03` mục 13.3): người dùng quyết định; agent không tự hoàn
+  tác.
 
 ## Thứ tự các mốc
 
