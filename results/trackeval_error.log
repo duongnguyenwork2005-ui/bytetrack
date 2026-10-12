@@ -1,0 +1,68 @@
+MotChallenge2DBox
+p2-bdd_smoke_val-c25-cv
+Traceback (most recent call last):
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\mot_challenge_2d_box.py", line 230, in _load_raw_file
+    time_data = np.asarray(read_data[time_key], dtype=float)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (28,) + inhomogeneous part.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\eval.py", line 115, in evaluate
+    res[curr_seq] = eval_sequence(curr_seq, dataset, tracker, class_list, metrics_list,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\_timing.py", line 66, in wrap
+    return f(*args, **kw)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\eval.py", line 220, in eval_sequence
+    raw_data = dataset.get_raw_seq_data(tracker, seq)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\_timing.py", line 66, in wrap
+    return f(*args, **kw)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\_base_dataset.py", line 95, in get_raw_seq_data
+    raw_gt_data = self._load_raw_file(tracker, seq, is_gt=True)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\mot_challenge_2d_box.py", line 233, in _load_raw_file
+    raise TrackEvalException(
+trackeval.utils.TrackEvalException: Cannot convert gt data for sequence b1c66a42-6f7d68ca to float. Is data corrupted?
+
+
+
+
+
+MotChallenge2DBox
+p2-bdd_smoke_val-c25-ekf
+Traceback (most recent call last):
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\mot_challenge_2d_box.py", line 230, in _load_raw_file
+    time_data = np.asarray(read_data[time_key], dtype=float)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (28,) + inhomogeneous part.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\eval.py", line 115, in evaluate
+    res[curr_seq] = eval_sequence(curr_seq, dataset, tracker, class_list, metrics_list,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\_timing.py", line 66, in wrap
+    return f(*args, **kw)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\eval.py", line 220, in eval_sequence
+    raw_data = dataset.get_raw_seq_data(tracker, seq)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\_timing.py", line 66, in wrap
+    return f(*args, **kw)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\_base_dataset.py", line 95, in get_raw_seq_data
+    raw_gt_data = self._load_raw_file(tracker, seq, is_gt=True)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\mot_challenge_2d_box.py", line 233, in _load_raw_file
+    raise TrackEvalException(
+trackeval.utils.TrackEvalException: Cannot convert gt data for sequence b1c66a42-6f7d68ca to float. Is data corrupted?
+
+
+
+
+

@@ -1,0 +1,24 @@
+# cau hinh LOC tu dong (chay_song_song_dev.py), khong sua tay
+name: kc48_pf_dev
+dataset: detrac
+split_name: DETRAC-all
+part: train
+manifest: results/phase2/manifests/detrac_dev.json
+cache_id: yolov8n-coco_conf0.05_all
+classes:
+- 2
+- 3
+- 5
+- 7
+max_det: 300
+fps: 25
+elapsed_mode: skip
+conditions:
+  A:
+    conf_min: 0.25
+trackers:
+- name: pf100
+  yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n100.yaml
+  seeds:
+  - 1
+baseline: ekf

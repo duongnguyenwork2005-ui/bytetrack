@@ -1,0 +1,12 @@
+# R48D: EKF-CTRV da chinh voi CUNG ngan sach tinh chinh nhu K2 (giao thuc 04 muc 8): (sigma_theta, sigma_omega)
+# nhan 2 so voi mac dinh config.py (0.01, 0.005) -> (0.02, 0.01); chon tren mo phong, seed tinh chinh
+# (results/phase2/kc48_mo_phong/chon.json). Ghep cap giu nguyen configs/bytetrack_ekf_ctrv.yaml.
+tracker_type: bytetrack_ekf_ctrv
+track_high_thresh: 0.25
+track_low_thresh: 0.1
+new_track_thresh: 0.25
+track_buffer: 30
+match_thresh: 0.8
+fuse_score: True
+ctrv_std_theta: 0.02
+ctrv_std_omega: 0.01

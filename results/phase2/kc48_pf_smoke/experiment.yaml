@@ -1,0 +1,28 @@
+# R48C (M3/M4) - SMOKE pipeline truoc thi nghiem lon: kiem pipeline EKF + PF hien tai chay het tren 2 video dev va
+# DO THOI GIAN tung bien the de dinh ngan sach R48D (giao thuc handoff/logs/review48/04_giao_thuc_kiem_chung_pf.md,
+# muc 9-10). So HOTA / IDF1 cua smoke KHONG dung cho ket luan nao.
+# Khai bao nhu nhom cu (expB_detrac_dev_fix1.yaml): cung cache, dieu kien A, lop, max_det, fps, elapsed_mode.
+# Video: 2 video DAU theo thu tu manifest results/phase2/manifests/detrac_dev.json (quy tac co dinh truoc khi chay,
+# khong chon theo ket qua). Khong khai bao `occlusion` (buoc occlusion_eval la tien trinh con doc duong co dinh).
+# Chay qua wrapper (doi goc config.PROCESSED_DIR sang results/phase2/kc48_pf_smoke/_processed/, ngoai data/processed):
+#   python src/kc48/chay_thi_nghiem_kc48.py --exp configs/phase2/experiments/kc48_pf_smoke.yaml --stage track
+#   python src/kc48/chay_thi_nghiem_kc48.py --exp configs/phase2/experiments/kc48_pf_smoke.yaml --stage eval
+#   python src/kc48/chay_thi_nghiem_kc48.py --exp configs/phase2/experiments/kc48_pf_smoke.yaml --stage thoi-gian
+name: kc48_pf_smoke
+dataset: detrac
+split_name: DETRAC-all
+part: train
+videos: [MVI_20052, MVI_20062]
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+elapsed_mode: skip
+conditions:
+  A: {conf_min: 0.25}
+trackers:
+  - {name: ekf,   yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: pf100, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n100.yaml, seeds: [0, 1]}
+  - {name: pf300, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n300.yaml, seeds: [0]}
+  - {name: pf500, yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml, seeds: [0]}
+baseline: ekf

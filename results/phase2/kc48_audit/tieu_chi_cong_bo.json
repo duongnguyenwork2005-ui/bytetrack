@@ -1,0 +1,106 @@
+{
+ "phien_ban": "kc48-audit-v1",
+ "quy_dao": {
+  "tam": "tam hop (cx, cy) [px] tren anh, nhan goc (khong lam tron)",
+  "fps": {
+   "bdd": 5,
+   "detrac": 25
+  },
+  "nua_cua_so_huong_s": 0.4,
+  "khoang_doi_huong_s": 1.0,
+  "do_dai_toi_thieu_s": 2.0,
+  "dich_chuyen_toi_thieu_px": 8.0,
+  "dich_chuyen_toi_thieu_theo_h": 0.25,
+  "ti_le_huong_hop_le_toi_thieu": 0.5,
+  "nguong_deg": {
+   "thang_duoi": 15,
+   "cong_nhe_duoi": 30,
+   "cua_duoi": 60,
+   "nghi_nhieu_tren": 150
+  },
+  "dinh_nghia": "huong psi(t) = atan2 cua c(t+k) - c(t-k), k = nua_cua_so*fps frame, chi khi ca hai frame co mat va |dich chuyen| >= max(dich_chuyen_toi_thieu_px, dich_chuyen_toi_thieu_theo_h * h(t)); dpsi(t) = |wrap(psi(t+T) - psi(t))|, T = khoang_doi_huong*fps frame, ca hai huong hop le. Loai: do dai < do_dai_toi_thieu -> loai_ngan; ti le huong hop le / huong tinh duoc < nguong hoac khong co dpsi -> loai_cham; max dpsi > nghi_nhieu_tren -> nghi_nhieu (dao chieu: nhieu / dung / doi ID); < thang_duoi -> thang; < cong_nhe_duoi -> cong_nhe; < cua_duoi -> cua; con lai -> cua_gat.",
+  "chi_so_chinh": "max dpsi tren track",
+  "chi_so_do_nhay": "p90 dpsi tren track (giam anh huong mot diem ngoai lai)",
+  "lop": {
+   "bdd": "5 lop, box gan nhan (khong crowd / distractor)",
+   "detrac": "car, bus, van, others (loai goc)"
+  },
+  "ghi_chu_bdd": "camera gan tren xe dang chay (ego-motion): ket qua la DOI HUONG TREN ANH, khong phai xe cua that",
+  "ghi_chu_detrac": "camera co dinh, phoi canh: goc tren anh khac goc tren mat duong"
+ },
+ "mau_truc_quan": {
+  "seed": 48,
+  "tap_con": [
+   "bdd_trainfit_b5",
+   "bdd_val",
+   "detrac_train60",
+   "detrac_test40"
+  ],
+  "lop": {
+   "bdd": [
+    "car",
+    "truck",
+    "bus",
+    "motorcycle",
+    "bicycle"
+   ],
+   "detrac": [
+    "car",
+    "bus",
+    "van",
+    "others"
+   ]
+  },
+  "kich_thuoc": "dien tich px goc: nho < 32^2, vua < 96^2, lon >= 96^2 (quy uoc COCO)",
+  "dieu_kien": {
+   "bdd_train": "kho = occluded hoac truncated (Scalabel); thuong = con lai",
+   "bdd_val": "unknown (COCO-video khong co occluded/truncated) -> mot nhom",
+   "detrac": "kho = co region_overlap hoac truncation_ratio > 0 hoac sence_weather in {night, rainy}"
+  },
+  "cach_chon": "moi o (lop x kich thuoc x dieu kien): 1 box, lay mau hoc chua (reservoir) deu tren moi box cua o, duyet video theo ten, frame theo thu tu; numpy default_rng(seed) rieng tung tap con",
+  "anh_toan_khung": "2 frame / tap con (reservoir tren frame co >= 1 box gan nhan), ve moi box",
+  "gioi_han": "mau nho, chi phat hien loai loi; KHONG ket luan toan tap sach"
+ },
+ "gan_trung": {
+  "mau_frame": "moi video 4 frame: vi tri floor(0.1n), floor(0.5n), floor(0.9n) + 1 chi so ngau nhien (default_rng(crc32(video) ^ 48)) trong danh sach anh da sap xep",
+  "hash": "dHash 256 bit: anh xam resize 17x16 (BILINEAR), so sanh cot lien ke",
+  "nguong_ung_vien": 20,
+  "pham_vi": "chi so cap thuoc HAI VIDEO KHAC NHAU, trong cung mien (BDD voi BDD, DETRAC voi DETRAC)",
+  "ghi_chu": "ung vien phai xac nhan bang mat; frame lien nhau trong mot video khong tinh la boi canh doc lap"
+ },
+ "canh_xe_lon": {
+  "nho": {
+   "bdd": [
+    "car",
+    "motorcycle",
+    "bicycle"
+   ],
+   "detrac": [
+    "car"
+   ]
+  },
+  "lon": {
+   "bdd": [
+    "bus",
+    "truck"
+   ],
+   "detrac": [
+    "bus",
+    "others"
+   ]
+  },
+  "dieu_kien": "dien tich box lon >= 2 x box nho VA giao / dien tich box nho (IoA) >= 0.10, cung frame",
+  "su_kien": "chuoi frame lien tiep (khoang cach <= 1 frame nhan) cua cung cap (track nho, track lon)",
+  "detrac_theo_nhan": "region_overlap co occlusion_id tro toi target lop lon trong cung frame (dem rieng)",
+  "ghi_chu": "others cua UA-DETRAC la lop hon hop, thanh phan khong xac minh"
+ },
+ "mau_yolo": {
+  "seed": 48,
+  "tang": "split (train/dev) x xu_ly (sao_chep/to_xam) x co lop hiem (motorcycle|bicycle)",
+  "so_moi_tang": 40,
+  "dung_sai_toa_do_chuan_hoa": 1e-06,
+  "dung_sai_vung_px": 0.006
+ },
+ "cong_bo_luc": "2026-10-10T20:04:18",
+ "git_head": "eaf2e877081938420508e696de22dbd2aa0bff97"
+}

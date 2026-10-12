@@ -1,0 +1,63 @@
+{
+  "status": "no_candidate",
+  "conclusion_vi": "không tìm được demo xe đang di chuyển đủ tin cậy với buffer=90",
+  "dataset": "DETRAC-all",
+  "part": "train",
+  "trackers": {
+    "cv": "sweep-cv-buf90",
+    "ekf": "sweep-ekf_ctrv-buf90",
+    "ukf": "sweep-ukf_ctrv-buf90"
+  },
+  "configuration": {
+    "condition": "Stage E extended (not original A/B)",
+    "detector": "models/yolov8n.pt",
+    "weights_sha256": "F59B3D833E2FF32E194B5BB8E08D211DC7C5BDF144B90D2C8412C47CCFC83B36",
+    "conf": 0.25,
+    "classes": [2, 3, 5, 7],
+    "seed": 0,
+    "seed_note": "Ultralytics default; not explicitly passed by the historical CLI",
+    "track_high_thresh": 0.25,
+    "track_low_thresh": 0.1,
+    "new_track_thresh": 0.25,
+    "track_buffer": 90,
+    "match_thresh": 0.8,
+    "fuse_score": true,
+    "only_yaml_difference": "tracker_type / motion model"
+  },
+  "counts": {
+    "raw_occlusion_segments": 3349,
+    "merged_events": 2766,
+    "eligible_events": 1003,
+    "ekf_id_match_and_cv_not_match": 13,
+    "also_pass_movement": 5,
+    "also_reappear_end_plus_1_to_5_and_linked": 1,
+    "also_ekf_stable_pm25_and_inputs_exist": 0,
+    "final_candidates": 0
+  },
+  "stability_rule": {
+    "window_frames": 25,
+    "same_id_required_for_all_observed_matches": true,
+    "minimum_post_reappearance_matches": 5
+  },
+  "near_miss": {
+    "video": "MVI_39801",
+    "gt_id": 37,
+    "event_frames": [701, 709],
+    "reappearance_frame": 712,
+    "speed_px_per_frame": 13.34547559360611,
+    "path_len_px": 106.76380474884888,
+    "net_displacement_px": 106.73255478062917,
+    "median_bbox_diagonal_px": 127.18782528213933,
+    "normalized_net_displacement": 0.8391727316971223,
+    "ekf_post_reappearance_matches_pm25": 2,
+    "rejection": "insufficient stable post-reappearance observations"
+  },
+  "replay": {
+    "performed": false,
+    "reason": "No event passed every hard gate before replay."
+  },
+  "render": {
+    "performed": false,
+    "reason": "No valid final candidate; no video or keyframes were created."
+  }
+}

@@ -1,0 +1,37 @@
+{
+ "phien_ban": "kc48-pixel-to-xam-v1",
+ "mau": "dung 160 anh xu_ly == to_xam trong mau 320 anh cua R48B (tieu_chi_cong_bo.json khoa mau_yolo, seed 48): chon lai bang dung thu tuc phan_yolo cua src/kc48/audit_du_lieu.py va doi chieu tung (split, video, anh) voi results/phase2/kc48_audit/yolo_kiem_mau.csv; lech -> dung, khong tinh",
+ "giai_ma": "PIL Image.open(...).convert('RGB') cho ca anh goc va anh xuat; uint8; so cung kich thuoc",
+ "vung": {
+  "raster": "hinh chu nhat px [floor(y1):ceil(y2), floor(x1):ceil(x2)] sau khi cat vao khung; box < 1 px bo qua",
+  "V": "hop vung to_xam (crowd thuoc 5 lop, other vehicle, trailer)",
+  "G": "V tru hop box co nhan -> ky vong (114,114,114)",
+  "K": "V giao hop box co nhan -> ky vong giu nguyen anh goc (doi tuong co nhan khong bi xoa)",
+  "O": "ngoai V -> ky vong giu nguyen anh goc",
+  "ban_kinh_loi_px": 8,
+  "loi": "G_loi: pixel G co cua so (2r+1)^2 (cat theo khung) toan G; O_loi / K_loi: pixel O / K co cua so khong chua pixel G. r = 8 px = mot khoi DCT 8x8; bien JPEG (ringing, chroma 4:2:0) nam trong dai nay, va quy uoc raster floor/ceil o bien khong anh huong phan loi"
+ },
+ "xap_xi_xam": "max theo kenh |I_ra - 114| <= 6",
+ "ly_do_dung_sai": "exporter ghi JPEG chat luong 95 bang cv2 (src/bdd_yolo_export.py:574); bang luong tu hoa o q95 = 10 % bang chuan (buoc 1-12), khoi 8x8 phang 114 giu DC gan dung; 6 muc chua chenh lech bo giai ma (cv2 luc ghi, PIL luc kiem) va lam tron YCbCr<->RGB",
+ "chi_so": {
+  "ti_le_xam": "so pixel xap_xi_xam / so pixel vung",
+  "mae": "trung binh |I_ra - I_goc| tren moi kenh moi pixel cua vung (thang 0-255)",
+  "psnr_db": "10 log10(255^2 / MSE), MSE tren moi kenh moi pixel cua vung; MSE = 0 -> inf"
+ },
+ "nguong": {
+  "T1_vung_to": "G_loi khac rong va ti_le_xam(I_ra, G_loi) >= 0.99",
+  "T2_ngoai_vung": "O_loi: psnr_db >= 35 va mae <= 2.0",
+  "T3_box_chong_vung": "neu K_loi khac rong: psnr_db >= 35 va mae <= 2.0; K_loi rong -> khong_ap_dung",
+  "ket_qua_anh": "dat = T1 dat va T2 dat va T3 in {dat, khong_ap_dung}; khong_dat = co tieu chi khong dat; chua_ket_luan = G_loi rong (vung qua mong de tach khoi bien JPEG) va khong tieu chi nao khong dat"
+ },
+ "bao_cao_them_khong_nguong": [
+  "ti_le_xam(I_goc, G_loi): doi chung - anh goc da xam san o vung nay thi T1 khong phan biet duoc",
+  "ti_le_xam(I_ra, G), mae / psnr tren O, K day du (gom dai bien)",
+  "ti_le_xam tren K (anh ra va anh goc), so box co nhan cham V",
+  "p99 |I_ra - I_goc| tren O_loi",
+  "sha256 anh xuat so voi manifest; vung tai suy so voi file ignore (dung sai 0.006 px, nhu R48B)"
+ ],
+ "pham_vi": "chi 160 anh mau; KHONG ket luan cho toan bo 18.600 anh to xam cua data/yolo_bdd5_v1",
+ "tao_luc": "2026-10-11T21:13:28",
+ "git_head": "eaf2e877081938420508e696de22dbd2aa0bff97"
+}

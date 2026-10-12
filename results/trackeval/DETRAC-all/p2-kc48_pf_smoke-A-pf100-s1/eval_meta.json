@@ -1,0 +1,75 @@
+{
+  "dir": "p2-kc48_pf_smoke-A-pf100-s1",
+  "split_name": "DETRAC-all",
+  "tracking": {
+    "n_videos": 2,
+    "n_missing": 0,
+    "sha256": "688bf90fad2a893a6fa49106456fc88c6ef20803722a330c19309221671409ce",
+    "per_video": {
+      "MVI_20052": "110a186ca7c67288",
+      "MVI_20062": "adb5e24d372b789a"
+    }
+  },
+  "config": "c0c242de5654562b5ba86cbff85649b396d7f3d8fe12ce2ec3d2bd7f48300811",
+  "cache": {
+    "cache_id": "yolov8n-coco_conf0.05_all",
+    "meta_sha256": "870cb45fbb006d0e898b3468b698deeee470a9f6aef1ffd4e3e9acc073282211",
+    "npz_sha256": "02648d8a19c266b2bb72b42ccec75203f9a36dbc78d102e88513b0abbd932af5",
+    "weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "conf": 0.05,
+    "classes": null,
+    "max_det": 3000
+  },
+  "sequences": "30e61938512143cef7e30d33d8f3d887ae808f22d25292b556fbbce563c658f1",
+  "gt": {
+    "n_videos": 2,
+    "n_missing_gt": 0,
+    "n_missing_seqinfo": 0,
+    "gt_sha256": "dbd8cce6f3571beda39318e81af254724010acf731b13e329456c927fbeccf2c",
+    "seqinfo_sha256": "aa07f13d828d167dbf663ab6fe2a3714a01a2e3f3e52895cc3d758011071d70c",
+    "seq_lengths": "bb8cc8ec924709864d3e20f32b05ca8ccd44c9b5780d0403c7c3162d3489e1a5",
+    "gt_per_video": {
+      "MVI_20052": "6cd1c901627ca1c6",
+      "MVI_20062": "03ef1add0940b95b"
+    },
+    "seqmap_used": false,
+    "seqmap_sha256": null
+  },
+  "code": {
+    "git_commit": "eaf2e87",
+    "modules": {
+      "run_tracking.py": "5bd131fe958bdf04",
+      "run_experiment.py": "9952441194b7e70f",
+      "tracker_ctrv.py": "c2f493997f602f59",
+      "sort_tracker.py": "a4ab4b26867989eb",
+      "ekf_ctrv.py": "b516781efa01f473",
+      "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+      "ukf_ctrv.py": "2d59daf4794d8039",
+      "pf_ctrv.py": "e82b8d8db7942b24",
+      "lost_recovery.py": "38f30192b492fa80",
+      "lost_association.py": "469c2782cba41e01",
+      "time_units.py": "c13b6e20fe003f6d",
+      "det_cache.py": "d253c2b8063fa15f",
+      "occlusion_eval.py": "1b892596be674b9e",
+      "boot_stats.py": "e9245f6729659f8f",
+      "run_trackeval.py": "519d3f9165803fde",
+      "trackeval_ext.py": "3dcf6582548adcfa",
+      "assoc_log.py": "0915453e70f75eb2",
+      "ul_backend.py": "7381910281d8a273",
+      "bytetrack_np.py": "8d37ec565230603b",
+      "run_state.py": "2bc38e3a86fbf50b"
+    },
+    "backend": {
+      "backend": "ultralytics",
+      "ultralytics": "8.4.141",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "lap": "0.5.13"
+    }
+  },
+  "evaluator": {
+    "trackeval": "1.3.0",
+    "dataset_class": "mot"
+  },
+  "evaluated_at": "2026-10-11T06:53:12"
+}

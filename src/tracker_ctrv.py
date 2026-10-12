@@ -273,6 +273,7 @@ class PFSTrack(CTRVSTrack):
         self.particles: np.ndarray | None = None
         self.logw: np.ndarray | None = None
         self.rng: np.random.Generator | None = None
+        self._k1_prior = None           # R48D K1: (f(x), std Q) cua predict gan nhat, chi khi optimal_proposal
 
     def activate(self, kalman_filter, frame_id: int):
         # Lop cha: gan kalman_filter (PFCTRV dung chung), cap track_id, mean/cov = initiate(z)
@@ -319,6 +320,8 @@ class PFSTrack(CTRVSTrack):
             Xn[:, pf.THETA] = normalize_angle(Xn[:, pf.THETA])
             Xn[:, H] = np.maximum(Xn[:, H], 1e-3)
             st.particles = Xn
+            if pf.optimal_proposal:                  # R48D K1: luu (f(x), std Q) cho update ke tiep
+                st._k1_prior = (allF[off:off + n], std[off:off + n])
             st.mean, st.covariance = pf.estimate_state(Xn, st.logw)
             off += n
 
@@ -397,6 +400,7 @@ PF_YAML_KEYS = {
     "pf_estimate": ("estimate", str),
     "pf_roughening": ("roughening", float),
     "pf_degenerate_maha2": ("degenerate_maha2", float),
+    "pf_optimal_proposal": ("optimal_proposal", lambda v: str(v).strip().lower() in ("1", "true", "yes")),  # R48D K1
 }
 
 

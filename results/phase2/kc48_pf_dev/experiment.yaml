@@ -1,0 +1,31 @@
+# R48D (M4) - pipeline ByteTrack tren dev UA-DETRAC 12 video theo giao thuc khoa
+# handoff/logs/review48/04_giao_thuc_kiem_chung_pf.md muc 5. Khai bao nhu nhom cu (expB_detrac_dev_fix1.yaml):
+# cung cache, dieu kien A, lop, max_det, fps, elapsed_mode. Khong khai bao `occlusion` (wrapper tu choi).
+# Uu tien (04 muc 9): P1 ekf, pf100, pf100-k1; P2 pf100-k2, pf100-k1k2, ekf-chinh; P3 N = 300 / 500 cho pf va K1.
+# Chay qua wrapper (goc config.PROCESSED_DIR -> results/phase2/kc48_pf_dev/_processed/):
+#   python src/kc48/chay_song_song_dev.py --track         (song song theo (tracker, seed), tiep tuc duoc)
+#   python src/kc48/chay_thi_nghiem_kc48.py --exp configs/phase2/experiments/kc48_pf_dev.yaml --stage eval
+name: kc48_pf_dev
+dataset: detrac
+split_name: DETRAC-all
+part: train
+manifest: results/phase2/manifests/detrac_dev.json
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+elapsed_mode: skip
+conditions:
+  A: {conf_min: 0.25}
+trackers:
+  - {name: ekf,        yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: pf100,      yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n100.yaml, seeds: [0, 1, 2]}
+  - {name: pf100-k1,   yaml: configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k1.yaml, seeds: [0, 1, 2]}
+  - {name: pf100-k2,   yaml: configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k2.yaml, seeds: [0, 1, 2]}
+  - {name: pf100-k1k2, yaml: configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k1k2.yaml, seeds: [0, 1, 2]}
+  - {name: ekf-chinh,  yaml: configs/phase2/trackers/kc48/bytetrack_ekf_ctrv_chinh.yaml}
+  - {name: pf300,      yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n300.yaml, seeds: [0, 1, 2]}
+  - {name: pf500,      yaml: configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml, seeds: [0, 1, 2]}
+  - {name: pf300-k1,   yaml: configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n300_k1.yaml, seeds: [0, 1, 2]}
+  - {name: pf500-k1,   yaml: configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n500_k1.yaml, seeds: [0, 1, 2]}
+baseline: ekf

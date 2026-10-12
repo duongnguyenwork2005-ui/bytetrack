@@ -1,0 +1,115 @@
+{
+ "thoi_diem": "2026-10-11T06:54:21+0700",
+ "kiem": {
+  "cung (kich ban, d) -> z bit-identical": {
+   "dat": true,
+   "chi_tiet": null
+  },
+  "d khac -> z khac": {
+   "dat": true,
+   "chi_tiet": null
+  },
+  "eps / outlier trung nhau qua moi L, kappa, h0 cung d (ghep cap)": {
+   "dat": true,
+   "chi_tiet": null
+  },
+  "z = GT + kappa*sigma(h)*eps (+ outlier) dung cong thuc; quy dao tam khong phu thuoc h0 (tru phoi_canh)": {
+   "dat": true,
+   "chi_tiet": null
+  },
+  "mat do: dung L buoc tu t_gap, hang mat la NaN, con lai huu han": {
+   "dat": true,
+   "chi_tiet": null
+  },
+  "thang / cua_deu / nhieu_duoi_day: GT = CTRV tham so hang (vi tri < 1e-9 px, v / omega khong doi)": {
+   "dat": true,
+   "chi_tiet": {
+    "thang": {
+     "vi_tri_px": 0.0,
+     "tham_so": 0.0
+    },
+    "cua_deu": {
+     "vi_tri_px": 8.04e-14,
+     "tham_so": 0.0
+    },
+    "doi_omega": {
+     "vi_tri_px": 1.45e-13,
+     "tham_so": 0.006
+    },
+    "cua_gat": {
+     "vi_tri_px": 6.36e-14,
+     "tham_so": 0.1
+    },
+    "phoi_canh": {
+     "vi_tri_px": 0.0,
+     "tham_so": 0.346
+    },
+    "gia_toc": {
+     "vi_tri_px": 1.51e-13,
+     "tham_so": 0.05
+    },
+    "doi_lan": {
+     "vi_tri_px": 0.00287,
+     "tham_so": 0.00862
+    },
+    "nhieu_duoi_day": {
+     "vi_tri_px": 1.14e-13,
+     "tham_so": 0.0
+    }
+   }
+  },
+  "doi_omega / cua_gat / phoi_canh / gia_toc / doi_lan lech CTRV hang so (vi tri hoac v / omega doi > 1e-3)": {
+   "dat": true,
+   "chi_tiet": null
+  },
+  "moi trang thai GT huu han, h > 0 (8 kich ban x 30 seed x 2 h0)": {
+   "dat": true,
+   "chi_tiet": null
+  },
+  "do lech chuan eps Gauss ~ 1 (|sd - 1| < 0.05)": {
+   "dat": true,
+   "chi_tiet": 1.0009
+  },
+  "do lech chuan eps Student-t nu=3 (truoc outlier) trong [0.8, 1.2] (duoi day: hoi tu cham)": {
+   "dat": true,
+   "chi_tiet": 0.9806
+  }
+ },
+ "dat_tat_ca": true,
+ "tham_so": {
+  "KICH_BAN": [
+   "thang",
+   "cua_deu",
+   "doi_omega",
+   "cua_gat",
+   "phoi_canh",
+   "gia_toc",
+   "doi_lan",
+   "nhieu_duoi_day"
+  ],
+  "L_GAP": [
+   0,
+   5,
+   10,
+   20
+  ],
+  "KAPPA": [
+   0.5,
+   1.0,
+   2.0
+  ],
+  "H0": [
+   24.0,
+   72.0
+  ],
+  "T": 90,
+  "SEED_DANH_GIA": [
+   0,
+   29
+  ],
+  "SEED_TINH_CHINH": [
+   1000,
+   1009
+  ]
+ }
+}

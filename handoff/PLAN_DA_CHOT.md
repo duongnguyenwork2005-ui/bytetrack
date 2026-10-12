@@ -10,6 +10,13 @@ File này là phạm vi làm việc cho các vòng sau. Thay đổi phạm vi ph
 > Mỗi vòng xong việc: cập nhật mục 0 trước, rồi mới viết brief/handoff. Lộ trình đọc: `AGENTS.md`.
 > Chỉ mục tài liệu cũ và vùng lưu trữ: `handoff/LUU_TRU.md`.
 
+**Đồng bộ GitHub (2026-10-12).** Người dùng yêu cầu commit và push toàn bộ dự án hiện tại lên
+`origin/phase2-mixed-traffic`, sau đó chọn chỉ mã nguồn, cấu hình, báo cáo và số liệu; bỏ video/cache lớn.
+Lượt đồng bộ này lưu các thay đổi hiện có (gồm mã K1, công cụ KC48, demo, kết quả detector và hồ sơ R49/R50)
+theo trạng thái trên máy. Các ghi chú "chưa commit" bên dưới mô tả thời điểm nghiệm thu trước lượt đồng bộ này.
+Việc lưu Git không phải nghiệm thu mới hay phê duyệt thực thi các đề xuất còn chờ; không chạy lại thí nghiệm,
+không sửa thuật toán. Dataset, weights, video/cache lớn và các file đã bị Git bỏ qua tiếp tục nằm trên máy.
+
 **Mục tiêu hiện tại.** Chuẩn bị báo cáo ngày **17/10/2026**. Thứ tự ưu tiên do người dùng đặt (10/10/2026):
 1. Làm vững **lý thuyết** KF / EKF / PF, **SIS / SIR** (lấy mẫu trọng số tuần tự, tái chọn mẫu) — gắn với mã
    `src/ekf_ctrv.py`, `src/ukf_ctrv.py`, `src/pf_ctrv.py` và số liệu đã đo.

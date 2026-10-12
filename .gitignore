@@ -63,3 +63,32 @@ results/demo/videos/suppress3_*.mp4
 outputs/thesis_demos/*.mp4
 outputs/thesis_demos/*/*.png
 outputs/thesis_demos/*/rerun/
+
+# --- Demo track_buffer=90: giu bao cao/CSV/metadata, bo file nhi phan va cache ---
+outputs/thesis_demos_buffer90/*.mp4
+outputs/thesis_demos_buffer90/*.png
+outputs/thesis_demos_buffer90/rerun/
+outputs/thesis_demos_buffer90/_screen_*/
+
+# --- Demo buffer=90 moving: giu bao cao/CSV/metadata, bo binary va cache ---
+outputs/thesis_demos_buffer90_moving/*.mp4
+outputs/thesis_demos_buffer90_moving/*.png
+outputs/thesis_demos_buffer90_moving/rerun/
+outputs/thesis_demos_buffer90_moving/_screen_*/
+
+# --- Demo buffer=90 single case: giu bao cao/CSV/metadata, bo binary va cache ---
+outputs/thesis_demos_buffer90_single_case/*.mp4
+outputs/thesis_demos_buffer90_single_case/*.png
+outputs/thesis_demos_buffer90_single_case/rerun/
+
+# --- Demo buffer=90 turning: giu bao cao/CSV/metadata, bo binary va cache ---
+outputs/thesis_demos_buffer90_turning/*.mp4
+outputs/thesis_demos_buffer90_turning/*.png
+outputs/thesis_demos_buffer90_turning/rerun/
+
+# --- GitHub snapshot 2026-10-12: source, reports and metrics only.
+# Keep generated videos, prediction caches and demo archives locally. ---
+handoff/logs/**/*.mp4
+results/track_video/**/*.mp4
+results/phase2/**/*.npz
+outputs/*.zip

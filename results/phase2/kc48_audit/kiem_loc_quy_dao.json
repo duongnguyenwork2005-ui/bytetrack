@@ -1,0 +1,204 @@
+{
+ "lenh": "python src/kc48/kiem_loc_quy_dao.py --ghi",
+ "tao_luc": "2026-10-11T03:08:01",
+ "git_head": "eaf2e877081938420508e696de22dbd2aa0bff97",
+ "tieu_chi_sha256": "d7543fffa6aeeccd8ba864bc189025bc4c99e308bcb0347708e1aa6d7615f3ec",
+ "kiem": [
+  {
+   "kiem": "A1 max=179, p90=41 -> loai_max = loai_p90 = nghi_nhieu, loai_p90_tho = cua",
+   "dat": true,
+   "chi_tiet": {
+    "loai_max": "nghi_nhieu",
+    "loai_p90": "nghi_nhieu",
+    "loai_p90_tho": "cua"
+   }
+  },
+  {
+   "kiem": "A2 max=150 (nguong la '>' theo tieu chi) -> khong loai; loai_max = cua_gat, loai_p90 = cua",
+   "dat": true,
+   "chi_tiet": {
+    "loai_max": "cua_gat",
+    "loai_p90": "cua",
+    "loai_p90_tho": "cua"
+   }
+  },
+  {
+   "kiem": "A3 tong_hop_quy_dao 7 track (car, loai_max): dem sau / truoc loc dung ky vong",
+   "dat": true,
+   "chi_tiet": null
+  },
+  {
+   "kiem": "A3 tong_hop_quy_dao 7 track (_tat_ca, loai_max): dem sau / truoc loc dung ky vong",
+   "dat": true,
+   "chi_tiet": null
+  },
+  {
+   "kiem": "A3 tong_hop_quy_dao 7 track (car, loai_p90): dem sau / truoc loc dung ky vong",
+   "dat": true,
+   "chi_tiet": null
+  },
+  {
+   "kiem": "A3 tong_hop_quy_dao 7 track (_tat_ca, loai_p90): dem sau / truoc loc dung ky vong",
+   "dat": true,
+   "chi_tiet": null
+  },
+  {
+   "kiem": "A4 bat bien n_hop_le = tong 4 nhom sau loc tren moi hang tong hop",
+   "dat": true,
+   "chi_tiet": null
+  },
+  {
+   "kiem": "B1 cung tron deu: max = p90 = 41 do -> cua o ca hai chi so (khong bi loai)",
+   "dat": true,
+   "chi_tiet": {
+    "max_dpsi_deg": 41.0,
+    "p90_dpsi_deg": 41.0,
+    "loai_max": "cua",
+    "loai_p90": "cua",
+    "loai_p90_tho": "cua",
+    "n_dpsi": 555
+   }
+  },
+  {
+   "kiem": "B2 cung + quay dau: max > 150, p90 trong [30, 60) -> nghi_nhieu o ca max lan p90; p90 tho = cua",
+   "dat": true,
+   "chi_tiet": {
+    "max_dpsi_deg": 178.36,
+    "p90_dpsi_deg": 41.0,
+    "loai_max": "nghi_nhieu",
+    "loai_p90": "nghi_nhieu",
+    "loai_p90_tho": "cua",
+    "n_dpsi": 613
+   }
+  },
+  {
+   "kiem": "C0 tieu_chi_cong_bo.json khong doi (sha256 nhu luc cong bo)",
+   "dat": true,
+   "chi_tiet": "d7543fffa6aeeccd8ba864bc189025bc4c99e308bcb0347708e1aa6d7615f3ec"
+  },
+  {
+   "kiem": "C1 _dem/quy_dao/bdd_train.csv du cot (gom loai_p90_tho)",
+   "dat": true,
+   "chi_tiet": {
+    "n_track": 86731,
+    "thieu_cot": []
+   }
+  },
+  {
+   "kiem": "C1 _dem/quy_dao/bdd_val.csv du cot (gom loai_p90_tho)",
+   "dat": true,
+   "chi_tiet": {
+    "n_track": 14382,
+    "thieu_cot": []
+   }
+  },
+  {
+   "kiem": "C1 _dem/quy_dao/detrac_train.csv du cot (gom loai_p90_tho)",
+   "dat": true,
+   "chi_tiet": {
+    "n_track": 5952,
+    "thieu_cot": []
+   }
+  },
+  {
+   "kiem": "C1 _dem/quy_dao/detrac_test.csv du cot (gom loai_p90_tho)",
+   "dat": true,
+   "chi_tiet": {
+    "n_track": 2337,
+    "thieu_cot": []
+   }
+  },
+  {
+   "kiem": "C2 luat loc: loai_max = nghi_nhieu => loai_p90 = nghi_nhieu (moi track)",
+   "dat": true,
+   "chi_tiet": {
+    "n_vi_pham": 0,
+    "n_vi_pham_bdd_trainfit_p90_cua_hoac_gat": 0
+   }
+  },
+  {
+   "kiem": "C3 track khong nghi_nhieu: loai_p90 = loai_p90_tho",
+   "dat": true,
+   "chi_tiet": {
+    "n_vi_pham": 0
+   }
+  },
+  {
+   "kiem": "C4 tai tinh nhan tu max/p90 (nguong cong bo) khop CSV tung track",
+   "dat": true,
+   "chi_tiet": {
+    "n_track": 109402,
+    "n_sai": 0,
+    "n_sat_nguong_bo_qua": 39,
+    "vi_du_sai": []
+   }
+  },
+  {
+   "kiem": "C5 quy_dao_cua.csv = tong_hop_quy_dao(CSV tung track) (moi cot, moi hang)",
+   "dat": true,
+   "chi_tiet": {
+    "n_hang_csv": 66,
+    "n_hang_tinh": 66,
+    "n_o_lech": 0,
+    "vi_du": []
+   }
+  },
+  {
+   "kiem": "C6 quy_dao_cua.csv: n_hop_le = tong 4 nhom = n_track - ngan - cham - nghi_nhieu; max va p90 cung tap hop le",
+   "dat": true,
+   "chi_tiet": {
+    "n_hang": 66,
+    "vi_pham_bat_bien": [],
+    "cap_lech_tap_hop_le": []
+   }
+  },
+  {
+   "kiem": "C7 vi du review: MVI_20064 track 34 (max 179,18; p90 41,43) -> nghi_nhieu o ca hai chi so, p90 tho = cua",
+   "dat": true,
+   "chi_tiet": [
+    {
+     "tap_con": "detrac_train60",
+     "max_dpsi_deg": "179.18",
+     "p90_dpsi_deg": "41.43",
+     "loai_max": "nghi_nhieu",
+     "loai_p90": "nghi_nhieu",
+     "loai_p90_tho": "cua"
+    }
+   ]
+  },
+  {
+   "kiem": "C8 bdd_trainfit (moi lop) khop so review_003 tu tinh",
+   "dat": true,
+   "chi_tiet": {
+    "tinh": {
+     "n_truoc_loc_nhieu": 41329,
+     "nghi_nhieu": 8162,
+     "n_hop_le": 33167,
+     "cua_hoac_gat_max": 12437,
+     "nghi_nhieu_bi_tinh_cua_hoac_gat_truoc_loc_p90": 3405
+    },
+    "review_003": {
+     "n_truoc_loc_nhieu": 41329,
+     "nghi_nhieu": 8162,
+     "n_hop_le": 33167,
+     "cua_hoac_gat_max": 12437,
+     "nghi_nhieu_bi_tinh_cua_hoac_gat_truoc_loc_p90": 3405
+    },
+    "ti_le_max_sau_loc": 0.375,
+    "ti_le_max_truoc_loc": 0.3009
+   }
+  }
+ ],
+ "so": {
+  "n_track": 109402,
+  "bdd_trainfit": {
+   "n_truoc_loc_nhieu": 41329,
+   "nghi_nhieu": 8162,
+   "n_hop_le": 33167,
+   "cua_hoac_gat_max": 12437,
+   "nghi_nhieu_bi_tinh_cua_hoac_gat_truoc_loc_p90": 3405
+  }
+ },
+ "n_dat": 21,
+ "n_hong": 0
+}

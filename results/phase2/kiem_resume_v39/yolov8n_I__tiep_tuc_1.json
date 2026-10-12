@@ -1,0 +1,854 @@
+{
+ "loai": "training day du -- TIEP TUC",
+ "che_do": "day-du",
+ "ten": "yolov8n_I",
+ "model": "yolov8n",
+ "tao_luc": "2026-10-03T07:19:56",
+ "cau_hinh": {
+  "duong_dan": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review39\\cau_hinh_kiem_resume_3epoch.yaml",
+  "sha256": "82e8c4ae585a7dccdc1c07956494ec2a160ac0724d3a8717fb69164e8651bb8b",
+  "ke_thua": null
+ },
+ "pilot_khac_smoke": null,
+ "dataset": {
+  "hop_dong": "bdd5-dataset-v2",
+  "phien_ban_manifest": 2,
+  "loi": 0,
+  "ten": "bdd5_train_v1_smoke",
+  "loai": "SMOKE (tap con nho, KHONG dung cho ket qua nghien cuu)",
+  "tap_con": "smoke",
+  "data_yaml": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\data.yaml",
+  "sha256_data_yaml": "9744ba88ce2f10438b4d9dfcf3ffeade018f319c2c5bde8eeb397d199e458661",
+  "sha256_tom_tat": "1c4e7521e397160f80e74c29e7f077d3aa29a9de29e161363dac65acecf8c64c",
+  "manifest_sha256": "c48998266b5490531df6834d715b9d159fb6555e063cc53520e39b41c9b074c1",
+  "sha256_video_json": "a07d12f893055f83ac504a185864ee031c8a3dfb8d2ccebca792e28938da9912",
+  "split_da_khoa": {
+   "sha256": "b8a2848e3da053a2b1b79e7fa6cfad812540315af6e48b12b4174a40efc06cdb",
+   "sha256_danh_sach": "a59a8d0672f30d6e9ff90d4347965fa003b299bb79995c0883796712446ca723",
+   "ban_goc": "khop"
+  },
+  "duong_dan_resolve": {
+   "train": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\images\\train",
+   "val": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\images\\dev"
+  },
+  "so_anh": {
+   "train": 334,
+   "dev": 84
+  },
+  "so_video": {
+   "train": 16,
+   "dev": 4
+  },
+  "so_nhan_rong_hop_le": {
+   "train": 0,
+   "dev": 4
+  },
+  "so_anh_co_file_ignore": {
+   "train": 125,
+   "dev": 27
+  },
+  "cache_anh": {
+   "chinh_sach": "khong dung cache anh (.npy); pixel nap = JPEG da khoa sha256",
+   "so_npy_canh_anh": {
+    "train": 0,
+    "dev": 0
+   }
+  },
+  "noi_dung_da_xac_minh": {
+   "train": true,
+   "dev": true
+  },
+  "so_file_da_bam": {
+   "anh": 418,
+   "nhan": 418,
+   "ignore": 152
+  },
+  "xac_minh_luc": "2026-10-03T07:19:56",
+  "thoi_gian_s": 0.82
+ },
+ "checkpoint_khoi_tao": {
+  "weights": "D:\\LABOTARY\\bytetrack\\models\\yolov8n.pt",
+  "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+  "bytes": 6549796,
+  "loai_checkpoint": "coco80",
+  "so_lop": 80
+ },
+ "tham_so_khai_bao": {
+  "epochs": 3,
+  "imgsz": 640,
+  "batch": 8,
+  "optimizer": "SGD",
+  "lr0": 0.01,
+  "lrf": 0.01,
+  "momentum": 0.937,
+  "weight_decay": 0.0005,
+  "nbs": 64,
+  "warmup_epochs": 1.0,
+  "warmup_momentum": 0.8,
+  "warmup_bias_lr": 0.1,
+  "cos_lr": false,
+  "close_mosaic": 2,
+  "patience": 5,
+  "seed": 0,
+  "deterministic": true,
+  "amp": false,
+  "workers": 2,
+  "cache": false,
+  "rect": false,
+  "multi_scale": 0.0,
+  "fraction": 1.0,
+  "single_cls": false,
+  "cls_remap": true,
+  "pretrained": true,
+  "hsv_h": 0.015,
+  "hsv_s": 0.7,
+  "hsv_v": 0.4,
+  "degrees": 0.0,
+  "translate": 0.1,
+  "scale": 0.5,
+  "shear": 0.0,
+  "perspective": 0.0,
+  "flipud": 0.0,
+  "fliplr": 0.5,
+  "bgr": 0.0,
+  "mosaic": 1.0,
+  "mixup": 0.0,
+  "cutmix": 0.0,
+  "copy_paste": 0.0,
+  "val": true,
+  "save_period": -1,
+  "plots": false,
+  "verbose": true,
+  "data": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\data.yaml",
+  "project": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39",
+  "name": "yolov8n_I",
+  "exist_ok": false,
+  "device": "0",
+  "model": "D:\\LABOTARY\\bytetrack\\models\\yolov8n.pt"
+ },
+ "batch_ghi_de": null,
+ "workers_ghi_de": null,
+ "tham_so_resolve_tinh": {
+  "task": "detect",
+  "mode": "train",
+  "model": "D:\\LABOTARY\\bytetrack\\models\\yolov8n.pt",
+  "data": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\data.yaml",
+  "epochs": 3,
+  "time": null,
+  "patience": 5,
+  "batch": 8,
+  "imgsz": 640,
+  "save": true,
+  "save_period": -1,
+  "cache": false,
+  "device": "0",
+  "workers": 2,
+  "project": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39",
+  "name": "yolov8n_I",
+  "exist_ok": false,
+  "pretrained": true,
+  "cls_remap": true,
+  "optimizer": "SGD",
+  "verbose": true,
+  "seed": 0,
+  "deterministic": true,
+  "single_cls": false,
+  "rect": false,
+  "cos_lr": false,
+  "close_mosaic": 2,
+  "resume": false,
+  "amp": false,
+  "fraction": 1.0,
+  "profile": false,
+  "freeze": null,
+  "multi_scale": 0.0,
+  "compile": false,
+  "channels_last": null,
+  "overlap_mask": true,
+  "mask_ratio": 4,
+  "dropout": 0.0,
+  "val": true,
+  "split": "val",
+  "save_json": false,
+  "conf": null,
+  "iou": 0.7,
+  "max_det": 300,
+  "quantize": null,
+  "dnn": false,
+  "plots": false,
+  "end2end": null,
+  "source": null,
+  "vid_stride": 1,
+  "stream_buffer": false,
+  "visualize": false,
+  "augment": false,
+  "agnostic_nms": false,
+  "classes": null,
+  "retina_masks": false,
+  "embed": null,
+  "show": false,
+  "save_frames": false,
+  "save_txt": false,
+  "save_conf": false,
+  "save_crop": false,
+  "show_labels": true,
+  "show_conf": true,
+  "show_boxes": true,
+  "line_width": null,
+  "format": "torchscript",
+  "keras": false,
+  "optimize": false,
+  "dynamic": false,
+  "simplify": true,
+  "opset": null,
+  "workspace": null,
+  "nms": false,
+  "lr0": 0.01,
+  "lrf": 0.01,
+  "momentum": 0.937,
+  "weight_decay": 0.0005,
+  "warmup_epochs": 1.0,
+  "warmup_momentum": 0.8,
+  "warmup_bias_lr": 0.1,
+  "distill_model": null,
+  "dis": 6.0,
+  "box": 7.5,
+  "cls": 0.5,
+  "cls_pw": 0.0,
+  "dfl": 1.5,
+  "pose": 12.0,
+  "kobj": 1.0,
+  "rle": 1.0,
+  "angle": 1.0,
+  "dlog": 1.0,
+  "dgrad": 0.5,
+  "dlam": 1.0,
+  "nbs": 64,
+  "hsv_h": 0.015,
+  "hsv_s": 0.7,
+  "hsv_v": 0.4,
+  "degrees": 0.0,
+  "translate": 0.1,
+  "scale": 0.5,
+  "shear": 0.0,
+  "perspective": 0.0,
+  "flipud": 0.0,
+  "fliplr": 0.5,
+  "bgr": 0.0,
+  "mosaic": 1.0,
+  "mixup": 0.0,
+  "cutmix": 0.0,
+  "copy_paste": 0.0,
+  "copy_paste_mode": "flip",
+  "auto_augment": "randaugment",
+  "erasing": 0.4,
+  "cfg": null,
+  "tracker": "tracktrack.yaml"
+ },
+ "suy_ra": {
+  "accumulate": 8,
+  "weight_decay_hieu_luc": 0.0005,
+  "batch_moi_epoch": 42,
+  "buoc_toi_uu_moi_epoch": 6,
+  "tong_batch": 126,
+  "ghi_chu": "accumulate = max(round(nbs/batch), 1); weight_decay hieu luc = wd*batch*accumulate/nbs (ultralytics). buoc_toi_uu_moi_epoch la UOC TINH voi accumulate co dinh, CHUA tinh warmup (accumulate tang dan tu 1) va ranh gioi cap nhat giua cac epoch -- khong phai so buoc thuc chay (R38-N1); tong_batch chi dung neu chay du epochs (patience co the dung som)"
+ },
+ "moi_truong": {
+  "python": "3.11.9",
+  "os": "Windows-10-10.0.26200-SP0",
+  "ultralytics": "8.4.141",
+  "torch": "2.6.0+cu124",
+  "cuda": "12.4",
+  "cudnn": 90100,
+  "numpy": "2.4.6",
+  "ultralytics_trainer_sha256": "7532ff0bf3e4dc60f3c8a3f80f9b0cd7dac53997874b75a5ec99b280ce90b4a0",
+  "opencv": "5.0.0",
+  "gpu": {
+   "ten": "NVIDIA GeForce GTX 1650",
+   "vram_mib": 4096,
+   "driver": "555.97",
+   "vram_dang_dung_truoc_khi_chay_mib": 408
+  }
+ },
+ "run_dir": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I",
+ "tiep_tuc": {
+  "luot_goc": {
+   "ten": "yolov8n_I",
+   "bat_dau": "2026-10-03T07:19:02+07:00",
+   "pid": 12432,
+   "cau_hinh_sha256": "82e8c4ae585a7dccdc1c07956494ec2a160ac0724d3a8717fb69164e8651bb8b"
+  },
+  "lan": 1,
+  "chon": {
+   "duong_dan": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\khoi_phuc\\last_e001.pt",
+   "sha256": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca",
+   "bytes": 12321846,
+   "epoch_nhat_ky": 1,
+   "tom_tat": {
+    "epoch": 0,
+    "updates": 12,
+    "best_fitness": 0.07821,
+    "co_optimizer": true,
+    "so_trang_thai_optimizer": 183,
+    "so_nhom_optimizer": 3,
+    "co_ema": true,
+    "co_khoa_scaler": true,
+    "scaler": "rong (AMP tat)",
+    "version": "8.4.141",
+    "date": "2026-10-03T07:19:50.083415+07:00",
+    "ten_lop": {
+     "0": "car",
+     "1": "truck",
+     "2": "bus",
+     "3": "motorcycle",
+     "4": "bicycle"
+    }
+   }
+  },
+  "ban_ghi_epoch": {
+   "loai": "epoch_da_luu",
+   "t": 1790986790.597,
+   "t_iso": "2026-10-03T07:19:50+07:00",
+   "lan": 0,
+   "epoch": 1,
+   "epoch_0": 0,
+   "last_sha256": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca",
+   "last_bytes": 12321846,
+   "ban_sao": "khoi_phuc/last_e001.pt",
+   "ban_sao_sha256": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca",
+   "best_ghi_epoch_nay": true,
+   "best_sha256": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca",
+   "fitness": 0.07821,
+   "best_fitness": 0.07821,
+   "dung_som": {
+    "best_fitness": 0.07821,
+    "best_epoch": 1,
+    "possible_stop": false,
+    "patience": 5
+   },
+   "dung": false,
+   "ema_updates": 12,
+   "accumulate": 8,
+   "lr": {
+    "weight": 0.009761904761904762,
+    "bn": 0.009761904761904762,
+    "bias": 0.01214285714285715
+   },
+   "momentum": {
+    "weight": 0.9337380952380954,
+    "bn": 0.9337380952380954,
+    "bias": 0.9337380952380954
+   },
+   "thu_tu_du_lieu_epoch": "f08c443ac362797686225af78243538e39d3609fbf8727a3ffb27bd70255b5d8",
+   "so_batch": 42,
+   "mosaic_p": 1.0,
+   "mosaic_thuc_te": true,
+   "metrics": {
+    "metrics/precision(B)": 0.09269,
+    "metrics/recall(B)": 0.18881,
+    "metrics/mAP50(B)": 0.14206,
+    "metrics/mAP50-95(B)": 0.07821,
+    "val/box_loss": 1.65071,
+    "val/cls_loss": 3.06633,
+    "val/dfl_loss": 1.11072
+   }
+  },
+  "epoch_da_luu": 1,
+  "epoch_bat_dau_tiep": 2,
+  "tong_epoch": 3,
+  "epoch_moi_nhat_trong_nhat_ky": 1,
+  "epoch_phai_chay_lai_vi_checkpoint_moi_hon_hong": [],
+  "quy_dao": [
+   [
+    0,
+    1
+   ]
+  ],
+  "best": {
+   "mong_doi": {
+    "lan": 0,
+    "epoch": 1,
+    "best_sha256": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca",
+    "ban_sao": "khoi_phuc/last_e001.pt",
+    "ban_sao_sha256": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca"
+   },
+   "hien_tai_sha256": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca",
+   "khop": true,
+   "khoi_phuc_tu": null
+  },
+  "ung_vien": [
+   {
+    "duong_dan": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\weights\\last.pt",
+    "hop_le": true,
+    "ly_do": [],
+    "bytes": 12321846,
+    "sha256": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca",
+    "epoch_nhat_ky": 1
+   },
+   {
+    "duong_dan": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\khoi_phuc\\last_e001.pt",
+    "hop_le": true,
+    "ly_do": [],
+    "bytes": 12321846,
+    "sha256": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca",
+    "epoch_nhat_ky": 1
+   }
+  ],
+  "canh_bao_nhat_ky": [],
+  "lich_su": [
+   {
+    "loai": "bat_dau",
+    "t_iso": "2026-10-03T07:19:02+07:00",
+    "che_do_luot": "moi",
+    "lan": 0,
+    "epoch": null,
+    "trang_thai": null,
+    "loi": null
+   }
+  ],
+  "sao_luu": {
+   "nguon": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\khoi_phuc\\nguon_tiep_tuc_1.pt",
+   "nguon_sha256": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca",
+   "thu_muc_luu_cu": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\khoi_phuc\\truoc_tiep_tuc_1",
+   "file_cu": {
+    "args.yaml": "2334ce7c70e4845d1c3c70bf7c39517513f303591dcc05ffa7f9b13e2e996abd",
+    "results.csv": "c2cbede9634c6693788824ca06dceb6424aa474547511da0faec9469fb2edbc5",
+    "theo_batch.csv": "643080eaeca4678f5990ceff83ec63120c14038ba374112a4d3ec2934b9b1918",
+    "weights/last.pt": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca",
+    "weights/best.pt": "f265120c6c3d3d7dbcc138ddb2c5d99c51d19dea516c494a3cf5b6f4be2cddca"
+   },
+   "best_khoi_phuc": null,
+   "results_csv": {
+    "dong_giu": 1,
+    "dong_bo": 0
+   }
+  }
+ },
+ "gioi_han_tiep_tuc": [
+  "chi tiep tuc SAU epoch da hoan tat; phan epoch dang chay luc bi ngat (ca validate) phai chay lai",
+  "model dang hoc duoc dung tu trong so EMA cua checkpoint (ultralytics khong luu model tho)",
+  "momentum SGD va EMA luu FP16 trong checkpoint -> nap lai FP32 (lam tron)",
+  "RNG python/numpy/torch va generator DataLoader tao lai tu seed -> thu tu du lieu / augmentation khac luot lien tuc",
+  "gradient tich luy do dang cuoi epoch truoc bi bo; last_opt_step dat lai -1 -> buoc toi uu dau tien roi vao batch dau sau resume (chi gradient cua 1 batch) va ranh gioi buoc toi uu lech",
+  "accumulate lay lai round(nbs/batch); chi khac gia tri cuoi warmup khi nw < 15 (luot dai nw = 6.311 -> bang nhau)",
+  "EarlyStopping duoc runner khoi phuc tu nhat ky luot (ultralytics tao moi)",
+  "ket qua tiep tuc KHONG trung tung bit voi luot lien tuc"
+ ],
+ "train_kwargs": {
+  "resume": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\khoi_phuc\\nguon_tiep_tuc_1.pt",
+  "data": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\data.yaml",
+  "device": "0"
+ },
+ "dau_vao_da_nap": {
+  "train": {
+   "so_anh_nap": 334,
+   "so_anh_da_xac_minh": 334,
+   "thieu": 0,
+   "thua": 0,
+   "nhan_khac": 0,
+   "cache_anh": null,
+   "npy_canh_anh": 0
+  },
+  "dev": {
+   "so_anh_nap": 84,
+   "so_anh_da_xac_minh": 84,
+   "thieu": 0,
+   "thua": 0,
+   "nhan_khac": 0,
+   "cache_anh": null,
+   "npy_canh_anh": 0
+  }
+ },
+ "hieu_luc": {
+  "amp": false,
+  "batch_size": 8,
+  "accumulate": 8,
+  "optimizer": "SGD",
+  "param_groups": [
+   {
+    "lr": 0.009761904761904762,
+    "initial_lr": 0.01,
+    "momentum": 0.9337380952380954,
+    "betas": null,
+    "weight_decay": 0.0005,
+    "nesterov": true,
+    "param_group": "weight",
+    "so_tensor": 64
+   },
+   {
+    "lr": 0.009761904761904762,
+    "initial_lr": 0.01,
+    "momentum": 0.9337380952380954,
+    "betas": null,
+    "weight_decay": 0.0,
+    "nesterov": true,
+    "param_group": "bn",
+    "so_tensor": 57
+   },
+   {
+    "lr": 0.01214285714285715,
+    "initial_lr": 0.01,
+    "momentum": 0.9337380952380954,
+    "betas": null,
+    "weight_decay": 0,
+    "nesterov": true,
+    "param_group": "bias",
+    "so_tensor": 63
+   }
+  ],
+  "scheduler": "LambdaLR",
+  "workers_dataloader": 2,
+  "n_anh_train": 334,
+  "n_anh_val": 84,
+  "batch_moi_epoch": 42,
+  "nc": 5,
+  "names": {
+   "0": "car",
+   "1": "truck",
+   "2": "bus",
+   "3": "motorcycle",
+   "4": "bicycle"
+  },
+  "save_dir": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I",
+  "args": {
+   "task": "detect",
+   "mode": "train",
+   "model": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\khoi_phuc\\nguon_tiep_tuc_1.pt",
+   "data": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\data.yaml",
+   "epochs": 3,
+   "time": null,
+   "patience": 5,
+   "batch": 8,
+   "imgsz": 640,
+   "save": true,
+   "save_period": -1,
+   "cache": false,
+   "device": "0",
+   "workers": 2,
+   "project": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39",
+   "name": "yolov8n_I",
+   "exist_ok": false,
+   "pretrained": true,
+   "cls_remap": true,
+   "optimizer": "SGD",
+   "verbose": true,
+   "seed": 0,
+   "deterministic": true,
+   "single_cls": false,
+   "rect": false,
+   "cos_lr": false,
+   "close_mosaic": 2,
+   "resume": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\khoi_phuc\\nguon_tiep_tuc_1.pt",
+   "amp": false,
+   "fraction": 1.0,
+   "profile": false,
+   "freeze": null,
+   "multi_scale": 0.0,
+   "compile": false,
+   "channels_last": null,
+   "overlap_mask": true,
+   "mask_ratio": 4,
+   "dropout": 0.0,
+   "val": true,
+   "split": "val",
+   "save_json": false,
+   "conf": null,
+   "iou": 0.7,
+   "max_det": 300,
+   "quantize": null,
+   "dnn": false,
+   "plots": false,
+   "end2end": null,
+   "source": null,
+   "vid_stride": 1,
+   "stream_buffer": false,
+   "visualize": false,
+   "augment": false,
+   "agnostic_nms": false,
+   "classes": null,
+   "retina_masks": false,
+   "embed": null,
+   "show": false,
+   "save_frames": false,
+   "save_txt": false,
+   "save_conf": false,
+   "save_crop": false,
+   "show_labels": true,
+   "show_conf": true,
+   "show_boxes": true,
+   "line_width": null,
+   "format": "torchscript",
+   "keras": false,
+   "optimize": false,
+   "dynamic": false,
+   "simplify": true,
+   "opset": null,
+   "workspace": null,
+   "nms": false,
+   "lr0": 0.01,
+   "lrf": 0.01,
+   "momentum": 0.937,
+   "weight_decay": 0.0005,
+   "warmup_epochs": 1.0,
+   "warmup_momentum": 0.8,
+   "warmup_bias_lr": 0.1,
+   "distill_model": null,
+   "dis": 6.0,
+   "box": 7.5,
+   "cls": 0.5,
+   "cls_pw": 0.0,
+   "dfl": 1.5,
+   "pose": 12.0,
+   "kobj": 1.0,
+   "rle": 1.0,
+   "angle": 1.0,
+   "dlog": 1.0,
+   "dgrad": 0.5,
+   "dlam": 1.0,
+   "nbs": 64,
+   "hsv_h": 0.015,
+   "hsv_s": 0.7,
+   "hsv_v": 0.4,
+   "degrees": 0.0,
+   "translate": 0.1,
+   "scale": 0.5,
+   "shear": 0.0,
+   "perspective": 0.0,
+   "flipud": 0.0,
+   "fliplr": 0.5,
+   "bgr": 0.0,
+   "mosaic": 1.0,
+   "mixup": 0.0,
+   "cutmix": 0.0,
+   "copy_paste": 0.0,
+   "copy_paste_mode": "flip",
+   "auto_augment": "randaugment",
+   "erasing": 0.4,
+   "cfg": null,
+   "tracker": "tracktrack.yaml",
+   "save_dir": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I"
+  }
+ },
+ "epoch": [
+  {
+   "epoch": 2,
+   "train_s": 51.42,
+   "loss": {
+    "box_loss": 1.6574130058288574,
+    "cls_loss": 2.1587467193603516,
+    "dfl_loss": 1.2421529293060303
+   },
+   "loss_huu_han": true,
+   "lr": [
+    0.0067,
+    0.0067,
+    0.0067
+   ],
+   "so_batch": 42,
+   "on_dinh": {
+    "so_khoang": 36,
+    "s_moi_batch_trung_vi": 0.9488,
+    "anh_moi_s_trung_vi": 8.43,
+    "ghi_chu": "trung vi khoang giua cac batch, bo 5 batch dau"
+   },
+   "torch_max_allocated_mib": 1665,
+   "torch_max_reserved_mib": 2124,
+   "val_s": 3.79,
+   "metrics": {
+    "metrics/precision(B)": 0.93519,
+    "metrics/recall(B)": 0.13038,
+    "metrics/mAP50(B)": 0.18544,
+    "metrics/mAP50-95(B)": 0.116,
+    "val/box_loss": 1.58204,
+    "val/cls_loss": 1.91202,
+    "val/dfl_loss": 1.09636
+   },
+   "fitness": 0.116
+  },
+  {
+   "epoch": 3,
+   "train_s": 39.67,
+   "loss": {
+    "box_loss": 1.506309986114502,
+    "cls_loss": 1.7626453638076782,
+    "dfl_loss": 1.1474008560180664
+   },
+   "loss_huu_han": true,
+   "lr": [
+    0.0034000000000000002,
+    0.0034000000000000002,
+    0.0034000000000000002
+   ],
+   "so_batch": 42,
+   "on_dinh": {
+    "so_khoang": 36,
+    "s_moi_batch_trung_vi": 0.9447,
+    "anh_moi_s_trung_vi": 8.47,
+    "ghi_chu": "trung vi khoang giua cac batch, bo 5 batch dau"
+   },
+   "torch_max_allocated_mib": 1678,
+   "torch_max_reserved_mib": 2138,
+   "val_s": 2.01,
+   "metrics": {
+    "metrics/precision(B)": 0.55156,
+    "metrics/recall(B)": 0.17097,
+    "metrics/mAP50(B)": 0.21168,
+    "metrics/mAP50-95(B)": 0.12565,
+    "val/box_loss": 1.49774,
+    "val/cls_loss": 1.30343,
+    "val/dfl_loss": 1.07427
+   },
+   "fitness": 0.12565
+  }
+ ],
+ "nhat_ky_epoch": [
+  {
+   "epoch": 2,
+   "last_sha256": "ef50c558076bcccb62f87ae98ee4905318d5213945689ca5c400e68545b29c7b",
+   "fitness": 0.116,
+   "best_fitness": 0.116,
+   "ema_updates": 18,
+   "dung": false
+  },
+  {
+   "epoch": 3,
+   "last_sha256": "7ab6fd571190ec62488bb7bcc52ad0e9bb635bb67d349b98039d172913c1a491",
+   "fitness": 0.12565,
+   "best_fitness": 0.12565,
+   "ema_updates": 23,
+   "dung": true
+  }
+ ],
+ "danh_gia_cuoi_ultralytics": {
+  "metrics": {
+   "metrics/precision(B)": 0.5514058929805976,
+   "metrics/recall(B)": 0.17104748003284884,
+   "metrics/mAP50(B)": 0.21175511096321142,
+   "metrics/mAP50-95(B)": 0.12571217543508934
+  },
+  "trainer_epoch_tam": 3,
+  "thoi_gian_tu_het_train_epoch_cuoi_s": 3.67,
+  "ghi_chu": "ultralytics final_eval: validate best.pt (FP16 tu dia) sau vong lap; gom ca luu checkpoint va don dep cuoi epoch"
+ },
+ "thoi_gian_s": 118.4,
+ "vram_nvidia_smi": {
+  "so_mau": 105,
+  "max_mib": 2639,
+  "chu_ky_s": 1.0,
+  "pham_vi": "nvidia-smi memory.used cua ca GPU (gom desktop + tien trinh khac)",
+  "ram_con_trong_min_mib": 112,
+  "gpu_util_trung_vi_pct": 94,
+  "gpu_util_ghi_chu": "utilization.gpu cua nvidia-smi, lay mau suot luot (gom khoi dong + val)"
+ },
+ "loi": null,
+ "save_dir": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I",
+ "checkpoint": {
+  "last": {
+   "duong_dan": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\weights\\last.pt",
+   "sha256": "32ea5204ba2a4c242cc33def900e0c36d3a75b22eb3dc97414dc4260e7f8b678",
+   "bytes": 6221155,
+   "nap_lai": true,
+   "names": {
+    "0": "car",
+    "1": "truck",
+    "2": "bus",
+    "3": "motorcycle",
+    "4": "bicycle"
+   },
+   "dung_5_lop": true,
+   "train_args_lech_cau_hinh": {}
+  },
+  "best": {
+   "duong_dan": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\weights\\best.pt",
+   "sha256": "b8653eb639cfe5d9e13e6bb085adf6e7afda7df97f7fb9ccb2a716df64f148a7",
+   "bytes": 6221155,
+   "nap_lai": true,
+   "names": {
+    "0": "car",
+    "1": "truck",
+    "2": "bus",
+    "3": "motorcycle",
+    "4": "bicycle"
+   },
+   "dung_5_lop": true,
+   "train_args_lech_cau_hinh": {}
+  }
+ },
+ "loss_huu_han": true,
+ "kiem_khoi_phuc": {
+  "resume_dung_checkpoint": {
+   "dat": true,
+   "chi_tiet": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\khoi_phuc\\nguon_tiep_tuc_1.pt"
+  },
+  "start_epoch": {
+   "dat": true,
+   "chi_tiet": "1 (checkpoint epoch 0)"
+  },
+  "tong_epoch": {
+   "dat": true,
+   "chi_tiet": "3 vs cau hinh 3"
+  },
+  "ema_updates": {
+   "dat": true,
+   "chi_tiet": "12 vs 12"
+  },
+  "best_fitness": {
+   "dat": true,
+   "chi_tiet": "0.07821 vs 0.07821"
+  },
+  "scheduler_last_epoch": {
+   "dat": true,
+   "chi_tiet": "0"
+  },
+  "optimizer_momentum": {
+   "dat": true,
+   "chi_tiet": "183 trang thai, thieu 0, |lech| max 0.0 (luu FP16 -> FP32)"
+  },
+  "optimizer_param_groups": {
+   "dat": true,
+   "chi_tiet": "lech []; momentum [0.9337380952380954, 0.9337380952380954, 0.9337380952380954]"
+  },
+  "ema_trong_so": {
+   "dat": true,
+   "chi_tiet": "0 tensor khac, thieu []"
+  },
+  "model_dang_hoc_bang_ema_checkpoint": {
+   "dat": true,
+   "chi_tiet": "0 tensor khac (ultralytics dung model dang hoc tu EMA cua checkpoint; khong luu model tho)"
+  },
+  "tham_so_trainer_trung_checkpoint": {
+   "dat": true,
+   "chi_tiet": "lech []"
+  },
+  "batch_size": {
+   "dat": true,
+   "chi_tiet": "8"
+  },
+  "dung_som_khoi_phuc": {
+   "dat": true,
+   "chi_tiet": {
+    "ultralytics_tao_moi": {
+     "best_fitness": 0.0,
+     "best_epoch": 0,
+     "possible_stop": false
+    },
+    "khoi_phuc_tu_nhat_ky": {
+     "best_fitness": 0.07821,
+     "best_epoch": 1,
+     "possible_stop": false,
+     "patience": 5
+    }
+   }
+  }
+ },
+ "luot_day_du": {
+  "nhat_ky": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\nhat_ky_luot.jsonl",
+  "theo_batch": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\theo_batch.csv",
+  "khoi_phuc": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\kiem_resume_v39\\yolov8n_I\\khoi_phuc",
+  "epoch_da_luu_lan_nay": [
+   2,
+   3
+  ],
+  "tai_nguyen_csv": "D:\\LABOTARY\\bytetrack\\results\\phase2\\kiem_resume_v39\\yolov8n_I__tiep_tuc_1_tai_nguyen_nvidia_smi.csv"
+ }
+}

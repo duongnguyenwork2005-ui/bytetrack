@@ -1,0 +1,3607 @@
+{
+ "loai": "PILOT CHAN DOAN -- KHONG dung de so sanh / chon model",
+ "che_do": "pilot",
+ "ten": "train_bdd5_v1_yolo11n_pilot",
+ "model": "yolo11n",
+ "tao_luc": "2026-10-02T18:25:47",
+ "cau_hinh": {
+  "duong_dan": "configs/phase2/detector/train_bdd5_pilot.yaml",
+  "sha256": "5d195826d70564295bf0f9d6bf9e3ae3747389c7f7f25a46f4b5798c901d8723",
+  "ke_thua": {
+   "duong_dan": "D:\\LABOTARY\\bytetrack\\configs\\phase2\\detector\\train_bdd5.yaml",
+   "sha256_noi_dung_lf": "a466a4fa3d07391f47915f45a79fadc2d7f5f0421499c9f887f83b19bdb0553b",
+   "sha256_byte_tho": "a466a4fa3d07391f47915f45a79fadc2d7f5f0421499c9f887f83b19bdb0553b"
+  }
+ },
+ "pilot_khac_smoke": {
+  "epochs": [
+   1,
+   2
+  ]
+ },
+ "dataset": {
+  "hop_dong": "bdd5-dataset-v2",
+  "phien_ban_manifest": 2,
+  "loi": 0,
+  "ten": "bdd5_train_v1_smoke",
+  "loai": "SMOKE (tap con nho, KHONG dung cho ket qua nghien cuu)",
+  "tap_con": "smoke",
+  "data_yaml": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\data.yaml",
+  "sha256_data_yaml": "9744ba88ce2f10438b4d9dfcf3ffeade018f319c2c5bde8eeb397d199e458661",
+  "sha256_tom_tat": "1c4e7521e397160f80e74c29e7f077d3aa29a9de29e161363dac65acecf8c64c",
+  "manifest_sha256": "c48998266b5490531df6834d715b9d159fb6555e063cc53520e39b41c9b074c1",
+  "sha256_video_json": "a07d12f893055f83ac504a185864ee031c8a3dfb8d2ccebca792e28938da9912",
+  "split_da_khoa": {
+   "sha256": "b8a2848e3da053a2b1b79e7fa6cfad812540315af6e48b12b4174a40efc06cdb",
+   "sha256_danh_sach": "a59a8d0672f30d6e9ff90d4347965fa003b299bb79995c0883796712446ca723",
+   "ban_goc": "khop"
+  },
+  "duong_dan_resolve": {
+   "train": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\images\\train",
+   "val": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\images\\dev"
+  },
+  "so_anh": {
+   "train": 334,
+   "dev": 84
+  },
+  "so_video": {
+   "train": 16,
+   "dev": 4
+  },
+  "so_nhan_rong_hop_le": {
+   "train": 0,
+   "dev": 4
+  },
+  "so_anh_co_file_ignore": {
+   "train": 125,
+   "dev": 27
+  },
+  "cache_anh": {
+   "chinh_sach": "khong dung cache anh (.npy); pixel nap = JPEG da khoa sha256",
+   "so_npy_canh_anh": {
+    "train": 0,
+    "dev": 0
+   }
+  },
+  "noi_dung_da_xac_minh": {
+   "train": true,
+   "dev": true
+  },
+  "so_file_da_bam": {
+   "anh": 418,
+   "nhan": 418,
+   "ignore": 152
+  },
+  "xac_minh_luc": "2026-10-02T18:25:47",
+  "thoi_gian_s": 0.87
+ },
+ "checkpoint_khoi_tao": {
+  "weights": "D:\\LABOTARY\\bytetrack\\models\\candidates\\yolo11n.pt",
+  "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+  "bytes": 5613764,
+  "loai_checkpoint": "coco80",
+  "so_lop": 80
+ },
+ "tham_so_khai_bao": {
+  "epochs": 2,
+  "imgsz": 640,
+  "batch": 8,
+  "optimizer": "SGD",
+  "lr0": 0.01,
+  "lrf": 0.01,
+  "momentum": 0.937,
+  "weight_decay": 0.0005,
+  "nbs": 64,
+  "warmup_epochs": 1.0,
+  "warmup_momentum": 0.8,
+  "warmup_bias_lr": 0.1,
+  "cos_lr": false,
+  "close_mosaic": 2,
+  "patience": 1,
+  "seed": 0,
+  "deterministic": true,
+  "amp": false,
+  "workers": 2,
+  "cache": false,
+  "rect": false,
+  "multi_scale": 0.0,
+  "fraction": 1.0,
+  "single_cls": false,
+  "cls_remap": true,
+  "pretrained": true,
+  "hsv_h": 0.015,
+  "hsv_s": 0.7,
+  "hsv_v": 0.4,
+  "degrees": 0.0,
+  "translate": 0.1,
+  "scale": 0.5,
+  "shear": 0.0,
+  "perspective": 0.0,
+  "flipud": 0.0,
+  "fliplr": 0.5,
+  "bgr": 0.0,
+  "mosaic": 1.0,
+  "mixup": 0.0,
+  "cutmix": 0.0,
+  "copy_paste": 0.0,
+  "val": true,
+  "save_period": -1,
+  "plots": false,
+  "verbose": true,
+  "data": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\data.yaml",
+  "project": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2",
+  "name": "train_bdd5_v1_yolo11n_pilot",
+  "exist_ok": false,
+  "device": "0",
+  "model": "D:\\LABOTARY\\bytetrack\\models\\candidates\\yolo11n.pt"
+ },
+ "batch_ghi_de": null,
+ "workers_ghi_de": null,
+ "tham_so_resolve_tinh": {
+  "task": "detect",
+  "mode": "train",
+  "model": "D:\\LABOTARY\\bytetrack\\models\\candidates\\yolo11n.pt",
+  "data": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\data.yaml",
+  "epochs": 2,
+  "time": null,
+  "patience": 1,
+  "batch": 8,
+  "imgsz": 640,
+  "save": true,
+  "save_period": -1,
+  "cache": false,
+  "device": "0",
+  "workers": 2,
+  "project": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2",
+  "name": "train_bdd5_v1_yolo11n_pilot",
+  "exist_ok": false,
+  "pretrained": true,
+  "cls_remap": true,
+  "optimizer": "SGD",
+  "verbose": true,
+  "seed": 0,
+  "deterministic": true,
+  "single_cls": false,
+  "rect": false,
+  "cos_lr": false,
+  "close_mosaic": 2,
+  "resume": false,
+  "amp": false,
+  "fraction": 1.0,
+  "profile": false,
+  "freeze": null,
+  "multi_scale": 0.0,
+  "compile": false,
+  "channels_last": null,
+  "overlap_mask": true,
+  "mask_ratio": 4,
+  "dropout": 0.0,
+  "val": true,
+  "split": "val",
+  "save_json": false,
+  "conf": null,
+  "iou": 0.7,
+  "max_det": 300,
+  "quantize": null,
+  "dnn": false,
+  "plots": false,
+  "end2end": null,
+  "source": null,
+  "vid_stride": 1,
+  "stream_buffer": false,
+  "visualize": false,
+  "augment": false,
+  "agnostic_nms": false,
+  "classes": null,
+  "retina_masks": false,
+  "embed": null,
+  "show": false,
+  "save_frames": false,
+  "save_txt": false,
+  "save_conf": false,
+  "save_crop": false,
+  "show_labels": true,
+  "show_conf": true,
+  "show_boxes": true,
+  "line_width": null,
+  "format": "torchscript",
+  "keras": false,
+  "optimize": false,
+  "dynamic": false,
+  "simplify": true,
+  "opset": null,
+  "workspace": null,
+  "nms": false,
+  "lr0": 0.01,
+  "lrf": 0.01,
+  "momentum": 0.937,
+  "weight_decay": 0.0005,
+  "warmup_epochs": 1.0,
+  "warmup_momentum": 0.8,
+  "warmup_bias_lr": 0.1,
+  "distill_model": null,
+  "dis": 6.0,
+  "box": 7.5,
+  "cls": 0.5,
+  "cls_pw": 0.0,
+  "dfl": 1.5,
+  "pose": 12.0,
+  "kobj": 1.0,
+  "rle": 1.0,
+  "angle": 1.0,
+  "dlog": 1.0,
+  "dgrad": 0.5,
+  "dlam": 1.0,
+  "nbs": 64,
+  "hsv_h": 0.015,
+  "hsv_s": 0.7,
+  "hsv_v": 0.4,
+  "degrees": 0.0,
+  "translate": 0.1,
+  "scale": 0.5,
+  "shear": 0.0,
+  "perspective": 0.0,
+  "flipud": 0.0,
+  "fliplr": 0.5,
+  "bgr": 0.0,
+  "mosaic": 1.0,
+  "mixup": 0.0,
+  "cutmix": 0.0,
+  "copy_paste": 0.0,
+  "copy_paste_mode": "flip",
+  "auto_augment": "randaugment",
+  "erasing": 0.4,
+  "cfg": null,
+  "tracker": "tracktrack.yaml"
+ },
+ "suy_ra": {
+  "accumulate": 8,
+  "weight_decay_hieu_luc": 0.0005,
+  "batch_moi_epoch": 42,
+  "buoc_toi_uu_moi_epoch": 6,
+  "tong_batch": 84,
+  "ghi_chu": "accumulate = max(round(nbs/batch), 1); weight_decay hieu luc = wd*batch*accumulate/nbs (ultralytics)"
+ },
+ "moi_truong": {
+  "python": "3.11.9",
+  "os": "Windows-10-10.0.26200-SP0",
+  "ultralytics": "8.4.141",
+  "torch": "2.6.0+cu124",
+  "cuda": "12.4",
+  "cudnn": 90100,
+  "numpy": "2.4.6",
+  "opencv": "5.0.0",
+  "gpu": {
+   "ten": "NVIDIA GeForce GTX 1650",
+   "vram_mib": 4096,
+   "driver": "555.97",
+   "vram_dang_dung_truoc_khi_chay_mib": 427
+  }
+ },
+ "run_dir": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot",
+ "warmup_du_doan_theo_ma": {
+  "so_batch_moi_epoch": 42,
+  "so_buoc_warmup_nw": 42,
+  "ma_nguon": "    def _get_warmup_iterations(self, num_batches):\n        \"\"\"Return warmup iterations, leaving at least the final epoch for regular training.\"\"\"\n        warmup_epochs = min(self.args.warmup_epochs, max(self.epochs - 1, 0))\n        return round(warmup_epochs * num_batches) if warmup_epochs > 0 else 0\n",
+  "ma_nguon_sha256": "2b8d4260941e5926907e31a27ce8e4bda686cbbc846824a1ea78b5c57e49f2d2",
+  "epoch_tat_mosaic_theo_ma": 0,
+  "ghi_chu": "du doan truoc khi chay bang chinh ham cua phien ban dang cai; luot pilot ghi lai gia tri trainer that tinh va dien bien LR/accumulate tung batch"
+ },
+ "pilot": {
+  "do_chan_doan": true,
+  "tap_do": {
+   "split": "dev (val trong data.yaml)",
+   "so_anh": 84,
+   "anh_dau": "0008a165-c48f4b3e-0000001.jpg",
+   "anh_cuoi": "015af63d-7af26e37-0000201.jpg",
+   "so_gt_theo_lop": {
+    "car": 542,
+    "truck": 6,
+    "bus": 4,
+    "motorcycle": 0,
+    "bicycle": 0
+   },
+   "kiem_hop_dong_s": 0.47,
+   "ghi_chu": "dev smoke KHONG co motorcycle/bicycle -> AP hai lop nay khong danh gia duoc"
+  },
+  "quy_tac_danh_gia_chinh": {
+   "imgsz": 640,
+   "conf": 0.001,
+   "iou_nms": 0.7,
+   "max_det": 300,
+   "agnostic_nms": false,
+   "half": false,
+   "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+  },
+  "log_ultralytics": [
+   {
+    "t": 1790940348.879,
+    "dong": "Overriding model.yaml nc=80 with nc=5"
+   },
+   {
+    "t": 1790940349.385,
+    "dong": "Remapped 5/5 cls head rows from pretrained weights by class name"
+   },
+   {
+    "t": 1790940349.421,
+    "dong": "Transferred 451/499 items from pretrained weights"
+   },
+   {
+    "t": 1790940349.728,
+    "dong": "Freezing layer 'model.23.dfl.conv.weight'"
+   },
+   {
+    "t": 1790940360.559,
+    "dong": "\u001b[34m\u001b[1moptimizer:\u001b[0m SGD(lr=0.01, momentum=0.937) with parameter groups 81 weight(decay=0.0), 88 weight(decay=0.0005), 87 bias(decay=0.0)"
+   },
+   {
+    "t": 1790940363.599,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940365.557,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940366.078,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940366.402,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940366.668,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940366.978,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940367.644,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940368.135,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940368.486,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940368.848,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940369.261,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940369.582,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940370.249,
+    "dong": "Closing dataloader mosaic"
+   },
+   {
+    "t": 1790940433.362,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940434.043,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940434.431,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940434.769,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940435.106,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940435.414,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940435.667,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940436.139,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940436.458,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940436.805,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940437.294,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940437.588,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940438.948,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940439.488,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940439.807,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940440.128,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940440.439,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940440.731,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940440.932,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940441.58,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940441.888,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940442.188,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940442.49,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940442.812,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940492.952,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940493.717,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940494.146,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940494.618,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940495.014,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940495.402,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940495.693,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940496.223,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940496.55,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940496.917,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940497.241,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940497.606,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940499.07,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940499.793,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940500.168,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940500.507,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940500.89,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940501.226,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940501.46,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940501.982,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940502.351,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940502.659,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940502.985,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   },
+   {
+    "t": 1790940503.307,
+    "dong": "WARNING 'half' is deprecated and will be removed in the future. Use 'quantize' instead."
+   }
+  ],
+  "moc": [
+   {
+    "ten": "on_train_start",
+    "t": 1790940361.965
+   },
+   {
+    "ten": "het_do_truoc_hoc",
+    "t": 1790940370.234
+   },
+   {
+    "ten": "on_train_epoch_start",
+    "t": 1790940370.245,
+    "epoch": 1
+   },
+   {
+    "ten": "on_train_epoch_end",
+    "t": 1790940428.24,
+    "epoch": 1
+   },
+   {
+    "ten": "on_val_start",
+    "t": 1790940429.235
+   },
+   {
+    "ten": "on_val_end",
+    "t": 1790940430.246
+   },
+   {
+    "ten": "on_model_save",
+    "t": 1790940432.306,
+    "epoch": 1
+   },
+   {
+    "ten": "on_fit_epoch_end",
+    "t": 1790940432.306,
+    "epoch": 1
+   },
+   {
+    "ten": "het_do_sau_epoch",
+    "t": 1790940443.852,
+    "epoch": 1
+   },
+   {
+    "ten": "on_train_epoch_start",
+    "t": 1790940443.853,
+    "epoch": 2
+   },
+   {
+    "ten": "on_train_epoch_end",
+    "t": 1790940490.205,
+    "epoch": 2
+   },
+   {
+    "ten": "on_val_start",
+    "t": 1790940490.366
+   },
+   {
+    "ten": "on_val_end",
+    "t": 1790940491.357
+   },
+   {
+    "ten": "on_model_save",
+    "t": 1790940492.079,
+    "epoch": 2
+   },
+   {
+    "ten": "on_fit_epoch_end",
+    "t": 1790940492.079,
+    "epoch": 2
+   },
+   {
+    "ten": "het_do_sau_epoch",
+    "t": 1790940504.444,
+    "epoch": 2
+   },
+   {
+    "ten": "on_val_start",
+    "t": 1790940505.498
+   },
+   {
+    "ten": "on_val_end",
+    "t": 1790940506.488
+   },
+   {
+    "ten": "on_fit_epoch_end_final_eval",
+    "t": 1790940506.488,
+    "trainer_epoch_tam": 2
+   },
+   {
+    "ten": "on_train_end",
+    "t": 1790940506.492
+   }
+  ],
+  "epoch": [
+   {
+    "epoch": 1,
+    "t_bat_dau": 1790940370.2446718,
+    "ema_updates_dau": 0,
+    "mosaic_thuc_te": false,
+    "t_batch_dau": 1790940379.474,
+    "t_het_train": 1790940428.24,
+    "so_batch": 42,
+    "ema_updates_cuoi": 12,
+    "so_lan_cap_nhat": 12,
+    "ni_co_cap_nhat": [
+     0,
+     1,
+     2,
+     4,
+     6,
+     8,
+     11,
+     14,
+     18,
+     23,
+     29,
+     36
+    ],
+    "loss_huu_han": true,
+    "lr_cuoi": {
+     "weight": 0.009761904761904762,
+     "bn": 0.009761904761904762,
+     "bias": 0.01214285714285715
+    },
+    "torch_max_allocated_mib": 1932,
+    "torch_max_reserved_mib": 2352,
+    "val": [],
+    "t_het_fit": 1790940432.306,
+    "fitness": 8e-05,
+    "metrics_val_ultralytics": {
+     "metrics/precision(B)": 0.06667,
+     "metrics/recall(B)": 0.00062,
+     "metrics/mAP50(B)": 0.00083,
+     "metrics/mAP50-95(B)": 8e-05,
+     "val/box_loss": 1.80014,
+     "val/cls_loss": 4.30381,
+     "val/dfl_loss": 1.14553
+    },
+    "optimizer_sau_epoch": {
+     "ten": "SGD",
+     "so_trang_thai": 255,
+     "nhom": [
+      {
+       "param_group": "weight",
+       "lr": 0.009761904761904762,
+       "initial_lr": 0.01,
+       "momentum": 0.9337380952380954,
+       "weight_decay": 0.0005,
+       "nesterov": true,
+       "so_tensor": 88
+      },
+      {
+       "param_group": "bn",
+       "lr": 0.009761904761904762,
+       "initial_lr": 0.01,
+       "momentum": 0.9337380952380954,
+       "weight_decay": 0.0,
+       "nesterov": true,
+       "so_tensor": 81
+      },
+      {
+       "param_group": "bias",
+       "lr": 0.01214285714285715,
+       "initial_lr": 0.01,
+       "momentum": 0.9337380952380954,
+       "weight_decay": 0,
+       "nesterov": true,
+       "so_tensor": 87
+      }
+     ],
+     "ema_updates": 12,
+     "accumulate": 8,
+     "scheduler_last_epoch": 0
+    },
+    "bat_bien_ca_callback": {
+     "khong_doi_sau_khoi_phuc": true,
+     "khac_sau_khoi_phuc": []
+    }
+   },
+   {
+    "epoch": 2,
+    "t_bat_dau": 1790940443.8529732,
+    "ema_updates_dau": 12,
+    "mosaic_thuc_te": false,
+    "t_batch_dau": 1790940443.858,
+    "t_het_train": 1790940490.205,
+    "so_batch": 42,
+    "ema_updates_cuoi": 17,
+    "so_lan_cap_nhat": 5,
+    "ni_co_cap_nhat": [
+     44,
+     52,
+     60,
+     68,
+     76
+    ],
+    "loss_huu_han": true,
+    "lr_cuoi": {
+     "weight": 0.00505,
+     "bn": 0.00505,
+     "bias": 0.00505
+    },
+    "torch_max_allocated_mib": 1918,
+    "torch_max_reserved_mib": 2386,
+    "val": [],
+    "t_het_fit": 1790940492.079,
+    "fitness": 0.06472,
+    "metrics_val_ultralytics": {
+     "metrics/precision(B)": 0.03752,
+     "metrics/recall(B)": 0.24908,
+     "metrics/mAP50(B)": 0.13286,
+     "metrics/mAP50-95(B)": 0.06472,
+     "val/box_loss": 1.59308,
+     "val/cls_loss": 2.9091,
+     "val/dfl_loss": 1.23177
+    },
+    "optimizer_sau_epoch": {
+     "ten": "SGD",
+     "so_trang_thai": 255,
+     "nhom": [
+      {
+       "param_group": "weight",
+       "lr": 0.00505,
+       "initial_lr": 0.01,
+       "momentum": 0.9337380952380954,
+       "weight_decay": 0.0005,
+       "nesterov": true,
+       "so_tensor": 88
+      },
+      {
+       "param_group": "bn",
+       "lr": 0.00505,
+       "initial_lr": 0.01,
+       "momentum": 0.9337380952380954,
+       "weight_decay": 0.0,
+       "nesterov": true,
+       "so_tensor": 81
+      },
+      {
+       "param_group": "bias",
+       "lr": 0.00505,
+       "initial_lr": 0.01,
+       "momentum": 0.9337380952380954,
+       "weight_decay": 0,
+       "nesterov": true,
+       "so_tensor": 87
+      }
+     ],
+     "ema_updates": 17,
+     "accumulate": 8,
+     "scheduler_last_epoch": 1
+    },
+    "bat_bien_ca_callback": {
+     "khong_doi_sau_khoi_phuc": true,
+     "khac_sau_khoi_phuc": []
+    }
+   }
+  ],
+  "do": {
+   "truoc_hoc_model": {
+    "weights": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot\\chan_doan\\truoc_hoc_model.pt",
+    "sha256": "7170d8e0e0dba023fb3629edb39766fbc851693e634be2ca675ccbc225ec96ec",
+    "anh_xa_lop": {
+     "loai_checkpoint": "lop5",
+     "so_lop_model": 5,
+     "model_id_sang_lop5": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+     },
+     "ten": {
+      "0": "car",
+      "1": "truck",
+      "2": "bus",
+      "3": "motorcycle",
+      "4": "bicycle"
+     },
+     "lop5": [
+      "car",
+      "truck",
+      "bus",
+      "motorcycle",
+      "bicycle"
+     ]
+    },
+    "quy_tac_du_doan": {
+     "imgsz": 640,
+     "conf": 0.001,
+     "iou_nms": 0.7,
+     "max_det": 300,
+     "agnostic_nms": false,
+     "half": false,
+     "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+    },
+    "so_anh": 84,
+    "danh_gia_chinh": {
+     "theo_lop": {
+      "car": {
+       "n_gt": 542,
+       "n_det_conf_thap": 0,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 542,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "truck": {
+       "n_gt": 6,
+       "n_det_conf_thap": 0,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 6,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "bus": {
+       "n_gt": 4,
+       "n_det_conf_thap": 0,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 4,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "motorcycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      },
+      "bicycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      }
+     },
+     "macro": {
+      "so_lop_co_gt": 3,
+      "lop_khong_co_gt": [
+       "motorcycle",
+       "bicycle"
+      ],
+      "mAP50": 0.0,
+      "mAP50_95": 0.0,
+      "precision_vh": null,
+      "recall_vh": 0.0
+     },
+     "van_hanh": {
+      "conf": 0.25,
+      "iou": 0.5
+     }
+    },
+    "detection": {
+     "tong": 0,
+     "theo_lop": {
+      "car": 0,
+      "truck": 0,
+      "bus": 0,
+      "motorcycle": 0,
+      "bicycle": 0
+     },
+     "so_anh_co_detection": 0,
+     "confidence": {
+      "n": 0
+     },
+     "histogram": {
+      "[0.001, 0.01)": 0,
+      "[0.01, 0.05)": 0,
+      "[0.05, 0.1)": 0,
+      "[0.1, 0.25)": 0,
+      "[0.25, 0.5)": 0,
+      "[0.5, 1]": 0
+     }
+    },
+    "diem_truoc_nguong": {
+     "cach_tinh": "sigmoid(logit lop) cua dau ra tho Detect, TRUOC NMS va TRUOC loc conf; lay max tren moi anchor cua tung anh (va tung lop); cung predictor, letterbox, fuse, FP32 nhu danh gia chinh. CHI de chan doan, KHONG dung tinh AP, KHONG thay nguong danh gia",
+     "tien_xu_ly": {
+      "imgsz": 640,
+      "rect_letterbox": true,
+      "quantize": null,
+      "batch_predict": 1,
+      "hinh_dau_ra_va_dau_vao": [
+       [
+        [
+         9,
+         5040
+        ],
+        [
+         3,
+         384,
+         640
+        ]
+       ]
+      ]
+     },
+     "max_moi_anh": {
+      "n": 84,
+      "min": 0.0002765768440440297,
+      "p10": 0.00027696028409991414,
+      "trung_vi": 0.0002778128837235272,
+      "p90": 0.0002790212311083451,
+      "max": 0.00028113549342378974
+     },
+     "so_anh_max_ge_0_001": 0,
+     "so_anh_max_ge_0_25": 0,
+     "theo_lop_trung_vi_max_moi_anh": {
+      "car": 0.0002778128837235272,
+      "truck": 0.0002404026745352894,
+      "bus": 0.00011987540347035974,
+      "motorcycle": 0.000172106345416978,
+      "bicycle": 0.00011207186616957188
+     },
+     "theo_lop_max": {
+      "car": 0.00028113549342378974,
+      "truck": 0.00024279979697894305,
+      "bus": 0.00012259739742148668,
+      "motorcycle": 0.000174890854395926,
+      "bicycle": 0.00011326180538162589
+     }
+    },
+    "thoi_gian_s": {
+     "danh_gia_chinh": 3.66,
+     "diem_truoc_nguong": 2.47
+    },
+    "nguon": "truoc_hoc_model",
+    "file_tam_sha256": "7170d8e0e0dba023fb3629edb39766fbc851693e634be2ca675ccbc225ec96ec",
+    "bat_bien": {
+     "khong_doi_sau_khoi_phuc": true,
+     "khac_sau_khoi_phuc": [],
+     "thay_doi_truoc_khi_khoi_phuc_rng_co": [
+      "rng_cuda"
+     ],
+     "hang_muc": [
+      "co",
+      "ema_che_do_train",
+      "ema_tham_so_buffer",
+      "ema_updates",
+      "model_che_do_train",
+      "model_gradient",
+      "model_requires_grad",
+      "model_tham_so_buffer",
+      "optimizer_param_groups",
+      "optimizer_state",
+      "rng_cuda",
+      "rng_numpy",
+      "rng_python",
+      "rng_torch",
+      "scaler",
+      "scheduler",
+      "trainer_bien"
+     ],
+     "cach": "hash tung tensor / trang thai truoc va sau phep do; RNG + co cudnn/deterministic duoc luu va khoi phuc"
+    },
+    "torch_max_allocated_trong_do_mib": 269,
+    "thoi_gian_tong_s": 7.23,
+    "ghi_chu": "model trainer da dung (5 lop, da nap/remap), truoc buoc cap nhat dau; EMA giong het model tai thoi diem nay"
+   },
+   "sau_epoch1_model": {
+    "weights": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot\\chan_doan\\sau_epoch1_model.pt",
+    "sha256": "3518964b8561de999ab59ad5e39d7d2f8ba4944fa32e79f6ecb5a149be14783c",
+    "anh_xa_lop": {
+     "loai_checkpoint": "lop5",
+     "so_lop_model": 5,
+     "model_id_sang_lop5": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+     },
+     "ten": {
+      "0": "car",
+      "1": "truck",
+      "2": "bus",
+      "3": "motorcycle",
+      "4": "bicycle"
+     },
+     "lop5": [
+      "car",
+      "truck",
+      "bus",
+      "motorcycle",
+      "bicycle"
+     ]
+    },
+    "quy_tac_du_doan": {
+     "imgsz": 640,
+     "conf": 0.001,
+     "iou_nms": 0.7,
+     "max_det": 300,
+     "agnostic_nms": false,
+     "half": false,
+     "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+    },
+    "so_anh": 84,
+    "danh_gia_chinh": {
+     "theo_lop": {
+      "car": {
+       "n_gt": 542,
+       "n_det_conf_thap": 18,
+       "AP50": 0.0049504950495049506,
+       "AP50_95": 0.0007692307692307692,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 542,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "truck": {
+       "n_gt": 6,
+       "n_det_conf_thap": 0,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 6,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "bus": {
+       "n_gt": 4,
+       "n_det_conf_thap": 0,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 4,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "motorcycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      },
+      "bicycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      }
+     },
+     "macro": {
+      "so_lop_co_gt": 3,
+      "lop_khong_co_gt": [
+       "motorcycle",
+       "bicycle"
+      ],
+      "mAP50": 0.0016501650165016502,
+      "mAP50_95": 0.0002564102564102564,
+      "precision_vh": null,
+      "recall_vh": 0.0
+     },
+     "van_hanh": {
+      "conf": 0.25,
+      "iou": 0.5
+     }
+    },
+    "detection": {
+     "tong": 18,
+     "theo_lop": {
+      "car": 18,
+      "truck": 0,
+      "bus": 0,
+      "motorcycle": 0,
+      "bicycle": 0
+     },
+     "so_anh_co_detection": 11,
+     "confidence": {
+      "n": 18,
+      "min": 0.001039962749928236,
+      "p10": 0.0010523122851736843,
+      "trung_vi": 0.0012884140596725047,
+      "p90": 0.0014972754404880106,
+      "max": 0.0015826254384592175
+     },
+     "histogram": {
+      "[0.001, 0.01)": 18,
+      "[0.01, 0.05)": 0,
+      "[0.05, 0.1)": 0,
+      "[0.1, 0.25)": 0,
+      "[0.25, 0.5)": 0,
+      "[0.5, 1]": 0
+     }
+    },
+    "diem_truoc_nguong": {
+     "cach_tinh": "sigmoid(logit lop) cua dau ra tho Detect, TRUOC NMS va TRUOC loc conf; lay max tren moi anchor cua tung anh (va tung lop); cung predictor, letterbox, fuse, FP32 nhu danh gia chinh. CHI de chan doan, KHONG dung tinh AP, KHONG thay nguong danh gia",
+     "tien_xu_ly": {
+      "imgsz": 640,
+      "rect_letterbox": true,
+      "quantize": null,
+      "batch_predict": 1,
+      "hinh_dau_ra_va_dau_vao": [
+       [
+        [
+         9,
+         5040
+        ],
+        [
+         3,
+         384,
+         640
+        ]
+       ]
+      ]
+     },
+     "max_moi_anh": {
+      "n": 84,
+      "min": 0.00033272034488618374,
+      "p10": 0.0003398860048037022,
+      "trung_vi": 0.0005482926208060235,
+      "p90": 0.0011226826463826003,
+      "max": 0.0015826254384592175
+     },
+     "so_anh_max_ge_0_001": 11,
+     "so_anh_max_ge_0_25": 0,
+     "theo_lop_trung_vi_max_moi_anh": {
+      "car": 0.0005482926499098539,
+      "truck": 0.00025491174892522395,
+      "bus": 0.00012860787683166564,
+      "motorcycle": 0.00019803535542450845,
+      "bicycle": 0.00012506138591561466
+     },
+     "theo_lop_max": {
+      "car": 0.0015826254384592175,
+      "truck": 0.0003576014714781195,
+      "bus": 0.000160630646860227,
+      "motorcycle": 0.00022915883164387196,
+      "bicycle": 0.00013864089851267636
+     }
+    },
+    "thoi_gian_s": {
+     "danh_gia_chinh": 2.27,
+     "diem_truoc_nguong": 2.13
+    },
+    "nguon": "sau_epoch1_model",
+    "file_tam_sha256": "3518964b8561de999ab59ad5e39d7d2f8ba4944fa32e79f6ecb5a149be14783c",
+    "bat_bien": {
+     "khong_doi_sau_khoi_phuc": true,
+     "khac_sau_khoi_phuc": [],
+     "thay_doi_truoc_khi_khoi_phuc_rng_co": [
+      "rng_cuda"
+     ],
+     "hang_muc": [
+      "co",
+      "ema_che_do_train",
+      "ema_tham_so_buffer",
+      "ema_updates",
+      "model_che_do_train",
+      "model_gradient",
+      "model_requires_grad",
+      "model_tham_so_buffer",
+      "optimizer_param_groups",
+      "optimizer_state",
+      "rng_cuda",
+      "rng_numpy",
+      "rng_python",
+      "rng_torch",
+      "scaler",
+      "scheduler",
+      "trainer_bien"
+     ],
+     "cach": "hash tung tensor / trang thai truoc va sau phep do; RNG + co cudnn/deterministic duoc luu va khoi phuc"
+    },
+    "torch_max_allocated_trong_do_mib": 0,
+    "thoi_gian_tong_s": 5.65,
+    "ghi_chu": "model HIEN TAI (trong so tho) sau epoch, khong phai EMA"
+   },
+   "sau_epoch1_ema": {
+    "weights": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot\\chan_doan\\sau_epoch1_ema.pt",
+    "sha256": "ce80ab1fbce9f47bdb2b939b60e73887897e46f024c6b06dea08c112e63061db",
+    "anh_xa_lop": {
+     "loai_checkpoint": "lop5",
+     "so_lop_model": 5,
+     "model_id_sang_lop5": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+     },
+     "ten": {
+      "0": "car",
+      "1": "truck",
+      "2": "bus",
+      "3": "motorcycle",
+      "4": "bicycle"
+     },
+     "lop5": [
+      "car",
+      "truck",
+      "bus",
+      "motorcycle",
+      "bicycle"
+     ]
+    },
+    "quy_tac_du_doan": {
+     "imgsz": 640,
+     "conf": 0.001,
+     "iou_nms": 0.7,
+     "max_det": 300,
+     "agnostic_nms": false,
+     "half": false,
+     "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+    },
+    "so_anh": 84,
+    "danh_gia_chinh": {
+     "theo_lop": {
+      "car": {
+       "n_gt": 542,
+       "n_det_conf_thap": 3,
+       "AP50": 0.0049504950495049506,
+       "AP50_95": 0.0004950495049504951,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 542,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "truck": {
+       "n_gt": 6,
+       "n_det_conf_thap": 0,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 6,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "bus": {
+       "n_gt": 4,
+       "n_det_conf_thap": 0,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 4,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "motorcycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      },
+      "bicycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      }
+     },
+     "macro": {
+      "so_lop_co_gt": 3,
+      "lop_khong_co_gt": [
+       "motorcycle",
+       "bicycle"
+      ],
+      "mAP50": 0.0016501650165016502,
+      "mAP50_95": 0.00016501650165016502,
+      "precision_vh": null,
+      "recall_vh": 0.0
+     },
+     "van_hanh": {
+      "conf": 0.25,
+      "iou": 0.5
+     }
+    },
+    "detection": {
+     "tong": 3,
+     "theo_lop": {
+      "car": 3,
+      "truck": 0,
+      "bus": 0,
+      "motorcycle": 0,
+      "bicycle": 0
+     },
+     "so_anh_co_detection": 3,
+     "confidence": {
+      "n": 3,
+      "min": 0.001037569367326796,
+      "p10": 0.0010404685512185098,
+      "trung_vi": 0.0010520652867853642,
+      "p90": 0.001076702494174242,
+      "max": 0.0010828617960214615
+     },
+     "histogram": {
+      "[0.001, 0.01)": 3,
+      "[0.01, 0.05)": 0,
+      "[0.05, 0.1)": 0,
+      "[0.1, 0.25)": 0,
+      "[0.25, 0.5)": 0,
+      "[0.5, 1]": 0
+     }
+    },
+    "diem_truoc_nguong": {
+     "cach_tinh": "sigmoid(logit lop) cua dau ra tho Detect, TRUOC NMS va TRUOC loc conf; lay max tren moi anchor cua tung anh (va tung lop); cung predictor, letterbox, fuse, FP32 nhu danh gia chinh. CHI de chan doan, KHONG dung tinh AP, KHONG thay nguong danh gia",
+     "tien_xu_ly": {
+      "imgsz": 640,
+      "rect_letterbox": true,
+      "quantize": null,
+      "batch_predict": 1,
+      "hinh_dau_ra_va_dau_vao": [
+       [
+        [
+         9,
+         5040
+        ],
+        [
+         3,
+         384,
+         640
+        ]
+       ]
+      ]
+     },
+     "max_moi_anh": {
+      "n": 84,
+      "min": 0.00032776111038401723,
+      "p10": 0.0003318019938888028,
+      "trung_vi": 0.00041495071491226554,
+      "p90": 0.0007724627503193916,
+      "max": 0.0010828617960214615
+     },
+     "so_anh_max_ge_0_001": 3,
+     "so_anh_max_ge_0_25": 0,
+     "theo_lop_trung_vi_max_moi_anh": {
+      "car": 0.00041495071491226554,
+      "truck": 0.0002520233392715454,
+      "bus": 0.0001268650230485946,
+      "motorcycle": 0.00019426010840106755,
+      "bicycle": 0.0001225764281116426
+     },
+     "theo_lop_max": {
+      "car": 0.0010828617960214615,
+      "truck": 0.00031852140091359615,
+      "bus": 0.00015178894682321697,
+      "motorcycle": 0.00022099392663221806,
+      "bicycle": 0.00013274325465317816
+     }
+    },
+    "thoi_gian_s": {
+     "danh_gia_chinh": 1.96,
+     "diem_truoc_nguong": 2.08
+    },
+    "nguon": "sau_epoch1_ema",
+    "file_tam_sha256": "ce80ab1fbce9f47bdb2b939b60e73887897e46f024c6b06dea08c112e63061db",
+    "bat_bien": {
+     "khong_doi_sau_khoi_phuc": true,
+     "khac_sau_khoi_phuc": [],
+     "thay_doi_truoc_khi_khoi_phuc_rng_co": [
+      "rng_cuda"
+     ],
+     "hang_muc": [
+      "co",
+      "ema_che_do_train",
+      "ema_tham_so_buffer",
+      "ema_updates",
+      "model_che_do_train",
+      "model_gradient",
+      "model_requires_grad",
+      "model_tham_so_buffer",
+      "optimizer_param_groups",
+      "optimizer_state",
+      "rng_cuda",
+      "rng_numpy",
+      "rng_python",
+      "rng_torch",
+      "scaler",
+      "scheduler",
+      "trainer_bien"
+     ],
+     "cach": "hash tung tensor / trang thai truoc va sau phep do; RNG + co cudnn/deterministic duoc luu va khoi phuc"
+    },
+    "torch_max_allocated_trong_do_mib": 0,
+    "thoi_gian_tong_s": 5.24,
+    "ghi_chu": "EMA (ultralytics dung de validate va ghi vao checkpoint; o day FP32 trong bo nho)"
+   },
+   "sau_epoch2_model": {
+    "weights": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot\\chan_doan\\sau_epoch2_model.pt",
+    "sha256": "55f245b9c4ae56987f7b23d99601c3884d8a5bef7ce7bc573f9a8d695ceb4616",
+    "anh_xa_lop": {
+     "loai_checkpoint": "lop5",
+     "so_lop_model": 5,
+     "model_id_sang_lop5": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+     },
+     "ten": {
+      "0": "car",
+      "1": "truck",
+      "2": "bus",
+      "3": "motorcycle",
+      "4": "bicycle"
+     },
+     "lop5": [
+      "car",
+      "truck",
+      "bus",
+      "motorcycle",
+      "bicycle"
+     ]
+    },
+    "quy_tac_du_doan": {
+     "imgsz": 640,
+     "conf": 0.001,
+     "iou_nms": 0.7,
+     "max_det": 300,
+     "agnostic_nms": false,
+     "half": false,
+     "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+    },
+    "so_anh": 84,
+    "danh_gia_chinh": {
+     "theo_lop": {
+      "car": {
+       "n_gt": 542,
+       "n_det_conf_thap": 3783,
+       "AP50": 0.41314163490419187,
+       "AP50_95": 0.20860961340345857,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 542,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "truck": {
+       "n_gt": 6,
+       "n_det_conf_thap": 15,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 6,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "bus": {
+       "n_gt": 4,
+       "n_det_conf_thap": 0,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 4,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "motorcycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      },
+      "bicycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      }
+     },
+     "macro": {
+      "so_lop_co_gt": 3,
+      "lop_khong_co_gt": [
+       "motorcycle",
+       "bicycle"
+      ],
+      "mAP50": 0.13771387830139728,
+      "mAP50_95": 0.06953653780115286,
+      "precision_vh": null,
+      "recall_vh": 0.0
+     },
+     "van_hanh": {
+      "conf": 0.25,
+      "iou": 0.5
+     }
+    },
+    "detection": {
+     "tong": 3798,
+     "theo_lop": {
+      "car": 3783,
+      "truck": 15,
+      "bus": 0,
+      "motorcycle": 0,
+      "bicycle": 0
+     },
+     "so_anh_co_detection": 84,
+     "confidence": {
+      "n": 3798,
+      "min": 0.0010001346236094832,
+      "p10": 0.001124286267440766,
+      "trung_vi": 0.0020592143991962075,
+      "p90": 0.008839391358196736,
+      "max": 0.22445911169052124
+     },
+     "histogram": {
+      "[0.001, 0.01)": 3470,
+      "[0.01, 0.05)": 270,
+      "[0.05, 0.1)": 39,
+      "[0.1, 0.25)": 19,
+      "[0.25, 0.5)": 0,
+      "[0.5, 1]": 0
+     }
+    },
+    "diem_truoc_nguong": {
+     "cach_tinh": "sigmoid(logit lop) cua dau ra tho Detect, TRUOC NMS va TRUOC loc conf; lay max tren moi anchor cua tung anh (va tung lop); cung predictor, letterbox, fuse, FP32 nhu danh gia chinh. CHI de chan doan, KHONG dung tinh AP, KHONG thay nguong danh gia",
+     "tien_xu_ly": {
+      "imgsz": 640,
+      "rect_letterbox": true,
+      "quantize": null,
+      "batch_predict": 1,
+      "hinh_dau_ra_va_dau_vao": [
+       [
+        [
+         9,
+         5040
+        ],
+        [
+         3,
+         384,
+         640
+        ]
+       ]
+      ]
+     },
+     "max_moi_anh": {
+      "n": 84,
+      "min": 0.0012250125873833895,
+      "p10": 0.01032834816724062,
+      "trung_vi": 0.05535079725086689,
+      "p90": 0.12741537094116212,
+      "max": 0.22445911169052124
+     },
+     "so_anh_max_ge_0_001": 84,
+     "so_anh_max_ge_0_25": 0,
+     "theo_lop_trung_vi_max_moi_anh": {
+      "car": 0.05535079538822174,
+      "truck": 0.0005816720658913255,
+      "bus": 0.00020266693900339305,
+      "motorcycle": 0.00029384929803200066,
+      "bicycle": 0.00017946661682799459
+     },
+     "theo_lop_max": {
+      "car": 0.22445911169052124,
+      "truck": 0.00813515204936266,
+      "bus": 0.0006030647200532258,
+      "motorcycle": 0.0006812100764364004,
+      "bicycle": 0.0005589768406935036
+     }
+    },
+    "thoi_gian_s": {
+     "danh_gia_chinh": 2.74,
+     "diem_truoc_nguong": 2.12
+    },
+    "nguon": "sau_epoch2_model",
+    "file_tam_sha256": "55f245b9c4ae56987f7b23d99601c3884d8a5bef7ce7bc573f9a8d695ceb4616",
+    "bat_bien": {
+     "khong_doi_sau_khoi_phuc": true,
+     "khac_sau_khoi_phuc": [],
+     "thay_doi_truoc_khi_khoi_phuc_rng_co": [
+      "rng_cuda"
+     ],
+     "hang_muc": [
+      "co",
+      "ema_che_do_train",
+      "ema_tham_so_buffer",
+      "ema_updates",
+      "model_che_do_train",
+      "model_gradient",
+      "model_requires_grad",
+      "model_tham_so_buffer",
+      "optimizer_param_groups",
+      "optimizer_state",
+      "rng_cuda",
+      "rng_numpy",
+      "rng_python",
+      "rng_torch",
+      "scaler",
+      "scheduler",
+      "trainer_bien"
+     ],
+     "cach": "hash tung tensor / trang thai truoc va sau phep do; RNG + co cudnn/deterministic duoc luu va khoi phuc"
+    },
+    "torch_max_allocated_trong_do_mib": 0,
+    "thoi_gian_tong_s": 6.02,
+    "ghi_chu": "model HIEN TAI (trong so tho) sau epoch, khong phai EMA"
+   },
+   "sau_epoch2_ema": {
+    "weights": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot\\chan_doan\\sau_epoch2_ema.pt",
+    "sha256": "ec94cc90e911b87918531ed67599d8f770723c2879b284d7b53bf67a11839437",
+    "anh_xa_lop": {
+     "loai_checkpoint": "lop5",
+     "so_lop_model": 5,
+     "model_id_sang_lop5": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+     },
+     "ten": {
+      "0": "car",
+      "1": "truck",
+      "2": "bus",
+      "3": "motorcycle",
+      "4": "bicycle"
+     },
+     "lop5": [
+      "car",
+      "truck",
+      "bus",
+      "motorcycle",
+      "bicycle"
+     ]
+    },
+    "quy_tac_du_doan": {
+     "imgsz": 640,
+     "conf": 0.001,
+     "iou_nms": 0.7,
+     "max_det": 300,
+     "agnostic_nms": false,
+     "half": false,
+     "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+    },
+    "so_anh": 84,
+    "danh_gia_chinh": {
+     "theo_lop": {
+      "car": {
+       "n_gt": 542,
+       "n_det_conf_thap": 3597,
+       "AP50": 0.3923737754716834,
+       "AP50_95": 0.19463061343690558,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 542,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "truck": {
+       "n_gt": 6,
+       "n_det_conf_thap": 9,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 6,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "bus": {
+       "n_gt": 4,
+       "n_det_conf_thap": 0,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 4,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "motorcycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      },
+      "bicycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      }
+     },
+     "macro": {
+      "so_lop_co_gt": 3,
+      "lop_khong_co_gt": [
+       "motorcycle",
+       "bicycle"
+      ],
+      "mAP50": 0.13079125849056114,
+      "mAP50_95": 0.06487687114563519,
+      "precision_vh": null,
+      "recall_vh": 0.0
+     },
+     "van_hanh": {
+      "conf": 0.25,
+      "iou": 0.5
+     }
+    },
+    "detection": {
+     "tong": 3606,
+     "theo_lop": {
+      "car": 3597,
+      "truck": 9,
+      "bus": 0,
+      "motorcycle": 0,
+      "bicycle": 0
+     },
+     "so_anh_co_detection": 84,
+     "confidence": {
+      "n": 3606,
+      "min": 0.0010000031907111406,
+      "p10": 0.0011054720962420106,
+      "trung_vi": 0.001980219967663288,
+      "p90": 0.007589534157887101,
+      "max": 0.16194453835487366
+     },
+     "histogram": {
+      "[0.001, 0.01)": 3356,
+      "[0.01, 0.05)": 206,
+      "[0.05, 0.1)": 37,
+      "[0.1, 0.25)": 7,
+      "[0.25, 0.5)": 0,
+      "[0.5, 1]": 0
+     }
+    },
+    "diem_truoc_nguong": {
+     "cach_tinh": "sigmoid(logit lop) cua dau ra tho Detect, TRUOC NMS va TRUOC loc conf; lay max tren moi anchor cua tung anh (va tung lop); cung predictor, letterbox, fuse, FP32 nhu danh gia chinh. CHI de chan doan, KHONG dung tinh AP, KHONG thay nguong danh gia",
+     "tien_xu_ly": {
+      "imgsz": 640,
+      "rect_letterbox": true,
+      "quantize": null,
+      "batch_predict": 1,
+      "hinh_dau_ra_va_dau_vao": [
+       [
+        [
+         9,
+         5040
+        ],
+        [
+         3,
+         384,
+         640
+        ]
+       ]
+      ]
+     },
+     "max_moi_anh": {
+      "n": 84,
+      "min": 0.0011133278021588922,
+      "p10": 0.007027475209906698,
+      "trung_vi": 0.04099402390420437,
+      "p90": 0.09501920267939568,
+      "max": 0.16194453835487366
+     },
+     "so_anh_max_ge_0_001": 84,
+     "so_anh_max_ge_0_25": 0,
+     "theo_lop_trung_vi_max_moi_anh": {
+      "car": 0.04099402576684952,
+      "truck": 0.00047411175910383463,
+      "bus": 0.00018053213716484606,
+      "motorcycle": 0.0002698810421861708,
+      "bicycle": 0.0001679587148828432
+     },
+     "theo_lop_max": {
+      "car": 0.16194453835487366,
+      "truck": 0.004420182667672634,
+      "bus": 0.0004322612949181348,
+      "motorcycle": 0.0005331041174940765,
+      "bicycle": 0.00038564170245081186
+     }
+    },
+    "thoi_gian_s": {
+     "danh_gia_chinh": 2.41,
+     "diem_truoc_nguong": 2.03
+    },
+    "nguon": "sau_epoch2_ema",
+    "file_tam_sha256": "ec94cc90e911b87918531ed67599d8f770723c2879b284d7b53bf67a11839437",
+    "bat_bien": {
+     "khong_doi_sau_khoi_phuc": true,
+     "khac_sau_khoi_phuc": [],
+     "thay_doi_truoc_khi_khoi_phuc_rng_co": [
+      "rng_cuda"
+     ],
+     "hang_muc": [
+      "co",
+      "ema_che_do_train",
+      "ema_tham_so_buffer",
+      "ema_updates",
+      "model_che_do_train",
+      "model_gradient",
+      "model_requires_grad",
+      "model_tham_so_buffer",
+      "optimizer_param_groups",
+      "optimizer_state",
+      "rng_cuda",
+      "rng_numpy",
+      "rng_python",
+      "rng_torch",
+      "scaler",
+      "scheduler",
+      "trainer_bien"
+     ],
+     "cach": "hash tung tensor / trang thai truoc va sau phep do; RNG + co cudnn/deterministic duoc luu va khoi phuc"
+    },
+    "torch_max_allocated_trong_do_mib": 0,
+    "thoi_gian_tong_s": 5.71,
+    "ghi_chu": "EMA (ultralytics dung de validate va ghi vao checkpoint; o day FP32 trong bo nho)"
+   },
+   "checkpoint_last": {
+    "weights": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot\\weights\\last.pt",
+    "sha256": "0e3c1f52bf3ce76370ccae60d5bcdcee38d12508826a034a5fab4ebca2ad4a98",
+    "anh_xa_lop": {
+     "loai_checkpoint": "lop5",
+     "so_lop_model": 5,
+     "model_id_sang_lop5": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+     },
+     "ten": {
+      "0": "car",
+      "1": "truck",
+      "2": "bus",
+      "3": "motorcycle",
+      "4": "bicycle"
+     },
+     "lop5": [
+      "car",
+      "truck",
+      "bus",
+      "motorcycle",
+      "bicycle"
+     ]
+    },
+    "quy_tac_du_doan": {
+     "imgsz": 640,
+     "conf": 0.001,
+     "iou_nms": 0.7,
+     "max_det": 300,
+     "agnostic_nms": false,
+     "half": false,
+     "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+    },
+    "so_anh": 84,
+    "danh_gia_chinh": {
+     "theo_lop": {
+      "car": {
+       "n_gt": 542,
+       "n_det_conf_thap": 3593,
+       "AP50": 0.39254059320260865,
+       "AP50_95": 0.1948272818046363,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 542,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "truck": {
+       "n_gt": 6,
+       "n_det_conf_thap": 10,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 6,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "bus": {
+       "n_gt": 4,
+       "n_det_conf_thap": 0,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 4,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "motorcycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      },
+      "bicycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      }
+     },
+     "macro": {
+      "so_lop_co_gt": 3,
+      "lop_khong_co_gt": [
+       "motorcycle",
+       "bicycle"
+      ],
+      "mAP50": 0.13084686440086954,
+      "mAP50_95": 0.0649424272682121,
+      "precision_vh": null,
+      "recall_vh": 0.0
+     },
+     "van_hanh": {
+      "conf": 0.25,
+      "iou": 0.5
+     }
+    },
+    "detection": {
+     "tong": 3603,
+     "theo_lop": {
+      "car": 3593,
+      "truck": 10,
+      "bus": 0,
+      "motorcycle": 0,
+      "bicycle": 0
+     },
+     "so_anh_co_detection": 84,
+     "confidence": {
+      "n": 3603,
+      "min": 0.0010002937633544207,
+      "p10": 0.0011063386453315615,
+      "trung_vi": 0.00198241975158453,
+      "p90": 0.007571690250188115,
+      "max": 0.16201496124267578
+     },
+     "histogram": {
+      "[0.001, 0.01)": 3353,
+      "[0.01, 0.05)": 206,
+      "[0.05, 0.1)": 37,
+      "[0.1, 0.25)": 7,
+      "[0.25, 0.5)": 0,
+      "[0.5, 1]": 0
+     }
+    },
+    "diem_truoc_nguong": {
+     "cach_tinh": "sigmoid(logit lop) cua dau ra tho Detect, TRUOC NMS va TRUOC loc conf; lay max tren moi anchor cua tung anh (va tung lop); cung predictor, letterbox, fuse, FP32 nhu danh gia chinh. CHI de chan doan, KHONG dung tinh AP, KHONG thay nguong danh gia",
+     "tien_xu_ly": {
+      "imgsz": 640,
+      "rect_letterbox": true,
+      "quantize": null,
+      "batch_predict": 1,
+      "hinh_dau_ra_va_dau_vao": [
+       [
+        [
+         9,
+         5040
+        ],
+        [
+         3,
+         384,
+         640
+        ]
+       ]
+      ]
+     },
+     "max_moi_anh": {
+      "n": 84,
+      "min": 0.0011141251306980848,
+      "p10": 0.007040781900286675,
+      "trung_vi": 0.04101761057972908,
+      "p90": 0.0950227752327919,
+      "max": 0.16201496124267578
+     },
+     "so_anh_max_ge_0_001": 84,
+     "so_anh_max_ge_0_25": 0,
+     "theo_lop_trung_vi_max_moi_anh": {
+      "car": 0.04101761057972908,
+      "truck": 0.0004743674071505666,
+      "bus": 0.00018072707462124527,
+      "motorcycle": 0.00027011276688426733,
+      "bicycle": 0.00016777246491983533
+     },
+     "theo_lop_max": {
+      "car": 0.16201496124267578,
+      "truck": 0.004426736384630203,
+      "bus": 0.00043342114076949656,
+      "motorcycle": 0.000532610691152513,
+      "bicycle": 0.00038467528065666556
+     }
+    },
+    "thoi_gian_s": {
+     "danh_gia_chinh": 1.63,
+     "diem_truoc_nguong": 1.5
+    },
+    "nguon": "checkpoint_last",
+    "ghi_chu": "checkpoint nap tu dia (EMA FP16 ultralytics da luu)",
+    "thoi_gian_tong_s": 3.16
+   },
+   "checkpoint_best": {
+    "weights": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot\\weights\\best.pt",
+    "sha256": "e4878084646de234fb5165c832cf33d24a8b26bca4381cf8c6fb08dabcb9c895",
+    "anh_xa_lop": {
+     "loai_checkpoint": "lop5",
+     "so_lop_model": 5,
+     "model_id_sang_lop5": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+     },
+     "ten": {
+      "0": "car",
+      "1": "truck",
+      "2": "bus",
+      "3": "motorcycle",
+      "4": "bicycle"
+     },
+     "lop5": [
+      "car",
+      "truck",
+      "bus",
+      "motorcycle",
+      "bicycle"
+     ]
+    },
+    "quy_tac_du_doan": {
+     "imgsz": 640,
+     "conf": 0.001,
+     "iou_nms": 0.7,
+     "max_det": 300,
+     "agnostic_nms": false,
+     "half": false,
+     "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+    },
+    "so_anh": 84,
+    "danh_gia_chinh": {
+     "theo_lop": {
+      "car": {
+       "n_gt": 542,
+       "n_det_conf_thap": 3593,
+       "AP50": 0.39254059320260865,
+       "AP50_95": 0.1948272818046363,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 542,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "truck": {
+       "n_gt": 6,
+       "n_det_conf_thap": 10,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 6,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "bus": {
+       "n_gt": 4,
+       "n_det_conf_thap": 0,
+       "AP50": 0.0,
+       "AP50_95": 0.0,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 4,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0
+       }
+      },
+      "motorcycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      },
+      "bicycle": {
+       "n_gt": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      }
+     },
+     "macro": {
+      "so_lop_co_gt": 3,
+      "lop_khong_co_gt": [
+       "motorcycle",
+       "bicycle"
+      ],
+      "mAP50": 0.13084686440086954,
+      "mAP50_95": 0.0649424272682121,
+      "precision_vh": null,
+      "recall_vh": 0.0
+     },
+     "van_hanh": {
+      "conf": 0.25,
+      "iou": 0.5
+     }
+    },
+    "detection": {
+     "tong": 3603,
+     "theo_lop": {
+      "car": 3593,
+      "truck": 10,
+      "bus": 0,
+      "motorcycle": 0,
+      "bicycle": 0
+     },
+     "so_anh_co_detection": 84,
+     "confidence": {
+      "n": 3603,
+      "min": 0.0010002937633544207,
+      "p10": 0.0011063386453315615,
+      "trung_vi": 0.00198241975158453,
+      "p90": 0.007571690250188115,
+      "max": 0.16201496124267578
+     },
+     "histogram": {
+      "[0.001, 0.01)": 3353,
+      "[0.01, 0.05)": 206,
+      "[0.05, 0.1)": 37,
+      "[0.1, 0.25)": 7,
+      "[0.25, 0.5)": 0,
+      "[0.5, 1]": 0
+     }
+    },
+    "diem_truoc_nguong": {
+     "cach_tinh": "sigmoid(logit lop) cua dau ra tho Detect, TRUOC NMS va TRUOC loc conf; lay max tren moi anchor cua tung anh (va tung lop); cung predictor, letterbox, fuse, FP32 nhu danh gia chinh. CHI de chan doan, KHONG dung tinh AP, KHONG thay nguong danh gia",
+     "tien_xu_ly": {
+      "imgsz": 640,
+      "rect_letterbox": true,
+      "quantize": null,
+      "batch_predict": 1,
+      "hinh_dau_ra_va_dau_vao": [
+       [
+        [
+         9,
+         5040
+        ],
+        [
+         3,
+         384,
+         640
+        ]
+       ]
+      ]
+     },
+     "max_moi_anh": {
+      "n": 84,
+      "min": 0.0011141251306980848,
+      "p10": 0.007040781900286675,
+      "trung_vi": 0.04101761057972908,
+      "p90": 0.0950227752327919,
+      "max": 0.16201496124267578
+     },
+     "so_anh_max_ge_0_001": 84,
+     "so_anh_max_ge_0_25": 0,
+     "theo_lop_trung_vi_max_moi_anh": {
+      "car": 0.04101761057972908,
+      "truck": 0.0004743674071505666,
+      "bus": 0.00018072707462124527,
+      "motorcycle": 0.00027011276688426733,
+      "bicycle": 0.00016777246491983533
+     },
+     "theo_lop_max": {
+      "car": 0.16201496124267578,
+      "truck": 0.004426736384630203,
+      "bus": 0.00043342114076949656,
+      "motorcycle": 0.000532610691152513,
+      "bicycle": 0.00038467528065666556
+     }
+    },
+    "thoi_gian_s": {
+     "danh_gia_chinh": 1.56,
+     "diem_truoc_nguong": 1.52
+    },
+    "nguon": "checkpoint_best",
+    "ghi_chu": "checkpoint nap tu dia (EMA FP16 ultralytics da luu)",
+    "thoi_gian_tong_s": 3.1
+   }
+  },
+  "loi": null,
+  "truoc_hoc": {
+   "thoi_diem": 1790940361.965,
+   "bang_chung_khoi_tao": {
+    "ten_lop_model": {
+     "0": "car",
+     "1": "truck",
+     "2": "bus",
+     "3": "motorcycle",
+     "4": "bicycle"
+    },
+    "ten_lop_data": {
+     "0": "car",
+     "1": "truck",
+     "2": "bus",
+     "3": "motorcycle",
+     "4": "bicycle"
+    },
+    "nc": 5,
+    "nap_trong_so": {
+     "checkpoint": "D:\\LABOTARY\\bytetrack\\models\\candidates\\yolo11n.pt",
+     "so_lop_checkpoint": 80,
+     "ten_lop_model": {
+      "0": "car",
+      "1": "truck",
+      "2": "bus",
+      "3": "motorcycle",
+      "4": "bicycle"
+     },
+     "chi_so_lop_checkpoint_theo_ten": {
+      "car": 2,
+      "truck": 7,
+      "bus": 5,
+      "motorcycle": 3,
+      "bicycle": 1
+     },
+     "tong_tensor_model": 499,
+     "chep_nguyen": 448,
+     "remap_hang_theo_ten": 3,
+     "tensor_remap": [
+      "model.23.cv3.0.2.bias",
+      "model.23.cv3.1.2.bias",
+      "model.23.cv3.2.2.bias"
+     ],
+     "cung_shape_khac_gia_tri": [],
+     "khoi_tao_moi": 48,
+     "tensor_khoi_tao_moi": [
+      {
+       "ten": "model.23.cv3.0.0.1.conv.weight",
+       "shape_model": [
+        64,
+        64,
+        1,
+        1
+       ],
+       "shape_checkpoint": [
+        80,
+        64,
+        1,
+        1
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.0.1.bn.weight",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.0.1.bn.bias",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.0.1.bn.running_mean",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.0.1.bn.running_var",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.1.0.conv.weight",
+       "shape_model": [
+        64,
+        1,
+        3,
+        3
+       ],
+       "shape_checkpoint": [
+        80,
+        1,
+        3,
+        3
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.1.0.bn.weight",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.1.0.bn.bias",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.1.0.bn.running_mean",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.1.0.bn.running_var",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.1.1.conv.weight",
+       "shape_model": [
+        64,
+        64,
+        1,
+        1
+       ],
+       "shape_checkpoint": [
+        80,
+        80,
+        1,
+        1
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.1.1.bn.weight",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.1.1.bn.bias",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.1.1.bn.running_mean",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.1.1.bn.running_var",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.0.2.weight",
+       "shape_model": [
+        5,
+        64,
+        1,
+        1
+       ],
+       "shape_checkpoint": [
+        80,
+        80,
+        1,
+        1
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.0.1.conv.weight",
+       "shape_model": [
+        64,
+        128,
+        1,
+        1
+       ],
+       "shape_checkpoint": [
+        80,
+        128,
+        1,
+        1
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.0.1.bn.weight",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.0.1.bn.bias",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.0.1.bn.running_mean",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.0.1.bn.running_var",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.1.0.conv.weight",
+       "shape_model": [
+        64,
+        1,
+        3,
+        3
+       ],
+       "shape_checkpoint": [
+        80,
+        1,
+        3,
+        3
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.1.0.bn.weight",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.1.0.bn.bias",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.1.0.bn.running_mean",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.1.0.bn.running_var",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.1.1.conv.weight",
+       "shape_model": [
+        64,
+        64,
+        1,
+        1
+       ],
+       "shape_checkpoint": [
+        80,
+        80,
+        1,
+        1
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.1.1.bn.weight",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.1.1.bn.bias",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.1.1.bn.running_mean",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.1.1.bn.running_var",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.1.2.weight",
+       "shape_model": [
+        5,
+        64,
+        1,
+        1
+       ],
+       "shape_checkpoint": [
+        80,
+        80,
+        1,
+        1
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.0.1.conv.weight",
+       "shape_model": [
+        64,
+        256,
+        1,
+        1
+       ],
+       "shape_checkpoint": [
+        80,
+        256,
+        1,
+        1
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.0.1.bn.weight",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.0.1.bn.bias",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.0.1.bn.running_mean",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.0.1.bn.running_var",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.1.0.conv.weight",
+       "shape_model": [
+        64,
+        1,
+        3,
+        3
+       ],
+       "shape_checkpoint": [
+        80,
+        1,
+        3,
+        3
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.1.0.bn.weight",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.1.0.bn.bias",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.1.0.bn.running_mean",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.1.0.bn.running_var",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.1.1.conv.weight",
+       "shape_model": [
+        64,
+        64,
+        1,
+        1
+       ],
+       "shape_checkpoint": [
+        80,
+        80,
+        1,
+        1
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.1.1.bn.weight",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.1.1.bn.bias",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.1.1.bn.running_mean",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.1.1.bn.running_var",
+       "shape_model": [
+        64
+       ],
+       "shape_checkpoint": [
+        80
+       ]
+      },
+      {
+       "ten": "model.23.cv3.2.2.weight",
+       "shape_model": [
+        5,
+        64,
+        1,
+        1
+       ],
+       "shape_checkpoint": [
+        80,
+        80,
+        1,
+        1
+       ]
+      }
+     ],
+     "doi_chieu_log_ultralytics": "'Transferred N/M' cua ultralytics = chep_nguyen + remap = 451/499",
+     "ghi_chu": "khoi_tao_moi = khong chep duoc vi lech shape hoac khong co trong checkpoint (vd nhanh cv3 khi so lop doi lam doi do rong an); remap_hang_theo_ten so tung hang lop dich voi hang lop COCO cung ten"
+    },
+    "optimizer": {
+     "ten": "SGD",
+     "so_trang_thai": 0,
+     "nhom": [
+      {
+       "param_group": "weight",
+       "lr": 0.01,
+       "initial_lr": 0.01,
+       "momentum": 0.937,
+       "weight_decay": 0.0005,
+       "nesterov": true,
+       "so_tensor": 88
+      },
+      {
+       "param_group": "bn",
+       "lr": 0.01,
+       "initial_lr": 0.01,
+       "momentum": 0.937,
+       "weight_decay": 0.0,
+       "nesterov": true,
+       "so_tensor": 81
+      },
+      {
+       "param_group": "bias",
+       "lr": 0.01,
+       "initial_lr": 0.01,
+       "momentum": 0.937,
+       "weight_decay": 0,
+       "nesterov": true,
+       "so_tensor": 87
+      }
+     ],
+     "ema_updates": 0,
+     "accumulate": 8,
+     "scheduler_last_epoch": -1
+    },
+    "so_tham_so_co_gradient": 0,
+    "so_tham_so": 256,
+    "model_che_do_train": true,
+    "model_va_ema_giong_het": true,
+    "so_tensor_model": 499
+   },
+   "bat_bien_ca_callback": {
+    "khong_doi_sau_khoi_phuc": true,
+    "khac_sau_khoi_phuc": []
+   }
+  },
+  "warmup_theo_ma": {
+   "so_batch_moi_epoch": 42,
+   "so_buoc_warmup_nw": 42,
+   "ham": "BaseTrainer._get_warmup_iterations (goi tren trainer dang chay)",
+   "ma_nguon": "    def _get_warmup_iterations(self, num_batches):\n        \"\"\"Return warmup iterations, leaving at least the final epoch for regular training.\"\"\"\n        warmup_epochs = min(self.args.warmup_epochs, max(self.epochs - 1, 0))\n        return round(warmup_epochs * num_batches) if warmup_epochs > 0 else 0\n",
+   "ma_nguon_sha256": "2b8d4260941e5926907e31a27ce8e4bda686cbbc846824a1ea78b5c57e49f2d2",
+   "args": {
+    "epochs": 2,
+    "warmup_epochs": 1.0,
+    "warmup_bias_lr": 0.1,
+    "warmup_momentum": 0.8,
+    "momentum": 0.937,
+    "lr0": 0.01,
+    "lrf": 0.01,
+    "nbs": 64,
+    "batch": 8,
+    "cos_lr": false
+   },
+   "accumulate_khoi_dau": 8,
+   "epoch_tat_mosaic_theo_ma": 0
+  },
+  "final_eval_ultralytics": {
+   "metrics": {
+    "metrics/precision(B)": 0.03744901742677049,
+    "metrics/recall(B)": 0.24846248462484624,
+    "metrics/mAP50(B)": 0.1329013733524204,
+    "metrics/mAP50-95(B)": 0.06477888444499376
+   },
+   "ghi_chu": "ultralytics final_eval: validate best.pt nap tu dia (goi lai on_fit_epoch_end voi epoch tam +1)"
+  },
+  "tom_tat": {
+   "dieu_kien": {
+    "du_epoch": true,
+    "co_cap_nhat_trong_so_moi_epoch": true,
+    "loss_huu_han_moi_batch": true,
+    "du_phep_do": true,
+    "phep_do_khong_doi_trang_thai": true,
+    "khong_loi": true
+   },
+   "dat": true
+  },
+  "file": {
+   "batch_csv": "D:\\LABOTARY\\bytetrack\\results\\phase2\\detector_pilot\\train_bdd5_v1_yolo11n_pilot_batch.csv",
+   "tai_nguyen_csv": "D:\\LABOTARY\\bytetrack\\results\\phase2\\detector_pilot\\train_bdd5_v1_yolo11n_pilot_tai_nguyen_nvidia_smi.csv",
+   "cach_lay_mau_tai_nguyen": "luong DoVram trong runner moi ~1 s: nvidia-smi memory.used + utilization.gpu (CA GPU) va psutil.virtual_memory().available"
+  }
+ },
+ "dau_vao_da_nap": {
+  "train": {
+   "so_anh_nap": 334,
+   "so_anh_da_xac_minh": 334,
+   "thieu": 0,
+   "thua": 0,
+   "nhan_khac": 0,
+   "cache_anh": null,
+   "npy_canh_anh": 0
+  },
+  "dev": {
+   "so_anh_nap": 84,
+   "so_anh_da_xac_minh": 84,
+   "thieu": 0,
+   "thua": 0,
+   "nhan_khac": 0,
+   "cache_anh": null,
+   "npy_canh_anh": 0
+  }
+ },
+ "hieu_luc": {
+  "amp": false,
+  "batch_size": 8,
+  "accumulate": 8,
+  "optimizer": "SGD",
+  "param_groups": [
+   {
+    "lr": 0.01,
+    "initial_lr": 0.01,
+    "momentum": 0.937,
+    "betas": null,
+    "weight_decay": 0.0005,
+    "nesterov": true,
+    "param_group": "weight",
+    "so_tensor": 88
+   },
+   {
+    "lr": 0.01,
+    "initial_lr": 0.01,
+    "momentum": 0.937,
+    "betas": null,
+    "weight_decay": 0.0,
+    "nesterov": true,
+    "param_group": "bn",
+    "so_tensor": 81
+   },
+   {
+    "lr": 0.01,
+    "initial_lr": 0.01,
+    "momentum": 0.937,
+    "betas": null,
+    "weight_decay": 0,
+    "nesterov": true,
+    "param_group": "bias",
+    "so_tensor": 87
+   }
+  ],
+  "scheduler": "LambdaLR",
+  "workers_dataloader": 2,
+  "n_anh_train": 334,
+  "n_anh_val": 84,
+  "batch_moi_epoch": 42,
+  "nc": 5,
+  "names": {
+   "0": "car",
+   "1": "truck",
+   "2": "bus",
+   "3": "motorcycle",
+   "4": "bicycle"
+  },
+  "save_dir": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot",
+  "args": {
+   "task": "detect",
+   "mode": "train",
+   "model": "D:\\LABOTARY\\bytetrack\\models\\candidates\\yolo11n.pt",
+   "data": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\data.yaml",
+   "epochs": 2,
+   "time": null,
+   "patience": 1,
+   "batch": 8,
+   "imgsz": 640,
+   "save": true,
+   "save_period": -1,
+   "cache": false,
+   "device": "0",
+   "workers": 2,
+   "project": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2",
+   "name": "train_bdd5_v1_yolo11n_pilot",
+   "exist_ok": false,
+   "pretrained": true,
+   "cls_remap": true,
+   "optimizer": "SGD",
+   "verbose": true,
+   "seed": 0,
+   "deterministic": true,
+   "single_cls": false,
+   "rect": false,
+   "cos_lr": false,
+   "close_mosaic": 2,
+   "resume": false,
+   "amp": false,
+   "fraction": 1.0,
+   "profile": false,
+   "freeze": null,
+   "multi_scale": 0.0,
+   "compile": false,
+   "channels_last": null,
+   "overlap_mask": true,
+   "mask_ratio": 4,
+   "dropout": 0.0,
+   "val": true,
+   "split": "val",
+   "save_json": false,
+   "conf": null,
+   "iou": 0.7,
+   "max_det": 300,
+   "quantize": null,
+   "dnn": false,
+   "plots": false,
+   "end2end": null,
+   "source": null,
+   "vid_stride": 1,
+   "stream_buffer": false,
+   "visualize": false,
+   "augment": false,
+   "agnostic_nms": false,
+   "classes": null,
+   "retina_masks": false,
+   "embed": null,
+   "show": false,
+   "save_frames": false,
+   "save_txt": false,
+   "save_conf": false,
+   "save_crop": false,
+   "show_labels": true,
+   "show_conf": true,
+   "show_boxes": true,
+   "line_width": null,
+   "format": "torchscript",
+   "keras": false,
+   "optimize": false,
+   "dynamic": false,
+   "simplify": true,
+   "opset": null,
+   "workspace": null,
+   "nms": false,
+   "lr0": 0.01,
+   "lrf": 0.01,
+   "momentum": 0.937,
+   "weight_decay": 0.0005,
+   "warmup_epochs": 1.0,
+   "warmup_momentum": 0.8,
+   "warmup_bias_lr": 0.1,
+   "distill_model": null,
+   "dis": 6.0,
+   "box": 7.5,
+   "cls": 0.5,
+   "cls_pw": 0.0,
+   "dfl": 1.5,
+   "pose": 12.0,
+   "kobj": 1.0,
+   "rle": 1.0,
+   "angle": 1.0,
+   "dlog": 1.0,
+   "dgrad": 0.5,
+   "dlam": 1.0,
+   "nbs": 64,
+   "hsv_h": 0.015,
+   "hsv_s": 0.7,
+   "hsv_v": 0.4,
+   "degrees": 0.0,
+   "translate": 0.1,
+   "scale": 0.5,
+   "shear": 0.0,
+   "perspective": 0.0,
+   "flipud": 0.0,
+   "fliplr": 0.5,
+   "bgr": 0.0,
+   "mosaic": 1.0,
+   "mixup": 0.0,
+   "cutmix": 0.0,
+   "copy_paste": 0.0,
+   "copy_paste_mode": "flip",
+   "auto_augment": "randaugment",
+   "erasing": 0.4,
+   "cfg": null,
+   "tracker": "tracktrack.yaml",
+   "save_dir": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot"
+  }
+ },
+ "epoch": [
+  {
+   "epoch": 1,
+   "train_s": 58.01,
+   "loss": {
+    "box_loss": 1.5771164894104004,
+    "cls_loss": 4.1684489250183105,
+    "dfl_loss": 1.2097479104995728
+   },
+   "loss_huu_han": true,
+   "lr": [
+    0.009761904761904762,
+    0.009761904761904762,
+    0.01214285714285715
+   ],
+   "so_batch": 42,
+   "on_dinh": {
+    "so_khoang": 36,
+    "s_moi_batch_trung_vi": 1.1055,
+    "anh_moi_s_trung_vi": 7.24,
+    "ghi_chu": "trung vi khoang giua cac batch, bo 5 batch dau"
+   },
+   "torch_max_allocated_mib": 1932,
+   "torch_max_reserved_mib": 2352,
+   "val_s": 4.07,
+   "metrics": {
+    "metrics/precision(B)": 0.06667,
+    "metrics/recall(B)": 0.00062,
+    "metrics/mAP50(B)": 0.00083,
+    "metrics/mAP50-95(B)": 8e-05,
+    "val/box_loss": 1.80014,
+    "val/cls_loss": 4.30381,
+    "val/dfl_loss": 1.14553
+   },
+   "fitness": 8e-05
+  },
+  {
+   "epoch": 2,
+   "train_s": 46.35,
+   "loss": {
+    "box_loss": 1.68904447555542,
+    "cls_loss": 2.7191367149353027,
+    "dfl_loss": 1.3342794179916382
+   },
+   "loss_huu_han": true,
+   "lr": [
+    0.00505,
+    0.00505,
+    0.00505
+   ],
+   "so_batch": 42,
+   "on_dinh": {
+    "so_khoang": 36,
+    "s_moi_batch_trung_vi": 1.1084,
+    "anh_moi_s_trung_vi": 7.22,
+    "ghi_chu": "trung vi khoang giua cac batch, bo 5 batch dau"
+   },
+   "torch_max_allocated_mib": 1918,
+   "torch_max_reserved_mib": 2386,
+   "val_s": 1.87,
+   "metrics": {
+    "metrics/precision(B)": 0.03752,
+    "metrics/recall(B)": 0.24908,
+    "metrics/mAP50(B)": 0.13286,
+    "metrics/mAP50-95(B)": 0.06472,
+    "val/box_loss": 1.59308,
+    "val/cls_loss": 2.9091,
+    "val/dfl_loss": 1.23177
+   },
+   "fitness": 0.06472
+  }
+ ],
+ "danh_gia_cuoi_ultralytics": {
+  "metrics": {
+   "metrics/precision(B)": 0.03744901742677049,
+   "metrics/recall(B)": 0.24846248462484624,
+   "metrics/mAP50(B)": 0.1329013733524204,
+   "metrics/mAP50-95(B)": 0.06477888444499376
+  },
+  "trainer_epoch_tam": 2,
+  "thoi_gian_tu_het_train_epoch_cuoi_s": 16.28,
+  "ghi_chu": "ultralytics final_eval: validate best.pt (FP16 tu dia) sau vong lap; gom ca luu checkpoint va don dep cuoi epoch"
+ },
+ "thoi_gian_s": 161.7,
+ "vram_nvidia_smi": {
+  "so_mau": 146,
+  "max_mib": 2892,
+  "chu_ky_s": 1.0,
+  "pham_vi": "nvidia-smi memory.used cua ca GPU (gom desktop + tien trinh khac)",
+  "ram_con_trong_min_mib": 35,
+  "gpu_util_trung_vi_pct": 94,
+  "gpu_util_ghi_chu": "utilization.gpu cua nvidia-smi, lay mau suot luot (gom khoi dong + val)"
+ },
+ "loi": null,
+ "save_dir": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot",
+ "checkpoint": {
+  "last": {
+   "duong_dan": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot\\weights\\last.pt",
+   "sha256": "0e3c1f52bf3ce76370ccae60d5bcdcee38d12508826a034a5fab4ebca2ad4a98",
+   "bytes": 5443411,
+   "nap_lai": true,
+   "names": {
+    "0": "car",
+    "1": "truck",
+    "2": "bus",
+    "3": "motorcycle",
+    "4": "bicycle"
+   },
+   "dung_5_lop": true,
+   "train_args_lech_cau_hinh": {}
+  },
+  "best": {
+   "duong_dan": "D:\\LABOTARY\\bytetrack\\models\\finetune_phase2\\train_bdd5_v1_yolo11n_pilot\\weights\\best.pt",
+   "sha256": "e4878084646de234fb5165c832cf33d24a8b26bca4381cf8c6fb08dabcb9c895",
+   "bytes": 5443411,
+   "nap_lai": true,
+   "names": {
+    "0": "car",
+    "1": "truck",
+    "2": "bus",
+    "3": "motorcycle",
+    "4": "bicycle"
+   },
+   "dung_5_lop": true,
+   "train_args_lech_cau_hinh": {}
+  }
+ },
+ "loss_huu_han": true,
+ "danh_gia_dev_smoke": {
+  "ghi_chu": "best.pt tren dev smoke; chi kiem duong chay; KHONG so sanh model",
+  "dataset_da_xac_minh": {
+   "hop_dong": "bdd5-dataset-v2",
+   "phien_ban_manifest": 2,
+   "loi": 0,
+   "ten": "bdd5_train_v1_smoke",
+   "loai": "SMOKE (tap con nho, KHONG dung cho ket qua nghien cuu)",
+   "tap_con": "smoke",
+   "data_yaml": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\data.yaml",
+   "sha256_data_yaml": "9744ba88ce2f10438b4d9dfcf3ffeade018f319c2c5bde8eeb397d199e458661",
+   "sha256_tom_tat": "1c4e7521e397160f80e74c29e7f077d3aa29a9de29e161363dac65acecf8c64c",
+   "manifest_sha256": "c48998266b5490531df6834d715b9d159fb6555e063cc53520e39b41c9b074c1",
+   "sha256_video_json": "a07d12f893055f83ac504a185864ee031c8a3dfb8d2ccebca792e28938da9912",
+   "split_da_khoa": {
+    "sha256": "b8a2848e3da053a2b1b79e7fa6cfad812540315af6e48b12b4174a40efc06cdb",
+    "sha256_danh_sach": "a59a8d0672f30d6e9ff90d4347965fa003b299bb79995c0883796712446ca723",
+    "ban_goc": "khop"
+   },
+   "duong_dan_resolve": {
+    "train": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\images\\train",
+    "val": "D:\\LABOTARY\\bytetrack\\data\\yolo_bdd5_v1_smoke\\images\\dev"
+   },
+   "so_anh": {
+    "train": 334,
+    "dev": 84
+   },
+   "so_video": {
+    "train": 16,
+    "dev": 4
+   },
+   "so_nhan_rong_hop_le": {
+    "train": 0,
+    "dev": 4
+   },
+   "so_anh_co_file_ignore": {
+    "train": 125,
+    "dev": 27
+   },
+   "cache_anh": {
+    "chinh_sach": "khong dung cache anh (.npy); pixel nap = JPEG da khoa sha256",
+    "so_npy_canh_anh": {
+     "train": 0,
+     "dev": 0
+    }
+   },
+   "noi_dung_da_xac_minh": {
+    "train": false,
+    "dev": true
+   },
+   "so_file_da_bam": {
+    "anh": 84,
+    "nhan": 84,
+    "ignore": 27
+   },
+   "xac_minh_luc": "2026-10-02T18:28:30",
+   "thoi_gian_s": 0.6
+  },
+  "quy_tac": {
+   "du_doan": {
+    "imgsz": 640,
+    "conf": 0.001,
+    "iou_nms": 0.7,
+    "max_det": 300,
+    "agnostic_nms": false,
+    "half": false,
+    "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+   },
+   "ghep": "COCO (pycocotools evaluateImg): conf giam dan (mergesort) trong (anh, lop); GT chua ghep co IoU cao nhat >= nguong, HOA IoU -> GT SAU trong thu tu duyet; IoU tinh nhu bbIou cua pycocotools (tu xywh)",
+   "bo_qua": "detection khong ghep ma IoA voi vung to xam >= nguong -> bo qua (nhu crowd cua COCO)",
+   "ap": "10 nguong IoU 0.50:0.05:0.95, noi suy 101 diem recall (COCO); lop khong co GT -> null",
+   "van_hanh": {
+    "conf": 0.25,
+    "iou": 0.5
+   },
+   "gop_lop": "KHONG -- moi so lieu theo lop; macro = trung binh cac lop co GT"
+  },
+  "anh_xa_lop": {
+   "loai_checkpoint": "lop5",
+   "so_lop_model": 5,
+   "model_id_sang_lop5": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4
+   },
+   "ten": {
+    "0": "car",
+    "1": "truck",
+    "2": "bus",
+    "3": "motorcycle",
+    "4": "bicycle"
+   },
+   "lop5": [
+    "car",
+    "truck",
+    "bus",
+    "motorcycle",
+    "bicycle"
+   ]
+  },
+  "thoi_gian_s": 2.6,
+  "theo_lop": {
+   "car": {
+    "n_gt": 542,
+    "n_anh_co_lop": 80,
+    "n_det_conf_thap": 3593,
+    "AP50": 0.39254059320260865,
+    "AP75": 0.1767390181950712,
+    "AP50_95": 0.1948272818046363,
+    "van_hanh": {
+     "TP": 0,
+     "FP": 0,
+     "FN": 542,
+     "precision": null,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   },
+   "truck": {
+    "n_gt": 6,
+    "n_anh_co_lop": 6,
+    "n_det_conf_thap": 10,
+    "AP50": 0.0,
+    "AP75": 0.0,
+    "AP50_95": 0.0,
+    "van_hanh": {
+     "TP": 0,
+     "FP": 0,
+     "FN": 6,
+     "precision": null,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   },
+   "bus": {
+    "n_gt": 4,
+    "n_anh_co_lop": 4,
+    "n_det_conf_thap": 0,
+    "AP50": 0.0,
+    "AP75": 0.0,
+    "AP50_95": 0.0,
+    "van_hanh": {
+     "TP": 0,
+     "FP": 0,
+     "FN": 4,
+     "precision": null,
+     "recall": 0.0,
+     "f1": 0.0
+    }
+   },
+   "motorcycle": {
+    "n_gt": 0,
+    "n_anh_co_lop": 0,
+    "n_det_conf_thap": 0,
+    "AP50": null,
+    "AP75": null,
+    "AP50_95": null,
+    "van_hanh": {
+     "TP": 0,
+     "FP": 0,
+     "FN": 0,
+     "precision": null,
+     "recall": null,
+     "f1": null
+    }
+   },
+   "bicycle": {
+    "n_gt": 0,
+    "n_anh_co_lop": 0,
+    "n_det_conf_thap": 0,
+    "AP50": null,
+    "AP75": null,
+    "AP50_95": null,
+    "van_hanh": {
+     "TP": 0,
+     "FP": 0,
+     "FN": 0,
+     "precision": null,
+     "recall": null,
+     "f1": null
+    }
+   }
+  },
+  "macro": {
+   "so_lop_co_gt": 3,
+   "lop_khong_co_gt": [
+    "motorcycle",
+    "bicycle"
+   ],
+   "mAP50": 0.13084686440086954,
+   "mAP50_95": 0.0649424272682121,
+   "precision_vh": null,
+   "recall_vh": 0.0
+  },
+  "n_anh": 84,
+  "van_hanh": {
+   "conf": 0.25,
+   "iou": 0.5
+  }
+ }
+}

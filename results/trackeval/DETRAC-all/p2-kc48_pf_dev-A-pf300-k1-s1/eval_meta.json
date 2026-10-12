@@ -1,0 +1,95 @@
+{
+  "dir": "p2-kc48_pf_dev-A-pf300-k1-s1",
+  "split_name": "DETRAC-all",
+  "tracking": {
+    "n_videos": 12,
+    "n_missing": 0,
+    "sha256": "00db19ef5946c0d462b939a785bc1ed017cb962f0bfcef9154fc88748d77ea9c",
+    "per_video": {
+      "MVI_20052": "91344c722fee114a",
+      "MVI_20062": "f4397c46fd1328f2",
+      "MVI_39851": "eaf6575b077bd4be",
+      "MVI_39931": "3ff78808b07daead",
+      "MVI_40213": "ff1d71c295e282b1",
+      "MVI_40752": "c89f47bf439804ef",
+      "MVI_40871": "9be6404825ab429a",
+      "MVI_40992": "5694e2142c9f26a8",
+      "MVI_63544": "2e73056cbfa81cd1",
+      "MVI_63552": "e93e09cc872c261d",
+      "MVI_63554": "84d875580e40b0bb",
+      "MVI_63561": "2628f944023e3f44"
+    }
+  },
+  "config": "9005fa02e3d3bbeec3b6cc46b356cb6cab86932c86a784d82db43615ebca4308",
+  "cache": {
+    "cache_id": "yolov8n-coco_conf0.05_all",
+    "meta_sha256": "870cb45fbb006d0e898b3468b698deeee470a9f6aef1ffd4e3e9acc073282211",
+    "npz_sha256": "9d596eb4b6b446a674d3402dfafab287c777d39bf545d993c188916e961405de",
+    "weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "conf": 0.05,
+    "classes": null,
+    "max_det": 3000
+  },
+  "sequences": "cbe50ca57a54f6fdaf44ae184d2000a033933b3159dfd28e094d18bb28c6d8ea",
+  "gt": {
+    "n_videos": 12,
+    "n_missing_gt": 0,
+    "n_missing_seqinfo": 0,
+    "gt_sha256": "07de8402ca430b84545844256f121a2fff4f16123f38a626555e769af5f3d31f",
+    "seqinfo_sha256": "024df16d9211ef3dae67765512bd79c83fe7d3e412887914c318fd204ca59732",
+    "seq_lengths": "e98e00439470e803929af4780bf8e74b4057dbcb4de131f0c8848b94e08c721c",
+    "gt_per_video": {
+      "MVI_20052": "6cd1c901627ca1c6",
+      "MVI_20062": "03ef1add0940b95b",
+      "MVI_39851": "8a74c425baf74b0b",
+      "MVI_39931": "71654890a1ecb7e8",
+      "MVI_40213": "8df39f12536259c5",
+      "MVI_40752": "1be967a9ddfaf268",
+      "MVI_40871": "2db67e5b77be99db",
+      "MVI_40992": "7690a06aca40d675",
+      "MVI_63544": "ab50cd9ea2ac039c",
+      "MVI_63552": "9622027f461fddfd",
+      "MVI_63554": "fdc241d762cb0e3b",
+      "MVI_63561": "11399c19b2678515"
+    },
+    "seqmap_used": false,
+    "seqmap_sha256": null
+  },
+  "code": {
+    "git_commit": "eaf2e87",
+    "modules": {
+      "run_tracking.py": "5bd131fe958bdf04",
+      "run_experiment.py": "9952441194b7e70f",
+      "tracker_ctrv.py": "b22b4688f50058e8",
+      "sort_tracker.py": "a4ab4b26867989eb",
+      "ekf_ctrv.py": "b516781efa01f473",
+      "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+      "ukf_ctrv.py": "2d59daf4794d8039",
+      "pf_ctrv.py": "de141de5aa698735",
+      "lost_recovery.py": "38f30192b492fa80",
+      "lost_association.py": "469c2782cba41e01",
+      "time_units.py": "c13b6e20fe003f6d",
+      "det_cache.py": "d253c2b8063fa15f",
+      "occlusion_eval.py": "1b892596be674b9e",
+      "boot_stats.py": "e9245f6729659f8f",
+      "run_trackeval.py": "519d3f9165803fde",
+      "trackeval_ext.py": "3dcf6582548adcfa",
+      "assoc_log.py": "0915453e70f75eb2",
+      "ul_backend.py": "7381910281d8a273",
+      "bytetrack_np.py": "8d37ec565230603b",
+      "run_state.py": "2bc38e3a86fbf50b"
+    },
+    "backend": {
+      "backend": "ultralytics",
+      "ultralytics": "8.4.141",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "lap": "0.5.13"
+    }
+  },
+  "evaluator": {
+    "trackeval": "1.3.0",
+    "dataset_class": "mot"
+  },
+  "evaluated_at": "2026-10-11T16:12:14"
+}

@@ -44,7 +44,9 @@ TRK_COLS = ["frame", "id", "x", "y", "w", "h", "conf"]
 
 
 def rerun(video: str, split: str, motion_model: str, conf: float,
-          end_frame: int, device: str = "0") -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, str]:
+          end_frame: int, device: str = "0", tracker_cfg: str | None = None,
+          runtime_info: dict | None = None
+          ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, str]:
     """Chay lai tracker tu frame 1 den end_frame.
 
     Tra ve (boxes_tracked, states_all, pred_boxes, ten_lop_bo_loc):
@@ -60,6 +62,7 @@ def rerun(video: str, split: str, motion_model: str, conf: float,
 
     tracker_ctrv.register()
     spec = config.MOTION_MODELS[motion_model]
+    tracker_cfg = tracker_cfg or spec["cfg"]
     model = YOLO(str(config.MODELS_DIR / "yolov8n.pt"))
     img_root = config.find_images_root()
     imgs = sorted((img_root / video).glob("img*.jpg"))[:end_frame]
@@ -91,11 +94,22 @@ def rerun(video: str, split: str, motion_model: str, conf: float,
         cur["frame"] = fr
         frame = cv2.imread(str(p))
         frame = mask_ignored_regions(frame, regions)
-        r = model.track(frame, persist=True, tracker=spec["cfg"], conf=conf,
+        r = model.track(frame, persist=True, tracker=tracker_cfg, conf=conf,
                         classes=config.YOLO_VEHICLE_CLASSES, device=device, verbose=False)[0]
         tr = model.predictor.trackers[0]
         if filt_name is None:
             filt_name = type(tr.kalman_filter).__name__
+            if runtime_info is not None:
+                runtime_info.update({
+                    "filter_runtime": filt_name,
+                    "tracker_cfg": str(tracker_cfg),
+                    "track_high_thresh": float(tr.args.track_high_thresh),
+                    "track_low_thresh": float(tr.args.track_low_thresh),
+                    "new_track_thresh": float(tr.args.new_track_thresh),
+                    "track_buffer": int(tr.args.track_buffer),
+                    "match_thresh": float(tr.args.match_thresh),
+                    "fuse_score": bool(tr.args.fuse_score),
+                })
             _hook_multi_predict(tr)        # frame 1 chua co track nao de predict
         # Box xuat ra (giong file prediction): chi track Tracked va da activated
         if r.boxes is not None and r.boxes.id is not None:
@@ -160,6 +174,8 @@ def main() -> int:
     ap.add_argument("--split", required=True)
     ap.add_argument("--tracker-dir", required=True, help="vd testA-ekf_ctrv")
     ap.add_argument("--motion-model", required=True, choices=list(config.MOTION_MODELS))
+    ap.add_argument("--tracker-cfg", default=None,
+                    help="File YAML tracker tuy chon; dung de tai lap cac run buffer sweep")
     ap.add_argument("--conf", type=float, required=True)
     ap.add_argument("--end-frame", type=int, required=True)
     ap.add_argument("--cmp-start", type=int, default=1)
@@ -167,7 +183,8 @@ def main() -> int:
     a = ap.parse_args()
 
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
-    boxes, states, preds, filt = rerun(a.video, a.split, a.motion_model, a.conf, a.end_frame)
+    boxes, states, preds, filt = rerun(a.video, a.split, a.motion_model, a.conf, a.end_frame,
+                                       tracker_cfg=a.tracker_cfg)
     saved = pd.read_csv(config.PROCESSED_DIR / "trackers" / a.split / a.tracker_dir / "data" / f"{a.video}.txt",
                         header=None, names=TRK_COLS)
     cmp = compare_to_saved(boxes, saved, a.cmp_start, a.end_frame)

@@ -1,0 +1,330 @@
+{
+ "buoc": "R50A_TEST11_THIET_KE_DETA_TRANG_THAI / P64dfb0d8",
+ "chi_chay": "src/test_pf_ctrv.py::test_11_runner_seeds (import + goi ham; khong goi main, khong chay test 1-10)",
+ "commit_head": "a7a69615f7d97f3558e5b78cd5bcfa32cdf14551",
+ "nhanh": "phase2-mixed-traffic",
+ "ma": {
+  "src/pf_ctrv.py": {
+   "sha256_cay_lam_viec": "de141de5aa698735a681ca80f0f342d4e2b49b2b8159ae67ee940a9e449a8f18",
+   "sha256_blob_head": "c0230eaed7ddd26669434018d6bd9ef23fbfa1d59d5036652d33f2074e13e419",
+   "git_blob_head": "502411b3882f55a0a194469f1d7e15dcff47b818",
+   "git_hash_object_cay": "9be6116b3a8eb23303bc64f6424f896e75e41632",
+   "trang_thai": "khac_head"
+  },
+  "src/tracker_ctrv.py": {
+   "sha256_cay_lam_viec": "b22b4688f50058e8be78e43d05cf0406812e375ddf3e37a12078eef02d31c275",
+   "sha256_blob_head": "ba3cb58a3417c4cb78d6eb5794ca9ae86ec38c68f2ccb7c9c210cddda2fa73b7",
+   "git_blob_head": "a7dc6d577442d51357f3c53ff8fe6502471c98d5",
+   "git_hash_object_cay": "59d9337f473b9399c7e449e0afc88d688b9de5b9",
+   "trang_thai": "khac_head"
+  },
+  "src/test_pf_ctrv.py": {
+   "sha256_cay_lam_viec": "cc9a66b865cf590e0ad7757315755b06130cd3b4b37dd1ef8a36f822c27b0085",
+   "sha256_blob_head": "9376269ca2b9edeab8bf346b24abb4c4b2d4cafbf412840b170bbd9681ce2045",
+   "git_blob_head": "0793348ca44160f6463f987a945eb2711f4df658",
+   "git_hash_object_cay": "0793348ca44160f6463f987a945eb2711f4df658",
+   "trang_thai": "giong_head"
+  },
+  "src/run_tracking.py": {
+   "sha256_cay_lam_viec": "5bd131fe958bdf04ed59f704c85919aec43049df1922cb552dced98324910629",
+   "sha256_blob_head": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+   "git_blob_head": "016f10a31ef4ad78fa5d172282384899689916ab",
+   "git_hash_object_cay": "016f10a31ef4ad78fa5d172282384899689916ab",
+   "trang_thai": "giong_head"
+  },
+  "src/det_cache.py": {
+   "sha256_cay_lam_viec": "d253c2b8063fa15f8c13846eb26555e9f0413a6454c388b7685096081d0c032e",
+   "sha256_blob_head": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a",
+   "git_blob_head": "af38f71a648d410776ce6ded05f9767d34d33cc0",
+   "git_hash_object_cay": "af38f71a648d410776ce6ded05f9767d34d33cc0",
+   "trang_thai": "giong_head"
+  },
+  "src/kc48/chay_test11_k1.py": {
+   "sha256_cay_lam_viec": "67d4777bdef556c64f9988adfa4eb95e6ae396cd482caf9dcd93b9bece51c0e3",
+   "sha256_blob_head": null,
+   "git_blob_head": null,
+   "git_hash_object_cay": "70db74d31606c510c94145c35dcca029b39031ee",
+   "trang_thai": "chua_theo_doi"
+  }
+ },
+ "ghi_chu_ma": "K1 nam trong src/pf_ctrv.py, src/tracker_ctrv.py cua CAY LAM VIEC (chua commit) -> trang_thai khac_head; HEAD chi la diem goc. sha256_cay_lam_viec (byte tren dia, co the CRLF) co the khac sha256_blob_head (LF) ca khi noi dung giong HEAD; so HEAD theo git_blob.",
+ "git_status_src_configs": {
+  "truoc": "M src/demo/rerun_with_state_log.py\n M src/pf_ctrv.py\n M src/tracker_ctrv.py\n?? configs/phase2/experiments/kc48_pf_dev.yaml\n?? configs/phase2/experiments/kc48_pf_smoke.yaml\n?? configs/phase2/trackers/kc48/bytetrack_ekf_ctrv_chinh.yaml\n?? configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k1.yaml\n?? configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k1k2.yaml\n?? configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k2.yaml\n?? configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n300_k1.yaml\n?? configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n500_k1.yaml\n?? src/demo/build_buffer90_demo.py\n?? src/demo/find_buffer90_candidates.py\n?? src/demo/find_buffer90_moving_candidates.py\n?? src/demo/live_view.py\n?? src/demo/single_case_buffer90.py\n?? src/demo/turning_case_buffer90.py\n?? src/kc48/audit_du_lieu.py\n?? src/kc48/boot_seed.py\n?? src/kc48/chay_song_song_dev.py\n?? src/kc48/chay_test11_k1.py\n?? src/kc48/chay_test_pf_cu.py\n?? src/kc48/chay_thi_nghiem_kc48.py\n?? src/kc48/chup_fixture.py\n?? src/kc48/chup_hash_dau_ra.py\n?? src/kc48/ghi_sha256.py\n?? src/kc48/kiem_cache_dev.py\n?? src/kc48/kiem_khong_ghi_de.py\n?? src/kc48/kiem_loc_quy_dao.py\n?? src/kc48/kiem_pf_diag_moc2.py\n?? src/kc48/kiem_pixel_to_xam.py\n?? src/kc48/kiem_so_huu_hat.py\n?? src/kc48/luu_ban_cu.py\n?? src/kc48/mo_phong_quy_dao.py\n?? src/kc48/phan_tich_dev.py\n?? src/kc48/so_sanh_ekf_moc2.py\n?? src/kc48/so_sanh_truoc_sau_sua.py\n?? src/kc48/su_kien_dev.py\n?? src/kc48/sua_chan_doan_mo_phong.py\n?? src/kc48/test_k1_k2.py\n?? src/kc48/test_kiem_pf_diag_moc2.py\n?? src/kc48/test_pf_dung_dan.py\n?? src/kc48/test_sua_r48d.py\n?? src/kc48/thi_nghiem_mo_phong.py",
+  "sau": "M src/demo/rerun_with_state_log.py\n M src/pf_ctrv.py\n M src/tracker_ctrv.py\n?? configs/phase2/experiments/kc48_pf_dev.yaml\n?? configs/phase2/experiments/kc48_pf_smoke.yaml\n?? configs/phase2/trackers/kc48/bytetrack_ekf_ctrv_chinh.yaml\n?? configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k1.yaml\n?? configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k1k2.yaml\n?? configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k2.yaml\n?? configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n300_k1.yaml\n?? configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n500_k1.yaml\n?? src/demo/build_buffer90_demo.py\n?? src/demo/find_buffer90_candidates.py\n?? src/demo/find_buffer90_moving_candidates.py\n?? src/demo/live_view.py\n?? src/demo/single_case_buffer90.py\n?? src/demo/turning_case_buffer90.py\n?? src/kc48/audit_du_lieu.py\n?? src/kc48/boot_seed.py\n?? src/kc48/chay_song_song_dev.py\n?? src/kc48/chay_test11_k1.py\n?? src/kc48/chay_test_pf_cu.py\n?? src/kc48/chay_thi_nghiem_kc48.py\n?? src/kc48/chup_fixture.py\n?? src/kc48/chup_hash_dau_ra.py\n?? src/kc48/ghi_sha256.py\n?? src/kc48/kiem_cache_dev.py\n?? src/kc48/kiem_khong_ghi_de.py\n?? src/kc48/kiem_loc_quy_dao.py\n?? src/kc48/kiem_pf_diag_moc2.py\n?? src/kc48/kiem_pixel_to_xam.py\n?? src/kc48/kiem_so_huu_hat.py\n?? src/kc48/luu_ban_cu.py\n?? src/kc48/mo_phong_quy_dao.py\n?? src/kc48/phan_tich_dev.py\n?? src/kc48/so_sanh_ekf_moc2.py\n?? src/kc48/so_sanh_truoc_sau_sua.py\n?? src/kc48/su_kien_dev.py\n?? src/kc48/sua_chan_doan_mo_phong.py\n?? src/kc48/test_k1_k2.py\n?? src/kc48/test_kiem_pf_diag_moc2.py\n?? src/kc48/test_pf_dung_dan.py\n?? src/kc48/test_sua_r48d.py\n?? src/kc48/thi_nghiem_mo_phong.py",
+  "trung": true
+ },
+ "cau_hinh_tracker": {
+  "duong_dan": "configs/phase2/trackers/bytetrack_pf_ctrv_n100.yaml",
+  "sha256": "9e2e4f88acea015877e9e08bcbca525fdc55c6231530fb378c7d94a135191054",
+  "duong_dan_nap_thuc": "D:\\LABOTARY\\bytetrack\\configs\\phase2\\trackers\\bytetrack_pf_ctrv_n100.yaml",
+  "sha256_nap_thuc": "9e2e4f88acea015877e9e08bcbca525fdc55c6231530fb378c7d94a135191054",
+  "pf_optimal_proposal_hieu_luc": "<khong co khoa -> mac dinh tat>",
+  "cfg_hieu_luc": {
+   "tracker_type": "bytetrack_pf_ctrv",
+   "track_high_thresh": 0.25,
+   "track_low_thresh": 0.1,
+   "new_track_thresh": 0.25,
+   "track_buffer": 30,
+   "match_thresh": 0.8,
+   "fuse_score": true,
+   "pf_num_particles": 100,
+   "pf_seed": 0,
+   "pf_resample_ess_ratio": 0.5,
+   "pf_estimate": "mean",
+   "pf_roughening": 0.0,
+   "pf_degenerate_maha2": 10000.0
+  }
+ },
+ "seed": [
+  0,
+  1
+ ],
+ "lenh": "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe src/kc48/chay_test11_k1.py",
+ "lenh_con_test_goi": [
+  {
+   "cmd": [
+    "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+    "src/run_tracking.py",
+    "--cache-id",
+    "fixture_pf_seed_test",
+    "--split-name",
+    "DETRAC-sample",
+    "--tracker-yaml",
+    "D:\\LABOTARY\\bytetrack\\configs\\phase2\\trackers\\bytetrack_pf_ctrv_n100.yaml",
+    "--tracker-name",
+    "p2-pftest",
+    "--videos",
+    "synth",
+    "--seeds",
+    "0",
+    "1"
+   ],
+   "cwd": "D:\\LABOTARY\\bytetrack",
+   "returncode": 0,
+   "giay": 3.495,
+   "stdout_cuoi": "[run_tracking] cache=fixture_pf_seed_test tracker=bytetrack_pf_ctrv yaml=D:\\LABOTARY\\bytetrack\\configs\\phase2\\trackers\\bytetrack_pf_ctrv_n100.yaml conf>0.25 classes=[2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=skip seeds=[0, 1]\n  p2-pftest-s0                 synth             40 frame ->      94 bbox    5 track  predict 0.39 ms/frame  assoc 0.75  (0.1s, 728 fps)\n  p2-pftest-s0                   1 video moi,   0 tai su dung\n  p2-pftest-s1                 synth             40 frame ->      95 bbox    4 track  predict 0.32 ms/frame  assoc 0.72  (0.0s, 824 fps)\n  p2-pftest-s1                   1 video moi,   0 tai su dung\n",
+   "stderr_cuoi": ""
+  },
+  {
+   "cmd": [
+    "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+    "src/run_tracking.py",
+    "--cache-id",
+    "fixture_pf_seed_test",
+    "--split-name",
+    "DETRAC-sample",
+    "--tracker-yaml",
+    "D:\\LABOTARY\\bytetrack\\configs\\phase2\\trackers\\bytetrack_pf_ctrv_n100.yaml",
+    "--tracker-name",
+    "p2-pftest",
+    "--videos",
+    "synth",
+    "--seeds",
+    "0"
+   ],
+   "cwd": "D:\\LABOTARY\\bytetrack",
+   "returncode": 0,
+   "giay": 3.212,
+   "stdout_cuoi": "[run_tracking] cache=fixture_pf_seed_test tracker=bytetrack_pf_ctrv yaml=D:\\LABOTARY\\bytetrack\\configs\\phase2\\trackers\\bytetrack_pf_ctrv_n100.yaml conf>0.25 classes=[2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=skip seeds=[0]\n  p2-pftest-s0                 synth             40 frame ->      94 bbox    5 track  predict 0.39 ms/frame  assoc 0.74  (0.1s, 727 fps)\n  p2-pftest-s0                   1 video moi,   0 tai su dung\n",
+   "stderr_cuoi": ""
+  }
+ ],
+ "run_meta_fixture": {
+  "s0": {
+   "seed": 0,
+   "git_commit": "a7a6961",
+   "created": "2026-10-12T04:00:25",
+   "tracker_yaml": "D:\\LABOTARY\\bytetrack\\configs\\phase2\\trackers\\bytetrack_pf_ctrv_n100.yaml",
+   "pf_optimal_proposal_trong_cfg": "<khong co khoa>",
+   "pf_roughening": 0.0,
+   "pf_num_particles": 100
+  },
+  "s1": {
+   "seed": 1,
+   "git_commit": "a7a6961",
+   "created": "2026-10-12T04:00:25",
+   "tracker_yaml": "D:\\LABOTARY\\bytetrack\\configs\\phase2\\trackers\\bytetrack_pf_ctrv_n100.yaml",
+   "pf_optimal_proposal_trong_cfg": "<khong co khoa>",
+   "pf_roughening": 0.0,
+   "pf_num_particles": 100
+  }
+ },
+ "python": "3.11.9 | packaged by Anaconda, Inc. | (main, Apr 19 2024, 16:40:41) [MSC v.1916 64 bit (AMD64)]",
+ "phep_kiem": [
+  {
+   "ten": "run_tracking PF --seeds 0 1 chay xong",
+   "ket_qua": "PASS"
+  },
+  {
+   "ten": "tao 2 thu muc -s0 va -s1",
+   "ket_qua": "PASS"
+  },
+  {
+   "ten": "chay lai seed 0: file txt bit-identical",
+   "ket_qua": "PASS"
+  },
+  {
+   "ten": "seed 1 khac seed 0",
+   "ket_qua": "PASS"
+  },
+  {
+   "ten": "run_meta ghi seed",
+   "ket_qua": "PASS"
+  }
+ ],
+ "n_phep_kiem": {
+  "du_kien": 5,
+  "da_chay": 5,
+  "pass": 5
+ },
+ "loi": null,
+ "dat": true,
+ "exit": 0,
+ "thoi_gian": {
+  "bat_dau": "2026-10-12T04:01:02+0700",
+  "giay_test11": 6.72,
+  "giay_tong": 24.77
+ },
+ "so_fixture_truoc_sau": {
+  "fixture": {
+   "data/interim/det_cache/fixture_pf_seed_test": {
+    "them": [],
+    "mat": [],
+    "doi_noi_dung": [
+     "synth.json"
+    ],
+    "chi_doi_mtime": [
+     "meta.json",
+     "synth.npz"
+    ],
+    "giu_nguyen": 0
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s0": {
+    "them": [],
+    "mat": [],
+    "doi_noi_dung": [
+     "run_meta.json",
+     "summary.csv",
+     "timing/synth.csv",
+     "video_meta/synth.json"
+    ],
+    "chi_doi_mtime": [
+     "data/synth.txt",
+     "data_cls/synth.csv"
+    ],
+    "giu_nguyen": 0
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s1": {
+    "them": [],
+    "mat": [],
+    "doi_noi_dung": [
+     "run_meta.json",
+     "summary.csv",
+     "timing/synth.csv",
+     "video_meta/synth.json"
+    ],
+    "chi_doi_mtime": [
+     "data/synth.txt",
+     "data_cls/synth.csv"
+    ],
+    "giu_nguyen": 0
+   }
+  },
+  "ngoai_fixture": {
+   "n_truoc": 24164,
+   "n_sau": 24164,
+   "them": [],
+   "mat": [],
+   "doi": [],
+   "khong_doi": true
+  },
+  "file": [
+   "fixture_truoc.json",
+   "fixture_sau.json"
+  ]
+ },
+ "doi_chieu_fixture_r48c": {
+  "co_ban_r48c": true,
+  "nguon": "results/phase2/kc48_pf_code/fixture_sau.json",
+  "nguon_sha256": "f3fbccbffee5f32331b59bb066fa78990c136ca6dfdab14f7b69a5da89ccb249",
+  "theo_file": {
+   "data/interim/det_cache/fixture_pf_seed_test/meta.json": {
+    "r48c": "0e99cfd00ce71bb69ef46c901126955f0d024cba33da44ffb8aa1930242b761d",
+    "r50a": "0e99cfd00ce71bb69ef46c901126955f0d024cba33da44ffb8aa1930242b761d",
+    "trung": true
+   },
+   "data/interim/det_cache/fixture_pf_seed_test/synth.json": {
+    "r48c": "9329546fcd658e806a1c3d25b5f7da320bc20ba1322d977dd13f607ad42c3515",
+    "r50a": "6225030ad21b3575f9193d22229308ff174a8e80088efd6773309da932bc86d2",
+    "trung": false
+   },
+   "data/interim/det_cache/fixture_pf_seed_test/synth.npz": {
+    "r48c": "01bc6c80dec5820516e9f8a36ceb1f42ae7bbe4a77d0a4f824b7fd4c9e1e85cc",
+    "r50a": "01bc6c80dec5820516e9f8a36ceb1f42ae7bbe4a77d0a4f824b7fd4c9e1e85cc",
+    "trung": true
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s0/data/synth.txt": {
+    "r48c": "dcafead683354e5071bfa1a83cc05d6b1510873c4b1aa53d03621c8267c50fde",
+    "r50a": "dcafead683354e5071bfa1a83cc05d6b1510873c4b1aa53d03621c8267c50fde",
+    "trung": true
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s0/data_cls/synth.csv": {
+    "r48c": "b077e2f0c55d36d49322d085a312042ee2b3558409caa6fd0c6941c878ed249d",
+    "r50a": "b077e2f0c55d36d49322d085a312042ee2b3558409caa6fd0c6941c878ed249d",
+    "trung": true
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s0/run_meta.json": {
+    "r48c": "f8aba5f567c5ffdfd9386c02d3e9ea4acf30a4d5a37ad9e6b7f1235e3a84663e",
+    "r50a": "0f45c8c2347683e931afc5ef47a0b775770ec785a0a37777002205d7cfa5a1e4",
+    "trung": false
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s0/summary.csv": {
+    "r48c": "6abed087a3bf205dec1b20fdf6d6a731517a8543f2815ecd05d674eca576aa69",
+    "r50a": "b435dd2255795cfa13572ae5629a8132429597b472cd1dbc31ce649312ab7abd",
+    "trung": false
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s0/timing/synth.csv": {
+    "r48c": "192a26524444e234415f664d01fa3b8b99055877611ae8254a9418279965d8d4",
+    "r50a": "e433fc331b37ad68c961e86115eae4f9ef6e5c2e438b93e6f309a48977df9cde",
+    "trung": false
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s0/video_meta/synth.json": {
+    "r48c": "724613149dcc2464a96fc06a5fc82cf1623208982f64f35f5069e423c9912574",
+    "r50a": "93121a5684f4da9b19662cb287bfa2d6d49b7f2d7fca4a481a916258c4ada023",
+    "trung": false
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s1/data/synth.txt": {
+    "r48c": "0ac1d30645f03690f048171dfe0c3944b1dd51d8decb1eb95b233506748a8fe8",
+    "r50a": "0ac1d30645f03690f048171dfe0c3944b1dd51d8decb1eb95b233506748a8fe8",
+    "trung": true
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s1/data_cls/synth.csv": {
+    "r48c": "1c0e39b6fb902fc129ff775d1102446654304748a284ae181efc816a884aa58e",
+    "r50a": "1c0e39b6fb902fc129ff775d1102446654304748a284ae181efc816a884aa58e",
+    "trung": true
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s1/run_meta.json": {
+    "r48c": "401e40463b443d30fa34ec6387e7f01d3bb0e1f38a336c984685c9bf4a86951f",
+    "r50a": "21a39a77ab4598698c31c585c5846f3998ae014477edb2b148731b812b0852dc",
+    "trung": false
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s1/summary.csv": {
+    "r48c": "dab4f512d075e824e0167ab7f5e6821ff4cbdf940cab1dc023e869604d176eff",
+    "r50a": "153da1a66e9aac7a9aa85a2aee113a1b56720727a5c9b55d77907060be8a067f",
+    "trung": false
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s1/timing/synth.csv": {
+    "r48c": "d229bacfe2ef6cb5e6ebe176ee98dc10c16c6cd90e84e7078b2a5e85a5edff1d",
+    "r50a": "8d6fa7f1572e9cf82255c4ecf669e863a5a869bb8dfad9990be4f4fbaee9f7e7",
+    "trung": false
+   },
+   "data/processed/trackers/DETRAC-sample/p2-pftest-s1/video_meta/synth.json": {
+    "r48c": "39d3515eef279f17841742dc1dcd557ce22790237f0bc0544082764f3cedf0a2",
+    "r50a": "781aadd344ac2c541b8e6927358cab0310c9c8a2543250716fcb1d3ad517a040",
+    "trung": false
+   }
+  },
+  "ghi_chu": "meta.json/synth.json cua cache va run_meta/summary/timing/video_meta chua thoi diem hoac thoi gian chay nen co the khac; file dau ra tracking la data/synth.txt va data_cls/synth.csv"
+ },
+ "log_test": "--- test_11_runner_seeds ---\n  [PASS] run_tracking PF --seeds 0 1 chay xong\n         00.yaml conf>0.25 classes=[2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=skip seeds=[0, 1]\n           p2-pftest-s0                 synth             40 frame ->      94 bbox    5 track  predict 0.39 ms/frame  assoc 0.75  (0.1s, 728 fps)\n           p2-pftest-s0                   1 video moi,   0 tai su dung\n           p2-pftest-s1                 synth             40 frame ->      95 bbox    4 track  predict 0.32 ms/frame  assoc 0.72  (0.0s, 824 fps)\n           p2-pftest-s1                   1 video moi,   0 tai su dung\n  [PASS] tao 2 thu muc -s0 va -s1\n  [PASS] chay lai seed 0: file txt bit-identical\n  [PASS] seed 1 khac seed 0\n  [PASS] run_meta ghi seed\n"
+}

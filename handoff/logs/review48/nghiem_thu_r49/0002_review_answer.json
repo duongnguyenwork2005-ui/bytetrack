@@ -1,0 +1,20 @@
+{
+  "verdict": "revise",
+  "issues": [
+    "F1 — handoff/logs/review48/07_tong_hop_bao_cao_17_10.md:218 gắn “ngưỡng 0,5” cho toàn bảng COMBINED, gây hiểu sai HOTA/DetA/AssA. src/boot_stats.py:66–78 và src/run_trackeval.py:191–205 tổng hợp ba chỉ số này qua 19 ngưỡng alpha. Cần phân biệt với ngưỡng 0,5 của CLEAR/Identity; giữ nguyên số liệu.",
+    "F2 — 07_tong_hop_bao_cao_17_10.md:164–167 chưa ghi điều kiện chọn 160 quỹ đạo đo thời gian, dễ bị hiểu theo 30 d × 3 seed PF của phần đánh giá. src/kc48/thi_nghiem_mo_phong.py:684–704 quy định d=0–4, seed PF=0, κ=1, L∈{10,20}, cả hai h0, mọi kịch bản; lượt làm nóng không nằm trong mẫu. Bổ sung các điều kiện này và nguồn, không đổi số."
+  ],
+  "evidence": [
+    "Đã đọc năm biên bản 0002/0006/0009/0013/0015 và tự kiểm SHA256: khớp MANIFEST.md.",
+    "Mục 0 ghi đúng approve R48C–E, giữ các giới hạn và việc tồn đọng. P9a6c2078 vẫn chưa duyệt, khớp quyet_dinh_da_ghi rỗng trong hồ sơ.",
+    "Hash hai bản đầu mốc khớp manifest của R49. Tự so nội dung xác nhận phần PLAN từ “## Thứ tự các mốc” trở đi giữ nguyên.",
+    "Đã chạy git diff --no-index với bản đầu mốc của 07; 86 dòng bảng được kiểm giữ nguyên. Kiểm chuỗi số qua 40 hunk chỉ có ngoại lệ do đổi tham chiếu mục 5 thành 5.1/5.2 trong bảng audit.",
+    "56 đường dẫn trực tiếp và 16 đường dẫn ngắn đã phân giải đều tồn tại. Đường dẫn dev thiếu phan_tich/ và mẫu số ESS/resampling được nêu trong 0009 đã sửa đúng."
+  ],
+  "limitations": [
+    "Review tĩnh, không chạy lại test, tracking, mô phỏng hoặc phép đo; không chạy Python, không ghi file.",
+    "Không tái kiểm hash toàn repo; phạm vi chỉ hai file thay đổi dựa thêm vào gói snapshot/diff của orchestrator."
+  ],
+  "next_task": "Trong vòng sửa còn lại của R49A, chỉ sửa hai chú thích F1–F2 trong báo cáo 07. Đối chiếu các dòng mã đã dẫn; giữ nguyên toàn bộ kết quả và trạng thái P9a6c2078. Dùng git diff --no-index so với bản đầu mốc trong milestones/01_R49A_DONG_BO_MUC0_VA_MAU_SO_e630af1a/files/; báo từng sửa trước → sau cùng nguồn trong JSON. Không chạy test, Python hay thí nghiệm; không mở mốc mới.",
+  "ideas": []
+}

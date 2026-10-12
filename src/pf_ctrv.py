@@ -23,6 +23,10 @@ pf_ctrv.py -- Particle Filter (bootstrap / SIR) voi mo hinh chuyen dong CTRV.
     Resample : ESS = 1 / sum w_i^2 < ratio * N  -> systematic resampling (MOT so ngau nhien u ~ U[0,1/N))
                sau do trong so deu 1/N
     Roughening (tuy chon, mac dinh TAT): cong nhieu nho sau resample de tranh trung lap particle.
+    Proposal toi uu (R48D K1, tuy chon `optimal_proposal`, mac dinh TAT): o buoc CO do, rut lai cac toa do
+               do (cx, cy, a, h) tu p(x_j | f(x_{k-1}^i), z) = N(m_ij, s_j^2) (Q, R cheo, H chon toa do),
+               trong so nhan p(z | x_{k-1}^i) = prod_j N(z_j; f_j, q_ij^2 + r_j^2). Toa do khong do giu mau
+               prior da rut o predict. Bo loc tro ve bootstrap khi khong co (f(x), std Q) cua predict ngay truoc.
 
 ===========================================================================
 2. CAC TRUONG HOP SUY BIEN (da xu ly, co bo dem)
@@ -86,7 +90,7 @@ class PFCTRV(EKFTrackerCTRV):
 
     def __init__(self, num_particles: int = 300, seed: int = 0, resample_ess_ratio: float = 0.5,
                  estimate: str = "mean", roughening: float = 0.0, degenerate_maha2: float = 1e4,
-                 **ctrv_kwargs):
+                 optimal_proposal: bool = False, **ctrv_kwargs):
         super().__init__(**ctrv_kwargs)
         if num_particles < 2:
             raise ValueError("num_particles phai >= 2")
@@ -98,7 +102,13 @@ class PFCTRV(EKFTrackerCTRV):
         self.estimate = estimate
         self.roughening = float(roughening)
         self.degenerate_maha2 = float(degenerate_maha2)
+        self.optimal_proposal = bool(optimal_proposal)
         self.video_salt = 0
+        # R48D: hook chan doan CHI DOC - chi so to tien cua lan resample gan nhat (None neu update gan nhat khong
+        # resample). Chi gan thuoc tinh, khong rut so ngau nhien -> khong doi ket qua.
+        self.last_resample_idx: np.ndarray | None = None
+        self.n_k1_update = 0          # so update dung proposal toi uu
+        self.n_k1_fallback = 0        # so update bat K1 nhung thieu prior cua predict -> bootstrap
         # bo dem chan doan (cong don tren toan bo track cua tracker)
         self.n_resample = 0
         self.n_update = 0
@@ -204,13 +214,39 @@ class PFCTRV(EKFTrackerCTRV):
         X[:, self.H] = np.maximum(X[:, self.H], 1e-3)      # chieu cao phai duong
         return X
 
-    def propagate(self, X: np.ndarray, rng: np.random.Generator) -> np.ndarray:
-        """Mot buoc du doan: f(X) + N(0, Q(h)). h lay cua TUNG particle (truoc khi du doan)."""
+    def propagate(self, X: np.ndarray, rng: np.random.Generator, return_prior: bool = False):
+        """Mot buoc du doan: f(X) + N(0, Q(h)). h lay cua TUNG particle (truoc khi du doan).
+
+        return_prior (K1): tra them (f(X), std Q) de update dung proposal toi uu; cung phep tinh, cung so rut."""
         std = self.process_noise_std_batch(np.maximum(X[:, self.H], 1e-3))
-        Xn = self.f_batch(X) + rng.standard_normal(X.shape) * std
+        fX = self.f_batch(X)
+        Xn = fX + rng.standard_normal(X.shape) * std
         Xn[:, self.THETA] = normalize_angle(Xn[:, self.THETA])
         Xn[:, self.H] = np.maximum(Xn[:, self.H], 1e-3)
+        if return_prior:
+            return Xn, (fX, std)
         return Xn
+
+    def optimal_proposal_step(self, X: np.ndarray, prior: tuple, z: np.ndarray, R_diag: np.ndarray,
+                              rng: np.random.Generator):
+        """K1: rut lai toa do do tu N(m_ij, s_j^2) va tra ve (X moi, log p(z | x_{k-1}^i)) (N,).
+
+        q_ij^2 = Q cua particle i tai predict, r_j^2 = R. log p(z | x_{k-1}) = sum_j log N(z_j; f_j, q^2 + r^2)
+        (bo hang so chung -2 pi; GIU log(q^2 + r^2) vi q phu thuoc h cua tung particle)."""
+        fX, std = prior
+        idx = [self.CX, self.CY, self.A, self.H]
+        fz = fX[:, idx]
+        q2 = std[:, idx] ** 2
+        r2 = np.asarray(R_diag, dtype=np.float64)[None, :]
+        s2 = 1.0 / (1.0 / q2 + 1.0 / r2)
+        m = s2 * (fz / q2 + z[None, :] / r2)
+        X = X.copy()
+        X[:, idx] = m + rng.standard_normal(m.shape) * np.sqrt(s2)
+        X[:, self.H] = np.maximum(X[:, self.H], 1e-3)
+        tot = q2 + r2
+        d = z[None, :] - fz
+        ll = -0.5 * np.sum(d * d / tot + np.log(tot), axis=1)
+        return X, ll
 
     def log_likelihood(self, X: np.ndarray, z: np.ndarray, R_diag: np.ndarray) -> np.ndarray:
         """log N(z | H x_i, R) bo hang so; R cheo (4,) -> tinh theo cot. (N,)"""
@@ -241,9 +277,11 @@ class PFCTRV(EKFTrackerCTRV):
         """Systematic resampling khi ESS < ratio * N. Tra ve (X, logw, da_resample)."""
         n = len(logw)
         w = np.exp(logw - _logsumexp(logw))
+        self.last_resample_idx = None
         if 1.0 / float(np.sum(w * w)) >= self.resample_ess_ratio * n:
             return X, logw, False
         idx = systematic_resample(w, float(rng.random()))
+        self.last_resample_idx = idx
         Xr = X[idx].copy()
         if self.roughening > 0.0:
             std = self.process_noise_std_batch(np.maximum(Xr[:, self.H], 1e-3)) * self.roughening
@@ -253,11 +291,14 @@ class PFCTRV(EKFTrackerCTRV):
         return Xr, np.full(n, -np.log(n)), True
 
     def update_particles(self, X: np.ndarray, logw: np.ndarray, z: np.ndarray, conf: float | None,
-                         rng: np.random.Generator, diag_key: tuple | None = None):
+                         rng: np.random.Generator, diag_key: tuple | None = None, prior: tuple | None = None):
         """Cap nhat trong so voi quan sat z = (cx, cy, a, h). Tra ve (X, logw, mean, cov).
 
-        diag_key (Moc 2): (track_id, frame, n_lost) de ghi chan doan khi enable_diag() - khong doi ket qua."""
+        diag_key (Moc 2): (track_id, frame, n_lost) de ghi chan doan khi enable_diag() - khong doi ket qua.
+        prior (K1): (f(x_{k-1}), std Q) cua predict ngay truoc; chi dung khi optimal_proposal bat. Luat suy bien
+        giu nguyen (xet tren particle prior, nhu bootstrap)."""
         self.n_update += 1
+        self.last_resample_idx = None
         z = np.asarray(z, dtype=np.float64)
         h_ref = float(max(z[3], 1e-3))              # R theo chieu cao quan sat (~ mean[H] cua EKF)
         R_diag = np.diag(self._measurement_noise(h_ref, conf))
@@ -279,6 +320,12 @@ class PFCTRV(EKFTrackerCTRV):
                 self.diag_rows.append([diag_key[0], diag_key[1], "update", 0.0, True, len(X), sxy, sth, sv,
                                        True, maha2_best, diag_key[2]])
             return X, logw, mean, cov
+        if self.optimal_proposal:
+            if prior is not None and prior[0].shape == X.shape:
+                X, ll = self.optimal_proposal_step(X, prior, z, R_diag, rng)
+                self.n_k1_update += 1
+            else:
+                self.n_k1_fallback += 1
         logw = logw + ll
         logw -= _logsumexp(logw)
         ess_ratio = self.ess(logw) / len(logw) if self.diag_rows is not None else None
@@ -332,7 +379,10 @@ class PFTrackView:
         if lost and np.any(X[:, self.pf.VH] != 0.0):
             X = X.copy()
             X[:, self.pf.VH] = 0.0
-        t.particles = self.pf.propagate(X, t.rng)
+        if self.pf.optimal_proposal:
+            t.particles, t._k1_prior = self.pf.propagate(X, t.rng, return_prior=True)
+        else:
+            t.particles = self.pf.propagate(X, t.rng)
         return self.pf.estimate_state(t.particles, t.logw)
 
     def update(self, mean, covariance, measurement, confidence=None):
@@ -343,8 +393,11 @@ class PFTrackView:
             # = frame hien tai - frame duoc cap nhat lan cuoi (t.frame_id van la gia tri CU luc re_activate).
             fid = int(getattr(t, "_pending_frame_id", getattr(t, "frame_id", -1)))
             key = (int(t.track_id), fid, max(0, fid - int(t.frame_id)) if t.frame_id is not None else 0)
+        prior = getattr(t, "_k1_prior", None)
+        t._k1_prior = None                          # prior chi dung cho DUNG mot update sau predict
         t.particles, t.logw, m, P = self.pf.update_particles(t.particles, t.logw,
-                                                             measurement, confidence, t.rng, diag_key=key)
+                                                             measurement, confidence, t.rng, diag_key=key,
+                                                             prior=prior)
         return m, P
 
     def try_initiate_from_motion(self, mean, covariance, measurement, n_frames=1.0, ref_pos=None):

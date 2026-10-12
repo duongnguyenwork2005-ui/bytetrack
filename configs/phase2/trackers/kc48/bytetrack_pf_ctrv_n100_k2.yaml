@@ -1,0 +1,17 @@
+# R48D K2 (giao thuc 04 muc 6.2; tuy chon DA CO trong ma, khong phai dong gop moi): PF N = 100 + roughening.
+# Gia tri 1.0 chon tren mo phong, seed tinh chinh d = 1000-1009, theo quy tac 04 muc 8
+# (results/phase2/kc48_mo_phong/chon.json). Chi doi MOT yeu to so voi bytetrack_pf_ctrv_n100.yaml.
+tracker_type: bytetrack_pf_ctrv
+track_high_thresh: 0.25
+track_low_thresh: 0.1
+new_track_thresh: 0.25
+track_buffer: 30
+match_thresh: 0.8
+fuse_score: True
+
+pf_num_particles: 100
+pf_seed: 0
+pf_resample_ess_ratio: 0.5
+pf_estimate: mean
+pf_roughening: 1.0
+pf_degenerate_maha2: 10000.0

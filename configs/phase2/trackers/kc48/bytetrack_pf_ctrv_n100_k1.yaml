@@ -1,0 +1,17 @@
+# R48D K1 (giao thuc handoff/logs/review48/04_giao_thuc_kiem_chung_pf.md muc 6.1): PF N = 100 + proposal toi uu.
+# Giong HET configs/phase2/trackers/bytetrack_pf_ctrv_n100.yaml, chi doi MOT yeu to: pf_optimal_proposal.
+tracker_type: bytetrack_pf_ctrv
+track_high_thresh: 0.25
+track_low_thresh: 0.1
+new_track_thresh: 0.25
+track_buffer: 30
+match_thresh: 0.8
+fuse_score: True
+
+pf_num_particles: 100
+pf_seed: 0
+pf_resample_ess_ratio: 0.5
+pf_estimate: mean
+pf_roughening: 0.0
+pf_degenerate_maha2: 10000.0
+pf_optimal_proposal: true   # (bool) K1: rut lai toa do do tu p(x | f(x_{k-1}), z), trong so p(z | x_{k-1})
