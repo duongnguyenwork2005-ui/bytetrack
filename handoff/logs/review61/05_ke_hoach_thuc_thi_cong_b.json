@@ -1,0 +1,41 @@
+{
+  "ten": "R61 BDD cong B thuc thi that 2026-10-27",
+  "trang_thai": "nguoi dung uy quyen agent tu duyet va thuc hien trong chat hien tai; khong dung automation",
+  "nguon_duyet": "Tin nhan nguoi dung 2026-10-27: 'ban tu duyet va tu lam di, xong ke hoach la duoc'; tin nhan truoc: 'lam tren cua so nay thoi, khong chay automation nua'",
+  "co_so": {
+    "head_khoa_a": "117d62da027e8ce3e4c9f455d576a924b4d82bbb",
+    "goi_a_sha256": "5c9db320e4965798f50652b823b7a20439410e259752dbf72ebfe990d30fe225",
+    "khoa_a_sha256": "f3a138d7497727a205abfa78237f0ec9a6029b89a13bdd018928865351794d4f",
+    "review_b_cuoi": "D:/LABOTARY/automation/runs_local/r61_bdd_prep_b_20261026_20261026_132958/reports/review_009.json",
+    "snapshot_b_sha256": "dd36a0d2c15d0a38f432ec0c177633c757922800d7a6a22a94b8712c4a7c239c"
+  },
+  "phien_b": "results/phase2/r61_bdd/thuc_thi/cong_b_20261027_01",
+  "phe_duyet": "results/phase2/r61_bdd/phe_duyet/cong_b_20261027_01.json",
+  "write_paths": [
+    "handoff/logs/review61/05_ke_hoach_thuc_thi_cong_b.json",
+    "results/phase2/r61_bdd/phe_duyet/cong_b_20261027_01.json",
+    "results/phase2/r61_bdd/thuc_thi/cong_b_20261027_01/",
+    "handoff/logs/review61/06_ket_qua_thuc_thi_cong_b.md"
+  ],
+  "quy_trinh": [
+    "Ghim sha256 ke hoach, hop dong B va ma B vao file phe duyet thu cong; giu nguyen file nay suot phien.",
+    "Chay tien-kiem tren A that; bat ky nhom khong dat thi dung, khong mien kiem va khong doi phien.",
+    "Mo-phien va ghim manifest B.",
+    "Tracking 36 run x 200 video = 7200 don vi, tiep tuc dung don vi do theo marker hop le.",
+    "Cham 36 run sau khi tracking du; lap-tracker 36 run tren video b204a5c1-05981158; cham-lai 6 run da khoa.",
+    "Tong-hop bootstrap default_rng(0) 5000 x 200 theo khoi 250, tao 108 CI; kiem-khoa va hau-kiem.",
+    "Viet bao cao cuoi tach rieng BDD va UA-DETRAC dua tren bang chung hien co; khong gop hai tap."
+  ],
+  "lenh": "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe -B src/r61_bdd/cong_b/van_hanh_cong_b.py --cong B --phien results/phase2/r61_bdd/thuc_thi/cong_b_20261027_01 --buoc <buoc> --so-doan 1 --ngan-sach-giay 420 --phe-duyet results/phase2/r61_bdd/phe_duyet/cong_b_20261027_01.json",
+  "xu_ly_exit": {
+    "0": "sang buoc tiep theo",
+    "10": "goi lai dung buoc va phien",
+    "30": "chi tiep tuc khi con duoi nguong crash da khoa",
+    "2": "dung; khong thu lai marker/hash/spec/provenance lech",
+    "40": "dung hoi; khong xoa dung.json hoac mo phien moi",
+    "khac": "dung va bao cao nguyen nhan tho"
+  },
+  "chinh_sach_crash": "Toi da 2 thu lai moi don vi; dung o crash thu 3 moi don vi, thu 4 moi phien, thu 2 buoc kiem-khoa. Khong reset bo dem.",
+  "dieu_kien": "Giu nguyen PLAN, A, giao thuc, hop dong, ma tracking/metric va checkpoint; khong Git ghi trong luc B chay; moi lenh Python dung -B; khong automation, khong tien trinh nen; theo doi dung luong dia va dung an toan neu thieu.",
+  "ngoai_pham_vi": "Nano, train, tuning, thay thuat toan/metric, chuyen khoa PLAN va push GitHub lan nua."
+}
