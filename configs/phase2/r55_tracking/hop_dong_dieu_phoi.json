@@ -1,0 +1,137 @@
+{
+ "phien_ban": 2,
+ "ten": "r55_hop_dong_dieu_phoi_test40",
+ "buoc": "R56A",
+ "trang_thai": "chuan bi; R55/R56 KHONG cap quyen chay cache/suy luan/tracking/cham/do thoi gian tren du lieu that; plan thuc thi sau R56 can nguoi dung duyet rieng",
+ "tai_lieu": "handoff/logs/review55/01_thiet_ke_dieu_phoi.md",
+ "tai_lieu_bo_sung": "handoff/logs/review56/01_bo_sung_chon_video.md",
+ "ma": "src/r55_tracking/dieu_phoi_test40.py",
+ "khoa_cha_r55": {
+  "thu_muc": "results/phase2/r55_tracking/chuan_bi/khoa_20261021_121500_644100_pid22868",
+  "khoa_json_sha256": "5a07efb8485466ef71366b94c6ae10051df22dacf606e8b6558eef204cf6e42b",
+  "so_file": 376,
+  "review": "R55A approve (review_003.json), R55B approve (review_004.json), luot bytetrack_r55_prepare_20261021_051232; khong cap quyen chay that",
+  "duoc_thay": ["src/r55_tracking/dieu_phoi_test40.py", "src/r55_tracking/test_dieu_phoi_test40.py", "configs/phase2/r55_tracking/hop_dong_dieu_phoi.json"],
+  "quy_tac": [
+   "khoa cha la bang chung lich su bat bien: khong sua, khong ghi de; khoa cha KHONG con khop ma hien tai o 3 file duoc_thay",
+   "--buoc khoa (R56): khoa.json cha = sha256 tren + SHA256SUMS cha khop + buoc R55_LOCK + noi toi cung khoa R54; bam lai MOI file cua khoa cha: chi 3 file duoc_thay duoc khac hash ('thay'), file khac lech -> tu choi khoa",
+   "khoa moi (buoc R56_LOCK) gom: moi file khoa cha (hash hien tai) + khoa.json/SHA256SUMS/thoi_diem_khoa.json cua khoa cha + ma/test/hop dong hien hanh + tai lieu bo sung + bang chung fixture/tien kiem moi; ghi khoa_cha_r55 (duong dan + sha256) va khac_biet_khoa_cha {so_giu, thay (sha256 cu/moi), moi}",
+   "kiem khoa moi (kiem-khoa / mo-phien / moi cong viec): bam MOI file theo hash khoa moi, KHONG ngoai le; kiem lai lien ket: khoa cha ghi trong khoa = hop dong, khoa.json cha nguyen ven, bang khac biet tinh lai trung ban ghi; khoa R54 van kiem nghiem ngat",
+   "duong that chi nhan khoa R56_LOCK cho kiem-khoa / thuc thi; khoa R55_LOCK (khong cha) chi con hop le trong fixture"
+  ]
+ },
+ "giao_thuc_r54": {
+  "rel": "configs/phase2/r54_tracking/giao_thuc_test40.json",
+  "sha256": "eb1f8f3087401eaf3641c1bc215a864ad23850ec5ddd6970d7d74280715431ad",
+  "ghi_chu": "giao thuc da khoa o R54A; R55 khong doi tham so nao"
+ },
+ "khoa_r54": {
+  "thu_muc": "results/phase2/r54_tracking/chuan_bi/khoa_20261020_211635_887200_pid10816",
+  "khoa_json_sha256": "e2d1b0d52e1ca45fcb98de46e273f4dc16e48a3bcc7a9be1cfc7a9a418e16b4f",
+  "review": "R54A approve (review_003.json); smoke foreground R54B approve (review_005.json); tai lieu Paad1df4f approve (review_006.json); KHONG duyet full"
+ },
+ "so_detector": 3,
+ "so_run": 36,
+ "so_video": 40,
+ "so_anh": 56340,
+ "so_anh_D4": 173,
+ "danh_sach_run": [
+  "r54-yolov8n_coco-c25-cv", "r54-yolov8n_coco-c25-ekf", "r54-yolov8n_coco-c25-ukf",
+  "r54-yolov8n_coco-c25-pf500-s0", "r54-yolov8n_coco-c25-pf500-s1", "r54-yolov8n_coco-c25-pf500-s2",
+  "r54-yolov8n_coco-c10-cv", "r54-yolov8n_coco-c10-ekf", "r54-yolov8n_coco-c10-ukf",
+  "r54-yolov8n_coco-c10-pf500-s0", "r54-yolov8n_coco-c10-pf500-s1", "r54-yolov8n_coco-c10-pf500-s2",
+  "r54-yolov8n_mixed5-c25-cv", "r54-yolov8n_mixed5-c25-ekf", "r54-yolov8n_mixed5-c25-ukf",
+  "r54-yolov8n_mixed5-c25-pf500-s0", "r54-yolov8n_mixed5-c25-pf500-s1", "r54-yolov8n_mixed5-c25-pf500-s2",
+  "r54-yolov8n_mixed5-c10-cv", "r54-yolov8n_mixed5-c10-ekf", "r54-yolov8n_mixed5-c10-ukf",
+  "r54-yolov8n_mixed5-c10-pf500-s0", "r54-yolov8n_mixed5-c10-pf500-s1", "r54-yolov8n_mixed5-c10-pf500-s2",
+  "r54-yolo11n_mixed5-c25-cv", "r54-yolo11n_mixed5-c25-ekf", "r54-yolo11n_mixed5-c25-ukf",
+  "r54-yolo11n_mixed5-c25-pf500-s0", "r54-yolo11n_mixed5-c25-pf500-s1", "r54-yolo11n_mixed5-c25-pf500-s2",
+  "r54-yolo11n_mixed5-c10-cv", "r54-yolo11n_mixed5-c10-ekf", "r54-yolo11n_mixed5-c10-ukf",
+  "r54-yolo11n_mixed5-c10-pf500-s0", "r54-yolo11n_mixed5-c10-pf500-s1", "r54-yolo11n_mixed5-c10-pf500-s2"
+ ],
+ "thu_tu_cong_viec": ["cache", "xac-nhan-cache", "tracking", "cham", "hau-kiem"],
+ "duong_chuan_bi": {
+  "buoc": ["tien-kiem", "khoa", "kiem-khoa"],
+  "khoa": "--buoc khoa --tien-kiem <phien> --tests <phien>: ten phien chi dinh tuong minh, khong tu chon phien moi nhat",
+  "vung_ghi": "results/phase2/r55_tracking/chuan_bi/"
+ },
+ "duong_thuc_thi": {
+  "buoc": "thuc-thi",
+  "cong_viec": ["mo-phien", "cache", "xac-nhan-cache", "tracking", "cham", "lap-tracker", "cham-lai", "hau-kiem"],
+  "dieu_kien": "--cong-viec bat buoc; moi cong viec can tham so tuong minh (--khoa/--phien/--detector/--run); khong co mac dinh 'chay tat ca'; duong that can them --duyet <ma plan thuc thi da duoc nguoi dung duyet>; --video chi dung voi tracking (tuy chon) va lap-tracker (bat buoc), cong viec khac -> exit 2",
+  "chon_video": [
+   "tracking --run <r> [<r> ...] --video <v>: v phai thuoc manifest, xu ly TOAN BO timeline video v (frame 1..seqLength); khong cat frame, khong doi fps/n_steps/seed/cau hinh; bo --video = moi video manifest nhu R55",
+   "chi loc danh sach don vi tracking; ctx.videos, manifest, tap danh gia khong doi; video la -> exit 2 truoc khi tao dau ra tracking",
+   "van kiem manifest cache du MOI video + bam lai npz/json/meta MOI video cua moi detector can dung truoc tracking (ca video khong duoc chon); kiem module truoc/sau tung don vi; ngat/tiep tuc nhu R55",
+   "rang buoc tracking KHONG chua pham vi loc: lan tracking hoan tat tu --video duoc duong day du (khong --video) tai su dung khi cung rang buoc; chay tiep khong --video chi lam phan thieu",
+   "cham / cham-lai / hau-kiem giu dieu kien du video cua run; khong nhan --video",
+   "nhat ky tracking ghi pham_vi (loc_video, video, so_video_manifest) va don_vi (run, video, frame thuc xu ly, moi / tai_su_dung, lan)"
+  ],
+  "vung_ghi": "results/phase2/r55_tracking/thuc_thi/<phien>/",
+  "cau_truc": {
+   "phien.json": "rang buoc phien: khoa R55 (ten + sha256), hop dong, giao thuc",
+   "cache/<detector>/<video>/lan_<thoi diem>/": "meta.json + <video>.npz + <video>.json + HOAN_TAT.json (ghi CUOI)",
+   "xac_nhan_cache/<detector>/lan_<thoi diem>/": "manifest_cache.json -> SHA256SUMS -> HOAN_TAT.json (ghi CUOI = cong bo): manifest cache BAT BIEN, mot ban cong bo duy nhat moi detector trong phien; lan khong marker / marker hong = chua cong bo, giu nguyen, duoc xac nhan lai vao thu muc moi tu cache da hoan tat (khong goi detector); ban cong bo co marker doc duoc nhung lech hash -> chan; lan co manifest_cache.json hoac marker hong = CO THE DA CONG BO (marker hong sau cong bo khong phan biet duoc voi ngat giua luc ghi): xac nhan lai phai tro DUNG lan cache + sha256 npz/json/meta/marker cua ban do, khac -> chan",
+   "tracking/<run>/<video>/lan_<thoi diem>/": "data/ data_cls/ timing/ assoc_log/ pf_diag/ + HOAN_TAT.json",
+   "cham/<run>/lan_<thoi diem>/": "trackers/<split>/<run>/data (ban sao MOT da bam) + trackeval/<run>/ + HOAN_TAT.json",
+   "lap_tracker/, cham_lai/, hau_kiem/, nhat_ky/": "moi lan la thu muc moi"
+  }
+ },
+ "marker": "HOAN_TAT.json",
+ "quy_tac_tiep_tuc": [
+  "moi lan thu ghi vao thu muc lan_<thoi diem>_pid moi; khong ghi de, khong xoa, khong noi vao file do",
+  "chi tai su dung lan thu co HOAN_TAT.json, rang_buoc trong marker trung rang buoc hien tai (khoa/hop dong/giao thuc/cache/cau hinh/seed/backend) va sha256 moi file trong marker khop khi bam lai",
+  "lan thu khong marker (do dang), marker hong (JSON cat / khong doc duoc), marker khong khop / file lech: giu nguyen, ghi vao nhat ky, bo qua va tim tiep / tao lan thu moi",
+  "SAU moi don vi va TRUOC marker / ket luan thanh cong: moi module src/Ultralytics/TrackEval dang nap phai nam trong khoa VA bam khop khoa; lech -> khong marker, exit 4",
+  "vung ghi doc lap: moi dich ghi (phien chuan bi / thuc thi / lan thu / file) phai nam trong goc vung ghi LEXICAL (that: results/phase2/r55_tracking; fixture: thu muc fixture.json) va resolve(dich) == duong dan tuyet doi (khong thanh phan nao la junction/symlink); kiem TRUOC khi tao phien / cau hinh thu vien",
+  "nhieu lan thu hop le: chon lan co ten nho nhat (tat dinh)",
+  "cache: sau khi co manifest_cache cho detector, cong viec cache cua detector do bi tu choi (khong goi detector thay cache)",
+  "cache (F1 vong 3): lan cache co marker doc duoc nhung sai hash -> cache / xac-nhan-cache chan ca detector, khong suy luan lai de thay; da co ban manifest co the da cong bo (manifest_cache.json hoac marker hong) -> cache dong bang: chi tai su dung lan hop le, video can lan moi -> chan truoc khi nap model",
+  "tracking: chi doc cache qua manifest_cache da xac nhan; bam lai npz/json/meta truoc moi detector; lech -> dung truoc tracking",
+  "cham: chi khi du so video cua run co lan tracking hop le; sao MOT da bam vao lan cham, bam lai truoc va sau TrackEval; rang buoc cham (F6) gom sha256 manifest cache + danh sach lan tracking + MOT + GT + cau hinh danh gia: manifest khac -> lan cham cu khong duoc tai su dung / chon (cham, cham-lai, hau-kiem) du MOT trung byte",
+  "cham-lai: doc DUNG ban sao MOT trong lan cham da hoan tat (bam lai), khong goi detector/tracker"
+ ],
+ "xac_nhan_cache": [
+  "du so video trong manifest (that: 40), moi video co lan cache hop le",
+  "schema npz: frame_idx/n_per_frame/unreadable/truncated/time_s/data/orig_shape/cls_goc, dtype, data (N,6), cls_goc (N,), n_per_frame shape (so anh,) khong am va tong = N; frame_idx/time_s/unreadable/truncated shape (so anh,)",
+  "anh xa lop: cls coco = bang anh xa(cls_goc) theo names checkpoint; coco80 giu ID",
+  "frame/timeline: frame_idx = 1..so anh trong bang hash = seqLength; time_s = (i-1)*(1/fps) nhu DetracDataset.frames; orig_shape 540x960",
+  "unreadable = truncated = 0",
+  "spec_sha256 dong nhat moi video = meta.json; weights_sha256 = giao thuc; cau hinh sinh cache = giao thuc",
+  "bam sha256 npz/json/meta khop marker"
+ ],
+ "tai_lap": {
+  "tracker": "lap-tracker: chay lai tracker tu CUNG cache/seed vao thu muc moi, so byte MOT voi lan da chon",
+  "cham": "cham-lai: cham lai tu CUNG bo MOT da bam, so byte 3 file metric",
+  "detector": "KHONG dat tieu chi suy luan detector lai trung byte (smoke R54: yolov8n khac gia tri cache giua hai phien du cung so box, MOTP lech ~3e-8 o vi du da doi chieu; yolo11n trung byte; chua biet nguyen nhan, khong suy rong)"
+ },
+ "doan_day": {
+  "trang_thai": "CHUA LAM",
+  "quyet_dinh": "P1980cb21 hoan phep do PF500/UKF doan day khoi R54, yeu cau dua vao plan luot dai; Pc5fc63da/P482c0392 tu choi them buoc vao R54, khong huy noi dung chuyen tiep",
+  "yeu_cau_plan_thuc_thi": "chon truoc doan day co dinh (video/frame) voi can cu mat do khong dua tren metric; dung cache cung khoa da du 40 video cho detector tuong ung; chay PF500/UKF foreground; ghi thoi gian tung run, detector/cau hinh/seed, pham vi tinh thoi gian va gia dinh ngoai suy; duyet truoc khi chay; khong xep hang, chon tham so hay doi giao thuc tu phep do",
+  "doan_co_dinh": {
+   "video": "MVI_40864",
+   "frame_dau": 1,
+   "frame_cuoi": 1515,
+   "toan_video": true,
+   "so_dong_gt_can_cu": 44689,
+   "dong_gt_moi_anh_can_cu": 29.50,
+   "can_cu": "bang tien kiem R55 results/phase2/r55_tracking/chuan_bi/tien_kiem_20261021_121436_943200_pid22720/bang_tien_kiem.csv: MVI_40864 so_anh = seq_length = 1515, frame 1-1515, 0 anh D4, so_dong_gt 44689 -> 44.689/1.515 ~ 29,50 dong GT/anh (mat do GT, khong dua tren metric tracking)",
+   "nguon_quyet_dinh": "nguoi dung chon phuong an A (plan R56)",
+   "trang_thai": "CHUA DO; R56 chi ghi doan va doi chieu bang tien kiem (tien-kiem duong that kiem toan video + so dong GT); phep do PF500/UKF thuoc plan thuc thi rieng"
+  },
+  "qjtf": "y tuong do chi phi kiem module moi tac vu - CHI ghi nhan cho plan thuc thi, R56 khong trien khai / khong do"
+ },
+ "du_toan_tam_thoi": {
+  "loai": "kich ban theo gia dinh tu smoke R54B lan 2 (256 anh, 128 frame dau 2 video), TAM THOI, khong bao dam, khong thay phep do doan day",
+  "nguon": "results/phase2/r54_tracking/smoke/lan_20261021_002054_245100_pid16684/ket_qua_smoke.json (du_toan)",
+  "he_so_quy_doi_anh": 220.08,
+  "suy_luan_3_detector_s": 3519,
+  "tracking_36_run_s": 3247,
+  "cham_36_run_s_toi_thieu": 8,
+  "tong_s": 6774
+ },
+ "cam": ["setup_model/warmup/forward checkpoint that trong R55", "SORT / expB / expC", "PF100 / PF300 / K1 / K2", "ablation", "bootstrap",
+         "BDD tracking", "train", "Nano", "R0/R1", "dung cache legacy / NPZ detector R53 / cache smoke thay cache test40",
+         "suy luan lai detector roi noi vao run cu"]
+}

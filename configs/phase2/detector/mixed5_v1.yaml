@@ -1,0 +1,48 @@
+# Dataset tron 5 lop BDD100K + UA-DETRAC (R52A) -- quyet dinh nguoi dung 16/10/2026.
+# Doc boi src/mixed5/xuat_mixed5.py. KHONG sua sau khi da khoa split / xuat dataset (sha256 file nay ghi vao manifest).
+ten: mixed5_v1
+phien_ban_quy_tac: mixed5-v1
+file_split: configs/phase2/detector/splits/mixed5_v1.json
+dau_ra: data/yolo_mixed5_v1
+thu_muc_tam: results/phase2/mixed5/xuat_tam        # trang thai tung phan (tiep tuc duoc khi bi ngat)
+
+bdd:
+  # Dung NGUYEN anh / nhan / ignore cua dataset BDD-only da khoa (khong xuat lai, khong chia lai video).
+  dataset: data/yolo_bdd5_v1
+  file_split: configs/phase2/detector/splits/bdd5_train_v1.json
+  sha256_split: b8a2848e3da053a2b1b79e7fa6cfad812540315af6e48b12b4174a40efc06cdb
+  sha256_manifest_anh: 1ee6174f8be328f4f62ea10e3a9bb0502fd18c4e55f9b9aa0d2512cd565f6069
+  anh_goc: data/raw/bdd100k/images/track/train      # goc cua cot anh_nguon trong manifest BDD
+  cach_dat_file: hardlink   # hardlink cung o; khong duoc -> sao chep nguyen byte (ghi vao manifest tung file)
+
+detrac:
+  xml: data/extracted/DETRAC-Train-Annotations-XML  # 60 video train chinh thuc
+  anh: data/extracted/DETRAC-Images
+  dev12: results/phase2/manifests/detrac_dev.json   # 12 video dev noi bo -> dev; 48 video con lai -> train
+  so_video_xml: 60
+  so_video_dev: 12
+  # Frame: thuoc tinh num cua <frame> trong XML (= so trong ten anh imgNNNNN.jpg, bat dau tu 1).
+  # Giu frame co num % buoc_frame == 0 VA co the <frame> trong XML. Anh khong co <frame> -> loai (dem rieng).
+  buoc_frame: 10
+  # Anh xa lop (che do "mapped"; van -> car, others -> truck la GIA DINH cua nguoi dung). Gap vehicle_type khac -> loi.
+  anh_xa_lop:
+    car: car
+    van: car
+    bus: bus
+    others: truck
+  # ignored_region cua video ap cho MOI frame: to xam (114,114,114) theo dung quy tac BDD (tru pixel trong box da
+  # gan nhan, JPEG q95), toa do ghi vao ignore/<split>/<anh>.txt. Dung lai bdd_yolo_export.xuat_mot_anh.
+  # Frame co <frame> nhung 0 box hop le sau loc -> giu, file nhan rong (am tinh), nhu quy tac anh am tinh BDD.
+  # Box cat vao khung; < 1 px sau khi cat -> bo (dem rieng). Box XML width/height <= 0 -> bo (dem rieng).
+  tien_to_ten_anh: "{video}_{ten}"                 # MVI_20011_img00010.jpg: khong trung ten giua cac video
+
+tap_danh_gia_cam:
+  # Kiem ro ri theo sha256 noi dung (anh nguon VA anh xuat) + ten video / ten anh.
+  - ten: ua_detrac_test
+    bang_sha256: data/interim/hash_tap_danh_gia/detrac_test_sha256.csv
+    xml: data/extracted/DETRAC-Test-Annotations-XML
+  - ten: bdd100k_mot_val
+    bang_sha256: data/interim/hash_tap_danh_gia/bdd100k_mot_val_sha256.csv
+
+o_dia:
+  giu_lai_toi_thieu_gb: 15

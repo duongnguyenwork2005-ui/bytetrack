@@ -1,0 +1,110 @@
+{
+ "phien_ban": 1,
+ "ten": "R59 - doi chung association + vong doi kieu SORT (bo loc CV/EKF cua ByteTrack) vs ByteTrack R56 tren UA-DETRAC test40, chi c25",
+ "tai_lieu": "handoff/logs/review59/01_quyet_dinh_va_giao_thuc.md",
+ "thiet_ke": "handoff/logs/review58/01_thiet_ke_sort_test40.md",
+ "quyet_dinh": {
+  "Q-A": "A: chi c25, 6 run SORT moi = 3 detector x sort-cv30/sort-ekf30",
+  "Q-B": "khong ap dung (khong c10); det_thresh SORT = 0.25 theo hai YAML hien co",
+  "Q-C": "assoc_log SORT = false (nhu R51); ByteTrack R56 giu assoc_log = true",
+  "Q-D": "tai dung 6 run ByteTrack c25 cv/ekf cua R56, bat buoc dat muc 4.3 ho so R58",
+  "Q-E": "chi diem metric va hieu so ByteTrack-SORT, khong CI",
+  "Q-F": "kiem hash config.py (byte tho + chuan hoa LF) va tham so bo loc hieu luc tu instance o buoc chuan bi",
+  "nguon": "Codex tra loi theo uy quyen nguoi dung 23/10/2026 (D:/LABOTARY/automation/runs_local/hoi_codex_R58_need_decision_20261023/answer.json); plan R59 do nguoi dung duyet"
+ },
+ "nguon_r56": {
+  "phien": "results/phase2/r55_tracking/thuc_thi/phien_20261021_161832_735800_pid11640",
+  "khoa": "results/phase2/r55_tracking/chuan_bi/khoa_20261021_155510_440500_pid8768",
+  "khoa_json_sha256": "ce85628e34bc8507f9577c51a06d381a2d8e5d0f35cdf099c18330429d35247b",
+  "khoa_buoc": "R56_LOCK",
+  "nguon_json": "results/phase2/r56_tong_hop/phien_20261021_161832_735800_pid11640/nguon.json",
+  "nguon_json_sha256": "96b2c5430dcc2dda8152bec9cfc679764ea008120155429cb9057c23d817d5d4",
+  "nguon_json_sha256_ghi_chu": "gia tri da ghi trong results/phase2/r57_bien_thien/phien_20261023_011207_108057_pid8500/nguon.json (R57 approve)",
+  "bang_r56": "results/phase2/r56_tong_hop/phien_20261021_161832_735800_pid11640/tong_hop_36_run.csv",
+  "bang_r56_sha256": "2ea8765480db0848c18f50a063b8fde328b4622dc0b195ffe6128c9fa2b1b649",
+  "giao_thuc_r54": "configs/phase2/r54_tracking/giao_thuc_test40.json",
+  "giao_thuc_r54_sha256": "eb1f8f3087401eaf3641c1bc215a864ad23850ec5ddd6970d7d74280715431ad",
+  "hop_dong_r55": "configs/phase2/r55_tracking/hop_dong_dieu_phoi.json",
+  "hop_dong_r55_sha256": "488238d4fc669ffac3ce98800b7031b08e8233504a84751afe3c29e4239cf95d",
+  "chon_lan_cham": "DUNG lan cham ma nguon.json tro toi (summary -> thu muc lan); khong chon moi nhat, khong chon theo diem"
+ },
+ "tap_du_lieu": {
+  "ten": "DETRAC-test",
+  "manifest": "results/phase2/manifests/detrac_test.json",
+  "manifest_sha256": "ff2b4b9c658aced54567247c16b5a0fc43ae1e9836af70e7ea656fce3077f47c",
+  "thu_muc_gt": "data/processed/DETRAC-test",
+  "loai_d4": "data/interim/hash_tap_danh_gia/detrac_test_loai_D4.csv",
+  "loai_d4_sha256": "4d7312530505651b92da414b2dcf82c4ec74486dc408fa37dc9f927d85723551",
+  "so_video": 40,
+  "so_anh": 56340,
+  "so_anh_D4": 173,
+  "D4": "anh khong co <frame> GT (KHONG phai anh khong detection): giu trong timeline tracker, cham nhu frame khong GT; khong ep D4 khong xuat box"
+ },
+ "detector": ["yolov8n_coco", "yolov8n_mixed5", "yolo11n_mixed5"],
+ "tai": {"dieu_kien": "c25", "conf_min": 0.25, "classes": [2, 3, 5, 7], "max_det": 300,
+         "thu_tu": "conf > conf_min (ngat) -> lop -> cat [:300] theo thu tu NMS (det_cache.filter_dets)"},
+ "tracker": {
+  "backend": "ultralytics",
+  "fps": 25.0,
+  "elapsed_mode": "skip",
+  "override": {"track_buffer": 30},
+  "assoc_log": false,
+  "pf_diag": true,
+  "pf_diag_ghi_chu": "giu nhu cau hinh R56; SORT khong co kalman_filter nen run_tracking.track_video khong bat chan doan (hieu luc thuc te ghi trong cau hinh hieu luc)",
+  "bo_loc": [
+   {"ten": "sort-cv30", "yaml": "configs/phase2/trackers/sort_cv_age30.yaml", "tracker_type": "sort_cv", "doi_chung": "cv",
+    "sha256_12_r51": "8d1ea5b98684"},
+   {"ten": "sort-ekf30", "yaml": "configs/phase2/trackers/sort_ekf_ctrv_age30.yaml", "tracker_type": "sort_ekf_ctrv", "doi_chung": "ekf",
+    "sha256_12_r51": "e1b055b31cea"}
+  ],
+  "tham_so_sort": {"det_thresh": 0.25, "sort_max_age": 30, "sort_iou_threshold": 0.3, "sort_min_hits": 3},
+  "yaml_bytetrack": {"cv": "bytetrack.yaml", "ekf": "configs/bytetrack_ekf_ctrv.yaml"}
+ },
+ "ma_tran": {
+  "so_run": 6,
+  "so_video_moi_run": 40,
+  "runs": [
+   {"run": "r59-yolov8n_coco-c25-sort-cv30", "detector": "yolov8n_coco", "bo_loc": "sort-cv30", "doi_chung": "r54-yolov8n_coco-c25-cv"},
+   {"run": "r59-yolov8n_coco-c25-sort-ekf30", "detector": "yolov8n_coco", "bo_loc": "sort-ekf30", "doi_chung": "r54-yolov8n_coco-c25-ekf"},
+   {"run": "r59-yolov8n_mixed5-c25-sort-cv30", "detector": "yolov8n_mixed5", "bo_loc": "sort-cv30", "doi_chung": "r54-yolov8n_mixed5-c25-cv"},
+   {"run": "r59-yolov8n_mixed5-c25-sort-ekf30", "detector": "yolov8n_mixed5", "bo_loc": "sort-ekf30", "doi_chung": "r54-yolov8n_mixed5-c25-ekf"},
+   {"run": "r59-yolo11n_mixed5-c25-sort-cv30", "detector": "yolo11n_mixed5", "bo_loc": "sort-cv30", "doi_chung": "r54-yolo11n_mixed5-c25-cv"},
+   {"run": "r59-yolo11n_mixed5-c25-sort-ekf30", "detector": "yolo11n_mixed5", "bo_loc": "sort-ekf30", "doi_chung": "r54-yolo11n_mixed5-c25-ekf"}
+  ]
+ },
+ "smoke": {"videos": ["MVI_39031", "MVI_39051"], "frame_dau": 1, "frame_cuoi": 128, "split": "DETRAC-smoke128",
+           "detector": "yolov8n_coco", "runs": ["r59-yolov8n_coco-c25-sort-cv30", "r59-yolov8n_coco-c25-sort-ekf30"],
+           "gt": "tao trong namespace R59 bang W.tao_gt_smoke (quy tac R54: giu dong frame 1-128, seqLength=128)"},
+ "cham_nguon": {"run": "r54-yolov8n_coco-c25-cv",
+                "tieu_chi": "sao nguyen byte 40 MOT da bam tu lan cham R56, cham bang duong cham R59 (W.cham), per_video_metrics.csv, combined_metrics.csv, raw_fields.json trung byte nguon; KHONG chay tracker ByteTrack"},
+ "tai_lap": {"video": "MVI_39031", "runs": ["r59-yolov8n_coco-c25-sort-cv30", "r59-yolov8n_coco-c25-sort-ekf30"],
+             "tieu_chi": "lap-tracker: MOT toan timeline trung byte; cham-lai: 3 file metric trung byte"},
+ "thuc_thi": {"gioi_han_giay_mac_dinh": 2400, "ma_thoat_chua_xong": 10,
+              "ghi_chu": "het gioi han giua don vi -> dung co kiem soat (exit 10), goi lai cung lenh/phien de lam phan con thieu"},
+ "metric": {
+  "nguon": "COMBINED_SEQ cua TrackEval (combined_metrics.csv cua tung lan cham); khong trung binh diem video",
+  "chinh": "HOTA",
+  "bo_sung": ["AssA", "DetA", "IDF1", "IDSW"],
+  "tham_chieu": ["MOTA", "FP"],
+  "ty_le": ["HOTA", "AssA", "DetA", "IDF1", "MOTA"],
+  "dem": ["IDSW", "FP"],
+  "don_vi": {"ty_le": "phan tram (gia tri evaluator x 100)", "hieu_so": "diem phan tram (pp), ByteTrack - SORT",
+             "dem": "so dem nguyen; hieu so = ByteTrack - SORT"},
+  "lam_tron_bang": {"ty_le": 3, "hieu_so": 3,
+                    "quy_tac": "round(x*100, 3); hieu so tinh tu gia tri CHUA lam tron roi round(.,3); so dem ghi nguyen"},
+  "doi_chieu_nguon_r56": {
+   "chinh_xac": "combined_metrics.csv cua lan cham ByteTrack R56 == 'combined' trong HOAN_TAT.json cua lan do (so float, ==)",
+   "bang_r56": "so ByteTrack lam tron 3 so le so voi tong_hop_36_run.csv R56",
+   "dung_sai": {"HOTA": 0.0005, "AssA": 0.0005, "DetA": 0.0005, "IDF1": 0.0005, "MOTA": 0.0005, "IDSW": 0, "FP": 0},
+   "cot_bang_r56": {"HOTA": "HOTA", "AssA": "AssA", "DetA": "DetA", "IDF1": "IDF1", "MOTA": "MOTA", "IDSW": "IDSW", "FP": "CLR_FP"},
+   "ghi_chu": "dung sai CHI cho doi chieu bang lam tron; khong dung cho kiem trung byte (cham-nguon, cham-lai, lap-tracker)"
+  }
+ },
+ "gioi_han_dien_giai": [
+  "chi c25: o c25 conf_min = det_thresh = 0.25 nen vong ghep diem thap cua ByteTrack rong; doi chung KHONG do loi ich detection diem thap",
+  "goi dung: association va vong doi kieu SORT dung bo loc CV/EKF cua ByteTrack, max_age 30; khong phai SORT nguyen ban",
+  "khong CI, khong suy luan thong ke, khong ket luan toc do",
+  "logging khac: SORT assoc_log=false, ByteTrack R56 assoc_log=true (mixin duoc ghi la khong doi ket qua)",
+  "khong so detector, khong chon conf/detector bang test"
+ ]
+}

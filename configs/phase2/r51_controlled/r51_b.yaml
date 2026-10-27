@@ -1,0 +1,27 @@
+# R51B -- buoc B cua giao thuc handoff/logs/review51/01_giao_thuc.md (muc 2, 4.3, 8).
+# Chi DIEN DAT LAI cac truong da khoa o muc 2 va tro toi dung YAML tracker cua muc 4.3; khong them tham so moi.
+# Chay qua src/r51_controlled/chay_buoc_b.py (doi goc config.PROCESSED_DIR sang
+# results/phase2/r51_controlled/runs/_processed; danh gia ghi vao results/phase2/r51_controlled/eval/).
+name: r51_controlled
+dataset: detrac
+split_name: DETRAC-all
+part: train
+manifest: results/phase2/manifests/detrac_dev.json
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+elapsed_mode: skip
+assoc_log: false
+pf_diag: false
+conditions:
+  A: {conf_min: 0.25}
+trackers:
+  # run moi de so sanh (tat dinh)
+  - {name: bt-cv,      yaml: bytetrack.yaml}
+  - {name: bt-ukf,     yaml: configs/bytetrack_ukf_ctrv.yaml}
+  - {name: sort-cv30,  yaml: configs/phase2/trackers/sort_cv_age30.yaml}
+  - {name: sort-ekf30, yaml: configs/phase2/trackers/sort_ekf_ctrv_age30.yaml}
+  # run neo kiem tai dung (phai trung sha256 12/12 voi run kc48 cung ho)
+  - {name: bt-ekf,      yaml: configs/bytetrack_ekf_ctrv.yaml}
+  - {name: bt-pf100-k1, yaml: configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k1.yaml, seeds: [0]}

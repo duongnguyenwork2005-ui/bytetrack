@@ -1,0 +1,117 @@
+{
+ "phien_ban": 2,
+ "thay_doi": [
+  {"phien_ban": 2, "ngay": "2026-10-23",
+   "ly_do": "sua finding Codex review R57A vong 1: (P2) bang R56 doc bang CSV chat (header trung/rong, dong thua/thieu cot, khoa trung, so khong huu han -> chan, ca o chuan-bi); (P2) dung sai doi chieu bang PF500 da lam tron khai bao rieng (truoc day ma nang ngam max(tb, 0,0005) cho IDSW). Khong doi tieu chi tai to hop vs combined_metrics.csv (1e-9 / 1e-9 / 0), khong doi bootstrap, metric, hieu so hay nhom.",
+   "phien_cu_giu_nguyen": "results/phase2/r57_bien_thien/phien_20261023_004544_759728_pid25976 (giao thuc phien_ban 1)"}
+ ],
+ "ten": "r57_bien_thien_test40",
+ "buoc": "R57A",
+ "tai_lieu": "handoff/logs/review57/01_bien_thien_test40.md",
+ "ghi_chu_thoi_diem": "Giao thuc phan tich nay duoc co dinh SAU khi ket qua diem test40 (R56, HOTA/IDF1/IDSW combined) da duoc xem; KHONG phai tien dang ky truoc thi nghiem. Co dinh truoc khi tinh bat ky khoang tin cay nao.",
+ "pham_vi": "Phan tich hau nghiem tu metric da luu; khong tracking, evaluator, cache, GPU. Khong so detector, khong chon conf/bo loc/seed.",
+ "nguon": {
+  "phien_thuc_thi": "results/phase2/r55_tracking/thuc_thi/phien_20261021_161832_735800_pid11640",
+  "nguon_r56": {"rel": "results/phase2/r56_tong_hop/phien_20261021_161832_735800_pid11640/nguon.json", "sha256": null,
+                "ghi_chu": "danh sach chinh xac 36 lan cham (pedestrian_summary.txt + sha256); sha256 file nay ghi luc chuan-bi"},
+  "khoa": {"ten": "khoa_20261021_155510_440500_pid8768",
+           "rel": "results/phase2/r55_tracking/chuan_bi/khoa_20261021_155510_440500_pid8768/khoa.json",
+           "sha256": "ce85628e34bc8507f9577c51a06d381a2d8e5d0f35cdf099c18330429d35247b"},
+  "giao_thuc_r54": {"rel": "configs/phase2/r54_tracking/giao_thuc_test40.json",
+                    "sha256": "eb1f8f3087401eaf3641c1bc215a864ad23850ec5ddd6970d7d74280715431ad"},
+  "hop_dong_r55": {"rel": "configs/phase2/r55_tracking/hop_dong_dieu_phoi.json",
+                   "sha256": "488238d4fc669ffac3ce98800b7031b08e8233504a84751afe3c29e4239cf95d"},
+  "manifest_video": {"rel": "results/phase2/manifests/detrac_test.json",
+                     "sha256": "ff2b4b9c658aced54567247c16b5a0fc43ae1e9836af70e7ea656fce3077f47c"},
+  "bang_r56": {
+   "tong_hop": {"rel": "results/phase2/r56_tong_hop/phien_20261021_161832_735800_pid11640/tong_hop_36_run.csv", "sha256": null},
+   "pf500": {"rel": "results/phase2/r56_tong_hop/phien_20261021_161832_735800_pid11640/pf500_trung_binh.csv", "sha256": null},
+   "vai_tro": "CHI doi chieu theo do lam tron (dung sai rieng tung bang: dung_sai.bang_r56); KHONG la nguon bootstrap"
+  },
+  "file_metric": ["raw_fields.json", "per_video_metrics.csv", "combined_metrics.csv"],
+  "marker": "HOAN_TAT.json tai goc lan cham (= thu muc cha cua trackeval/<run>/)"
+ },
+ "so_video": 40,
+ "video": [
+  "MVI_39031", "MVI_39051", "MVI_39211", "MVI_39271", "MVI_39311", "MVI_39361", "MVI_39371", "MVI_39401",
+  "MVI_39501", "MVI_39511", "MVI_40701", "MVI_40711", "MVI_40712", "MVI_40714", "MVI_40742", "MVI_40743",
+  "MVI_40761", "MVI_40762", "MVI_40763", "MVI_40771", "MVI_40772", "MVI_40773", "MVI_40774", "MVI_40775",
+  "MVI_40792", "MVI_40793", "MVI_40851", "MVI_40852", "MVI_40853", "MVI_40854", "MVI_40855", "MVI_40863",
+  "MVI_40864", "MVI_40891", "MVI_40892", "MVI_40901", "MVI_40902", "MVI_40903", "MVI_40904", "MVI_40905"
+ ],
+ "thu_tu_video": "dung thu tu danh sach 'videos' cua manifest da khoa (chuan-bi kiem trung khop tung vi tri)",
+ "detector": ["yolov8n_coco", "yolov8n_mixed5", "yolo11n_mixed5"],
+ "dieu_kien": ["c25", "c10"],
+ "bo_loc": ["cv", "ekf", "ukf", "pf500"],
+ "pf": {"bo_loc": "pf500", "seeds": [0, 1, 2]},
+ "ten_run": "r54-<detector>-<dieu_kien>-<bo_loc>[-s<seed>]",
+ "so_run": 36,
+ "metric": {
+  "chinh": "HOTA",
+  "bo_sung": ["IDF1", "IDSW"],
+  "danh_sach": ["HOTA", "IDF1", "IDSW"],
+  "don_vi": {"HOTA": "thang 0-1 trong tinh toan; trinh bay x100 = diem phan tram (pp)",
+             "IDF1": "thang 0-1 trong tinh toan; trinh bay x100 = diem phan tram (pp)",
+             "IDSW": "so dem (tong tren cac video trong mau); PF500 la trung binh 3 seed nen co the le"}
+ },
+ "hieu_so": [["ekf", "cv"], ["ukf", "cv"], ["pf500", "cv"], ["ukf", "ekf"], ["pf500", "ekf"], ["pf500", "ukf"]],
+ "hieu_so_ghi_chu": "hieu so co huong a - b trong tung nhom detector x dieu_kien; 6 nhom x 6 hieu so x 3 metric = 108 dong moi thiet ke",
+ "to_hop": {
+  "ham": "boot_stats._stack + boot_stats.combine_stacked (cong thuc COMBINED_SEQ TrackEval); KHONG dung boot_stats.average_seeds",
+  "run_don": "moi mau: COMBINED rieng tung run tren tap video cua mau (video lap lai duoc cong dung so lan)",
+  "pf500": "moi mau: COMBINED rieng tung seed 0/1/2 roi trung binh 3 gia tri (boot_seed._tb); sau do moi tinh hieu so",
+  "ghep_cap": "mot bo chi so lay mau cho moi thiet ke, dung chung cho MOI run va MOI seed cua ca 6 nhom"
+ },
+ "bootstrap": {
+  "B": 5000,
+  "rng": "numpy.random.default_rng(0)",
+  "rng_seed": 0,
+  "rng_moi_thiet_ke": "moi thiet ke tao generator rieng numpy.random.default_rng(0)",
+  "rut": "moi mau i = 1..B: rng.integers(0, K, size=K), K = so don vi lay mau cua thiet ke (cung day so voi boot_stats.paired_bootstrap / boot_seed.paired_bootstrap_seed)",
+  "phan_vi": [2.5, 97.5],
+  "method": "linear",
+  "khoang": "CI 95% phan vi rieng le, chua dieu chinh da so sanh; mang tinh tham do; khong bao p-value; CI chua 0 KHONG duoc dien giai la tuong duong",
+  "khong_bootstrap_seed": "3 seed PF giu co dinh, khong lay mau lai seed; khong coi 120 to hop video x seed la quan sat doc lap"
+ },
+ "thiet_ke": {
+  "video": {"don_vi": "video", "K": 40, "mo_ta": "lay 40 video co hoan lai; gia dinh 40 video doc lap"},
+  "nhom": {
+   "don_vi": "nhom video", "K": 39,
+   "mo_ta": "kiem do nhay: lay 39 nhom co hoan lai; moi nhom duoc chon dua TOAN BO video cua nhom vao mau dung so lan nhom xuat hien; khong cat/dem ve 40 video",
+   "nguon_nhom": "cap cung camera, cung canh dem MVI_40773/MVI_40775 da biet (handoff/logs/review48/03_audit_du_lieu.md muc 6.4; PLAN_DA_CHOT muc 0 diem chua ro). Kiem chong lan chi bao 4 frame mau moi video nen co the con cap cung canh chua phat hien.",
+   "khong_suy_nhom": "nhom khai bao tuong minh duoi day; khong suy tu ten video hay metric",
+   "thu_tu_nhom": "theo vi tri video dau tien cua nhom trong thu tu manifest",
+   "nhom": [
+    {"id": "N01", "video": ["MVI_39031"]}, {"id": "N02", "video": ["MVI_39051"]}, {"id": "N03", "video": ["MVI_39211"]},
+    {"id": "N04", "video": ["MVI_39271"]}, {"id": "N05", "video": ["MVI_39311"]}, {"id": "N06", "video": ["MVI_39361"]},
+    {"id": "N07", "video": ["MVI_39371"]}, {"id": "N08", "video": ["MVI_39401"]}, {"id": "N09", "video": ["MVI_39501"]},
+    {"id": "N10", "video": ["MVI_39511"]}, {"id": "N11", "video": ["MVI_40701"]}, {"id": "N12", "video": ["MVI_40711"]},
+    {"id": "N13", "video": ["MVI_40712"]}, {"id": "N14", "video": ["MVI_40714"]}, {"id": "N15", "video": ["MVI_40742"]},
+    {"id": "N16", "video": ["MVI_40743"]}, {"id": "N17", "video": ["MVI_40761"]}, {"id": "N18", "video": ["MVI_40762"]},
+    {"id": "N19", "video": ["MVI_40763"]}, {"id": "N20", "video": ["MVI_40771"]}, {"id": "N21", "video": ["MVI_40772"]},
+    {"id": "N22", "video": ["MVI_40773", "MVI_40775"]}, {"id": "N23", "video": ["MVI_40774"]},
+    {"id": "N24", "video": ["MVI_40792"]}, {"id": "N25", "video": ["MVI_40793"]}, {"id": "N26", "video": ["MVI_40851"]},
+    {"id": "N27", "video": ["MVI_40852"]}, {"id": "N28", "video": ["MVI_40853"]}, {"id": "N29", "video": ["MVI_40854"]},
+    {"id": "N30", "video": ["MVI_40855"]}, {"id": "N31", "video": ["MVI_40863"]}, {"id": "N32", "video": ["MVI_40864"]},
+    {"id": "N33", "video": ["MVI_40891"]}, {"id": "N34", "video": ["MVI_40892"]}, {"id": "N35", "video": ["MVI_40901"]},
+    {"id": "N36", "video": ["MVI_40902"]}, {"id": "N37", "video": ["MVI_40903"]}, {"id": "N38", "video": ["MVI_40904"]},
+    {"id": "N39", "video": ["MVI_40905"]}
+   ]
+  }
+ },
+ "dung_sai": {
+  "tai_to_hop_vs_combined_metrics": {"HOTA": 1e-9, "IDF1": 1e-9, "IDSW": 0, "thang": "0-1"},
+  "bang_r56": {
+   "tong_hop_36_run": {"HOTA": 0.0005, "IDF1": 0.0005, "IDSW": 0,
+                       "ly_do": "gia tri chep tu pedestrian_summary.txt, HOTA/IDF1 diem % lam tron 3 chu so -> sai so <= 0,0005; IDSW so nguyen -> khop chinh xac"},
+   "pf500_trung_binh": {"HOTA": 0.00055, "IDF1": 0.00055, "IDSW": 0.00005,
+                        "ly_do": "R56 tinh round(trung binh 3 gia tri summary da lam tron, 4) (src/r56_tong_hop/tong_hop_test40.py dong 73): HOTA/IDF1 <= 0,0005 (lam tron summary) + 0,00005 (lam tron 4 chu so); IDSW: trung binh 3 so nguyen chinh xac, chi lam tron 4 chu so -> <= 0,00005"},
+   "eps_dau_phay_dong": 1e-9,
+   "quy_tac": "lech = |tai to hop (x100 voi HOTA/IDF1) - bang|; dat khi lech <= dung sai cua dung bang/metric + eps_dau_phay_dong. Khong nang dung sai ngam trong ma; sai so lon nhat thuc te ghi vao kiem_chung.json"},
+  "doi_chieu_boot_seed": "nhanh video: trung khop chinh xac (==) voi boot_seed.paired_bootstrap_seed cho moi hieu so",
+  "tai_tinh_tu_chi_so_luu": "trung khop chinh xac (==)"
+ },
+ "dau_ra": ["giao_thuc.json", "nguon.json", "nhom_video.csv", "chi_so_video.csv", "chi_so_nhom.csv", "diem_uoc_luong.csv",
+            "doi_chieu_video.csv", "doi_chieu_nhom.csv", "kiem_chung.json", "SHA256SUMS"],
+ "sua_sau_ket_qua": "moi thay doi ma/giao thuc sau khi da tao ket qua -> phien moi; giu nguyen phien cu va giai thich thay doi"
+}

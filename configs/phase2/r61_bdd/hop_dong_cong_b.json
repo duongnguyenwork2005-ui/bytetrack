@@ -1,0 +1,105 @@
+{
+ "phien_ban": 1,
+ "ten": "r61_hop_dong_cong_b",
+ "che_do": "that",
+ "nguon": "plan chuan bi cong B (B0, Codex 0030_planner 26/10/2026, chi hieu luc sau nguoi dung duyet); yeu cau phu luc bao cao 03 muc 12.8; KHONG cap quyen mo B that",
+ "python": "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe",
+ "co_python_bat_buoc": ["-B"],
+ "entry_point": {
+  "van_hanh_cong_b": "src/r61_bdd/cong_b/van_hanh_cong_b.py",
+  "fixture_cong_b": "src/r61_bdd/cong_b/test_van_hanh_cong_b.py"
+ },
+ "lenh_fixture": "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe -B src/r61_bdd/cong_b/test_van_hanh_cong_b.py --phien results/phase2/r61_bdd/tests/cong_b_20261026/lan_01 --ngan-sach-giay 420 --gioi-han-giay 540",
+ "lenh_van_hanh": "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe -B src/r61_bdd/cong_b/van_hanh_cong_b.py --cong B --phien <phien_B> --buoc <buoc> --so-doan 1 --ngan-sach-giay <= 420 --phe-duyet <phe_duyet_b.json> [--han-chot <epoch>] [--gioi-han-don-vi N]",
+ "buoc": ["tien-kiem", "mo-phien", "tracking", "cham", "lap-tracker", "cham-lai", "tong-hop", "kiem-khoa", "hau-kiem"],
+ "ma_b": {
+  "file": ["src/r61_bdd/cong_b/kiem_dau_vao.py", "src/r61_bdd/cong_b/van_hanh_cong_b.py", "src/r61_bdd/cong_b/thong_ke_tiep_tuc.py",
+           "configs/phase2/r61_bdd/hop_dong_cong_b.json", "configs/phase2/r61_bdd/hop_dong_lenh.json", "configs/phase2/r61_bdd/giao_thuc.json"],
+  "dong_import": "dieu_phoi_bdd.dong_import_tinh(src, DIEM_VAO_MA) -- doc tinh, KHONG doi DIEM_VAO_MA; cong_b khong nam trong dong import cua khoa A",
+  "ghi_chu": "manifest ma B ghim trong <phien_B>/van_hanh/phien.json luc tao phien; moi loi goi cha/con so lai, lech -> exit 2"
+ },
+ "a": {
+  "phien": "results/phase2/r61_bdd/chuan_bi/cong_a_20261024_01",
+  "luot_a": "R61_cong_A_20261024",
+  "goi_a_sha256": "5c9db320e4965798f50652b823b7a20439410e259752dbf72ebfe990d30fe225",
+  "khoa_sha256": "f3a138d7497727a205abfa78237f0ec9a6029b89a13bdd018928865351794d4f",
+  "sha256sums_sha256": "fdac9e6f27a6def70939fdf16015aea7c214cfc70392f3bf5656b42b8533fa25",
+  "kiem_khoa": "kiem_khoa/vong_01/ket_qua.json",
+  "kiem_khoa_sha256": "e35a742321eb791cee643bed99b2c6c85bcb3b7a3e7d83ce305a6c84420c06f1",
+  "kiem_goi_a": "van_hanh/kiem_goi_a/vong_01/ket_qua.json",
+  "stt_dong_goi_dau": 16,
+  "so_file_goi": 3286
+ },
+ "plan": {
+  "duong": "handoff/PLAN_DA_CHOT.md",
+  "phep_so": "nguyen_byte",
+  "ghi_chu_phep_so": "so DONG THOI sha256_toan_bo, truoc/sau muc 0, byte_muc0, so_byte voi gia tri da ghim (= khoa A phu_luc_van_hanh.plan); khong chuan hoa/mien. PLAN doi (ke ca chi muc 0) -> exit 2; cap nhat PLAN cho B can buoc chuyen khoa rieng duoc duyet",
+  "sha256_toan_bo": "2b2474aabd3215deb3973d5fa342457d09db422df5b537cbe238d3fe6d93e12a",
+  "sha256_truoc_muc0": "a50c3bc4b27183f7d9b6d52cb90594b7e3866f849f79d9eae5b1366d3b12efd9",
+  "sha256_sau_muc0": "aba1aebbb120bab6ea40265db2052cf33def6b13459c8ebcf841b8e7b2ac1723",
+  "byte_muc0": [322, 176790],
+  "so_byte": 194250
+ },
+ "review_a": {
+  "duong": "D:/LABOTARY/automation/runs_local/r61_bdd_cong_a_20261024_20261024_182327/reports/review_009.json",
+  "sha256": "107fa671054c00acbec920b7c5f72d952a7ff1323e510b9937ace6343720ea25",
+  "verdict": "approve",
+  "ghi_chu": "doc nguyen ban, KHONG sua; review khong co truong goi_a_sha256 cap dau -> rang buoc goi qua digest review da ghim + goi_a_sha256/khoa_sha256 cua hop dong nay"
+ },
+ "phu_luc_dung_da_go": [
+  {"duong": "van_hanh/dung_da_go/dung_lan_0010.json", "so_byte": 246, "sha256": "adad5985752806b5630ab9d753be15a7ce74c75e3096d15a321d69bb7fc671a1"},
+  {"duong": "van_hanh/dung_da_go/quyet_dinh_go_dung.json", "so_byte": 1123, "sha256": "f346a6fe27138e9eb5b8bd2d3b19c255837daf25706c90fbac0e33af61f4683b"}
+ ],
+ "van_hanh_a": {
+  "quy_tac": "MOI file duoi <phien_A>/van_hanh/ phai thuoc (1) danh muc goi_a.json, (2) phu_luc_dung_da_go (dung danh sach, so byte, sha256), hoac (3) DUNG mot muc loai_tru (mau regex tren duong tuong doi van_hanh/, so_file dung, dieu kien dat); con lai -> thua -> exit 2. van_hanh/dung.json -> LUON chan. Khong loai tru toan van_hanh hay dung_da_go.",
+  "chan": ["dung.json"],
+  "loai_tru": [
+   {"ten": "so_crash", "mau": "^so_crash\\.json$", "so_file": 1, "dieu_kien": {},
+    "ly_do": "nhat ky crash dang mo cua cha A (ghi de moi loi goi); ban chot nam trong goi: goi/nhat_ky_crash_chot.json"},
+   {"ten": "goi_cha", "mau": "^goi_cha\\.jsonl$", "so_file": 1, "dieu_kien": {},
+    "ly_do": "nhat ky loi goi cha A (noi them); LOAI_TRU_GOI cua A"},
+   {"ten": "log_cha", "mau": "^cha/\\d{8}_\\d{6}_pid\\d+\\.faulthandler\\.log$", "so_file": 18, "dieu_kien": {"so_byte": 0},
+    "ly_do": "faulthandler cua 18 loi goi cha A (bao cao 03 muc 12.5, deu 0 byte); LOAI_TRU_GOI cua A"},
+   {"ten": "lan_chay_sau_goi", "mau": "^lan_chay/(0016_dong-goi-a|0017_kiem-goi-a)/(con\\.json|faulthandler\\.log|goi\\.json|ket_qua_con\\.json|ket_thuc\\.json|stderr\\.txt|stdout\\.txt|tien_do\\.jsonl)$",
+    "so_file": 16, "dieu_kien": {},
+    "ly_do": "lan chay dong-goi-a (stt_dong_goi_dau) va kiem-goi-a: dang mo khi dong goi; LOAI_TRU_GOI cua A"},
+   {"ten": "kiem_goi_a", "mau": "^kiem_goi_a/vong_01/(ket_qua\\.json|xong\\.json|bam/danh_muc\\.json|bam/doan/\\d{4}\\.json)$",
+    "so_file": 55, "dieu_kien": {"ket_qua_dat_va_goi": "kiem_goi_a/vong_01/ket_qua.json: dat=true, goi_a_sha256 = a.goi_a_sha256, khoa_sha256 = a.khoa_sha256"},
+    "ly_do": "vung kiem sau dong goi (chi doc payload); LOAI_TRU_GOI cua A"}
+  ],
+  "ghi_nhan": "moi file thuoc loai_tru van duoc BAM vao manifest B luc mo-phien; lan sau doi/thieu/thua so voi manifest -> exit 2"
+ },
+ "phe_duyet_b": {
+  "nguon": "file JSON do ORCHESTRATOR cung cap SAU KHI nguoi dung duyet ke hoach THUC THI B (khong phai plan chuan bi nay); agent/runner KHONG tu tao",
+  "truong_bat_buoc": {"loai": "phe_duyet_cong_b", "duyet": true, "goi_a_sha256": "= a.goi_a_sha256", "khoa_sha256": "= a.khoa_sha256",
+                      "review_a_sha256": "= review_a.sha256", "hop_dong_cong_b_sha256": "sha256 file hop dong nay", "ma_b_sha256": "sha256 manifest ma B (van_hanh_cong_b.py --in-ma-b)",
+                      "phien_b": "results/phase2/r61_bdd/thuc_thi/<ten> (that) -- PHAI trung --phien", "plan_thuc_thi_sha256": "chuoi 64 hex", "nguoi_duyet": "chuoi", "luc": "chuoi"},
+  "vi_tri": "ngoai results/phase2/r61_bdd/tests/ (that); fixture: duoi vung fixture va giao thuc fixture",
+  "khong_co": "thieu --phe-duyet / sai truong / khong rang buoc -> exit 2 TRUOC moi ghi (khong tao thu muc phien)"
+ },
+ "deadline": {
+  "ngan_sach_toi_da": 420, "du_phong_cung_con": 150, "du_phong_ket_thuc": 15, "toi_thieu_khoi_chay": 30, "du_phong_don_vi": 60,
+  "quy_tac": "han_cung_con = min(bat_dau_cha + ngan_sach + du_phong_cung_con, --han-chot - du_phong_ket_thuc); con nhan han_mem = min(bat_dau_cha + ngan_sach, han_cung_con - du_phong_don_vi) qua goi.json (khong cap lai ngan sach); con lai < toi_thieu_khoi_chay -> KHONG tao lan chay, exit 10"
+ },
+ "chinh_sach_crash": {
+  "thu_lai_toi_da_moi_don_vi": 2,
+  "nguong": {"don_vi": 3, "phien": 4, "buoc_khoa": 2},
+  "buoc_khoa": ["kiem-khoa"],
+  "crash": "exit con ngoai {0,1,2,10} = crash_native (tinh); cha khong ghi duoc ket_thuc.json = cha_gian_doan (tinh, dung)",
+  "khong_tu_thu_lai": "exit 1 (loi_python / exit1_khong_traceback), het_gio, thieu log (stdout/stderr/faulthandler), Job Object/NtResumeProcess khong dat, PID khong xac dinh, crash khong xac dinh don vi -> 40 (dung.json)",
+  "exit_2": "marker hong, hash/spec/provenance lech, dau vao A/khoa/PLAN/phu luc/review/phe duyet/ma B lech -> 2, KHONG retry",
+  "tiem_loi": "CHI fixture (hop dong + giao thuc fixture + phien duoi tests/cong_b_20261026/); ghi rieng khoi crash ngoai du kien"
+ },
+ "ma_thoat": {"0": "xong buoc", "10": "chua xong / thieu du phong thoi gian -- chay lai DUNG lenh", "2": "loi hop dong", "30": "crash native duoi nguong -- chay lai DUNG lenh",
+              "40": "DUNG HOI nguoi dung (van_hanh/dung.json chan moi loi goi sau)", "1": "loi bat ngo cua cha"},
+ "don_vi": {"tien-kiem": "tien-kiem", "mo-phien": "mo-phien", "tracking": "tracking:<run>:<video>", "cham": "cham:<run>", "lap-tracker": "lap:<run>:<video> + lap:so_sanh",
+            "cham-lai": "cham-lai:<run> + cham-lai:so_sanh", "tong-hop": "tong-hop:chi_so + tong-hop:khoi:<k> + tong-hop:ghi", "kiem-khoa": "kiem-khoa",
+            "hau-kiem": "hau-kiem:khoi:<k> + hau-kiem:ghi"},
+ "bootstrap_khoi": {"kich_thuoc_khoi": 250, "kich_thuoc_khoi_fixture": 64,
+                    "quy_tac": "chi so default_rng(0) (so_mau x so_video) luu MOT lan; khoi k = hang [k*kt, min((k+1)*kt, so_mau)) tinh dung thong_ke_bdd.metric_bo_loc; CI = np.percentile tren TOAN mau ghep, khong gop CI tung khoi"},
+ "bytecode": {
+  "moi_truong": "sys.dont_write_bytecode=True + PYTHONDONTWRITEBYTECODE=1 dat TRUOC import ma du an/ben thu ba; moi Python con = python tuyet doi + -B; cha/con tu choi chay neu sys.flags.dont_write_bytecode != 1 hoac interpreter khac",
+  "pham_vi_pyc": {"repo": ["src"], "site_packages": ["ultralytics", "trackeval", "numpy", "pandas", "scipy", "cv2", "lap", "torch", "yaml", "matplotlib", "PIL"], "stdlib": true},
+  "kiem": "fixture chup (danh sach, sha256, size, mtime_ns) pyc trong pham vi TRUOC import ma du an/ben thu ba va SAU khi thu hoi cay con, moi lan goi; doi/them/xoa -> khong dat; khong xoa pyc co san"
+ }
+}
