@@ -1,0 +1,351 @@
+{
+  "production_sha256": "6a1165f06ad5f36e48c95a43a1e1c96022c0355058c9669830055dee0e057afe",
+  "validation_passed": true,
+  "cases": [
+    {
+      "case": "all_256_values_each_channel",
+      "input_shape": [
+        16,
+        16,
+        3
+      ],
+      "input_strides": [
+        48,
+        3,
+        1
+      ],
+      "input_c_contiguous": true,
+      "reference_sha256": "e3c873cf89ea7c619dea6fc5241ef5b382c75c3078518de6e27126342bbca781",
+      "methods": {
+        "legacy": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        },
+        "production_candidate": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        }
+      }
+    },
+    {
+      "case": "square_640",
+      "input_shape": [
+        640,
+        640,
+        3
+      ],
+      "input_strides": [
+        1920,
+        3,
+        1
+      ],
+      "input_c_contiguous": true,
+      "reference_sha256": "ac20450d588b86b50be18bce2fba5c354c2ca7d9bc9729888f90507a1a938ee0",
+      "methods": {
+        "legacy": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        },
+        "production_candidate": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        }
+      }
+    },
+    {
+      "case": "strided_hw",
+      "input_shape": [
+        320,
+        320,
+        3
+      ],
+      "input_strides": [
+        3840,
+        6,
+        1
+      ],
+      "input_c_contiguous": false,
+      "reference_sha256": "454c264d380b37bc968e1a6ade0f5fbf6064aeef5cf2b95b92679015bb3d7a83",
+      "methods": {
+        "legacy": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        },
+        "production_candidate": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        }
+      }
+    },
+    {
+      "case": "reversed_hwc",
+      "input_shape": [
+        640,
+        640,
+        3
+      ],
+      "input_strides": [
+        -1920,
+        -3,
+        -1
+      ],
+      "input_c_contiguous": false,
+      "reference_sha256": "37053d96b2c3a1f817a7a5f35a001c80bdf1ee224074cf12d978965c9742eaf0",
+      "methods": {
+        "legacy": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        },
+        "production_candidate": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        }
+      }
+    },
+    {
+      "case": "transposed_hw",
+      "input_shape": [
+        640,
+        640,
+        3
+      ],
+      "input_strides": [
+        3,
+        1920,
+        1
+      ],
+      "input_c_contiguous": false,
+      "reference_sha256": "3b4c0d15207e0bb991d056d6a80bf42bb5004c4545afaed66ba3b75e52d9c937",
+      "methods": {
+        "legacy": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        },
+        "production_candidate": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        }
+      }
+    },
+    {
+      "case": "fortran_hwc",
+      "input_shape": [
+        640,
+        640,
+        3
+      ],
+      "input_strides": [
+        1,
+        640,
+        409600
+      ],
+      "input_c_contiguous": false,
+      "reference_sha256": "ac20450d588b86b50be18bce2fba5c354c2ca7d9bc9729888f90507a1a938ee0",
+      "methods": {
+        "legacy": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        },
+        "production_candidate": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        }
+      }
+    },
+    {
+      "case": "shape_1x1",
+      "input_shape": [
+        1,
+        1,
+        3
+      ],
+      "input_strides": [
+        3,
+        3,
+        1
+      ],
+      "input_c_contiguous": true,
+      "reference_sha256": "7d630ff40a5ba3b1a9fc675bf513c2ca624697f497b75bcc03a48e3a67095f1b",
+      "methods": {
+        "legacy": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        },
+        "production_candidate": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        }
+      }
+    },
+    {
+      "case": "shape_1x257",
+      "input_shape": [
+        1,
+        257,
+        3
+      ],
+      "input_strides": [
+        771,
+        3,
+        1
+      ],
+      "input_c_contiguous": true,
+      "reference_sha256": "347eb438a5fdfc1319bbf42c38ecd1e6545f531bc7691d128016ab23e58060e7",
+      "methods": {
+        "legacy": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        },
+        "production_candidate": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        }
+      }
+    },
+    {
+      "case": "shape_257x1",
+      "input_shape": [
+        257,
+        1,
+        3
+      ],
+      "input_strides": [
+        3,
+        3,
+        1
+      ],
+      "input_c_contiguous": true,
+      "reference_sha256": "1f08ffb87747f0caa2a0a7bb879e3ba12fb0933bee2197084112f1a2b5e38cbb",
+      "methods": {
+        "legacy": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        },
+        "production_candidate": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        }
+      }
+    },
+    {
+      "case": "shape_13x17",
+      "input_shape": [
+        13,
+        17,
+        3
+      ],
+      "input_strides": [
+        51,
+        3,
+        1
+      ],
+      "input_c_contiguous": true,
+      "reference_sha256": "2061b45594329e9e3915257a2700aa37b6130f21b34f3b01b5ef81ef45c8a435",
+      "methods": {
+        "legacy": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        },
+        "production_candidate": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        }
+      }
+    },
+    {
+      "case": "shape_360x640",
+      "input_shape": [
+        360,
+        640,
+        3
+      ],
+      "input_strides": [
+        1920,
+        3,
+        1
+      ],
+      "input_c_contiguous": true,
+      "reference_sha256": "595ead8bda7c9f9473a110a678456cbefc923cc4597258d278d5826bbc8b1a4c",
+      "methods": {
+        "legacy": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        },
+        "production_candidate": {
+          "dtype_float32": true,
+          "shape_nchw": true,
+          "c_contiguous": true,
+          "bytes_identical": true,
+          "input_unchanged": true
+        }
+      }
+    }
+  ],
+  "python": "3.6.9 (default, Mar 10 2023, 16:46:00) \n[GCC 8.4.0]",
+  "numpy": "1.19.5",
+  "opencv": "3.2.0",
+  "scope": "CPU tensor validation only; no GPU inference or pipeline benchmark"
+}

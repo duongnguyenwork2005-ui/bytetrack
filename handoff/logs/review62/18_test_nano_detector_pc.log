@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\src\test_nano_detector.py", line 93, in main
+    expected = torch.from_numpy(im.copy()).permute(2, 0, 1).flip(0).float().div(255).numpy()[None]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: "flip_cpu" not implemented for 'UInt16'
+  [PASS] 1. letterbox(640) pixel-identical voi ultralytics LetterBox(auto=False) tren 3 frame 960x540
+         shape (640, 640, 3) r=0.6667 pad=(0, 140) identical=True
+         shape (640, 640, 3) r=0.6667 pad=(0, 140) identical=True
+         shape (640, 640, 3) r=0.6667 pad=(0, 140) identical=True
+  [PASS] 2. preprocess == permute/flip(BGR->RGB)/div255 cua BasePredictor (bang nhau chinh xac, float32 (1,3,640,640))
+         max|d|=0.0
+  [FAIL] loi khong mong doi: RuntimeError: "flip_cpu" not implemented for 'UInt16'
+
+KET QUA: 2/2 phep kiem tra PASS

@@ -1,0 +1,39 @@
+{
+  "utc": "2026-10-28T04:53:11.608448Z",
+  "/proc/cmdline": "tegraid=21.1.2.0.0 ddr_die=4096M@2048M section=512M memtype=0 vpr_resize usb_port_owner_info=0 lane_owner_info=0 emc_max_dvfs=0 touch_id=0@63 video=tegrafb no_console_suspend=1 console=ttyS0,115200n8 debug_uartport=lsport,4 earlyprintk=uart8250-32bit,0x70006000 maxcpus=4 usbcore.old_scheme_first=1 lp0_vec=0x1000@0xff780000 core_edp_mv=1125 core_edp_ma=4000 gpt  earlycon=uart8250,mmio32,0x70006000  root=/dev/mmcblk0p1 rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 sdhci_tegra.en_boot_part_access=1 quiet root=/dev/mmcblk0p1 rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 sdhci_tegra.en_boot_part_access=1",
+  "/etc/nv_tegra_release": "# R32 (release), REVISION: 7.5, GCID: 36557527, BOARD: t210ref, EABI: aarch64, DATE: Tue Jun 11 23:12:44 UTC 2024",
+  "/boot/extlinux/extlinux.conf": "TIMEOUT 30\nDEFAULT primary\n\nMENU TITLE L4T boot options\n\nLABEL primary\n      MENU LABEL primary kernel\n      LINUX /boot/Image\n      INITRD /boot/initrd\n      APPEND ${cbootargs} quiet root=/dev/mmcblk0p1 rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 sdhci_tegra.en_boot_part_access=1 \n\n# When testing a custom kernel, it is recommended that you create a backup of\n# the original kernel and add a new entry to this file so that the device can\n# fallback to the original kernel. To do this:\n#\n# 1, Make a backup of the original kernel\n#      sudo cp /boot/Image /boot/Image.backup\n#\n# 2, Copy your custom kernel into /boot/Image\n#\n# 3, Uncomment below menu setting lines for the original kernel\n#\n# 4, Reboot\n\n# LABEL backup\n#    MENU LABEL backup kernel\n#    LINUX /boot/Image.backup\n#    INITRD /boot/initrd\n#    APPEND ${cbootargs}",
+  "/sys/block/mmcblk0/device/type": "MMC",
+  "/sys/block/mmcblk0/device/name": "DG4016",
+  "/proc/device-tree/model": "NVIDIA Jetson Nano Developer Kit",
+  "mmc_devices": [
+    "/sys/bus/mmc/devices/mmc0:0001"
+  ],
+  "sdhci_dt": {
+    "/proc/device-tree/sdhci@700b0400": "okay",
+    "/proc/device-tree/sdhci@700b0000": "disabled",
+    "/proc/device-tree/sdhci@700b0600": "okay",
+    "/proc/device-tree/sdhci@700b0200": "disabled"
+  },
+  "lsblk": {
+    "exit": 0,
+    "stdout": "NAME           SIZE FSTYPE MOUNTPOINT\nloop0           16M vfat   /media/jetson/L4T-README\nmmcblk0       14.7G        \n\u251c\u2500mmcblk0p1     14G ext4   /\n\u251c\u2500mmcblk0p2      1M        \n\u251c\u2500mmcblk0p3      6M        \n\u251c\u2500mmcblk0p4     80K        \n\u251c\u2500mmcblk0p5     64M        \n\u251c\u2500mmcblk0p6      1M        \n\u251c\u2500mmcblk0p7      6M        \n\u251c\u2500mmcblk0p8     80K        \n\u251c\u2500mmcblk0p9     64M        \n\u251c\u2500mmcblk0p10   192K        \n\u251c\u2500mmcblk0p11   256K        \n\u251c\u2500mmcblk0p12    63M        \n\u251c\u2500mmcblk0p13   512K        \n\u251c\u2500mmcblk0p14   256K        \n\u251c\u2500mmcblk0p15   256K        \n\u251c\u2500mmcblk0p16   300M        \n\u2514\u2500mmcblk0p17 185.4M        \nmmcblk0boot0     4M        \nmmcblk0boot1     4M        \nmmcblk0rpmb      4M        \nzram0        495.5M        [SWAP]\nzram1        495.5M        [SWAP]\nzram2        495.5M        [SWAP]\nzram3        495.5M        [SWAP]\n",
+    "stderr": ""
+  },
+  "space": {
+    "exit": 0,
+    "stdout": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/mmcblk0p1   14G   11G  2.2G  84% /\n",
+    "stderr": ""
+  },
+  "kernel": {
+    "exit": 0,
+    "stdout": "[    0.000000] Kernel command line: tegraid=21.1.2.0.0 ddr_die=4096M@2048M section=512M memtype=0 vpr_resize usb_port_owner_info=0 lane_owner_info=0 emc_max_dvfs=0 touch_id=0@63 video=tegrafb no_console_suspend=1 console=ttyS0,115200n8 debug_uartport=lsport,4 earlyprintk=uart8250-32bit,0x70006000 maxcpus=4 usbcore.old_scheme_first=1 lp0_vec=0x1000@0xff780000 core_edp_mv=1125 core_edp_ma=4000 gpt  earlycon=uart8250,mmio32,0x70006000  root=/dev/mmcblk0p1 rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 sdhci_tegra.en_boot_part_access=1 quiet root=/dev/mmcblk0p1 rw rootwait rootfstype=ext4 console=ttyS0,115200n8 console=tty0 fbcon=map:0 net.ifnames=0 sdhci_tegra.en_boot_part_access=1 \n[    0.504333] iommu: Adding device sdhci-tegra.3 to group 31\n[    0.504387] platform sdhci-tegra.3: domain=        (ptrval) allocates as[0]=        (ptrval)\n[    0.504822] iommu: Adding device sdhci-tegra.2 to group 32\n[    0.504896] platform sdhci-tegra.2: domain=        (ptrval) allocates as[0]=        (ptrval)\n[    0.589724] vddio-sdmmc-ap: 1800 <--> 3300 mV at 3300 mV \n[    0.597114] vddio-sdmmc3-ap: 1800 <--> 3300 mV at 2800 mV \n[    0.618520] tegra210_dvfs: no clock found for sdmmc2_ddr\n[    0.618540] tegra210_dvfs: no clock found for sdmmc4_ddr\n[    0.618594] tegra210_dvfs: no clock found for sdmmc1_ddr\n[    0.618612] tegra210_dvfs: no clock found for sdmmc3_ddr\n[    1.913423] sdhci: Secure Digital Host Controller Interface driver\n[    1.913425] sdhci: Copyright(c) Pierre Ossman\n[    1.913428] sdhci-pltfm: SDHCI platform and OF driver helper\n[    1.913777] sdhci-tegra sdhci-tegra.3: Client registration for eMC Successful\n[    1.918198] sdhci-tegra sdhci-tegra.2: Got CD GPIO\n[    1.918551] sdhci-tegra sdhci-tegra.2: Client registration for eMC Successful\n[    1.954964] mmc0: SDHCI controller on sdhci-tegra.3 [sdhci-tegra.3] using ADMA 64-bit with 64 bit addr\n[    1.967091] mmc1: SDHCI controller on sdhci-tegra.2 [sdhci-tegra.2] using ADMA 64-bit with 64 bit addr\n[    2.007510] mmc0: new HS400 Enhanced strobe MMC card at address 0001\n[    2.011954] mmcblk0: mmc0:0001 DG4016 14.7 GiB \n[    2.012069] mmcblk0boot0: mmc0:0001 DG4016 partition 1 4.00 MiB\n[    2.012184] mmcblk0boot1: mmc0:0001 DG4016 partition 2 4.00 MiB\n[    2.012284] mmcblk0rpmb: mmc0:0001 DG4016 partition 3 4.00 MiB\n[    2.016083]  mmcblk0: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12 p13 p14 p15 p16 p17\n[    2.074028] mmcblk mmc0:0001: Card claimed for testing.\n[    2.106615] Root device found: mmcblk0p1\n[    2.108084] Found dev node: /dev/mmcblk0p1\n[    2.129698] EXT4-fs (mmcblk0p1): mounted filesystem with ordered data mode. Opts: (null)\n[    2.131744] Rootfs mounted over mmcblk0p1\n[    2.529405] EXT4-fs (mmcblk0p1): re-mounted. Opts: (null)\n[   33.917546] vddio-sdmmc-ap: disabling",
+    "stderr": ""
+  },
+  "expected_paths": {
+    "/home/jetson/nano_run/v16": false,
+    "/home/jetson/nano_run/engine/yolov8n_fp16.engine": false,
+    "/home/jetson/nano_run/data_full/MVI_39031": false,
+    "/home/jetson/miniforge3/envs/nano/bin/python": false
+  }
+}

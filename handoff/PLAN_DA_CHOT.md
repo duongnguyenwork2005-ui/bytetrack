@@ -3,14 +3,68 @@
 Nguồn: yêu cầu của người dùng sau khi Codex nghiệm thu `239b9c6` (**PASS WITH LIMITATIONS**, `handoff/CODEX_REVIEW_239b9c6.md`).
 File này là phạm vi làm việc cho các vòng sau. Thay đổi phạm vi phải do người dùng quyết định.
 
-## 0. TRẠNG THÁI HIỆN TẠI — tài liệu trạng thái chuẩn (cập nhật 2026-10-27)
+## 0. TRẠNG THÁI HIỆN TẠI — tài liệu trạng thái chuẩn (cập nhật 2026-10-29)
 
 > Mục này là **nguồn trạng thái duy nhất**. Brief, handoff, REVIEW*_CHI_TIET là lịch sử theo vòng; khi chúng
 > mâu thuẫn với mục này thì mục này đúng, trừ khi có commit/bằng chứng mới hơn (khi đó sửa mục này).
 > Mỗi vòng xong việc: cập nhật mục 0 trước, rồi mới viết brief/handoff. Lộ trình đọc: `AGENTS.md`.
 > Chỉ mục tài liệu cũ và vùng lưu trữ: `handoff/LUU_TRU.md`.
 
-**Trạng thái hiện hành 27/10/2026: MỐC 5 HOÀN TẤT PHẦN THỰC THI VÀ BÁO CÁO; mốc 6 (tối ưu Nano) CHƯA BẮT ĐẦU.**
+**Lượt hiện tại 29/10/2026: đang thực hiện MỐC 6 — tối ưu tốc độ hệ thống Jetson Nano, mở ngày 28/10.**
+Đã đo baseline ngắn và kiểm ứng viên chuyển tensor; đang hoàn tất baseline dài và phép so cặp.
+**Chưa nghiệm thu tăng tốc, chưa sửa gói v16, engine, tracker hay cấu hình thí nghiệm**. Baseline lịch sử: pipeline
+300 JPG không hiển thị khoảng 9,1–9,4 FPS (`handoff/REVIEW21_CHI_TIET.md`, `REVIEW22_CHI_TIET.md`), 1.470 JPG
+vòng 23 CV 9,22/EKF 9,05 FPS nhưng decode lệch mức nên không xếp hạng bộ lọc (`handoff/REVIEW23_CHI_TIET.md`);
+vòng 25 bật hiển thị giảm khoảng 2% trên 300 ảnh (`handoff/REVIEW25_CHI_TIET.md`). Gói triển khai theo hồ sơ v16 ở
+`~/nano_run/v16` (`handoff/REVIEW26_CHI_TIET.md`). Kế hoạch và tiêu chí mốc 6: `handoff/logs/review62/01_ke_hoach_moc6.md`.
+**Tiền kiểm R62 — cập nhật sau đổi Jetson:** người dùng xác nhận đã đổi Jetson và dùng lại thẻ SD cũ.
+SSH key hoạt động; IP mới `192.168.1.4` (alias `nano` đã cập nhật), root `/dev/mmcblk1p1`, thẻ 58,2 GiB UUID
+`e63fc90f-5700-4a13-a49d-43dc08fead24`, còn khoảng 27,8 GB; v16, engine 12.626.138 byte, bộ ảnh và Python
+`~/miniforge3/envs/nano/bin/python` đều tồn tại. TensorRT 8.2.1.9, CUDA 10.2, OpenCV 3.2.0. Phát hiện trước
+đó boot eMMC/không nhận SD đã được trạng thái này thay thế. SSH đã nối lại sau lần khởi động lại;
+engine SHA256 `c32690cd…` khớp lịch sử, manifest v16 đạt 562/562, Python env 3.8.20, HDMI hoạt động,
+ext4 errors 0 (`handoff/logs/review62/08_tien_kiem_v16.json`). Đã tạo bản sao v16 562 file khớp manifest ở
+`~/nano_run/r62_20261028/baseline/nano_transfer`; **baseline 300 ảnh hoàn tất 8/8 lượt**, đủ frame, live/replay
+MOT+lớp trùng byte, detection cả 8 lượt giống nhau. FPS 8,59–9,41; decode vẫn hai mức nên không dùng để xếp hạng
+CV/EKF. Lượt đầu hiển thị 299/300 (tracking đủ), các lượt bật còn lại không bỏ frame xem trước. Hồ sơ
+`handoff/logs/review62/10_baseline300_tong_hop.json`, `12_kiem_detection_baseline300.json`; raw sao lưu ở
+`baseline300_evidence.tar.gz` cùng thư mục. 1.470 JPG khớp hash (`13_kiem_1470.log`). Lượt baseline dài đầu
+`baseline1470/01_cv_on` bị gián đoạn do Nano khởi động lại: chỉ còn ba file rỗng, chưa có kết quả; giữ nguyên
+để ghi nhận, không tính là lượt đạt. Log `15_gian_doan_baseline_dai.json` ghi ext4 phục hồi 14 orphan inode,
+errors_count 0. Người dùng xác nhận máy tự treo/tắt rồi yêu cầu tiếp tục. Pstore cho thấy RCU/softlockup,
+I2C timeout và `Kernel panic - not syncing: softlockup: hung tasks` (`22_dmesg_ramoops.txt`, `23_console_ramoops.txt`);
+chưa xác định căn nguyên. Lượt chẩn đoán headless `chan_doan300/lan02` đã hoàn tất 300/300, 8,889 FPS,
+cùng boot `f6f8c913-61cf-4b45-af91-ead44ca14f6b`; replay/MOT/lớp đã trùng byte (`26_chan_doan300_parity.json`).
+Baseline dài mới `baseline1470_lan02` **4/4 hoàn tất** trên cùng boot, mỗi lượt 1470/1470 frame,
+live/replay byte đạt, runner exit 0: CV 8,275/8,297 FPS, EKF 8,294/8,288 FPS. Lượt lỗi cũ giữ nguyên.
+kiểm `baseline1470_lan02.runner.log`, `exit_code` và từng `result.json` trước tiếp tục. Lần chẩn đoán `lan01` lỗi
+thiếu biến `BYTETRACK_BACKEND=np` trước khi chạy, không phải crash Nano; giữ log 24/25. Nếu tái diễn panic,
+dừng phép đo GPU để xử lý nguyên nhân, không lặp mù. **Ứng viên đã sửa trên PC:** chuyển tensor
+bằng bảng tra float32 qua OpenCV, nhánh khác uint8 giữ hành vi cũ; quyết định `17_quyet_dinh_ung_vien.md`.
+Test detector PC đạt 7/7, cú pháp Python 3.6 đạt; mã production kiểm CPU trên Nano đạt 11 trường hợp trùng byte
+với đường cũ (`18_test_nano_detector_pc_lan02.log`, `19_test_production_tensor_nano.json`). Microbenchmark
+chuyển tensor giảm 9,78 xuống 2,40 ms; **chưa có kết luận tăng tốc toàn pipeline**, chưa đổi launcher v16.
+Gói ứng viên thử nghiệm trên PC đã dựng từ ZIP v16, kiểm 562 hash, chỉ `src/nano_detector.py` và
+`PACKAGE_INFO.json` đổi nội dung, cập nhật manifest; ZIP SHA256 `e1e155b0e37316e341343e502e48d329ae363f073cf57dfc83c90941e80d6bd1`
+(`27_goi_ung_vien.json`). Đã chuyển vào `/home/jetson/nano_run/r62_20261028/candidate/nano_transfer` và
+kiểm lại ZIP, 562 manifest hash và đúng hai file nội dung khác v16 (`candidate_verified.json`).
+Đã bắt đầu runner 16 lượt paired300 (4 cặp CV, 4 cặp EKF, bật hiển thị), PID 8984, cùng boot; lịch
+luân phiên v16/ứng viên, mỗi lượt thư mục mới và nghỉ 20 s. Đọc `paired300.runner.log`, `paired300/index.json`,
+`paired300/runner_exit.json` trước khi tiếp tục; không chạy trùng nếu còn sống. Cặp CV thứ nhất đạt
+parity detection/MOT/lớp trùng byte, FPS v16 9,3034 → ứng viên 9,6565 (+3,79%); đây là một cặp,
+**chưa kết luận đạt tiêu chí trung vị 4 cặp và chưa đo xong EKF**.
+Phải đo lại baseline v16 trên Jetson hiện tại để so tối ưu; không quy chênh lệch với FPS máy cũ cho sửa mã.
+Chỉ ghi bản sao và kết quả R62; chưa sửa boot/mount/cài gói hoặc mã thuật toán.
+Gói v16 `handoff/nano_transfer_latest.zip` còn nguyên SHA256 `302f6af73d97aea009066416aaaa202db81311e60121676a75dacbe204e9cbf1`;
+engine đã sao lưu về `handoff/archive/nano_engine_r62_c32690cd.engine`, hash nguyên bản khớp. Bằng chứng
+và bước tiếp: `handoff/logs/review62/05_tien_kiem_va_khoi_phuc.md`.
+**Tiếp tục tự động (người dùng cho phép 29/10, thay yêu cầu không automation trước đây):** đã tạo lịch mỗi giờ
+`ti-p-t-c-m-c-6-jetson-nano`, ACTIVE, gắn chat `01a17bcd-4100-79f1-91aa-ba26408cd61f`.
+Lịch đọc điểm bàn giao `D:/LABOTARY/automation/checkpoints/nano_moc6_20261029/TIEP_TUC.md`, kiểm tiến trình/kết quả
+trước khi chạy tiếp, không mở orchestrator CLI riêng. Đây là kiểm theo lịch, không phải sự kiện reset quota;
+cần Windows bật và ứng dụng đang chạy. Không dùng reset credits/mua credits. Tắt lịch khi mốc 6 hoàn tất.
+
+**(Lịch sử tại 27/10/2026) MỐC 5 HOÀN TẤT PHẦN THỰC THI VÀ BÁO CÁO; mốc 6 (tối ưu Nano) CHƯA BẮT ĐẦU ở thời điểm đó.**
 R61 cổng A đã đóng gói và được review cuối `review_009.json` approve: gói A SHA256
 `5c9db320e4965798f50652b823b7a20439410e259752dbf72ebfe990d30fe225`, khóa A SHA256
 `f3a138d7497727a205abfa78237f0ec9a6029b89a13bdd018928865351794d4f` (báo cáo
@@ -31,9 +85,8 @@ trên PLAN mới. Đối chiếu thủ công sau B độc lập với kết lu�
 kiểm 32 exit, 36/36 + 6/6 cờ trùng byte, 108/108 hiệu số và cờ CI từ số CSV, tất cả khớp. Đây không phải một
 lượt review của tác nhân thứ hai hoặc review tự động. Bằng chứng đóng mốc 5: `handoff/logs/review61/07_dong_moc5.md`.
 
-**Bước tiếp:** đóng hồ sơ và đẩy snapshot mốc 5 lên GitHub; sau đó tạm dừng theo quyết định người dùng 23/10.
-Ngày 28/10 chỉ bắt đầu lập/chốt phạm vi mốc 6 khi có chỉ dẫn của người dùng; chưa chạy Nano, tuning hoặc thí nghiệm
-mốc 6 trong lượt này.
+**(Lịch sử 27/10) Bước tiếp:** đóng hồ sơ và đẩy snapshot mốc 5 lên GitHub (đã xong, commit `09d3dd5`);
+sau đó tạm dừng theo quyết định người dùng 23/10. Người dùng đã mở lại mốc 6 ngày 28/10; trạng thái hiện hành ở trên.
 
 **(Lịch sử tại 25/10; đã được trạng thái 27/10 phía trên thay thế) Lượt R61 cổng A (plan A0→A1→A2 người dùng duyệt 24/10/2026) — A0 APPROVE
 (`D:/LABOTARY/automation/runs_local/r61_bdd_cong_a_20261024_20261024_182327/reports/review_003.json`, sau review_001/002
@@ -1505,7 +1558,7 @@ run cũ không hợp lệ; không sửa bằng chứng hoặc mã audit trong m�
 | 3 | **Đánh giá detector riêng** (AP theo lớp, mAP50, mAP50–95, precision/recall tại ngưỡng vận hành), tạo **detection cache tái lập** | Evaluator 5 lớp đã có (vòng 27). Vòng 35: chạy trên dev **smoke** thật (84 ảnh) chỉ để kiểm pipeline; chưa đánh giá trên dev đầy đủ. **Vòng 43**: đã đánh giá detector trên **BDD val** (COCO-video, 39.973 ảnh) cho 3 checkpoint theo kế hoạch khóa — AP theo lớp, mAP50 / mAP50–95, P/R tại conf 0,25 (`handoff/REVIEW43_CHI_TIET.md`); UA-DETRAC test chờ quyết định ánh xạ lớp. Dự đoán đánh giá (NPZ, conf ≥ 0,001) đã lưu nhưng **chưa** phải detection cache cho tracking; cache chưa tạo. **Vòng 44**: Codex `3e94b21` đóng R43-B1 / R43-N1 (metadata của entry point BDD val dùng ngưỡng vận hành hiệu lực theo lượt); số liệu BDD val vòng 43 giữ nguyên, không chạy lại. **Vòng 45–46**: bảng D1–D5 và dự thảo giao thức cho UA-DETRAC test (chỉ đọc, chưa khóa); Codex `d4715aa` **REQUEST CHANGES**, sửa ở vòng 46; Codex `e4a0311` **PASS WITH LIMITATIONS**. **D1–D5 CHƯA DUYỆT**; adapter UA-DETRAC chưa viết, UA-DETRAC test chưa chạy, chưa có kết quả detector UA-DETRAC; detection cache vẫn chưa tạo. **Cập nhật 22/10:** ✅ **Đã xong.** D1–D5 người dùng duyệt 09/10; R47 đánh giá 3 detector (COCO + BDD-only) trên UA-DETRAC test. R52 train lại detector trên dữ liệu trộn BDD100K + UA-DETRAC (mixed5). **R53** đánh giá đầy đủ yolov8n_coco / yolov8n_mixed5 / yolo11n_mixed5 theo giao thức khóa: UA-DETRAC test mAP50 (car, bus) 0,870 / 0,879 / 0,888; BDD val mAP50 5 lớp 0,244 / 0,390 / 0,379; chấm lại từ NPZ trùng; GPT nghiệm thu approve (`handoff/logs/review53/04_ket_qua_danh_gia_day_du.md`). **Detection cache cho tracking** test40 (3 detector × 40 video) đã tạo và xác nhận trong lượt thực thi 21/10 (dòng 4) |
 | 4 | So sánh bộ lọc **CV / EKF / UKF / PF**, đối chứng **SORT / ByteTrack** bằng các phép so sánh có kiểm soát | **Cập nhật 23/10 (tối): ✅ Đã xong** trên UA-DETRAC test40 — ByteTrack (R56), ước lượng biến thiên (R57), đối chứng SORT (R58 thiết kế, R59 thực thi), đều Codex approve; chi tiết (d)–(e) dưới. *(Dòng cập nhật 23/10 sáng, giữ làm lịch sử: "🔄 ByteTrack trên test40 xong, Codex nghiệm thu approve (`nghiem_thu_test40/lan_013`); còn SORT trên test40 và ước lượng biến thiên.")* (a) **R51** (dev12, detector YOLOv8n-COCO, đã approve): so sánh có kiểm soát ByteTrack vs SORT và CV/EKF/UKF/PF100/PF100-K1 — HOTA ekf 0,5925 / cv 0,5900 / ukf 0,5879 / pf100 0,4933 / pf100-k1 0,5377; ByteTrack > SORT ~0,02–0,03; CI ekf−cv, ukf−cv chứa 0 (`handoff/logs/review51/03_tong_hop_va_slide.md`). (b) **R54–R56** (đã approve): khóa giao thức test40 (3 detector × c25/c10 × CV/EKF/UKF/PF500 s0–s2 = 36 run × 40 video), smoke, bộ điều phối tiếp tục theo video, khóa R56. (c) **Thực thi 21/10** (ngoài orchestrator theo quyết định người dùng): 36/36 run chấm xong, tái lập 9/9 + 12/12 trùng byte, hậu kiểm đạt; HOTA mixed5 cao hơn COCO ~3–4, CV/EKF/UKF chênh ≤ 0,34, PF500 thấp hơn ~2,9–3,4 (`handoff/logs/review56/03_thuc_thi_tracking_test40.md`). (d) **R57A** (approve, `review_002.json` lượt `bytetrack_r57_bien_thien_20261023_0029`): bootstrap ghép cặp theo video trên test40, chỉ phân tích hậu nghiệm — PF500 thấp hơn CV/EKF/UKF HOTA −2,90…−3,43 pp, CI không chứa 0 ở cả 6 nhóm detector × ngưỡng (54/54 dòng HOTA/IDF1/IDSW); giữa CV/EKF/UKF |chênh HOTA| ≤ 0,34 pp, HOTA EKF−CV CI không chứa 0 ở 2/6 nhóm (yolov8n_coco-c10, yolo11n_mixed5-c25); 108 CI riêng lẻ chưa hiệu chỉnh so sánh bội (`handoff/logs/review57/01_bien_thien_test40.md`). (e) **R58A** (approve) hồ sơ thiết kế; **R59B** (approve, `review_005.json` lượt `bytetrack_r59_sort_test40_20261023_1053`): SORT trên test40 **chỉ c25** (c10 không chạy theo quyết định Q-A), 3 detector — ByteTrack hơn SORT HOTA +1,38…+3,71, chủ yếu nhờ AssA / IDF1 / IDSW; ở c25 tầng association điểm thấp của ByteTrack rỗng (`handoff/logs/review59/03_ket_qua_sort_test40.md`). Kết quả mô tả trên một tập test, không suy rộng ngoài phạm vi đã ghi |
 | 5 | **Đánh giá cuối** trên **BDD100K val** và **UA-DETRAC test** | **✅ Hoàn tất thực thi và báo cáo 27/10/2026.** R61 cổng A + B đạt; BDD val: 36 run × 200 video, 7.200 tracking, 36 chấm, 108 CI, hậu kiểm đạt. UA-DETRAC test40 dùng R53/R56/R57/R59 đã nghiệm thu. Báo cáo tách hai tập: `handoff/logs/review61/06_ket_qua_thuc_thi_cong_b.md`; đóng mốc và chuyển khóa PLAN: `handoff/logs/review61/07_dong_moc5.md`. Chưa có review bởi tác nhân thứ hai cho kết quả B. |
-| 6 | Cuối cùng mới **tối ưu tốc độ hệ thống Nano**, so với cấu hình baseline đã ghi nhận | Chưa |
+| 6 | Cuối cùng mới **tối ưu tốc độ hệ thống Nano**, so với cấu hình baseline đã ghi nhận | **🔄 Đang làm 28/10/2026:** người dùng đổi Jetson, dùng lại thẻ cũ; manifest v16 562/562 và engine hash đạt, đang đo baseline mới từ bản sao v16 (`handoff/logs/review62/05_tien_kiem_va_khoi_phuc.md`). Chưa có kết quả tối ưu. |
 
 Lớp đã khóa: `0 car, 1 truck, 2 bus, 3 motorcycle, 4 bicycle` (`src/detector_classes.py`).
 

@@ -45,6 +45,9 @@ MAX_WH = 7680       # offset lop trong NMS (ultralytics max_wh)
 MAX_NMS = 30000     # so box toi da dua vao NMS (ultralytics max_nms)
 PAD_VALUE = 114
 IGNORE_MASK_COLOR_BGR = (114, 114, 114)   # = config.IGNORE_MASK_COLOR_BGR (khong import config: giu cu phap 3.6)
+# Same float32 division as the original uint8 preprocessing, computed once.
+_UINT8_TO_FLOAT32 = np.arange(256, dtype=np.float32) / 255.0
+_UINT8_TO_FLOAT32.setflags(write=False)
 
 
 # ------------------------------------------------------------------------------------- tien xu ly
@@ -71,6 +74,13 @@ def letterbox(img, new_shape=640, pad_value=PAD_VALUE):
 def preprocess(img_lb):
     """BGR uint8 HWC -> float32 (1, 3, H, W) RGB trong [0, 1] (giong BasePredictor.preprocess)."""
     x = img_lb[:, :, ::-1].transpose(2, 0, 1)               # BGR->RGB, HWC->CHW
+    if img_lb.dtype == np.uint8 and img_lb.size:
+        import cv2
+        x = np.ascontiguousarray(x)
+        # A single-channel column avoids treating width as OpenCV channels.
+        # LUT copies the exact float32 value; each call owns its output buffer.
+        y = cv2.LUT(x.reshape(-1, 1), _UINT8_TO_FLOAT32)
+        return np.ascontiguousarray(y).reshape((1,) + x.shape)
     x = np.ascontiguousarray(x, dtype=np.float32) / 255.0
     return x[None]
 

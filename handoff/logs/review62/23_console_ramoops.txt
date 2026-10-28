@@ -1,0 +1,236 @@
+[    1.121566] tegradc tegradc.1: dpd enable lookup fail:-19
+[    1.627309] Host read timeout at address 545c00c4
+[    1.894703] imx219 7-0010: imx219_board_setup: error during i2c read probe (-121)
+[    1.902348] imx219 7-0010: board setup failed
+[    1.930830] imx219 8-0010: imx219_board_setup: error during i2c read probe (-121)
+[    1.938402] imx219 8-0010: board setup failed
+[    3.734675] cgroup: cgroup2: unknown option "nsdelegate"
+[    5.480791] random: systemd-journal: uninitialized urandom read (16 bytes read)
+[    5.489655] random: systemd-journal: uninitialized urandom read (16 bytes read)
+[    5.510873] random: systemd: uninitialized urandom read (16 bytes read)
+[    6.729936] random: crng init done
+[    6.733341] random: 116 urandom warning(s) missed due to ratelimiting
+[   10.659859] using random self ethernet address
+[   10.664339] using random host ethernet address
+[   12.978505] using random self ethernet address
+[   12.982996] using random host ethernet address
+[   22.109490] ------------[ cut here ]------------
+[   22.114179] WARNING: CPU: 0 PID: 4093 at /dvs/git/dirty/git-master_linux/kernel/kernel-4.9/net/wireless/nl80211.c:14154 cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+[   22.129813] ---[ end trace c956bd41e8c0de2b ]---
+[   25.883212] Bridge firewalling registered
+[   30.509101] tegra-i2c 7000c000.i2c: no acknowledge from address 0x50
+[   30.516045] tegra-i2c 7000c400.i2c: no acknowledge from address 0x50
+[   31.275710] tegra-i2c 7000c000.i2c: no acknowledge from address 0x50
+[   31.282766] tegra-i2c 7000c400.i2c: no acknowledge from address 0x50
+[  604.033221] tegra-i2c 7000c000.i2c: no acknowledge from address 0x50
+[  604.039948] tegra-i2c 7000c400.i2c: no acknowledge from address 0x50
+[ 3016.705143] mmc1: Data CRC error
+[ 3016.708370] sdhci: =========== REGISTER DUMP (mmc1)===========
+[ 3016.714189] sdhci: Sys addr: 0x00000020 | Version:  0x00000303
+[ 3016.720009] sdhci: Blk size: 0x00007200 | Blk cnt:  0x00000002
+[ 3016.725827] sdhci: Argument: 0x01efc800 | Trn mode: 0x0000003b
+[ 3016.731645] sdhci: Present:  0x01fb0008 | Host ctl: 0x00000017
+[ 3016.737463] sdhci: Power:    0x00000001 | Blk gap:  0x00000000
+[ 3016.743281] sdhci: Wake-up:  0x00000000 | Clock:    0x00000007
+[ 3016.749100] sdhci: Timeout:  0x0000000e | Int stat: 0x00001000
+[ 3016.754918] sdhci: Int enab: 0x02ff100b | Sig enab: 0x02fc100b
+[ 3016.760737] sdhci: AC12 err: 0x00000000 | Slot int: 0x00000000
+[ 3016.766557] sdhci: Caps:     0x376cd08c | Caps_1:   0x10006f73
+[ 3016.772375] sdhci: Cmd:      0x0000123a | Max curr: 0x00000000
+[ 3016.778192] sdhci: Host ctl2: 0x0000308b
+[ 3016.782106] sdhci: ADMA Err: 0x00000000 | ADMA Ptr: 0x00000000ffefe410
+[ 3016.788638] sdhci: ===========================================
+[ 3023.437686] tegra-xusb 70090000.xusb: xHCI host not responding to stop endpoint command.
+[ 3023.445768] tegra-xusb 70090000.xusb: Assuming host is dying, halting host.
+[ 3023.452904] tegra-xusb 70090000.xusb: HC died; cleaning up
+[ 3032.653491] tegra-i2c 7000d000.i2c: pio timed out addr: 0x3c tlen:28 rlen:4
+[ 3032.660465] tegra-i2c 7000d000.i2c: --- register dump for debugging ----
+[ 3032.667188] tegra-i2c 7000d000.i2c: I2C_CNFG - 0x2c00
+[ 3032.672259] tegra-i2c 7000d000.i2c: I2C_PACKET_TRANSFER_STATUS - 0x1010001
+[ 3032.679146] tegra-i2c 7000d000.i2c: I2C_FIFO_CONTROL - 0xe0
+[ 3032.684726] tegra-i2c 7000d000.i2c: I2C_FIFO_STATUS - 0x800081
+[ 3032.690567] tegra-i2c 7000d000.i2c: I2C_INT_MASK - 0x7d
+[ 3032.695800] tegra-i2c 7000d000.i2c: I2C_INT_STATUS - 0xc3
+[ 3032.701210] tegra-i2c 7000d000.i2c: i2c transfer timed out addr: 0x3c
+[ 3032.707715] max77620-gpio max77620-gpio: CNFG_GPIOx read failed: -110
+[ 3037.805339] INFO: rcu_preempt detected stalls on CPUs/tasks:
+[ 3037.811008] 	0-...: (1 GPs behind) idle=def/2/0 softirq=49355/49356 fqs=2414 
+[ 3037.818129] 	(detected by 1, t=5252 jiffies, g=22255, c=22254, q=911)
+[ 3038.469324] INFO: rcu_sched detected stalls on CPUs/tasks:
+[ 3038.474818] 	0-...: (1 GPs behind) idle=def/2/0 softirq=49328/49356 fqs=2427 
+[ 3038.481938] 	(detected by 1, t=5252 jiffies, g=2196, c=2195, q=13)
+[ 3042.889269] tegra-i2c 7000d000.i2c: pio timed out addr: 0x3c tlen:28 rlen:4
+[ 3042.896252] tegra-i2c 7000d000.i2c: --- register dump for debugging ----
+[ 3042.902967] tegra-i2c 7000d000.i2c: I2C_CNFG - 0x2c00
+[ 3042.908033] tegra-i2c 7000d000.i2c: I2C_PACKET_TRANSFER_STATUS - 0x1010001
+[ 3042.914916] tegra-i2c 7000d000.i2c: I2C_FIFO_CONTROL - 0xe0
+[ 3042.920498] tegra-i2c 7000d000.i2c: I2C_FIFO_STATUS - 0x800081
+[ 3042.926340] tegra-i2c 7000d000.i2c: I2C_INT_MASK - 0x7d
+[ 3042.931574] tegra-i2c 7000d000.i2c: I2C_INT_STATUS - 0xc3
+[ 3042.936985] tegra-i2c 7000d000.i2c: i2c transfer timed out addr: 0x3c
+[ 3042.943493] max77620-gpio max77620-gpio: CNFG_GPIO_OUT update failed: -110
+[ 3064.006603] Bad mode in Error handler detected on CPU3, code 0xbf000002 -- SError
+[ 3064.006642] NMI watchdog: BUG: soft lockup - CPU#2 stuck for 22s! [swapper/2:0]
+[ 3064.006649] Modules linked in: bnep
+[ 3064.006650] NMI watchdog: BUG: soft lockup - CPU#1 stuck for 22s! [swapper/1:0]
+[ 3064.006651]  fuse
+[ 3064.006652] Modules linked in:
+[ 3064.006653]  xt_conntrack
+[ 3064.006654]  bnep
+[ 3064.006655]  ipt_MASQUERADE
+[ 3064.006656]  fuse
+[ 3064.006657]  nf_nat_masquerade_ipv4
+[ 3064.006658]  xt_conntrack
+[ 3064.006659]  nf_conntrack_netlink
+[ 3064.006660]  ipt_MASQUERADE
+[ 3064.006661]  nfnetlink
+[ 3064.006662]  nf_nat_masquerade_ipv4
+[ 3064.006663]  xt_addrtype
+[ 3064.006664]  nf_conntrack_netlink
+[ 3064.006665]  iptable_filter
+[ 3064.006665]  nfnetlink
+[ 3064.006666]  iptable_nat
+[ 3064.006667]  xt_addrtype
+[ 3064.006668]  nf_conntrack_ipv4
+[ 3064.006669]  iptable_filter
+[ 3064.006670]  nf_defrag_ipv4
+[ 3064.006671]  iptable_nat
+[ 3064.006672]  nf_nat_ipv4
+[ 3064.006672]  nf_conntrack_ipv4
+[ 3064.006673]  nf_nat
+[ 3064.006674]  nf_defrag_ipv4
+[ 3064.006675]  nf_conntrack
+[ 3064.006676]  nf_nat_ipv4
+[ 3064.006677]  br_netfilter
+[ 3064.006678]  nf_nat
+[ 3064.006678]  zram
+[ 3064.006679]  nf_conntrack
+[ 3064.006680]  overlay
+[ 3064.006681]  br_netfilter
+[ 3064.006682]  binfmt_misc
+[ 3064.006682]  zram
+[ 3064.006683]  rtl8821au
+[ 3064.006684]  overlay
+[ 3064.006685]  cfg80211
+[ 3064.006686]  binfmt_misc
+[ 3064.006687]  userspace_alert
+[ 3064.006688]  rtl8821au
+[ 3064.006689]  nvgpu
+[ 3064.006689]  cfg80211
+[ 3064.006690]  ip_tables
+[ 3064.006691]  userspace_alert
+[ 3064.006692]  x_tables
+[ 3064.006693]  nvgpu
+[ 3064.006694]  ip_tables
+[ 3064.006694] 
+[ 3064.006696]  x_tables
+[ 3064.006699] CPU: 2 PID: 0 Comm: swapper/2 Tainted: G        W       4.9.337-tegra #1
+[ 3064.006700] 
+[ 3064.006701] Hardware name: NVIDIA Jetson Nano Developer Kit (DT)
+[ 3064.006704] CPU: 1 PID: 0 Comm: swapper/1 Tainted: G        W       4.9.337-tegra #1
+[ 3064.006706] task: 00000000cc5e0700 task.stack: 00000000deeaeac2
+[ 3064.006707] Hardware name: NVIDIA Jetson Nano Developer Kit (DT)
+[ 3064.006710] task: 00000000bdc220d5 task.stack: 0000000035a0b92b
+[ 3064.006713] PC is at cpuidle_enter_state+0xb8/0x380
+[ 3064.006714] PC is at cpuidle_enter_state+0xb8/0x380
+[ 3064.006716] LR is at cpuidle_enter_state+0xa0/0x380
+[ 3064.006717] LR is at cpuidle_enter_state+0xa0/0x380
+[ 3064.006719] pc : [<ffffff8008baaec8>] lr : [<ffffff8008baaeb0>] pstate: 60400045
+[ 3064.006721] pc : [<ffffff8008baaec8>] lr : [<ffffff8008baaeb0>] pstate: 60400045
+[ 3064.006722] sp : ffffffc0fa7d3eb0
+[ 3064.006723] sp : ffffffc0fa7cfeb0
+[ 3064.006726] x29: ffffffc0fa7d3eb0 
+[ 3064.006727] x29: ffffffc0fa7cfeb0 
+[ 3064.006729] x28: 0000000000000001 
+[ 3064.006730] x28: 0000000000000001 
+[ 3064.006733] x27: ffffff8009eba000 
+[ 3064.006734] x27: ffffff8009eba000 
+[ 3064.006736] x26: ffffff8009872bd0 
+[ 3064.006736] x26: ffffff8009872bd0 
+[ 3064.006739] x25: 0000000000000000 
+[ 3064.006740] x25: 0000000000000000 
+[ 3064.006741] x24: 000002c47e25420d 
+[ 3064.006742] x24: 000002c47e61a9eb 
+[ 3064.006744] x23: ffffffc0f7569800 
+[ 3064.006745] x23: ffffffc0f7569400 
+[ 3064.006747] x22: ffffffc0f7face00 
+[ 3064.006747] x22: ffffffc0f7facc00 
+[ 3064.006750] x21: ffffffc0f7569878 
+[ 3064.006751] x21: ffffffc0f7569478 
+[ 3064.006752] x20: 0000000000000001 
+[ 3064.006752] x20: 0000000000000001 
+[ 3064.006755] x19: 000002c96506a77a 
+[ 3064.006756] x19: 000002c96506b005 
+[ 3064.006757] x18: 0000000000000000 
+[ 3064.006758] x18: 0000000000000000 
+[ 3064.006760] x17: 0000000000000000 
+[ 3064.006761] x17: 0000000000000000 
+[ 3064.006762] x16: 0000000000000000 
+[ 3064.006763] x16: 0000000000000000 
+[ 3064.006765] x15: 0000000000000000 
+[ 3064.006766] x15: 0000000000000000 
+[ 3064.006767] x14: ffffffc0fa7bb800 
+[ 3064.006768] x14: ffffffc0fa7baa00 
+[ 3064.006770] x13: 00000040f5774000 
+[ 3064.006771] x13: 00000040f575c000 
+[ 3064.006772] x12: 0000000034d5d91d 
+[ 3064.006773] x12: 0000000034d5d91d 
+[ 3064.006775] x11: 000000000000000b 
+[ 3064.006777] x11: 000000000000000b 
+[ 3064.006778] x10: 0101010101010101 
+[ 3064.006778] x10: 0101010101010101 
+[ 3064.006781] x9 : fffffffffffffffe 
+[ 3064.006782] x9 : fffffffffffffffe 
+[ 3064.006783] x8 : 7f7f7f7f7f7f7f7f 
+[ 3064.006784] x8 : 7f7f7f7f7f7f7f7f 
+[ 3064.006787] x7 : fefefeff646c606d 
+[ 3064.006788] x7 : fefefeff646c606d 
+[ 3064.006789] x6 : 00000000082922e7 
+[ 3064.006789] x6 : 00000000082922e7 
+[ 3064.006792] x5 : 00ffffffffffffff 
+[ 3064.006793] x5 : 00ffffffffffffff 
+[ 3064.006794] x4 : 0000000000000015 
+[ 3064.006795] x4 : 0000000000000015 
+[ 3064.006797] x3 : ffffffc0fa7d3e90 
+[ 3064.006798] x3 : ffffffc0fa7cfe90 
+[ 3064.006800] x2 : ffffffc0fefe7e40 
+[ 3064.006800] x2 : ffffffc0fefcfe40 
+[ 3064.006803] x1 : 00000040f5774000 
+[ 3064.006804] x1 : 00000040f575c000 
+[ 3064.006805] x0 : ffffffc0fefe7e40 
+[ 3064.006805] x0 : ffffffc0fefcfe40 
+[ 3064.006807] 
+[ 3064.006807] 
+[ 3064.006810] Kernel panic - not syncing: softlockup: hung tasks
+[ 3064.006813] CPU: 2 PID: 0 Comm: swapper/2 Tainted: G        W    L  4.9.337-tegra #1
+[ 3064.006815] Hardware name: NVIDIA Jetson Nano Developer Kit (DT)
+[ 3064.006817] Call trace:
+[ 3064.006824] [<000000000a17dcae>] dump_backtrace+0x0/0x198
+[ 3064.006828] [<0000000039d602c3>] show_stack+0x24/0x30
+[ 3064.006833] [<00000000591e1d58>] dump_stack+0xa0/0xc4
+[ 3064.006838] [<000000007006da95>] panic+0x128/0x2a4
+[ 3064.006843] [<000000002d90f481>] watchdog_unpark_threads+0x0/0x98
+[ 3064.006848] [<00000000747aeac7>] __hrtimer_run_queues+0xd8/0x360
+[ 3064.006851] [<0000000027acc7f9>] hrtimer_interrupt+0xa8/0x1e0
+[ 3064.006856] [<00000000148150d0>] tegra210_timer_isr+0x38/0x48
+[ 3064.006861] [<000000004f84be7a>] __handle_irq_event_percpu+0x68/0x288
+[ 3064.006864] [<00000000b4a3602b>] handle_irq_event_percpu+0x28/0x60
+[ 3064.006866] [<0000000097c765db>] handle_irq_event+0x50/0x80
+[ 3064.006870] [<00000000b10b6968>] handle_fasteoi_irq+0xd4/0x1c0
+[ 3064.006873] [<00000000a02afd63>] generic_handle_irq+0x34/0x50
+[ 3064.006876] [<000000007728c470>] __handle_domain_irq+0x68/0xc0
+[ 3064.006878] [<0000000084e62dfc>] gic_handle_irq+0x5c/0xb0
+[ 3064.006881] [<00000000d4aeaae2>] el1_irq+0xe8/0x194
+[ 3064.006884] [<00000000c7f5497e>] cpuidle_enter_state+0xb8/0x380
+[ 3064.006887] [<00000000d4dae0f5>] cpuidle_enter+0x34/0x48
+[ 3064.006890] [<000000006507fff3>] call_cpuidle+0x44/0x70
+[ 3064.006893] [<00000000ae6e7916>] cpu_startup_entry+0x1b0/0x200
+[ 3064.006897] [<0000000080cc9730>] secondary_start_kernel+0x190/0x1f8
+[ 3064.006899] [<0000000019310705>] 0x84f8c1a8
+[ 3064.006904] SMP: stopping secondary CPUs
+[ 3065.089975] SMP: failed to stop secondary CPUs 1-3
+[ 3065.094761] Kernel Offset: disabled
+[ 3065.098240] Memory Limit: none
+[ 3065.110442] Rebooting in 5 seconds..
+[ 3070.114397] SMP: stopping secondary CPUs
+[ 3071.201507] SMP: failed to stop secondary CPUs 1-3

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "src/nano_live.py", line 94, in <module>
+    import run_tracking  # noqa: E402
+  File "/home/jetson/nano_run/r62_20261028/baseline/nano_transfer/src/run_tracking.py", line 50, in <module>
+    import tracker_ctrv  # noqa: E402
+  File "/home/jetson/nano_run/r62_20261028/baseline/nano_transfer/src/tracker_ctrv.py", line 62, in <module>
+    from lost_association import LostAwareAssociation  # noqa: E402
+  File "/home/jetson/nano_run/r62_20261028/baseline/nano_transfer/src/lost_association.py", line 75, in <module>
+    from ul_backend import TrackState, matching  # noqa: E402
+  File "/home/jetson/nano_run/r62_20261028/baseline/nano_transfer/src/ul_backend.py", line 79, in __getattr__
+    d = _load()
+  File "/home/jetson/nano_run/r62_20261028/baseline/nano_transfer/src/ul_backend.py", line 66, in _load
+    from ultralytics.trackers import basetrack as _bt           # noqa: PLC0415
+ModuleNotFoundError: No module named 'ultralytics'

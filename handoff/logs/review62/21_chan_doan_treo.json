@@ -1,0 +1,129 @@
+{
+  "utc": "2026-10-28T15:41:14.151615Z",
+  "failed_services": {
+    "exit": 0,
+    "stdout": "0 loaded units listed. Pass --all to see loaded but inactive units, too.\nTo show all installed unit files use 'systemctl list-unit-files'.\n",
+    "stderr": ""
+  },
+  "boot": {
+    "exit": 0,
+    "stdout": "f6f8c913-61cf-4b45-af91-ead44ca14f6b\n",
+    "stderr": ""
+  },
+  "thermal": {
+    "exit": 0,
+    "stdout": "AO-therm\n42500\nCPU-therm\n33500\nGPU-therm\n33500\nPLL-therm\n31500\nPMIC-Die\n50000\nthermal-fan-est\n33500\n",
+    "stderr": ""
+  },
+  "mmc": {
+    "exit": 0,
+    "stdout": "SD\nacer\n0\n",
+    "stderr": ""
+  },
+  "pstore": {
+    "exit": 0,
+    "stdout": "total 0\ndrwxr-xr-x 2 root root     0 10\u6708 28 22:51 .\ndrwxr-xr-x 7 root root     0 10\u6708 28 22:50 ..\n-r--r--r-- 1 root root 11684 10\u6708 28 22:51 console-ramoops-0\n-r--r--r-- 1 root root 74089 10\u6708 28 22:50 dmesg-ramoops-0\n",
+    "stderr": ""
+  },
+  "reset_policy": {
+    "exit": 0,
+    "stdout": "/proc/sys/kernel/panic 5\n/proc/sys/kernel/panic_on_oops 0\n/proc/sys/kernel/softlockup_panic 1\n/proc/sys/kernel/hung_task_panic 0\n",
+    "stderr": ""
+  },
+  "sensors": {
+    "/sys/bus/i2c/drivers/ina3221x/6-0040/name": "ina3221x",
+    "/sys/class/hwmon/hwmon0/temp1_input": "33750",
+    "/sys/class/hwmon/hwmon0/name": "thermal-fan-est",
+    "/sys/class/hwmon/hwmon1/pwm_cap": "255",
+    "/sys/class/hwmon/hwmon1/fan_kickstart": "0",
+    "/sys/class/hwmon/hwmon1/temp_control": "1",
+    "/sys/class/hwmon/hwmon1/fan_rpm_in_limit": "false",
+    "/sys/class/hwmon/hwmon1/fan_available_profiles": "N/A",
+    "/sys/class/hwmon/hwmon1/pwm_rpm_table": "(Index, RPM, PWM, RRU, RRD)\n(0, 0, 0, 40, 40)\n(1, 1000, 80, 2, 2)\n(2, 2000, 120, 1, 1)\n(3, 3000, 160, 1, 1)\n(4, 4000, 255, 1, 1)\n(5, 5000, 255, 1, 1)\n(6, 6000, 255, 1, 1)\n(7, 7000, 255, 1, 1)\n(8, 10000, 255, 1, 1)\n(9, 11000, 255, 1, 1)",
+    "/sys/class/hwmon/hwmon1/pwm_state_map": "[Errno 5] Input/output error",
+    "/sys/class/hwmon/hwmon1/fan_profile": "N/A",
+    "/sys/class/hwmon/hwmon1/name": "tegra_pwmfan"
+  },
+  "logs": {
+    "/var/log/kern.log": {
+      "size": 474960,
+      "matches": [
+        "Oct 28 19:19:47 jetson-desktop kernel: [    0.455762] tegra-pmc: ### PMC reset source: TEGRA_POWER_ON_RESET",
+        "Oct 28 19:19:47 jetson-desktop kernel: [    0.455767] tegra-pmc: ### PMC reset level: TEGRA_RESET_LEVEL_WARM",
+        "Oct 28 19:19:47 jetson-desktop kernel: [    1.116693] tegra-fuse-burn 7000f800.efuse:efuse-burn: shutdown limit check disabled",
+        "Oct 28 20:25:48 jetson-desktop kernel: [    0.455709] tegra-pmc: ### PMC reset source: TEGRA_POWER_ON_RESET",
+        "Oct 28 20:25:48 jetson-desktop kernel: [    0.455715] tegra-pmc: ### PMC reset level: TEGRA_RESET_LEVEL_WARM",
+        "Oct 28 20:25:48 jetson-desktop kernel: [    1.125627] tegra-fuse-burn 7000f800.efuse:efuse-burn: shutdown limit check disabled",
+        "Oct 28 20:26:32 jetson-desktop kernel: [    0.455700] tegra-pmc: ### PMC reset source: TEGRA_POWER_ON_RESET",
+        "Oct 28 20:26:32 jetson-desktop kernel: [    0.455705] tegra-pmc: ### PMC reset level: TEGRA_RESET_LEVEL_WARM",
+        "Oct 28 20:26:32 jetson-desktop kernel: [    1.124509] tegra-fuse-burn 7000f800.efuse:efuse-burn: shutdown limit check disabled",
+        "Oct 28 22:51:07 jetson-desktop kernel: [    0.459533] tegra-pmc: ### PMC reset source: TEGRA_SOFTWARE_RESET",
+        "Oct 28 22:51:07 jetson-desktop kernel: [    0.459539] tegra-pmc: ### PMC reset level: TEGRA_RESET_LEVEL_WARM",
+        "Oct 28 22:51:07 jetson-desktop kernel: [    1.128272] tegra-fuse-burn 7000f800.efuse:efuse-burn: shutdown limit check disabled"
+      ]
+    },
+    "/var/log/kern.log.1": {
+      "size": 307938,
+      "matches": [
+        "Oct 28 16:44:56 jetson-desktop kernel: [    0.472634] tegra-pmc: ### PMC reset source: TEGRA_SOFTWARE_RESET",
+        "Oct 28 16:44:56 jetson-desktop kernel: [    0.472640] tegra-pmc: ### PMC reset level: TEGRA_RESET_LEVEL_WARM",
+        "Oct 28 16:44:56 jetson-desktop kernel: [    1.137770] tegra-fuse-burn 7000f800.efuse:efuse-burn: shutdown limit check disabled"
+      ]
+    },
+    "/var/log/syslog": {
+      "size": 1945879,
+      "matches": [
+        "Oct 28 19:19:35 jetson-desktop bluetoothd[5530]: src/adapter.c:adapter_shutdown()",
+        "Oct 28 19:19:36 jetson-desktop systemd[4525]: Reached target Shutdown.",
+        "Oct 28 19:19:36 jetson-desktop dockerd[4315]: time=\"2026-10-28T19:19:36.465847164+08:00\" level=info msg=\"stopping event stream following graceful shutdown\" error=\"<nil>\" module=libcontainerd namespace=moby",
+        "Oct 28 19:19:36 jetson-desktop dockerd[4315]: time=\"2026-10-28T19:19:36.466439890+08:00\" level=info msg=\"Daemon shutdown complete\"",
+        "Oct 28 19:19:47 jetson-desktop kernel: [    0.455762] tegra-pmc: ### PMC reset source: TEGRA_POWER_ON_RESET",
+        "Oct 28 19:19:47 jetson-desktop kernel: [    0.455767] tegra-pmc: ### PMC reset level: TEGRA_RESET_LEVEL_WARM",
+        "Oct 28 19:19:47 jetson-desktop systemd[1]: Starting Update UTMP about System Boot/Shutdown...",
+        "Oct 28 19:19:47 jetson-desktop systemd[1]: Started Update UTMP about System Boot/Shutdown.",
+        "Oct 28 19:19:47 jetson-desktop kernel: [    1.116693] tegra-fuse-burn 7000f800.efuse:efuse-burn: shutdown limit check disabled",
+        "Oct 28 19:19:58 jetson-desktop containerd[4022]: time=\"2026-10-28T19:19:58.731167265+08:00\" level=info msg=\"loading plugin \\\"io.containerd.internal.v1.restart\\\"...\" type=io.containerd.internal.v1",
+        "Oct 28 19:20:13 jetson-desktop rtkit-daemon[5279]: Watchdog thread running.",
+        "Oct 28 20:25:15 jetson-desktop bluetoothd[5221]: src/adapter.c:adapter_shutdown()",
+        "Oct 28 20:25:15 jetson-desktop systemd[4455]: Reached target Shutdown.",
+        "Oct 28 20:25:15 jetson-desktop dockerd[4445]: time=\"2026-10-28T20:25:15.665387769+08:00\" level=info msg=\"stopping event stream following graceful shutdown\" error=\"<nil>\" module=libcontainerd namespace=moby",
+        "Oct 28 20:25:15 jetson-desktop dockerd[4445]: time=\"2026-10-28T20:25:15.666071366+08:00\" level=info msg=\"Daemon shutdown complete\"",
+        "Oct 28 20:25:15 jetson-desktop dockerd[4445]: time=\"2026-10-28T20:25:15.666681213+08:00\" level=info msg=\"stopping event stream following graceful shutdown\" error=\"context canceled\" module=libcontainerd namespace=plugins.moby",
+        "Oct 28 20:25:48 jetson-desktop systemd[1]: Starting Update UTMP about System Boot/Shutdown...",
+        "Oct 28 20:25:48 jetson-desktop kernel: [    0.455709] tegra-pmc: ### PMC reset source: TEGRA_POWER_ON_RESET",
+        "Oct 28 20:25:48 jetson-desktop kernel: [    0.455715] tegra-pmc: ### PMC reset level: TEGRA_RESET_LEVEL_WARM",
+        "Oct 28 20:25:48 jetson-desktop systemd[1]: Started Update UTMP about System Boot/Shutdown.",
+        "Oct 28 20:25:48 jetson-desktop kernel: [    1.125627] tegra-fuse-burn 7000f800.efuse:efuse-burn: shutdown limit check disabled",
+        "Oct 28 20:25:57 jetson-desktop containerd[4069]: time=\"2026-10-28T20:25:57.923014524+08:00\" level=info msg=\"loading plugin \\\"io.containerd.internal.v1.restart\\\"...\" type=io.containerd.internal.v1",
+        "Oct 28 20:26:14 jetson-desktop rtkit-daemon[5522]: Watchdog thread running.",
+        "Oct 28 20:26:32 jetson-desktop kernel: [    0.455700] tegra-pmc: ### PMC reset source: TEGRA_POWER_ON_RESET",
+        "Oct 28 20:26:32 jetson-desktop kernel: [    0.455705] tegra-pmc: ### PMC reset level: TEGRA_RESET_LEVEL_WARM",
+        "Oct 28 20:26:32 jetson-desktop systemd[1]: Starting Update UTMP about System Boot/Shutdown...",
+        "Oct 28 20:26:32 jetson-desktop systemd[1]: Started Update UTMP about System Boot/Shutdown.",
+        "Oct 28 20:26:32 jetson-desktop kernel: [    1.124509] tegra-fuse-burn 7000f800.efuse:efuse-burn: shutdown limit check disabled",
+        "Oct 28 20:26:40 jetson-desktop containerd[3982]: time=\"2026-10-28T20:26:40.070301276+08:00\" level=info msg=\"loading plugin \\\"io.containerd.internal.v1.restart\\\"...\" type=io.containerd.internal.v1",
+        "Oct 28 20:26:57 jetson-desktop rtkit-daemon[5436]: Watchdog thread running.",
+        "Oct 28 22:51:07 jetson-desktop systemd[1]: Starting Update UTMP about System Boot/Shutdown...",
+        "Oct 28 22:51:07 jetson-desktop systemd[1]: Started Update UTMP about System Boot/Shutdown.",
+        "Oct 28 22:51:07 jetson-desktop kernel: [    0.459533] tegra-pmc: ### PMC reset source: TEGRA_SOFTWARE_RESET",
+        "Oct 28 22:51:07 jetson-desktop kernel: [    0.459539] tegra-pmc: ### PMC reset level: TEGRA_RESET_LEVEL_WARM",
+        "Oct 28 22:51:07 jetson-desktop kernel: [    1.128272] tegra-fuse-burn 7000f800.efuse:efuse-burn: shutdown limit check disabled",
+        "Oct 28 22:51:26 jetson-desktop containerd[3988]: time=\"2026-10-28T22:51:26.708585718+08:00\" level=info msg=\"loading plugin \\\"io.containerd.internal.v1.restart\\\"...\" type=io.containerd.internal.v1",
+        "Oct 28 22:51:52 jetson-desktop rtkit-daemon[5460]: Watchdog thread running."
+      ]
+    },
+    "/var/log/syslog.1": {
+      "size": 1627355,
+      "matches": [
+        "Oct 28 16:40:49 jetson-desktop NetworkManager[3607]: <info>  [1793176849.7734] device (wlan0): scheduling DHCPv4 restart in 120 seconds, 3 tries left (reason: lease expired)",
+        "Oct 28 16:44:56 jetson-desktop kernel: [    0.472634] tegra-pmc: ### PMC reset source: TEGRA_SOFTWARE_RESET",
+        "Oct 28 16:44:56 jetson-desktop kernel: [    0.472640] tegra-pmc: ### PMC reset level: TEGRA_RESET_LEVEL_WARM",
+        "Oct 28 16:44:56 jetson-desktop systemd[1]: Starting Update UTMP about System Boot/Shutdown...",
+        "Oct 28 16:44:56 jetson-desktop systemd[1]: Started Update UTMP about System Boot/Shutdown.",
+        "Oct 28 16:44:56 jetson-desktop kernel: [    1.137770] tegra-fuse-burn 7000f800.efuse:efuse-burn: shutdown limit check disabled",
+        "Oct 28 16:45:14 jetson-desktop containerd[4040]: time=\"2026-10-28T16:45:14.619688427+08:00\" level=info msg=\"loading plugin \\\"io.containerd.internal.v1.restart\\\"...\" type=io.containerd.internal.v1",
+        "Oct 28 16:45:39 jetson-desktop rtkit-daemon[5538]: Watchdog thread running."
+      ]
+    }
+  }
+}

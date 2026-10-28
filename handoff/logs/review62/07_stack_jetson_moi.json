@@ -1,0 +1,54 @@
+{
+  "utc": "2026-10-28T08:43:30.044540Z",
+  "/proc/device-tree/model": "NVIDIA Jetson Nano Developer Kit|",
+  "/proc/device-tree/compatible": "nvidia,p3449-0000-b00+p3448-0002-b00|nvidia,jetson-nano|nvidia,tegra210|",
+  "/proc/device-tree/nvidia,boardids": "3448|",
+  "/etc/os-release": "NAME=\"Ubuntu\"\nVERSION=\"18.04.6 LTS (Bionic Beaver)\"\nID=ubuntu\nID_LIKE=debian\nPRETTY_NAME=\"Ubuntu 18.04.6 LTS\"\nVERSION_ID=\"18.04\"\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nVERSION_CODENAME=bionic\nUBUNTU_CODENAME=bionic",
+  "numpy": {
+    "version": "1.19.5",
+    "file": "/home/jetson/.local/lib/python3.6/site-packages/numpy/__init__.py"
+  },
+  "cv2": {
+    "version": "3.2.0",
+    "file": "/usr/lib/python3/dist-packages/cv2.cpython-36m-aarch64-linux-gnu.so"
+  },
+  "tensorrt": {
+    "version": "8.2.1.9",
+    "file": "/usr/lib/python3.6/dist-packages/tensorrt/__init__.py"
+  },
+  "python_bins": {
+    "exit": 0,
+    "stdout": "/usr/bin/pip3\n/usr/bin/unzip\n/usr/bin/curl\n/usr/bin/wget\n",
+    "stderr": ""
+  },
+  "local": {
+    "exit": 0,
+    "stdout": "total 48\ndrwxr-xr-x  2 root root 4096 5\u6708  12 15:39 bin\nlrwxrwxrwx  1 root root   22 3\u6708  29  2026 cuda -> /etc/alternatives/cuda\nlrwxrwxrwx  1 root root   25 3\u6708  29  2026 cuda-10 -> /etc/alternatives/cuda-10\ndrwxr-xr-x  6 root root 4096 3\u6708  29  2026 cuda-10.2\ndrwxr-xr-x  3 root root 4096 5\u6708  12 15:39 doc\ndrwxr-xr-x  2 root root 4096 4\u6708  27  2018 etc\ndrwxr-xr-x  2 root root 4096 4\u6708  27  2018 games\ndrwxr-xr-x  2 root root 4096 4\u6708  27  2018 include\ndrwxr-xr-x  2 root root 4096 4\u6708   9  2026 jetson_stats\ndrwxr-xr-x  2 root root 4096 4\u6708   9  2026 jtop\ndrwxr-xr-x  4 root root 4096 6\u6708   4  2018 lib\nlrwxrwxrwx  1 root root    9 4\u6708  27  2018 man -> share/man\ndrwxr-xr-x  2 root root 4096 4\u6708  27  2018 sbin\ndrwxr-xr-x 14 root root 4096 5\u6708  12 15:39 share\ndrwxr-xr-x  2 root root 4096 4\u6708  27  2018 src\n",
+    "stderr": ""
+  },
+  "cuda_libs": {
+    "exit": 0,
+    "stdout": "\tlibnvinfer_plugin.so.8 (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so.8\n\tlibnvinfer_plugin.so (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so\n\tlibnvinfer_builder_resource.so.8.2.1 (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libnvinfer_builder_resource.so.8.2.1\n\tlibnvinfer.so.8 (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libnvinfer.so.8\n\tlibnvinfer.so (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libnvinfer.so\n\tlibcudnn_ops_train.so.8 (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_ops_train.so.8\n\tlibcudnn_ops_train.so (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_ops_train.so\n\tlibcudnn_ops_infer.so.8 (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_ops_infer.so.8\n\tlibcudnn_ops_infer.so (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_ops_infer.so\n\tlibcudnn_cnn_train.so.8 (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_cnn_train.so.8\n\tlibcudnn_cnn_train.so (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_cnn_train.so\n\tlibcudnn_cnn_infer.so.8 (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_cnn_infer.so.8\n\tlibcudnn_cnn_infer.so (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_cnn_infer.so\n\tlibcudnn_adv_train.so.8 (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_adv_train.so.8\n\tlibcudnn_adv_train.so (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_adv_train.so\n\tlibcudnn_adv_infer.so.8 (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_adv_infer.so.8\n\tlibcudnn_adv_infer.so (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn_adv_infer.so\n\tlibcudnn.so.8 (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn.so.8\n\tlibcudnn.so (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcudnn.so\n\tlibcudart.so.10.2 (libc6,AArch64) => /usr/local/cuda-10.2/targets/aarch64-linux/lib/libcudart.so.10.2\n\tlibcudart.so (libc6,AArch64) => /usr/local/cuda-10.2/targets/aarch64-linux/lib/libcudart.so\n\tlibcuda.so.1 (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/tegra/libcuda.so.1\n\tlibcuda.so (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/libcuda.so\n\tlibcuda.so (libc6,AArch64) => /usr/lib/aarch64-linux-gnu/tegra/libcuda.so\n\tlibcublasLt.so.10 (libc6,AArch64) => /usr/local/cuda-10.2/targets/aarch64-linux/lib/libcublasLt.so.10\n\tlibcublasLt.so (libc6,AArch64) => /usr/local/cuda-10.2/targets/aarch64-linux/lib/libcublasLt.so\n\tlibcublas.so.10 (libc6,AArch64) => /usr/local/cuda-10.2/targets/aarch64-linux/lib/libcublas.so.10\n\tlibcublas.so (libc6,AArch64) => /usr/local/cuda-10.2/targets/aarch64-linux/lib/libcublas.so\n",
+    "stderr": ""
+  },
+  "packages": {
+    "exit": 0,
+    "stdout": "cuda-command-line-tools-10-2\t10.2.460-1\ncuda-compiler-10-2\t10.2.460-1\ncuda-cudart-10-0\t\ncuda-cudart-10-1\t\ncuda-cudart-10-2\t10.2.300-1\ncuda-cudart-10-3\t\ncuda-cudart-10-4\t\ncuda-cudart-10-5\t\ncuda-cudart-11-0\t\ncuda-cudart-11-1\t\ncuda-cudart-11-2\t\ncuda-cudart-11-3\t\ncuda-cudart-11-4\t\ncuda-cudart-11-5\t\ncuda-cudart-cross-aarch64-10-2\t\ncuda-cudart-dev-10-2\t10.2.300-1\ncuda-cudart-dev-11-4\t\ncuda-cufft-10-0\t\ncuda-cufft-10-1\t\ncuda-cufft-10-2\t\ncuda-cufft-10-3\t\ncuda-cufft-10-4\t\ncuda-cufft-10-5\t\ncuda-cufft-11-0\t\ncuda-cufft-11-1\t\ncuda-cufft-11-2\t\ncuda-cufft-11-3\t\ncuda-cufft-11-4\t\ncuda-cufft-11-5\t\ncuda-cufft-dev-10-2\t\ncuda-cuobjdump-10-2\t10.2.300-1\ncuda-cupti-10-2\t10.2.300-1\ncuda-cupti-dev-10-2\t10.2.300-1\ncuda-curand-10-2\t\ncuda-curand-dev-10-2\t\ncuda-cusolver-10-2\t\ncuda-cusolver-dev-10-2\t\ncuda-cusolver-dev10-2\t\ncuda-cusparse-10-2\t\ncuda-cusparse-dev-10-2\t\ncuda-documentation-10-2\t10.2.300-1\ncuda-driver-dev-10-2\t10.2.300-1\ncuda-drivers\t\ncuda-gdb-10-2\t10.2.300-1\ncuda-libraries-10-2\t10.2.460-1\ncuda-libraries-dev-10-2\t10.2.460-1\ncuda-license-10-2\t\ncuda-memcheck-10-2\t10.2.300-1\ncuda-misc-headers-10-2\t\ncuda-npp-10-2\t\ncuda-npp-dev-10-2\t\ncuda-nvcc-10-2\t10.2.300-1\ncuda-nvdisasm-10-2\t10.2.300-1\ncuda-nvgraph-10-2\t10.2.300-1\ncuda-nvgraph-dev-10-2\t10.2.300-1\ncuda-nvml-dev-10-2\t10.2.300-1\ncuda-nvprof-10-2\t10.2.300-1\ncuda-nvprune-10-2\t10.2.300-1\ncuda-nvrtc-10-2\t10.2.300-1\ncuda-nvrtc-dev-10-2\t10.2.300-1\ncuda-nvtx-10-2\t10.2.300-1\ncuda-samples-10-2\t10.2.300-1\ncuda-toolkit-10-2\t10.2.460-1\ncuda-tools-10-2\t10.2.460-1\ncuda-visual-tools-10-2\t10.2.460-1\nlibnvinfer-bin\t8.2.1-1+cuda10.2\nlibnvinfer-dev\t8.2.1-1+cuda10.2\nlibnvinfer-dev-cross-aarch64\t\nlibnvinfer-doc\t8.2.1-1+cuda10.2\nlibnvinfer-plugin-dev\t8.2.1-1+cuda10.2\nlibnvinfer-plugin-dev-cross-aarch64\t\nlibnvinfer-plugin6\t\nlibnvinfer-plugin7\t\nlibnvinfer-plugin8\t8.2.1-1+cuda10.2\nlibnvinfer-samples\t8.2.1-1+cuda10.2\nlibnvinfer6\t\nlibnvinfer7\t\nlibnvinfer8\t8.2.1-1+cuda10.2\nlibnvinfer8-cross-aarch64\t\nnvidia-l4t-core\t32.7.5-20240611161210\npython3.8-distutils\t\npython3.8-lib2to3\t\npython3.8-tk\t\n",
+    "stderr": ""
+  },
+  "disk": {
+    "exit": 0,
+    "stdout": "Filesystem       1B-blocks        Used   Available Use% Mounted on\n/dev/mmcblk1p1 61228347392 30238109696 27846819840  53% /\n",
+    "stderr": ""
+  },
+  "memory": {
+    "exit": 0,
+    "stdout": "              total        used        free      shared  buff/cache   available\nMem:           3963        1346        1377          41        1239        2422\nSwap:          6077           0        6077\n",
+    "stderr": ""
+  },
+  "cuda_binary": {
+    "exit": 0,
+    "stdout": "-rwxr-xr-x 1 root root 200800 3\u6708   2  2021 /usr/local/cuda-10.2/bin/nvcc\n-rwxr-xr-x 1 root root 200800 3\u6708   2  2021 /usr/local/cuda-10/bin/nvcc\n-rwxr-xr-x 1 root root 200800 3\u6708   2  2021 /usr/local/cuda/bin/nvcc\n-rwxr-xr-x 1 root root 398816 7\u6708  15  2022 /usr/src/tensorrt/bin/trtexec\n",
+    "stderr": ""
+  }
+}

@@ -84,6 +84,21 @@ def main() -> int:  # noqa: C901
         _check("2. preprocess == permute/flip(BGR->RGB)/div255 cua BasePredictor (bang nhau chinh xac, float32 (1,3,640,640))",
                x.shape == (1, 3, 640, 640) and x.dtype == np.float32 and np.array_equal(x, t), f"max|d|={np.abs(x - t).max()}")
 
+        ramp = np.arange(16 * 16 * 3).astype(np.uint8).reshape(16, 16, 3)
+        cases = [ramp, ramp[::-1, ::-1, ::-1], ramp[::2, ::2], np.asfortranarray(ramp),
+                 ramp[:1, :1], ramp.astype(np.float32), ramp.astype(np.uint16), ramp[:0]]
+        for im in cases:
+            before = im.copy()
+            got = nd.preprocess(im)
+            expected = torch.from_numpy(im.copy()).float().permute(2, 0, 1).flip(0).div(255).numpy()[None]
+            assert got.dtype == np.float32 and got.shape == expected.shape and got.flags.c_contiguous
+            assert got.tobytes() == expected.tobytes() and np.array_equal(im, before)
+        retained = nd.preprocess(ramp)
+        saved = retained.tobytes()
+        nd.preprocess(np.zeros_like(ramp))
+        _check("2b. preprocess: all uint8 values/layouts, fallback dtype, empty input, independent output",
+               retained.tobytes() == saved)
+
         # --- 3. decode+NMS+scale vs ultralytics tren CUNG dau ra tho ---
         infer = nd.TorchPtInfer(str(ROOT / "models" / "yolov8n.pt"), device=dev)
         ok3, det3 = True, []
