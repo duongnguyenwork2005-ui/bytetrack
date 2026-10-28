@@ -10,9 +10,9 @@ File này là phạm vi làm việc cho các vòng sau. Thay đổi phạm vi ph
 > Mỗi vòng xong việc: cập nhật mục 0 trước, rồi mới viết brief/handoff. Lộ trình đọc: `AGENTS.md`.
 > Chỉ mục tài liệu cũ và vùng lưu trữ: `handoff/LUU_TRU.md`.
 
-**Lượt hiện tại 29/10/2026: đang thực hiện MỐC 6 — tối ưu tốc độ hệ thống Jetson Nano, mở ngày 28/10.**
-Đã đo baseline ngắn và kiểm ứng viên chuyển tensor; đang hoàn tất baseline dài và phép so cặp.
-**Chưa nghiệm thu tăng tốc, chưa sửa gói v16, engine, tracker hay cấu hình thí nghiệm**. Baseline lịch sử: pipeline
+**Lượt hiện tại 29/10/2026: MỐC 6 ĐÃ ĐÓNG VỚI KẾT QUẢ ÂM.** Đã đo baseline, kiểm ứng viên
+chuyển tensor và hoàn tất phép so cặp. Ứng viên không đạt ngưỡng tăng FPS đã chốt nên giữ gói v16 làm bản dùng;
+không sửa engine, tracker, metric hay cấu hình thí nghiệm. Baseline lịch sử: pipeline
 300 JPG không hiển thị khoảng 9,1–9,4 FPS (`handoff/REVIEW21_CHI_TIET.md`, `REVIEW22_CHI_TIET.md`), 1.470 JPG
 vòng 23 CV 9,22/EKF 9,05 FPS nhưng decode lệch mức nên không xếp hạng bộ lọc (`handoff/REVIEW23_CHI_TIET.md`);
 vòng 25 bật hiển thị giảm khoảng 2% trên 300 ảnh (`handoff/REVIEW25_CHI_TIET.md`). Gói triển khai theo hồ sơ v16 ở
@@ -48,21 +48,29 @@ Gói ứng viên thử nghiệm trên PC đã dựng từ ZIP v16, kiểm 562 ha
 `PACKAGE_INFO.json` đổi nội dung, cập nhật manifest; ZIP SHA256 `e1e155b0e37316e341343e502e48d329ae363f073cf57dfc83c90941e80d6bd1`
 (`27_goi_ung_vien.json`). Đã chuyển vào `/home/jetson/nano_run/r62_20261028/candidate/nano_transfer` và
 kiểm lại ZIP, 562 manifest hash và đúng hai file nội dung khác v16 (`candidate_verified.json`).
-Đã bắt đầu runner 16 lượt paired300 (4 cặp CV, 4 cặp EKF, bật hiển thị), PID 8984, cùng boot; lịch
-luân phiên v16/ứng viên, mỗi lượt thư mục mới và nghỉ 20 s. Đọc `paired300.runner.log`, `paired300/index.json`,
-`paired300/runner_exit.json` trước khi tiếp tục; không chạy trùng nếu còn sống. Cặp CV thứ nhất đạt
-parity detection/MOT/lớp trùng byte, FPS v16 9,3034 → ứng viên 9,6565 (+3,79%); đây là một cặp,
-**chưa kết luận đạt tiêu chí trung vị 4 cặp và chưa đo xong EKF**.
+Đã hoàn tất runner 16 lượt paired300 (4 cặp CV, 4 cặp EKF, bật hiển thị), exit 0, cùng boot;
+mọi cặp có detection/MOT/lớp trùng byte và từng lượt đủ 300 frame, không rơi frame hiển thị.
+Trung vị FPS tăng **3,917% CV** và **4,277% EKF**, đều dưới ngưỡng chốt 5%; p90 trễ giảm lần lượt
+3,568% và 3,877%, swap peak cùng 11 MB, swap không tăng trong từng lượt. Báo cáo số thô
+`handoff/logs/review62/28_so_cap_300_lan01.json`. **Ứng viên chưa đạt tiêu chí tăng tốc, không triển khai launcher**.
+Không suy ra throttling từ xung DVFS; chưa có đánh giá riêng về throttling, nhưng ngưỡng FPS đã đủ để kết luận
+chưa đạt. Ứng viên dài `candidate1470_lan01` CV/EKF đều 1470/1470 frame, live/replay byte đạt,
+runner exit 0, cùng boot; FPS CV 8,587, EKF 9,576 nhưng decode khác tầng nên không dùng số dài để kết luận tăng tốc.
+Detection/MOT/lớp của hai lượt dài trùng byte với baseline dài cùng tracker (`29_so_dai_1470_lan01.json`).
+Đã kiểm shortcut desktop vẫn trỏ `/home/jetson/nano_run/v16/nano_transfer`; launcher v16 `--kiem-tra`
+exit 0, detector Python/TensorRT/OpenCV/NumPy OK. Không chuyển launcher sang gói ứng viên.
+Kết luận/bằng chứng cuối R62: `handoff/logs/review62/30_ket_luan_moc6.md`,
+`28_so_cap_300_lan01.json`, `29_so_dai_1470_lan01.json`; raw nhỏ đã sao lưu tar SHA256
+`81ccef2b53934b1578feca4c338bbde73fdf490ef9b5e7a2eb7731f0e284e637`.
+Không còn việc đo trong phạm vi mốc 6; chỉ còn đẩy snapshot cuối lên GitHub.
 Phải đo lại baseline v16 trên Jetson hiện tại để so tối ưu; không quy chênh lệch với FPS máy cũ cho sửa mã.
 Chỉ ghi bản sao và kết quả R62; chưa sửa boot/mount/cài gói hoặc mã thuật toán.
 Gói v16 `handoff/nano_transfer_latest.zip` còn nguyên SHA256 `302f6af73d97aea009066416aaaa202db81311e60121676a75dacbe204e9cbf1`;
 engine đã sao lưu về `handoff/archive/nano_engine_r62_c32690cd.engine`, hash nguyên bản khớp. Bằng chứng
 và bước tiếp: `handoff/logs/review62/05_tien_kiem_va_khoi_phuc.md`.
-**Tiếp tục tự động (người dùng cho phép 29/10, thay yêu cầu không automation trước đây):** đã tạo lịch mỗi giờ
-`ti-p-t-c-m-c-6-jetson-nano`, ACTIVE, gắn chat `01a17bcd-4100-79f1-91aa-ba26408cd61f`.
-Lịch đọc điểm bàn giao `D:/LABOTARY/automation/checkpoints/nano_moc6_20261029/TIEP_TUC.md`, kiểm tiến trình/kết quả
-trước khi chạy tiếp, không mở orchestrator CLI riêng. Đây là kiểm theo lịch, không phải sự kiện reset quota;
-cần Windows bật và ứng dụng đang chạy. Không dùng reset credits/mua credits. Tắt lịch khi mốc 6 hoàn tất.
+**Tiếp tục tự động:** lịch gắn chat `ti-p-t-c-m-c-6-jetson-nano` đã giúp nối việc khi hạn mức cho phép;
+đã **xóa** lịch bằng automation_update sau khi đóng mốc 6, không còn lượt chạy nền. Không mở orchestrator CLI riêng,
+không dùng reset credits/mua credits.
 
 **(Lịch sử tại 27/10/2026) MỐC 5 HOÀN TẤT PHẦN THỰC THI VÀ BÁO CÁO; mốc 6 (tối ưu Nano) CHƯA BẮT ĐẦU ở thời điểm đó.**
 R61 cổng A đã đóng gói và được review cuối `review_009.json` approve: gói A SHA256

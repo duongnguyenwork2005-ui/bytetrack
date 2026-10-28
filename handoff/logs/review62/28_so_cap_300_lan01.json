@@ -1,0 +1,4965 @@
+{
+  "created_utc": "2026-10-28T20:18:51.089756+00:00",
+  "comparison_group": "paired300",
+  "runs": [
+    {
+      "id": 1,
+      "group": "paired300",
+      "pair": 1,
+      "tracker": "cv",
+      "variant": "baseline",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/01_cv_p01_baseline",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.303433021098005,
+      "fps_display": 9.374953452102258,
+      "startup_s": 11.260154972998862,
+      "processing_s": 32.24616110200077,
+      "total_s": 44.70251248299974,
+      "latency_ms": {
+        "n": 275,
+        "median": 114.6038459992269,
+        "p90": 118.26486900099553
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.405014000047231,
+          "p90": 11.630955999862636
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 13.553086002502823,
+          "p90": 15.479851001146017
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 74.2414699998335,
+          "p90": 74.91398500133073
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.197465001809178,
+          "p90": 8.377701000426896
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 114.6038459992269,
+          "p90": 118.26486900099553
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2427,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 44.0,
+          "CPU": 47.0,
+          "PMIC": 50.0,
+          "GPU": 44.5,
+          "AO": 57.5,
+          "thermal": 45.75
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          68.4,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/01_cv_p01_baseline/result.json": "6cf4c1dda4021bb028ecfdaa65ae1d3dfbf97e74e40da376df4a2c941fdc0d94",
+        "/home/jetson/nano_run/r62_20261028/paired300/01_cv_p01_baseline/live/run_meta.json": "97973daf00ab483d082cbf2ca5a0d2f9bb850dec98cc6cff5cc70313400a0398",
+        "/home/jetson/nano_run/r62_20261028/paired300/01_cv_p01_baseline/parity.json": "b662244d6f5397ab39cee703123737d034db3a0fef7a3d7c4338d0f65cf4387f",
+        "/home/jetson/nano_run/r62_20261028/paired300/01_cv_p01_baseline/before.json": "3826734940becc614cf5956f3f0a2d16655bdafcd6c46a28b8e8084e8b54542c",
+        "/home/jetson/nano_run/r62_20261028/paired300/01_cv_p01_baseline/after.json": "4d9ad99d481b37e140162cc1418545621f6cb4861c3c40178a24689710a8f645",
+        "/home/jetson/nano_run/r62_20261028/paired300/01_cv_p01_baseline/detections_array_sha256.json": "321462e9974ab73389e792f2728cdcacbb6f286a33c32b0c3077e086bb2db4d8",
+        "/home/jetson/nano_run/r62_20261028/paired300/01_cv_p01_baseline/live/data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "/home/jetson/nano_run/r62_20261028/paired300/01_cv_p01_baseline/live/data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448",
+        "/home/jetson/nano_run/r62_20261028/paired300/01_cv_p01_baseline/live/pipeline/MVI_39031.csv": "254064d6cc061ad135b182200cad57e24e41c5e11253eef40438775393df6371",
+        "/home/jetson/nano_run/r62_20261028/paired300/01_cv_p01_baseline/live/tegrastats.log": "e52b01dc492b50a465897d2365f7f7e30dedd7e21bcc6d5fc056667aaee440f5"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "bytetrack.yaml",
+          "tracker_yaml_sha256_12": "395701d947a7",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "85a712e1ba92a037fd84b12f178ad4fbca49bd817f0e06bbc30a6b086df7d6f4",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 2,
+      "group": "paired300",
+      "pair": 1,
+      "tracker": "cv",
+      "variant": "candidate",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/02_cv_p01_candidate",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.656477338106429,
+      "fps_display": 9.707234189641762,
+      "startup_s": 8.68753728700176,
+      "processing_s": 31.06722974600052,
+      "total_s": 40.94208315300057,
+      "latency_ms": {
+        "n": 275,
+        "median": 110.91499399844906,
+        "p90": 113.90641800244339
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.421418999816524,
+          "p90": 12.635146002139663
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 6.378484999004286,
+          "p90": 9.5014770013222
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 77.91576999807148,
+          "p90": 78.28681799946935
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.074855999235297,
+          "p90": 8.177695999620482
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 110.91499399844906,
+          "p90": 113.90641800244339
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2451,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 45.0,
+          "CPU": 48.5,
+          "PMIC": 50.0,
+          "GPU": 45.0,
+          "AO": 58.0,
+          "thermal": 46.5
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          69.0,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/02_cv_p01_candidate/result.json": "ec8d9d5a64e17bac25c889570a266661d9ad3f50df2e0a74beec7d74e930706a",
+        "/home/jetson/nano_run/r62_20261028/paired300/02_cv_p01_candidate/live/run_meta.json": "78f3dcc67bc171dc77aeaf42ea803b05a8942a45bea61d3f836a48d483cacfc2",
+        "/home/jetson/nano_run/r62_20261028/paired300/02_cv_p01_candidate/parity.json": "6e1ab6c8202e7ca9a226769a02ceb5ce04cd83cae385fc1e832f3bd8bd66e4b1",
+        "/home/jetson/nano_run/r62_20261028/paired300/02_cv_p01_candidate/before.json": "add425a7e23b2eba3688d0c543f59c0d0a5dc4c13235aab9eef3a72972fa33e1",
+        "/home/jetson/nano_run/r62_20261028/paired300/02_cv_p01_candidate/after.json": "b48d78b3a68daed0fca4dfabfe2f00b29e4417dce983be11851dcd9387e4e2e2",
+        "/home/jetson/nano_run/r62_20261028/paired300/02_cv_p01_candidate/detections_array_sha256.json": "87ff2d07d961559e420bb5b4930082769b7e019fa69cb69aa9e7034ff8db2e63",
+        "/home/jetson/nano_run/r62_20261028/paired300/02_cv_p01_candidate/live/data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "/home/jetson/nano_run/r62_20261028/paired300/02_cv_p01_candidate/live/data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448",
+        "/home/jetson/nano_run/r62_20261028/paired300/02_cv_p01_candidate/live/pipeline/MVI_39031.csv": "cb10503d213835b0b3ceb8283bbfdf4a9bd87635f1586dbaef3848d7053266ff",
+        "/home/jetson/nano_run/r62_20261028/paired300/02_cv_p01_candidate/live/tegrastats.log": "952c44a3caa62bb2eaa5347f32b06211e80aededd261ab681b14c56ee59a90d7"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "bytetrack.yaml",
+          "tracker_yaml_sha256_12": "395701d947a7",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "fccfe6b156fc7034bd410ddf0bf3f51c53cdea79f85d77d039d66f74786be1bc",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 3,
+      "group": "paired300",
+      "pair": 2,
+      "tracker": "cv",
+      "variant": "candidate",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/03_cv_p02_candidate",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.661582575810943,
+      "fps_display": 9.709051920712954,
+      "startup_s": 8.530392682001548,
+      "processing_s": 31.05081363700083,
+      "total_s": 40.75775816500027,
+      "latency_ms": {
+        "n": 275,
+        "median": 110.55325599954813,
+        "p90": 114.5998639985919
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.363395002263132,
+          "p90": 12.222010002005845
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 6.299159998889081,
+          "p90": 9.293918999901507
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 77.98091999939061,
+          "p90": 78.33952099827002
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.237879999593133,
+          "p90": 8.542495001165662
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 110.55325599954813,
+          "p90": 114.5998639985919
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2435,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 45.5,
+          "CPU": 49.5,
+          "PMIC": 50.0,
+          "GPU": 46.0,
+          "AO": 59.5,
+          "thermal": 48.0
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          70.8,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/03_cv_p02_candidate/result.json": "9e8d91fd925e89bc49a04d1d8ba17f0adb392b23e2b262611e4c44eb648fc0f0",
+        "/home/jetson/nano_run/r62_20261028/paired300/03_cv_p02_candidate/live/run_meta.json": "30f2cbb6f0e8b0e88f914982e48574bc6e7a6a72a8fe68561885f58cc4f0269e",
+        "/home/jetson/nano_run/r62_20261028/paired300/03_cv_p02_candidate/parity.json": "5d3e6fff33481f9db2cb528a3cc746c7f8893a3dba4fa99c3c4ff64dc28fd838",
+        "/home/jetson/nano_run/r62_20261028/paired300/03_cv_p02_candidate/before.json": "12d27324495c964c2d922eca3c47eaa8642f66d466c339ffc4ac83c1af7a0d51",
+        "/home/jetson/nano_run/r62_20261028/paired300/03_cv_p02_candidate/after.json": "e927e0f051b68846fb8c59c01e394600dfd7fdc27f52ba158bfa019fec8a34fb",
+        "/home/jetson/nano_run/r62_20261028/paired300/03_cv_p02_candidate/detections_array_sha256.json": "bc540d967e8d29fdf0dbc241151237099be09e6fe55a448a8a3e62db4515a27b",
+        "/home/jetson/nano_run/r62_20261028/paired300/03_cv_p02_candidate/live/data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "/home/jetson/nano_run/r62_20261028/paired300/03_cv_p02_candidate/live/data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448",
+        "/home/jetson/nano_run/r62_20261028/paired300/03_cv_p02_candidate/live/pipeline/MVI_39031.csv": "46663a28991132f945cabe54db2ab5c98e01ac8b915ef060bc5c75aa4cd03cef",
+        "/home/jetson/nano_run/r62_20261028/paired300/03_cv_p02_candidate/live/tegrastats.log": "adc2f35a5105feb8376a4bc41d2ee641441074449e1f8aa41a252d5320c8812b"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "bytetrack.yaml",
+          "tracker_yaml_sha256_12": "395701d947a7",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "fccfe6b156fc7034bd410ddf0bf3f51c53cdea79f85d77d039d66f74786be1bc",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 4,
+      "group": "paired300",
+      "pair": 2,
+      "tracker": "cv",
+      "variant": "baseline",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/04_cv_p02_baseline",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.281420320931133,
+      "fps_display": 9.334244129166386,
+      "startup_s": 8.940091307002149,
+      "processing_s": 32.32263916800002,
+      "total_s": 42.43365188200187,
+      "latency_ms": {
+        "n": 275,
+        "median": 114.85991299923626,
+        "p90": 119.09131300126319
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.43501100159483,
+          "p90": 12.014347998047015
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 13.551102998462738,
+          "p90": 14.718369999172864
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 74.29942000089795,
+          "p90": 74.91104699874995
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.217722999484977,
+          "p90": 8.322280998982023
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 114.85991299923626,
+          "p90": 119.09131300126319
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2431,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 45.5,
+          "CPU": 49.0,
+          "PMIC": 50.0,
+          "GPU": 46.0,
+          "AO": 59.0,
+          "thermal": 47.25
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          67.2,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/04_cv_p02_baseline/result.json": "32040ada112a36747c9833409cf57e8265597acf1f2be5983608afcc81768346",
+        "/home/jetson/nano_run/r62_20261028/paired300/04_cv_p02_baseline/live/run_meta.json": "a9809f5e7a04ed66e92d8211fccc338264e9eddad03ad2bcea0dc5d1f3db50b8",
+        "/home/jetson/nano_run/r62_20261028/paired300/04_cv_p02_baseline/parity.json": "5b590816c0aa107df378bfd6f63d236d49790f52b94e8df487f18a224fbbc4c7",
+        "/home/jetson/nano_run/r62_20261028/paired300/04_cv_p02_baseline/before.json": "ecfa02155391dff90cfe292e9f8d5618a6016f3759403f07dcb582b242a96b1e",
+        "/home/jetson/nano_run/r62_20261028/paired300/04_cv_p02_baseline/after.json": "274558735bcae13cb7c6be8bef15d85589778f026113534cd2e9c6eb8e690e24",
+        "/home/jetson/nano_run/r62_20261028/paired300/04_cv_p02_baseline/detections_array_sha256.json": "23341cc57e0347753ff1d7fa60254fbb5e13b3a587f59bf5d7615509fd1b8e03",
+        "/home/jetson/nano_run/r62_20261028/paired300/04_cv_p02_baseline/live/data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "/home/jetson/nano_run/r62_20261028/paired300/04_cv_p02_baseline/live/data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448",
+        "/home/jetson/nano_run/r62_20261028/paired300/04_cv_p02_baseline/live/pipeline/MVI_39031.csv": "d5b190e1f8bdfa704eb723f5fa4585d96838197474ca5f0ade9cd000fe0a325a",
+        "/home/jetson/nano_run/r62_20261028/paired300/04_cv_p02_baseline/live/tegrastats.log": "798dd916c81c47dcfc300b313f12b6026b30225e0888089caf484f4b662974b5"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "bytetrack.yaml",
+          "tracker_yaml_sha256_12": "395701d947a7",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "85a712e1ba92a037fd84b12f178ad4fbca49bd817f0e06bbc30a6b086df7d6f4",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 5,
+      "group": "paired300",
+      "pair": 3,
+      "tracker": "cv",
+      "variant": "baseline",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/05_cv_p03_baseline",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.289920484980085,
+      "fps_display": 9.334973256393763,
+      "startup_s": 8.526632443998096,
+      "processing_s": 32.293064347002655,
+      "total_s": 41.99262852600077,
+      "latency_ms": {
+        "n": 275,
+        "median": 114.9128209981427,
+        "p90": 118.08226999710314
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.384122997696977,
+          "p90": 11.639755000942387
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 13.637510997796198,
+          "p90": 14.941082998120692
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 74.42524900034186,
+          "p90": 75.08963999862317
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.187410003098194,
+          "p90": 8.385979999729898
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 114.9128209981427,
+          "p90": 118.08226999710314
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2437,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 45.0,
+          "CPU": 49.0,
+          "PMIC": 50.0,
+          "GPU": 45.5,
+          "AO": 58.5,
+          "thermal": 46.5
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          65.6,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/05_cv_p03_baseline/result.json": "6638d1add98ddf0f172bb96ef4c8b01f16990c62ad8095c6e298fe539ca4fbcb",
+        "/home/jetson/nano_run/r62_20261028/paired300/05_cv_p03_baseline/live/run_meta.json": "34403c3bb258d1d5da731f25d294e7069a399770904a68ca22f41e2404b59e19",
+        "/home/jetson/nano_run/r62_20261028/paired300/05_cv_p03_baseline/parity.json": "bb19fe5207c2614f438beece8fe4ea6764d05f46dcd7736ea22c1e0b50b3ac92",
+        "/home/jetson/nano_run/r62_20261028/paired300/05_cv_p03_baseline/before.json": "62b0f28d55fbec391bd21a9c727875b53516d9b70fa6f62fdcd2cbfaadde9db8",
+        "/home/jetson/nano_run/r62_20261028/paired300/05_cv_p03_baseline/after.json": "df7453f5924694f642d7838ffe2ffc1bf85b2d11e672fe47f714cabeb2de3ade",
+        "/home/jetson/nano_run/r62_20261028/paired300/05_cv_p03_baseline/detections_array_sha256.json": "d8b2d97ae5acad77a12cfb7def9e4b743628cbd6d78bd8c90ad157ce484e6bae",
+        "/home/jetson/nano_run/r62_20261028/paired300/05_cv_p03_baseline/live/data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "/home/jetson/nano_run/r62_20261028/paired300/05_cv_p03_baseline/live/data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448",
+        "/home/jetson/nano_run/r62_20261028/paired300/05_cv_p03_baseline/live/pipeline/MVI_39031.csv": "b422bb05715cee73a7c6ea15eb57a8a5133a4540475b4871213b67d0c224e7fb",
+        "/home/jetson/nano_run/r62_20261028/paired300/05_cv_p03_baseline/live/tegrastats.log": "68d8ea62a03f37e15870ded1c77f7848aba002f39602d16a206cdefd7543c8ec"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "bytetrack.yaml",
+          "tracker_yaml_sha256_12": "395701d947a7",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "85a712e1ba92a037fd84b12f178ad4fbca49bd817f0e06bbc30a6b086df7d6f4",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 6,
+      "group": "paired300",
+      "pair": 3,
+      "tracker": "cv",
+      "variant": "candidate",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/06_cv_p03_candidate",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.665172018627327,
+      "fps_display": 9.718747220363417,
+      "startup_s": 8.779020739999396,
+      "processing_s": 31.03928201400049,
+      "total_s": 40.99711210600071,
+      "latency_ms": {
+        "n": 275,
+        "median": 110.78755999915302,
+        "p90": 114.00831300124992
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.377872000593925,
+          "p90": 11.540688999957638
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 6.291085999691859,
+          "p90": 9.517516002233606
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 77.94803700016928,
+          "p90": 78.30293999722926
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.186003000242636,
+          "p90": 8.379208000405924
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 110.78755999915302,
+          "p90": 114.00831300124992
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2433,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 45.5,
+          "CPU": 49.5,
+          "PMIC": 50.0,
+          "GPU": 45.5,
+          "AO": 58.5,
+          "thermal": 47.25
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          68.7,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/06_cv_p03_candidate/result.json": "f23713b5140207216f39dd13a5a317d8055dedfbb620b455370029c21accf233",
+        "/home/jetson/nano_run/r62_20261028/paired300/06_cv_p03_candidate/live/run_meta.json": "9c49f089026763e0f48bbc1878d5bc8692185ccba09300f9cfcc89bdff1f7fdb",
+        "/home/jetson/nano_run/r62_20261028/paired300/06_cv_p03_candidate/parity.json": "2a371a04937837b31b1103a974d510e659e6ccadfc4f98727b2176a649dce82d",
+        "/home/jetson/nano_run/r62_20261028/paired300/06_cv_p03_candidate/before.json": "9ccb7eed8fd51fd18523bfa8cd5dc883323b2bbd55c7d74ca7ab20e828750cf7",
+        "/home/jetson/nano_run/r62_20261028/paired300/06_cv_p03_candidate/after.json": "ed6d26dcc79e1ac96aa6a79302f0402cfe608d4bfd73d4ae4172ad38e9d05232",
+        "/home/jetson/nano_run/r62_20261028/paired300/06_cv_p03_candidate/detections_array_sha256.json": "ff5805cd0545045ee7d1949f264b4319a28fe3b49440c2958e1fa3c7c48dfe0e",
+        "/home/jetson/nano_run/r62_20261028/paired300/06_cv_p03_candidate/live/data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "/home/jetson/nano_run/r62_20261028/paired300/06_cv_p03_candidate/live/data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448",
+        "/home/jetson/nano_run/r62_20261028/paired300/06_cv_p03_candidate/live/pipeline/MVI_39031.csv": "be99a64acb25a3410ea0959982bed7907bc3bcf73293de3759ef2343ec6a7dde",
+        "/home/jetson/nano_run/r62_20261028/paired300/06_cv_p03_candidate/live/tegrastats.log": "2f896a614a353ae19b3e19436e549fd4022100661fb1d34658367aa2f0a2979b"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "bytetrack.yaml",
+          "tracker_yaml_sha256_12": "395701d947a7",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "fccfe6b156fc7034bd410ddf0bf3f51c53cdea79f85d77d039d66f74786be1bc",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 7,
+      "group": "paired300",
+      "pair": 4,
+      "tracker": "cv",
+      "variant": "candidate",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/07_cv_p04_candidate",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.621267166370199,
+      "fps_display": 9.670892034723618,
+      "startup_s": 8.596665516997746,
+      "processing_s": 31.180923968997377,
+      "total_s": 40.96056001699981,
+      "latency_ms": {
+        "n": 275,
+        "median": 111.24897099944064,
+        "p90": 114.49258999709855
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.454800998762948,
+          "p90": 12.536179998278385
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 6.352961998345563,
+          "p90": 9.441316000447841
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 78.00418000260834,
+          "p90": 78.45345999885467
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.303401001991006,
+          "p90": 8.688382000400452
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 111.24897099944064,
+          "p90": 114.49258999709855
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2434,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 45.0,
+          "CPU": 49.0,
+          "PMIC": 50.0,
+          "GPU": 45.5,
+          "AO": 58.5,
+          "thermal": 47.0
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          68.3,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/07_cv_p04_candidate/result.json": "8380b214e37a4b4b1d8e81bd0d6902171884bb67544470664ec8d5aa05eaa5c2",
+        "/home/jetson/nano_run/r62_20261028/paired300/07_cv_p04_candidate/live/run_meta.json": "0ed99da559dca8a9cf75a933b6b4c0ce4e04cfa0e6a5e4309b4f7b9245bc3f54",
+        "/home/jetson/nano_run/r62_20261028/paired300/07_cv_p04_candidate/parity.json": "4926959cdfddc5f525d74def1e8d31cef2b9a415c674f0e84c9f1ff4917913b1",
+        "/home/jetson/nano_run/r62_20261028/paired300/07_cv_p04_candidate/before.json": "e263b4010c1e5f670ec5d772792320ed907f2e1b6d827991d1e1f62cead24e1d",
+        "/home/jetson/nano_run/r62_20261028/paired300/07_cv_p04_candidate/after.json": "8619b958cb0d531da84509ad5f1c48775dd89bf1ab789da1ebb65b7b4ef2a9a5",
+        "/home/jetson/nano_run/r62_20261028/paired300/07_cv_p04_candidate/detections_array_sha256.json": "fc21340bcac52430c18418936a48a1037d85e9055e1092e251412805b7663dbe",
+        "/home/jetson/nano_run/r62_20261028/paired300/07_cv_p04_candidate/live/data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "/home/jetson/nano_run/r62_20261028/paired300/07_cv_p04_candidate/live/data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448",
+        "/home/jetson/nano_run/r62_20261028/paired300/07_cv_p04_candidate/live/pipeline/MVI_39031.csv": "ff0a0b6a2b11e1b4ac68a3e7956f75b617b0bef177d1f89f28056d9a8c8423f3",
+        "/home/jetson/nano_run/r62_20261028/paired300/07_cv_p04_candidate/live/tegrastats.log": "ff906a96353c5c46bff664fa90d334f2d6021d536361be9434c1b060bfaf7108"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "bytetrack.yaml",
+          "tracker_yaml_sha256_12": "395701d947a7",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "fccfe6b156fc7034bd410ddf0bf3f51c53cdea79f85d77d039d66f74786be1bc",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 8,
+      "group": "paired300",
+      "pair": 4,
+      "tracker": "cv",
+      "variant": "baseline",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/08_cv_p04_baseline",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.293997718803336,
+      "fps_display": 9.341774119896797,
+      "startup_s": 8.459522066001227,
+      "processing_s": 32.27889752899864,
+      "total_s": 41.90738812500058,
+      "latency_ms": {
+        "n": 275,
+        "median": 114.73837100129458,
+        "p90": 118.45585399714764
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.40854900222621,
+          "p90": 12.633837999601383
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 13.61886099766707,
+          "p90": 14.64909400237957
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 74.31169299889007,
+          "p90": 74.95191500129295
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.143241000449052,
+          "p90": 8.255246000771876
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 114.73837100129458,
+          "p90": 118.45585399714764
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2437,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 45.5,
+          "CPU": 49.0,
+          "PMIC": 50.0,
+          "GPU": 45.5,
+          "AO": 59.0,
+          "thermal": 46.75
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          66.0,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/08_cv_p04_baseline/result.json": "c7a43ac6d3a9e700776c0edd15e00cde1d6b8f97ecb83d075f9e69069b83bc7d",
+        "/home/jetson/nano_run/r62_20261028/paired300/08_cv_p04_baseline/live/run_meta.json": "f9590c4bb8a4cac1fc206ab0114f5c5c4cc1de50d65c3ed18268bc5efb6f0fba",
+        "/home/jetson/nano_run/r62_20261028/paired300/08_cv_p04_baseline/parity.json": "13a9f726958fdb6debe9573755d259bb08135fd9e9b1721208246efd70530733",
+        "/home/jetson/nano_run/r62_20261028/paired300/08_cv_p04_baseline/before.json": "f07ed111e9e4f955eff6925c03cf7564b4c1d0171f17720f65efc4aa0dacd158",
+        "/home/jetson/nano_run/r62_20261028/paired300/08_cv_p04_baseline/after.json": "d1181ff1d0c380e2a246074e56e713385822bd4aa780216624de8b778a016956",
+        "/home/jetson/nano_run/r62_20261028/paired300/08_cv_p04_baseline/detections_array_sha256.json": "a1423c5c7fe567835968c21b2c32d4eec0ba3a1d839711df46f649da4c0fd742",
+        "/home/jetson/nano_run/r62_20261028/paired300/08_cv_p04_baseline/live/data/MVI_39031.txt": "15ab38b4c303f5a202a797b29bca6dd9c3ae49b8a2067dce2d5e6c39aced6701",
+        "/home/jetson/nano_run/r62_20261028/paired300/08_cv_p04_baseline/live/data_cls/MVI_39031.csv": "46601d093c0d5e0e9b1716b34fe58b68a6903f78e7b4e1afa7427a2e7e1e1448",
+        "/home/jetson/nano_run/r62_20261028/paired300/08_cv_p04_baseline/live/pipeline/MVI_39031.csv": "5d06a33410e361bb8e629a1f9e3fe97ffadf03e4c5822ffef0faae710d6b0d30",
+        "/home/jetson/nano_run/r62_20261028/paired300/08_cv_p04_baseline/live/tegrastats.log": "bec96ff3f80b5809c382fc4716fe03c72afd54f368d3572377f17b2308b08d37"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "bytetrack.yaml",
+          "tracker_yaml_sha256_12": "395701d947a7",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "85a712e1ba92a037fd84b12f178ad4fbca49bd817f0e06bbc30a6b086df7d6f4",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 9,
+      "group": "paired300",
+      "pair": 1,
+      "tracker": "ekf",
+      "variant": "baseline",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/09_ekf_p01_baseline",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.262369554379996,
+      "fps_display": 9.322494518183008,
+      "startup_s": 8.409564417997899,
+      "processing_s": 32.38912010999775,
+      "total_s": 41.973653304001346,
+      "latency_ms": {
+        "n": 275,
+        "median": 115.76151400004164,
+        "p90": 120.55969900029595
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.429486999986693,
+          "p90": 12.616961997991893
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 13.67657000082545,
+          "p90": 15.319630001613405
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 74.20647900289623,
+          "p90": 74.92738100336283
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.264233001478715,
+          "p90": 8.398009002121398
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 115.76151400004164,
+          "p90": 120.55969900029595
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2436,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 46.0,
+          "CPU": 50.0,
+          "PMIC": 50.0,
+          "GPU": 46.5,
+          "AO": 59.5,
+          "thermal": 47.25
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          65.8,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1428000,
+          "cpu1": 1428000,
+          "cpu2": 1428000,
+          "cpu3": 1428000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/09_ekf_p01_baseline/result.json": "c8e260c5dd212f15c7d702ef2af98ec0c1c5b448d52a68e67921e6bef9808d1f",
+        "/home/jetson/nano_run/r62_20261028/paired300/09_ekf_p01_baseline/live/run_meta.json": "7722c765ac839a3165a03e59fd0ca1b9a6d84c567b71eadb27ed50578973d4f9",
+        "/home/jetson/nano_run/r62_20261028/paired300/09_ekf_p01_baseline/parity.json": "dc399aa6e88c6c982a6876b493ab28830db8877f991dbb008e263ca08e72d1b3",
+        "/home/jetson/nano_run/r62_20261028/paired300/09_ekf_p01_baseline/before.json": "c0f3dedd6464c7921e74684fb789790c7349a16eee1aa463f1cdd46d6b84d7e3",
+        "/home/jetson/nano_run/r62_20261028/paired300/09_ekf_p01_baseline/after.json": "00e5c9c9415114de3a139fc690405400459096e426e257bff3702008f9f6ad8e",
+        "/home/jetson/nano_run/r62_20261028/paired300/09_ekf_p01_baseline/detections_array_sha256.json": "202fe2057e8f015e5807cd2e2499dde61fc27b5a4acce4f88fe8e7d0d253c402",
+        "/home/jetson/nano_run/r62_20261028/paired300/09_ekf_p01_baseline/live/data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "/home/jetson/nano_run/r62_20261028/paired300/09_ekf_p01_baseline/live/data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b",
+        "/home/jetson/nano_run/r62_20261028/paired300/09_ekf_p01_baseline/live/pipeline/MVI_39031.csv": "9e7d989a6737bc0361bc5b4c53b940943f9405d1b445be730f6cb6fef36ec2da",
+        "/home/jetson/nano_run/r62_20261028/paired300/09_ekf_p01_baseline/live/tegrastats.log": "a2bb034bdd8aa9be5d536b48096bc818cdc7db4e80bdcc5c1dd2aa3a82f6acbd"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "tracker_yaml_sha256_12": "2c35f2da40c5",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack_ekf_ctrv",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "85a712e1ba92a037fd84b12f178ad4fbca49bd817f0e06bbc30a6b086df7d6f4",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 10,
+      "group": "paired300",
+      "pair": 1,
+      "tracker": "ekf",
+      "variant": "candidate",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/10_ekf_p01_candidate",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.673211579882878,
+      "fps_display": 9.7236813730795,
+      "startup_s": 8.340341262002767,
+      "processing_s": 31.01348476899875,
+      "total_s": 40.55048735499804,
+      "latency_ms": {
+        "n": 275,
+        "median": 111.26583199802553,
+        "p90": 116.59293499906198
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.39099600186455,
+          "p90": 11.841527000797214
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 6.33249200109276,
+          "p90": 9.599704000720521
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 77.8387999998813,
+          "p90": 78.37172899962752
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.091571998898871,
+          "p90": 8.361132997379173
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 111.26583199802553,
+          "p90": 116.59293499906198
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2435,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 46.0,
+          "CPU": 50.0,
+          "PMIC": 50.0,
+          "GPU": 46.5,
+          "AO": 59.5,
+          "thermal": 47.75
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          69.1,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/10_ekf_p01_candidate/result.json": "f733e59ca928fe8e1995d79f0b2daccd235afcace9427f3a7b26ef28385ec34b",
+        "/home/jetson/nano_run/r62_20261028/paired300/10_ekf_p01_candidate/live/run_meta.json": "6c4305ed1eed4be0c9e6d633538307a5d418e2ffe7563fb8a8f239f23f57436d",
+        "/home/jetson/nano_run/r62_20261028/paired300/10_ekf_p01_candidate/parity.json": "69a50f720b98bb0b917d161dba4b27ed551745339e8de3bd08d65600b7989769",
+        "/home/jetson/nano_run/r62_20261028/paired300/10_ekf_p01_candidate/before.json": "739b30b07dbed8c7fc150b21111aa0d684a5d1e0c63410b419b68774eae58aa7",
+        "/home/jetson/nano_run/r62_20261028/paired300/10_ekf_p01_candidate/after.json": "8268f71ad61003643958426f9d18fb7a471f523cfa777e8e3753f9b381172415",
+        "/home/jetson/nano_run/r62_20261028/paired300/10_ekf_p01_candidate/detections_array_sha256.json": "bda2b414dad232a056a320d3a59f65c9fc733f4031540d76d8e91b55a1ce169a",
+        "/home/jetson/nano_run/r62_20261028/paired300/10_ekf_p01_candidate/live/data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "/home/jetson/nano_run/r62_20261028/paired300/10_ekf_p01_candidate/live/data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b",
+        "/home/jetson/nano_run/r62_20261028/paired300/10_ekf_p01_candidate/live/pipeline/MVI_39031.csv": "39789462ae8bdb47ece6cee423c2f4fb453d5d7da6f726b7feb976dc4ae49f9c",
+        "/home/jetson/nano_run/r62_20261028/paired300/10_ekf_p01_candidate/live/tegrastats.log": "8dd63c52ddc6d052ebe05919407e9083e4ef203188ae710e89c05410c68c3448"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "tracker_yaml_sha256_12": "2c35f2da40c5",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack_ekf_ctrv",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "fccfe6b156fc7034bd410ddf0bf3f51c53cdea79f85d77d039d66f74786be1bc",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 11,
+      "group": "paired300",
+      "pair": 2,
+      "tracker": "ekf",
+      "variant": "candidate",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/11_ekf_p02_candidate",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.656255541149093,
+      "fps_display": 9.708667580348056,
+      "startup_s": 9.15651176999745,
+      "processing_s": 31.067943336998724,
+      "total_s": 41.40734987099859,
+      "latency_ms": {
+        "n": 275,
+        "median": 111.58307500227238,
+        "p90": 116.0934420004196
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.427819001255557,
+          "p90": 12.646440998651087
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 6.355409001116641,
+          "p90": 9.585952997440472
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 77.8627569998207,
+          "p90": 78.27589099906618
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.199491003120784,
+          "p90": 8.413216997723794
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 111.58307500227238,
+          "p90": 116.0934420004196
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2438,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 46.5,
+          "CPU": 51.0,
+          "PMIC": 50.0,
+          "GPU": 47.0,
+          "AO": 60.0,
+          "thermal": 49.0
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          70.3,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/11_ekf_p02_candidate/result.json": "05e3a7e91d4a806202fe9687d88ba0c5d960e9eed63c3b91d212020c989cedce",
+        "/home/jetson/nano_run/r62_20261028/paired300/11_ekf_p02_candidate/live/run_meta.json": "bbc6f9246fb62ffea3cf1b8fda62dc984f69c50a6a63ae2fdbd9466fb80463eb",
+        "/home/jetson/nano_run/r62_20261028/paired300/11_ekf_p02_candidate/parity.json": "be752b5f878bc2838438254c063b9790b2650bd0e4c13fb03901eca1289aeedf",
+        "/home/jetson/nano_run/r62_20261028/paired300/11_ekf_p02_candidate/before.json": "9abd37c9404d1b136ee15ff91b30c2eb0a69f5f53b89cbb4621d3ca4160c32d2",
+        "/home/jetson/nano_run/r62_20261028/paired300/11_ekf_p02_candidate/after.json": "06c919715b0e7f5ec8a2669f674ab288232f29d7a43599b0bf507bcac23f0ea9",
+        "/home/jetson/nano_run/r62_20261028/paired300/11_ekf_p02_candidate/detections_array_sha256.json": "77122a2e246fdeccb50043d870e32a78e0c3d0f3d3d5c109e20db29f74ab3783",
+        "/home/jetson/nano_run/r62_20261028/paired300/11_ekf_p02_candidate/live/data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "/home/jetson/nano_run/r62_20261028/paired300/11_ekf_p02_candidate/live/data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b",
+        "/home/jetson/nano_run/r62_20261028/paired300/11_ekf_p02_candidate/live/pipeline/MVI_39031.csv": "6cb2a205a1efd4bd0f47eba4f3aab0a8a8dcf05b56e4c08768063e7d75021b7c",
+        "/home/jetson/nano_run/r62_20261028/paired300/11_ekf_p02_candidate/live/tegrastats.log": "0027b44a205c31e6e1fb96c38a7deef737f8768e7e5d2d0d1b53416097406465"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "tracker_yaml_sha256_12": "2c35f2da40c5",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack_ekf_ctrv",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "fccfe6b156fc7034bd410ddf0bf3f51c53cdea79f85d77d039d66f74786be1bc",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 12,
+      "group": "paired300",
+      "pair": 2,
+      "tracker": "ekf",
+      "variant": "baseline",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/12_ekf_p02_baseline",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.274229907805797,
+      "fps_display": 9.322555090013209,
+      "startup_s": 8.527898173000722,
+      "processing_s": 32.347699268000724,
+      "total_s": 42.04834516400297,
+      "latency_ms": {
+        "n": 275,
+        "median": 115.78405599721009,
+        "p90": 120.49650900007691
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.440944002970355,
+          "p90": 12.540136001916835
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 13.663182999152923,
+          "p90": 16.01365500027896
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 74.18402300027083,
+          "p90": 74.87398699959158
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.160478999139741,
+          "p90": 8.243370000855066
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 115.78405599721009,
+          "p90": 120.49650900007691
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2453,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 46.5,
+          "CPU": 49.5,
+          "PMIC": 50.0,
+          "GPU": 47.0,
+          "AO": 60.5,
+          "thermal": 48.25
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          66.2,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/12_ekf_p02_baseline/result.json": "3bf992385ece005f6f13bb7f1edd90f8bf44071e78b84ae9756e092104299eba",
+        "/home/jetson/nano_run/r62_20261028/paired300/12_ekf_p02_baseline/live/run_meta.json": "0610ee6489da49732562586fd1b2e51330b3be114f61e39425686978b977c58c",
+        "/home/jetson/nano_run/r62_20261028/paired300/12_ekf_p02_baseline/parity.json": "012a18cf91e6f3b67c08c9ae43368667722d9cafa6fc26ca0da0ca371db8f04a",
+        "/home/jetson/nano_run/r62_20261028/paired300/12_ekf_p02_baseline/before.json": "7c7e790e560526a44193215ce67dbdb3fa792e490626e6f24274c06154e67fa6",
+        "/home/jetson/nano_run/r62_20261028/paired300/12_ekf_p02_baseline/after.json": "fb27a1ae0b12919249a8f23f354cf0440ef95e464f8734ea9479163c8982f6cc",
+        "/home/jetson/nano_run/r62_20261028/paired300/12_ekf_p02_baseline/detections_array_sha256.json": "42d8078d6cecf12e7b69ab4a0b4089256a63359a578d9e3199dd1d1f683c9db2",
+        "/home/jetson/nano_run/r62_20261028/paired300/12_ekf_p02_baseline/live/data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "/home/jetson/nano_run/r62_20261028/paired300/12_ekf_p02_baseline/live/data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b",
+        "/home/jetson/nano_run/r62_20261028/paired300/12_ekf_p02_baseline/live/pipeline/MVI_39031.csv": "e8d93c4d5e08c54dd37ec36df1c029f00d615f484661b658353f3f31eb36803f",
+        "/home/jetson/nano_run/r62_20261028/paired300/12_ekf_p02_baseline/live/tegrastats.log": "8a08c0cd25ff877bbf6cac3a446012561806547c88782a2083f9b2dbf4a1b93e"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "tracker_yaml_sha256_12": "2c35f2da40c5",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack_ekf_ctrv",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "85a712e1ba92a037fd84b12f178ad4fbca49bd817f0e06bbc30a6b086df7d6f4",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 13,
+      "group": "paired300",
+      "pair": 3,
+      "tracker": "ekf",
+      "variant": "baseline",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/13_ekf_p03_baseline",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.304684308481052,
+      "fps_display": 9.35106976844271,
+      "startup_s": 8.61259747099757,
+      "processing_s": 32.241824660999555,
+      "total_s": 42.02594792200034,
+      "latency_ms": {
+        "n": 275,
+        "median": 115.06367200126988,
+        "p90": 121.13511500137975
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.311305999697652,
+          "p90": 12.517270999524044
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 13.466979999066098,
+          "p90": 14.860501996736275
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 74.25131399941165,
+          "p90": 75.16904400108615
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.272878003277583,
+          "p90": 8.361184001842048
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 115.06367200126988,
+          "p90": 121.13511500137975
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2440,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10900,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 46.5,
+          "CPU": 50.0,
+          "PMIC": 50.0,
+          "GPU": 47.0,
+          "AO": 60.5,
+          "thermal": 48.5
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          65.0,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/13_ekf_p03_baseline/result.json": "c1ccc6d92d8a71c9a6877a04dabaffd87d90dd4f0f56c896e18c6444d7adfc21",
+        "/home/jetson/nano_run/r62_20261028/paired300/13_ekf_p03_baseline/live/run_meta.json": "6cda68d89c2f72578d0f1a7824ed8b82f99ea2274c52171fd3dac29a293c736b",
+        "/home/jetson/nano_run/r62_20261028/paired300/13_ekf_p03_baseline/parity.json": "6faedda6b2f875e1752318712b1c8d9987cbf38ae76f641a13b2821011cd415b",
+        "/home/jetson/nano_run/r62_20261028/paired300/13_ekf_p03_baseline/before.json": "bbf2540f07bce8f94a83277d9d14b6d565b52b4207f49f61245b55e72a09b978",
+        "/home/jetson/nano_run/r62_20261028/paired300/13_ekf_p03_baseline/after.json": "ee1418646d5510c4563e7a5e512f60452f77697a0dff33fee00354e9185d935d",
+        "/home/jetson/nano_run/r62_20261028/paired300/13_ekf_p03_baseline/detections_array_sha256.json": "da04722120fb65c233b93a780b49d4df775aad8b37e27bb4c80c9669bbfc9d8b",
+        "/home/jetson/nano_run/r62_20261028/paired300/13_ekf_p03_baseline/live/data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "/home/jetson/nano_run/r62_20261028/paired300/13_ekf_p03_baseline/live/data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b",
+        "/home/jetson/nano_run/r62_20261028/paired300/13_ekf_p03_baseline/live/pipeline/MVI_39031.csv": "259fd0a63261b9dbcfcab7ab3d10fa3491c7fce1dcd11a6bf0cb4002e7a9db89",
+        "/home/jetson/nano_run/r62_20261028/paired300/13_ekf_p03_baseline/live/tegrastats.log": "92b8767b75cd4eb2891786a32ff904166aff10a6a13c38d2f405b029c9fc138d"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "tracker_yaml_sha256_12": "2c35f2da40c5",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack_ekf_ctrv",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "85a712e1ba92a037fd84b12f178ad4fbca49bd817f0e06bbc30a6b086df7d6f4",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 14,
+      "group": "paired300",
+      "pair": 3,
+      "tracker": "ekf",
+      "variant": "candidate",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/14_ekf_p03_candidate",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.673343561425863,
+      "fps_display": 9.723293639707626,
+      "startup_s": 8.618487715997617,
+      "processing_s": 31.013061626003037,
+      "total_s": 40.82411143199715,
+      "latency_ms": {
+        "n": 275,
+        "median": 111.2771750013053,
+        "p90": 115.67227600244223
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.414849002903793,
+          "p90": 12.542844000563491
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 6.21243599744048,
+          "p90": 9.501314998487942
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 77.83712499804096,
+          "p90": 78.32776100258343
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.054435001919046,
+          "p90": 8.38097599989851
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 111.2771750013053,
+          "p90": 115.67227600244223
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2442,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10900,
+        "swap_after_kB": 10892,
+        "swap_delta_kB": -8,
+        "temperature_max_C": {
+          "PLL": 47.5,
+          "CPU": 52.0,
+          "PMIC": 50.0,
+          "GPU": 48.0,
+          "AO": 61.0,
+          "thermal": 49.5
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          66.2,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/14_ekf_p03_candidate/result.json": "dfce0e14a91de1122f493a05514e0f41d5e2176a60440481e6f5d6fda6e43570",
+        "/home/jetson/nano_run/r62_20261028/paired300/14_ekf_p03_candidate/live/run_meta.json": "0591823fe3b6a8654ac9bd3175698be410314f0518f45924650739a12e8f27eb",
+        "/home/jetson/nano_run/r62_20261028/paired300/14_ekf_p03_candidate/parity.json": "4457911d325ead6dd4184e63703fdedd9d40c9344b1360a26d51f45d264c01f2",
+        "/home/jetson/nano_run/r62_20261028/paired300/14_ekf_p03_candidate/before.json": "e6a23d09791eeb04fe57f6892b1fc6389c4108f1127e8ae1dbae0994694e17f8",
+        "/home/jetson/nano_run/r62_20261028/paired300/14_ekf_p03_candidate/after.json": "65cf9f71945cd43887694b5f157f47adf91ee9ff07c2df0a0243987b4a4cfb42",
+        "/home/jetson/nano_run/r62_20261028/paired300/14_ekf_p03_candidate/detections_array_sha256.json": "346dce50634c5cb7cc7c0fa1b851efaa918b243dba93f5cc5ef789f552779caa",
+        "/home/jetson/nano_run/r62_20261028/paired300/14_ekf_p03_candidate/live/data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "/home/jetson/nano_run/r62_20261028/paired300/14_ekf_p03_candidate/live/data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b",
+        "/home/jetson/nano_run/r62_20261028/paired300/14_ekf_p03_candidate/live/pipeline/MVI_39031.csv": "a7e2a6fe413fe755664b09f396d0440bd79016c6a4f867b9183e1f1826bc521e",
+        "/home/jetson/nano_run/r62_20261028/paired300/14_ekf_p03_candidate/live/tegrastats.log": "8f3396699fcde01f40a560ba2ee036781aa0a1693dddee40552e07d6babd928c"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "tracker_yaml_sha256_12": "2c35f2da40c5",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack_ekf_ctrv",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "fccfe6b156fc7034bd410ddf0bf3f51c53cdea79f85d77d039d66f74786be1bc",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 15,
+      "group": "paired300",
+      "pair": 4,
+      "tracker": "ekf",
+      "variant": "candidate",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/15_ekf_p04_candidate",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.684891037706345,
+      "fps_display": 9.734133788005897,
+      "startup_s": 8.472399506001238,
+      "processing_s": 30.97608417399897,
+      "total_s": 40.62824122899838,
+      "latency_ms": {
+        "n": 275,
+        "median": 111.38488299911842,
+        "p90": 115.64133600040805
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.338285003148485,
+          "p90": 12.494040998717537
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 6.159935001051053,
+          "p90": 9.36641600128496
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 77.9329590004636,
+          "p90": 78.3591149993299
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.151936999434838,
+          "p90": 8.349986001121579
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 111.38488299911842,
+          "p90": 115.64133600040805
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2448,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10892,
+        "swap_after_kB": 10892,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 47.5,
+          "CPU": 52.0,
+          "PMIC": 50.0,
+          "GPU": 48.0,
+          "AO": 61.5,
+          "thermal": 49.75
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          72.5,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/15_ekf_p04_candidate/result.json": "b170e29cb33a7de1a66f878964f7bd03c6e32563c9c5750f84c3baf55bb7e919",
+        "/home/jetson/nano_run/r62_20261028/paired300/15_ekf_p04_candidate/live/run_meta.json": "8ecd48f7b1d9c37f9bb61c9b0f9494fe1acd18bdd1abcd98bc1a805f1145f7c0",
+        "/home/jetson/nano_run/r62_20261028/paired300/15_ekf_p04_candidate/parity.json": "ab26f5d132f07d458909e702d9450a603c494406cbc6a65824361237af1c74cb",
+        "/home/jetson/nano_run/r62_20261028/paired300/15_ekf_p04_candidate/before.json": "206642668e4a1eedf1735f7a33c9dbf1ce88437cbc8b3488b440adfaec84a8be",
+        "/home/jetson/nano_run/r62_20261028/paired300/15_ekf_p04_candidate/after.json": "3310274b31731f455acfba023cbcb2e52754222bf329952803375bbf0592e803",
+        "/home/jetson/nano_run/r62_20261028/paired300/15_ekf_p04_candidate/detections_array_sha256.json": "f43315d0696d13b3ed2b440378f56c7312b71d2ff01c76cb6e6281f8bbf9a981",
+        "/home/jetson/nano_run/r62_20261028/paired300/15_ekf_p04_candidate/live/data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "/home/jetson/nano_run/r62_20261028/paired300/15_ekf_p04_candidate/live/data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b",
+        "/home/jetson/nano_run/r62_20261028/paired300/15_ekf_p04_candidate/live/pipeline/MVI_39031.csv": "6a0d1ee3302b298a80d5ba0a370f102699a75e7c064e623d73f2ac6468e8b546",
+        "/home/jetson/nano_run/r62_20261028/paired300/15_ekf_p04_candidate/live/tegrastats.log": "bd2612902fb186017ce6224588eed9ecad42b91f8bd3547a1fa433313d51f347"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "tracker_yaml_sha256_12": "2c35f2da40c5",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack_ekf_ctrv",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "fccfe6b156fc7034bd410ddf0bf3f51c53cdea79f85d77d039d66f74786be1bc",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    },
+    {
+      "id": 16,
+      "group": "paired300",
+      "pair": 4,
+      "tracker": "ekf",
+      "variant": "baseline",
+      "dir": "/home/jetson/nano_run/r62_20261028/paired300/16_ekf_p04_baseline",
+      "expected_frames": 300,
+      "complete": true,
+      "state": "hoan_tat",
+      "display": "on",
+      "frames_processed": 300,
+      "csv_frames": 300,
+      "fps": 9.269902292436887,
+      "fps_display": 9.317363634113958,
+      "startup_s": 9.18187449999823,
+      "processing_s": 32.36280065699975,
+      "total_s": 42.71360830199774,
+      "latency_ms": {
+        "n": 275,
+        "median": 115.63436000142246,
+        "p90": 120.58642400006647
+      },
+      "stages_ms": {
+        "decode_ms": {
+          "n": 275,
+          "median": 11.429598998802248,
+          "p90": 12.621898997167591
+        },
+        "pre_ms": {
+          "n": 275,
+          "median": 13.570117000199389,
+          "p90": 15.314018997742096
+        },
+        "infer_ms": {
+          "n": 275,
+          "median": 74.4252320000669,
+          "p90": 75.11379499919713
+        },
+        "post_ms": {
+          "n": 275,
+          "median": 7.182139001088217,
+          "p90": 8.235941000748426
+        },
+        "tre_ms": {
+          "n": 275,
+          "median": 115.63436000142246,
+          "p90": 120.58642400006647
+        }
+      },
+      "preview_drops": 0,
+      "preview_shown": 300,
+      "hashes": {
+        "data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b"
+      },
+      "detections_array_sha256": "e209d35c3c10da28813f259d53857bb725beb537be3a82ca64889b117553321f",
+      "detection_digest_method": "r62-paired-v1: length-prefixed JSON [field,dtype,shape], then C bytes",
+      "resources": {
+        "ram_max_MB": 2440,
+        "swap_max_MB": 11,
+        "swap_before_kB": 10892,
+        "swap_after_kB": 10892,
+        "swap_delta_kB": 0,
+        "temperature_max_C": {
+          "PLL": 47.5,
+          "CPU": 51.0,
+          "PMIC": 50.0,
+          "GPU": 48.0,
+          "AO": 61.0,
+          "thermal": 49.0
+        },
+        "cpu_MHz_min_max": [
+          1224,
+          1479
+        ],
+        "gpu_load_mean_max": [
+          67.8,
+          99
+        ],
+        "clocks_before": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 76800000
+        },
+        "clocks_after": {
+          "cpu0": 1479000,
+          "cpu1": 1479000,
+          "cpu2": 1479000,
+          "cpu3": 1479000,
+          "gpu_cur_freq": 921600000
+        },
+        "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+      },
+      "throttling_review": {
+        "source": "external review, not inferred from DVFS frequency",
+        "no_throttling": null
+      },
+      "checks": {
+        "completed_successfully": true,
+        "tracker_matches_index": true,
+        "frame_counts_complete": true,
+        "no_processing_loss": true,
+        "real_tensorrt": true,
+        "fps_recomputed_matches": true,
+        "warmup_25": true,
+        "boot_unchanged": true,
+        "live_replay_parity_recorded": true,
+        "live_hashes_match_helper": true,
+        "detection_hash_present": true,
+        "csv_frames_1_to_N": true,
+        "csv_all_readable": true,
+        "csv_latency_matches_metadata": true,
+        "csv_latency_matches_timestamps": true,
+        "csv_inside_measurement_window": true,
+        "display_metadata_consistent": true,
+        "display_frames_accounted": true,
+        "telemetry_present": true,
+        "telemetry_raw_present": true,
+        "no_throttling_reviewed": false
+      },
+      "issues": [],
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ],
+      "evidence_sha256": {
+        "/home/jetson/nano_run/r62_20261028/paired300/16_ekf_p04_baseline/result.json": "0aa0e6d13cfddd1b1bd62496c96f3f01be45054dfe43616e4bb0cae22da9459f",
+        "/home/jetson/nano_run/r62_20261028/paired300/16_ekf_p04_baseline/live/run_meta.json": "50228771f3c7cbf1699efd4e7f5024473aeca1229f0ac214c628c80aa96e5ac3",
+        "/home/jetson/nano_run/r62_20261028/paired300/16_ekf_p04_baseline/parity.json": "38c5c99da2540eee47c6c7a5eb62659615dcb2fb12e1d84857037e5c44bb4da1",
+        "/home/jetson/nano_run/r62_20261028/paired300/16_ekf_p04_baseline/before.json": "a0ed027d1a30d8150c45d8be4b5995401fc156ff5fcac41b72de81b8e9c6e3bc",
+        "/home/jetson/nano_run/r62_20261028/paired300/16_ekf_p04_baseline/after.json": "28dbeb5e0bccc1a0a32415951823757122a12f703b9ca970fe0e6b00ad038a48",
+        "/home/jetson/nano_run/r62_20261028/paired300/16_ekf_p04_baseline/detections_array_sha256.json": "f40ab0d1ff52494013a7d0850ce8a6355b7815f5f09184d7cd3795704e736c31",
+        "/home/jetson/nano_run/r62_20261028/paired300/16_ekf_p04_baseline/live/data/MVI_39031.txt": "238dbb2ae5c6d948ff843a008b808cc271760bec177e7c0b6985549840b00ee1",
+        "/home/jetson/nano_run/r62_20261028/paired300/16_ekf_p04_baseline/live/data_cls/MVI_39031.csv": "bfb5c035179cdbf4409dd837463e5b14d15d5749c985148a8a84f4cf5c6bfb0b",
+        "/home/jetson/nano_run/r62_20261028/paired300/16_ekf_p04_baseline/live/pipeline/MVI_39031.csv": "d5caeba70a6ebb49eddd60f5f57ee4355240cb1937b7dd0d29ce88b146fa8288",
+        "/home/jetson/nano_run/r62_20261028/paired300/16_ekf_p04_baseline/live/tegrastats.log": "a86ca0e34f11c8cd892e3601f665cafbcd54f618e2e8ce53eee6a49e91127eef"
+      },
+      "comparability": {
+        "config": {
+          "tracker_yaml": "configs/bytetrack_ekf_ctrv.yaml",
+          "tracker_yaml_sha256_12": "2c35f2da40c5",
+          "tracker_cfg": {
+            "tracker_type": "bytetrack_ekf_ctrv",
+            "track_high_thresh": 0.25,
+            "track_low_thresh": 0.1,
+            "new_track_thresh": 0.25,
+            "track_buffer": 30,
+            "match_thresh": 0.8,
+            "fuse_score": true
+          },
+          "overrides": {
+            "track_buffer": 30
+          },
+          "conf_min": 0.25,
+          "classes": [
+            1,
+            2,
+            3,
+            5,
+            7
+          ],
+          "class_map": null,
+          "max_det": 300,
+          "fps": 25.0,
+          "dt_nominal_s": 0.04,
+          "track_buffer_frames": 30,
+          "track_buffer_sec": 1.2,
+          "elapsed_mode": "steps",
+          "det_conf": 0.05,
+          "det_iou": 0.7,
+          "det_max_det": 3000,
+          "imgsz": 640,
+          "hang_doi": 4,
+          "allow_truncated": false,
+          "cho_phep_frame_hong": false,
+          "gia_lap_cham_tracker_ms": 0.0
+        },
+        "detector": {
+          "engine_sha256": "c32690cdb9f14d5f016212126621ec1fecef6047ebda82fb844530e9b7424a9a",
+          "onnx_sha256": "a66a5e03b6c6efec9b93d84cafb6ec119a853fbc5d7014f0640bb7ad069f6451",
+          "versions": {
+            "bo_dem": "cudart",
+            "numpy": "1.19.5",
+            "opencv": "3.2.0",
+            "python": "3.6.9",
+            "tensorrt": "8.2.1.9"
+          },
+          "bo_dem": "cudart",
+          "bindings": [
+            {
+              "dtype": "float32",
+              "input": true,
+              "name": "images",
+              "shape": [
+                1,
+                3,
+                640,
+                640
+              ]
+            },
+            {
+              "dtype": "float32",
+              "input": false,
+              "name": "output0",
+              "shape": [
+                1,
+                84,
+                8400
+              ]
+            }
+          ],
+          "imgsz": 640,
+          "conf": 0.05,
+          "iou": 0.7,
+          "max_det": 3000,
+          "fps": 25.0,
+          "hang_doi": 4,
+          "lam_nong": 3,
+          "regions_sha256": null,
+          "n_regions": 0,
+          "orig_shape": [
+            540,
+            960
+          ]
+        },
+        "code": {
+          "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+          "nano_detect_stream.py": "5289f3c7577dd780c477eec509b0412df53105ae867ddc422ac87a706d376fc9",
+          "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+          "nano_detector.py": "85a712e1ba92a037fd84b12f178ad4fbca49bd817f0e06bbc30a6b086df7d6f4",
+          "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+          "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+        },
+        "tracker_backend": "np",
+        "power_mode": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+        "cpu_governor": "schedutil",
+        "boot_id": "f6f8c913-61cf-4b45-af91-ead44ca14f6b"
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "group": "paired300",
+      "tracker": "cv",
+      "pair": "1",
+      "run_ids": [
+        1,
+        2
+      ],
+      "fps_gain_percent": 3.794774640799825,
+      "p90_increase_percent": -3.685330255188002,
+      "checks": {
+        "exactly_one_each_variant": true,
+        "run_evidence_valid_except_thermal_review": true,
+        "both_real_display_on": true,
+        "both_300_frames": true,
+        "same_config": true,
+        "same_engine_and_detector_settings": true,
+        "same_power_governor_backend": true,
+        "same_boot_within_pair": true,
+        "only_detector_code_differs": true,
+        "mot_and_class_bytes_identical": true,
+        "detections_identical": true,
+        "no_extra_preview_drops": true,
+        "no_extra_peak_swap": true,
+        "no_throttling_reviewed": false,
+        "p90_increase_le_5_percent": true
+      },
+      "baseline": {
+        "id": 1,
+        "fps": 9.303433021098005,
+        "latency_ms": {
+          "n": 275,
+          "median": 114.6038459992269,
+          "p90": 118.26486900099553
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2427,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 44.0,
+            "CPU": 47.0,
+            "PMIC": 50.0,
+            "GPU": 44.5,
+            "AO": 57.5,
+            "thermal": 45.75
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            68.4,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "candidate": {
+        "id": 2,
+        "fps": 9.656477338106429,
+        "latency_ms": {
+          "n": 275,
+          "median": 110.91499399844906,
+          "p90": 113.90641800244339
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2451,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 45.0,
+            "CPU": 48.5,
+            "PMIC": 50.0,
+            "GPU": 45.0,
+            "AO": 58.0,
+            "thermal": 46.5
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            69.0,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ]
+    },
+    {
+      "group": "paired300",
+      "tracker": "cv",
+      "pair": "2",
+      "run_ids": [
+        3,
+        4
+      ],
+      "fps_gain_percent": 4.095949129924459,
+      "p90_increase_percent": -3.771432936190444,
+      "checks": {
+        "exactly_one_each_variant": true,
+        "run_evidence_valid_except_thermal_review": true,
+        "both_real_display_on": true,
+        "both_300_frames": true,
+        "same_config": true,
+        "same_engine_and_detector_settings": true,
+        "same_power_governor_backend": true,
+        "same_boot_within_pair": true,
+        "only_detector_code_differs": true,
+        "mot_and_class_bytes_identical": true,
+        "detections_identical": true,
+        "no_extra_preview_drops": true,
+        "no_extra_peak_swap": true,
+        "no_throttling_reviewed": false,
+        "p90_increase_le_5_percent": true
+      },
+      "baseline": {
+        "id": 4,
+        "fps": 9.281420320931133,
+        "latency_ms": {
+          "n": 275,
+          "median": 114.85991299923626,
+          "p90": 119.09131300126319
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2431,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 45.5,
+            "CPU": 49.0,
+            "PMIC": 50.0,
+            "GPU": 46.0,
+            "AO": 59.0,
+            "thermal": 47.25
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            67.2,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "candidate": {
+        "id": 3,
+        "fps": 9.661582575810943,
+        "latency_ms": {
+          "n": 275,
+          "median": 110.55325599954813,
+          "p90": 114.5998639985919
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2435,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 45.5,
+            "CPU": 49.5,
+            "PMIC": 50.0,
+            "GPU": 46.0,
+            "AO": 59.5,
+            "thermal": 48.0
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            70.8,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ]
+    },
+    {
+      "group": "paired300",
+      "tracker": "cv",
+      "pair": "3",
+      "run_ids": [
+        5,
+        6
+      ],
+      "fps_gain_percent": 4.0393406407939425,
+      "p90_increase_percent": -3.450100507005127,
+      "checks": {
+        "exactly_one_each_variant": true,
+        "run_evidence_valid_except_thermal_review": true,
+        "both_real_display_on": true,
+        "both_300_frames": true,
+        "same_config": true,
+        "same_engine_and_detector_settings": true,
+        "same_power_governor_backend": true,
+        "same_boot_within_pair": true,
+        "only_detector_code_differs": true,
+        "mot_and_class_bytes_identical": true,
+        "detections_identical": true,
+        "no_extra_preview_drops": true,
+        "no_extra_peak_swap": true,
+        "no_throttling_reviewed": false,
+        "p90_increase_le_5_percent": true
+      },
+      "baseline": {
+        "id": 5,
+        "fps": 9.289920484980085,
+        "latency_ms": {
+          "n": 275,
+          "median": 114.9128209981427,
+          "p90": 118.08226999710314
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2437,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 45.0,
+            "CPU": 49.0,
+            "PMIC": 50.0,
+            "GPU": 45.5,
+            "AO": 58.5,
+            "thermal": 46.5
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            65.6,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "candidate": {
+        "id": 6,
+        "fps": 9.665172018627327,
+        "latency_ms": {
+          "n": 275,
+          "median": 110.78755999915302,
+          "p90": 114.00831300124992
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2433,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 45.5,
+            "CPU": 49.5,
+            "PMIC": 50.0,
+            "GPU": 45.5,
+            "AO": 58.5,
+            "thermal": 47.25
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            68.7,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ]
+    },
+    {
+      "group": "paired300",
+      "tracker": "cv",
+      "pair": "4",
+      "run_ids": [
+        7,
+        8
+      ],
+      "fps_gain_percent": 3.521298987460919,
+      "p90_increase_percent": -3.3457730169625277,
+      "checks": {
+        "exactly_one_each_variant": true,
+        "run_evidence_valid_except_thermal_review": true,
+        "both_real_display_on": true,
+        "both_300_frames": true,
+        "same_config": true,
+        "same_engine_and_detector_settings": true,
+        "same_power_governor_backend": true,
+        "same_boot_within_pair": true,
+        "only_detector_code_differs": true,
+        "mot_and_class_bytes_identical": true,
+        "detections_identical": true,
+        "no_extra_preview_drops": true,
+        "no_extra_peak_swap": true,
+        "no_throttling_reviewed": false,
+        "p90_increase_le_5_percent": true
+      },
+      "baseline": {
+        "id": 8,
+        "fps": 9.293997718803336,
+        "latency_ms": {
+          "n": 275,
+          "median": 114.73837100129458,
+          "p90": 118.45585399714764
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2437,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 45.5,
+            "CPU": 49.0,
+            "PMIC": 50.0,
+            "GPU": 45.5,
+            "AO": 59.0,
+            "thermal": 46.75
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            66.0,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "candidate": {
+        "id": 7,
+        "fps": 9.621267166370199,
+        "latency_ms": {
+          "n": 275,
+          "median": 111.24897099944064,
+          "p90": 114.49258999709855
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2434,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 45.0,
+            "CPU": 49.0,
+            "PMIC": 50.0,
+            "GPU": 45.5,
+            "AO": 58.5,
+            "thermal": 47.0
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            68.3,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ]
+    },
+    {
+      "group": "paired300",
+      "tracker": "ekf",
+      "pair": "1",
+      "run_ids": [
+        9,
+        10
+      ],
+      "fps_gain_percent": 4.435603903415863,
+      "p90_increase_percent": -3.2902902330771644,
+      "checks": {
+        "exactly_one_each_variant": true,
+        "run_evidence_valid_except_thermal_review": true,
+        "both_real_display_on": true,
+        "both_300_frames": true,
+        "same_config": true,
+        "same_engine_and_detector_settings": true,
+        "same_power_governor_backend": true,
+        "same_boot_within_pair": true,
+        "only_detector_code_differs": true,
+        "mot_and_class_bytes_identical": true,
+        "detections_identical": true,
+        "no_extra_preview_drops": true,
+        "no_extra_peak_swap": true,
+        "no_throttling_reviewed": false,
+        "p90_increase_le_5_percent": true
+      },
+      "baseline": {
+        "id": 9,
+        "fps": 9.262369554379996,
+        "latency_ms": {
+          "n": 275,
+          "median": 115.76151400004164,
+          "p90": 120.55969900029595
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2436,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 46.0,
+            "CPU": 50.0,
+            "PMIC": 50.0,
+            "GPU": 46.5,
+            "AO": 59.5,
+            "thermal": 47.25
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            65.8,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1428000,
+            "cpu1": 1428000,
+            "cpu2": 1428000,
+            "cpu3": 1428000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "candidate": {
+        "id": 10,
+        "fps": 9.673211579882878,
+        "latency_ms": {
+          "n": 275,
+          "median": 111.26583199802553,
+          "p90": 116.59293499906198
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2435,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 46.0,
+            "CPU": 50.0,
+            "PMIC": 50.0,
+            "GPU": 46.5,
+            "AO": 59.5,
+            "thermal": 47.75
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            69.1,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ]
+    },
+    {
+      "group": "paired300",
+      "tracker": "ekf",
+      "pair": "2",
+      "run_ids": [
+        11,
+        12
+      ],
+      "fps_gain_percent": 4.119216766685496,
+      "p90_increase_percent": -3.654103372948758,
+      "checks": {
+        "exactly_one_each_variant": true,
+        "run_evidence_valid_except_thermal_review": true,
+        "both_real_display_on": true,
+        "both_300_frames": true,
+        "same_config": true,
+        "same_engine_and_detector_settings": true,
+        "same_power_governor_backend": true,
+        "same_boot_within_pair": true,
+        "only_detector_code_differs": true,
+        "mot_and_class_bytes_identical": true,
+        "detections_identical": true,
+        "no_extra_preview_drops": true,
+        "no_extra_peak_swap": true,
+        "no_throttling_reviewed": false,
+        "p90_increase_le_5_percent": true
+      },
+      "baseline": {
+        "id": 12,
+        "fps": 9.274229907805797,
+        "latency_ms": {
+          "n": 275,
+          "median": 115.78405599721009,
+          "p90": 120.49650900007691
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2453,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 46.5,
+            "CPU": 49.5,
+            "PMIC": 50.0,
+            "GPU": 47.0,
+            "AO": 60.5,
+            "thermal": 48.25
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            66.2,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "candidate": {
+        "id": 11,
+        "fps": 9.656255541149093,
+        "latency_ms": {
+          "n": 275,
+          "median": 111.58307500227238,
+          "p90": 116.0934420004196
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2438,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 46.5,
+            "CPU": 51.0,
+            "PMIC": 50.0,
+            "GPU": 47.0,
+            "AO": 60.0,
+            "thermal": 49.0
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            70.3,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ]
+    },
+    {
+      "group": "paired300",
+      "tracker": "ekf",
+      "pair": "3",
+      "run_ids": [
+        13,
+        14
+      ],
+      "fps_gain_percent": 3.9620823310339004,
+      "p90_increase_percent": -4.509707196691304,
+      "checks": {
+        "exactly_one_each_variant": true,
+        "run_evidence_valid_except_thermal_review": true,
+        "both_real_display_on": true,
+        "both_300_frames": true,
+        "same_config": true,
+        "same_engine_and_detector_settings": true,
+        "same_power_governor_backend": true,
+        "same_boot_within_pair": true,
+        "only_detector_code_differs": true,
+        "mot_and_class_bytes_identical": true,
+        "detections_identical": true,
+        "no_extra_preview_drops": true,
+        "no_extra_peak_swap": true,
+        "no_throttling_reviewed": false,
+        "p90_increase_le_5_percent": true
+      },
+      "baseline": {
+        "id": 13,
+        "fps": 9.304684308481052,
+        "latency_ms": {
+          "n": 275,
+          "median": 115.06367200126988,
+          "p90": 121.13511500137975
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2440,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10900,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 46.5,
+            "CPU": 50.0,
+            "PMIC": 50.0,
+            "GPU": 47.0,
+            "AO": 60.5,
+            "thermal": 48.5
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            65.0,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "candidate": {
+        "id": 14,
+        "fps": 9.673343561425863,
+        "latency_ms": {
+          "n": 275,
+          "median": 111.2771750013053,
+          "p90": 115.67227600244223
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2442,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10900,
+          "swap_after_kB": 10892,
+          "swap_delta_kB": -8,
+          "temperature_max_C": {
+            "PLL": 47.5,
+            "CPU": 52.0,
+            "PMIC": 50.0,
+            "GPU": 48.0,
+            "AO": 61.0,
+            "thermal": 49.5
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            66.2,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ]
+    },
+    {
+      "group": "paired300",
+      "tracker": "ekf",
+      "pair": "4",
+      "run_ids": [
+        15,
+        16
+      ],
+      "fps_gain_percent": 4.476732679351314,
+      "p90_increase_percent": -4.100866279653259,
+      "checks": {
+        "exactly_one_each_variant": true,
+        "run_evidence_valid_except_thermal_review": true,
+        "both_real_display_on": true,
+        "both_300_frames": true,
+        "same_config": true,
+        "same_engine_and_detector_settings": true,
+        "same_power_governor_backend": true,
+        "same_boot_within_pair": true,
+        "only_detector_code_differs": true,
+        "mot_and_class_bytes_identical": true,
+        "detections_identical": true,
+        "no_extra_preview_drops": true,
+        "no_extra_peak_swap": true,
+        "no_throttling_reviewed": false,
+        "p90_increase_le_5_percent": true
+      },
+      "baseline": {
+        "id": 16,
+        "fps": 9.269902292436887,
+        "latency_ms": {
+          "n": 275,
+          "median": 115.63436000142246,
+          "p90": 120.58642400006647
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2440,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10892,
+          "swap_after_kB": 10892,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 47.5,
+            "CPU": 51.0,
+            "PMIC": 50.0,
+            "GPU": 48.0,
+            "AO": 61.0,
+            "thermal": 49.0
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            67.8,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "candidate": {
+        "id": 15,
+        "fps": 9.684891037706345,
+        "latency_ms": {
+          "n": 275,
+          "median": 111.38488299911842,
+          "p90": 115.64133600040805
+        },
+        "preview_drops": 0,
+        "resources": {
+          "ram_max_MB": 2448,
+          "swap_max_MB": 11,
+          "swap_before_kB": 10892,
+          "swap_after_kB": 10892,
+          "swap_delta_kB": 0,
+          "temperature_max_C": {
+            "PLL": 47.5,
+            "CPU": 52.0,
+            "PMIC": 50.0,
+            "GPU": 48.0,
+            "AO": 61.5,
+            "thermal": 49.75
+          },
+          "cpu_MHz_min_max": [
+            1224,
+            1479
+          ],
+          "gpu_load_mean_max": [
+            72.5,
+            99
+          ],
+          "clocks_before": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 76800000
+          },
+          "clocks_after": {
+            "cpu0": 1479000,
+            "cpu1": 1479000,
+            "cpu2": 1479000,
+            "cpu3": 1479000,
+            "gpu_cur_freq": 921600000
+          },
+          "source": "run_meta.thiet_bi.tegrastats; before/after meminfo"
+        }
+      },
+      "failed_checks": [
+        "no_throttling_reviewed"
+      ]
+    }
+  ],
+  "tracker_summary": {
+    "cv": {
+      "n_pairs": 4,
+      "fps_gain_percent": {
+        "n": 4,
+        "median": 3.917057640796884,
+        "min": 3.521298987460919,
+        "max": 4.095949129924459,
+        "p25": 3.7264057274650986,
+        "p75": 4.053492763076571,
+        "mad": 0.15058724456231687
+      },
+      "p90_increase_percent": {
+        "n": 4,
+        "median": -3.5677153810965647,
+        "min": -3.771432936190444,
+        "max": -3.3457730169625277,
+        "p25": -3.7068559254386124,
+        "p75": -3.424018634494477,
+        "mad": 0.1606662145926585
+      },
+      "checks": {
+        "at_least_4_pairs": true,
+        "all_pairs_have_numbers": true,
+        "median_fps_gain_ge_5_percent": false,
+        "median_p90_increase_le_5_percent": true,
+        "every_pair_p90_increase_le_5_percent": true,
+        "all_evidence_and_parity_checks": true,
+        "no_throttling_reviewed": false
+      },
+      "pass": false
+    },
+    "ekf": {
+      "n_pairs": 4,
+      "fps_gain_percent": {
+        "n": 4,
+        "median": 4.27741033505068,
+        "min": 3.9620823310339004,
+        "max": 4.476732679351314,
+        "p25": 4.079933157772597,
+        "p75": 4.445886097399726,
+        "mad": 0.17875795633290892
+      },
+      "p90_increase_percent": {
+        "n": 4,
+        "median": -3.8774848263010084,
+        "min": -4.509707196691304,
+        "max": -3.2902902330771644,
+        "p25": -4.20307650891277,
+        "p75": -3.5631500879808597,
+        "mad": 0.40528802328804714
+      },
+      "checks": {
+        "at_least_4_pairs": true,
+        "all_pairs_have_numbers": true,
+        "median_fps_gain_ge_5_percent": false,
+        "median_p90_increase_le_5_percent": true,
+        "every_pair_p90_increase_le_5_percent": true,
+        "all_evidence_and_parity_checks": true,
+        "no_throttling_reviewed": false
+      },
+      "pass": false
+    }
+  },
+  "duplicate_run_directories": [],
+  "incomplete_run_ids": [],
+  "acceptance": {
+    "numeric_evidence_parity_gate": false,
+    "short_comparison_pass": false,
+    "milestone_6_complete": false,
+    "deployment_authorized_by_this_report": false
+  },
+  "limitations": [
+    "All indexed attempts are reported; only comparison_group enters acceptance.",
+    "Index must enumerate every planned run; missing pairs beyond indexed records cannot be discovered.",
+    "Resource maxima come from run_meta telemetry; low DVFS clocks do not prove throttling.",
+    "Detection digest is externally supplied; NPZ payloads are not opened here.",
+    "Live MOT/class hashes are recomputed; live/replay byte equality is the helper's recorded assertion.",
+    "Full 1470-frame validation and launcher/HDMI checks remain separate milestone gates."
+  ],
+  "index": {
+    "path": "/home/jetson/nano_run/r62_20261028/paired300/index.json",
+    "sha256": "36f0ec2bf56e00dc33a398cc56a3c32e4d45abe16d3d2bb818b1fa73c845dcd8"
+  },
+  "script_sha256": "4ecd8b67e49bcc15f1c46c64fe7feac4214df11d20d0f211242930386a53fdaa"
+}
