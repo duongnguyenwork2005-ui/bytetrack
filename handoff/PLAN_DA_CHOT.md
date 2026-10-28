@@ -62,7 +62,8 @@ exit 0, detector Python/TensorRT/OpenCV/NumPy OK. Không chuyển launcher sang 
 Kết luận/bằng chứng cuối R62: `handoff/logs/review62/30_ket_luan_moc6.md`,
 `28_so_cap_300_lan01.json`, `29_so_dai_1470_lan01.json`; raw nhỏ đã sao lưu tar SHA256
 `81ccef2b53934b1578feca4c338bbde73fdf490ef9b5e7a2eb7731f0e284e637`.
-Không còn việc đo trong phạm vi mốc 6; chỉ còn đẩy snapshot cuối lên GitHub.
+Không còn việc đo trong phạm vi mốc 6. Báo cáo và bằng chứng cuối đã đẩy lên GitHub nhánh
+`phase2-mixed-traffic` tại commit `b7a50ab19c52af38e937695b5fe43916bac6f2a0` (đã đối chiếu remote).
 Phải đo lại baseline v16 trên Jetson hiện tại để so tối ưu; không quy chênh lệch với FPS máy cũ cho sửa mã.
 Chỉ ghi bản sao và kết quả R62; chưa sửa boot/mount/cài gói hoặc mã thuật toán.
 Gói v16 `handoff/nano_transfer_latest.zip` còn nguyên SHA256 `302f6af73d97aea009066416aaaa202db81311e60121676a75dacbe204e9cbf1`;
