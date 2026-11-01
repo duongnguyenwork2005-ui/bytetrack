@@ -1,0 +1,329 @@
+{
+  "tracker": "ekf",
+  "display": "on",
+  "frames": 300,
+  "live_exit": 0,
+  "engine": "/home/jetson/nano_run/r63_20261030/g3_c1_384x640_toc_do_01/engine/yolov8n_384x640_op12_fp16.engine",
+  "engine_sha256": "a6912393829f8c811d3cc33008f3e4056a626434df327c85aae7beb33af01749",
+  "mmc1_mode": [
+    "[    1.523424] mmc1: new high speed SDXC card at address 0001"
+  ],
+  "parity_byte": true,
+  "hashes": {
+    "data/MVI_39031.txt": "92f6c3eb121bca793dd23a54779e0d70c47ae74eb91065908ece0b13d1cb28af",
+    "data_cls/MVI_39031.csv": "e59aba92a4cc824a489924386fd1b54d3c1d70244690c7bc6d266b4d0dabf71a"
+  },
+  "replay_dir": "/home/jetson/nano_run/r63_20261030/v17c/nano_transfer/data/processed/trackers/R62-luot-5df70245f1d09ac6/replay",
+  "fps": 13.210818946857637,
+  "time": {
+    "khoi_tao_s": 8.605275980999977,
+    "chuan_bi_cha_s": 0.019910310999875946,
+    "xu_ly_s": 22.708660319000046,
+    "ket_thuc_s": 0.8851857930003462,
+    "ghi_s": 0.12757035699996777,
+    "fps_xu_ly": 13.210818946857637,
+    "moc_monotonic": {
+      "gui_bat_dau": 4773.204162929,
+      "ket_thuc_xu_ly": 4795.912826217
+    },
+    "kiem_cua_so_do": {
+      "frame_dau_bat_dau_doc_mono": 4773.204536225,
+      "frame_cuoi_xong_tracker_mono": 4795.891951814,
+      "tre_tu_bat_dau_den_doc_frame_dau_ms": 0.3732960003617336,
+      "moi_frame_trong_cua_so": true,
+      "khoang_bao_phu_s": 22.68741558900001
+    },
+    "tom_tat_sau_warmup": {
+      "decode_ms": {
+        "n": 275,
+        "trung_vi": 11.547219000021869,
+        "tb": 11.654346254558318,
+        "p90": 12.054372999955376,
+        "min": 10.876309999730438,
+        "max": 15.889891999904648
+      },
+      "mask_ms": {
+        "n": 275,
+        "trung_vi": 0.0009900004442897625,
+        "tb": 0.0010399890842646446,
+        "p90": 0.0012500004231696948,
+        "min": 0.0007299995559151284,
+        "max": 0.001823000275180675
+      },
+      "pre_ms": {
+        "n": 275,
+        "trung_vi": 9.955649999938032,
+        "tb": 9.989217349099238,
+        "p90": 10.546866999902704,
+        "min": 8.326002000103472,
+        "max": 14.030074999936915
+      },
+      "infer_ms": {
+        "n": 275,
+        "trung_vi": 47.57883399997809,
+        "tb": 47.37912445818272,
+        "p90": 48.21374800030753,
+        "min": 45.26540200004092,
+        "max": 52.94981199949689
+      },
+      "h2d_ms": {
+        "n": 275,
+        "trung_vi": 1.7792880007618805,
+        "tb": 1.8243098218491385,
+        "p90": 2.0087759994567023,
+        "min": 1.5650599998480175,
+        "max": 3.0558999997083447
+      },
+      "exec_ms": {
+        "n": 275,
+        "trung_vi": 43.9600950003296,
+        "tb": 43.631552814566184,
+        "p90": 44.49969800043618,
+        "min": 41.809172999819566,
+        "max": 49.1462270001648
+      },
+      "d2h_ms": {
+        "n": 275,
+        "trung_vi": 1.136242000029597,
+        "tb": 1.1739049708888738,
+        "p90": 1.3302609995662351,
+        "min": 0.9896210003716988,
+        "max": 2.8609440005311626
+      },
+      "post_ms": {
+        "n": 275,
+        "trung_vi": 6.028984999829845,
+        "tb": 6.089679669067581,
+        "p90": 7.443257999511843,
+        "min": 3.9082260000213864,
+        "max": 9.096552000301017
+      },
+      "cho_credit_ms": {
+        "n": 275,
+        "trung_vi": 0.0028130007194704376,
+        "tb": 0.0028717054142775437,
+        "p90": 0.0031769995985087007,
+        "min": 0.0021350006136344746,
+        "max": 0.005989999408484437
+      },
+      "cho_doc_ms": {
+        "n": 275,
+        "trung_vi": 67.40992399954848,
+        "tb": 67.11520218542732,
+        "p90": 69.10289600000397,
+        "min": 55.94711699995969,
+        "max": 73.80335300058505
+      },
+      "truyen_ms": {
+        "n": 275,
+        "trung_vi": 0.347981999766489,
+        "tb": 0.37448444002868864,
+        "p90": 0.42272400060028303,
+        "min": 0.2921470004366711,
+        "max": 1.498861000072793
+      },
+      "loc_ms": {
+        "n": 275,
+        "trung_vi": 0.6518480004160665,
+        "tb": 0.6762855963891277,
+        "p90": 0.7480499998564483,
+        "min": 0.5970539996269508,
+        "max": 1.2306730004638666
+      },
+      "xu_ly_ms": {
+        "n": 275,
+        "trung_vi": 7.372683000539837,
+        "tb": 7.795053738161434,
+        "p90": 10.631871000441606,
+        "min": 4.429234999406617,
+        "max": 15.609615999892412
+      },
+      "frame_total_cha_ms": {
+        "n": 275,
+        "trung_vi": 75.44581100046344,
+        "tb": 75.63498622178237,
+        "p90": 78.31819100010762,
+        "min": 66.78055800057336,
+        "max": 85.32924900009675
+      },
+      "tre_ms": {
+        "n": 275,
+        "trung_vi": 84.16421899983106,
+        "tb": 84.36880579634982,
+        "p90": 88.50619700024254,
+        "min": 78.05726800052071,
+        "max": 96.03612200044154
+      },
+      "t_update_ms": {
+        "n": 275,
+        "trung_vi": 6.618850999984716,
+        "tb": 6.982636876369228,
+        "p90": 9.66844799950195,
+        "min": 3.9694779998171725,
+        "max": 14.082474000133516
+      },
+      "khoang_giua_frame_ms": {
+        "n": 274,
+        "trung_vi": 75.45822749989384,
+        "tb": 75.63442272262662,
+        "p90": 78.20048099983978,
+        "min": 66.84660200062353,
+        "max": 85.34575900011987
+      },
+      "fps_on_dinh": 13.218872816525975,
+      "n_frame_tong_ket": 275,
+      "warmup_bo": 25
+    },
+    "dinh_nghia": {
+      "khoi_tao_s": "spawn con -> nhan HELLO (Python con, import, nap engine, lam nong)",
+      "chuan_bi_cha_s": "nhan HELLO -> ngay truoc khi gui BAT DAU (cau hinh tracker, telemetry); con CHUA doc frame nao",
+      "xu_ly_s": "ngay truoc khi gui BAT DAU -> track_video tra ve (frame cuoi da qua tracker, nhan EOS hoac dung); con chi doc frame 1 SAU khi nhan BAT DAU -> moi frame dem nam trong cua so",
+      "fps_xu_ly": "so frame da xu ly / xu_ly_s",
+      "ket_thuc_s": "sau vong lap -> con da thoat (xa frame dang bay khi dung, cho/reap con, dung telemetry)",
+      "ghi_s": "ghi MOT/CSV/cache sau vong lap (do truoc khi ghi run_meta)",
+      "fps_on_dinh": "(N - W) / (t_xong[N] - t_xong[W]) theo moc xong tracker o cha, bo W frame warm-up",
+      "tong_s": "toan luot trong nano_live: sau khi doc tham so -> ngay truoc khi ghi run_meta (kiem tra, spawn/khoi tao, xu ly, ket thuc, ghi); khong gom khoi dong Python cua nano_live va thoi gian launcher",
+      "tam_dung": "khong co chuc nang tam dung -> khong co thoi gian tam dung trong so do",
+      "fps_hien_thi": "(N - 1) / (moc hien thi cuoi - moc hien thi dau), N = so anh DA trinh len cua so (luong hien thi cua con); N < 2 -> null; frame xem truoc bi bo / toi sau khi dong cua so khong tinh"
+    },
+    "ghi_chu": "vong 22 thay wall_vong_lap_s/fps_vong_lap cua vong 21 (timer vong 21 bat dau SAU khi con da doc/infer frame dau -- review 9f210e2 N21-F1)",
+    "tong_s": 32.54258418599966,
+    "fps_hien_thi": 13.316488691289635
+  },
+  "display_meta": {
+    "bat": true,
+    "an": false,
+    "che_do": "that: hien thi = imshow thanh cong len cua so dang mo",
+    "tieu_de": "Xem truc tiep - EKF - MVI_39031_f0001-0300 (q/Esc: dung)",
+    "hang_doi": 2,
+    "dem": {
+      "n_anh_nhan": 300,
+      "n_ket_qua_nhan": 300,
+      "n_ghep_duoc": 300,
+      "n_khong_ghep": 0,
+      "n_anh_bo_khong_ket_qua": 0,
+      "n_da_ve": 300,
+      "n_hien_thi": 300,
+      "n_bo_hien_thi": 0,
+      "n_khong_hien_thi_cua_so_dong": 0,
+      "n_mau_luu": 0
+    },
+    "frame_bo_hien_thi_dau": [],
+    "frame_khong_ghep_dau": [],
+    "frame_khong_hien_thi_cua_so_dong_dau": [],
+    "frame_hien_thi_cuoi": 300,
+    "fps_hien_thi": 13.316488691289635,
+    "khoang_hien_thi_s": 22.453366419000304,
+    "ve_ms": {
+      "n": 300,
+      "trung_vi": 1.7178529997181613,
+      "tb": 2.278571009995479,
+      "p90": 3.641235000031884,
+      "max": 5.995442000312323
+    },
+    "imshow_ms": {
+      "n": 300,
+      "trung_vi": 2.214956500210974,
+      "tb": 2.7444238666672995,
+      "p90": 2.4622829996587825,
+      "max": 135.85485299972788
+    },
+    "ly_do_dung_tu_cua_so": null,
+    "ly_do_ket_thuc_con": "het_nguon",
+    "loi": null,
+    "luong_con_song_sau_dong": false,
+    "luu_mau_dir": null,
+    "luu_mau_moi": 0,
+    "dinh_nghia": {
+      "n_hien_thi": "frame DA TRINH len cua so: cua so con mo (kiem truoc moi imshow) va cv2.imshow chay xong khong loi; che do an: gia lap (da ve xong)",
+      "fps_hien_thi": "(N - 1) / (moc hien thi cuoi - moc hien thi dau), N = n_hien_thi, moc lay NGAY SAU imshow; N < 2 -> null (khong co FPS hien thi co nghia)",
+      "n_da_ve": "frame da ve xong (ve_frame + HUD) truoc khi trinh len cua so",
+      "n_khong_hien_thi_cua_so_dong": "frame toi SAU khi cua so da dong (vd dang bay luc bam x): khong ve, khong imshow, KHONG tinh la da hien thi; tracking van ghi MOT/lop",
+      "n_bo_hien_thi": "frame XEM TRUOC bi bo vi hang doi hien thi day (bo frame cu nhat; tracking van xu ly du)",
+      "n_khong_ghep": "ket qua tracker khong tim thay anh cung frame_idx (khong ve anh khac thay the)",
+      "n_anh_bo_khong_ket_qua": "anh da luu nhung khong co ket qua (frame dang bay khi dung, vuot vong dem)",
+      "tam_dung": "khong co chuc nang tam dung"
+    },
+    "lenh_R_da_gui": 300,
+    "lenh_credit_da_gui": 0,
+    "ket_qua_lech_frame": 0
+  },
+  "resources": {
+    "truoc": {
+      "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+      "cpu_governor": "schedutil",
+      "nhiet_do_C": {
+        "AO-therm": 57.0,
+        "CPU-therm": 49.0,
+        "GPU-therm": 48.5,
+        "PLL-therm": 46.5,
+        "PMIC-Die": 50.0,
+        "thermal-fan-est": 48.5
+      },
+      "thoi_diem": "2026-10-31T14:04:28",
+      "xung": {
+        "cpu0": 1479000,
+        "cpu1": 1479000,
+        "cpu2": 1479000,
+        "cpu3": 1479000,
+        "gpu_cur_freq": 76800000
+      },
+      "meminfo_kB": {
+        "MemTotal": "4050768 kB",
+        "MemAvailable": "2721016 kB",
+        "SwapTotal": "6219676 kB",
+        "SwapFree": "6068980 kB"
+      }
+    },
+    "sau": {
+      "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap",
+      "cpu_governor": "schedutil",
+      "nhiet_do_C": {
+        "AO-therm": 58.0,
+        "CPU-therm": 48.5,
+        "GPU-therm": 47.0,
+        "PLL-therm": 46.5,
+        "PMIC-Die": 50.0,
+        "thermal-fan-est": 48.0
+      },
+      "thoi_diem": "2026-10-31T14:05:01",
+      "xung": {
+        "cpu0": 1479000,
+        "cpu1": 1479000,
+        "cpu2": 1479000,
+        "cpu3": 1479000,
+        "gpu_cur_freq": 921600000
+      },
+      "meminfo_kB": {
+        "MemTotal": "4050768 kB",
+        "MemAvailable": "2712604 kB",
+        "SwapTotal": "6219676 kB",
+        "SwapFree": "6068980 kB"
+      }
+    },
+    "tegrastats": {
+      "co_tegrastats": true,
+      "n_mau": 45,
+      "ram_dung_MB_max": 2611,
+      "swap_dung_MB_max": 147,
+      "cpu_MHz_min_max": [
+        1224,
+        1479
+      ],
+      "cpu_pct_tb": 33.8,
+      "gr3d_pct_tb_max": [
+        60.2,
+        99
+      ],
+      "nhiet_max_C": {
+        "PLL": 48.0,
+        "CPU": 51.5,
+        "PMIC": 50.0,
+        "GPU": 48.5,
+        "AO": 61.0,
+        "thermal": 49.75
+      }
+    },
+    "tegrastats_log": "tegrastats.log"
+  }
+}

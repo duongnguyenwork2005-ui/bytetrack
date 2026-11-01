@@ -1,0 +1,6 @@
+===== 14_pstore (2026-10-30T16:54:49+08:00)
+$ bash -c ls -la /sys/fs/pstore 2>&1; for f in /sys/fs/pstore/*; do [ -r "$f" ] && { echo "--- $f"; grep -Ei "panic|lockup|hung|rcu|i2c" "$f" | tail -20; }; done
+total 0
+drwxr-xr-x 2 root root 0 3月   2  2023 .
+drwxr-xr-x 7 root root 0 10月 30 16:54 ..
+[exit=1]

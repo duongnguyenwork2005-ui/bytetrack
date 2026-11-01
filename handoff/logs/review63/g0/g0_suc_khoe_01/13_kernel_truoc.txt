@@ -1,0 +1,4 @@
+===== 13_kernel_truoc (2026-10-30T16:54:03+08:00)
+$ bash -c journalctl --list-boots --no-pager 2>/dev/null | tail -8; journalctl -k -b -1 --no-pager 2>/dev/null | grep -Ei "panic|soft ?lockup|hung_task|rcu|i2c.*time|watchdog|thermal|throttl|oom" | tail -60 || echo "journal boot truoc: khong co/khong doc duoc"
+ 0 3cf3e6a1e3a14ce6a0ccfbe9e548a445 Thu 2023-03-02 20:58:03 CST—Fri 2026-10-30 16:54:02 CST
+[exit=0]

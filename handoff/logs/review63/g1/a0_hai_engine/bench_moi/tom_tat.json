@@ -1,0 +1,213 @@
+{
+  "moi_truong": {
+    "host": "jetson-desktop",
+    "python": "3.6.9",
+    "platform": "Linux-4.9.337-tegra-aarch64-with-Ubuntu-18.04-bionic",
+    "numpy": "1.19.5",
+    "opencv": "3.2.0",
+    "tensorrt": "8.2.1.9",
+    "goi": "/home/jetson/nano_run/r63_20261030/baseline/nano_transfer",
+    "nano_detector_sha256": "43687a07a7ab3a037620d97a2d502e385d525a2b6c2e352bbadaef81709da297",
+    "engine": "/home/jetson/nano_run/r63_20261030/engine_v16_board_hien_tai_01/yolov8n_640_op12_fp16.engine",
+    "engine_sha256": "9fae6b4307f83b42ec17b41a9347be9705f2bb71b63088026469a81bdcfcde78",
+    "bindings": [
+      {
+        "name": "images",
+        "input": true,
+        "shape": [
+          1,
+          3,
+          640,
+          640
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "output0",
+        "input": false,
+        "shape": [
+          1,
+          84,
+          8400
+        ],
+        "dtype": "float32"
+      }
+    ],
+    "letterbox_hw": [
+      640,
+      640
+    ],
+    "in_shape": [
+      1,
+      3,
+      640,
+      640
+    ],
+    "out_shape": [
+      1,
+      84,
+      8400
+    ],
+    "anh_sha256_tong": "82992b80458535de7f2a8a803dcf1096a7b9aa2a4244d8edea3b00665e250359",
+    "anh": "/home/jetson/nano_run/data_full/MVI_39031",
+    "so_anh": 300,
+    "anh_dau": "img00001.jpg",
+    "anh_cuoi": "img00300.jpg",
+    "conf": 0.05,
+    "iou": 0.7,
+    "max_det": 3000,
+    "n_pass": 4,
+    "warmup": 25,
+    "khoi_tao_s": 6.143392834000224,
+    "boot_id": "89a0f445-6290-427d-9305-08ed1adaa30a",
+    "bat_dau": "2026-10-31T13:11:45",
+    "argv": [
+      "cong_cu_v4/bench_engine_pipeline.py",
+      "--goi",
+      "baseline/nano_transfer",
+      "--engine",
+      "/home/jetson/nano_run/r63_20261030/engine_v16_board_hien_tai_01/yolov8n_640_op12_fp16.engine",
+      "--anh",
+      "/home/jetson/nano_run/data_full/MVI_39031",
+      "--ra",
+      "g1_a0_hai_engine_01/bench_moi/ket_qua",
+      "--so-anh",
+      "300",
+      "--pass",
+      "4",
+      "--warmup",
+      "25"
+    ]
+  },
+  "theo_che_do": {
+    "dong_bo": {
+      "n_frame_thong_ke": 550,
+      "dec_ms": {
+        "median": 11.257130999979381,
+        "p90": 11.467843100012942,
+        "mean": 11.25094050363466
+      },
+      "lb_pre_ms": {
+        "median": 13.313808500015512,
+        "p90": 13.594793499987645,
+        "mean": 13.008710570910477
+      },
+      "infer_ms": {
+        "median": 73.45299650000925,
+        "p90": 73.75253909992807,
+        "mean": 73.49909293818406
+      },
+      "post_ms": {
+        "median": 7.23224000000755,
+        "p90": 8.315192699910767,
+        "mean": 7.254361521820349
+      },
+      "h2d_ms": {
+        "median": 2.506087000028856,
+        "p90": 2.74402810009633,
+        "mean": 2.558749807273092
+      },
+      "exec_ms": {
+        "median": 68.15638999989915,
+        "p90": 68.2429696999634,
+        "mean": 68.16631779636158
+      },
+      "d2h_ms": {
+        "median": 1.6628685000341648,
+        "p90": 1.7781622999564206,
+        "mean": 1.6790932818197357
+      },
+      "n_det": {
+        "median": 10.0,
+        "p90": 14.0,
+        "mean": 10.178181818181818
+      }
+    },
+    "su_kien": {
+      "n_frame_thong_ke": 550,
+      "dec_ms": {
+        "median": 11.18973300003745,
+        "p90": 11.387139099952037,
+        "mean": 11.192380056365685
+      },
+      "lb_pre_ms": {
+        "median": 13.37196049985323,
+        "p90": 13.550515800147878,
+        "mean": 13.121979109093694
+      },
+      "gpu_h2d_ms": {
+        "median": 2.357031464576721,
+        "p90": 2.614822602272034,
+        "mean": 2.40267680644989
+      },
+      "gpu_exec_ms": {
+        "median": 68.11080932617188,
+        "p90": 68.18245468139648,
+        "mean": 68.11721127596769
+      },
+      "gpu_d2h_ms": {
+        "median": 1.5354950428009033,
+        "p90": 1.630947506427765,
+        "mean": 1.5485695078156212
+      },
+      "gpu_tong_ms": {
+        "median": 72.00825500488281,
+        "p90": 72.31358642578125,
+        "mean": 72.06845747514204
+      },
+      "host_h2d_goi_ms": {
+        "median": 2.6399434999575533,
+        "p90": 2.9302926000127627,
+        "mean": 2.6903830054479014
+      },
+      "host_enqueue_ms": {
+        "median": 8.617421500048295,
+        "p90": 9.04610590005177,
+        "mean": 8.716694043636876
+      },
+      "host_d2h_goi_ms": {
+        "median": 61.01962000002459,
+        "p90": 61.20974279983784,
+        "mean": 60.957387830916225
+      },
+      "host_cho_sync_ms": {
+        "median": 0.02625100000841485,
+        "p90": 0.028020999934597057,
+        "mean": 0.02681118362819358
+      },
+      "host_infer_ms": {
+        "median": 72.33029350004472,
+        "p90": 72.65342959999543,
+        "mean": 72.39127606362919
+      },
+      "copy_f32_ms": {
+        "median": 0.9846534999269352,
+        "p90": 1.0747651001338454,
+        "mean": 1.0119803600007964
+      },
+      "decode_nms_ms": {
+        "median": 6.76254450002034,
+        "p90": 7.919424600027014,
+        "mean": 6.794888449090153
+      },
+      "scale_ms": {
+        "median": 0.44157050001558673,
+        "p90": 0.4828419000887152,
+        "mean": 0.44973007090447936
+      },
+      "n_det": {
+        "median": 10.0,
+        "p90": 14.0,
+        "mean": 10.178181818181818
+      }
+    }
+  },
+  "det_pass0_sha256": "b21e456f2b04cc1ce1839afd7e220f5793caa9097e8acd149725f9305b3b3dc8",
+  "parity_dong_bo_su_kien": {
+    "n_frame": 300,
+    "n_trung_byte": 300,
+    "frame_lech_dau": []
+  },
+  "ghi_chu_dien_giai": "su_kien la DUONG DO RIENG (execute_async_v2 tren stream rieng + CUDA event), khong phai production execute_v2. gpu_exec_ms (event) cho biet thoi gian GPU cua engine; KHONG lay hieu hai trung vi exec_ms(dong_bo) - gpu_exec_ms(su_kien) lam phi goi chinh xac cua execute_v2. Neu parity hai che do khong trung hoac so lieu khong nhat quan voi trtexec thi ket luan 'chua phan ra du'.",
+  "ket_thuc": "2026-10-31T13:13:53"
+}

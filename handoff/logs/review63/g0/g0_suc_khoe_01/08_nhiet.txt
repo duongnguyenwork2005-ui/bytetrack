@@ -1,0 +1,9 @@
+===== 08_nhiet (2026-10-30T16:54:03+08:00)
+$ bash -c for z in /sys/class/thermal/thermal_zone*; do echo "$(cat $z/type)=$(cat $z/temp)"; done
+AO-therm=43000
+CPU-therm=33500
+GPU-therm=33500
+PLL-therm=31500
+PMIC-Die=50000
+thermal-fan-est=33500
+[exit=0]

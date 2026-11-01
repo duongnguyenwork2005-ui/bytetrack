@@ -1,0 +1,1472 @@
+Panic#1 Part1
+<6>[    1.731266] dp lt: switching from state 0 (Reset) to state 0 (Reset)
+<6>[    1.731273] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[    1.732484] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[    1.732632] dp lt: switching from state 0 (Reset) to state 2 (clock recovery)
+<6>[    1.732638] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[    1.732886] dp lt: config: lane 0: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    1.732901] dp lt: config: lane 1: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    1.732915] dp lt: config: lane 2: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    1.732930] dp lt: config: lane 3: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    1.732940] dp lt: tx_pu: 0x20
+<6>[    1.734248] dp lt: CR not done
+<6>[    1.734925] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.734928] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.734931] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.734935] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.734939] dp lt: CR retry
+<6>[    1.734942] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[    1.734948] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[    1.734966] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.734981] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.734995] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.735009] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.735017] dp lt: tx_pu: 0x30
+<6>[    1.736367] dp lt: CR not done
+<6>[    1.737042] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.737046] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.737050] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.737053] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.737055] dp lt: CR retry
+<6>[    1.737059] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[    1.737064] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[    1.737081] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.737095] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.737109] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.737123] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    1.737130] dp lt: tx_pu: 0x30
+<6>[    1.738470] dp lt: CR done
+<6>[    1.738475] dp lt: switching from state 2 (clock recovery) to state 3 (channel equalization)
+<6>[    1.738481] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[    1.740791] dp lt: CE done
+<6>[    1.740797] dp lt: switching from state 3 (channel equalization) to state 5 (link training pass)
+<6>[    1.740870] extcon-disp-state extcon:disp-state: cable 46 state 1
+<6>[    1.740875] Extcon AUX0(DP): enable
+<6>[    1.740878] dp_audio switch 1
+<6>[    1.741451] hpd: state 7 (Takeover from bootloader), hpd 1, pending_hpd_evt 1
+<6>[    1.741458] hpd: switching from state 7 (Takeover from bootloader) to state 1 (Check Plug)
+<6>[    1.827128] max77686-rtc max77620-rtc: rtc core: registered max77620-rtc as rtc0
+<6>[    1.829705] rtc rtc1: alarm rtc device
+<6>[    1.829728] tegra_rtc 7000e000.rtc: rtc core: registered 7000e000.rtc as rtc1
+<5>[    1.829758] tegra_rtc 7000e000.rtc: Tegra internal Real Time Clock
+<6>[    1.830409] i2c /dev entries driver
+<6>[    1.832763] i2c i2c-6: Added multiplexed i2c bus 7
+<6>[    1.833270] i2c i2c-6: Added multiplexed i2c bus 8
+<6>[    1.833277] i2c-mux-gpio cam_i2cmux: 2 port mux on Tegra I2C adapter adapter
+<6>[    1.834227] imx219 7-0010: tegracam sensor driver:imx219_v2.0.6
+<6>[    1.842121] hpd: state 1 (Check Plug), hpd 1, pending_hpd_evt 0
+<6>[    1.842131] hpd: switching from state 1 (Check Plug) to state 2 (Check EDID)
+<6>[    1.850027] hpd: state 2 (Check EDID), hpd 1, pending_hpd_evt 0
+<6>[    1.851065] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.852312] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.853985] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.855233] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.856910] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<4>[    1.857568] tegra-vii2c 546c0000.i2c: no acknowledge from address 0x10
+<3>[    1.857650] imx219 7-0010: imx219_board_setup: error during i2c read probe (-121)
+<6>[    1.858158] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.859835] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.861078] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.862672] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.863916] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<3>[    1.865312] imx219 7-0010: board setup failed
+<6>[    1.865591] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.866472] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.868148] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.869391] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<4>[    1.869768] imx219: probe of 7-0010 failed with error -121
+<6>[    1.870428] imx219 8-0010: tegracam sensor driver:imx219_v2.0.6
+<6>[    1.870894] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.872139] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.874380] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.875625] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.877336] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.878459] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.880136] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.881379] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.882886] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.884130] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.885806] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.887054] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.888730] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.889974] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.891652] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.892895] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<4>[    1.893718] tegra-vii2c 546c0000.i2c: no acknowledge from address 0x10
+<3>[    1.893811] imx219 8-0010: imx219_board_setup: error during i2c read probe (-121)
+<6>[    1.894591] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.895839] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.898233] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.899481] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.901165] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<3>[    1.901386] imx219 8-0010: board setup failed
+<6>[    1.902416] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.904097] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.905346] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<4>[    1.905811] imx219: probe of 8-0010 failed with error -121
+<6>[    1.906945] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.907315] max77620-power max77620-power: Event recorder REG_NVERC : 0x0
+<6>[    1.908203] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.909898] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.909928] tegra_soctherm 700e2000.soctherm: pllx_offset tz:0 max:14, min:2
+<6>[    1.909934] tegra_soctherm 700e2000.soctherm: pllx_offset tz:2 max:8, min:4
+<6>[    1.910419] tegra_soctherm 700e2000.soctherm: soctherm: trip temperature -2147483647 forced to -127000
+<6>[    1.910435] tegra_soctherm 700e2000.soctherm: thermtrip: will shut down when cpu reaches 102500 mC
+<6>[    1.910445] tegra_soctherm 700e2000.soctherm: throttrip: will throttle when cpu reaches 100500 mC
+<6>[    1.910577] tegra_soctherm 700e2000.soctherm: soctherm: trip temperature -2147483647 forced to -127000
+<6>[    1.910589] tegra_soctherm 700e2000.soctherm: thermtrip: will shut down when gpu reaches 103000 mC
+<6>[    1.910597] tegra_soctherm 700e2000.soctherm: throttrip: will throttle when gpu reaches 101000 mC
+<6>[    1.910742] tegra_soctherm 700e2000.soctherm: soctherm: trip temperature -2147483647 forced to -127000
+<6>[    1.910753] tegra_soctherm 700e2000.soctherm: thermtrip: will shut down when pll reaches 127000 mC
+<6>[    1.910760] tegra_soctherm 700e2000.soctherm: throttrip: pll: missing hot temperature
+<6>[    1.910964] tegra_soctherm 700e2000.soctherm: failed to register sensor: -19
+<6>[    1.911165] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.911835] tegra_aotag tegra-aotag: Registering sensor 0
+<6>[    1.911889] tegra_aotag tegra-aotag: Invalid temp readout
+<6>[    1.911916] tegra_aotag tegra-aotag: Invalid temp readout
+<6>[    1.911934] tegra_aotag tegra-aotag: Bound to TZ : ID 0
+<6>[    1.911944] tegra_aotag tegra-aotag: Probe done [SUCCESS]:0
+<6>[    1.912896] tegra_soctherm 700e2000.soctherm: soctherm: trip temperature -2147483647 forced to -127000
+<6>[    1.912900] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.912922] tegra_dfll_action dfll-cdev-cap: Tegra DFLL 'cap cooling device' registered
+<6>[    1.913105] tegra_aotag tegra-aotag: Invalid temp readout
+<6>[    1.913137] tegra_dfll_action dfll-cdev-floor: Tegra DFLL 'floor cooling device' registered
+<6>[    1.913567] parse_throttle_dt_data: Num cap clks = 6
+<6>[    1.913574] parse_throttle_dt_data: clk=cclk_g type=2
+<6>[    1.913591] parse_throttle_dt_data: clk=gpu type=4
+<6>[    1.913617] parse_throttle_dt_data: clk=cap.throttle.c2bus type=0
+<6>[    1.913638] parse_throttle_dt_data: clk=cap.throttle.c3bus type=0
+<6>[    1.913661] parse_throttle_dt_data: clk=cap.throttle.sclk type=0
+<6>[    1.913665] parse_throttle_dt_data: clk=emc type=3
+<6>[    1.914180] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.914198] tegra_soctherm 700e2000.soctherm: soctherm: trip temperature -2147483647 forced to -127000
+<6>[    1.914318] tegra_soctherm 700e2000.soctherm: soctherm: trip temperature -2147483647 forced to -127000
+<6>[    1.914502] tegra_throttle_probe: probe successful. #cdevs=4
+<6>[    1.915460] FAN dev name: pwm-fan
+<6>[    1.915581] FAN:gpio request success.
+<6>[    1.915643] pwm_fan_driver pwm-fan: cap state:7, cap pwm:255
+<6>[    1.915990] pwm_fan_driver pwm-fan: got pwm for fan. polarity is normal
+<6>[    1.916009] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.916192] pwm_fan_driver pwm-fan: fan tach request irq success
+<6>[    1.916202] pwm_fan_driver pwm-fan: tach period: 1000
+<6>[    1.916313] pwm_fan_driver pwm-fan: index 0: pwm=0, rpm=0, rru=40, rrd=40, state:2
+<6>[    1.916318] pwm_fan_driver pwm-fan: index 1: pwm=80, rpm=1000, rru=2, rrd=2, state:2
+<6>[    1.916323] pwm_fan_driver pwm-fan: index 2: pwm=120, rpm=2000, rru=1, rrd=1, state:2
+<6>[    1.916328] pwm_fan_driver pwm-fan: index 3: pwm=160, rpm=3000, rru=1, rrd=1, state:2
+<6>[    1.916333] pwm_fan_driver pwm-fan: index 4: pwm=255, rpm=4000, rru=1, rrd=1, state:3
+<6>[    1.916338] pwm_fan_driver pwm-fan: index 5: pwm=255, rpm=5000, rru=1, rrd=1, state:3
+<6>[    1.916343] pwm_fan_driver pwm-fan: index 6: pwm=255, rpm=6000, rru=1, rrd=1, state:3
+<6>[    1.916347] pwm_fan_driver pwm-fan: index 7: pwm=255, rpm=7000, rru=1, rrd=1, state:4
+<6>[    1.916352] pwm_fan_driver pwm-fan: index 8: pwm=255, rpm=10000, rru=1, rrd=1, state:4
+<6>[    1.916357] pwm_fan_driver pwm-fan: index 9: pwm=255, rpm=11000, rru=1, rrd=1, state:4
+<6>[    1.917272] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.918917] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[    1.919269] device-mapper: uevent: version 1.0.3
+<6>[    1.919741] device-mapper: ioctl: 4.35.0-ioctl (2016-06-23) initialised: dm-devel@redhat.com
+<6>[    1.920190] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[    1.925274] tegra210-cpufreq cpufreq: probe()...completed
+<6>[    1.925963] sdhci: Secure Digital Host Controller Interface driver
+<6>[    1.925965] sdhci: Copyright(c) Pierre Ossman
+<6>[    1.925967] sdhci-pltfm: SDHCI platform and OF driver helper
+<6>[    1.926353] sdhci-tegra sdhci-tegra.3: Client registration for eMC Successful
+<6>[    1.927817] sdhci-tegra sdhci-tegra.2: Got CD GPIO
+<6>[    1.928165] sdhci-tegra sdhci-tegra.2: Client registration for eMC Successful
+<6>[    1.930505] tegra-se 70012000.se: tegra_se_probe: complete
+<6>[    1.931071] hidraw: raw HID events driver (C) Jiri Kosina
+<6>[    1.933457] usbcore: registered new interface driver usbhid
+<6>[    1.933460] usbhid: USB HID core driver
+<6>[    1.934876] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    1.936024] ashmem: initialized
+<6>[    1.937309] tegra21x_actmon 6000c800.actmon: in actmon_register()...
+<6>[    1.937523] tegra21x_actmon 6000c800.actmon: initialization Completed for the device mc_all
+<6>[    1.940313] nvpmodel: initialized successfully
+<6>[    1.941643] usbcore: registered new interface driver snd-usb-audio
+<6>[    1.941697] No Device Node present for smmu client: snd-soc-dummy !!
+<5>[    1.941702] platform snd-soc-dummy: No iommus property found in DT node, got swgids from fixup(101004000)
+<6>[    1.941722] iommu: Adding device snd-soc-dummy to group 37
+<6>[    1.943345] tegradc tegradc.1: nominal-pclk:241545000 parent:241500000 div:1.0 pclk:241500000 239129550~263284050
+<6>[    1.947297] input: tegra-hda HDMI/DP,pcm=3 as /devices/70030000.hda/sound/card0/input0
+<6>[    1.950051] usb 1-2: new high-speed USB device number 2 using tegra-xusb
+<6>[    1.957923] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    1.957929] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.957935] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    1.957940] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.957944] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    1.957949] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.957954] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.957959] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.957964] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    1.957969] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.957974] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.957978] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    1.957983] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    1.957988] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.957993] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.957997] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.958020] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    1.958026] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    1.958031] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.958042] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.958047] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    1.958053] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    1.958058] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    1.958063] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    1.958068] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    1.958074] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    1.958088] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    1.958094] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    1.958101] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    1.958106] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    1.958111] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    1.958116] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    1.958125] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    1.958136] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    1.958141] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    1.958147] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    1.958155] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    1.958160] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    1.958166] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    1.958171] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    1.958176] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    1.958181] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    1.958186] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    1.958191] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    1.958196] tegradc tegradc.1: blank - powerdown
+<6>[    1.966243] OPE platform probe
+<6>[    1.966325] OPE platform probe successful
+<6>[    1.966578] OPE platform probe
+<6>[    1.966654] OPE platform probe successful
+<6>[    1.970090] mmc0: SDHCI controller on sdhci-tegra.3 [sdhci-tegra.3] using ADMA 64-bit with 64 bit addr
+<6>[    1.971907] usb 1-2: New USB device found, idVendor=2109, idProduct=2817
+<6>[    1.971911] usb 1-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+<6>[    1.971913] usb 1-2: Product: USB2.0 Hub             
+<6>[    1.971916] usb 1-2: Manufacturer: VIA Labs, Inc.         
+<6>[    1.972847] hub 1-2:1.0: USB hub found
+<6>[    1.972988] hub 1-2:1.0: 4 ports detected
+<6>[    1.986197] mmc1: SDHCI controller on sdhci-tegra.2 [sdhci-tegra.2] using ADMA 64-bit with 64 bit addr
+<6>[    1.990274] tegra-asoc: sound: ADMAIF1 <-> ADMAIF1 mapping ok
+<6>[    1.990405] tegra-asoc: sound: ADMAIF2 <-> ADMAIF2 mapping ok
+<6>[    1.990536] tegra-asoc: sound: ADMAIF3 <-> ADMAIF3 mapping ok
+<6>[    1.990668] tegra-asoc: sound: ADMAIF4 <-> ADMAIF4 mapping ok
+<6>[    1.990794] tegra-asoc: sound: ADMAIF5 <-> ADMAIF5 mapping ok
+<6>[    1.990935] tegra-asoc: sound: ADMAIF6 <-> ADMAIF6 mapping ok
+<6>[    1.991063] tegra-asoc: sound: ADMAIF7 <-> ADMAIF7 mapping ok
+<6>[    1.991197] tegra-asoc: sound: ADMAIF8 <-> ADMAIF8 mapping ok
+<6>[    1.991330] tegra-asoc: sound: ADMAIF9 <-> ADMAIF9 mapping ok
+<6>[    1.991462] tegra-asoc: sound: ADMAIF10 <-> ADMAIF10 mapping ok
+<6>[    1.992321] tegra-pcie 1003000.pcie: link 0 down, retrying
+<6>[    2.002867] u32 classifier
+<6>[    2.002869]     Actions configured
+<6>[    2.002945] Initializing XFRM netlink socket
+<6>[    2.003683] NET: Registered protocol family 10
+<6>[    2.004491] NET: Registered protocol family 17
+<6>[    2.004502] NET: Registered protocol family 15
+<6>[    2.004585] bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+<6>[    2.004632] Bluetooth: RFCOMM socket layer initialized
+<6>[    2.004641] Bluetooth: RFCOMM ver 1.11
+<6>[    2.004646] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+<6>[    2.004650] Bluetooth: HIDP socket layer initialized
+<6>[    2.004667] 9pnet: Installing 9P2000 support
+<5>[    2.004717] Key type dns_resolver registered
+<5>[    2.005148] Registered cp15_barrier emulation handler
+<5>[    2.005154] Registered setend emulation handler
+<6>[    2.006273] registered taskstats version 1
+<6>[    2.006838] Adding domain ve2-pd to PM domain host1x-pd
+<6>[    2.007093] Adding domain ve-pd to PM domain host1x-pd
+<6>[    2.008231] dp lt: state 5 (link training pass), pending_lt_evt 1
+<6>[    2.008235] dp lt: switching from state 5 (link training pass) to state 0 (Reset)
+<6>[    2.008237] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[    2.008242] dp lt: link training force disable
+<6>[    2.008244] dp lt: switching from state 0 (Reset) to state 4 (link training fail/disable)
+<6>[    2.009185] isp 54600000.isp: initialized
+<6>[    2.010205] isp 54680000.isp: initialized
+<6>[    2.020605] last reset is due to power on reset
+<6>[    2.020608] KERNEL: PMC reset status reg: 0x0
+<6>[    2.020667] BL: PMC reset status reg: 0x0
+<6>[    2.020670] BL: PMIC poweroff Event Recorder: 0x40
+<6>[    2.022201] clk_cbus_recalc_rate: no gbus parent
+<6>[    2.022205] clk_cbus_round_rate: no gbus parent
+<6>[    2.022207] clk_cbus_round_rate: no gbus parent
+<6>[    2.022216] clk_cbus_recalc_rate: no gbus parent
+<6>[    2.022315] clk_cbus_recalc_rate: no gbus parent
+<6>[    2.022318] clk_cbus_round_rate: no gbus parent
+<6>[    2.022320] clk_cbus_round_rate: no gbus parent
+<6>[    2.022323] clk_cbus_recalc_rate: no gbus parent
+<6>[    2.023020] tegra_dvfs: GPU-cap: registered
+<6>[    2.023073] tegra dvfs: vdd-cpu: nominal 1168mV, offset 708000uV, step 19200uV, scaling enabled
+<6>[    2.023075] tegra dvfs: vdd-core: nominal 1075mV, offset 600000uV, step 12500uV, scaling enabled
+<6>[    2.023076] tegra dvfs: vdd-gpu: nominal 1048mV, offset 708000uV, step 10000uV, scaling enabled
+<6>[    2.024507] tegra_dvfs: vdd-gpu-vts: registered
+<6>[    2.025225] tegra_core_action core_dvfs_cdev_floor: Tegra CORE DVFS 'floor cooling device' registered
+<6>[    2.025832] tegra_core_action core_dvfs_cdev_cap: Tegra CORE DVFS 'cap cooling device' registered
+<6>[    2.025927] tegradc tegradc.1: dp: irq event received, ignoring
+<6>[    2.026386] input: gpio-keys as /devices/gpio-keys/input/input1
+<6>[    2.028108] extcon-disp-state extcon:disp-state: cable 46 state 0
+<6>[    2.028111] Extcon AUX0(DP) disable
+<6>[    2.028112] dp_audio switch 0
+<6>[    2.028495] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    2.028505] tegradc tegradc.1: unblank
+<6>[    2.052358] mmc0: new HS400 Enhanced strobe MMC card at address 0001
+<6>[    2.052697] mmcblk0: mmc0:0001 DG4016 14.7 GiB 
+<6>[    2.052809] mmcblk0boot0: mmc0:0001 DG4016 partition 1 4.00 MiB
+<6>[    2.052913] mmcblk0boot1: mmc0:0001 DG4016 partition 2 4.00 MiB
+<6>[    2.053010] mmcblk0rpmb: mmc0:0001 DG4016 partition 3 4.00 MiB
+<6>[    2.056009]  mmcblk0: p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12 p13 p14 p15 p16 p17
+<6>[    2.058658] tegra_rtc 7000e000.rtc: setting system clock to 2000-01-01 01:00:10 UTC (946688410)
+<6>[    2.059734] vi 54080000.vi: vi_probe: ++
+<6>[    2.062430] vi 54080000.vi: initialized
+<6>[    2.064445] vi 54080000.vi: subdev nvcsi--2 bound
+<6>[    2.064552] vi 54080000.vi: subdev nvcsi--1 bound
+<6>[    2.064771] mmcblk mmc0:0001: Card claimed for testing.
+<6>[    2.065373] Disable partitions left on by BL
+<6>[    2.065376]   disb
+<6>[    2.065421] bwmgr: missing cdev-type property
+<6>[    2.065517] tegra_soctherm 700e2000.soctherm: soctherm: trip temperature -2147483647 forced to -127000
+<6>[    2.065523] DRAM derating cdev registered.
+<6>[    2.066488] ALSA device list:
+<6>[    2.066491]   #0: tegra-hda at 0x70038000 irq 82
+<6>[    2.066493]   #1: tegra-snd-t210ref-mobile-rt565x
+<6>[    2.073331] tegradc tegradc.1: nominal-pclk:241500000 parent:241500000 div:1.0 pclk:241500000 239085000~263235000
+<4>[    2.073964] mmc1: host does not support reading read-only switch, assuming write-enable
+<6>[    2.074490] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    2.080357] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[    2.094241] dp lt: state 4 (link training fail/disable), pending_lt_evt 1
+<6>[    2.094244] dp lt: switching from state 4 (link training fail/disable) to state 0 (Reset)
+<6>[    2.094247] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[    2.095715] usb 2-1: new SuperSpeed USB device number 2 using tegra-xusb
+<6>[    2.097223] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[    2.097366] dp lt: switching from state 0 (Reset) to state 2 (clock recovery)
+<6>[    2.097370] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[    2.098515] dp lt: config: lane 0: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    2.098527] dp lt: config: lane 1: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    2.098539] dp lt: config: lane 2: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    2.098550] dp lt: config: lane 3: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    2.098555] dp lt: tx_pu: 0x20
+<6>[    2.102563] dp lt: CR not done
+<6>[    2.104874] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.104875] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.104877] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.104879] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.104880] dp lt: CR retry
+<6>[    2.104882] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[    2.104899] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[    2.104913] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.104924] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.104935] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.104946] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.104951] dp lt: tx_pu: 0x30
+<6>[    2.108884] dp lt: CR not done
+<6>[    2.111200] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.111201] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.111203] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.111204] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.111205] dp lt: CR retry
+<6>[    2.111207] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[    2.111225] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[    2.111239] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.111250] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.111260] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.111271] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.111276] dp lt: tx_pu: 0x30
+<6>[    2.115200] dp lt: CR done
+<6>[    2.115202] dp lt: switching from state 2 (clock recovery) to state 3 (channel equalization)
+<6>[    2.115205] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[    2.120267] usb 2-1: New USB device found, idVendor=2109, idProduct=0817
+<6>[    2.120270] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+<6>[    2.120273] usb 2-1: Product: USB3.0 Hub             
+<6>[    2.120275] usb 2-1: Manufacturer: VIA Labs, Inc.         
+<6>[    2.121930] dp lt: CE done
+<6>[    2.121933] dp lt: switching from state 3 (channel equalization) to state 5 (link training pass)
+<6>[    2.121969] extcon-disp-state extcon:disp-state: cable 46 state 1
+<6>[    2.121970] Extcon AUX0(DP): enable
+<6>[    2.121972] dp_audio switch 1
+<6>[    2.122389] hub 2-1:1.0: USB hub found
+<6>[    2.122583] hub 2-1:1.0: 4 ports detected
+<5>[    2.138680] tegra_cec 70015000.tegra_cec: Can't find physical addresse.
+<5>[    2.138683] tegra_cec 70015000.tegra_cec: tegra_cec_init Done.
+<6>[    2.138769] tegradc tegradc.1: sync windows ret = 246
+<6>[    2.138907] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    2.138913] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.138918] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    2.138923] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.138928] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    2.138933] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.138938] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.138943] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.138948] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    2.138953] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.138958] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.138963] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    2.138968] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    2.138973] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.138978] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.138983] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.138988] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    2.138993] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    2.138998] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.139003] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.139008] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    2.139013] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[    2.139023] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[    2.139029] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    2.139034] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    2.139039] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    2.139044] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    2.139049] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    2.139054] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    2.139059] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    2.139064] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    2.139069] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    2.139076] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    2.139085] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    2.139090] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    2.139096] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[    2.139102] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    2.139107] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    2.139113] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    2.139118] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    2.139123] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    2.139129] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    2.139134] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    2.139140] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[    2.139143] tegradc tegradc.1: blank - powerdown
+<6>[    2.189175] dp lt: state 5 (link training pass), pending_lt_evt 1
+<6>[    2.189177] dp lt: switching from state 5 (link training pass) to state 0 (Reset)
+<6>[    2.189180] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[    2.189184] dp lt: link training force disable
+<6>[    2.189186] dp lt: switching from state 0 (Reset) to state 4 (link training fail/disable)
+<6>[    2.206925] tegradc tegradc.1: dp: irq event received, ignoring
+<6>[    2.209108] extcon-disp-state extcon:disp-state: cable 46 state 0
+<6>[    2.209110] Extcon AUX0(DP) disable
+<6>[    2.209111] dp_audio switch 0
+<6>[    2.210493] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    2.210501] tegradc tegradc.1: unblank
+<6>[    2.267680] tegradc tegradc.1: nominal-pclk:241500000 parent:241500000 div:1.0 pclk:241500000 239085000~263235000
+<6>[    2.271319] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[    2.274919] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[    2.286491] dp lt: state 4 (link training fail/disable), pending_lt_evt 1
+<6>[    2.286494] dp lt: switching from state 4 (link training fail/disable) to state 0 (Reset)
+<6>[    2.286496] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[    2.289330] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[    2.289477] dp lt: switching from state 0 (Reset) to state 2 (clock recovery)
+<6>[    2.289480] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[    2.290614] dp lt: config: lane 0: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    2.290625] dp lt: config: lane 1: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    2.290636] dp lt: config: lane 2: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    2.290647] dp lt: config: lane 3: vs level: 0, pe level: 0, pc2 level: 0
+<6>[    2.290652] dp lt: tx_pu: 0x20
+<6>[    2.294668] dp lt: CR not done
+<6>[    2.296986] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.296988] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.296989] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.296991] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.296992] dp lt: CR retry
+<6>[    2.296994] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[    2.297011] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[    2.297025] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.297036] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.297047] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.297059] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.297063] dp lt: tx_pu: 0x30
+<6>[    2.300997] dp lt: CR not done
+<6>[    2.303315] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.303317] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.303318] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.303320] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.303321] dp lt: CR retry
+<6>[    2.303322] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[    2.303340] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[    2.303354] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.303364] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.303375] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.303385] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[    2.303390] dp lt: tx_pu: 0x30
+<6>[    2.307092] mmc1: hw tuning done ...
+<6>[    2.307156] mmc1: new ultra high speed SDR104 SDXC card at address 0001
+<6>[    2.307360] dp lt: CR done
+<6>[    2.307363] dp lt: switching from state 2 (clock recovery) to state 3 (channel equalization)
+<6>[    2.307367] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[    2.307574] mmcblk1: mmc1:0001 acer 58.2 GiB 
+<6>[    2.309663] dp lt: CE done
+<6>[    2.309666] dp lt: switching from state 3 (channel equalization) to state 5 (link training pass)
+<6>[    2.309694] extcon-disp-state extcon:disp-state: cable 46 state 1
+<6>[    2.309695] Extcon AUX0(DP): enable
+<6>[    2.309696] dp_audio switch 1
+<6>[    2.326438] tegradc tegradc.1: sync windows ret = 245
+<6>[    2.326558] extcon-disp-state extcon:disp-state: cable 44 state 1
+<6>[    2.326560] Extcon DP: HPD enabled
+<6>[    2.326570] hpd: Display connected, hpd_switch 1
+<6>[    2.326572] hpd: switching from state 2 (Check EDID) to state 4 (Enabled)
+<6>[    2.329774] Freeing unused kernel memory: 8640K
+<6>[    2.341861]  mmcblk1: p1
+<12>[    2.355782] Root device found: mmcblk1p1
+<12>[    2.357195] Found dev node: /dev/mmcblk1p1
+<6>[    2.361963] tegra-pcie 1003000.pcie: link 0 down, retrying
+<6>[    2.538030] usb 2-1: usb_suspend_both: status 0
+<6>[    2.538152] usb usb2: usb_suspend_both: status 0
+<6>[    2.690033] usb 1-2.1: new high-speed USB device number 3 using tegra-xusb
+<6>[    2.710699] usb 1-2.1: New USB device found, idVendor=2357, idProduct=011e
+<6>[    2.710704] usb 1-2.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+<6>[    2.710707] usb 1-2.1: Product: 802.11ac WLAN Adapter 
+<6>[    2.710724] usb 1-2.1: Manufacturer: Realtek 
+<6>[    2.710728] usb 1-2.1: SerialNumber: 00e04c000001
+<6>[    2.764079] tegra-pcie 1003000.pcie: link 0 down, retrying
+<6>[    2.766100] tegra-pcie 1003000.pcie: link 0 down, ignoring
+<6>[    2.842022] usb 1-2.2: new full-speed USB device number 4 using tegra-xusb
+<6>[    2.862517] usb 1-2.2: not running at top speed; connect to a high speed hub
+<6>[    2.863424] usb 1-2.2: New USB device found, idVendor=05ac, idProduct=0256
+<6>[    2.863428] usb 1-2.2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+<6>[    2.863431] usb 1-2.2: Product: CD87V2 HR
+<6>[    2.863434] usb 1-2.2: Manufacturer: Evision
+<6>[    2.865405] input: Evision CD87V2 HR as /devices/70090000.xusb/usb1/1-2/1-2.2/1-2.2:1.0/0003:05AC:0256.0001/input/input2
+<6>[    2.871732] tegra-pcie 1003000.pcie: PCI host bridge to bus 0000:00
+<6>[    2.871737] pci_bus 0000:00: root bus resource [io  0x0000-0xffff]
+<6>[    2.871740] pci_bus 0000:00: root bus resource [mem 0x13000000-0x1fffffff]
+<6>[    2.871743] pci_bus 0000:00: root bus resource [mem 0x20000000-0x3fffffff pref]
+<6>[    2.871746] pci_bus 0000:00: root bus resource [bus 00-ff]
+<7>[    2.871765] pci 0000:00:02.0: [10de:0faf] type 01 class 0x060400
+<7>[    2.871829] pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot D3cold
+<6>[    2.871980] iommu: Adding device 0000:00:02.0 to group 38
+<6>[    2.872042] pci 0000:00:02.0: bridge configuration invalid ([bus 00-00]), reconfiguring
+<7>[    2.872145] pci 0000:01:00.0: [10ec:8168] type 00 class 0x020000
+<7>[    2.872171] pci 0000:01:00.0: reg 0x10: [io  0x0000-0x00ff]
+<7>[    2.872204] pci 0000:01:00.0: reg 0x18: [mem 0x00000000-0x00000fff 64bit pref]
+<7>[    2.872226] pci 0000:01:00.0: reg 0x20: [mem 0x00000000-0x00003fff 64bit pref]
+<7>[    2.872371] pci 0000:01:00.0: supports D1 D2
+<7>[    2.872374] pci 0000:01:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+<6>[    2.872511] iommu: Adding device 0000:01:00.0 to group 39
+<7>[    2.882072] pci_bus 0000:01: busn_res: [bus 01-ff] end is updated to 01
+<6>[    2.882098] pci 0000:00:02.0: BAR 15: assigned [mem 0x20000000-0x200fffff 64bit pref]
+<6>[    2.882101] pci 0000:00:02.0: BAR 13: assigned [io  0x1000-0x1fff]
+<6>[    2.882106] pci 0000:01:00.0: BAR 4: assigned [mem 0x20000000-0x20003fff 64bit pref]
+<6>[    2.882123] pci 0000:01:00.0: BAR 2: assigned [mem 0x20004000-0x20004fff 64bit pref]
+<6>[    2.882140] pci 0000:01:00.0: BAR 0: assigned [io  0x1000-0x10ff]
+<6>[    2.882147] pci 0000:00:02.0: PCI bridge to [bus 01]
+<6>[    2.882150] pci 0000:00:02.0:   bridge window [io  0x1000-0x1fff]
+<6>[    2.882155] pci 0000:00:02.0:   bridge window [mem 0x20000000-0x200fffff 64bit pref]
+<6>[    2.882344] pcieport 0000:00:02.0: Signaling PME through PCIe PME interrupt
+<6>[    2.882347] pci 0000:01:00.0: Signaling PME through PCIe PME interrupt
+<7>[    2.882351] pcie_pme 0000:00:02.0:pcie001: service driver pcie_pme loaded
+<7>[    2.882421] aer 0000:00:02.0:pcie002: service driver aer loaded
+<6>[    2.882586] r8168 0000:01:00.0: enabling device (0000 -> 0003)
+<6>[    2.882603] r8168 Gigabit Ethernet driver 8.045.08-NAPI loaded
+<6>[    2.903767] r8168 0000:01:00.0 (unnamed net_device) (uninitialized): Invalid ethernet address 00:00:00:00:00:00, trying device tree node
+<6>[    2.903827] r8168 0000:01:00.0 (unnamed net_device) (uninitialized): Found valid ethernet address 3c:6d:66:62:24:68 from device tree
+<6>[    2.904242] r8168: This product is covered by one or more of the following patents: US6,570,884, US6,115,776, and US6,327,625.
+<4>[    2.904253] r8168  Copyright (C) 2017  Realtek NIC software team <nicfae@realtek.com> 
+<4>[    2.904253]  This program comes with ABSOLUTELY NO WARRANTY; for details, please see <http://www.gnu.org/licenses/>. 
+<4>[    2.904253]  This is free software, and you are welcome to redistribute it under certain conditions; see <http://www.gnu.org/licenses/>. 
+<6>[    2.926414] hid-generic 0003:05AC:0256.0001: input,hidraw0: USB HID v1.11 Keyboard [Evision CD87V2 HR] on usb-70090000.xusb-2.2/input0
+<6>[    2.929769] input: Evision CD87V2 HR as /devices/70090000.xusb/usb1/1-2/1-2.2/1-2.2:1.1/0003:05AC:0256.0002/input/input3
+<6>[    2.986290] hid-generic 0003:05AC:0256.0002: input,hidraw1: USB HID v1.11 Keyboard [Evision CD87V2 HR] on usb-70090000.xusb-2.2/input1
+<6>[    3.085161] EXT4-fs (mmcblk1p1): 14 orphan inodes deleted
+<6>[    3.085164] EXT4-fs (mmcblk1p1): recovery complete
+<6>[    3.108948] EXT4-fs (mmcblk1p1): mounted filesystem with ordered data mode. Opts: (null)
+<12>[    3.110993] Rootfs mounted over mmcblk1p1
+<6>[    3.118032] usb 1-2.3: new high-speed USB device number 5 using tegra-xusb
+<6>[    3.139097] usb 1-2.3: New USB device found, idVendor=1532, idProduct=00e6
+<6>[    3.139103] usb 1-2.3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+<6>[    3.139107] usb 1-2.3: Product: Razer Viper V4 Pro
+<6>[    3.139110] usb 1-2.3: Manufacturer: Razer
+<6>[    3.139113] usb 1-2.3: SerialNumber: PM2616U197027750000000
+<6>[    3.141918] input: Razer Razer Viper V4 Pro as /devices/70090000.xusb/usb1/1-2/1-2.3/1-2.3:1.0/0003:1532:00E6.0003/input/input4
+<6>[    3.142212] hid-generic 0003:1532:00E6.0003: input,hidraw2: USB HID v1.11 Mouse [Razer Razer Viper V4 Pro] on usb-70090000.xusb-2.3/input0
+<6>[    3.144263] input: Razer Razer Viper V4 Pro as /devices/70090000.xusb/usb1/1-2/1-2.3/1-2.3:1.1/0003:1532:00E6.0004/input/input5
+<12>[    3.162515] Switching from initrd to actual rootfs
+<6>[    3.202531] hid-generic 0003:1532:00E6.0004: input,hidraw3: USB HID v1.11 Keyboard [Razer Razer Viper V4 Pro] on usb-70090000.xusb-2.3/input1
+<6>[    3.203734] input: Razer Razer Viper V4 Pro as /devices/70090000.xusb/usb1/1-2/1-2.3/1-2.3:1.2/0003:1532:00E6.0005/input/input6
+<6>[    3.262357] hid-generic 0003:1532:00E6.0005: input,hidraw4: USB HID v1.11 Keyboard [Razer Razer Viper V4 Pro] on usb-70090000.xusb-2.3/input2
+<3>[    3.263453] hid-generic 0003:1532:00E6.0006: No inputs registered, leaving
+<6>[    3.270516] hid-generic 0003:1532:00E6.0006: hidraw5: USB HID v1.11 Device [Razer Razer Viper V4 Pro] on usb-70090000.xusb-2.3/input3
+<6>[    3.271589] hid-generic 0003:1532:00E6.0007: hidraw6: USB HID v1.11 Device [Razer Razer Viper V4 Pro] on usb-70090000.xusb-2.3/input4
+<30>[    3.991173] systemd[1]: System time before build time, advancing clock.
+<6>[    4.087523] ip_tables: (C) 2000-2006 Netfilter Core Team
+<3>[    4.107526] cgroup: cgroup2: unknown option "nsdelegate"
+<30>[    4.153361] systemd[1]: systemd 237 running in system mode. (+PAM +AUDIT +SELINUX +IMA +APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +GCRYPT +GNUTLS +ACL +XZ +LZ4 +SECCOMP +BLKID +ELFUTILS +KMOD -IDN2 +IDN -PCRE2 default-hierarchy=hybrid)
+<30>[    4.154166] systemd[1]: Detected architecture arm64.
+<30>[    4.177170] systemd[1]: Set hostname to <jetson-desktop>.
+<28>[    4.508520] systemd[1]: File /lib/systemd/system/systemd-journald.service:36 configures an IP firewall (IPAddressDeny=any), but the local system does not support BPF/cgroup based firewalling.
+<28>[    4.508529] systemd[1]: Proceeding WITHOUT firewalling in effect! (This warning is only shown for the first loaded unit using IP firewalling.)
+<5>[    4.875143] random: systemd: uninitialized urandom read (16 bytes read)
+<30>[    4.875177] systemd[1]: Reached target User and Group Name Lookups.
+<5>[    4.875359] random: systemd: uninitialized urandom read (16 bytes read)
+<30>[    4.875380] systemd[1]: Reached target Mounting snaps.
+<5>[    4.875411] random: systemd: uninitialized urandom read (16 bytes read)
+<30>[    4.875431] systemd[1]: Reached target Mounted snaps.
+<30>[    4.875581] systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+<30>[    4.877552] systemd[1]: Created slice System Slice.
+<6>[    5.320156] EXT4-fs (mmcblk1p1): re-mounted. Opts: (null)
+<46>[    5.401064] systemd-journald[2027]: Received request to flush runtime journal from PID 1
+<6>[    5.445443] nvgpu: 57000000.gpu           gm20b_init_clk_setup_sw:1268 [INFO]  GPCPLL initial settings: NA mode, M=1, N=34, P=3 (id = 1)
+<6>[    5.797853] Adding 4194300k swap on /swapfile.  Priority:-1 extents:13 across:4644860k SS
+<5>[    5.920131] random: systemd: uninitialized urandom read (16 bytes read)
+<5>[    5.920973] random: systemd-journal: uninitialized urandom read (16 bytes read)
+<5>[    5.934332] random: systemd: uninitialized urandom read (16 bytes read)
+<5>[    6.734070] random: crng init done
+<5>[    6.737476] random: 112 urandom warning(s) missed due to ratelimiting
+<6>[    7.349217] tegra_soctherm 700e2000.soctherm: soctherm: trip temperature -2147483647 forced to -127000
+<6>[    7.349242] cpu-throttle-alert cooling device registered.
+<6>[    7.349427] tegra_soctherm 700e2000.soctherm: soctherm: trip temperature -2147483647 forced to -127000
+<6>[    7.349444] gpu-throttle-alert cooling device registered.
+<6>[    7.349607] tegra_soctherm 700e2000.soctherm: soctherm: trip temperature -2147483647 forced to -127000
+<6>[    7.349620] tegra_soctherm 700e2000.soctherm: soctherm: trip temperature -2147483647 forced to -127000
+<6>[    7.349632] hot-surface-alert cooling device registered.
+<6>[    9.199990] usbcore: registered new interface driver rtl8821au
+<4>[   11.484040] using random self ethernet address
+<4>[   11.488600] using random host ethernet address
+<6>[   15.121131] Mass Storage Function, version: 2009/09/11
+<6>[   15.121137] LUN: removable file: (no medium)
+<4>[   15.126508] using random self ethernet address
+<4>[   15.131018] using random host ethernet address
+<6>[   15.395027] rndis0: HOST MAC 02:17:8c:8e:e6:6c
+<6>[   15.395187] rndis0: MAC 02:17:8c:8e:e6:6d
+<6>[   15.397133] usb0: HOST MAC 02:17:8c:8e:e6:6e
+<6>[   15.397169] usb0: MAC 02:17:8c:8e:e6:6f
+<6>[   15.397192] tegra-xudc-new 700d0000.xudc: exiting ELPG
+<6>[   15.407114] tegra-xudc-new 700d0000.xudc: exiting ELPG done
+<6>[   15.407134] tegra-xudc-new 700d0000.xudc: ep 0 (type: 0, dir: out) enabled
+<6>[   15.413688] tegra-xudc-new 700d0000.xudc: entering ELPG
+<6>[   15.413985] tegra-xudc-new 700d0000.xudc: entering ELPG done
+<6>[   15.414167] tegra-xudc-new 700d0000.xudc: exiting ELPG
+<6>[   15.414741] tegra-xudc-new 700d0000.xudc: exiting ELPG done
+<6>[   15.414756] tegra-xudc-new 700d0000.xudc: entering ELPG
+<6>[   15.414985] tegra-xudc-new 700d0000.xudc: entering ELPG done
+<6>[   15.421384] l4tbr0: port 1(rndis0) entered blocking state
+<6>[   15.421389] l4tbr0: port 1(rndis0) entered disabled state
+<6>[   15.421980] device rndis0 entered promiscuous mode
+<6>[   15.428999] IPv6: ADDRCONF(NETDEV_UP): rndis0: link is not ready
+<6>[   15.433951] l4tbr0: port 2(usb0) entered blocking state
+<6>[   15.433956] l4tbr0: port 2(usb0) entered disabled state
+<6>[   15.434259] device usb0 entered promiscuous mode
+<6>[   15.439554] IPv6: ADDRCONF(NETDEV_UP): usb0: link is not ready
+<6>[   18.116483] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+<6>[   18.137510] eth0: 0xffffff800abab000, 3c:6d:66:62:24:68, IRQ 407
+<6>[   18.245854] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+<6>[   18.253713] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+<6>[   18.642248] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+<6>[   18.946943] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+<6>[   19.533091] zram: Added device: zram0
+<6>[   19.538640] zram: Added device: zram1
+<6>[   19.540889] zram: Added device: zram2
+<6>[   19.543106] zram: Added device: zram3
+<6>[   19.567385] zram0: detected capacity change from 0 to 519548928
+<6>[   19.639461] Adding 507368k swap on /dev/zram0.  Priority:5 extents:1 across:507368k SS
+<6>[   19.643819] zram1: detected capacity change from 0 to 519548928
+<6>[   19.654460] Adding 507368k swap on /dev/zram1.  Priority:5 extents:1 across:507368k SS
+<6>[   19.658504] zram2: detected capacity change from 0 to 519548928
+<6>[   19.668953] Adding 507368k swap on /dev/zram2.  Priority:5 extents:1 across:507368k SS
+<6>[   19.672912] zram3: detected capacity change from 0 to 519548928
+<6>[   19.683754] Adding 507368k swap on /dev/zram3.  Priority:5 extents:1 across:507368k SS
+<4>[   23.070519] ------------[ cut here ]------------
+<4>[   23.075207] WARNING: CPU: 1 PID: 4243 at /dvs/git/dirty/git-master_linux/kernel/kernel-4.9/net/wireless/nl80211.c:14154 cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+<6>[   23.090223] Modules linked in: zram overlay binfmt_misc rtl8821au cfg80211 userspace_alert nvgpu ip_tables x_tables
+<6>[   23.090246] 
+<6>[   23.090253] CPU: 1 PID: 4243 Comm: RTW_CMD_THREAD Not tainted 4.9.337-tegra #1
+<6>[   23.090256] Hardware name: NVIDIA Jetson Nano Developer Kit (DT)
+<6>[   23.090259] task: 0000000034c08788 task.stack: 00000000e632fbe4
+<6>[   23.090323] PC is at cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+<6>[   23.090724] LR is at rtw_cfg80211_ch_switch_notify+0x94/0x98 [rtl8821au]
+<6>[   23.090728] pc : [<ffffff80011da4dc>] lr : [<ffffff8001302c40>] pstate: 40400045
+<6>[   23.090730] sp : ffffffc0e6c67c20
+<6>[   23.090733] x29: ffffffc0e6c67c20 x28: ffffff80012a4940 
+<6>[   23.090741] x27: ffffff800dd8a1ac x26: ffffff8001405740 
+<6>[   23.090748] x25: ffffff8001458cbc x24: ffffffc0f0c15000 
+<6>[   23.090755] x23: ffffffc0ebc8c000 x22: ffffffc0ea4b2800 
+<6>[   23.090762] x21: 0000000000000000 x20: ffffffc0e6c67ca8 
+<6>[   23.090769] x19: ffffffc0ef262800 x18: 0000000000000000 
+<6>[   23.090776] x17: 0000000000000000 x16: 0000000000000000 
+<6>[   23.090782] x15: 0000000000000000 x14: 0000000000000000 
+<6>[   23.090788] x13: 00000000000000ff x12: 1f192c1a2d000100 
+<6>[   23.090795] x11: 0000000000000004 x10: 0000000000000002 
+<6>[   23.090801] x9 : 0000000000000004 x8 : ffffffc0e6c67d3a 
+<6>[   23.090808] x7 : 0000000000000000 x6 : 0000000000000001 
+<6>[   23.090814] x5 : 0000000000000040 x4 : 0000000000000980 
+<6>[   23.090821] x3 : 0000098000000001 x2 : ffffffc0ea4b3948 
+<6>[   23.090827] x1 : 0000098000000001 x0 : 0000000000000000 
+<6>[   23.090834] 
+<4>[   23.090837] ---[ end trace a3d1d1fb75f1a778 ]---
+<6>[   23.095446] Call trace:
+<6>[   23.095519] [<000000002e138422>] cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+<6>[   23.096004] [<00000000d97064dc>] rtw_cfg80211_ch_switch_notify+0x94/0x98 [rtl8821au]
+<6>[   23.096369] [<00000000e418cd6b>] rtw_chk_start_clnt_join+0x43c/0x4d8 [rtl8821au]
+<6>[   23.096727] [<0000000036f604e2>] join_cmd_hdl+0x238/0x330 [rtl8821au]
+<6>[   23.097076] [<00000000e6b2405b>] rtw_cmd_thread+0x308/0x608 [rtl8821au]
+<6>[   23.097083] [<00000000606ec3d4>] kthread+0xec/0xf0
+<6>[   23.097089] [<00000000b6a90296>] ret_from_fork+0x10/0x30
+<6>[   23.666292] IPv6: ADDRCONF(NETDEV_CHANGE): wlan0: link becomes ready
+<5>[   26.074935] Bridge firewalling registered
+<6>[   26.671541] nf_conntrack version 0.5.0 (16384 buckets, 65536 max)
+<6>[   27.156528] Netfilter messages via NETLINK v0.30.
+<6>[   27.163975] ctnetlink v0.93: registering with nfnetlink.
+<6>[   27.260538] IPv6: ADDRCONF(NETDEV_UP): docker0: link is not ready
+<6>[   30.263094] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   30.263116] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263127] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   30.263137] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263147] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   30.263157] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263167] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263177] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263186] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   30.263196] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263206] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263216] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   30.263226] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   30.263236] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263246] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263256] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263267] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   30.263278] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   30.263288] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263298] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263309] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   30.263319] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   30.263329] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   30.263339] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   30.263349] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   30.263359] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   30.263369] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   30.263379] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   30.263389] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   30.263399] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   30.263409] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   30.263419] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   30.263429] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   30.263439] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   30.263450] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   30.263460] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   30.349433] tegradc tegradc.1: unblank
+<6>[   30.349461] tegradc tegradc.0: blank - powerdown
+<4>[   31.207145] tegra-i2c 7000c000.i2c: no acknowledge from address 0x50
+<4>[   31.214259] tegra-i2c 7000c400.i2c: no acknowledge from address 0x50
+<4>[   32.241032] tegra-i2c 7000c000.i2c: no acknowledge from address 0x50
+<4>[   32.247842] tegra-i2c 7000c400.i2c: no acknowledge from address 0x50
+<6>[   32.805638] tegradc tegradc.1: dp: irq event received
+<6>[   32.878062] dp lt: state 5 (link training pass), pending_lt_evt 1
+<6>[   32.878067] dp lt: switching from state 5 (link training pass) to state 0 (Reset)
+<6>[   32.878070] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[   32.892262] fuse init (API version 7.26)
+<6>[   32.920993] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[   32.921143] dp lt: switching from state 0 (Reset) to state 2 (clock recovery)
+<6>[   32.921150] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   32.921401] dp lt: config: lane 0: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   32.921413] dp lt: config: lane 1: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   32.921423] dp lt: config: lane 2: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   32.921434] dp lt: config: lane 3: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   32.921440] dp lt: tx_pu: 0x20
+<6>[   32.922842] dp lt: CR not done
+<6>[   32.924299] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.924303] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.924305] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.924307] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.924309] dp lt: CR retry
+<6>[   32.924313] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[   32.924320] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   32.924337] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.924348] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.924358] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.924369] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.924374] dp lt: tx_pu: 0x30
+<6>[   32.925737] dp lt: CR not done
+<6>[   32.926424] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.926427] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.926429] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.926431] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.926433] dp lt: CR retry
+<6>[   32.926437] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[   32.926443] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   32.926460] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.926472] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.926482] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.926493] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.926498] dp lt: tx_pu: 0x30
+<6>[   32.927861] dp lt: CR done
+<6>[   32.927866] dp lt: switching from state 2 (clock recovery) to state 3 (channel equalization)
+<6>[   32.927871] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.929266] dp lt: CE not done
+<6>[   32.929931] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.929933] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.929936] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.929938] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.929950] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.929960] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.929970] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.929980] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.929985] dp lt: tx_pu: 0x30
+<6>[   32.930733] dp lt: CE retry
+<6>[   32.930739] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.930745] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.931922] dp lt: CE not done
+<6>[   32.932583] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.932586] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.932588] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.932590] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.932602] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.932612] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.932623] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.932633] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.932638] dp lt: tx_pu: 0x30
+<6>[   32.933318] dp lt: CE retry
+<6>[   32.933323] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.933328] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.934506] dp lt: CE not done
+<6>[   32.935172] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.935174] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.935176] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.935179] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.935190] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.935201] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.935213] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.935223] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.935228] dp lt: tx_pu: 0x30
+<6>[   32.935914] dp lt: CE retry
+<6>[   32.935918] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.935926] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.937110] dp lt: CE not done
+<6>[   32.937795] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.937799] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.937801] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.937803] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.937816] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.937826] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.937837] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.937847] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.937852] dp lt: tx_pu: 0x30
+<6>[   32.938553] dp lt: CE retry
+<6>[   32.938559] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.938565] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.939751] dp lt: CE not done
+<6>[   32.940418] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.940420] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.940422] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.940425] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.940437] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.940447] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.940458] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.940468] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.940473] dp lt: tx_pu: 0x30
+<6>[   32.941166] dp lt: CE retry
+<6>[   32.941171] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.941177] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.942458] dp lt: CE not done
+<6>[   32.943145] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.943147] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.943150] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.943152] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.943165] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.943175] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.943186] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.943196] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.943202] dp lt: tx_pu: 0x30
+<6>[   32.943908] dp lt: CE retry
+<6>[   32.943913] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.943920] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.945107] dp lt: CE not done
+<6>[   32.945111] dp lt: CE retry limit 5 reached
+<6>[   32.945115] dp lt: switching from state 3 (channel equalization) to state 7 (reduce lane count)
+<6>[   32.945121] dp lt: state 7 (reduce lane count), pending_lt_evt 0
+<6>[   32.946670] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[   32.946695] dp lt: retry CR, lanes: 2, link rate: 0x14
+<6>[   32.946698] dp lt: switching from state 7 (reduce lane count) to state 2 (clock recovery)
+<6>[   32.946704] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   32.946939] dp lt: config: lane 0: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   32.946949] dp lt: config: lane 1: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   32.946955] dp lt: tx_pu: 0x20
+<6>[   32.947853] dp lt: CR not done
+<6>[   32.948296] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.948299] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.948301] dp lt: CR retry
+<6>[   32.948304] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[   32.948309] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   32.948322] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.948332] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.948338] dp lt: tx_pu: 0x30
+<6>[   32.949225] dp lt: CR not done
+<6>[   32.949664] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.949666] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.949668] dp lt: CR retry
+<6>[   32.949670] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[   32.949674] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   32.949687] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.949697] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.949701] dp lt: tx_pu: 0x30
+<6>[   32.950676] dp lt: CR done
+<6>[   32.950680] dp lt: switching from state 2 (clock recovery) to state 3 (channel equalization)
+<6>[   32.950686] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.951893] dp lt: CE not done
+<6>[   32.952347] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.952350] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.952362] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.952373] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.952379] dp lt: tx_pu: 0x30
+<6>[   32.952845] dp lt: CE retry
+<6>[   32.952848] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.952853] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.953810] dp lt: CE not done
+<6>[   32.954303] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.954306] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.954320] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.954330] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.954336] dp lt: tx_pu: 0x30
+<6>[   32.954801] dp lt: CE retry
+<6>[   32.954805] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.954811] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.955767] dp lt: CE not done
+<6>[   32.956209] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.956212] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.956223] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.956233] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.956238] dp lt: tx_pu: 0x30
+<6>[   32.956708] dp lt: CE retry
+<6>[   32.956713] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.956718] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.957688] dp lt: CE not done
+<6>[   32.958151] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.958154] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.958167] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.958177] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.958183] dp lt: tx_pu: 0x30
+<6>[   32.958662] dp lt: CE retry
+<6>[   32.958667] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.958674] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.959632] dp lt: CE not done
+<6>[   32.960081] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.960084] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.960096] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.960107] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.960112] dp lt: tx_pu: 0x30
+<6>[   32.960576] dp lt: CE retry
+<6>[   32.960580] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.960585] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.961540] dp lt: CE not done
+<6>[   32.961996] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.961999] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.962089] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.962101] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   32.962109] dp lt: tx_pu: 0x30
+<6>[   32.962595] dp lt: CE retry
+<6>[   32.962599] dp lt: switching from state 3 (channel equalization) to state 3 (channel equalization)
+<6>[   32.962606] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   32.963563] dp lt: CE not done
+<6>[   32.963565] dp lt: CE retry limit 5 reached
+<6>[   32.963569] dp lt: switching from state 3 (channel equalization) to state 7 (reduce lane count)
+<6>[   32.963574] dp lt: state 7 (reduce lane count), pending_lt_evt 0
+<6>[   32.963578] dp lt: lane count already lowest
+<6>[   32.964986] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[   32.965010] dp lt: switching from state 7 (reduce lane count) to state 4 (link training fail/disable)
+<6>[   32.970405] tegradc tegradc.1: dp: unplug event received
+<6>[   32.970435] hpd: state 4 (Enabled), hpd 0, pending_hpd_evt 1
+<6>[   32.970439] hpd: switching from state 4 (Enabled) to state 5 (Wait for HPD reassert)
+<6>[   33.074097] hpd: state 5 (Wait for HPD reassert), hpd 0, pending_hpd_evt 0
+<6>[   33.074100] hpd: DC from connected to disconnected
+<6>[   33.914258] vdd-fan: disabling
+<6>[   33.914262] vdd-usb-vbus: disabling
+<6>[   33.914264] vdd-usb-vbus2: disabling
+<6>[   33.914273] vddio-sdmmc-ap: disabling
+<6>[   33.914440] vdd-3v3-sd: disabling
+<6>[   33.914446] vdd-usb-hub-en: disabling
+<6>[   34.103434] tegradc tegradc.1: dp: plug event received
+<6>[   35.130135] dp lt: state 4 (link training fail/disable), pending_lt_evt 1
+<6>[   35.130139] dp lt: switching from state 4 (link training fail/disable) to state 0 (Reset)
+<6>[   35.130142] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[   35.130146] dp lt: link training force disable
+<6>[   35.130148] dp lt: switching from state 0 (Reset) to state 4 (link training fail/disable)
+<6>[   35.131777] tegradc tegradc.1: dp: irq event received, ignoring
+<6>[   35.134076] extcon-disp-state extcon:disp-state: cable 46 state 0
+<6>[   35.134080] Extcon AUX0(DP) disable
+<6>[   35.134082] dp_audio switch 0
+<6>[   35.136235] tegradc tegradc.1: blank - powerdown
+<6>[   35.136279] extcon-disp-state extcon:disp-state: cable 44 state 0
+<6>[   35.136282] Extcon DP: HPD disabled
+<6>[   35.136300] hpd: hpd_switch 0
+<6>[   35.136304] hpd: switching from state 5 (Wait for HPD reassert) to state 3 (Disabled)
+<6>[   35.136312] hpd: state 3 (Disabled), hpd 1, pending_hpd_evt 1
+<6>[   35.136315] hpd: switching from state 3 (Disabled) to state 0 (Reset)
+<6>[   35.143927] tegradc tegradc.1: blank - powerdown
+<6>[   35.143945] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.143958] tegradc tegradc.1: unblank
+<6>[   35.175684] tegradc tegradc.1: nominal-pclk:241500000 parent:241500000 div:1.0 pclk:241500000 239085000~263235000
+<6>[   35.176877] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.180479] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[   35.184871] dp lt: state 4 (link training fail/disable), pending_lt_evt 1
+<6>[   35.184874] dp lt: switching from state 4 (link training fail/disable) to state 0 (Reset)
+<6>[   35.184877] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[   35.186066] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[   35.186202] dp lt: switching from state 0 (Reset) to state 2 (clock recovery)
+<6>[   35.186206] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   35.186440] dp lt: config: lane 0: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.186449] dp lt: config: lane 1: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.186459] dp lt: config: lane 2: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.186469] dp lt: config: lane 3: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.186474] dp lt: tx_pu: 0x20
+<6>[   35.187807] dp lt: CR not done
+<6>[   35.188474] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.188475] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.188477] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.188478] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.188480] dp lt: CR retry
+<6>[   35.188482] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[   35.188486] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   35.188499] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.188508] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.188518] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.188528] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.188532] dp lt: tx_pu: 0x30
+<6>[   35.189865] dp lt: CR not done
+<6>[   35.190529] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.190531] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.190532] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.190534] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.190535] dp lt: CR retry
+<6>[   35.190537] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[   35.190539] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   35.190551] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.190560] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.190570] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.190579] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.190583] dp lt: tx_pu: 0x30
+<6>[   35.191950] dp lt: CR done
+<6>[   35.191953] dp lt: switching from state 2 (clock recovery) to state 3 (channel equalization)
+<6>[   35.191957] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   35.194241] dp lt: CE done
+<6>[   35.194246] dp lt: switching from state 3 (channel equalization) to state 5 (link training pass)
+<6>[   35.194324] extcon-disp-state extcon:disp-state: cable 46 state 1
+<6>[   35.194326] Extcon AUX0(DP): enable
+<6>[   35.194328] dp_audio switch 1
+<6>[   35.194480] tegradc tegradc.1: unblank
+<6>[   35.194504] tegradc tegradc.0: blank - powerdown
+<6>[   35.238061] hpd: state 0 (Reset), hpd 1, pending_hpd_evt 0
+<6>[   35.238066] hpd: DC from connected to disconnected
+<6>[   35.294591] dp lt: state 5 (link training pass), pending_lt_evt 1
+<6>[   35.294595] dp lt: switching from state 5 (link training pass) to state 0 (Reset)
+<6>[   35.294598] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[   35.294602] dp lt: link training force disable
+<6>[   35.294604] dp lt: switching from state 0 (Reset) to state 4 (link training fail/disable)
+<6>[   35.312522] tegradc tegradc.1: dp: irq event received, ignoring
+<6>[   35.314793] extcon-disp-state extcon:disp-state: cable 46 state 0
+<6>[   35.314796] Extcon AUX0(DP) disable
+<6>[   35.314798] dp_audio switch 0
+<6>[   35.315188] tegradc tegradc.1: blank - powerdown
+<6>[   35.315205] extcon-disp-state extcon:disp-state: cable 44 state 0 already set.
+<6>[   35.315208] Extcon DP: HPD disabled
+<6>[   35.315210] hpd: hpd_switch 0
+<6>[   35.315213] hpd: switching from state 0 (Reset) to state 1 (Check Plug)
+<6>[   35.315227] hpd: state 1 (Check Plug), hpd 1, pending_hpd_evt 0
+<6>[   35.315231] hpd: switching from state 1 (Check Plug) to state 2 (Check EDID)
+<6>[   35.318186] tegradc tegradc.1: blank - powerdown
+<6>[   35.318198] tegradc tegradc.1: unblank
+<6>[   35.322063] hpd: state 2 (Check EDID), hpd 1, pending_hpd_evt 0
+<6>[   35.323282] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.324512] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.326170] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.327407] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.329063] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.330460] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.332115] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.333343] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.334860] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.336088] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.337742] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.338973] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.340629] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.341859] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.344618] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.345849] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.348037] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.348835] tegradc tegradc.1: nominal-pclk:241500000 parent:241500000 div:1.0 pclk:241500000 239085000~263235000
+<6>[   35.349288] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.350930] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.352172] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.353835] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.355068] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.356725] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.357957] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.359620] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.360849] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.362459] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.363691] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.365351] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.366437] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.368092] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.369323] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.371877] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.372759] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.373998] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.375669] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.376906] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.378581] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.379819] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.381487] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.382725] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.384392] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.385629] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.387298] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.388535] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.390206] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.391445] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.393115] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 6
+<6>[   35.394357] tegradc tegradc.1: dp: aux read defer (0x10020000) -- 5
+<6>[   35.399439] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[   35.403870] dp lt: state 4 (link training fail/disable), pending_lt_evt 1
+<6>[   35.403872] dp lt: switching from state 4 (link training fail/disable) to state 0 (Reset)
+<6>[   35.403875] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[   35.405064] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[   35.405204] dp lt: switching from state 0 (Reset) to state 2 (clock recovery)
+<6>[   35.405208] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   35.405444] dp lt: config: lane 0: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.405454] dp lt: config: lane 1: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.405465] dp lt: config: lane 2: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.405475] dp lt: config: lane 3: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.405479] dp lt: tx_pu: 0x20
+<6>[   35.406825] dp lt: CR not done
+<6>[   35.407495] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.407497] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.407499] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.407501] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.407502] dp lt: CR retry
+<6>[   35.407505] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[   35.407509] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   35.407522] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.407532] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.407542] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.407551] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.407555] dp lt: tx_pu: 0x30
+<6>[   35.408900] dp lt: CR not done
+<6>[   35.409568] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.409570] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.409572] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.409574] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.409575] dp lt: CR retry
+<6>[   35.409577] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[   35.409580] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   35.409594] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.409605] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.409615] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.409624] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.409628] dp lt: tx_pu: 0x30
+<6>[   35.410972] dp lt: CR done
+<6>[   35.410974] dp lt: switching from state 2 (clock recovery) to state 3 (channel equalization)
+<6>[   35.410977] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   35.413235] dp lt: CE done
+<6>[   35.413237] dp lt: switching from state 3 (channel equalization) to state 5 (link training pass)
+<6>[   35.413296] extcon-disp-state extcon:disp-state: cable 46 state 1
+<6>[   35.413298] Extcon AUX0(DP): enable
+<6>[   35.413299] dp_audio switch 1
+<6>[   35.413403] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.413408] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413413] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.413417] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413422] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.413426] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413431] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413435] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413439] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.413444] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413448] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413452] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.413456] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.413461] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413465] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413469] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413473] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.413478] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.413483] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413487] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413491] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.413495] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.413500] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.413504] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.413508] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.413512] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.413517] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.413521] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.413525] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.413529] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.413533] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.413537] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.413543] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.413552] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.413556] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.413560] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.413565] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.413570] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.413574] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   35.413578] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   35.413583] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   35.413587] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   35.413591] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   35.413595] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   35.413599] tegradc tegradc.1: blank - powerdown
+<6>[   35.463356] dp lt: state 5 (link training pass), pending_lt_evt 1
+<6>[   35.463359] dp lt: switching from state 5 (link training pass) to state 0 (Reset)
+<6>[   35.463362] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[   35.463367] dp lt: link training force disable
+<6>[   35.463369] dp lt: switching from state 0 (Reset) to state 4 (link training fail/disable)
+<6>[   35.481514] tegradc tegradc.1: dp: irq event received, ignoring
+<6>[   35.483761] extcon-disp-state extcon:disp-state: cable 46 state 0
+<6>[   35.483763] Extcon AUX0(DP) disable
+<6>[   35.483765] dp_audio switch 0
+<6>[   35.484159] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.484169] tegradc tegradc.1: unblank
+<6>[   35.514435] tegradc tegradc.1: nominal-pclk:241500000 parent:241500000 div:1.0 pclk:241500000 239085000~263235000
+<6>[   35.515616] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.519213] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[   35.523591] dp lt: state 4 (link training fail/disable), pending_lt_evt 1
+<6>[   35.523594] dp lt: switching from state 4 (link training fail/disable) to state 0 (Reset)
+<6>[   35.523596] dp lt: state 0 (Reset), pending_lt_evt 0
+<6>[   35.524780] tegradc tegradc.1: DP: no prod_c_hbr2 prod settings node in device tree
+<6>[   35.524916] dp lt: switching from state 0 (Reset) to state 2 (clock recovery)
+<6>[   35.524920] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   35.525152] dp lt: config: lane 0: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.525162] dp lt: config: lane 1: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.525172] dp lt: config: lane 2: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.525182] dp lt: config: lane 3: vs level: 0, pe level: 0, pc2 level: 0
+<6>[   35.525186] dp lt: tx_pu: 0x20
+<6>[   35.526516] dp lt: CR not done
+<6>[   35.527178] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.527179] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.527181] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.527182] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.527184] dp lt: CR retry
+<6>[   35.527186] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[   35.527189] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   35.527200] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.527210] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.527220] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.527229] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.527233] dp lt: tx_pu: 0x30
+<6>[   35.528564] dp lt: CR not done
+<6>[   35.529225] dp lt: new config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.529227] dp lt: new config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.529228] dp lt: new config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.529230] dp lt: new config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.529231] dp lt: CR retry
+<6>[   35.529233] dp lt: switching from state 2 (clock recovery) to state 2 (clock recovery)
+<6>[   35.529236] dp lt: state 2 (clock recovery), pending_lt_evt 0
+<6>[   35.529248] dp lt: config: lane 0: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.529258] dp lt: config: lane 1: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.529268] dp lt: config: lane 2: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.529277] dp lt: config: lane 3: vs level: 1, pe level: 0, pc2 level: 0
+<6>[   35.529282] dp lt: tx_pu: 0x30
+<6>[   35.530618] dp lt: CR done
+<6>[   35.530620] dp lt: switching from state 2 (clock recovery) to state 3 (channel equalization)
+<6>[   35.530623] dp lt: state 3 (channel equalization), pending_lt_evt 0
+<6>[   35.532880] dp lt: CE done
+<6>[   35.532883] dp lt: switching from state 3 (channel equalization) to state 5 (link training pass)
+<6>[   35.532934] extcon-disp-state extcon:disp-state: cable 46 state 1
+<6>[   35.532935] Extcon AUX0(DP): enable
+<6>[   35.532937] dp_audio switch 1
+<6>[   35.533036] tegradc tegradc.1: unblank
+<6>[   35.533071] tegradc tegradc.0: blank - powerdown
+<6>[   35.533080] extcon-disp-state extcon:disp-state: cable 44 state 1
+<6>[   35.533083] Extcon DP: HPD enabled
+<6>[   35.533099] hpd: Display connected, hpd_switch 1
+<6>[   35.533102] hpd: switching from state 2 (Check EDID) to state 4 (Enabled)
+<6>[   35.569375] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.569393] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569408] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.569421] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569435] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.569448] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569461] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569473] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569486] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.569499] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569511] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569524] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.569537] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.569549] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569562] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569574] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569587] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.569600] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.569613] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569626] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569639] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.569651] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x0 did not specify bpp
+<6>[   35.569663] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x80 did not specify bpp
+<6>[   35.569676] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.569690] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.569702] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.569715] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.569728] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.569741] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.569754] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.569768] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x400000 did not specify bpp
+<6>[   35.569780] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.569792] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x200000 did not specify bpp
+<6>[   35.569804] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   35.569817] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   35.569830] tegradc tegradc.1: tegra_dp_get_bpp: vmode=0x420000 did not specify bpp
+<6>[   35.571107] tegradc tegradc.1: unblank
+<6>[   35.571117] tegradc tegradc.0: blank - powerdown
+<6>[   36.569735] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+<6>[   36.569745] Bluetooth: BNEP socket layer initialized
+<6>[   41.891543] tegradc tegradc.1: unblank
+<6>[   41.891556] tegradc tegradc.0: blank - powerdown
+<6>[   44.100220] EXT4-fs (mmcblk0p1): recovery complete
+<6>[   44.100230] EXT4-fs (mmcblk0p1): mounted filesystem with ordered data mode. Opts: (null)
+<4>[  119.365576] ------------[ cut here ]------------
+<4>[  119.370252] WARNING: CPU: 2 PID: 4243 at /dvs/git/dirty/git-master_linux/kernel/kernel-4.9/net/wireless/nl80211.c:14154 cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+<6>[  119.385260] Modules linked in: bnep fuse xt_conntrack ipt_MASQUERADE nf_nat_masquerade_ipv4 nf_conntrack_netlink nfnetlink xt_addrtype iptable_filter iptable_nat nf_conntrack_ipv4 nf_defrag_ipv4 nf_nat_ipv4 nf_nat nf_conntrack br_netfilter zram overlay binfmt_misc rtl8821au cfg80211 userspace_alert nvgpu ip_tables x_tables
+<6>[  119.385307] 
+<6>[  119.385313] CPU: 2 PID: 4243 Comm: RTW_CMD_THREAD Tainted: G        W       4.9.337-tegra #1
+<6>[  119.385316] Hardware name: NVIDIA Jetson Nano Developer Kit (DT)
+<6>[  119.385320] task: 0000000034c08788 task.stack: 00000000e632fbe4
+<6>[  119.385378] PC is at cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+<6>[  119.385712] LR is at rtw_cfg80211_ch_switch_notify+0x94/0x98 [rtl8821au]
+<6>[  119.385716] pc : [<ffffff80011da4dc>] lr : [<ffffff8001302c40>] pstate: 40400045
+<6>[  119.385718] sp : ffffffc0e6c67c20
+<6>[  119.385721] x29: ffffffc0e6c67c20 x28: ffffff80012a4940 
+<6>[  119.385728] x27: ffffff800dd8a1ac x26: ffffff8001405740 
+<6>[  119.385735] x25: ffffff8001458cbc x24: ffffffc0f0c15000 
+<6>[  119.385741] x23: ffffffc0ebc8c000 x22: ffffffc0ea4b2800 
+<6>[  119.385746] x21: 0000000000000000 x20: ffffffc0e6c67ca8 
+<6>[  119.385752] x19: ffffffc0ef262800 x18: 0000000000000000 
+<6>[  119.385758] x17: 0000000000000002 x16: 0000000000000000 
+<6>[  119.385764] x15: 000000000000001b x14: 0000000000000000 
+<6>[  119.385770] x13: 00000000000000ff x12: 1f192c1a2d000100 
+<6>[  119.385775] x11: 0000000000000004 x10: 0000000000000002 
+<6>[  119.385781] x9 : 0000000000000004 x8 : ffffffc0e6c67d3a 
+<6>[  119.385787] x7 : 0000000000000000 x6 : 0000000000000001 
+<6>[  119.385792] x5 : 0000000000000040 x4 : 0000000000000980 
+<6>[  119.385798] x3 : 0000098000000001 x2 : ffffffc0ea4b3948 
+<6>[  119.385804] x1 : 0000098000000001 x0 : 0000000000000000 
+<6>[  119.385810] 
+<4>[  119.385813] ---[ end trace a3d1d1fb75f1a779 ]---
+<6>[  119.390419] Call trace:
+<6>[  119.390480] [<000000002e138422>] cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+<6>[  119.390821] [<00000000d97064dc>] rtw_cfg80211_ch_switch_notify+0x94/0x98 [rtl8821au]
+<6>[  119.391165] [<00000000e418cd6b>] rtw_chk_start_clnt_join+0x43c/0x4d8 [rtl8821au]
+<6>[  119.391486] [<0000000036f604e2>] join_cmd_hdl+0x238/0x330 [rtl8821au]
+<6>[  119.391793] [<00000000e6b2405b>] rtw_cmd_thread+0x308/0x608 [rtl8821au]
+<6>[  119.391800] [<00000000606ec3d4>] kthread+0xec/0xf0
+<6>[  119.391807] [<00000000b6a90296>] ret_from_fork+0x10/0x30
+<6>[  150.953581] usb 1-2.1: USB disconnect, device number 3
+<6>[  153.529105] usb 1-2.1: new high-speed USB device number 6 using tegra-xusb
+<6>[  153.549755] usb 1-2.1: New USB device found, idVendor=2357, idProduct=011e
+<6>[  153.549761] usb 1-2.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+<6>[  153.549765] usb 1-2.1: Product: 802.11ac WLAN Adapter 
+<6>[  153.549769] usb 1-2.1: Manufacturer: Realtek 
+<6>[  153.549772] usb 1-2.1: SerialNumber: 00e04c000001
+<6>[  153.735698] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+<6>[  154.104930] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+<6>[  154.187670] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+<4>[  158.351754] ------------[ cut here ]------------
+<4>[  158.356442] WARNING: CPU: 0 PID: 7127 at /dvs/git/dirty/git-master_linux/kernel/kernel-4.9/net/wireless/nl80211.c:14154 cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+<6>[  158.371450] Modules linked in: bnep fuse xt_conntrack ipt_MASQUERADE nf_nat_masquerade_ipv4 nf_conntrack_netlink nfnetlink xt_addrtype iptable_filter iptable_nat nf_conntrack_ipv4 nf_defrag_ipv4 nf_nat_ipv4 nf_nat nf_conntrack br_netfilter zram overlay binfmt_misc rtl8821au cfg80211 userspace_alert nvgpu ip_tables x_tables
+<6>[  158.371506] 
+<6>[  158.371513] CPU: 0 PID: 7127 Comm: RTW_CMD_THREAD Tainted: G        W       4.9.337-tegra #1
+<6>[  158.371516] Hardware name: NVIDIA Jetson Nano Developer Kit (DT)
+<6>[  158.371521] task: 00000000bc99f570 task.stack: 000000002ae36a35
+<6>[  158.371590] PC is at cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+<6>[  158.372006] LR is at rtw_cfg80211_ch_switch_notify+0x94/0x98 [rtl8821au]
+<6>[  158.372011] pc : [<ffffff80011da4dc>] lr : [<ffffff8001302c40>] pstate: 40400045
+<6>[  158.372013] sp : ffffffc0488bbc20
+<6>[  158.372017] x29: ffffffc0488bbc20 x28: ffffff80012a4940 
+<6>[  158.372025] x27: ffffff800dd8c1ac x26: ffffff8001405740 
+<6>[  158.372032] x25: ffffff8001458cbc x24: ffffffc0f49f6000 
+<6>[  158.372040] x23: ffffffc0f49f5000 x22: ffffffc0ed6db000 
+<6>[  158.372047] x21: 0000000000000000 x20: ffffffc0488bbca8 
+<6>[  158.372053] x19: ffffffc09ca46c00 x18: 0000000000000400 
+<6>[  158.372061] x17: 0000000000000003 x16: 0000000000000000 
+<6>[  158.372068] x15: 0000000000000012 x14: 0000000000000000 
+<6>[  158.372074] x13: 00000000000000ff x12: 1f192c1a2d000100 
+<6>[  158.372081] x11: 0000000000000004 x10: 0000000000000002 
+<6>[  158.372088] x9 : 0000000000000004 x8 : ffffffc0488bbd3a 
+<6>[  158.372095] x7 : 0000000000000000 x6 : 0000000000000001 
+<6>[  158.372102] x5 : 0000000000000040 x4 : 0000000000000980 
+<6>[  158.372109] x3 : 0000098000000001 x2 : ffffffc0ed6da148 
+<6>[  158.372116] x1 : 0000098000000001 x0 : 0000000000000000 
+<6>[  158.372123] 
+<4>[  158.372126] ---[ end trace a3d1d1fb75f1a77a ]---
+<6>[  158.376735] Call trace:
+<6>[  158.376807] [<000000002e138422>] cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+<6>[  158.377213] [<00000000d97064dc>] rtw_cfg80211_ch_switch_notify+0x94/0x98 [rtl8821au]
+<6>[  158.377637] [<00000000e418cd6b>] rtw_chk_start_clnt_join+0x43c/0x4d8 [rtl8821au]
+<6>[  158.378063] [<0000000036f604e2>] join_cmd_hdl+0x238/0x330 [rtl8821au]
+<6>[  158.378461] [<00000000e6b2405b>] rtw_cmd_thread+0x308/0x608 [rtl8821au]
+<6>[  158.378470] [<00000000606ec3d4>] kthread+0xec/0xf0
+<6>[  158.378478] [<00000000b6a90296>] ret_from_fork+0x10/0x30
+<6>[  158.623708] IPv6: ADDRCONF(NETDEV_CHANGE): wlan0: link becomes ready
+<3>[  545.418359] mmc1: Data CRC error
+<3>[  545.421587] sdhci: =========== REGISTER DUMP (mmc1)===========
+<3>[  545.427407] sdhci: Sys addr: 0x00000038 | Version:  0x00000303
+<3>[  545.433227] sdhci: Blk size: 0x00007200 | Blk cnt:  0x00000015
+<3>[  545.439046] sdhci: Argument: 0x01304990 | Trn mode: 0x0000003b
+<3>[  545.444866] sdhci: Present:  0x01fb0008 | Host ctl: 0x00000017
+<3>[  545.450686] sdhci: Power:    0x00000001 | Blk gap:  0x00000000
+<3>[  545.456505] sdhci: Wake-up:  0x00000000 | Clock:    0x00000007
+<3>[  545.462325] sdhci: Timeout:  0x0000000e | Int stat: 0x00001000
+<3>[  545.468144] sdhci: Int enab: 0x02ff100b | Sig enab: 0x02fc100b
+<3>[  545.473963] sdhci: AC12 err: 0x00000000 | Slot int: 0x00000000
+<3>[  545.479782] sdhci: Caps:     0x376cd08c | Caps_1:   0x10006f73
+<3>[  545.485600] sdhci: Cmd:      0x0000123a | Max curr: 0x00000000
+<3>[  545.491417] sdhci: Host ctl2: 0x0000308b
+<3>[  545.495331] sdhci: ADMA Err: 0x00000000 | ADMA Ptr: 0x00000000ffefe410
+<3>[  545.501864] sdhci: ===========================================
+<4>[  551.024509] tegra-xusb 70090000.xusb: xHCI host not responding to stop endpoint command.
+<4>[  551.032593] tegra-xusb 70090000.xusb: Assuming host is dying, halting host.
+<3>[  551.039796] tegra-xusb 70090000.xusb: HC died; cleaning up
+<6>[  551.045291] tegra-xusb 70090000.xusb: hcd_reinit is disabled or in progress
+<6>[  551.045342] usb 1-2: USB disconnect, device number 2
+<6>[  551.045348] usb 1-2.1: USB disconnect, device number 6
+<6>[  551.045648] usb 2-1: USB disconnect, device number 2
+<3>[  566.516137] INFO: rcu_preempt detected stalls on CPUs/tasks:
+<3>[  566.521808] 	0-...: (1 GPs behind) idle=783/2/0 softirq=51944/51944 fqs=2499 
+<3>[  566.528930] 	(detected by 3, t=5255 jiffies, g=21789, c=21788, q=416)
+<6>[  566.535370] Task dump for CPU 0:
+<6>[  566.535373] swapper/0       R  running task        0     0      0 0x00000012
+<6>[  566.535382] Call trace:
+<6>[  566.535393] [<000000001ad4f5b1>] __switch_to+0x9c/0xc0
+<6>[  566.535400] [<0000000055daea1b>] cpuidle_enter_state+0xa0/0x380
+<6>[  566.535404] [<0000000057ccef12>] cpuidle_enter+0x34/0x48
+<6>[  566.535409] [<000000006c70ce01>] call_cpuidle+0x44/0x70
+<6>[  566.535413] [<00000000e9bb5d5e>] cpu_startup_entry+0x1b0/0x200
+<6>[  566.535419] [<00000000cb78a490>] rest_init+0x84/0x90
+<6>[  566.535425] [<000000001648d574>] start_kernel+0x38c/0x3a4
+<6>[  566.535428] [<0000000096a42e38>] __primary_switched+0x80/0x94
+<3>[  570.380066] INFO: rcu_sched detected stalls on CPUs/tasks:
+<3>[  570.385564] 	0-...: (1 GPs behind) idle=783/2/0 softirq=51408/51944 fqs=2433 
+<3>[  570.392683] 	(detected by 2, t=5255 jiffies, g=4443, c=4442, q=4)
+<6>[  570.398779] Task dump for CPU 0:
+<6>[  570.398782] swapper/0       R  running task        0     0      0 0x00000012
+<6>[  570.398792] Call trace:
+<6>[  570.398804] [<000000001ad4f5b1>] __switch_to+0x9c/0xc0
+<6>[  570.398812] [<0000000055daea1b>] cpuidle_enter_state+0xa0/0x380
+<6>[  570.398817] [<0000000057ccef12>] cpuidle_enter+0x34/0x48
+<6>[  570.398822] [<000000006c70ce01>] call_cpuidle+0x44/0x70
+<6>[  570.398827] [<00000000e9bb5d5e>] cpu_startup_entry+0x1b0/0x200
+<6>[  570.398832] [<00000000cb78a490>] rest_init+0x84/0x90
+<6>[  570.398839] [<000000001648d574>] start_kernel+0x38c/0x3a4
+<6>[  570.398842] [<0000000096a42e38>] __primary_switched+0x80/0x94
+<0>[  576.324020] Kernel panic - not syncing: Watchdog detected hard LOCKUP on cpu 0
+<6>[  576.331238] CPU: 3 PID: 0 Comm: swapper/3 Tainted: G        W       4.9.337-tegra #1
+<6>[  576.338966] Hardware name: NVIDIA Jetson Nano Developer Kit (DT)
+<6>[  576.344958] Call trace:
+<6>[  576.347407] [<000000005c4cdf18>] dump_backtrace+0x0/0x198
+<6>[  576.352797] [<000000006d9ae47a>] show_stack+0x24/0x30
+<6>[  576.357841] [<0000000051578553>] dump_stack+0xa0/0xc4
+<6>[  576.362882] [<0000000086c8050e>] panic+0x128/0x2a4
+<6>[  576.367665] [<00000000f955d877>] watchdog_check_hardlockup_other_cpu+0x11c/0x120
+<6>[  576.375046] [<0000000016b21dae>] watchdog_timer_fn+0x98/0x2c0
+<6>[  576.380783] [<0000000082ab8707>] __hrtimer_run_queues+0xd8/0x360
+<6>[  576.386777] [<00000000c7111359>] hrtimer_interrupt+0xa8/0x1e0
+<6>[  576.392513] [<000000000ef429e4>] tegra210_timer_isr+0x38/0x48
+<6>[  576.398250] [<00000000cf373018>] __handle_irq_event_percpu+0x68/0x288
+<6>[  576.404677] [<000000001b33fd72>] handle_irq_event_percpu+0x28/0x60
+<6>[  576.410844] [<00000000a899d2f4>] handle_irq_event+0x50/0x80
+<6>[  576.416405] [<00000000f61a8d69>] handle_fasteoi_irq+0xd4/0x1c0
+<6>[  576.422226] [<00000000ee3dd4dc>] generic_handle_irq+0x34/0x50
+<6>[  576.427960] [<000000006d4f7e00>] __handle_domain_irq+0x68/0xc0
+<6>[  576.433781] [<000000009ef57c4c>] gic_handle_irq+0x5c/0xb0
+<6>[  576.439167] [<0000000079e11b79>] el1_irq+0xe8/0x194
+<6>[  576.444037] [<00000000f646d0b6>] cpuidle_enter_state+0xb8/0x380
+<6>[  576.449943] [<0000000057ccef12>] cpuidle_enter+0x34/0x48
+<6>[  576.455244] [<000000006c70ce01>] call_cpuidle+0x44/0x70
+<6>[  576.460457] [<00000000e9bb5d5e>] cpu_startup_entry+0x1b0/0x200
+<6>[  576.466278] [<00000000641dedf5>] secondary_start_kernel+0x190/0x1f8
+<6>[  576.472531] [<0000000062107588>] 0x84f8c1a8
+<2>[  576.476705] SMP: stopping secondary CPUs
+<0>[  576.480646] Kernel Offset: disabled
+<0>[  576.484124] Memory Limit: none

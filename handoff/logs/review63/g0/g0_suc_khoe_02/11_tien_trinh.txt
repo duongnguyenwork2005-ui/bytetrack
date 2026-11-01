@@ -1,0 +1,25 @@
+===== 11_tien_trinh (2026-10-30T16:54:49+08:00)
+$ bash -c ps -eo pid,etime,pcpu,pmem,cmd --sort=-pcpu | grep -Ei "python|trtexec|tegrastats|nano_" | grep -v grep | head -20; echo "--- top cpu"; ps -eo pid,pcpu,pmem,cmd --sort=-pcpu | head -8
+ 6601       26:22  1.4  3.3 /usr/bin/python3 /usr/bin/update-manager --no-update --no-focus-on-map
+ 5767       27:24  0.1  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 3664       28:03  0.0  0.4 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+ 5055       27:43  0.0  0.4 /usr/bin/python3 /usr/local/bin/jtop --force
+ 5099       27:40  0.0  0.3 /usr/bin/python3 /usr/local/bin/jtop --force
+ 5117       27:40  0.0  0.3 /usr/bin/python3 /usr/local/bin/jtop --force
+ 5652       27:27  0.0  1.0 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5763       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5764       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5765       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5766       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5768       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5769       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+--- top cpu
+  PID %CPU %MEM CMD
+ 6601  1.4  3.3 /usr/bin/python3 /usr/bin/update-manager --no-update --no-focus-on-map
+ 6379  0.9  0.4 /usr/lib/packagekit/packagekitd
+ 6531  0.7  4.7 /usr/bin/gnome-software --gapplication-service
+ 5595  0.5  3.5 /usr/bin/compiz
+ 4901  0.2  1.7 /usr/lib/xorg/Xorg vt1 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+    1  0.1  0.2 /sbin/init 2
+ 1907  0.1  0.0 [mmcqd/1]
+[exit=0]

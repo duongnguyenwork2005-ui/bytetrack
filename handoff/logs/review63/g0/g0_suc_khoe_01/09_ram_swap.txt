@@ -1,0 +1,15 @@
+===== 09_ram_swap (2026-10-30T16:54:03+08:00)
+$ bash -c free -m; swapon --show; grep -E "MemAvailable|SwapFree|CmaFree" /proc/meminfo
+              total        used        free      shared  buff/cache   available
+Mem:           3963        1484        1435          54        1043        2290
+Swap:          6077           0        6077
+NAME       TYPE        SIZE USED PRIO
+/swapfile  file          4G   0B   -1
+/dev/zram0 partition 495.5M   0B    5
+/dev/zram1 partition 495.5M   0B    5
+/dev/zram2 partition 495.5M   0B    5
+/dev/zram3 partition 495.5M   0B    5
+MemAvailable:    2345748 kB
+SwapFree:        6223772 kB
+CmaFree:          441280 kB
+[exit=0]

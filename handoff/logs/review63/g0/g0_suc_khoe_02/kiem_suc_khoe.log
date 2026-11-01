@@ -1,0 +1,220 @@
+===== 01_l4t (2026-10-30T16:54:48+08:00)
+$ cat /etc/nv_tegra_release
+# R32 (release), REVISION: 7.5, GCID: 36557527, BOARD: t210ref, EABI: aarch64, DATE: Tue Jun 11 23:12:44 UTC 2024
+[exit=0]
+===== 02_os (2026-10-30T16:54:48+08:00)
+$ bash -c uname -a; cat /etc/os-release | head -4
+Linux jetson-desktop 4.9.337-tegra #1 SMP PREEMPT Tue Jun 11 16:07:05 PDT 2024 aarch64 aarch64 aarch64 GNU/Linux
+NAME="Ubuntu"
+VERSION="18.04.6 LTS (Bionic Beaver)"
+ID=ubuntu
+ID_LIKE=debian
+[exit=0]
+===== 03_goi_trt (2026-10-30T16:54:48+08:00)
+$ bash -c dpkg -l | grep -Ei "nvidia-jetpack|nvidia-l4t-core|tensorrt|libnvinfer[0-9]|cuda-runtime|libopencv" | awk "{print \$2, \$3}"
+graphsurgeon-tf 8.2.1-1+cuda10.2
+libnvinfer-bin 8.2.1-1+cuda10.2
+libnvinfer-dev 8.2.1-1+cuda10.2
+libnvinfer-doc 8.2.1-1+cuda10.2
+libnvinfer-plugin-dev 8.2.1-1+cuda10.2
+libnvinfer-plugin8 8.2.1-1+cuda10.2
+libnvinfer-samples 8.2.1-1+cuda10.2
+libnvinfer8 8.2.1-1+cuda10.2
+libnvonnxparsers-dev 8.2.1-1+cuda10.2
+libnvonnxparsers8 8.2.1-1+cuda10.2
+libnvparsers-dev 8.2.1-1+cuda10.2
+libnvparsers8 8.2.1-1+cuda10.2
+libopencv 4.1.1-2-gd5a58aa75
+libopencv-calib3d3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-contrib3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-core3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-dev 4.1.1-2-gd5a58aa75
+libopencv-features2d3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-flann3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-highgui3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-imgcodecs3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-imgproc3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-ml3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-objdetect3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-photo3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-shape3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-stitching3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-superres3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-video3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-videoio3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-videostab3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+libopencv-viz3.2:arm64 3.2.0+dfsg-4ubuntu0.1
+nvidia-l4t-core 32.7.5-20240611161210
+nvidia-tensorrt 4.6.6-b24
+python3-libnvinfer 8.2.1-1+cuda10.2
+python3-libnvinfer-dev 8.2.1-1+cuda10.2
+tensorrt 8.2.1.9-1+cuda10.2
+uff-converter-tf 8.2.1-1+cuda10.2
+[exit=0]
+===== 04_uptime_boot (2026-10-30T16:54:49+08:00)
+$ bash -c uptime; cat /proc/sys/kernel/random/boot_id; who -b
+ 16:54:49 up 28 min,  2 users,  load average: 0.00, 0.00, 0.06
+3cf3e6a1-e3a1-4ce6-a0cc-fbe9e548a445
+         system boot  2000-01-01 09:00
+[exit=0]
+===== 05_nvpmodel (2026-10-30T16:54:49+08:00)
+$ bash -c nvpmodel -q 2>&1 || sudo -n nvpmodel -q
+NVPM WARN: fan mode is not set!
+NV Power Mode: MAXN
+0
+NVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13
+NVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap
+[exit=0]
+===== 06_jetson_clocks (2026-10-30T16:54:49+08:00)
+$ bash -c sudo -n jetson_clocks --show 2>&1 || echo "khong co sudo khong mat khau: bo qua"
+sudo: a password is required
+khong co sudo khong mat khau: bo qua
+[exit=0]
+===== 07_xung (2026-10-30T16:54:49+08:00)
+$ bash -c for c in /sys/devices/system/cpu/cpu[0-9]*; do echo "$(basename $c) online=$(cat $c/online 2>/dev/null || echo 1) cur=$(cat $c/cpufreq/scaling_cur_freq 2>/dev/null) max=$(cat $c/cpufreq/scaling_max_freq 2>/dev/null) gov=$(cat $c/cpufreq/scaling_governor 2>/dev/null)"; done;
+  for f in /sys/devices/gpu.0/devfreq/57000000.gpu /sys/devices/57000000.gpu/devfreq/57000000.gpu; do [ -d "$f" ] && echo "gpu cur=$(cat $f/cur_freq) min=$(cat $f/min_freq) max=$(cat $f/max_freq) gov=$(cat $f/governor)"; done;
+  [ -r /sys/kernel/debug/clk/emc/clk_rate ] && echo "emc=$(cat /sys/kernel/debug/clk/emc/clk_rate)" || echo "emc: khong doc duoc (can debugfs)"
+cpu0 online=1 cur=1224000 max=1479000 gov=schedutil
+cpu1 online=1 cur=1224000 max=1479000 gov=schedutil
+cpu2 online=1 cur=1428000 max=1479000 gov=schedutil
+cpu3 online=1 cur=1224000 max=1479000 gov=schedutil
+gpu cur=76800000 min=76800000 max=921600000 gov=nvhost_podgov
+gpu cur=76800000 min=76800000 max=921600000 gov=nvhost_podgov
+emc: khong doc duoc (can debugfs)
+[exit=0]
+===== 08_nhiet (2026-10-30T16:54:49+08:00)
+$ bash -c for z in /sys/class/thermal/thermal_zone*; do echo "$(cat $z/type)=$(cat $z/temp)"; done
+AO-therm=43000
+CPU-therm=34000
+GPU-therm=34000
+PLL-therm=32000
+PMIC-Die=50000
+thermal-fan-est=34250
+[exit=0]
+===== 09_ram_swap (2026-10-30T16:54:49+08:00)
+$ bash -c free -m; swapon --show; grep -E "MemAvailable|SwapFree|CmaFree" /proc/meminfo
+              total        used        free      shared  buff/cache   available
+Mem:           3963        1484        1433          54        1045        2290
+Swap:          6077           0        6077
+NAME       TYPE        SIZE USED PRIO
+/swapfile  file          4G   0B   -1
+/dev/zram0 partition 495.5M   0B    5
+/dev/zram1 partition 495.5M   0B    5
+/dev/zram2 partition 495.5M   0B    5
+/dev/zram3 partition 495.5M   0B    5
+MemAvailable:    2345644 kB
+SwapFree:        6223772 kB
+CmaFree:          441280 kB
+[exit=0]
+===== 10_dia (2026-10-30T16:54:49+08:00)
+$ bash -c df -h / ~ 2>/dev/null; lsblk -o NAME,SIZE,MOUNTPOINT,UUID 2>/dev/null | head -20
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/mmcblk1p1   58G   29G   26G  53% /
+/dev/mmcblk1p1   58G   29G   26G  53% /
+NAME           SIZE MOUNTPOINT                                          UUID
+loop0           16M                                                     1234-ABCD
+mmcblk0       14.7G                                                     
+├─mmcblk0p1     14G /media/jetson/63067172-616c-4243-bf11-cece24ba15623 63067172-616c-4243-bf11-cece24ba1562
+├─mmcblk0p2      1M                                                     
+├─mmcblk0p3      6M                                                     
+├─mmcblk0p4     80K                                                     
+├─mmcblk0p5     64M                                                     
+├─mmcblk0p6      1M                                                     
+├─mmcblk0p7      6M                                                     
+├─mmcblk0p8     80K                                                     
+├─mmcblk0p9     64M                                                     
+├─mmcblk0p10   192K                                                     
+├─mmcblk0p11   256K                                                     
+├─mmcblk0p12    63M                                                     
+├─mmcblk0p13   512K                                                     
+├─mmcblk0p14   256K                                                     
+├─mmcblk0p15   256K                                                     
+├─mmcblk0p16   300M                                                     
+└─mmcblk0p17 185.4M                                                     
+[exit=0]
+===== 11_tien_trinh (2026-10-30T16:54:49+08:00)
+$ bash -c ps -eo pid,etime,pcpu,pmem,cmd --sort=-pcpu | grep -Ei "python|trtexec|tegrastats|nano_" | grep -v grep | head -20; echo "--- top cpu"; ps -eo pid,pcpu,pmem,cmd --sort=-pcpu | head -8
+ 6601       26:22  1.4  3.3 /usr/bin/python3 /usr/bin/update-manager --no-update --no-focus-on-map
+ 5767       27:24  0.1  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 3664       28:03  0.0  0.4 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+ 5055       27:43  0.0  0.4 /usr/bin/python3 /usr/local/bin/jtop --force
+ 5099       27:40  0.0  0.3 /usr/bin/python3 /usr/local/bin/jtop --force
+ 5117       27:40  0.0  0.3 /usr/bin/python3 /usr/local/bin/jtop --force
+ 5652       27:27  0.0  1.0 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5763       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5764       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5765       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5766       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5768       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5769       27:24  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+--- top cpu
+  PID %CPU %MEM CMD
+ 6601  1.4  3.3 /usr/bin/python3 /usr/bin/update-manager --no-update --no-focus-on-map
+ 6379  0.9  0.4 /usr/lib/packagekit/packagekitd
+ 6531  0.7  4.7 /usr/bin/gnome-software --gapplication-service
+ 5595  0.5  3.5 /usr/bin/compiz
+ 4901  0.2  1.7 /usr/lib/xorg/Xorg vt1 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+    1  0.1  0.2 /sbin/init 2
+ 1907  0.1  0.0 [mmcqd/1]
+[exit=0]
+===== 12_kernel_hien_tai (2026-10-30T16:54:49+08:00)
+$ bash -c journalctl -k -b 0 --no-pager 2>/dev/null | grep -Ei "panic|soft ?lockup|hung_task|rcu|i2c.*time|watchdog|thermal|throttl|oom|ext4.*error" | tail -60 || dmesg 2>&1 | tail -60
+3月 02 20:58:03 jetson-desktop kernel: Preemptible hierarchical RCU implementation.
+3月 02 20:58:03 jetson-desktop kernel:         RCU restricting CPUs from NR_CPUS=64 to nr_cpu_ids=4.
+3月 02 20:58:03 jetson-desktop kernel: RCU: Adjusting geometry for rcu_fanout_leaf=64, nr_cpu_ids=4
+3月 02 20:58:03 jetson-desktop kernel: tegra-pmc 7000e400.pmc: i2c-thermtrip node not found, emergency thermal reset disabled.
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone0: Registering thermal zone thermal_zone0 for type AO-therm
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone1: Registering thermal zone thermal_zone1 for type CPU-therm
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone2: Registering thermal zone thermal_zone2 for type GPU-therm
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone3: Registering thermal zone thermal_zone3 for type PLL-therm
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone4: Registering thermal zone thermal_zone4 for type PMIC-Die
+3月 02 20:58:03 jetson-desktop kernel: THERMAL EST: found 2 subdevs
+3月 02 20:58:03 jetson-desktop kernel: THERMAL EST num_resources: 0
+3月 02 20:58:03 jetson-desktop kernel: [THERMAL EST subdev 0]
+3月 02 20:58:03 jetson-desktop kernel: [THERMAL EST subdev 1]
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone5: Registering thermal zone thermal_zone5 for type thermal-fan-est
+3月 02 20:58:03 jetson-desktop kernel: THERMAL EST: thz register success.
+3月 02 20:58:03 jetson-desktop kernel: THERMAL EST: end of probe, return err: 0
+3月 02 20:58:03 jetson-desktop kernel: tegra_soctherm 700e2000.soctherm: throttrip: will throttle when cpu reaches 100500 mC
+3月 02 20:58:03 jetson-desktop kernel: tegra_soctherm 700e2000.soctherm: throttrip: will throttle when gpu reaches 101000 mC
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: Num cap clks = 6
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=cclk_g type=2
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=gpu type=4
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=cap.throttle.c2bus type=0
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=cap.throttle.c3bus type=0
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=cap.throttle.sclk type=0
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=emc type=3
+3月 02 20:58:03 jetson-desktop kernel: tegra_throttle_probe: probe successful. #cdevs=4
+10月 29 14:58:41 jetson-desktop kernel: cpu-throttle-alert cooling device registered.
+10月 29 14:58:41 jetson-desktop kernel: gpu-throttle-alert cooling device registered.
+[exit=0]
+===== 13_kernel_truoc (2026-10-30T16:54:49+08:00)
+$ bash -c journalctl --list-boots --no-pager 2>/dev/null | tail -8; journalctl -k -b -1 --no-pager 2>/dev/null | grep -Ei "panic|soft ?lockup|hung_task|rcu|i2c.*time|watchdog|thermal|throttl|oom" | tail -60 || echo "journal boot truoc: khong co/khong doc duoc"
+ 0 3cf3e6a1e3a14ce6a0ccfbe9e548a445 Thu 2023-03-02 20:58:03 CST—Fri 2026-10-30 16:54:49 CST
+[exit=0]
+===== 14_pstore (2026-10-30T16:54:49+08:00)
+$ bash -c ls -la /sys/fs/pstore 2>&1; for f in /sys/fs/pstore/*; do [ -r "$f" ] && { echo "--- $f"; grep -Ei "panic|lockup|hung|rcu|i2c" "$f" | tail -20; }; done
+total 0
+drwxr-xr-x 2 root root 0 3月   2  2023 .
+drwxr-xr-x 7 root root 0 10月 30 16:54 ..
+[exit=1]
+===== 15_dmesg_loi (2026-10-30T16:54:49+08:00)
+$ bash -c dmesg -l err,crit,alert,emerg 2>&1 | tail -40
+[    1.118756] tegradc tegradc.1: dpd enable lookup fail:-19
+[    1.624524] Host read timeout at address 545c00c4
+[    1.930218] imx219 7-0010: imx219_board_setup: error during i2c read probe (-121)
+[    1.937856] imx219 7-0010: board setup failed
+[    1.966374] imx219 8-0010: imx219_board_setup: error during i2c read probe (-121)
+[    1.973960] imx219 8-0010: board setup failed
+[    4.237038] cgroup: cgroup2: unknown option "nsdelegate"
+[exit=0]
+===== 16_nguon_dien (2026-10-30T16:54:49+08:00)
+$ bash -c for d in /sys/bus/i2c/drivers/ina3221x/*/iio:device*; do [ -d "$d" ] && for f in $d/in_power*_input $d/in_voltage*_input $d/in_current*_input $d/rail_name_*; do [ -r "$f" ] && echo "$(basename $f)=$(cat $f)"; done; done; grep -i "under-voltage\|overcurrent" /var/log/syslog 2>/dev/null | tail -10
+[exit=0]
+===== 17_tegrastats (2026-10-30T16:54:49+08:00)
+$ bash -c timeout 5 tegrastats --interval 1000 2>&1 | head -7
+RAM 1556/3964MB (lfb 290x4MB) SWAP 0/6078MB (cached 0MB) CPU [0%@1224,0%@1224,0%@1224,0%@1224] EMC_FREQ 0% GR3D_FREQ 0% PLL@31.5C CPU@33.5C PMIC@50C GPU@33.5C AO@43C thermal@34C
+RAM 1556/3964MB (lfb 290x4MB) SWAP 0/6078MB (cached 0MB) CPU [1%@1224,0%@1224,0%@1224,0%@1224] EMC_FREQ 0% GR3D_FREQ 0% PLL@31C CPU@33.5C PMIC@50C GPU@33C AO@42.5C thermal@33.5C
+RAM 1556/3964MB (lfb 290x4MB) SWAP 0/6078MB (cached 0MB) CPU [0%@1224,0%@1224,0%@1224,1%@1224] EMC_FREQ 0% GR3D_FREQ 0% PLL@31.5C CPU@33.5C PMIC@50C GPU@33.5C AO@43C thermal@33.5C
+RAM 1556/3964MB (lfb 290x4MB) SWAP 0/6078MB (cached 0MB) CPU [0%@1224,0%@1224,0%@1224,0%@1224] EMC_FREQ 0% GR3D_FREQ 0% PLL@31.5C CPU@33.5C PMIC@50C GPU@33.5C AO@42.5C thermal@33.25C
+[exit=0]

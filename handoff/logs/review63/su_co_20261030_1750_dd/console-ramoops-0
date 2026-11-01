@@ -1,0 +1,87 @@
+[    1.123708] tegradc tegradc.1: dpd enable lookup fail:-19
+[    1.629468] Host read timeout at address 545c00c4
+[    1.857650] imx219 7-0010: imx219_board_setup: error during i2c read probe (-121)
+[    1.865312] imx219 7-0010: board setup failed
+[    1.893811] imx219 8-0010: imx219_board_setup: error during i2c read probe (-121)
+[    1.901386] imx219 8-0010: board setup failed
+[    3.263453] hid-generic 0003:1532:00E6.0006: No inputs registered, leaving
+[    4.107526] cgroup: cgroup2: unknown option "nsdelegate"
+[    5.920131] random: systemd: uninitialized urandom read (16 bytes read)
+[    5.920973] random: systemd-journal: uninitialized urandom read (16 bytes read)
+[    5.934332] random: systemd: uninitialized urandom read (16 bytes read)
+[    6.734070] random: crng init done
+[    6.737476] random: 112 urandom warning(s) missed due to ratelimiting
+[   11.484040] using random self ethernet address
+[   11.488600] using random host ethernet address
+[   15.126508] using random self ethernet address
+[   15.131018] using random host ethernet address
+[   23.070519] ------------[ cut here ]------------
+[   23.075207] WARNING: CPU: 1 PID: 4243 at /dvs/git/dirty/git-master_linux/kernel/kernel-4.9/net/wireless/nl80211.c:14154 cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+[   23.090837] ---[ end trace a3d1d1fb75f1a778 ]---
+[   26.074935] Bridge firewalling registered
+[   31.207145] tegra-i2c 7000c000.i2c: no acknowledge from address 0x50
+[   31.214259] tegra-i2c 7000c400.i2c: no acknowledge from address 0x50
+[   32.241032] tegra-i2c 7000c000.i2c: no acknowledge from address 0x50
+[   32.247842] tegra-i2c 7000c400.i2c: no acknowledge from address 0x50
+[  119.365576] ------------[ cut here ]------------
+[  119.370252] WARNING: CPU: 2 PID: 4243 at /dvs/git/dirty/git-master_linux/kernel/kernel-4.9/net/wireless/nl80211.c:14154 cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+[  119.385813] ---[ end trace a3d1d1fb75f1a779 ]---
+[  158.351754] ------------[ cut here ]------------
+[  158.356442] WARNING: CPU: 0 PID: 7127 at /dvs/git/dirty/git-master_linux/kernel/kernel-4.9/net/wireless/nl80211.c:14154 cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+[  158.372126] ---[ end trace a3d1d1fb75f1a77a ]---
+[  545.418359] mmc1: Data CRC error
+[  545.421587] sdhci: =========== REGISTER DUMP (mmc1)===========
+[  545.427407] sdhci: Sys addr: 0x00000038 | Version:  0x00000303
+[  545.433227] sdhci: Blk size: 0x00007200 | Blk cnt:  0x00000015
+[  545.439046] sdhci: Argument: 0x01304990 | Trn mode: 0x0000003b
+[  545.444866] sdhci: Present:  0x01fb0008 | Host ctl: 0x00000017
+[  545.450686] sdhci: Power:    0x00000001 | Blk gap:  0x00000000
+[  545.456505] sdhci: Wake-up:  0x00000000 | Clock:    0x00000007
+[  545.462325] sdhci: Timeout:  0x0000000e | Int stat: 0x00001000
+[  545.468144] sdhci: Int enab: 0x02ff100b | Sig enab: 0x02fc100b
+[  545.473963] sdhci: AC12 err: 0x00000000 | Slot int: 0x00000000
+[  545.479782] sdhci: Caps:     0x376cd08c | Caps_1:   0x10006f73
+[  545.485600] sdhci: Cmd:      0x0000123a | Max curr: 0x00000000
+[  545.491417] sdhci: Host ctl2: 0x0000308b
+[  545.495331] sdhci: ADMA Err: 0x00000000 | ADMA Ptr: 0x00000000ffefe410
+[  545.501864] sdhci: ===========================================
+[  551.024509] tegra-xusb 70090000.xusb: xHCI host not responding to stop endpoint command.
+[  551.032593] tegra-xusb 70090000.xusb: Assuming host is dying, halting host.
+[  551.039796] tegra-xusb 70090000.xusb: HC died; cleaning up
+[  566.516137] INFO: rcu_preempt detected stalls on CPUs/tasks:
+[  566.521808] 	0-...: (1 GPs behind) idle=783/2/0 softirq=51944/51944 fqs=2499 
+[  566.528930] 	(detected by 3, t=5255 jiffies, g=21789, c=21788, q=416)
+[  570.380066] INFO: rcu_sched detected stalls on CPUs/tasks:
+[  570.385564] 	0-...: (1 GPs behind) idle=783/2/0 softirq=51408/51944 fqs=2433 
+[  570.392683] 	(detected by 2, t=5255 jiffies, g=4443, c=4442, q=4)
+[  576.324020] Kernel panic - not syncing: Watchdog detected hard LOCKUP on cpu 0
+[  576.331238] CPU: 3 PID: 0 Comm: swapper/3 Tainted: G        W       4.9.337-tegra #1
+[  576.338966] Hardware name: NVIDIA Jetson Nano Developer Kit (DT)
+[  576.344958] Call trace:
+[  576.347407] [<000000005c4cdf18>] dump_backtrace+0x0/0x198
+[  576.352797] [<000000006d9ae47a>] show_stack+0x24/0x30
+[  576.357841] [<0000000051578553>] dump_stack+0xa0/0xc4
+[  576.362882] [<0000000086c8050e>] panic+0x128/0x2a4
+[  576.367665] [<00000000f955d877>] watchdog_check_hardlockup_other_cpu+0x11c/0x120
+[  576.375046] [<0000000016b21dae>] watchdog_timer_fn+0x98/0x2c0
+[  576.380783] [<0000000082ab8707>] __hrtimer_run_queues+0xd8/0x360
+[  576.386777] [<00000000c7111359>] hrtimer_interrupt+0xa8/0x1e0
+[  576.392513] [<000000000ef429e4>] tegra210_timer_isr+0x38/0x48
+[  576.398250] [<00000000cf373018>] __handle_irq_event_percpu+0x68/0x288
+[  576.404677] [<000000001b33fd72>] handle_irq_event_percpu+0x28/0x60
+[  576.410844] [<00000000a899d2f4>] handle_irq_event+0x50/0x80
+[  576.416405] [<00000000f61a8d69>] handle_fasteoi_irq+0xd4/0x1c0
+[  576.422226] [<00000000ee3dd4dc>] generic_handle_irq+0x34/0x50
+[  576.427960] [<000000006d4f7e00>] __handle_domain_irq+0x68/0xc0
+[  576.433781] [<000000009ef57c4c>] gic_handle_irq+0x5c/0xb0
+[  576.439167] [<0000000079e11b79>] el1_irq+0xe8/0x194
+[  576.444037] [<00000000f646d0b6>] cpuidle_enter_state+0xb8/0x380
+[  576.449943] [<0000000057ccef12>] cpuidle_enter+0x34/0x48
+[  576.455244] [<000000006c70ce01>] call_cpuidle+0x44/0x70
+[  576.460457] [<00000000e9bb5d5e>] cpu_startup_entry+0x1b0/0x200
+[  576.466278] [<00000000641dedf5>] secondary_start_kernel+0x190/0x1f8
+[  576.472531] [<0000000062107588>] 0x84f8c1a8
+[  576.476705] SMP: stopping secondary CPUs
+[  576.480646] Kernel Offset: disabled
+[  576.484124] Memory Limit: none
+[  576.497253] Rebooting in 5 seconds..

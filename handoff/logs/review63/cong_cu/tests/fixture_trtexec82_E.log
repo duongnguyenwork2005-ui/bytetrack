@@ -1,0 +1,16 @@
+== FIXTURE TU SOAN (KHONG phai so do that): trtexec --noDataTransfers --dumpProfile --separateProfileRun
+[10/30/2026-10:05:00] [I] === Performance summary ===
+[10/30/2026-10:05:00] [I] Throughput: 14.62 qps
+[10/30/2026-10:05:00] [I] Latency: min = 67.0 ms, max = 70.0 ms, mean = 68.4 ms, median = 68.3 ms, percentile(90%) = 69.2 ms
+[10/30/2026-10:05:00] [I] GPU Compute Time: min = 67.0 ms, max = 70.0 ms, mean = 68.4 ms, median = 68.3 ms, percentile(90%) = 69.2 ms
+[10/30/2026-10:05:00] [I] Total Host Walltime: 30.01 s
+[10/30/2026-10:05:30] [I]
+[10/30/2026-10:05:30] [I] === Profile (440 iterations ) ===
+[10/30/2026-10:05:30] [I]                                Layer   Time (ms)   Avg. Time (ms)   Time %
+[10/30/2026-10:05:30] [I]   Conv_0 + PWN(Sigmoid_1, Mul_2)        1100.00           2.50      3.6
+[10/30/2026-10:05:30] [I]   Conv_3 + PWN(Sigmoid_4, Mul_5)        2200.00           5.00      7.3
+[10/30/2026-10:05:30] [I]   Concat_200                            44.00           0.10      0.1
+[10/30/2026-10:05:30] [I]                                Total    30000.00          68.18    100.0
+[10/30/2026-10:05:30] [I]
+&&&& PASSED TensorRT.trtexec [TensorRT v8201]
+[exit=0]

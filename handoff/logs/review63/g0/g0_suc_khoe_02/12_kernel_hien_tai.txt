@@ -1,0 +1,31 @@
+===== 12_kernel_hien_tai (2026-10-30T16:54:49+08:00)
+$ bash -c journalctl -k -b 0 --no-pager 2>/dev/null | grep -Ei "panic|soft ?lockup|hung_task|rcu|i2c.*time|watchdog|thermal|throttl|oom|ext4.*error" | tail -60 || dmesg 2>&1 | tail -60
+3月 02 20:58:03 jetson-desktop kernel: Preemptible hierarchical RCU implementation.
+3月 02 20:58:03 jetson-desktop kernel:         RCU restricting CPUs from NR_CPUS=64 to nr_cpu_ids=4.
+3月 02 20:58:03 jetson-desktop kernel: RCU: Adjusting geometry for rcu_fanout_leaf=64, nr_cpu_ids=4
+3月 02 20:58:03 jetson-desktop kernel: tegra-pmc 7000e400.pmc: i2c-thermtrip node not found, emergency thermal reset disabled.
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone0: Registering thermal zone thermal_zone0 for type AO-therm
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone1: Registering thermal zone thermal_zone1 for type CPU-therm
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone2: Registering thermal zone thermal_zone2 for type GPU-therm
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone3: Registering thermal zone thermal_zone3 for type PLL-therm
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone4: Registering thermal zone thermal_zone4 for type PMIC-Die
+3月 02 20:58:03 jetson-desktop kernel: THERMAL EST: found 2 subdevs
+3月 02 20:58:03 jetson-desktop kernel: THERMAL EST num_resources: 0
+3月 02 20:58:03 jetson-desktop kernel: [THERMAL EST subdev 0]
+3月 02 20:58:03 jetson-desktop kernel: [THERMAL EST subdev 1]
+3月 02 20:58:03 jetson-desktop kernel: thermal thermal_zone5: Registering thermal zone thermal_zone5 for type thermal-fan-est
+3月 02 20:58:03 jetson-desktop kernel: THERMAL EST: thz register success.
+3月 02 20:58:03 jetson-desktop kernel: THERMAL EST: end of probe, return err: 0
+3月 02 20:58:03 jetson-desktop kernel: tegra_soctherm 700e2000.soctherm: throttrip: will throttle when cpu reaches 100500 mC
+3月 02 20:58:03 jetson-desktop kernel: tegra_soctherm 700e2000.soctherm: throttrip: will throttle when gpu reaches 101000 mC
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: Num cap clks = 6
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=cclk_g type=2
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=gpu type=4
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=cap.throttle.c2bus type=0
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=cap.throttle.c3bus type=0
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=cap.throttle.sclk type=0
+3月 02 20:58:03 jetson-desktop kernel: parse_throttle_dt_data: clk=emc type=3
+3月 02 20:58:03 jetson-desktop kernel: tegra_throttle_probe: probe successful. #cdevs=4
+10月 29 14:58:41 jetson-desktop kernel: cpu-throttle-alert cooling device registered.
+10月 29 14:58:41 jetson-desktop kernel: gpu-throttle-alert cooling device registered.
+[exit=0]

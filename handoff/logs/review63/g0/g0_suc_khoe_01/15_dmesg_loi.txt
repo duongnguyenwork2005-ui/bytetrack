@@ -1,0 +1,10 @@
+===== 15_dmesg_loi (2026-10-30T16:54:03+08:00)
+$ bash -c dmesg -l err,crit,alert,emerg 2>&1 | tail -40
+[    1.118756] tegradc tegradc.1: dpd enable lookup fail:-19
+[    1.624524] Host read timeout at address 545c00c4
+[    1.930218] imx219 7-0010: imx219_board_setup: error during i2c read probe (-121)
+[    1.937856] imx219 7-0010: board setup failed
+[    1.966374] imx219 8-0010: imx219_board_setup: error during i2c read probe (-121)
+[    1.973960] imx219 8-0010: board setup failed
+[    4.237038] cgroup: cgroup2: unknown option "nsdelegate"
+[exit=0]

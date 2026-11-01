@@ -1,0 +1,3 @@
+===== 16_nguon_dien (2026-10-30T16:54:49+08:00)
+$ bash -c for d in /sys/bus/i2c/drivers/ina3221x/*/iio:device*; do [ -d "$d" ] && for f in $d/in_power*_input $d/in_voltage*_input $d/in_current*_input $d/rail_name_*; do [ -r "$f" ] && echo "$(basename $f)=$(cat $f)"; done; done; grep -i "under-voltage\|overcurrent" /var/log/syslog 2>/dev/null | tail -10
+[exit=0]

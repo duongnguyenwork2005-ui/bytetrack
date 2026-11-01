@@ -1,0 +1,26 @@
+===== 11_tien_trinh (2026-10-30T16:54:03+08:00)
+$ bash -c ps -eo pid,etime,pcpu,pmem,cmd --sort=-pcpu | grep -Ei "python|trtexec|tegrastats|nano_" | grep -v grep | head -20; echo "--- top cpu"; ps -eo pid,pcpu,pmem,cmd --sort=-pcpu | head -8
+ 6601       25:36  1.5  3.3 /usr/bin/python3 /usr/bin/update-manager --no-update --no-focus-on-map
+ 5767       26:38  0.1  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 3664       27:17  0.0  0.4 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+ 5055       26:57  0.0  0.4 /usr/bin/python3 /usr/local/bin/jtop --force
+ 5099       26:54  0.0  0.3 /usr/bin/python3 /usr/local/bin/jtop --force
+ 5117       26:54  0.0  0.3 /usr/bin/python3 /usr/local/bin/jtop --force
+ 5652       26:41  0.0  1.0 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5763       26:38  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5764       26:38  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5765       26:38  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5766       26:38  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5768       26:38  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 5769       26:38  0.0  0.5 python3 /usr/share/nvpmodel_indicator/nvpmodel_indicator.py
+ 8295       00:00  0.0  0.0 bash -c cd ~/nano_run/r63_20261030 && sha256sum cong_cu/* && timeout 120 bash cong_cu/kiem_suc_khoe_nano.sh g0_suc_khoe_01 15 2>&1 | tail -40
+--- top cpu
+  PID %CPU %MEM CMD
+ 8257  3.0  0.1 sshd: jetson [priv]
+ 6601  1.5  3.3 /usr/bin/python3 /usr/bin/update-manager --no-update --no-focus-on-map
+ 6379  0.9  0.4 /usr/lib/packagekit/packagekitd
+ 6531  0.7  4.7 /usr/bin/gnome-software --gapplication-service
+ 5595  0.5  3.5 /usr/bin/compiz
+ 4901  0.2  1.7 /usr/lib/xorg/Xorg vt1 -displayfd 3 -auth /run/user/1000/gdm/Xauthority -background none -noreset -keeptty -verbose 3
+    1  0.1  0.2 /sbin/init 2
+[exit=0]

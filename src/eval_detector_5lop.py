@@ -273,9 +273,10 @@ def du_doan_ultralytics(weights: str, anh: list[Path], qt: dict, batch: int = 16
     keep = sorted(m)
     ra = []
     for i in range(0, len(anh), batch):
+        kw = {"rect": qt["rect"]} if "rect" in qt else {}      # R63: chi khi --hinh-dang khac mac dinh
         res = model.predict([str(p) for p in anh[i:i + batch]], imgsz=qt["imgsz"], conf=qt["conf"], iou=qt["iou_nms"],
                             max_det=qt["max_det"], classes=keep, agnostic_nms=qt["agnostic_nms"], half=qt["half"],
-                            device=device, verbose=False)
+                            device=device, verbose=False, **kw)
         for r in res:
             b = r.boxes
             cls_m = b.cls.cpu().numpy().astype(int) if b is not None and len(b) else np.zeros(0, int)
@@ -319,6 +320,10 @@ def main() -> int:
     ap.add_argument("--model", action="append", required=True, metavar="TEN=DUONG_DAN")
     ap.add_argument("--out", required=True)
     ap.add_argument("--conf-van-hanh", type=float, default=QUY_TAC["van_hanh"]["conf"])
+    ap.add_argument("--hinh-dang", default="mac_dinh",
+                    help="R63: 'mac_dinh' (imgsz 640, letterbox ultralytics tu chon: rect khi ca batch cung kich "
+                         "thuoc, vuong khi tron) | 'HxW' vd 640x640, 384x640 -> imgsz=(H,W), rect=False: tensor CO DINH "
+                         "nhu engine tinh tren Nano, khong phu thuoc thanh phan batch")
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--device", default="0")
     ap.add_argument("--gioi-han-anh", type=int, default=0, help="chi N anh dau (0 = tat ca) -- CHI cho smoke")
@@ -337,13 +342,25 @@ def main() -> int:
         anh, gt = anh[:a.gioi_han_anh], gt[:a.gioi_han_anh]
     ds_info = {"data": str(a.data), "split": a.split, "n_anh": len(anh), "gioi_han_anh": a.gioi_han_anh,
                "dataset_da_xac_minh": danh_tinh}
+    quy_tac = json.loads(json.dumps(QUY_TAC))
+    if a.hinh_dang != "mac_dinh":
+        try:
+            h, w = (int(x) for x in a.hinh_dang.lower().split("x"))
+        except ValueError:
+            print(f"[LOI] --hinh-dang {a.hinh_dang!r} khong phai HxW", file=sys.stderr)
+            return 2
+        if h % 32 or w % 32:
+            print(f"[LOI] --hinh-dang {h}x{w} phai chia het cho 32", file=sys.stderr)
+            return 2
+        quy_tac["du_doan"].update({"imgsz": [h, w], "rect": False,
+                                   "hinh_dang": f"R63: tensor co dinh 1x3x{h}x{w} (letterbox auto=False)"})
     out.mkdir(parents=True)
-    kq = {"tao_luc": dt.datetime.now().isoformat(timespec="seconds"), "quy_tac": QUY_TAC, "dataset": ds_info,
+    kq = {"tao_luc": dt.datetime.now().isoformat(timespec="seconds"), "quy_tac": quy_tac, "dataset": ds_info,
           "mo_hinh": {}}
     rows = []
     for spec in a.model:
         ten, _, w = spec.partition("=")
-        dd, mt = du_doan_ultralytics(w, anh, QUY_TAC["du_doan"], a.batch, a.device)
+        dd, mt = du_doan_ultralytics(w, anh, quy_tac["du_doan"], a.batch, a.device)
         luu_du_doan(out / f"du_doan_{ten}.npz", anh, dd)
         r = danh_gia(gt, dd, a.conf_van_hanh)
         kq["mo_hinh"][ten] = {"checkpoint": w, "sha256": sha256_file(Path(w)), "anh_xa_lop": mt, **r}

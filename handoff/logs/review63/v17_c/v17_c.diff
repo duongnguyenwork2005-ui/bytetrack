@@ -1,0 +1,88 @@
+--- src_v16_goc/nano_detector.py	2026-10-31 12:32:27.455200200 +0700
++++ src/nano_detector.py	2026-10-31 12:33:00.914741700 +0700
+@@ -177,6 +177,20 @@
+     return boxes
+ 
+ 
++def imgsz_hieu_luc(imgsz, engine_hw):
++    """R63 v17-C: kich thuoc letterbox thuc dung. Engine vuong imgsz x imgsz -> tra ve `imgsz` (int) de giu nguyen
++    hanh vi va metadata v16 tung byte; engine khac (vd 384x640) -> tra ve (H, W) cua binding."""
++    if tuple(engine_hw) == (imgsz, imgsz):
++        return imgsz
++    return (int(engine_hw[0]), int(engine_hw[1]))
++
++
++def mo_ta_letterbox(lb_hw):
++    """Chuoi `letterbox` ghi vao meta/HELLO; dang v16 cho engine vuong."""
++    h, w = (lb_hw, lb_hw) if isinstance(lb_hw, int) else lb_hw
++    return "auto=False %dx%d (ONNX static)" % (h, w)
++
++
+ # ------------------------------------------------------------------------------------- detector
+ class NanoDetector(object):
+     """Ghep: letterbox -> preprocess -> infer(x) -> decode_nms -> scale_boxes. `infer` la ham (1,3,H,W) float32 ->
+@@ -227,6 +241,10 @@
+         self.out_idx = [i for i, b in enumerate(self.bindings_info) if not b["input"]][0]
+         self.in_shape = self.bindings_info[self.in_idx]["shape"]
+         self.out_shape = self.bindings_info[self.out_idx]["shape"]
++        # R63 v17-C: (H, W) letterbox lay tu binding engine tinh 1x3xHxW (engine chu nhat 384x640...)
++        if len(self.in_shape) != 4 or self.in_shape[0] != 1 or self.in_shape[1] != 3:
++            raise RuntimeError("input engine phai tinh 1x3xHxW, gap %s" % (self.in_shape,))
++        self.hw = (int(self.in_shape[2]), int(self.in_shape[3]))
+         self.in_dtype = np.dtype(self.bindings_info[self.in_idx]["dtype"])
+         self.out_dtype = np.dtype(self.bindings_info[self.out_idx]["dtype"])
+         if bo_dem is None:
+@@ -278,6 +296,8 @@
+             raise RuntimeError("%s: cudaError %d" % (ten, rc))
+ 
+     def __call__(self, x):
++        if tuple(x.shape) != tuple(self.in_shape):    # R63: chan memcpy sai kich thuoc vao buffer GPU
++            raise ValueError("tensor %s khong khop input engine %s" % (tuple(x.shape), tuple(self.in_shape)))
+         x = np.ascontiguousarray(x, dtype=self.in_dtype).reshape(-1)
+         if self.bo_dem == "cudart":
+             ct = self.ctypes
+@@ -470,7 +490,8 @@
+ 
+     t0 = time.perf_counter()
+     eng = TRTEngine(a.engine, bo_dem=a.bo_dem)
+-    det = NanoDetector(eng, a.imgsz, a.conf, a.iou, a.max_det, None, False)
++    lb_hw = imgsz_hieu_luc(a.imgsz, eng.hw)
++    det = NanoDetector(eng, lb_hw, a.conf, a.iou, a.max_det, None, False)
+     # lam nong
+     import cv2
+     img0 = cv2.imread(anh[0])
+@@ -491,11 +512,13 @@
+             "onnx_sha256": a.onnx_sha256, "imgsz": a.imgsz, "conf": a.conf, "iou": a.iou, "classes": None,
+             "max_det": a.max_det, "half": True, "agnostic_nms": False, "augment": False, "batch": 1,
+             "device": "jetson-nano-trt", "mask_ignored_regions": bool(regions), "dataset": "video_file", "part": "images",
+-            "letterbox": "auto=False %dx%d (ONNX static); cache PC .pt dung rect auto=True" % (a.imgsz, a.imgsz),
++            "letterbox": mo_ta_letterbox(lb_hw) + "; cache PC .pt dung rect auto=True",
+             "gt_jitter": 0.0, "gt_dropout": 0.0, "gt_seed": 0, "gt_conf_range": [0.3, 0.95],
+             "versions": ver, "git_commit": None, "created": time.strftime("%Y-%m-%dT%H:%M:%S"),
+             "ghi_chu": "cache do nano_detector.py (Python 3.6, TensorRT) tao; khong co spec_sha256 (legacy) -> "
+                        "open_cache chap nhan; KHONG ky vong bit-identical voi cache PC (FP16 + letterbox 640x640)"}
++    if not isinstance(lb_hw, int):
++        meta["letterbox_hw"] = list(lb_hw)
+     cdir = os.path.join(cache_root, a.cache_id)
+     info = ghi_cache(cdir, video, arr["frame_idx"], arr["time_s"], arr["n_per"], arr["unreadable"], arr["truncated"],
+                      arr["data"], arr["orig_shape"], meta,
+--- src_v16_goc/nano_detect_stream.py	2026-10-31 12:32:27.503726600 +0700
++++ src/nano_detect_stream.py	2026-10-31 12:32:52.900853200 +0700
+@@ -308,12 +308,15 @@
+             if not a.engine or not os.path.isfile(a.engine):
+                 raise ValueError("khong co engine: %s" % a.engine)
+             eng = nd.TRTEngine(a.engine, bo_dem=a.bo_dem)
+-            det = nd.NanoDetector(eng, a.imgsz, a.conf, a.iou, a.max_det, None, False)
++            lb_hw = nd.imgsz_hieu_luc(a.imgsz, eng.hw)       # R63 v17-C: (H,W) tu binding neu engine khong vuong
++            det = nd.NanoDetector(eng, lb_hw, a.conf, a.iou, a.max_det, None, False)
+             e_info = eng.info()
+             ver.update({k: v for k, v in e_info.items() if k != "bindings"})
+             info = {"detector": "tensorrt", "engine": os.path.abspath(a.engine), "engine_sha256": sha256_file(a.engine),
+                     "onnx_sha256": a.onnx_sha256, "bo_dem": a.bo_dem, "bindings": e_info.get("bindings"),
+-                    "letterbox": "auto=False %dx%d (ONNX static)" % (a.imgsz, a.imgsz)}
++                    "letterbox": nd.mo_ta_letterbox(lb_hw)}
++            if not isinstance(lb_hw, int):
++                info["letterbox_hw"] = list(lb_hw)
+         if det is not None and a.lam_nong > 0:
+             img0 = cv2.imread(nguon.paths[0]) if nguon.paths is not None else None
+             if img0 is None:

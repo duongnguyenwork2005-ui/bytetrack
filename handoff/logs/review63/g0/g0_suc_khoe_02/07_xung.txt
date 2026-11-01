@@ -1,0 +1,12 @@
+===== 07_xung (2026-10-30T16:54:49+08:00)
+$ bash -c for c in /sys/devices/system/cpu/cpu[0-9]*; do echo "$(basename $c) online=$(cat $c/online 2>/dev/null || echo 1) cur=$(cat $c/cpufreq/scaling_cur_freq 2>/dev/null) max=$(cat $c/cpufreq/scaling_max_freq 2>/dev/null) gov=$(cat $c/cpufreq/scaling_governor 2>/dev/null)"; done;
+  for f in /sys/devices/gpu.0/devfreq/57000000.gpu /sys/devices/57000000.gpu/devfreq/57000000.gpu; do [ -d "$f" ] && echo "gpu cur=$(cat $f/cur_freq) min=$(cat $f/min_freq) max=$(cat $f/max_freq) gov=$(cat $f/governor)"; done;
+  [ -r /sys/kernel/debug/clk/emc/clk_rate ] && echo "emc=$(cat /sys/kernel/debug/clk/emc/clk_rate)" || echo "emc: khong doc duoc (can debugfs)"
+cpu0 online=1 cur=1224000 max=1479000 gov=schedutil
+cpu1 online=1 cur=1224000 max=1479000 gov=schedutil
+cpu2 online=1 cur=1428000 max=1479000 gov=schedutil
+cpu3 online=1 cur=1224000 max=1479000 gov=schedutil
+gpu cur=76800000 min=76800000 max=921600000 gov=nvhost_podgov
+gpu cur=76800000 min=76800000 max=921600000 gov=nvhost_podgov
+emc: khong doc duoc (can debugfs)
+[exit=0]

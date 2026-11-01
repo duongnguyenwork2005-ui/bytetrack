@@ -1,0 +1,26 @@
+===== 10_dia (2026-10-30T16:54:03+08:00)
+$ bash -c df -h / ~ 2>/dev/null; lsblk -o NAME,SIZE,MOUNTPOINT,UUID 2>/dev/null | head -20
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/mmcblk1p1   58G   29G   26G  53% /
+/dev/mmcblk1p1   58G   29G   26G  53% /
+NAME           SIZE MOUNTPOINT                                          UUID
+loop0           16M                                                     1234-ABCD
+mmcblk0       14.7G                                                     
+├─mmcblk0p1     14G /media/jetson/63067172-616c-4243-bf11-cece24ba15623 63067172-616c-4243-bf11-cece24ba1562
+├─mmcblk0p2      1M                                                     
+├─mmcblk0p3      6M                                                     
+├─mmcblk0p4     80K                                                     
+├─mmcblk0p5     64M                                                     
+├─mmcblk0p6      1M                                                     
+├─mmcblk0p7      6M                                                     
+├─mmcblk0p8     80K                                                     
+├─mmcblk0p9     64M                                                     
+├─mmcblk0p10   192K                                                     
+├─mmcblk0p11   256K                                                     
+├─mmcblk0p12    63M                                                     
+├─mmcblk0p13   512K                                                     
+├─mmcblk0p14   256K                                                     
+├─mmcblk0p15   256K                                                     
+├─mmcblk0p16   300M                                                     
+└─mmcblk0p17 185.4M                                                     
+[exit=0]

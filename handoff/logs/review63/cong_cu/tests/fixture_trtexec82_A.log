@@ -1,0 +1,21 @@
+== FIXTURE TU SOAN theo dinh dang trtexec TensorRT 8.2 (KHONG phai so do that): /usr/src/tensorrt/bin/trtexec --loadEngine=x.engine
+[10/30/2026-10:00:00] [I] === Model Options ===
+[10/30/2026-10:00:01] [I] Engine loaded in 1.2 sec.
+[10/30/2026-10:00:40] [I] === Trace details ===
+[10/30/2026-10:00:40] [I] Trace averages of 50 runs:
+[10/30/2026-10:00:40] [I] Average on 50 runs - GPU latency: 68.9 ms - Host latency: 72.1 ms (end to end 137.5 ms, enqueue 2.1 ms)
+[10/30/2026-10:00:40] [I]
+[10/30/2026-10:00:40] [I] === Performance summary ===
+[10/30/2026-10:00:40] [I] Throughput: 14.5012 qps
+[10/30/2026-10:00:40] [I] Latency: min = 70.1 ms, max = 75.3 ms, mean = 72.2 ms, median = 72.0 ms, percentile(90%) = 73.4 ms
+[10/30/2026-10:00:40] [I] End-to-End Host Latency: min = 130.2 ms, max = 145.0 ms, mean = 137.6 ms, median = 137.4 ms, percentile(90%) = 140.1 ms
+[10/30/2026-10:00:40] [I] Enqueue Time: min = 1.8 ms, max = 3.0 ms, mean = 2.1 ms, median = 2.0 ms, percentile(90%) = 2.4 ms
+[10/30/2026-10:00:40] [I] H2D Latency: min = 2.0 ms, max = 3.1 ms, mean = 2.3 ms, median = 2.2 ms, percentile(90%) = 2.6 ms
+[10/30/2026-10:00:40] [I] GPU Compute Time: min = 67.2 ms, max = 71.9 ms, mean = 68.6 ms, median = 68.5 ms, percentile(90%) = 69.7 ms
+[10/30/2026-10:00:40] [I] D2H Latency: min = 1.1 ms, max = 1.9 ms, mean = 1.3 ms, median = 1.3 ms, percentile(90%) = 1.5 ms
+[10/30/2026-10:00:40] [I] Total Host Walltime: 30.0423 s
+[10/30/2026-10:00:40] [I] Total GPU Compute Time: 29.8 s
+[10/30/2026-10:00:40] [I] Explanations of the performance metrics are printed in the verbose logs.
+[10/30/2026-10:00:40] [I]
+&&&& PASSED TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --loadEngine=x.engine
+[exit=0]

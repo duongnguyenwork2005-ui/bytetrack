@@ -1,0 +1,184 @@
+[    1.118756] tegradc tegradc.1: dpd enable lookup fail:-19
+[    1.624524] Host read timeout at address 545c00c4
+[    1.930218] imx219 7-0010: imx219_board_setup: error during i2c read probe (-121)
+[    1.937856] imx219 7-0010: board setup failed
+[    1.966374] imx219 8-0010: imx219_board_setup: error during i2c read probe (-121)
+[    1.973960] imx219 8-0010: board setup failed
+[    4.237038] cgroup: cgroup2: unknown option "nsdelegate"
+[    6.059820] random: systemd: uninitialized urandom read (16 bytes read)
+[    6.079608] random: systemd: uninitialized urandom read (16 bytes read)
+[    6.079781] random: systemd-journal: uninitialized urandom read (16 bytes read)
+[    7.065924] random: systemd: uninitialized urandom read (16 bytes read)
+[    7.072989] random: systemd-journal: uninitialized urandom read (16 bytes read)
+[    7.073542] random: systemd-journal: uninitialized urandom read (16 bytes read)
+[    8.006930] random: crng init done
+[    8.010345] random: 121 urandom warning(s) missed due to ratelimiting
+[   13.121600] using random self ethernet address
+[   13.126076] using random host ethernet address
+[   16.901216] using random self ethernet address
+[   16.905780] using random host ethernet address
+[   26.108668] ------------[ cut here ]------------
+[   26.113359] WARNING: CPU: 1 PID: 4125 at /dvs/git/dirty/git-master_linux/kernel/kernel-4.9/net/wireless/nl80211.c:14154 cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+[   26.128967] ---[ end trace e7d0155313b3bdec ]---
+[   29.342247] Bridge firewalling registered
+[   34.254176] tegra-i2c 7000c000.i2c: no acknowledge from address 0x50
+[   34.261113] tegra-i2c 7000c400.i2c: no acknowledge from address 0x50
+[   35.242951] tegra-i2c 7000c000.i2c: no acknowledge from address 0x50
+[   35.249731] tegra-i2c 7000c400.i2c: no acknowledge from address 0x50
+[  361.787734] ------------[ cut here ]------------
+[  361.792419] WARNING: CPU: 1 PID: 7001 at /dvs/git/dirty/git-master_linux/kernel/kernel-4.9/net/wireless/nl80211.c:14154 cfg80211_ch_switch_notify+0x14c/0x170 [cfg80211]
+[  361.807975] ---[ end trace e7d0155313b3bded ]---
+[  403.668698] tegra-i2c 7000c000.i2c: no acknowledge from address 0x50
+[  403.675484] tegra-i2c 7000c400.i2c: no acknowledge from address 0x50
+[ 2645.904094] mmc1: Data CRC error
+[ 2645.907321] sdhci: =========== REGISTER DUMP (mmc1)===========
+[ 2645.913142] sdhci: Sys addr: 0x00000400 | Version:  0x00000303
+[ 2645.918961] sdhci: Blk size: 0x00007200 | Blk cnt:  0x00000249
+[ 2645.924781] sdhci: Argument: 0x00dc1800 | Trn mode: 0x0000003b
+[ 2645.930599] sdhci: Present:  0x01fb0008 | Host ctl: 0x00000017
+[ 2645.936418] sdhci: Power:    0x00000001 | Blk gap:  0x00000000
+[ 2645.942237] sdhci: Wake-up:  0x00000000 | Clock:    0x00000007
+[ 2645.948056] sdhci: Timeout:  0x0000000e | Int stat: 0x00001000
+[ 2645.953875] sdhci: Int enab: 0x02ff100b | Sig enab: 0x02fc100b
+[ 2645.959693] sdhci: AC12 err: 0x00000000 | Slot int: 0x00000000
+[ 2645.965511] sdhci: Caps:     0x376cd08c | Caps_1:   0x10006f73
+[ 2645.971330] sdhci: Cmd:      0x0000123a | Max curr: 0x00000000
+[ 2645.977147] sdhci: Host ctl2: 0x0000308b
+[ 2645.981059] sdhci: ADMA Err: 0x00000000 | ADMA Ptr: 0x00000000ffefe440
+[ 2645.987591] sdhci: ===========================================
+[ 2656.581908] tegra-xusb 70090000.xusb: xHCI host not responding to stop endpoint command.
+[ 2656.589990] tegra-xusb 70090000.xusb: Assuming host is dying, halting host.
+[ 2656.597173] tegra-xusb 70090000.xusb: HC died; cleaning up
+[ 2667.001644] INFO: rcu_preempt detected stalls on CPUs/tasks:
+[ 2667.007310] 	0-...: (1 GPs behind) idle=1c3/2/0 softirq=67719/67725 fqs=2399 
+[ 2667.014428] 	(detected by 2, t=5252 jiffies, g=23956, c=23955, q=625)
+[ 2670.741661] nvgpu: 57000000.gpu     gk20a_channel_timeout_handler:1573 [ERR]  Job on channel 505 timed out
+[ 2670.751729] nvgpu: 57000000.gpu   nvgpu_set_error_notifier_locked:137  [ERR]  error notifier set to 8 for ch 505
+[ 2670.763111] nvgpu: 57000000.gpu     gk20a_channel_timeout_handler:1573 [ERR]  Job on channel 507 timed out
+[ 2670.773230] nvgpu: 57000000.gpu   nvgpu_set_error_notifier_locked:137  [ERR]  error notifier set to 8 for ch 507
+[ 2670.784882] nvgpu: 57000000.gpu gk20a_fifo_handle_mmu_fault_locked:1723 [ERR]  fake mmu fault on engine 0, engine subid 0 (gpc), client 11 (pe 3), addr 0x52ad8a8000, type 13 (region viol), access_type 0x00000001,inst_ptr 0x6301e5000
+[ 2670.805545] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:206  [ERR]  gr_fecs_os_r : 0
+[ 2670.814165] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:208  [ERR]  gr_fecs_cpuctl_r : 0x40
+[ 2670.823385] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:210  [ERR]  gr_fecs_idlestate_r : 0x1
+[ 2670.832777] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:212  [ERR]  gr_fecs_mailbox0_r : 0x4
+[ 2670.842082] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:214  [ERR]  gr_fecs_mailbox1_r : 0x0
+[ 2670.851386] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:216  [ERR]  gr_fecs_irqstat_r : 0x0
+[ 2670.860604] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:218  [ERR]  gr_fecs_irqmode_r : 0x4
+[ 2670.869823] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:220  [ERR]  gr_fecs_irqmask_r : 0x8704
+[ 2670.879300] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:222  [ERR]  gr_fecs_irqdest_r : 0x0
+[ 2670.888518] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:224  [ERR]  gr_fecs_debug1_r : 0x40
+[ 2670.897734] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:226  [ERR]  gr_fecs_debuginfo_r : 0x0
+[ 2670.907124] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:228  [ERR]  gr_fecs_ctxsw_status_1_r : 0x340
+[ 2670.917120] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(0) : 0x0
+[ 2670.927116] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(1) : 0x1
+[ 2670.937125] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(2) : 0x50009
+[ 2670.947472] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(3) : 0x20
+[ 2670.957558] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(4) : 0x1ffda0
+[ 2670.967990] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(5) : 0x0
+[ 2670.977986] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(6) : 0x0
+[ 2670.987982] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(7) : 0x0
+[ 2670.997996] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(8) : 0x0
+[ 2671.007992] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(9) : 0x0
+[ 2671.017989] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(10) : 0x0
+[ 2671.028075] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(11) : 0x2
+[ 2671.038158] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(12) : 0x0
+[ 2671.048241] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(13) : 0x0
+[ 2671.058327] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(14) : 0x0
+[ 2671.068411] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:232  [ERR]  gr_fecs_ctxsw_mailbox_r(15) : 0x0
+[ 2671.078492] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:236  [ERR]  gr_fecs_engctl_r : 0x0
+[ 2671.087622] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:238  [ERR]  gr_fecs_curctx_r : 0x0
+[ 2671.096752] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:240  [ERR]  gr_fecs_nxtctx_r : 0x0
+[ 2671.105884] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:246  [ERR]  FECS_FALCON_REG_IMB : 0xbadfbadf
+[ 2671.115885] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:252  [ERR]  FECS_FALCON_REG_DMB : 0xbadfbadf
+[ 2671.125882] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:258  [ERR]  FECS_FALCON_REG_CSW : 0xbadfbadf
+[ 2671.135881] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:264  [ERR]  FECS_FALCON_REG_CTX : 0xbadfbadf
+[ 2671.145879] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:270  [ERR]  FECS_FALCON_REG_EXCI : 0xbadfbadf
+[ 2671.155963] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:277  [ERR]  FECS_FALCON_REG_PC : 0xbadfbadf
+[ 2671.165872] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:283  [ERR]  FECS_FALCON_REG_SP : 0xbadfbadf
+[ 2671.176864] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:277  [ERR]  FECS_FALCON_REG_PC : 0xbadfbadf
+[ 2671.186788] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:283  [ERR]  FECS_FALCON_REG_SP : 0xbadfbadf
+[ 2671.196702] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:277  [ERR]  FECS_FALCON_REG_PC : 0xbadfbadf
+[ 2671.206613] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:283  [ERR]  FECS_FALCON_REG_SP : 0xbadfbadf
+[ 2671.216526] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:277  [ERR]  FECS_FALCON_REG_PC : 0xbadfbadf
+[ 2671.226438] nvgpu: 57000000.gpu      gk20a_fecs_dump_falcon_stats:283  [ERR]  FECS_FALCON_REG_SP : 0xbadfbadf
+[ 2671.236350] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:129  [ERR]  gr_gpc0_gpccs_falcon_irqstat : 0
+[ 2671.246348] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:131  [ERR]  gr_gpc0_gpccs_falcon_irqmode : 4
+[ 2671.256363] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:133  [ERR]  gr_gpc0_gpccs_falcon_irqmask : 20484
+[ 2671.266710] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:135  [ERR]  gr_gpc0_gpccs_falcon_irqdest : 0
+[ 2671.276706] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:137  [ERR]  gr_gpc0_gpccs_falcon_debug1 : 64
+[ 2671.286704] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:139  [ERR]  gr_gpc0_gpccs_falcon_debuginfo : 0
+[ 2671.296874] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:141  [ERR]  gr_gpc0_gpccs_falcon_engctl : 0
+[ 2671.306784] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:143  [ERR]  gr_gpc0_gpccs_falcon_curctx : 0
+[ 2671.316696] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:145  [ERR]  gr_gpc0_gpccs_falcon_nxtctx : 0
+[ 2671.326606] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:147  [ERR]  gr_gpc0_gpccs_ctxsw_status_1 : 770
+[ 2671.336777] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(0) : 0x4
+[ 2671.347292] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(1) : 0x0
+[ 2671.357810] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(2) : 0x1
+[ 2671.368329] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(3) : 0x0
+[ 2671.378845] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(4) : 0x1ffda6
+[ 2671.389795] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(5) : 0x0
+[ 2671.400314] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(6) : 0x0
+[ 2671.410831] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(7) : 0x0
+[ 2671.421348] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(8) : 0x0
+[ 2671.431865] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(9) : 0x0
+[ 2671.442384] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(10) : 0x0
+[ 2671.452988] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(11) : 0x0
+[ 2671.463592] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(12) : 0x0
+[ 2671.474196] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(13) : 0x0
+[ 2671.484800] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(14) : 0x0
+[ 2671.495405] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:151  [ERR]  gr_gpc0_gpccs_ctxsw_mailbox_r(15) : 0x0
+[ 2671.506008] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:159  [ERR]  GPC0_GPCCS_FALCON_REG_IMB : 0x1fff57
+[ 2671.516367] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:165  [ERR]  GPC0_GPCCS_FALCON_REG_DMB : 0x0
+[ 2671.526279] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:171  [ERR]  GPC0_GPCCS_FALCON_REG_CSW : 0x110804
+[ 2671.536622] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:177  [ERR]  GPC0_GPCCS_FALCON_REG_CTX : 0x0
+[ 2671.546531] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:183  [ERR]  GPC0_GPCCS_FALCON_REG_EXCI : 0x0
+[ 2671.556527] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:191  [ERR]  GPC0_GPCCS_FALCON_REG_PC : 0x25f2
+[ 2671.566612] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:197  [ERR]  GPC0_GPCCS_FALCON_REG_SP : 0xbe8
+[ 2671.576610] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:191  [ERR]  GPC0_GPCCS_FALCON_REG_PC : 0x25f2
+[ 2671.586696] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:197  [ERR]  GPC0_GPCCS_FALCON_REG_SP : 0xbe8
+[ 2671.596694] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:191  [ERR]  GPC0_GPCCS_FALCON_REG_PC : 0x25f2
+[ 2671.606777] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:197  [ERR]  GPC0_GPCCS_FALCON_REG_SP : 0xbe8
+[ 2671.616774] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:191  [ERR]  GPC0_GPCCS_FALCON_REG_PC : 0x25f2
+[ 2671.626859] nvgpu: 57000000.gpu     gk20a_gpccs_dump_falcon_stats:197  [ERR]  GPC0_GPCCS_FALCON_REG_SP : 0xbe8
+[ 2671.636856] nvgpu: 57000000.gpu gk20a_fifo_handle_mmu_fault_locked:1729 [ERR]  gr_status_r : 0x2000a1
+[ 2675.781470] tegra-i2c 7000d000.i2c: pio timed out addr: 0x3c tlen:28 rlen:4
+[ 2675.788452] tegra-i2c 7000d000.i2c: --- register dump for debugging ----
+[ 2675.795166] tegra-i2c 7000d000.i2c: I2C_CNFG - 0x2c00
+[ 2675.800228] tegra-i2c 7000d000.i2c: I2C_PACKET_TRANSFER_STATUS - 0x1010001
+[ 2675.807151] tegra-i2c 7000d000.i2c: I2C_FIFO_CONTROL - 0xe0
+[ 2675.812739] tegra-i2c 7000d000.i2c: I2C_FIFO_STATUS - 0x800081
+[ 2675.818577] tegra-i2c 7000d000.i2c: I2C_INT_MASK - 0x7d
+[ 2675.823810] tegra-i2c 7000d000.i2c: I2C_INT_STATUS - 0xc3
+[ 2675.829217] tegra-i2c 7000d000.i2c: i2c transfer timed out addr: 0x3c
+[ 2675.835719] max77620-gpio max77620-gpio: CNFG_GPIOx read failed: -110
+[ 2676.281382] Kernel panic - not syncing: Watchdog detected hard LOCKUP on cpu 0
+[ 2676.288598] CPU: 3 PID: 0 Comm: swapper/3 Tainted: G        W       4.9.337-tegra #1
+[ 2676.296324] Hardware name: NVIDIA Jetson Nano Developer Kit (DT)
+[ 2676.302318] Call trace:
+[ 2676.304766] [<00000000af13d00f>] dump_backtrace+0x0/0x198
+[ 2676.310156] [<0000000048cf6c7f>] show_stack+0x24/0x30
+[ 2676.315201] [<0000000076203963>] dump_stack+0xa0/0xc4
+[ 2676.320244] [<00000000dbccd18d>] panic+0x128/0x2a4
+[ 2676.325027] [<00000000768e58ec>] watchdog_check_hardlockup_other_cpu+0x11c/0x120
+[ 2676.332408] [<0000000008b5b79e>] watchdog_timer_fn+0x98/0x2c0
+[ 2676.338144] [<00000000106a65c0>] __hrtimer_run_queues+0xd8/0x360
+[ 2676.344139] [<0000000014b5a09b>] hrtimer_interrupt+0xa8/0x1e0
+[ 2676.349875] [<00000000e4bb34af>] tegra210_timer_isr+0x38/0x48
+[ 2676.355611] [<0000000008cfe1c0>] __handle_irq_event_percpu+0x68/0x288
+[ 2676.362038] [<000000002cab82f7>] handle_irq_event_percpu+0x28/0x60
+[ 2676.368206] [<0000000036e384fc>] handle_irq_event+0x50/0x80
+[ 2676.373768] [<00000000c4a132bf>] handle_fasteoi_irq+0xd4/0x1c0
+[ 2676.379587] [<00000000cad641ea>] generic_handle_irq+0x34/0x50
+[ 2676.385321] [<00000000035ce2cf>] __handle_domain_irq+0x68/0xc0
+[ 2676.391141] [<0000000088be118b>] gic_handle_irq+0x5c/0xb0
+[ 2676.396529] [<00000000993db49b>] el1_irq+0xe8/0x194
+[ 2676.401396] [<00000000cc49e7d2>] cpuidle_enter_state+0xb8/0x380
+[ 2676.407304] [<00000000c0c6ee10>] cpuidle_enter+0x34/0x48
+[ 2676.412605] [<00000000105a6cde>] call_cpuidle+0x44/0x70
+[ 2676.417819] [<00000000f392eaa0>] cpu_startup_entry+0x1b0/0x200
+[ 2676.423639] [<000000006d17e409>] secondary_start_kernel+0x190/0x1f8
+[ 2676.429894] [<000000005883403a>] 0x84f8c1a8
+[ 2676.434068] SMP: stopping secondary CPUs
+[ 2676.438040] Kernel Offset: disabled
+[ 2676.441519] Memory Limit: none
+[ 2676.455491] Rebooting in 5 seconds..

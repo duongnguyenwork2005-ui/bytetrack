@@ -120,6 +120,9 @@ class DetectorSpec:
     half: bool = False
     agnostic_nms: bool = False
     augment: bool = False
+    #: R63: letterbox chu nhat toi thieu (ultralytics predict rect, mac dinh; video 960x540 -> 384x640). False =
+    #: letterbox VUONG imgsz x imgsz (tai hien Nano v16). Chi vao gen_spec/hash khi False -> hash cache cu giu nguyen.
+    rect: bool = True
     batch: int = 1
     device: str = "0"
     mask_ignored_regions: bool = True
@@ -176,6 +179,8 @@ class DetectorSpec:
     def gen_spec(self) -> dict:
         """Cau hinh sinh du lieu da CHUAN HOA (dung cho ca hash lan so sanh khi ghi)."""
         d = {k: getattr(self, k) for k in DetectorSpec.GEN_FIELDS}
+        if self.rect is False:
+            d["rect"] = False
         if isinstance(d.get("classes"), (list, tuple)):
             d["classes"] = sorted(int(c) for c in d["classes"])
         if isinstance(d.get("gt_conf_range"), (list, tuple)):
@@ -193,6 +198,8 @@ class DetectorSpec:
 def meta_gen_spec(meta: dict) -> dict:
     """Chuan hoa cau hinh sinh du lieu doc tu meta.json (de so voi DetectorSpec.gen_spec())."""
     d = {k: meta.get(k) for k in DetectorSpec.GEN_FIELDS}
+    if meta.get("rect", True) is False:
+        d["rect"] = False
     if isinstance(d.get("classes"), (list, tuple)):
         d["classes"] = sorted(int(c) for c in d["classes"])
     if isinstance(d.get("gt_conf_range"), (list, tuple)):
@@ -251,6 +258,8 @@ def detect_frame(model, img: np.ndarray, spec: DetectorSpec) -> np.ndarray:
     giua live va cache thi nguyen nhan chi con o dau vao (anh), khong o cach goi detector.
     """
     kw = {"half": True} if spec.half else {}      # chi truyen khi bat (8.4: 'half' -> canh bao deprecated)
+    if spec.rect is False:                        # R63: letterbox vuong; mac dinh giu loi goi cu tung tham so
+        kw["rect"] = False
     r = model.predict(img, conf=spec.conf, iou=spec.iou, imgsz=spec.imgsz, classes=spec.classes,
                       max_det=spec.max_det, agnostic_nms=spec.agnostic_nms,
                       augment=spec.augment, device=spec.device, verbose=False, **kw)[0]
@@ -553,6 +562,8 @@ def main() -> int:
     ap.add_argument("--half", action="store_true")
     ap.add_argument("--device", default="0")
     ap.add_argument("--no-mask", action="store_true", help="khong to xam vung bo qua (KHONG dung cho baseline)")
+    ap.add_argument("--no-rect", action="store_true",
+                    help="R63: letterbox VUONG imgsz x imgsz (tai hien Nano v16); mac dinh rect nhu moi cache cu")
     ap.add_argument("--gt-jitter", type=float, default=0.03)
     ap.add_argument("--gt-dropout", type=float, default=0.15)
     ap.add_argument("--gt-seed", type=int, default=0)
@@ -578,6 +589,7 @@ def main() -> int:
     spec = DetectorSpec(backend="ultralytics" if args.source == "yolo" else "gt-synthetic",
                         weights=str(args.model), imgsz=args.imgsz, conf=args.conf, iou=args.iou,
                         classes=args.classes, max_det=args.max_det, half=args.half, device=args.device,
+                        rect=not args.no_rect,
                         mask_ignored_regions=not args.no_mask, dataset=ds.name, part=args.part,
                         gt_jitter=args.gt_jitter if args.source == "gt" else 0.0,
                         gt_dropout=args.gt_dropout if args.source == "gt" else 0.0,
@@ -597,7 +609,7 @@ def main() -> int:
     cache_dir = CACHE_ROOT / args.cache_id
     write_meta(cache_dir, spec)
     print(f"[det_cache] {args.cache_id}: backend={spec.backend} conf={spec.conf} iou={spec.iou} "
-          f"imgsz={spec.imgsz} classes={spec.classes} max_det={spec.max_det} -> {cache_dir}")
+          f"imgsz={spec.imgsz} rect={spec.rect} classes={spec.classes} max_det={spec.max_det} -> {cache_dir}")
 
     if args.source == "yolo":
         gt_all = None

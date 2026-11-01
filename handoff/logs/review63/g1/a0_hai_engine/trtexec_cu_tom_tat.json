@@ -1,0 +1,573 @@
+[
+  {
+    "log": "trtexec.log",
+    "lenh": "A_mac_dinh: /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/nano_run/engine/yolov8n_fp16.engine --warmUp=3000 --duration=30 --iterations=300 --avgRuns=50 --percentile=90",
+    "thong_ke_ms": {
+      "Latency": {
+        "min": 69.043,
+        "max": 78.3828,
+        "mean": 69.412,
+        "median": 69.2246,
+        "p90": 70.042
+      },
+      "End-to-End Host Latency": {
+        "min": 69.0547,
+        "max": 78.3936,
+        "mean": 69.4274,
+        "median": 69.2393,
+        "p90": 70.0557
+      },
+      "Enqueue Time": {
+        "min": 8.39648,
+        "max": 11.1328,
+        "mean": 9.14847,
+        "median": 9.09766,
+        "p90": 9.54102
+      },
+      "H2D Latency": {
+        "min": 0.470703,
+        "max": 0.578369,
+        "mean": 0.484793,
+        "median": 0.483521,
+        "p90": 0.488281
+      },
+      "GPU Compute Time": {
+        "min": 68.2812,
+        "max": 77.5205,
+        "mean": 68.6425,
+        "median": 68.458,
+        "p90": 69.2754
+      },
+      "D2H Latency": {
+        "min": 0.273438,
+        "max": 0.310547,
+        "mean": 0.284697,
+        "median": 0.283203,
+        "p90": 0.288086
+      }
+    },
+    "don": {
+      "Throughput": {
+        "gia_tri": 14.4034,
+        "don_vi": "qps"
+      },
+      "Total Host Walltime": {
+        "gia_tri": 29.2986,
+        "don_vi": "s"
+      },
+      "Total GPU Compute Time": {
+        "gia_tri": 28.9671,
+        "don_vi": "s"
+      }
+    },
+    "lop_top": [],
+    "exit": 0,
+    "loi": [],
+    "so_lop_profile": 0,
+    "export_times": {
+      "n": 423,
+      "computeMs": {
+        "median": 68.459,
+        "p90": 69.27932,
+        "mean": 77.54082836879437
+      },
+      "d2hMs": {
+        "median": 0.283203,
+        "p90": 0.288086,
+        "mean": 0.2848249172576834
+      },
+      "endToEndMs": {
+        "median": 69.2402,
+        "p90": 70.05954,
+        "mean": 78.34170591016546
+      },
+      "h2dMs": {
+        "median": 0.483643,
+        "p90": 0.488281,
+        "mean": 0.49962965248227054
+      },
+      "latencyMs": {
+        "median": 69.2246,
+        "p90": 70.04672,
+        "mean": 78.32528392434988
+      }
+    },
+    "hop_le": true,
+    "ly_do_khong_hop_le": []
+  },
+  {
+    "log": "trtexec.log",
+    "lenh": "B_khong_truyen: /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/nano_run/engine/yolov8n_fp16.engine --warmUp=3000 --duration=30 --iterations=300 --avgRuns=50 --percentile=90 --noDataTransfers",
+    "thong_ke_ms": {
+      "Latency": {
+        "min": 68.3086,
+        "max": 68.627,
+        "mean": 68.4509,
+        "median": 68.4478,
+        "p90": 68.521
+      },
+      "End-to-End Host Latency": {
+        "min": 68.3086,
+        "max": 68.627,
+        "mean": 68.4509,
+        "median": 68.4478,
+        "p90": 68.521
+      },
+      "Enqueue Time": {
+        "min": 8.23438,
+        "max": 12.561,
+        "mean": 9.12756,
+        "median": 9.06934,
+        "p90": 9.40039
+      },
+      "H2D Latency": {
+        "min": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "p90": 0.0
+      },
+      "GPU Compute Time": {
+        "min": 68.3086,
+        "max": 68.627,
+        "mean": 68.4509,
+        "median": 68.4478,
+        "p90": 68.521
+      },
+      "D2H Latency": {
+        "min": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "p90": 0.0
+      }
+    },
+    "don": {
+      "Throughput": {
+        "gia_tri": 14.6088,
+        "don_vi": "qps"
+      },
+      "Total Host Walltime": {
+        "gia_tri": 30.1189,
+        "don_vi": "s"
+      },
+      "Total GPU Compute Time": {
+        "gia_tri": 30.1184,
+        "don_vi": "s"
+      }
+    },
+    "lop_top": [],
+    "exit": 0,
+    "loi": [],
+    "so_lop_profile": 0,
+    "export_times": {
+      "n": 461,
+      "computeMs": {
+        "median": 68.4512,
+        "p90": 68.5234,
+        "mean": 71.9526249457701
+      },
+      "d2hMs": {
+        "median": 0.0,
+        "p90": 0.0,
+        "mean": 0.0
+      },
+      "endToEndMs": {
+        "median": 68.4512,
+        "p90": 68.5234,
+        "mean": 71.9526249457701
+      },
+      "h2dMs": {
+        "median": 0.0,
+        "p90": 0.0,
+        "mean": 0.0
+      },
+      "latencyMs": {
+        "median": 68.4512,
+        "p90": 68.5234,
+        "mean": 71.9526249457701
+      }
+    },
+    "hop_le": true,
+    "ly_do_khong_hop_le": []
+  },
+  {
+    "log": "trtexec.log",
+    "lenh": "C_spin_wait: /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/nano_run/engine/yolov8n_fp16.engine --warmUp=3000 --duration=30 --iterations=300 --avgRuns=50 --percentile=90 --useSpinWait",
+    "thong_ke_ms": {
+      "Latency": {
+        "min": 68.4614,
+        "max": 68.7734,
+        "mean": 68.6144,
+        "median": 68.6147,
+        "p90": 68.6621
+      },
+      "End-to-End Host Latency": {
+        "min": 68.4673,
+        "max": 68.7773,
+        "mean": 68.62,
+        "median": 68.6211,
+        "p90": 68.667
+      },
+      "Enqueue Time": {
+        "min": 7.96875,
+        "max": 8.82324,
+        "mean": 8.35768,
+        "median": 8.34961,
+        "p90": 8.50293
+      },
+      "H2D Latency": {
+        "min": 0.492188,
+        "max": 0.520508,
+        "mean": 0.506042,
+        "median": 0.505859,
+        "p90": 0.509766
+      },
+      "GPU Compute Time": {
+        "min": 67.6704,
+        "max": 67.9727,
+        "mean": 67.822,
+        "median": 67.8223,
+        "p90": 67.8691
+      },
+      "D2H Latency": {
+        "min": 0.277344,
+        "max": 0.296875,
+        "mean": 0.286227,
+        "median": 0.285645,
+        "p90": 0.289062
+      }
+    },
+    "don": {
+      "Throughput": {
+        "gia_tri": 14.5729,
+        "don_vi": "qps"
+      },
+      "Total Host Walltime": {
+        "gia_tri": 30.1931,
+        "don_vi": "s"
+      },
+      "Total GPU Compute Time": {
+        "gia_tri": 29.8417,
+        "don_vi": "s"
+      }
+    },
+    "lop_top": [],
+    "exit": 0,
+    "loi": [],
+    "so_lop_profile": 0,
+    "export_times": {
+      "n": 460,
+      "computeMs": {
+        "median": 67.82215,
+        "p90": 67.8691,
+        "mean": 71.35767608695654
+      },
+      "d2hMs": {
+        "median": 0.285706,
+        "p90": 0.289062,
+        "mean": 0.2862637456521743
+      },
+      "endToEndMs": {
+        "median": 68.6191,
+        "p90": 68.66805000000001,
+        "mean": 72.16463934782607
+      },
+      "h2dMs": {
+        "median": 0.505859,
+        "p90": 0.509766,
+        "mean": 0.5149482173913037
+      },
+      "latencyMs": {
+        "median": 68.6133,
+        "p90": 68.66215,
+        "mean": 72.1588995652174
+      }
+    },
+    "hop_le": true,
+    "ly_do_khong_hop_le": []
+  },
+  {
+    "log": "trtexec.log",
+    "lenh": "D_cuda_graph_khong_truyen: /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/nano_run/engine/yolov8n_fp16.engine --warmUp=3000 --duration=30 --iterations=300 --avgRuns=50 --percentile=90 --useCudaGraph --noDataTransfers",
+    "thong_ke_ms": {
+      "Latency": {
+        "min": 68.0508,
+        "max": 69.2041,
+        "mean": 68.3263,
+        "median": 68.2783,
+        "p90": 68.5566
+      },
+      "End-to-End Host Latency": {
+        "min": 68.0508,
+        "max": 69.2041,
+        "mean": 68.3263,
+        "median": 68.2783,
+        "p90": 68.5566
+      },
+      "Enqueue Time": {
+        "min": 0.949219,
+        "max": 1.47266,
+        "mean": 1.1055,
+        "median": 1.09424,
+        "p90": 1.21289
+      },
+      "H2D Latency": {
+        "min": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "p90": 0.0
+      },
+      "GPU Compute Time": {
+        "min": 68.0508,
+        "max": 69.2041,
+        "mean": 68.3263,
+        "median": 68.2783,
+        "p90": 68.5566
+      },
+      "D2H Latency": {
+        "min": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "p90": 0.0
+      }
+    },
+    "don": {
+      "Throughput": {
+        "gia_tri": 14.6353,
+        "don_vi": "qps"
+      },
+      "Total Host Walltime": {
+        "gia_tri": 30.1327,
+        "don_vi": "s"
+      },
+      "Total GPU Compute Time": {
+        "gia_tri": 30.1319,
+        "don_vi": "s"
+      }
+    },
+    "lop_top": [],
+    "exit": 0,
+    "loi": [],
+    "so_lop_profile": 0,
+    "export_times": {
+      "n": 460,
+      "computeMs": {
+        "median": 68.2788,
+        "p90": 68.56184,
+        "mean": 68.39348804347829
+      },
+      "d2hMs": {
+        "median": 0.0,
+        "p90": 0.0,
+        "mean": 0.0
+      },
+      "endToEndMs": {
+        "median": 68.2788,
+        "p90": 68.56184,
+        "mean": 68.39348804347829
+      },
+      "h2dMs": {
+        "median": 0.0,
+        "p90": 0.0,
+        "mean": 0.0
+      },
+      "latencyMs": {
+        "median": 68.2788,
+        "p90": 68.56184,
+        "mean": 68.39348804347829
+      }
+    },
+    "hop_le": true,
+    "ly_do_khong_hop_le": []
+  },
+  {
+    "log": "trtexec.log",
+    "lenh": "E_profile_lop: /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/nano_run/engine/yolov8n_fp16.engine --warmUp=3000 --duration=30 --iterations=300 --avgRuns=50 --percentile=90 --noDataTransfers --dumpProfile --separateProfileRun",
+    "thong_ke_ms": {
+      "Latency": {
+        "min": 68.2793,
+        "max": 68.5918,
+        "mean": 68.4194,
+        "median": 68.4131,
+        "p90": 68.502
+      },
+      "End-to-End Host Latency": {
+        "min": 68.2793,
+        "max": 68.5918,
+        "mean": 68.4194,
+        "median": 68.4131,
+        "p90": 68.502
+      },
+      "Enqueue Time": {
+        "min": 8.01172,
+        "max": 10.9492,
+        "mean": 8.84915,
+        "median": 8.8457,
+        "p90": 9.12305
+      },
+      "H2D Latency": {
+        "min": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "p90": 0.0
+      },
+      "GPU Compute Time": {
+        "min": 68.2793,
+        "max": 68.5918,
+        "mean": 68.4194,
+        "median": 68.4131,
+        "p90": 68.502
+      },
+      "D2H Latency": {
+        "min": 0.0,
+        "max": 0.0,
+        "mean": 0.0,
+        "median": 0.0,
+        "p90": 0.0
+      }
+    },
+    "don": {
+      "Throughput": {
+        "gia_tri": 14.6155,
+        "don_vi": "qps"
+      },
+      "Total Host Walltime": {
+        "gia_tri": 30.1734,
+        "don_vi": "s"
+      },
+      "Total GPU Compute Time": {
+        "gia_tri": 30.1729,
+        "don_vi": "s"
+      }
+    },
+    "lop_top": [
+      {
+        "lop": "/model.0/conv/Conv",
+        "tong_ms": 1315.49,
+        "tb_ms": 2.7349,
+        "phan_tram": 4.0
+      },
+      {
+        "lop": "/model.22/cv2.0/cv2.0.0/conv/Conv || /model.22/cv3.0/cv3.0.0/conv/Conv",
+        "tong_ms": 1182.28,
+        "tb_ms": 2.458,
+        "phan_tram": 3.6
+      },
+      {
+        "lop": "PWN(/model.0/act/Sigmoid)",
+        "tong_ms": 997.21,
+        "tb_ms": 2.0732,
+        "phan_tram": 3.0
+      },
+      {
+        "lop": "/model.22/dfl/Softmax",
+        "tong_ms": 980.08,
+        "tb_ms": 2.0376,
+        "phan_tram": 3.0
+      },
+      {
+        "lop": "(Unnamed Layer* 229) [Shuffle] + /model.22/dfl/Transpose_1",
+        "tong_ms": 904.72,
+        "tb_ms": 1.8809,
+        "phan_tram": 2.7
+      },
+      {
+        "lop": "/model.22/cv3.0/cv3.0.1/conv/Conv",
+        "tong_ms": 840.98,
+        "tb_ms": 1.7484,
+        "phan_tram": 2.5
+      },
+      {
+        "lop": "Reformatting CopyNode for Output Tensor 0 to /model.0/conv/Conv",
+        "tong_ms": 635.9,
+        "tb_ms": 1.322,
+        "phan_tram": 1.9
+      },
+      {
+        "lop": "/model.22/cv2.1/cv2.1.0/conv/Conv || /model.22/cv3.1/cv3.1.0/conv/Conv",
+        "tong_ms": 609.48,
+        "tb_ms": 1.2671,
+        "phan_tram": 1.8
+      },
+      {
+        "lop": "PWN(/model.2/cv2/act/Sigmoid)",
+        "tong_ms": 502.14,
+        "tb_ms": 1.0439,
+        "phan_tram": 1.5
+      },
+      {
+        "lop": "PWN(/model.2/cv1/act/Sigmoid)",
+        "tong_ms": 501.07,
+        "tb_ms": 1.0417,
+        "phan_tram": 1.5
+      },
+      {
+        "lop": "PWN(/model.1/act/Sigmoid)",
+        "tong_ms": 500.47,
+        "tb_ms": 1.0405,
+        "phan_tram": 1.5
+      },
+      {
+        "lop": "/model.1/conv/Conv",
+        "tong_ms": 471.4,
+        "tb_ms": 0.98,
+        "phan_tram": 1.4
+      },
+      {
+        "lop": "/model.2/m.0/cv1/conv/Conv",
+        "tong_ms": 451.52,
+        "tb_ms": 0.9387,
+        "phan_tram": 1.4
+      },
+      {
+        "lop": "/model.22/cv2.0/cv2.0.1/conv/Conv",
+        "tong_ms": 448.25,
+        "tb_ms": 0.9319,
+        "phan_tram": 1.4
+      },
+      {
+        "lop": "/model.22/cv2.2/cv2.2.0/conv/Conv || /model.22/cv3.2/cv3.2.0/conv/Conv",
+        "tong_ms": 434.15,
+        "tb_ms": 0.9026,
+        "phan_tram": 1.3
+      }
+    ],
+    "exit": 0,
+    "loi": [],
+    "so_lop_profile": 256,
+    "export_times": {
+      "n": 461,
+      "computeMs": {
+        "median": 68.4141,
+        "p90": 68.5039,
+        "mean": 71.96207505422998
+      },
+      "d2hMs": {
+        "median": 0.0,
+        "p90": 0.0,
+        "mean": 0.0
+      },
+      "endToEndMs": {
+        "median": 68.4141,
+        "p90": 68.5039,
+        "mean": 71.96207505422998
+      },
+      "h2dMs": {
+        "median": 0.0,
+        "p90": 0.0,
+        "mean": 0.0
+      },
+      "latencyMs": {
+        "median": 68.4141,
+        "p90": 68.5039,
+        "mean": 71.96207505422998
+      }
+    },
+    "hop_le": true,
+    "ly_do_khong_hop_le": []
+  }
+]

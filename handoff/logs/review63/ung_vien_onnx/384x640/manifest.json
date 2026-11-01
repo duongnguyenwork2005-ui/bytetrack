@@ -1,0 +1,65 @@
+{
+  "weights": "models\\yolov8n.pt",
+  "weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+  "onnx": "handoff\\logs\\review63\\ung_vien_onnx\\384x640\\yolov8n_384x640_op12.onnx",
+  "onnx_sha256": "5f5b337d2978bd7b5bb3195f6d04e3725f536d5e4cd87d4d1cb7a1c8af984f49",
+  "onnx_bytes": 12756861,
+  "hw": [
+    384,
+    640
+  ],
+  "opset": 12,
+  "inputs": [
+    [
+      "images",
+      [
+        1,
+        3,
+        384,
+        640
+      ]
+    ]
+  ],
+  "outputs": [
+    [
+      "output0",
+      [
+        1,
+        84,
+        5040
+      ]
+    ]
+  ],
+  "n_nodes": 262,
+  "metadata": {
+    "description": "Ultralytics YOLOv8n model trained on coco.yaml",
+    "author": "Ultralytics",
+    "date": "2026-10-30T15:41:04.314215+07:00",
+    "version": "8.4.141",
+    "license": "AGPL-3.0 License (https://ultralytics.com/license)",
+    "docs": "https://docs.ultralytics.com",
+    "stride": "32",
+    "task": "detect",
+    "head": "Detect",
+    "batch": "1",
+    "imgsz": "[384, 640]",
+    "names": "{0: 'person', 1: 'bicycle', 2: 'car', 3: 'motorcycle', 4: 'airplane', 5: 'bus', 6: 'train', 7: 'truck', 8: 'boat', 9: 'traffic light', 10: 'fire hydrant', 11: 'stop sign', 12: 'parking meter', 13: 'bench', 14: 'bird', 15: 'cat', 16: 'dog', 17: 'horse', 18: 'sheep', 19: 'cow', 20: 'elephant', 21: 'bear', 22: 'zebra', 23: 'giraffe', 24: 'backpack', 25: 'umbrella', 26: 'handbag', 27: 'tie', 28: 'suitcase', 29: 'frisbee', 30: 'skis', 31: 'snowboard', 32: 'sports ball', 33: 'kite', 34: 'baseball bat', 35: 'baseball glove', 36: 'skateboard', 37: 'surfboard', 38: 'tennis racket', 39: 'bottle', 40: 'wine glass', 41: 'cup', 42: 'fork', 43: 'knife', 44: 'spoon', 45: 'bowl', 46: 'banana', 47: 'apple', 48: 'sandwich', 49: 'orange', 50: 'broccoli', 51: 'carrot', 52: 'hot dog', 53: 'pizza', 54: 'donut', 55: 'cake', 56: 'chair', 57: 'couch', 58: 'potted plant', 59: 'bed', 60: 'dining table', 61: 'toilet', 62: 'tv', 63: 'laptop', 64: 'mouse', 65: 'remote', 66: 'keyboard', 67: 'cell phone', 68: 'microwave', 69: 'oven', 70: 'toaster', 71: 'sink', 72: 'refrigerator', 73: 'book', 74: 'clock', 75: 'vase', 76: 'scissors', 77: 'teddy bear', 78: 'hair drier', 79: 'toothbrush'}",
+    "args": "{'data': None, 'batch': 1, 'fraction': 1.0, 'quantize': None, 'dynamic': False, 'simplify': False, 'opset': 12, 'nms': False}",
+    "channels": "3",
+    "end2end": "False"
+  },
+  "thiet_lap": {
+    "dynamic": false,
+    "simplify": false,
+    "half": false,
+    "nms": false,
+    "batch": 1,
+    "device": "cpu"
+  },
+  "ultralytics": "8.4.141",
+  "torch": "2.6.0+cu124",
+  "onnx_version": "1.22.0",
+  "python": "3.11.9",
+  "thoi_gian_s": 2.59,
+  "luu_y": "Dung luong ONNX nho hon KHONG phai bang chung tang FPS; phai build engine + do tren Nano."
+}
