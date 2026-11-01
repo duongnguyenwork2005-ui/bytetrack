@@ -1,0 +1,11 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\run_tracking.py', '--cache-id', 'r64_roundabout_yolo11n_mixed5_c0.05', '--split-name', 'RoundaboutHD-prefix3000', '--tracker-yaml', 'configs/bytetrack_ekf_ctrv.yaml', '--tracker-name', 'r64-yolo11n_mixed5-c25-ekf', '--videos', 'imagesc001', 'imagesc002', 'imagesc003', 'imagesc004', '--conf-min', '0.25', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '15.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
+exit: 0
+--- stdout
+[run_tracking] cache=r64_roundabout_yolo11n_mixed5_c0.05 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[None]
+  r64-yolo11n_mixed5-c25-ekf   imagesc001      3000 frame ->  11,745 bbox  225 track  predict 0.45 ms/frame  assoc 1.76  (7.5s, 399 fps)
+  r64-yolo11n_mixed5-c25-ekf   imagesc002      3000 frame ->   8,172 bbox  174 track  predict 0.37 ms/frame  assoc 1.47  (6.4s, 467 fps)
+  r64-yolo11n_mixed5-c25-ekf   imagesc003      3000 frame ->  14,042 bbox  313 track  predict 1.01 ms/frame  assoc 3.77  (16.0s, 187 fps)
+  r64-yolo11n_mixed5-c25-ekf   imagesc004      3000 frame ->  18,804 bbox  265 track  predict 0.74 ms/frame  assoc 2.67  (11.6s, 258 fps)
+  r64-yolo11n_mixed5-c25-ekf     4 video moi,   0 tai su dung
+
+--- stderr

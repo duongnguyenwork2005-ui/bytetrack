@@ -1,0 +1,16 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\run_tracking.py', '--cache-id', 'r64_svmot_yolo11n_mixed5_c0.05', '--split-name', 'SVMOTSYS-test', '--tracker-yaml', 'configs/bytetrack_ukf_ctrv.yaml', '--tracker-name', 'r64-yolo11n_mixed5-c10-ukf', '--videos', 'seq_22_morning', 'seq_23_morning', 'seq_24_morning', 'seq_25_morning', 'seq_26_evening', 'seq_27_evening', 'seq_28_evening', 'seq_29_evening', 'seq_30_evening', '--conf-min', '0.1', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '30.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
+exit: 0
+--- stdout
+[run_tracking] cache=r64_svmot_yolo11n_mixed5_c0.05 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.1 classes=[1, 2, 3, 5, 7] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r64-yolo11n_mixed5-c10-ukf   seq_22_morning  1200 frame ->  21,147 bbox  221 track  predict 12.92 ms/frame  assoc 9.26  (27.5s, 44 fps)
+  r64-yolo11n_mixed5-c10-ukf   seq_23_morning   900 frame ->  14,875 bbox  119 track  predict 9.12 ms/frame  assoc 6.95  (15.0s, 60 fps)
+  r64-yolo11n_mixed5-c10-ukf   seq_24_morning   900 frame ->  11,994 bbox  102 track  predict 7.28 ms/frame  assoc 5.55  (12.0s, 75 fps)
+  r64-yolo11n_mixed5-c10-ukf   seq_25_morning   900 frame ->  16,418 bbox  194 track  predict 10.06 ms/frame  assoc 6.86  (15.7s, 57 fps)
+  r64-yolo11n_mixed5-c10-ukf   seq_26_evening   870 frame ->  14,586 bbox  152 track  predict 8.49 ms/frame  assoc 5.52  (12.6s, 69 fps)
+  r64-yolo11n_mixed5-c10-ukf   seq_27_evening   870 frame ->  12,902 bbox  156 track  predict 7.35 ms/frame  assoc 4.58  (10.8s, 80 fps)
+  r64-yolo11n_mixed5-c10-ukf   seq_28_evening   870 frame ->  13,882 bbox   90 track  predict 7.18 ms/frame  assoc 5.25  (11.4s, 77 fps)
+  r64-yolo11n_mixed5-c10-ukf   seq_29_evening   870 frame ->  15,779 bbox  110 track  predict 8.84 ms/frame  assoc 6.21  (13.6s, 64 fps)
+  r64-yolo11n_mixed5-c10-ukf   seq_30_evening   870 frame ->  13,196 bbox  121 track  predict 7.17 ms/frame  assoc 5.30  (11.3s, 77 fps)
+  r64-yolo11n_mixed5-c10-ukf     9 video moi,   0 tai su dung
+
+--- stderr

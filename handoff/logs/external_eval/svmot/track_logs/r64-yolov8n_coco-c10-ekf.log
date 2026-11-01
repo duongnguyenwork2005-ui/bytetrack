@@ -1,0 +1,16 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\run_tracking.py', '--cache-id', 'r64_svmot_yolov8n_coco_c0.05', '--split-name', 'SVMOTSYS-test', '--tracker-yaml', 'configs/bytetrack_ekf_ctrv.yaml', '--tracker-name', 'r64-yolov8n_coco-c10-ekf', '--videos', 'seq_22_morning', 'seq_23_morning', 'seq_24_morning', 'seq_25_morning', 'seq_26_evening', 'seq_27_evening', 'seq_28_evening', 'seq_29_evening', 'seq_30_evening', '--conf-min', '0.1', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '30.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
+exit: 0
+--- stdout
+[run_tracking] cache=r64_svmot_yolov8n_coco_c0.05 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.1 classes=[1, 2, 3, 5, 7] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r64-yolov8n_coco-c10-ekf     seq_22_morning  1200 frame ->  15,005 bbox  124 track  predict 1.31 ms/frame  assoc 5.00  (8.2s, 146 fps)
+  r64-yolov8n_coco-c10-ekf     seq_23_morning   900 frame ->   9,652 bbox   52 track  predict 0.78 ms/frame  assoc 3.26  (4.0s, 223 fps)
+  r64-yolov8n_coco-c10-ekf     seq_24_morning   900 frame ->   8,609 bbox   90 track  predict 0.83 ms/frame  assoc 3.29  (4.1s, 220 fps)
+  r64-yolov8n_coco-c10-ekf     seq_25_morning   900 frame ->  10,404 bbox  159 track  predict 1.08 ms/frame  assoc 4.16  (5.2s, 173 fps)
+  r64-yolov8n_coco-c10-ekf     seq_26_evening   870 frame ->   8,567 bbox   94 track  predict 0.87 ms/frame  assoc 3.51  (4.2s, 207 fps)
+  r64-yolov8n_coco-c10-ekf     seq_27_evening   870 frame ->   8,528 bbox   86 track  predict 0.89 ms/frame  assoc 3.35  (4.1s, 213 fps)
+  r64-yolov8n_coco-c10-ekf     seq_28_evening   870 frame ->  10,796 bbox   67 track  predict 0.96 ms/frame  assoc 3.59  (4.4s, 197 fps)
+  r64-yolov8n_coco-c10-ekf     seq_29_evening   870 frame ->   8,602 bbox   52 track  predict 0.81 ms/frame  assoc 3.38  (4.0s, 216 fps)
+  r64-yolov8n_coco-c10-ekf     seq_30_evening   870 frame ->   7,363 bbox   75 track  predict 0.82 ms/frame  assoc 3.11  (3.8s, 228 fps)
+  r64-yolov8n_coco-c10-ekf       9 video moi,   0 tai su dung
+
+--- stderr

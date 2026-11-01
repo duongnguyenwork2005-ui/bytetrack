@@ -1,0 +1,11 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\run_tracking.py', '--cache-id', 'r64_roundabout_yolov8n_coco_c0.05', '--split-name', 'RoundaboutHD-prefix3000', '--tracker-yaml', 'configs/bytetrack_ukf_ctrv.yaml', '--tracker-name', 'r64-yolov8n_coco-c10-ukf', '--videos', 'imagesc001', 'imagesc002', 'imagesc003', 'imagesc004', '--conf-min', '0.1', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '15.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
+exit: 0
+--- stdout
+[run_tracking] cache=r64_roundabout_yolov8n_coco_c0.05 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.1 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[None]
+  r64-yolov8n_coco-c10-ukf     imagesc001      3000 frame ->  24,869 bbox  221 track  predict 5.17 ms/frame  assoc 4.74  (31.1s, 97 fps)
+  r64-yolov8n_coco-c10-ukf     imagesc002      3000 frame ->  12,113 bbox  175 track  predict 2.52 ms/frame  assoc 2.61  (16.3s, 184 fps)
+  r64-yolov8n_coco-c10-ukf     imagesc003      3000 frame ->  14,995 bbox  261 track  predict 3.43 ms/frame  assoc 3.24  (21.1s, 142 fps)
+  r64-yolov8n_coco-c10-ukf     imagesc004      3000 frame ->  11,639 bbox  233 track  predict 2.69 ms/frame  assoc 2.64  (17.0s, 176 fps)
+  r64-yolov8n_coco-c10-ukf       4 video moi,   0 tai su dung
+
+--- stderr

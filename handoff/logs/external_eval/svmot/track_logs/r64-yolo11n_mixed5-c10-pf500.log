@@ -1,0 +1,36 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\run_tracking.py', '--cache-id', 'r64_svmot_yolo11n_mixed5_c0.05', '--split-name', 'SVMOTSYS-test', '--tracker-yaml', 'configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml', '--tracker-name', 'r64-yolo11n_mixed5-c10-pf500', '--videos', 'seq_22_morning', 'seq_23_morning', 'seq_24_morning', 'seq_25_morning', 'seq_26_evening', 'seq_27_evening', 'seq_28_evening', 'seq_29_evening', 'seq_30_evening', '--conf-min', '0.1', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '30.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps', '--seeds', '0', '1', '2']
+exit: 0
+--- stdout
+[run_tracking] cache=r64_svmot_yolo11n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[1, 2, 3, 5, 7] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r64-yolo11n_mixed5-c10-pf500-s0 seq_22_morning  1200 frame ->  20,913 bbox  243 track  predict 10.80 ms/frame  assoc 13.84  (30.4s, 39 fps)
+  r64-yolo11n_mixed5-c10-pf500-s0 seq_23_morning   900 frame ->  14,912 bbox  124 track  predict 8.78 ms/frame  assoc 11.64  (18.9s, 48 fps)
+  r64-yolo11n_mixed5-c10-pf500-s0 seq_24_morning   900 frame ->  11,912 bbox  103 track  predict 8.28 ms/frame  assoc 11.31  (18.1s, 50 fps)
+  r64-yolo11n_mixed5-c10-pf500-s0 seq_25_morning   900 frame ->  16,132 bbox  224 track  predict 11.96 ms/frame  assoc 12.91  (22.9s, 39 fps)
+  r64-yolo11n_mixed5-c10-pf500-s0 seq_26_evening   870 frame ->  14,602 bbox  171 track  predict 12.08 ms/frame  assoc 12.74  (22.2s, 39 fps)
+  r64-yolo11n_mixed5-c10-pf500-s0 seq_27_evening   870 frame ->  12,856 bbox  161 track  predict 10.57 ms/frame  assoc 14.59  (22.4s, 39 fps)
+  r64-yolo11n_mixed5-c10-pf500-s0 seq_28_evening   870 frame ->  13,964 bbox   94 track  predict 9.45 ms/frame  assoc 12.72  (19.8s, 44 fps)
+  r64-yolo11n_mixed5-c10-pf500-s0 seq_29_evening   870 frame ->  15,496 bbox  116 track  predict 11.98 ms/frame  assoc 15.03  (24.1s, 36 fps)
+  r64-yolo11n_mixed5-c10-pf500-s0 seq_30_evening   870 frame ->  13,249 bbox  122 track  predict 11.57 ms/frame  assoc 15.19  (24.1s, 36 fps)
+  r64-yolo11n_mixed5-c10-pf500-s0   9 video moi,   0 tai su dung
+  r64-yolo11n_mixed5-c10-pf500-s1 seq_22_morning  1200 frame ->  21,231 bbox  239 track  predict 16.21 ms/frame  assoc 19.02  (43.2s, 28 fps)
+  r64-yolo11n_mixed5-c10-pf500-s1 seq_23_morning   900 frame ->  14,655 bbox  126 track  predict 13.09 ms/frame  assoc 17.08  (27.8s, 32 fps)
+  r64-yolo11n_mixed5-c10-pf500-s1 seq_24_morning   900 frame ->  12,144 bbox  103 track  predict 10.58 ms/frame  assoc 15.28  (23.8s, 38 fps)
+  r64-yolo11n_mixed5-c10-pf500-s1 seq_25_morning   900 frame ->  16,168 bbox  213 track  predict 12.46 ms/frame  assoc 14.38  (24.6s, 37 fps)
+  r64-yolo11n_mixed5-c10-pf500-s1 seq_26_evening   870 frame ->  14,390 bbox  169 track  predict 10.47 ms/frame  assoc 11.99  (20.1s, 43 fps)
+  r64-yolo11n_mixed5-c10-pf500-s1 seq_27_evening   870 frame ->  12,914 bbox  164 track  predict 11.22 ms/frame  assoc 12.20  (20.8s, 42 fps)
+  r64-yolo11n_mixed5-c10-pf500-s1 seq_28_evening   870 frame ->  13,810 bbox   95 track  predict 9.60 ms/frame  assoc 12.55  (19.7s, 44 fps)
+  r64-yolo11n_mixed5-c10-pf500-s1 seq_29_evening   870 frame ->  15,792 bbox  118 track  predict 11.33 ms/frame  assoc 13.77  (22.4s, 39 fps)
+  r64-yolo11n_mixed5-c10-pf500-s1 seq_30_evening   870 frame ->  13,021 bbox  126 track  predict 9.85 ms/frame  assoc 12.13  (19.5s, 45 fps)
+  r64-yolo11n_mixed5-c10-pf500-s1   9 video moi,   0 tai su dung
+  r64-yolo11n_mixed5-c10-pf500-s2 seq_22_morning  1200 frame ->  21,075 bbox  239 track  predict 11.59 ms/frame  assoc 14.25  (31.8s, 38 fps)
+  r64-yolo11n_mixed5-c10-pf500-s2 seq_23_morning   900 frame ->  14,994 bbox  126 track  predict 10.11 ms/frame  assoc 13.27  (21.5s, 42 fps)
+  r64-yolo11n_mixed5-c10-pf500-s2 seq_24_morning   900 frame ->  11,836 bbox  103 track  predict 7.50 ms/frame  assoc 10.38  (16.5s, 54 fps)
+  r64-yolo11n_mixed5-c10-pf500-s2 seq_25_morning   900 frame ->  16,197 bbox  228 track  predict 11.98 ms/frame  assoc 13.14  (23.1s, 39 fps)
+  r64-yolo11n_mixed5-c10-pf500-s2 seq_26_evening   870 frame ->  14,519 bbox  169 track  predict 12.80 ms/frame  assoc 13.59  (23.4s, 37 fps)
+  r64-yolo11n_mixed5-c10-pf500-s2 seq_27_evening   870 frame ->  12,788 bbox  175 track  predict 11.27 ms/frame  assoc 11.38  (20.2s, 43 fps)
+  r64-yolo11n_mixed5-c10-pf500-s2 seq_28_evening   870 frame ->  13,948 bbox   95 track  predict 8.15 ms/frame  assoc 10.13  (17.2s, 51 fps)
+  r64-yolo11n_mixed5-c10-pf500-s2 seq_29_evening   870 frame ->  15,760 bbox  116 track  predict 10.10 ms/frame  assoc 12.50  (20.2s, 43 fps)
+  r64-yolo11n_mixed5-c10-pf500-s2 seq_30_evening   870 frame ->  13,225 bbox  120 track  predict 7.15 ms/frame  assoc 9.66  (15.0s, 58 fps)
+  r64-yolo11n_mixed5-c10-pf500-s2   9 video moi,   0 tai su dung
+
+--- stderr

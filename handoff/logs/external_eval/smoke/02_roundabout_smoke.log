@@ -1,0 +1,860 @@
+[01:46:01] cache roundabout yolov8n_coco
+[cache] r64smoke_roundabout_yolov8n_coco_c0.05/imagesc001: 128 frame, 2052 box, toi da 21/frame, 11 s (11.2 fps)
+[01:46:18] cache roundabout yolov8n_mixed5
+[cache] r64smoke_roundabout_yolov8n_mixed5_c0.05/imagesc001: 128 frame, 962 box, toi da 11/frame, 10 s (12.3 fps)
+[01:46:35] cache roundabout yolo11n_mixed5
+[cache] r64smoke_roundabout_yolo11n_mixed5_c0.05/imagesc001: 128 frame, 1283 box, toi da 12/frame, 10 s (12.8 fps)
+[01:46:51] track roundabout yolov8n_coco c25 cv
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c25-cv
+
+
+HOTA: r64smoke-yolov8n_coco-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         34.632    18.411    65.179    57.917    20.815    66.924    87.341    86.806    61.399    40.448    85.357    34.525    
+COMBINED                           34.632    18.411    65.179    57.917    20.815    66.924    87.341    86.806    61.399    40.448    85.357    34.525    
+
+CLEAR: r64smoke-yolov8n_coco-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -145.61   85.357    -145.19   66.527    23.91     20        20        60        -155.35   159       80        506       1         1         1         3         5         
+COMBINED                           -145.61   85.357    -145.19   66.527    23.91     20        20        60        -155.35   159       80        506       1         1         1         3         5         
+
+Identity: r64smoke-yolov8n_coco-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         34.292    64.854    23.308    155       84        510       
+COMBINED                           34.292    64.854    23.308    155       84        510       
+
+Count: r64smoke-yolov8n_coco-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         665       239       7         5         
+COMBINED                           665       239       7         5         
+[track] r64smoke-yolov8n_coco-c25-cv: HOTA 34.63 IDF1 34.29 IDSW 1 MOTA -145.61  (10 s)
+[01:47:01] track roundabout yolov8n_coco c25 ekf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c25-ekf
+
+
+HOTA: r64smoke-yolov8n_coco-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         34.537    18.345    65.045    57.675    20.728    66.69     87.125    86.442    61.216    40.448    84.977    34.372    
+COMBINED                           34.537    18.345    65.045    57.675    20.728    66.69     87.125    86.442    61.216    40.448    84.977    34.372    
+
+CLEAR: r64smoke-yolov8n_coco-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -145.61   84.977    -145.19   66.527    23.91     20        20        60        -155.6    159       80        506       1         1         1         3         5         
+COMBINED                           -145.61   84.977    -145.19   66.527    23.91     20        20        60        -155.6    159       80        506       1         1         1         3         5         
+
+Identity: r64smoke-yolov8n_coco-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         34.292    64.854    23.308    155       84        510       
+COMBINED                           34.292    64.854    23.308    155       84        510       
+
+Count: r64smoke-yolov8n_coco-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         665       239       7         5         
+COMBINED                           665       239       7         5         
+[track] r64smoke-yolov8n_coco-c25-ekf: HOTA 34.54 IDF1 34.29 IDSW 1 MOTA -145.61  (7 s)
+[01:47:09] track roundabout yolov8n_coco c25 ukf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c25-ukf
+
+
+HOTA: r64smoke-yolov8n_coco-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         34.537    18.345    65.045    57.675    20.728    66.69     87.125    86.449    61.216    40.448    84.984    34.375    
+COMBINED                           34.537    18.345    65.045    57.675    20.728    66.69     87.125    86.449    61.216    40.448    84.984    34.375    
+
+CLEAR: r64smoke-yolov8n_coco-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -145.61   84.984    -145.19   66.527    23.91     20        20        60        -155.6    159       80        506       1         1         1         3         5         
+COMBINED                           -145.61   84.984    -145.19   66.527    23.91     20        20        60        -155.6    159       80        506       1         1         1         3         5         
+
+Identity: r64smoke-yolov8n_coco-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         34.292    64.854    23.308    155       84        510       
+COMBINED                           34.292    64.854    23.308    155       84        510       
+
+Count: r64smoke-yolov8n_coco-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         665       239       7         5         
+COMBINED                           665       239       7         5         
+[track] r64smoke-yolov8n_coco-c25-ukf: HOTA 34.54 IDF1 34.29 IDSW 1 MOTA -145.61  (8 s)
+[01:47:18] track roundabout yolov8n_coco c10 cv
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c10-cv
+
+
+HOTA: r64smoke-yolov8n_coco-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         36.705    19.431    69.375    61.66     21.608    71.368    86.972    86.524    65.356    43.093    85.019    36.638    
+COMBINED                           36.705    19.431    69.375    61.66     21.608    71.368    86.972    86.524    65.356    43.093    85.019    36.638    
+
+CLEAR: r64smoke-yolov8n_coco-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -143.51   85.019    -143.1    71.13     24.927    40        0         60        -154.17   170       69        512       1         2         0         3         2         
+COMBINED                           -143.51   85.019    -143.1    71.13     24.927    40        0         60        -154.17   170       69        512       1         2         0         3         2         
+
+Identity: r64smoke-yolov8n_coco-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         36.048    69.456    24.34     166       73        516       
+COMBINED                           36.048    69.456    24.34     166       73        516       
+
+Count: r64smoke-yolov8n_coco-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         682       239       7         5         
+COMBINED                           682       239       7         5         
+[track] r64smoke-yolov8n_coco-c10-cv: HOTA 36.71 IDF1 36.05 IDSW 1 MOTA -143.51  (7 s)
+[01:47:25] track roundabout yolov8n_coco c10 ekf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c10-ekf
+
+
+HOTA: r64smoke-yolov8n_coco-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         36.549    19.339    69.104    61.33     21.493    71.008    86.607    86.152    65.062    43.093    84.596    36.455    
+COMBINED                           36.549    19.339    69.104    61.33     21.493    71.008    86.607    86.152    65.062    43.093    84.596    36.455    
+
+CLEAR: r64smoke-yolov8n_coco-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -143.51   84.596    -143.1    71.13     24.927    40        0         60        -154.47   170       69        512       1         2         0         3         2         
+COMBINED                           -143.51   84.596    -143.1    71.13     24.927    40        0         60        -154.47   170       69        512       1         2         0         3         2         
+
+Identity: r64smoke-yolov8n_coco-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         36.048    69.456    24.34     166       73        516       
+COMBINED                           36.048    69.456    24.34     166       73        516       
+
+Count: r64smoke-yolov8n_coco-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         682       239       7         5         
+COMBINED                           682       239       7         5         
+[track] r64smoke-yolov8n_coco-c10-ekf: HOTA 36.55 IDF1 36.05 IDSW 1 MOTA -143.51  (8 s)
+[01:47:34] track roundabout yolov8n_coco c10 ukf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c10-ukf
+
+
+HOTA: r64smoke-yolov8n_coco-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         36.57     19.347    69.153    61.352    21.5      71.035    86.638    86.155    65.097    43.093    84.605    36.459    
+COMBINED                           36.57     19.347    69.153    61.352    21.5      71.035    86.638    86.155    65.097    43.093    84.605    36.459    
+
+CLEAR: r64smoke-yolov8n_coco-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -143.51   84.605    -143.1    71.13     24.927    40        0         60        -154.47   170       69        512       1         2         0         3         2         
+COMBINED                           -143.51   84.605    -143.1    71.13     24.927    40        0         60        -154.47   170       69        512       1         2         0         3         2         
+
+Identity: r64smoke-yolov8n_coco-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         36.048    69.456    24.34     166       73        516       
+COMBINED                           36.048    69.456    24.34     166       73        516       
+
+Count: r64smoke-yolov8n_coco-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         682       239       7         5         
+COMBINED                           682       239       7         5         
+[track] r64smoke-yolov8n_coco-c10-ukf: HOTA 36.57 IDF1 36.05 IDSW 1 MOTA -143.51  (8 s)
+[01:47:42] track roundabout yolov8n_mixed5 c25 cv
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c25-cv
+
+
+HOTA: r64smoke-yolov8n_mixed5-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         65.779    59.64     72.553    61.242    87.646    74.772    87.911    87.16     66.623    76.982    85.648    65.934    
+COMBINED                           65.779    59.64     72.553    61.242    87.646    74.772    87.911    87.16     66.623    76.982    85.648    65.934    
+
+CLEAR: r64smoke-yolov8n_mixed5-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         69.874    85.648    69.874    69.874    100       20        20        60        59.846    167       72        0         0         1         1         3         1         
+COMBINED                           69.874    85.648    69.874    69.874    100       20        20        60        59.846    167       72        0         0         1         1         3         1         
+
+Identity: r64smoke-yolov8n_mixed5-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         82.266    69.874    100       167       72        0         
+COMBINED                           82.266    69.874    100       167       72        0         
+
+Count: r64smoke-yolov8n_mixed5-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         167       239       2         5         
+COMBINED                           167       239       2         5         
+[track] r64smoke-yolov8n_mixed5-c25-cv: HOTA 65.78 IDF1 82.27 IDSW 0 MOTA 69.87  (7 s)
+[01:47:50] track roundabout yolov8n_mixed5 c25 ekf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c25-ekf
+
+
+HOTA: r64smoke-yolov8n_mixed5-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         65.898    59.736    72.698    61.33     87.772    74.891    88.047    87.297    66.739    76.982    85.81     66.059    
+COMBINED                           65.898    59.736    72.698    61.33     87.772    74.891    88.047    87.297    66.739    76.982    85.81     66.059    
+
+CLEAR: r64smoke-yolov8n_mixed5-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         69.874    85.81     69.874    69.874    100       20        20        60        59.959    167       72        0         0         1         1         3         1         
+COMBINED                           69.874    85.81     69.874    69.874    100       20        20        60        59.959    167       72        0         0         1         1         3         1         
+
+Identity: r64smoke-yolov8n_mixed5-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         82.266    69.874    100       167       72        0         
+COMBINED                           82.266    69.874    100       167       72        0         
+
+Count: r64smoke-yolov8n_mixed5-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         167       239       2         5         
+COMBINED                           167       239       2         5         
+[track] r64smoke-yolov8n_mixed5-c25-ekf: HOTA 65.90 IDF1 82.27 IDSW 0 MOTA 69.87  (7 s)
+[01:47:57] track roundabout yolov8n_mixed5 c25 ukf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c25-ukf
+
+
+HOTA: r64smoke-yolov8n_mixed5-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         65.904    59.719    72.732    61.308    87.74     74.901    88.043    87.297    66.744    76.982    85.807    66.056    
+COMBINED                           65.904    59.719    72.732    61.308    87.74     74.901    88.043    87.297    66.744    76.982    85.807    66.056    
+
+CLEAR: r64smoke-yolov8n_mixed5-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         69.874    85.807    69.874    69.874    100       20        20        60        59.957    167       72        0         0         1         1         3         1         
+COMBINED                           69.874    85.807    69.874    69.874    100       20        20        60        59.957    167       72        0         0         1         1         3         1         
+
+Identity: r64smoke-yolov8n_mixed5-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         82.266    69.874    100       167       72        0         
+COMBINED                           82.266    69.874    100       167       72        0         
+
+Count: r64smoke-yolov8n_mixed5-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         167       239       2         5         
+COMBINED                           167       239       2         5         
+[track] r64smoke-yolov8n_mixed5-c25-ukf: HOTA 65.90 IDF1 82.27 IDSW 0 MOTA 69.87  (7 s)
+[01:48:05] track roundabout yolov8n_mixed5 c10 cv
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c10-cv
+
+
+HOTA: r64smoke-yolov8n_mixed5-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         67.739    61.43     74.698    63.092    87.668    77.006    87.908    87.193    68.611    79.291    85.704    67.955    
+COMBINED                           67.739    61.43     74.698    63.092    87.668    77.006    87.908    87.193    68.611    79.291    85.704    67.955    
+
+CLEAR: r64smoke-yolov8n_mixed5-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         71.967    85.704    71.967    71.967    100       40        0         60        61.678    172       67        0         0         2         0         3         0         
+COMBINED                           71.967    85.704    71.967    71.967    100       40        0         60        61.678    172       67        0         0         2         0         3         0         
+
+Identity: r64smoke-yolov8n_mixed5-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         83.698    71.967    100       172       67        0         
+COMBINED                           83.698    71.967    100       172       67        0         
+
+Count: r64smoke-yolov8n_mixed5-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         172       239       2         5         
+COMBINED                           172       239       2         5         
+[track] r64smoke-yolov8n_mixed5-c10-cv: HOTA 67.74 IDF1 83.70 IDSW 0 MOTA 71.97  (7 s)
+[01:48:13] track roundabout yolov8n_mixed5 c10 ekf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c10-ekf
+
+
+HOTA: r64smoke-yolov8n_mixed5-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         67.903    61.557    74.904    63.202    87.821    77.162    88.077    87.36     68.768    79.291    85.899    68.111    
+COMBINED                           67.903    61.557    74.904    63.202    87.821    77.162    88.077    87.36     68.768    79.291    85.899    68.111    
+
+CLEAR: r64smoke-yolov8n_mixed5-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         71.967    85.899    71.967    71.967    100       40        0         60        61.819    172       67        0         0         2         0         3         0         
+COMBINED                           71.967    85.899    71.967    71.967    100       40        0         60        61.819    172       67        0         0         2         0         3         0         
+
+Identity: r64smoke-yolov8n_mixed5-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         83.698    71.967    100       172       67        0         
+COMBINED                           83.698    71.967    100       172       67        0         
+
+Count: r64smoke-yolov8n_mixed5-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         172       239       2         5         
+COMBINED                           172       239       2         5         
+[track] r64smoke-yolov8n_mixed5-c10-ekf: HOTA 67.90 IDF1 83.70 IDSW 0 MOTA 71.97  (7 s)
+[01:48:20] track roundabout yolov8n_mixed5 c10 ukf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c10-ukf
+
+
+HOTA: r64smoke-yolov8n_mixed5-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         67.863    61.51     74.875    63.158    87.76     77.132    88.034    87.361    68.731    79.291    85.895    68.108    
+COMBINED                           67.863    61.51     74.875    63.158    87.76     77.132    88.034    87.361    68.731    79.291    85.895    68.108    
+
+CLEAR: r64smoke-yolov8n_mixed5-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         71.967    85.895    71.967    71.967    100       40        0         60        61.816    172       67        0         0         2         0         3         0         
+COMBINED                           71.967    85.895    71.967    71.967    100       40        0         60        61.816    172       67        0         0         2         0         3         0         
+
+Identity: r64smoke-yolov8n_mixed5-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         83.698    71.967    100       172       67        0         
+COMBINED                           83.698    71.967    100       172       67        0         
+
+Count: r64smoke-yolov8n_mixed5-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         172       239       2         5         
+COMBINED                           172       239       2         5         
+[track] r64smoke-yolov8n_mixed5-c10-ukf: HOTA 67.86 IDF1 83.70 IDSW 0 MOTA 71.97  (7 s)
+[01:48:28] track roundabout yolo11n_mixed5 c25 cv
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c25-cv
+
+
+HOTA: r64smoke-yolo11n_mixed5-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         46.518    33.693    64.24     54.503    44.918    66.273    87.892    87.214    59.141    54.349    85.61     46.528    
+COMBINED                           46.518    33.693    64.24     54.503    44.918    66.273    87.892    87.214    59.141    54.349    85.61     46.528    
+
+CLEAR: r64smoke-yolo11n_mixed5-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         3.3473    85.61     3.3473    62.343    51.379    0         40        60        -5.6238   149       90        141       0         0         2         3         5         
+COMBINED                           3.3473    85.61     3.3473    62.343    51.379    0         40        60        -5.6238   149       90        141       0         0         2         3         5         
+
+Identity: r64smoke-yolo11n_mixed5-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         56.333    62.343    51.379    149       90        141       
+COMBINED                           56.333    62.343    51.379    149       90        141       
+
+Count: r64smoke-yolo11n_mixed5-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         290       239       5         5         
+COMBINED                           290       239       5         5         
+[track] r64smoke-yolo11n_mixed5-c25-cv: HOTA 46.52 IDF1 56.33 IDSW 0 MOTA 3.35  (8 s)
+[01:48:36] track roundabout yolo11n_mixed5 c25 ekf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c25-ekf
+
+
+HOTA: r64smoke-yolo11n_mixed5-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         46.432    33.626    64.127    54.393    44.828    66.144    87.716    87.188    59.032    54.349    85.566    46.504    
+COMBINED                           46.432    33.626    64.127    54.393    44.828    66.144    87.716    87.188    59.032    54.349    85.566    46.504    
+
+CLEAR: r64smoke-yolo11n_mixed5-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         3.3473    85.566    3.3473    62.343    51.379    0         40        60        -5.6515   149       90        141       0         0         2         3         5         
+COMBINED                           3.3473    85.566    3.3473    62.343    51.379    0         40        60        -5.6515   149       90        141       0         0         2         3         5         
+
+Identity: r64smoke-yolo11n_mixed5-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         56.333    62.343    51.379    149       90        141       
+COMBINED                           56.333    62.343    51.379    149       90        141       
+
+Count: r64smoke-yolo11n_mixed5-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         290       239       5         5         
+COMBINED                           290       239       5         5         
+[track] r64smoke-yolo11n_mixed5-c25-ekf: HOTA 46.43 IDF1 56.33 IDSW 0 MOTA 3.35  (7 s)
+[01:48:44] track roundabout yolo11n_mixed5 c25 ukf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c25-ukf
+
+
+HOTA: r64smoke-yolo11n_mixed5-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         46.432    33.626    64.127    54.393    44.828    66.144    87.716    87.191    59.032    54.349    85.569    46.506    
+COMBINED                           46.432    33.626    64.127    54.393    44.828    66.144    87.716    87.191    59.032    54.349    85.569    46.506    
+
+CLEAR: r64smoke-yolo11n_mixed5-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         3.3473    85.569    3.3473    62.343    51.379    0         40        60        -5.6495   149       90        141       0         0         2         3         5         
+COMBINED                           3.3473    85.569    3.3473    62.343    51.379    0         40        60        -5.6495   149       90        141       0         0         2         3         5         
+
+Identity: r64smoke-yolo11n_mixed5-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         56.333    62.343    51.379    149       90        141       
+COMBINED                           56.333    62.343    51.379    149       90        141       
+
+Count: r64smoke-yolo11n_mixed5-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         290       239       5         5         
+COMBINED                           290       239       5         5         
+[track] r64smoke-yolo11n_mixed5-c25-ukf: HOTA 46.43 IDF1 56.33 IDSW 0 MOTA 3.35  (7 s)
+[01:48:51] track roundabout yolo11n_mixed5 c10 cv
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c10-cv
+
+
+HOTA: r64smoke-yolo11n_mixed5-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         42.101    26.371    67.233    56.97     31.962    69.54     87.731    87.201    61.857    49.244    85.548    42.127    
+COMBINED                           42.101    26.371    67.233    56.97     31.962    69.54     87.731    87.201    61.857    49.244    85.548    42.127    
+
+CLEAR: r64smoke-yolo11n_mixed5-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -47.699   85.548    -47.699   65.272    36.62     20        20        60        -57.132   156       83        270       0         1         1         3         2         
+COMBINED                           -47.699   85.548    -47.699   65.272    36.62     20        20        60        -57.132   156       83        270       0         1         1         3         2         
+
+Identity: r64smoke-yolo11n_mixed5-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         46.917    65.272    36.62     156       83        270       
+COMBINED                           46.917    65.272    36.62     156       83        270       
+
+Count: r64smoke-yolo11n_mixed5-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         426       239       5         5         
+COMBINED                           426       239       5         5         
+[track] r64smoke-yolo11n_mixed5-c10-cv: HOTA 42.10 IDF1 46.92 IDSW 0 MOTA -47.70  (7 s)
+[01:48:59] track roundabout yolo11n_mixed5 c10 ekf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c10-ekf
+
+
+HOTA: r64smoke-yolo11n_mixed5-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         42.096    26.352    67.261    56.926    31.937    69.563    87.732    87.2      61.849    49.244    85.538    42.122    
+COMBINED                           42.096    26.352    67.261    56.926    31.937    69.563    87.732    87.2      61.849    49.244    85.538    42.122    
+
+CLEAR: r64smoke-yolo11n_mixed5-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -47.699   85.538    -47.699   65.272    36.62     20        20        60        -57.139   156       83        270       0         1         1         3         2         
+COMBINED                           -47.699   85.538    -47.699   65.272    36.62     20        20        60        -57.139   156       83        270       0         1         1         3         2         
+
+Identity: r64smoke-yolo11n_mixed5-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         46.917    65.272    36.62     156       83        270       
+COMBINED                           46.917    65.272    36.62     156       83        270       
+
+Count: r64smoke-yolo11n_mixed5-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         426       239       5         5         
+COMBINED                           426       239       5         5         
+[track] r64smoke-yolo11n_mixed5-c10-ekf: HOTA 42.10 IDF1 46.92 IDSW 0 MOTA -47.70  (7 s)
+[01:49:06] track roundabout yolo11n_mixed5 c10 ukf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c10-ukf
+
+
+HOTA: r64smoke-yolo11n_mixed5-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         42.073    26.34     67.219    56.904    31.925    69.534    87.701    87.209    61.818    49.244    85.542    42.124    
+COMBINED                           42.073    26.34     67.219    56.904    31.925    69.534    87.701    87.209    61.818    49.244    85.542    42.124    
+
+CLEAR: r64smoke-yolo11n_mixed5-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -47.699   85.542    -47.699   65.272    36.62     20        20        60        -57.136   156       83        270       0         1         1         3         2         
+COMBINED                           -47.699   85.542    -47.699   65.272    36.62     20        20        60        -57.136   156       83        270       0         1         1         3         2         
+
+Identity: r64smoke-yolo11n_mixed5-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         46.917    65.272    36.62     156       83        270       
+COMBINED                           46.917    65.272    36.62     156       83        270       
+
+Count: r64smoke-yolo11n_mixed5-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         426       239       5         5         
+COMBINED                           426       239       5         5         
+[track] r64smoke-yolo11n_mixed5-c10-ukf: HOTA 42.07 IDF1 46.92 IDSW 0 MOTA -47.70  (7 s)
+[01:49:14] track roundabout yolov8n_coco c25 pf500
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c25-pf500-s0
+
+
+HOTA: r64smoke-yolov8n_coco-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         18.709    15.718    22.288    49.835    18.074    22.652    80.932    80.776    33.3      24.555    76.411    18.763    
+COMBINED                           18.709    15.718    22.288    49.835    18.074    22.652    80.932    80.776    33.3      24.555    76.411    18.763    
+
+CLEAR: r64smoke-yolov8n_coco-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -152.72   77.217    -151.05   62.343    22.61     0         40        60        -166.92   149       90        510       4         0         2         3         9         
+COMBINED                           -152.72   77.217    -151.05   62.343    22.61     0         40        60        -166.92   149       90        510       4         0         2         3         9         
+
+Identity: r64smoke-yolov8n_coco-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         15.59     29.289    10.622    70        169       589       
+COMBINED                           15.59     29.289    10.622    70        169       589       
+
+Count: r64smoke-yolov8n_coco-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         659       239       10        5         
+COMBINED                           659       239       10        5         
+[track] r64smoke-yolov8n_coco-c25-pf500-s0: HOTA 18.71 IDF1 15.59 IDSW 4 MOTA -152.72  (9 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c25-pf500-s1
+
+
+HOTA: r64smoke-yolov8n_coco-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         19.468    14.201    26.732    45.012    16.5      27.412    77.318    78.186    34.663    26.798    72.531    19.437    
+COMBINED                           19.468    14.201    26.732    45.012    16.5      27.412    77.318    78.186    34.663    26.798    72.531    19.437    
+
+CLEAR: r64smoke-yolov8n_coco-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -153.97   72.917    -152.3    60.251    22.086    0         40        60        -170.29   144       95        508       4         0         2         3         8         
+COMBINED                           -153.97   72.917    -152.3    60.251    22.086    0         40        60        -170.29   144       95        508       4         0         2         3         8         
+
+Identity: r64smoke-yolov8n_coco-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         19.08     35.565    13.037    85        154       567       
+COMBINED                           19.08     35.565    13.037    85        154       567       
+
+Count: r64smoke-yolov8n_coco-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         652       239       10        5         
+COMBINED                           652       239       10        5         
+[track] r64smoke-yolov8n_coco-c25-pf500-s1: HOTA 19.47 IDF1 19.08 IDSW 4 MOTA -153.97  (9 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c25-pf500-s2
+
+
+HOTA: r64smoke-yolov8n_coco-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         21.83     15.248    31.802    48.403    17.581    32.667    82.041    79.642    38.973    27.934    74.564    20.829    
+COMBINED                           21.83     15.248    31.802    48.403    17.581    32.667    82.041    79.642    38.973    27.934    74.564    20.829    
+
+CLEAR: r64smoke-yolov8n_coco-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -151.05   74.947    -149.79   62.762    22.796    0         40        60        -166.77   150       89        508       3         0         2         3         7         
+COMBINED                           -151.05   74.947    -149.79   62.762    22.796    0         40        60        -166.77   150       89        508       3         0         2         3         7         
+
+Identity: r64smoke-yolov8n_coco-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         19.175    35.983    13.07     86        153       572       
+COMBINED                           19.175    35.983    13.07     86        153       572       
+
+Count: r64smoke-yolov8n_coco-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         658       239       9         5         
+COMBINED                           658       239       9         5         
+[track] r64smoke-yolov8n_coco-c25-pf500-s2: HOTA 21.83 IDF1 19.18 IDSW 3 MOTA -151.05  (10 s)
+[01:49:24] track roundabout yolov8n_coco c10 pf500
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c10-pf500-s0
+
+
+HOTA: r64smoke-yolov8n_coco-c10-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         23.13     16.351    32.791    52.213    18.487    33.478    80.306    79.801    41.3      30.988    75.328    23.343    
+COMBINED                           23.13     16.351    32.791    52.213    18.487    33.478    80.306    79.801    41.3      30.988    75.328    23.343    
+
+CLEAR: r64smoke-yolov8n_coco-c10-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -149.79   75.896    -148.54   66.946    23.704    40        0         60        -165.93   160       79        515       3         2         0         3         7         
+COMBINED                           -149.79   75.896    -148.54   66.946    23.704    40        0         60        -165.93   160       79        515       3         2         0         3         7         
+
+Identity: r64smoke-yolov8n_coco-c10-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         21.007    40.167    14.222    96        143       579       
+COMBINED                           21.007    40.167    14.222    96        143       579       
+
+Count: r64smoke-yolov8n_coco-c10-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         675       239       9         5         
+COMBINED                           675       239       9         5         
+[track] r64smoke-yolov8n_coco-c10-pf500-s0: HOTA 23.13 IDF1 21.01 IDSW 3 MOTA -149.79  (10 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c10-pf500-s1
+
+
+HOTA: r64smoke-yolov8n_coco-c10-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         20.195    15.555    26.242    49.703    17.73     26.819    77.353    78.777    36.09     27.334    73.888    20.197    
+COMBINED                           20.195    15.555    26.242    49.703    17.73     26.819    77.353    78.777    36.09     27.334    73.888    20.197    
+
+CLEAR: r64smoke-yolov8n_coco-c10-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -151.88   74.457    -150.63   64.854    23.134    0         40        60        -168.45   155       84        515       3         0         2         3         6         
+COMBINED                           -151.88   74.457    -150.63   64.854    23.134    0         40        60        -168.45   155       84        515       3         0         2         3         6         
+
+Identity: r64smoke-yolov8n_coco-c10-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         19.362    36.82     13.134    88        151       582       
+COMBINED                           19.362    36.82     13.134    88        151       582       
+
+Count: r64smoke-yolov8n_coco-c10-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         670       239       9         5         
+COMBINED                           670       239       9         5         
+[track] r64smoke-yolov8n_coco-c10-pf500-s1: HOTA 20.19 IDF1 19.36 IDSW 3 MOTA -151.88  (10 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_coco-c10-pf500-s2
+
+
+HOTA: r64smoke-yolov8n_coco-c10-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         23.94     16.256    36.042    52.103    18.421    37        83.252    79.805    42.964    30.594    74.544    22.806    
+COMBINED                           23.94     16.256    36.042    52.103    18.421    37        83.252    79.805    42.964    30.594    74.544    22.806    
+
+CLEAR: r64smoke-yolov8n_coco-c10-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -148.12   74.899    -147.28   67.782    23.964    20        20        60        -165.13   162       77        514       2         1         1         3         5         
+COMBINED                           -148.12   74.899    -147.28   67.782    23.964    20        20        60        -165.13   162       77        514       2         1         1         3         5         
+
+Identity: r64smoke-yolov8n_coco-c10-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         20.109    38.494    13.609    92        147       584       
+COMBINED                           20.109    38.494    13.609    92        147       584       
+
+Count: r64smoke-yolov8n_coco-c10-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         676       239       8         5         
+COMBINED                           676       239       8         5         
+[track] r64smoke-yolov8n_coco-c10-pf500-s2: HOTA 23.94 IDF1 20.11 IDSW 2 MOTA -148.12  (10 s)
+[01:49:35] track roundabout yolov8n_mixed5 c25 pf500
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c25-pf500-s0
+
+
+HOTA: r64smoke-yolov8n_mixed5-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         52.637    54.484    50.864    56.353    81.627    52.432    82.647    82.834    53.472    66.907    79.941    53.486    
+COMBINED                           52.637    54.484    50.864    56.353    81.627    52.432    82.647    82.834    53.472    66.907    79.941    53.486    
+
+CLEAR: r64smoke-yolov8n_mixed5-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         66.109    80.659    66.527    67.782    98.182    20        20        60        52.999    162       77        3         1         1         1         3         2         
+COMBINED                           66.109    80.659    66.527    67.782    98.182    20        20        60        52.999    162       77        3         1         1         1         3         2         
+
+Identity: r64smoke-yolov8n_mixed5-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         66.832    56.485    81.818    135       104       30        
+COMBINED                           66.832    56.485    81.818    135       104       30        
+
+Count: r64smoke-yolov8n_mixed5-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         165       239       3         5         
+COMBINED                           165       239       3         5         
+[track] r64smoke-yolov8n_mixed5-c25-pf500-s0: HOTA 52.64 IDF1 66.83 IDSW 1 MOTA 66.11  (8 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c25-pf500-s1
+
+
+HOTA: r64smoke-yolov8n_mixed5-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         48.563    53.881    43.859    56.067    81.707    44.924    83.845    83.448    49.572    60.143    80.212    48.242    
+COMBINED                           48.563    53.881    43.859    56.067    81.707    44.924    83.845    83.448    49.572    60.143    80.212    48.242    
+
+CLEAR: r64smoke-yolov8n_mixed5-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         63.598    81.286    64.435    66.527    96.951    20        20        60        51.148    159       80        5         2         1         1         3         4         
+COMBINED                           63.598    81.286    64.435    66.527    96.951    20        20        60        51.148    159       80        5         2         1         1         3         4         
+
+Identity: r64smoke-yolov8n_mixed5-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         52.605    44.351    64.634    106       133       58        
+COMBINED                           52.605    44.351    64.634    106       133       58        
+
+Count: r64smoke-yolov8n_mixed5-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         164       239       4         5         
+COMBINED                           164       239       4         5         
+[track] r64smoke-yolov8n_mixed5-c25-pf500-s1: HOTA 48.56 IDF1 52.61 IDSW 2 MOTA 63.60  (8 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c25-pf500-s2
+
+
+HOTA: r64smoke-yolov8n_mixed5-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         45.302    51.136    40.194    53.777    78.37     41.498    81.904    81.362    46.429    59.947    77.016    46.169    
+COMBINED                           45.302    51.136    40.194    53.777    78.37     41.498    81.904    81.362    46.429    59.947    77.016    46.169    
+
+CLEAR: r64smoke-yolov8n_mixed5-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         60.251    78.978    61.088    64.854    94.512    20        20        60        46.617    155       84        9         2         1         1         3         3         
+COMBINED                           60.251    78.978    61.088    64.854    94.512    20        20        60        46.617    155       84        9         2         1         1         3         3         
+
+Identity: r64smoke-yolov8n_mixed5-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         51.613    43.515    63.415    104       135       60        
+COMBINED                           51.613    43.515    63.415    104       135       60        
+
+Count: r64smoke-yolov8n_mixed5-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         164       239       4         5         
+COMBINED                           164       239       4         5         
+[track] r64smoke-yolov8n_mixed5-c25-pf500-s2: HOTA 45.30 IDF1 51.61 IDSW 2 MOTA 60.25  (9 s)
+[01:49:44] track roundabout yolov8n_mixed5 c10 pf500
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c10-pf500-s0
+
+
+HOTA: r64smoke-yolov8n_mixed5-c10-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         55.518    57.398    53.723    59.326    83.406    55.279    84.608    84.121    56.423    68.468    81.655    55.908    
+COMBINED                           55.518    57.398    53.723    59.326    83.406    55.279    84.608    84.121    56.423    68.468    81.655    55.908    
+
+CLEAR: r64smoke-yolov8n_mixed5-c10-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         68.201    82.382    68.619    69.874    98.235    20        20        60        55.891    167       72        3         1         1         1         3         1         
+COMBINED                           68.201    82.382    68.619    69.874    98.235    20        20        60        55.891    167       72        3         1         1         1         3         1         
+
+Identity: r64smoke-yolov8n_mixed5-c10-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         66.993    57.322    80.588    137       102       33        
+COMBINED                           66.993    57.322    80.588    137       102       33        
+
+Count: r64smoke-yolov8n_mixed5-c10-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         170       239       3         5         
+COMBINED                           170       239       3         5         
+[track] r64smoke-yolov8n_mixed5-c10-pf500-s0: HOTA 55.52 IDF1 66.99 IDSW 1 MOTA 68.20  (8 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c10-pf500-s1
+
+
+HOTA: r64smoke-yolov8n_mixed5-c10-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         49.336    55.16     44.191    57.564    81.408    45.574    83.366    83.268    50.418    61.986    79.902    49.528    
+COMBINED                           49.336    55.16     44.191    57.564    81.408    45.574    83.366    83.268    50.418    61.986    79.902    49.528    
+
+CLEAR: r64smoke-yolov8n_mixed5-c10-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         64.854    81.138    65.69     68.201    96.45     20        20        60        51.99     163       76        6         2         1         1         3         3         
+COMBINED                           64.854    81.138    65.69     68.201    96.45     20        20        60        51.99     163       76        6         2         1         1         3         3         
+
+Identity: r64smoke-yolov8n_mixed5-c10-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         52.451    44.77     63.314    107       132       62        
+COMBINED                           52.451    44.77     63.314    107       132       62        
+
+Count: r64smoke-yolov8n_mixed5-c10-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         169       239       4         5         
+COMBINED                           169       239       4         5         
+[track] r64smoke-yolov8n_mixed5-c10-pf500-s1: HOTA 49.34 IDF1 52.45 IDSW 2 MOTA 64.85  (8 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolov8n_mixed5-c10-pf500-s2
+
+
+HOTA: r64smoke-yolov8n_mixed5-c10-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         49.069    54.586    44.194    57.3      81.034    45.521    83.557    83.026    50.287    61.701    79.384    48.98     
+COMBINED                           49.069    54.586    44.194    57.3      81.034    45.521    83.557    83.026    50.287    61.701    79.384    48.98     
+
+CLEAR: r64smoke-yolov8n_mixed5-c10-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         63.18     81.216    64.017    67.364    95.266    20        20        60        50.527    161       78        8         2         1         1         3         2         
+COMBINED                           63.18     81.216    64.017    67.364    95.266    20        20        60        50.527    161       78        8         2         1         1         3         2         
+
+Identity: r64smoke-yolov8n_mixed5-c10-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         52.451    44.77     63.314    107       132       62        
+COMBINED                           52.451    44.77     63.314    107       132       62        
+
+Count: r64smoke-yolov8n_mixed5-c10-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         169       239       4         5         
+COMBINED                           169       239       4         5         
+[track] r64smoke-yolov8n_mixed5-c10-pf500-s2: HOTA 49.07 IDF1 52.45 IDSW 2 MOTA 63.18  (8 s)
+[01:49:52] track roundabout yolo11n_mixed5 c25 pf500
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c25-pf500-s0
+
+
+HOTA: r64smoke-yolo11n_mixed5-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         31.658    29.032    34.561    47.611    39.787    35.668    80.45     81.205    40.533    40.992    76.892    31.519    
+COMBINED                           31.658    29.032    34.561    47.611    39.787    35.668    80.45     81.205    40.533    40.992    76.892    31.519    
+
+CLEAR: r64smoke-yolo11n_mixed5-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -3.7657   78.021    -2.5105   58.577    48.951    0         40        60        -16.641   140       99        146       3         0         2         3         9         
+COMBINED                           -3.7657   78.021    -2.5105   58.577    48.951    0         40        60        -16.641   140       99        146       3         0         2         3         9         
+
+Identity: r64smoke-yolo11n_mixed5-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         36.571    40.167    33.566    96        143       190       
+COMBINED                           36.571    40.167    33.566    96        143       190       
+
+Count: r64smoke-yolo11n_mixed5-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         286       239       8         5         
+COMBINED                           286       239       8         5         
+[track] r64smoke-yolo11n_mixed5-c25-pf500-s0: HOTA 31.66 IDF1 36.57 IDSW 3 MOTA -3.77  (8 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c25-pf500-s1
+
+
+HOTA: r64smoke-yolo11n_mixed5-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         32.802    30.451    35.504    49.813    41.773    36.617    84.734    84.294    42.017    39.866    80.578    32.123    
+COMBINED                           32.802    30.451    35.504    49.813    41.773    36.617    84.734    84.294    42.017    39.866    80.578    32.123    
+
+CLEAR: r64smoke-yolo11n_mixed5-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -0.83682  81.146    0.41841   59.833    50.175    0         40        60        -12.117   143       96        142       3         0         2         3         8         
+COMBINED                           -0.83682  81.146    0.41841   59.833    50.175    0         40        60        -12.117   143       96        142       3         0         2         3         8         
+
+Identity: r64smoke-yolo11n_mixed5-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         38.168    41.841    35.088    100       139       185       
+COMBINED                           38.168    41.841    35.088    100       139       185       
+
+Count: r64smoke-yolo11n_mixed5-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         285       239       8         5         
+COMBINED                           285       239       8         5         
+[track] r64smoke-yolo11n_mixed5-c25-pf500-s1: HOTA 32.80 IDF1 38.17 IDSW 3 MOTA -0.84  (8 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c25-pf500-s2
+
+
+HOTA: r64smoke-yolo11n_mixed5-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         33.92     30.515    37.721    49.791    41.319    38.759    84.2      82.563    43.33     42.49     79.098    33.609    
+COMBINED                           33.92     30.515    37.721    49.791    41.319    38.759    84.2      82.563    43.33     42.49     79.098    33.609    
+
+CLEAR: r64smoke-yolo11n_mixed5-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -0.83682  79.813    0         60.251    50        0         40        60        -13       144       95        144       2         0         2         3         8         
+COMBINED                           -0.83682  79.813    0         60.251    50        0         40        60        -13       144       95        144       2         0         2         3         8         
+
+Identity: r64smoke-yolo11n_mixed5-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         36.812    40.586    33.681    97        142       191       
+COMBINED                           36.812    40.586    33.681    97        142       191       
+
+Count: r64smoke-yolo11n_mixed5-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         288       239       7         5         
+COMBINED                           288       239       7         5         
+[track] r64smoke-yolo11n_mixed5-c25-pf500-s2: HOTA 33.92 IDF1 36.81 IDSW 2 MOTA -0.84  (8 s)
+[01:50:01] track roundabout yolo11n_mixed5 c10 pf500
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c10-pf500-s0
+
+
+HOTA: r64smoke-yolo11n_mixed5-c10-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         31.63     23.508    42.607    51.376    29.028    44.405    82.7      82.625    46.77     39.925    78.508    31.344    
+COMBINED                           31.63     23.508    42.607    51.376    29.028    44.405    82.7      82.625    46.77     39.925    78.508    31.344    
+
+CLEAR: r64smoke-yolo11n_mixed5-c10-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -54.812   79.781    -53.975   61.506    34.752    20        20        60        -67.248   147       92        276       2         1         1         3         5         
+COMBINED                           -54.812   79.781    -53.975   61.506    34.752    20        20        60        -67.248   147       92        276       2         1         1         3         5         
+
+Identity: r64smoke-yolo11n_mixed5-c10-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         33.837    46.862    26.478    112       127       311       
+COMBINED                           33.837    46.862    26.478    112       127       311       
+
+Count: r64smoke-yolo11n_mixed5-c10-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         423       239       7         5         
+COMBINED                           423       239       7         5         
+[track] r64smoke-yolo11n_mixed5-c10-pf500-s0: HOTA 31.63 IDF1 33.84 IDSW 2 MOTA -54.81  (8 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c10-pf500-s1
+
+
+HOTA: r64smoke-yolo11n_mixed5-c10-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         30.092    24.108    37.821    52.676    29.833    39.199    86.004    84.78     44.549    35.948    81.064    29.141    
+COMBINED                           30.092    24.108    37.821    52.676    29.833    39.199    86.004    84.78     44.549    35.948    81.064    29.141    
+
+CLEAR: r64smoke-yolo11n_mixed5-c10-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -52.301   81.612    -51.046   62.762    35.545    20        20        60        -63.842   150       89        272       3         1         1         3         5         
+COMBINED                           -52.301   81.612    -51.046   62.762    35.545    20        20        60        -63.842   150       89        272       3         1         1         3         5         
+
+Identity: r64smoke-yolo11n_mixed5-c10-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         31.467    43.515    24.645    104       135       318       
+COMBINED                           31.467    43.515    24.645    104       135       318       
+
+Count: r64smoke-yolo11n_mixed5-c10-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         422       239       8         5         
+COMBINED                           422       239       8         5         
+[track] r64smoke-yolo11n_mixed5-c10-pf500-s1: HOTA 30.09 IDF1 31.47 IDSW 3 MOTA -52.30  (8 s)
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64smoke-yolo11n_mixed5-c10-pf500-s2
+
+
+HOTA: r64smoke-yolo11n_mixed5-c10-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         29.771    23.339    38.005    50.76     28.748    38.93     83.086    82.001    43.886    37.873    78.136    29.592    
+COMBINED                           29.771    23.339    38.005    50.76     28.748    38.93     83.086    82.001    43.886    37.873    78.136    29.592    
+
+CLEAR: r64smoke-yolo11n_mixed5-c10-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -54.393   79.314    -53.556   61.506    34.834    20        20        60        -67.116   147       92        275       2         1         1         3         5         
+COMBINED                           -54.393   79.314    -53.556   61.506    34.834    20        20        60        -67.116   147       92        275       2         1         1         3         5         
+
+Identity: r64smoke-yolo11n_mixed5-c10-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         30.257    41.841    23.697    100       139       322       
+COMBINED                           30.257    41.841    23.697    100       139       322       
+
+Count: r64smoke-yolo11n_mixed5-c10-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         422       239       7         5         
+COMBINED                           422       239       7         5         
+[track] r64smoke-yolo11n_mixed5-c10-pf500-s2: HOTA 29.77 IDF1 30.26 IDSW 2 MOTA -54.39  (9 s)
+[tong-hop] roundabout: 36 run co ket qua, thieu 0, lech 0
+[XONG] roundabout tat_ca --smoke

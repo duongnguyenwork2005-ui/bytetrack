@@ -1,0 +1,16 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\run_tracking.py', '--cache-id', 'r64_svmot_yolov8n_coco_c0.05', '--split-name', 'SVMOTSYS-test', '--tracker-yaml', 'bytetrack.yaml', '--tracker-name', 'r64-yolov8n_coco-c10-cv', '--videos', 'seq_22_morning', 'seq_23_morning', 'seq_24_morning', 'seq_25_morning', 'seq_26_evening', 'seq_27_evening', 'seq_28_evening', 'seq_29_evening', 'seq_30_evening', '--conf-min', '0.1', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '30.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
+exit: 0
+--- stdout
+[run_tracking] cache=r64_svmot_yolov8n_coco_c0.05 tracker=bytetrack yaml=bytetrack.yaml conf>0.1 classes=[1, 2, 3, 5, 7] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r64-yolov8n_coco-c10-cv      seq_22_morning  1200 frame ->  14,875 bbox  124 track  predict 0.35 ms/frame  assoc 3.96  (5.8s, 207 fps)
+  r64-yolov8n_coco-c10-cv      seq_23_morning   900 frame ->   9,653 bbox   57 track  predict 0.28 ms/frame  assoc 3.20  (3.5s, 255 fps)
+  r64-yolov8n_coco-c10-cv      seq_24_morning   900 frame ->   8,619 bbox   89 track  predict 0.25 ms/frame  assoc 2.82  (3.2s, 283 fps)
+  r64-yolov8n_coco-c10-cv      seq_25_morning   900 frame ->  10,332 bbox  160 track  predict 0.27 ms/frame  assoc 3.18  (3.5s, 256 fps)
+  r64-yolov8n_coco-c10-cv      seq_26_evening   870 frame ->   8,353 bbox   96 track  predict 0.26 ms/frame  assoc 3.16  (3.3s, 261 fps)
+  r64-yolov8n_coco-c10-cv      seq_27_evening   870 frame ->   8,462 bbox   89 track  predict 0.31 ms/frame  assoc 3.53  (3.8s, 232 fps)
+  r64-yolov8n_coco-c10-cv      seq_28_evening   870 frame ->  10,879 bbox   68 track  predict 0.36 ms/frame  assoc 4.47  (4.8s, 183 fps)
+  r64-yolov8n_coco-c10-cv      seq_29_evening   870 frame ->   8,583 bbox   52 track  predict 0.36 ms/frame  assoc 3.87  (4.3s, 203 fps)
+  r64-yolov8n_coco-c10-cv      seq_30_evening   870 frame ->   7,376 bbox   72 track  predict 0.27 ms/frame  assoc 2.75  (3.0s, 290 fps)
+  r64-yolov8n_coco-c10-cv        9 video moi,   0 tai su dung
+
+--- stderr

@@ -1,0 +1,16 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\run_tracking.py', '--cache-id', 'r64_svmot_yolov8n_mixed5_c0.05', '--split-name', 'SVMOTSYS-test', '--tracker-yaml', 'bytetrack.yaml', '--tracker-name', 'r64-yolov8n_mixed5-c25-cv', '--videos', 'seq_22_morning', 'seq_23_morning', 'seq_24_morning', 'seq_25_morning', 'seq_26_evening', 'seq_27_evening', 'seq_28_evening', 'seq_29_evening', 'seq_30_evening', '--conf-min', '0.25', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '30.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps']
+exit: 0
+--- stdout
+[run_tracking] cache=r64_svmot_yolov8n_mixed5_c0.05 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r64-yolov8n_mixed5-c25-cv    seq_22_morning  1200 frame ->  18,151 bbox  238 track  predict 0.31 ms/frame  assoc 3.32  (5.0s, 241 fps)
+  r64-yolov8n_mixed5-c25-cv    seq_23_morning   900 frame ->  11,469 bbox  115 track  predict 0.26 ms/frame  assoc 2.65  (3.0s, 300 fps)
+  r64-yolov8n_mixed5-c25-cv    seq_24_morning   900 frame ->  10,919 bbox  118 track  predict 0.28 ms/frame  assoc 2.87  (3.3s, 275 fps)
+  r64-yolov8n_mixed5-c25-cv    seq_25_morning   900 frame ->  12,857 bbox  181 track  predict 0.32 ms/frame  assoc 3.43  (3.8s, 235 fps)
+  r64-yolov8n_mixed5-c25-cv    seq_26_evening   870 frame ->  13,500 bbox  175 track  predict 0.32 ms/frame  assoc 3.46  (3.7s, 233 fps)
+  r64-yolov8n_mixed5-c25-cv    seq_27_evening   870 frame ->  12,319 bbox  183 track  predict 0.29 ms/frame  assoc 3.02  (3.3s, 265 fps)
+  r64-yolov8n_mixed5-c25-cv    seq_28_evening   870 frame ->  14,530 bbox  162 track  predict 0.31 ms/frame  assoc 3.63  (3.9s, 225 fps)
+  r64-yolov8n_mixed5-c25-cv    seq_29_evening   870 frame ->  11,924 bbox  107 track  predict 0.28 ms/frame  assoc 3.00  (3.3s, 266 fps)
+  r64-yolov8n_mixed5-c25-cv    seq_30_evening   870 frame ->  11,675 bbox  128 track  predict 0.26 ms/frame  assoc 2.80  (3.1s, 283 fps)
+  r64-yolov8n_mixed5-c25-cv      9 video moi,   0 tai su dung
+
+--- stderr

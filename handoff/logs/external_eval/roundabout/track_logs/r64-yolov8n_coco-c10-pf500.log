@@ -1,0 +1,21 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\run_tracking.py', '--cache-id', 'r64_roundabout_yolov8n_coco_c0.05', '--split-name', 'RoundaboutHD-prefix3000', '--tracker-yaml', 'configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml', '--tracker-name', 'r64-yolov8n_coco-c10-pf500', '--videos', 'imagesc001', 'imagesc002', 'imagesc003', 'imagesc004', '--conf-min', '0.1', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '15.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps', '--seeds', '0', '1', '2']
+exit: 0
+--- stdout
+[run_tracking] cache=r64_roundabout_yolov8n_coco_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[0, 1, 2]
+  r64-yolov8n_coco-c10-pf500-s0 imagesc001      3000 frame ->  24,545 bbox  351 track  predict 4.87 ms/frame  assoc 7.38  (37.9s, 79 fps)
+  r64-yolov8n_coco-c10-pf500-s0 imagesc002      3000 frame ->  10,102 bbox  306 track  predict 2.39 ms/frame  assoc 3.21  (17.5s, 172 fps)
+  r64-yolov8n_coco-c10-pf500-s0 imagesc003      3000 frame ->  13,921 bbox  497 track  predict 3.93 ms/frame  assoc 4.30  (25.5s, 118 fps)
+  r64-yolov8n_coco-c10-pf500-s0 imagesc004      3000 frame ->  11,085 bbox  376 track  predict 3.82 ms/frame  assoc 4.41  (25.4s, 118 fps)
+  r64-yolov8n_coco-c10-pf500-s0   4 video moi,   0 tai su dung
+  r64-yolov8n_coco-c10-pf500-s1 imagesc001      3000 frame ->  24,453 bbox  341 track  predict 4.90 ms/frame  assoc 6.70  (36.2s, 83 fps)
+  r64-yolov8n_coco-c10-pf500-s1 imagesc002      3000 frame ->  11,706 bbox  298 track  predict 2.98 ms/frame  assoc 3.92  (21.6s, 139 fps)
+  r64-yolov8n_coco-c10-pf500-s1 imagesc003      3000 frame ->  14,056 bbox  455 track  predict 4.36 ms/frame  assoc 4.78  (28.2s, 106 fps)
+  r64-yolov8n_coco-c10-pf500-s1 imagesc004      3000 frame ->  11,121 bbox  379 track  predict 4.28 ms/frame  assoc 4.87  (28.2s, 106 fps)
+  r64-yolov8n_coco-c10-pf500-s1   4 video moi,   0 tai su dung
+  r64-yolov8n_coco-c10-pf500-s2 imagesc001      3000 frame ->  24,505 bbox  322 track  predict 4.14 ms/frame  assoc 5.70  (30.5s, 98 fps)
+  r64-yolov8n_coco-c10-pf500-s2 imagesc002      3000 frame ->  11,428 bbox  313 track  predict 2.65 ms/frame  assoc 3.39  (18.8s, 159 fps)
+  r64-yolov8n_coco-c10-pf500-s2 imagesc003      3000 frame ->  13,979 bbox  457 track  predict 4.41 ms/frame  assoc 4.70  (28.1s, 107 fps)
+  r64-yolov8n_coco-c10-pf500-s2 imagesc004      3000 frame ->  11,042 bbox  395 track  predict 4.01 ms/frame  assoc 4.21  (25.4s, 118 fps)
+  r64-yolov8n_coco-c10-pf500-s2   4 video moi,   0 tai su dung
+
+--- stderr

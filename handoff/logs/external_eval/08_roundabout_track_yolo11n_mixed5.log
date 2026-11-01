@@ -1,0 +1,217 @@
+[04:00:28] track roundabout yolo11n_mixed5 c25 cv
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64-yolo11n_mixed5-c25-cv
+
+
+HOTA: r64-yolo11n_mixed5-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         32.262    26.21     39.744    32.024    55.314    41.565    83.735    84.123    35.668    40.805    77.443    31.601    
+imagesc002                         39.891    39.007    40.89     40.664    81.328    42.376    84.692    84.176    40.754    49.471    80.573    39.86     
+imagesc003                         51.594    52.302    51.448    57.045    78.605    54.056    86.194    85        54.015    62.643    80.804    50.618    
+imagesc004                         50.337    49.088    51.788    61.841    64.099    53.946    84.194    83.538    56.575    62.375    79.994    49.896    
+COMBINED                           44.296    41.395    47.67     48.002    68.67     49.81     84.997    84.203    47.765    54.611    79.87     43.618    
+
+CLEAR: r64-yolo11n_mixed5-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         15.284    82.719    15.54     36.717    63.42     1.0989    67.033    31.868    8.9389    7476      12885     4312      52        1         61        29        348       
+imagesc002                         44.722    82.218    45.119    47.559    95.119    1.2821    91.026    7.6923    36.265    7795      8595      400       65        1         71        6         407       
+imagesc003                         57.818    83.402    58.493    65.532    90.301    31.111    64.444    4.4444    46.941    12708     6684      1365      131       28        58        4         768       
+imagesc004                         50.563    81.192    51.127    73.802    76.497    41.935    56.989    1.0753    36.683    14412     5116      4428      110       39        53        1         415       
+COMBINED                           41.665    82.312    42.138    56.02     80.14     19.602    69.034    11.364    31.756    42391     33280     10505     358       69        243       40        1938      
+
+Identity: r64-yolo11n_mixed5-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         44.107    34.821    60.146    7090      13271     4698      
+imagesc002                         59.223    44.417    88.835    7280      9110      915       
+imagesc003                         64.216    55.409    76.352    10745     8647      3328      
+imagesc004                         62.323    61.225    63.461    11956     7572      6884      
+COMBINED                           57.668    48.99     70.083    37071     38600     15825     
+
+Count: r64-yolo11n_mixed5-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         11788     20361     226       91        
+imagesc002                         8195      16390     167       78        
+imagesc003                         14073     19392     301       90        
+imagesc004                         18840     19528     250       93        
+COMBINED                           52896     75671     944       352       
+[track] r64-yolo11n_mixed5-c25-cv: HOTA 44.30 IDF1 57.67 IDSW 358 MOTA 41.66  (81 s)
+[04:02:10] track roundabout yolo11n_mixed5 c25 ekf
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64-yolo11n_mixed5-c25-ekf
+
+
+HOTA: r64-yolo11n_mixed5-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         32.028    26.25     39.111    32.036    55.537    40.821    84.255    84.279    35.39     40.199    77.68     31.226    
+imagesc002                         39.539    38.712    40.479    40.403    81.034    42.01     84.396    84.077    40.417    49.309    80.241    39.566    
+imagesc003                         50.95     52.189    50.329    56.895    78.573    52.758    86.37     84.934    53.338    61.696    80.695    49.786    
+imagesc004                         50.176    49.04     51.507    61.735    64.112    53.668    84.135    83.509    56.374    62.196    79.951    49.727    
+COMBINED                           43.957    41.31     47.05     47.883    68.673    49.122    85.074    84.184    47.391    54.138    79.807    43.206    
+
+CLEAR: r64-yolo11n_mixed5-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         15.412    82.908    15.643    36.663    63.559    1.0989    67.033    31.868    9.1453    7465      12896     4280      47        1         61        29        337       
+imagesc002                         44.198    82.214    44.674    47.267    94.799    1.2821    91.026    7.6923    35.791    7747      8643      425       78        1         71        6         403       
+imagesc003                         57.56     83.359    58.302    65.357    90.258    30        65.556    4.4444    46.684    12674     6718      1368      144       27        59        4         775       
+imagesc004                         50.43     81.177    51.065    73.679    76.516    41.935    56.989    1.0753    36.562    14388     5140      4416      124       39        53        1         416       
+COMBINED                           41.485    82.327    42.004    55.866    80.121    19.318    69.318    11.364    31.612    42274     33397     10489     393       68        244       40        1931      
+
+Identity: r64-yolo11n_mixed5-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         43.668    34.429    59.685    7010      13351     4735      
+imagesc002                         58.375    43.74     87.726    7169      9221      1003      
+imagesc003                         63.42     54.672    75.502    10602     8790      3440      
+imagesc004                         61.818    60.672    63.008    11848     7680      6956      
+COMBINED                           57.039    48.406    69.422    36629     39042     16134     
+
+Count: r64-yolo11n_mixed5-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         11745     20361     225       91        
+imagesc002                         8172      16390     174       78        
+imagesc003                         14042     19392     313       90        
+imagesc004                         18804     19528     265       93        
+COMBINED                           52763     75671     977       352       
+[track] r64-yolo11n_mixed5-c25-ekf: HOTA 43.96 IDF1 57.04 IDSW 393 MOTA 41.48  (77 s)
+[04:03:44] track roundabout yolo11n_mixed5 c25 ukf
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64-yolo11n_mixed5-c25-ukf
+
+
+HOTA: r64-yolo11n_mixed5-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         32.12     26.259    39.326    32.064    55.487    41.045    84.212    84.259    35.502    40.308    77.644    31.297    
+imagesc002                         39.366    38.808    40.033    40.47     81.179    41.486    84.594    84.094    40.228    48.835    80.362    39.245    
+imagesc003                         50.788    52.176    50.03     56.856    78.625    52.447    86.436    84.953    53.157    61.47     80.732    49.625    
+imagesc004                         50.205    49.055    51.551    61.755    64.116    53.716    84.141    83.515    56.407    62.243    79.968    49.774    
+COMBINED                           43.908    41.329    46.927    47.9      68.689    48.985    85.124    84.191    47.337    54.028    79.839    43.136    
+
+CLEAR: r64-yolo11n_mixed5-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         15.363    82.898    15.579    36.683    63.48     1.0989    67.033    31.868    9.0894    7469      12892     4297      44        1         61        29        340       
+imagesc002                         44.362    82.187    44.814    47.334    94.946    1.2821    91.026    7.6923    35.931    7758      8632      413       74        1         71        6         396       
+imagesc003                         57.689    83.354    58.4      65.357    90.38     28.889    66.667    4.4444    46.809    12674     6718      1349      138       26        60        4         772       
+imagesc004                         50.497    81.175    51.111    73.715    76.533    41.935    56.989    1.0753    36.62     14395     5133      4414      120       39        53        1         418       
+COMBINED                           41.558    82.318    42.054    55.895    80.153    19.034    69.602    11.364    31.674    42296     33375     10473     376       67        245       40        1926      
+
+Identity: r64-yolo11n_mixed5-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         43.888    34.625    59.918    7050      13311     4716      
+imagesc002                         58.182    43.594    87.443    7145      9245      1026      
+imagesc003                         63.211    54.461    75.312    10561     8831      3462      
+imagesc004                         61.82     60.682    63.002    11850     7678      6959      
+COMBINED                           57.001    48.375    69.37     36606     39065     16163     
+
+Count: r64-yolo11n_mixed5-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         11766     20361     221       91        
+imagesc002                         8171      16390     174       78        
+imagesc003                         14023     19392     316       90        
+imagesc004                         18809     19528     262       93        
+COMBINED                           52769     75671     973       352       
+[track] r64-yolo11n_mixed5-c25-ukf: HOTA 43.91 IDF1 57.00 IDSW 376 MOTA 41.56  (109 s)
+[04:05:54] track roundabout yolo11n_mixed5 c10 cv
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64-yolo11n_mixed5-c10-cv
+
+
+HOTA: r64-yolo11n_mixed5-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         30.45     22.644    40.981    33.929    38.635    42.994    82.997    83.664    37.279    38.881    76.1      29.589    
+imagesc002                         42.368    41.743    43.108    43.918    80.095    44.786    84.188    83.861    43.49     52.895    79.997    42.315    
+imagesc003                         53.645    54.797    53.098    61.293    76.246    56.169    84.971    84.63     56.889    65.712    80.086    52.626    
+imagesc004                         49.856    48.012    51.951    64.162    59.953    54.506    83.284    83.2      57.717    62.526    79.202    49.522    
+COMBINED                           44.235    40.301    48.829    50.907    60.802    51.311    84.098    83.845    49.786    55.031    79.039    43.496    
+
+CLEAR: r64-yolo11n_mixed5-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -10.181   82.27     -9.9651   38.927    44.326    3.2967    69.231    27.473    -17.083   7926      12435     9955      44        3         63        25        195       
+imagesc002                         47.797    81.834    48.17     51.501    93.925    2.5641    92.308    5.1282    38.442    8441      7949      546       61        2         72        4         221       
+imagesc003                         60.04     83.037    60.649    70.519    87.722    44.444    53.333    2.2222    48.078    13675     5717      1914      118       40        48        2         402       
+imagesc004                         45.745    80.875    46.277    76.649    71.621    48.387    50.538    1.0753    31.086    14968     4560      5931      104       45        47        1         225       
+COMBINED                           34.805    81.957    35.237    59.481    71.043    25.568    65.341    9.0909    24.073    45010     30661     18346     327       90        230       32        1043      
+
+Identity: r64-yolo11n_mixed5-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         39.255    36.865    41.978    7506      12855     10375     
+imagesc002                         61.552    47.651    86.903    7810      8580      1177      
+imagesc003                         64.778    58.426    72.679    11330     8062      4259      
+imagesc004                         60.371    62.49     58.39     12203     7325      8696      
+COMBINED                           55.887    51.339    61.319    38849     36822     24507     
+
+Count: r64-yolo11n_mixed5-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         17881     20361     191       91        
+imagesc002                         8987      16390     157       78        
+imagesc003                         15589     19392     284       90        
+imagesc004                         20899     19528     238       93        
+COMBINED                           63356     75671     870       352       
+[track] r64-yolo11n_mixed5-c10-cv: HOTA 44.23 IDF1 55.89 IDSW 327 MOTA 34.80  (59 s)
+[04:07:09] track roundabout yolo11n_mixed5 c10 ekf
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64-yolo11n_mixed5-c10-ekf
+
+
+HOTA: r64-yolo11n_mixed5-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         30.037    22.589    39.978    33.868    38.581    41.901    82.979    83.737    36.788    38.12     76.122    29.017    
+imagesc002                         41.974    41.484    42.576    43.632    80.082    44.258    84.105    83.825    43.079    52.52     79.895    41.961    
+imagesc003                         53.435    54.468    53.035    60.884    76.176    55.834    85.577    84.559    56.651    65.483    79.92     52.335    
+imagesc004                         50.008    47.882    52.396    63.992    59.889    54.871    83.456    83.189    57.889    62.82     79.215    49.763    
+COMBINED                           44.063    40.121    48.671    50.68     60.711    51.026    84.318    83.826    49.592    54.82     78.977    43.296    
+
+CLEAR: r64-yolo11n_mixed5-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -10.461   82.404    -10.245   38.77     44.165    3.2967    69.231    27.473    -17.283   7894      12467     9980      44        3         63        25        196       
+imagesc002                         47.425    81.843    47.834    51.159    93.897    2.5641    92.308    5.1282    38.136    8385      8005      545       67        2         72        4         218       
+imagesc003                         59.442    82.972    60.174    70.05     87.644    42.222    54.444    3.3333    47.514    13584     5808      1915      142       38        49        3         401       
+imagesc004                         45.361    80.895    45.944    76.398    71.499    48.387    50.538    1.0753    30.764    14919     4609      5947      114       45        47        1         229       
+COMBINED                           34.396    81.969    34.881    59.18     70.892    25        65.625    9.375     23.725    44782     30889     18387     367       88        231       33        1044      
+
+Identity: r64-yolo11n_mixed5-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         38.635    36.275    41.323    7386      12975     10488     
+imagesc002                         60.979    47.102    86.45     7720      8670      1210      
+imagesc003                         65.146    58.607    73.327    11365     8027      4134      
+imagesc004                         60.415    62.485    58.478    12202     7326      8664      
+COMBINED                           55.709    51.107    61.221    38673     36998     24496     
+
+Count: r64-yolo11n_mixed5-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         17874     20361     187       91        
+imagesc002                         8930      16390     164       78        
+imagesc003                         15499     19392     303       90        
+imagesc004                         20866     19528     246       93        
+COMBINED                           63169     75671     900       352       
+[track] r64-yolo11n_mixed5-c10-ekf: HOTA 44.06 IDF1 55.71 IDSW 367 MOTA 34.40  (66 s)
+[04:08:31] track roundabout yolo11n_mixed5 c10 ukf
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r64-yolo11n_mixed5-c10-ukf
+
+
+HOTA: r64-yolo11n_mixed5-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         30.073    22.633    40.001    33.911    38.649    41.921    83.052    83.713    36.821    38.075    76.1      28.975    
+imagesc002                         42.05     41.562    42.651    43.716    80.065    44.337    84.03     83.811    43.158    52.609    79.89     42.03     
+imagesc003                         53.163    54.345    52.619    60.78     76.1      55.531    85.356    84.562    56.379    65.255    79.925    52.156    
+imagesc004                         50.022    47.943    52.36     64.084    59.901    54.825    83.505    83.186    57.91     62.81     79.215    49.755    
+COMBINED                           44.017    40.144    48.546    50.707    60.718    50.933    84.267    83.818    49.54     54.768    78.973    43.252    
+
+CLEAR: r64-yolo11n_mixed5-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         -10.294   82.373    -10.083   38.829    44.254    3.2967    69.231    27.473    -17.139   7906      12455     9959      43        3         63        25        200       
+imagesc002                         47.572    81.821    47.962    51.281    93.921    2.5641    93.59     3.8462    38.249    8405      7985      544       64        2         73        3         217       
+imagesc003                         59.571    82.956    60.272    70.07     87.732    43.333    53.333    3.3333    47.628    13588     5804      1900      136       39        48        3         402       
+imagesc004                         45.458    80.883    46.036    76.511    71.515    48.387    50.538    1.0753    30.831    14941     4587      5951      113       45        47        1         223       
+COMBINED                           34.531    81.95     35.002    59.257    70.956    25.284    65.625    9.0909    23.835    44840     30831     18354     356       89        231       32        1042      
+
+Identity: r64-yolo11n_mixed5-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         38.712    36.339    41.416    7399      12962     10466     
+imagesc002                         61.305    47.389    86.792    7767      8623      1182      
+imagesc003                         64.885    58.354    73.063    11316     8076      4172      
+imagesc004                         60.411    62.52     58.439    12209     7319      8683      
+COMBINED                           55.725    51.131    61.226    38691     36980     24503     
+
+Count: r64-yolo11n_mixed5-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         17865     20361     186       91        
+imagesc002                         8949      16390     162       78        
+imagesc003                         15488     19392     301       90        
+imagesc004                         20892     19528     244       93        
+COMBINED                           63194     75671     893       352       
+[track] r64-yolo11n_mixed5-c10-ukf: HOTA 44.02 IDF1 55.72 IDSW 356 MOTA 34.53  (118 s)
+[XONG] roundabout track 
