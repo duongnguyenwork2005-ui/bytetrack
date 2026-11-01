@@ -8,7 +8,7 @@
 # Buoc (moi buoc mot lan goi, ~<= 1,5 h GPU, tu choi neu dau ra da ton tai):
 #   cache40 | cachebdd | track40 | trackbdd | tang40 | tangbdd | ap40 | apbdd
 # Chay tu goc repo:  bash handoff/logs/review63/cong_cu/g4_bao_cao_cuoi.sh <buoc>
-set -u
+set -uo pipefail   # sua 02/11 (review GPT A_sua): loi g4_cham qua pipe tail khong con bi che
 PY=${PY:-C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe}
 export PYTHONIOENCODING=utf-8
 W=models/yolov8n.pt; SHA=f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36
@@ -37,7 +37,7 @@ track() {  # track <split> <tien_to> <mien> <videos...> -- cac co tracker rieng 
         $PY src/run_tracking.py --cache-id $cid --split-name $split --tracker-yaml $yaml --tracker-name $ten \
           --videos "$@" --conf-min $conf $CO > /dev/null || { echo "[DUNG] tracking $ten"; exit 3; }
         $PY handoff/logs/review63/cong_cu/g4_cham.py --split-name $split --tracker $ten --videos "$@" \
-          --dataset $DS 2>&1 | tail -1
+          --dataset $DS 2>&1 | tail -1 || { echo "[DUNG] cham $ten"; exit 4; }
       done
     done
   done

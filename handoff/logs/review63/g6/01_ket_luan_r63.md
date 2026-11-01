@@ -13,13 +13,19 @@ Bằng chứng: tốc độ `g3/01`, `g3/02` (+ đính chính `g3/04`); dev `g4/
 `~/nano_run/r63_20261030/v17c/nano_transfer` + engine `g3_c1_384x640_toc_do_01/engine/…384x640…engine`. Chuyển launcher
 cần quyết định riêng, kèm đường quay về v16 và kiểm HDMI/launcher.
 
-**Phạm vi kết luận:**
-- Mức tăng FPS đo trên **Jetson Nano này** (L4T 32.7.5, TRT 8.2.1, MAXN, thẻ SD giới hạn 100 MHz, 300 JPG có hiển thị).
-  Cơ chế (bớt 40 % pixel đầu vào, vùng nội dung giữ nguyên 360×640) không phụ thuộc thiết bị, nhưng **tỉ lệ tăng trên
+**Phạm vi kết luận** (sửa theo review GPT 02/11, A_sua):
+- Mức tăng FPS đo trên **Jetson Nano này** (L4T 32.7.5, TRT 8.2.1, MAXN; DTB giới hạn khe SD 100 MHz, lúc so cặp thẻ
+  thực chạy HS 50 MHz sau reboot ấm; 300 JPG MVI_39031 có hiển thị HDMI); baseline là **mã v16 với engine build lại trên
+  Nano hiện tại** (`9fae6b43…`), không phải engine v16 gốc; +42–44 % lấy từ 5/8 cặp cùng tầng decode.
+  Cơ chế (bớt 40 % pixel đầu vào bằng giảm phần đệm, vùng nội dung giữ nguyên 360×640) không phụ thuộc thiết bị, nhưng **tỉ lệ tăng trên
   Jetson khác phải đo lại**: engine TensorRT build riêng cho từng thiết bị; tăng tốc chỉ lớn khi engine là nút thắt.
 - Chất lượng: tracking và AP nằm trong ngưỡng suy giảm định trước ở dev và hai tập báo cáo; recall detection giảm nhẹ
   nhất quán; tầng xe nhỏ dev12 thiếu GT; BDD val không có nhãn che khuất; CI AP test40/BDD val chưa tính. Không viết
   "hoàn toàn không ảnh hưởng".
-- Câu báo cáo thầy: *"Mô hình v16 bê nguyên sang Jetson Nano chạy khoảng 9 FPS. Đưa ảnh vào mạng ở 384×640 (giữ nguyên
-  vùng ảnh, bỏ phần đệm) làm FPS tăng khoảng 43 % (≈ 13 FPS). Trên UA-DETRAC test và BDD val, HOTA/IDF1 thay đổi không
-  quá ±0,5 điểm, mAP giảm ≤ 0,2 điểm, recall detection giảm dưới 1 điểm ở các nhóm xe nhỏ/che khuất."*
+- Câu báo cáo thầy: *"Mã v16 với engine build lại trên Jetson Nano hiện tại chạy khoảng 9 FPS (300 ảnh, có hiển thị).
+  Đưa ảnh vào mạng ở 384×640 thay vì 640×640 (giữ nguyên vùng ảnh, giảm phần đệm; còn 24 hàng đệm) làm FPS tăng khoảng
+  43 % (≈ 13 FPS; +42–44 % ở 5/8 cặp đo cùng điều kiện giải mã). Chất lượng đo trên PC ở ngưỡng c25, CV và EKF: trên
+  UA-DETRAC test và BDD val, ước lượng điểm HOTA/IDF1 thay đổi trong khoảng ±0,5 điểm, mAP giảm ≤ 0,2 điểm; recall xe
+  nhỏ giảm 0,60 (test) / 0,18 (BDD val) điểm, xe bị che nặng (test) giảm 0,81 điểm; BDD val không có nhãn che khuất.
+  Đây là ước lượng điểm, không phải giới hạn khoảng tin cậy, và không áp cho mọi nhóm (xe cỡ vừa ở test giảm 1,65
+  điểm)."*
