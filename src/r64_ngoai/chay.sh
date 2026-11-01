@@ -12,10 +12,15 @@ W="$PY -B src/r64_ngoai/danh_gia_ngoai.py"
 DET=${DET_CHON:-"yolov8n_coco yolov8n_mixed5 yolo11n_mixed5"}   # DET_CHON: chay song song tung detector (chi PF, CPU)
 goi() { "$@"; local rc=$?; [ $rc -eq 10 ] && { echo "[PARTIAL] $*"; exit 10; }; [ $rc -ne 0 ] && { echo "[DUNG rc=$rc] $*"; exit $rc; }; return 0; }
 lam_cache() { for d in $DET; do echo "[$(date +%T)] cache $DS $d"; goi $W cache $DS $d $SM "${HH[@]}"; done; }
-lam_track() {  # lam_track <bo loc...>; bo qua run da co ket qua cham (tiep tuc sau PARTIAL)
+lam_track() {  # lam_track <bo loc...>; kiem-run (sua 02/11 theo review cuoi GPT): 0 xong -> bo qua (da xac thuc cong_r64,
+  # tap video, hash GT, du seed), 1 chua -> chay, khac -> don vi do/hong -> DUNG, khong ghi de
   for d in $DET; do for c in c25 c10; do for l in "$@"; do
-    ten="r64$( [ -n "$SM" ] && echo smoke )-$d-$c-$l"; split=$( [ $DS = svmot ] && echo SVMOTSYS-test || echo RoundaboutHD-prefix3000 )$( [ -n "$SM" ] && echo -smoke128 )
-    if ls -d results/trackeval/$split/$ten results/trackeval/$split/$ten-s0 >/dev/null 2>&1; then echo "[bo qua] $ten da cham"; continue; fi
+    $W kiem-run $DS $d $c $l $SM; rc=$?
+    case $rc in
+      0) echo "[bo qua] $d $c $l da xong + qua kiem"; continue ;;
+      1) ;;
+      *) echo "[DUNG] $d $c $l: don vi do/hong (kiem-run rc=$rc), can xu ly tay"; exit 2 ;;
+    esac
     echo "[$(date +%T)] track $DS $d $c $l"; goi $W track $DS $d $c $l $SM "${HH[@]}"
   done; done; done
 }

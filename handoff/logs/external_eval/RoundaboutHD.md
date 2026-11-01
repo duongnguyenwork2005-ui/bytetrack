@@ -14,7 +14,9 @@
   evaluator `mot`. Cache `r64_roundabout_<det>_c0.05`: 12/12 đơn vị qua cổng. Đơn vị yolov8n_coco cam1–2 được sinh sớm
   (sai lệch Q4, ghi trong `smoke/00_smoke.md`) và có biên bản xác minh bổ sung.
 - Thống kê chỉ mô tả, không CI (4 camera của cùng một nút giao, chưa chứng minh độc lập). Bảng: `roundabout/*.csv`.
-  Log: `../07_roundabout_cache.log`, `../08_*`, `../09_*`, `roundabout/track_logs/`.
+  Log (cùng thư mục): `07_roundabout_cache.log`, `08_*`, `09_*`, `roundabout/track_logs/`. Tracking 3 detector chạy song
+  song trên CPU ⇒ thời gian trong log không phải benchmark tốc độ. Lượt đêm không có nhật ký ngân sách (mã khi đó kiểm
+  nhưng không ghi; xem `SVMOT.md`); kiểm lại cổng mới: `10_kiem_lai_cong_moi.log`.
 
 ## COMBINED (điểm thang 100; PF500 = trung bình 3 seed)
 
@@ -27,8 +29,9 @@
 | yolo11n_mixed5 | c25 | 44,30 / 43,96 / 43,91 / 32,13 | 57,67 / 57,04 / 57,00 / 38,72 | 358 / 393 / 376 / 984,7 | 41,39 / 36,71 | 41,66 |
 | yolo11n_mixed5 | c10 | 44,23 / 44,06 / 44,02 / 32,14 | 55,89 / 55,71 / 55,72 / 37,89 | 327 / 367 / 356 / 935,7 | 40,30 / 35,78 | 34,80 |
 
-PF500 từng seed: HOTA trong khoảng 26,5–32,5, chênh giữa các seed ≤ 0,5 điểm ⇒ mức thấp của PF500 **không phải do một
-seed**.
+PF500 từng seed: HOTA trong khoảng 26,5–32,5, chênh giữa các seed tối đa khoảng 0,50 điểm (0,5025 ở yolo11n_mixed5 c10)
+⇒ mức thấp của PF500 **không phải do một seed**. GPT tái tính: PF500 thấp hơn CV ở đủ 72 tổ hợp camera × detector ×
+ngưỡng × seed.
 
 ## HOTA từng camera (c25)
 
@@ -43,11 +46,21 @@ seed**.
 - **Detector:** khác SVMOT, hai detector mixed5 cao hơn yolov8n_coco 4–6 điểm HOTA và có MOTA cao hơn nhiều.
   yolov8n_coco có FP lớn nhất (13,9 nghìn ở c25 CV); một phần là xe đỗ ngoài SCT_GT (xem giới hạn nhãn). cam1 thấp nhất
   với mọi detector.
-- **CV/EKF/UKF gần như bằng nhau** (chênh ≤ 0,6 điểm HOTA; CV nhỉnh nhất ở hầu hết ô).
-- **PF500 thấp hơn rõ và nhất quán:** so với CV, HOTA −11,6 đến −12,4 điểm, AssA giảm 17,6–20,2 điểm, IDSW gấp 2,2–2,9 lần, DetA
-  giảm 3,8–4,7 điểm. Hiện tượng có ở cả 4 camera, cả 3 detector, cả 2 ngưỡng và cả 3 seed. Smoke 128 frame cũng đã cho thấy
-  chiều này. Chưa chẩn đoán nguyên nhân. Một **giả thuyết chưa kiểm** là tham số nhiễu theo bước của PF/CTRV được đặt
-  theo các tập trước, trong khi ở đây ảnh 4K (đơn vị pixel lớn hơn) và 15 fps (bước thời gian dài hơn). Nếu muốn kiểm
-  cần lượt chẩn đoán riêng; không đổi cấu hình khóa.
+- **CV/EKF/UKF gần như bằng nhau** ở COMBINED (chênh ≤ 0,6 điểm HOTA; CV nhỉnh nhất ở cả 6 dòng COMBINED, không phải
+  mọi camera).
+- **PF500 thấp hơn rõ và nhất quán:** ở COMBINED, PF500 (trung bình 3 seed) so với CV: HOTA −11,56 đến −12,35 điểm, AssA
+  giảm 17,6–20,2 điểm, IDSW gấp 2,22–2,91 lần, DetA giảm 3,8–4,7 điểm. Hiện tượng có ở cả 4 camera, cả 3 detector, cả 2
+  ngưỡng và cả 3 seed; smoke 128 frame cũng cho thấy cùng chiều. **Nguyên nhân chưa xác định.** Một **giả thuyết chưa
+  kiểm** là ảnh 4K và 15 fps khác các tập trước. Tuy nhiên nhiễu vị trí/vận tốc của PF đã tỷ lệ với chiều cao box, và dt
+  vẫn là một bước, nên độ phân giải hay FPS riêng lẻ **chưa** chứng minh được nguyên nhân. Muốn kiểm phải có lượt chẩn
+  đoán riêng (đề xuất ở dưới); không đổi cấu hình đã khóa.
 - So với SVMOT (nơi PF500 nhỉnh hơn CV ở scene_06), chiều của PF500 **đảo ngược** giữa hai tập ⇒ không khái quát được kết
   luận về bộ lọc từ một tập ngoài.
+
+## Đề xuất (chưa được phép tự chạy — GPT review cuối 02/11)
+
+Lượt **chẩn đoán PF riêng** trên RoundaboutHD, không phải điều kiện để công nhận kết quả âm hiện tại: dùng lại cache và
+cấu hình khóa, cố định phạm vi trước khi chạy; đối chiếu CV/EKF/UKF/PF500 trên cùng đầu vào; xem chuyển động chuẩn hóa
+theo chiều cao box, sai số dự đoán, ghép cặp, phân mảnh track và ESS/resampling/reset của PF. Nếu thêm log phải chứng
+minh không đổi RNG/output. Mọi ablation nhiễu, số hạt, FPS hay độ phân giải cần kế hoạch được duyệt riêng; không tune trên
+R64 rồi thay benchmark đã khóa.

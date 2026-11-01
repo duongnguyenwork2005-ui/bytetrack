@@ -65,9 +65,13 @@ def _lam_cache(root, n=4, sua=None):
     sha = dg.detector_r54(DET)["sha256"]
     meta = {"backend": "ultralytics", "weights_sha256": sha, "imgsz": 640, "conf": 0.05, "iou": 0.7, "classes": None,
             "max_det": 3000, "half": False, "agnostic_nms": False, "augment": False, "rect": True, "batch": 1,
-            "mask_ignored_regions": False, "dataset": "svmot", "spec_sha256": "abc"}
+            "device": "0", "mask_ignored_regions": False, "dataset": "svmot", "gt_jitter": 0.0, "gt_dropout": 0.0,
+            "gt_seed": 0, "gt_conf_range": [0.3, 0.95], "versions": {"torch": "x"}}
+    meta["spec_sha256"] = dg.hashlib.sha256(js.dumps(dg.det_cache.meta_gen_spec(meta), sort_keys=True,
+                                                     default=str).encode()).hexdigest()
     info = {"detector": DET, "dataset": "svmot", "checkpoint_sha256": sha, "names": NAMES5, "anh_xa_coco": BANG5,
-            "spec_sha256": "abc"}
+            "spec_sha256": meta["spec_sha256"], "split": "SVMOTSYS-test-smoke128", "nguon": {"loai": "anh_jpg"},
+            "ma_sha256": {"x": "y"}, "gt_luc_sinh_sha256": "z"}
     data = np.array([[10, 10, 50, 40, 0.9, 2], [100, 100, 150, 140, 0.3, 3], [5, 5, 9, 9, 0.06, 1]], np.float32)
     z = {"frame_idx": np.arange(1, n + 1, dtype=np.int32), "n_per_frame": np.array([2, 0, 1] + [0] * (n - 3), np.int32),
          "unreadable": np.zeros(n, bool), "truncated": np.zeros(n, bool),
@@ -136,6 +140,66 @@ def test_cong_cache_meta_lech(tmp_path):
     def sua(z, i, m):
         m["mask_ignored_regions"] = True
     _phai_loi(tmp_path, sua=sua)
+
+    def sua2(z, i, m):                                               # fingerprint khong khop GEN_FIELDS
+        m["spec_sha256"] = i["spec_sha256"] = "0" * 64
+    _phai_loi(tmp_path / "b", sua=sua2)
+
+    def sua3(z, i, m):                                               # marker moi nhung json thieu provenance
+        del i["nguon"]
+    _phai_loi(tmp_path / "c", sua=sua3)
+
+
+def test_marker_legacy_can_bien_ban_xac_minh(tmp_path):
+    import json as js
+    cdir = _lam_cache(tmp_path)
+    mk = cdir / "seq_22_morning.xong.json"
+    m = js.loads(mk.read_text()); del m["dataset"], m["split"]; mk.write_text(js.dumps(m))
+    with pytest.raises(dg.LoiHopDong):                               # legacy, chua co bien ban
+        dg.kiem_don_vi_cache("svmot", DET, "seq_22_morning", True)
+    bb = cdir / "seq_22_morning.xac_minh_bo_sung.json"
+    bb.write_text(js.dumps({"cong": "... DAT", "marker_sha256": "sai"}))
+    with pytest.raises(dg.LoiHopDong):                               # bien ban khong gan dung marker
+        dg.kiem_don_vi_cache("svmot", DET, "seq_22_morning", True)
+    bb.write_text(js.dumps({"cong": "... DAT", "marker_sha256": dg.sha256_file(mk)}))
+    assert dg.kiem_don_vi_cache("svmot", DET, "seq_22_morning", True)["n_boxes"] == 3
+
+
+def _lam_run(root, loc, seeds_co, hong=None):
+    """Gia PROCESSED_DIR/RESULTS_DIR trong root; GT smoke + output/cham cho cac seed trong seeds_co."""
+    import json as js
+    dg.config.PROCESSED_DIR, dg.config.RESULTS_DIR = root / "p", root / "r"
+    t = dg.cau_hinh("svmot", True)
+    g = root / "p" / t["split"] / "seq_22_morning" / "gt"; g.mkdir(parents=True, exist_ok=True)
+    (g / "gt.txt").write_text("1,1,0,0,10,10,1,1,1.000\n")
+    gt_hash = {"seq_22_morning": dg.sha256_file(g / "gt.txt")}
+    for s in seeds_co:
+        nm = dg.ten_run(DET, "c25", loc, True) + (f"-s{s}" if s is not None else "")
+        o = root / "p" / "trackers" / t["split"] / nm / "data"; o.mkdir(parents=True)
+        (o / "seq_22_morning.txt").write_text("")
+        k = root / "r" / "trackeval" / t["split"] / nm; k.mkdir(parents=True)
+        (k / "combined_metrics.csv").write_text("video,HOTA\nCOMBINED_SEQ,0.5\n")
+        (k / "raw_fields.json").write_text(js.dumps({"seq_22_morning": {}}))
+        c = {"hau_kiem": "DAT", "cong_truoc_cache": {"seq_22_morning": {}}, "gt_cham_sha256": gt_hash}
+        if hong:
+            hong(c)
+        (k / "cong_r64.json").write_text(js.dumps(c))
+
+
+def test_trang_thai_run_du_thieu_seed_cong_hong(tmp_path):
+    _lam_run(tmp_path / "a", "pf500", [])
+    assert dg.trang_thai_run("svmot", DET, "c25", "pf500", True)[0] == "chua"
+    _lam_run(tmp_path / "b", "pf500", [0, 1, 2])
+    assert dg.trang_thai_run("svmot", DET, "c25", "pf500", True)[0] == "xong"
+    _lam_run(tmp_path / "c", "pf500", [0, 1])                        # thieu seed 2
+    tt, ly = dg.trang_thai_run("svmot", DET, "c25", "pf500", True)
+    assert tt == "do" and any("s2" in x for x in ly)
+    _lam_run(tmp_path / "d", "cv", [None], hong=lambda c: c.update(hau_kiem="LOI"))
+    assert dg.trang_thai_run("svmot", DET, "c25", "cv", True)[0] == "do"
+    _lam_run(tmp_path / "e", "cv", [None], hong=lambda c: c.update(gt_cham_sha256={"seq_22_morning": "cu"}))
+    assert dg.trang_thai_run("svmot", DET, "c25", "cv", True)[0] == "do"
+    _lam_run(tmp_path / "f", "cv", [None])
+    assert dg.trang_thai_run("svmot", DET, "c25", "cv", True)[0] == "xong"
 
 
 def test_don_vi_do_khong_ghi_de(tmp_path):

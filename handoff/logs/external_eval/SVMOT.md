@@ -11,9 +11,14 @@ theo review smoke `.../hoi_codex_R64_review_smoke_20261102/answer.json`):
   seq_22–25 được sinh bằng mã trước review và có biên bản xác minh bổ sung.
 - Tracker: ByteTrack YAML hiện có, lớp 1 2 3 5 7, max 300, c25 / c10, 30 fps, buffer 1,2 s = 36 bước (`max_frames_lost`
   thực tế 36), elapsed steps (n_steps = 1 mọi frame). Evaluator `mot`. PF500 chạy seed 0/1/2.
-- Mã: `src/r64_ngoai/danh_gia_ngoai.py`, `chay.sh`. Log: `../04_svmot_cache_v2.log`, `../05_svmot_track_*.log`,
-  `../06_svmot_pf_*.log`, `svmot/track_logs/`. Kết quả chấm: `results/trackeval/SVMOTSYS-test/r64-*`, mỗi run kèm
-  `cong_r64.json` (cổng trước, hậu kiểm, hash GT/mã).
+- Mã: `src/r64_ngoai/danh_gia_ngoai.py`, `chay.sh`. Log (cùng thư mục): `04_svmot_cache_v2.log`, `05_svmot_track_*.log`,
+  `06_svmot_pf_*.log`, `svmot/track_logs/`. Kết quả chấm: `results/trackeval/SVMOTSYS-test/r64-*`, mỗi run kèm
+  `cong_r64.json` (cổng trước, hậu kiểm, hash GT/mã). Tracking 3 detector chạy **song song trên CPU** ⇒ thời gian trong
+  log không phải benchmark tốc độ.
+- **Thiếu bằng chứng ngân sách (ghi nhận, không hồi tố):** lượt đêm 01–02/11 có kiểm thời gian/dung lượng trước mỗi job
+  nhưng mã khi đó **không ghi nhật ký** và chưa giữ dự phòng 30 phút. Từ bản sửa 02/11 04:3x (review cuối GPT), mỗi job ghi
+  `<ds>/ngan_sach.jsonl` (deadline, còn lại, dự toán, dự phòng, ổ đích, dung lượng trống, dự toán ghi). Kiểm lại cổng mới
+  trên toàn bộ 39 đơn vị cache và 48 cấu hình run: `10_kiem_lai_cong_moi.log` (đều ĐẠT/xong).
 - Thống kê: chỉ **mô tả**. Số COMBINED tái tổ hợp từ raw_fields, khớp TrackEval ≤ 1e-9. PF500 lấy trung bình metric
   COMBINED của 3 seed. **Không tính CI**: 9 chuỗi chỉ thuộc 2 scene nên không phải 9 quan sát độc lập.
   Bảng: `svmot/combined_tung_run.csv`, `tung_chuoi.csv`, `theo_scene.csv`.
@@ -39,7 +44,7 @@ PF500 từng seed (c25, yolov8n_coco): HOTA 51,30 / 51,31 / 49,50, tức dao đ�
 | yolov8n_coco | scene_06 (tối) | 50,39 | 51,98 | 51,16 | 54,38 |
 | yolov8n_mixed5 | scene_05 | 41,88 | 42,11 | 42,17 | 41,66 |
 | yolov8n_mixed5 | scene_06 | 46,33 | 48,58 | 47,32 | 48,37 |
-| yolo11n_mixed5 | scene_05 | 42,31 | 42,37 | 42,45 | 41,96 |
+| yolo11n_mixed5 | scene_05 | 42,31 | 42,37 | 42,45 | 41,95 |
 | yolo11n_mixed5 | scene_06 | 45,60 | 46,07 | 47,25 | 47,48 |
 
 ## Quan sát mô tả (không suy nguyên nhân chắc chắn, không chọn gì theo đây)
@@ -48,7 +53,9 @@ PF500 từng seed (c25, yolov8n_coco): HOTA 51,30 / 51,31 / 49,50, tức dao đ�
   và MOTA rất thấp, thậm chí âm ở c10, tức FP nhiều so với GT. Cần xem precision/recall trước khi giải thích; một khả năng
   là xe ở xa không có nhãn.
 - **Bộ lọc:** ở c25, EKF/UKF/PF500 có HOTA cao hơn CV 0,3–2,0 điểm; ở c10 chênh lệch tương tự. Phần lớn chênh lệch đến từ
-  AssA, còn DetA gần như bằng nhau. PF500 có IDSW cao hơn EKF/UKF dù HOTA trung bình cao hơn. Lợi thế của PF500 tập trung
-  ở **scene_06**; ở scene_05 PF500 ngang hoặc thấp hơn CV. Chỉ có 2 scene, chưa tính CI ⇒ **chưa kết luận** bộ lọc nào tốt
+  AssA, còn DetA gần như bằng nhau. PF500 có IDSW trung bình cao hơn EKF/UKF trong cả sáu nhóm (detector × ngưỡng);
+  thứ hạng HOTA giữa EKF/UKF/PF500 phụ thuộc detector và ngưỡng (vd PF500 thấp hơn EKF với yolov8n_mixed5, thấp hơn UKF
+  với yolo11n_mixed5, ở cả hai ngưỡng). Phần HOTA PF500 cao hơn CV tập trung ở **scene_06**; ở scene_05 PF500 ngang hoặc
+  thấp hơn CV. Chỉ có 2 scene, chưa tính CI ⇒ **chưa kết luận** bộ lọc nào tốt
   hơn trên SVMOT.
-- c10 làm HOTA giảm 1–2,5 điểm so với c25 ở cả 3 detector.
+- c10 làm HOTA giảm khoảng 1,1–2,4 điểm so với c25 ở cả 3 detector.

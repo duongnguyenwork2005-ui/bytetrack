@@ -121,18 +121,33 @@ def ten_cache(ds: str, det: str, smoke: bool) -> str:
     return f"r64{'smoke' if smoke else ''}_{ds}_{det}_c0.05"
 
 
-def kiem_ngan_sach(het_han: str | None, giay_uoc: float, viec: str) -> None:
-    if het_han is None:
-        return
-    con = dt.datetime.fromisoformat(het_han).timestamp() - time.time()
-    if giay_uoc > con:
-        raise HetNganSach(f"{viec}: uoc {giay_uoc:.0f} s > con {con:.0f} s toi han {het_han}")
+DU_PHONG_GIAY = 1800          # review cuoi GPT 02/11: tu danh 30 phut hau kiem/bao cao truoc han
 
 
-def kiem_dia(thu_muc: Path, byte_uoc: int, viec: str) -> None:
+def tien_kiem_job(ds: str, smoke: bool, het_han: str | None, viec: str, giay_uoc: float, thu_muc: Path,
+                  byte_uoc: int) -> None:
+    """Tien kiem ngan sach TRUOC moi job (review cuoi GPT 02/11): bat buoc --het-han (tru smoke), con lai >= du toan +
+    30 phut, o dich trong >= du toan ghi + 5 GiB; MOI lan kiem (dat hay khong) ghi mot dong JSON vao
+    handoff/logs/external_eval/[smoke/]<ds>/ngan_sach.jsonl."""
     trong = shutil.disk_usage(thu_muc).free
+    con = None if het_han is None else dt.datetime.fromisoformat(het_han).timestamp() - time.time()
+    loi = []
+    if het_han is None and not smoke:
+        loi.append("thieu --het-han")
+    if con is not None and giay_uoc + DU_PHONG_GIAY > con:
+        loi.append(f"uoc {giay_uoc:.0f} s + du phong {DU_PHONG_GIAY} s > con {con:.0f} s")
     if trong < byte_uoc + DU_PHONG_DIA:
-        raise HetNganSach(f"{viec}: o {thu_muc} con {trong / 1e9:.1f} GB < uoc {byte_uoc / 1e9:.2f} GB + 5 GiB")
+        loi.append(f"o {thu_muc} con {trong / 1e9:.1f} GB < uoc {byte_uoc / 1e9:.3f} GB + 5 GiB")
+    nk = GOC / "handoff" / "logs" / "external_eval" / ("smoke" if smoke else "") / ds / "ngan_sach.jsonl"
+    nk.parent.mkdir(parents=True, exist_ok=True)
+    with open(nk, "a", encoding="utf-8") as f:
+        f.write(json.dumps({"thoi_diem": bay_gio(), "viec": viec, "het_han": het_han,
+                            "giay_con": None if con is None else round(con), "giay_uoc": round(giay_uoc),
+                            "giay_du_phong": DU_PHONG_GIAY, "o_dich": str(thu_muc), "byte_trong": trong,
+                            "byte_uoc": byte_uoc, "byte_du_phong": DU_PHONG_DIA, "dat": not loi, "loi": loi},
+                           ensure_ascii=False) + "\n")
+    if loi:
+        raise HetNganSach(f"{viec}: " + "; ".join(loi))
 
 
 # --------------------------------------------------------------------------------------------- GT
@@ -342,6 +357,9 @@ def kiem_noi_dung_cache(ds: str, det: str, v: str, smoke: bool) -> dict:
         lech["rect"] = (meta.get("rect"), True)
     if lech:
         raise LoiHopDong(f"{cdir.name}/meta.json lech: {lech}")
+    fp = hashlib.sha256(json.dumps(det_cache.meta_gen_spec(meta), sort_keys=True, default=str).encode()).hexdigest()
+    if meta.get("spec_sha256") != fp:
+        raise LoiHopDong(f"{cdir.name}/meta.json: spec_sha256 khong khop fingerprint tinh lai tu GEN_FIELDS")
     info = json.loads((cdir / f"{v}.json").read_text(encoding="utf-8"))
     if info.get("spec_sha256") != meta.get("spec_sha256"):
         raise LoiHopDong(f"{cdir.name}/{v}: spec_sha256 json != meta")
@@ -381,9 +399,11 @@ def kiem_noi_dung_cache(ds: str, det: str, v: str, smoke: bool) -> dict:
     return {"n_frames": n, "n_boxes": int(len(d)), "max_n_per_frame": int(z["n_per_frame"].max()) if n else 0}
 
 
-def kiem_don_vi_cache(ds: str, det: str, v: str, smoke: bool) -> dict:
-    """Cong hoan tat: marker doc duoc, dung detector/video (+ dataset/split neu marker moi), du artifact, sha256 khop,
-    roi cong noi dung. Thieu/hong -> LoiHopDong (khong skip, khong ghi de)."""
+def kiem_don_vi_cache(ds: str, det: str, v: str, smoke: bool, cho_legacy_chua_xac_minh: bool = False) -> dict:
+    """Cong hoan tat: marker doc duoc, dung detector/video, du artifact, sha256 khop, roi cong noi dung. Marker MOI phai
+    co dataset/split dung va json don vi co provenance bat buoc (nguon, ma_sha256, split); marker LEGACY (truoc review,
+    khong co dataset) chi duoc nhan khi co bien ban <video>.xac_minh_bo_sung.json gan dung hash marker (tru khi chinh
+    buoc xac-minh goi). Thieu/hong -> LoiHopDong (khong skip, khong ghi de)."""
     t = cau_hinh(ds, smoke)
     cdir = det_cache.CACHE_ROOT / ten_cache(ds, det, smoke)
     mk = cdir / f"{v}.xong.json"
@@ -393,13 +413,26 @@ def kiem_don_vi_cache(ds: str, det: str, v: str, smoke: bool) -> dict:
         raise LoiHopDong(f"{cdir.name}/{v}: marker khong doc duoc: {e}") from e
     if m.get("detector") != det or m.get("video") != v:
         raise LoiHopDong(f"{cdir.name}/{v}: marker detector/video lech")
-    if "dataset" in m and (m["dataset"] != ds or m["split"] != t["split"]):
-        raise LoiHopDong(f"{cdir.name}/{v}: marker dataset/split lech")
     for f in (f"{v}.npz", f"{v}.json", "meta.json"):
         if not (cdir / f).is_file():
             raise LoiHopDong(f"{cdir.name}/{v}: thieu {f}")
         if sha256_file(cdir / f) != m.get("sha256", {}).get(f):
             raise LoiHopDong(f"{cdir.name}/{v}: sha256 {f} != marker")
+    if "dataset" in m:
+        if m["dataset"] != ds or m.get("split") != t["split"]:
+            raise LoiHopDong(f"{cdir.name}/{v}: marker dataset/split lech")
+        info = json.loads((cdir / f"{v}.json").read_text(encoding="utf-8"))
+        thieu = [k for k in ("nguon", "ma_sha256", "split", "gt_luc_sinh_sha256") if not info.get(k)]
+        if thieu or info["split"] != t["split"]:
+            raise LoiHopDong(f"{cdir.name}/{v}: provenance bat buoc thieu/lech {thieu or 'split'}")
+    elif not cho_legacy_chua_xac_minh:
+        bb = cdir / f"{v}.xac_minh_bo_sung.json"
+        try:
+            x = json.loads(bb.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as e:
+            raise LoiHopDong(f"{cdir.name}/{v}: marker legacy KHONG co bien ban xac minh bo sung hop le: {e}") from e
+        if x.get("marker_sha256") != sha256_file(mk) or "DAT" not in str(x.get("cong", "")):
+            raise LoiHopDong(f"{cdir.name}/{v}: bien ban xac minh bo sung khong gan dung marker / khong DAT")
     return kiem_noi_dung_cache(ds, det, v, smoke)
 
 
@@ -443,8 +476,9 @@ def buoc_cache(ds: str, det: str, smoke: bool, videos: list[str] | None, het_han
     ma = hash_ma()
     for v in lam:
         n = so_frame(t, v)
-        kiem_ngan_sach(het_han, n * UOC_CACHE_S_FRAME[ds] + 60, f"cache {cid}/{v}")
-        kiem_dia(det_cache.CACHE_ROOT, 3 * 1024 ** 2, f"cache {cid}/{v}")
+        # du toan ghi: ~0,5 KB/frame quan sat (npz 3000 frame 4K ~1,4 MB) -> lay 2 KB/frame + 1 MB json/meta
+        tien_kiem_job(ds, smoke, het_han, f"cache {cid}/{v}", n * UOC_CACHE_S_FRAME[ds] + 60, det_cache.CACHE_ROOT,
+                      n * 2048 + 1024 ** 2)
         nguon = nguon_don_vi(ds, t, v)
         t0 = time.time()
         if ds == "svmot":
@@ -492,7 +526,9 @@ def buoc_xac_minh(ds: str, smoke: bool) -> int:
                 continue
             if "dataset" in json.loads(mk.read_text(encoding="utf-8")):
                 continue                                         # marker moi: provenance luc sinh da du
-            tom = kiem_don_vi_cache(ds, det, v, smoke)
+            if (cdir / f"{v}.xac_minh_bo_sung.json").exists():
+                continue                                         # khong ghi de bien ban da co
+            tom = kiem_don_vi_cache(ds, det, v, smoke, cho_legacy_chua_xac_minh=True)
             ghi_json_nguyen_tu(cdir / f"{v}.xac_minh_bo_sung.json", {
                 "loai": "xac minh bo sung SAU khi sinh (khong phai provenance luc sinh)", "thoi_diem": bay_gio(),
                 "cong": "kiem_don_vi_cache (marker + sha256 + noi dung) DAT", **tom,
@@ -566,8 +602,9 @@ def buoc_track(ds: str, det: str, cond: str, loc: str, smoke: bool, het_han: str
         if (config.PROCESSED_DIR / "trackers" / t["split"] / nm).exists():
             print("[DUNG] da ton tai", nm); return 2
     n_tong = sum(so_frame(t, v) for v in t["videos"])
-    kiem_ngan_sach(het_han, len(names) * (n_tong * UOC_TRACK_S_FRAME[loc] + 30 * len(t["videos"])) + 60, f"track {ten}")
-    kiem_dia(config.PROCESSED_DIR, len(names) * n_tong * 2000, f"track {ten}")
+    tien_kiem_job(ds, smoke, het_han, f"track {ten}",
+                  len(names) * (n_tong * UOC_TRACK_S_FRAME[loc] + 30 * len(t["videos"])) + 60,
+                  config.PROCESSED_DIR, len(names) * n_tong * 2000)
     cong = {v: kiem_don_vi_cache(ds, det, v, smoke) for v in t["videos"]}   # cong truoc: cache hoan tat + noi dung
     gt_hash = kiem_gt_cham(t)
     buf = int(round(1.2 * t["fps"]))
@@ -595,6 +632,40 @@ def buoc_track(ds: str, det: str, cond: str, loc: str, smoke: bool, het_han: str
         print(f"[track] {nm}: HOTA {100 * kq['HOTA']:.2f} IDF1 {100 * kq['IDF1']:.2f} IDSW {kq['IDSW']} "
               f"MOTA {100 * kq['MOTA']:.2f}  ({time.time() - t0:.0f} s)", flush=True)
     return 0
+
+
+def trang_thai_run(ds: str, det: str, cond: str, loc: str, smoke: bool) -> tuple[str, list[str]]:
+    """Trang thai mot cau hinh (PF: du 3 seed) de chay.sh quyet dinh bo qua / chay / dung (review cuoi GPT 02/11):
+    'xong'  : moi seed co output tracker + ket qua cham + cong_r64.json hop le (hau_kiem DAT, dung tap video, hash GT
+              cham = GT hien tai, raw_fields dung tap video);
+    'chua'  : chua co thu muc nao cua moi seed;
+    'do'    : con lai (thieu seed, cong hong, lech) -> KHONG ghi de, bao ro ly do."""
+    t = cau_hinh(ds, smoke)
+    _, seeds = BO_LOC[loc]
+    names = [ten_run(det, cond, loc, smoke) + (f"-s{s}" if s is not None else "") for s in (seeds or [None])]
+    co = [n for n in names if (config.PROCESSED_DIR / "trackers" / t["split"] / n).exists()
+          or (config.RESULTS_DIR / "trackeval" / t["split"] / n).exists()]
+    if not co:
+        return "chua", []
+    ly_do = [f"{n}: chua bat dau" for n in names if n not in co]
+    gt_hien = {v: sha256_file(config.PROCESSED_DIR / t["split"] / v / "gt" / "gt.txt") for v in t["videos"]}
+    for n in co:
+        kq = config.RESULTS_DIR / "trackeval" / t["split"] / n
+        try:
+            c = json.loads((kq / "cong_r64.json").read_text(encoding="utf-8"))
+            raw = json.loads((kq / "raw_fields.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError) as e:
+            ly_do.append(f"{n}: thieu/hong cong_r64.json hoac raw_fields.json ({type(e).__name__})"); continue
+        if c.get("hau_kiem") != "DAT":
+            ly_do.append(f"{n}: hau_kiem != DAT")
+        if sorted(c.get("cong_truoc_cache", {})) != sorted(t["videos"]) or sorted(raw) != sorted(t["videos"]):
+            ly_do.append(f"{n}: tap video lech")
+        if c.get("gt_cham_sha256") != gt_hien:
+            ly_do.append(f"{n}: GT cham khac GT hien tai")
+        if not (kq / "combined_metrics.csv").exists() or not all(
+                (config.PROCESSED_DIR / "trackers" / t["split"] / n / "data" / f"{v}.txt").exists() for v in t["videos"]):
+            ly_do.append(f"{n}: thieu combined_metrics hoac output tracker")
+    return ("xong" if not ly_do else "do"), ly_do
 
 
 # --------------------------------------------------------------------------------------------- tong hop
@@ -663,7 +734,7 @@ def buoc_tong_hop(ds: str, smoke: bool) -> int:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("buoc", choices=["gt", "cache", "xac-minh", "track", "tong-hop"])
+    ap.add_argument("buoc", choices=["gt", "cache", "xac-minh", "track", "kiem-run", "tong-hop"])
     ap.add_argument("ds", choices=sorted(TAP))
     ap.add_argument("con_lai", nargs="*")
     ap.add_argument("--smoke", action="store_true")
@@ -685,6 +756,11 @@ def main(argv=None) -> int:
             if det not in DETECTOR or cond not in DIEU_KIEN or loc not in BO_LOC:
                 raise LoiHopDong(f"tham so {a.con_lai}")
             return buoc_track(a.ds, det, cond, loc, a.smoke, a.het_han)
+        if a.buoc == "kiem-run":                     # ma thoat: 0 xong (bo qua), 1 chua (chay), 2 do (dung)
+            det, cond, loc = a.con_lai
+            tt, ly_do = trang_thai_run(a.ds, det, cond, loc, a.smoke)
+            print(f"[kiem-run] {ten_run(det, cond, loc, a.smoke)}: {tt}", *ly_do, sep="\n  ")
+            return {"xong": 0, "chua": 1}.get(tt, 2)
         return buoc_tong_hop(a.ds, a.smoke)
     except HetNganSach as e:
         print("[PARTIAL - het ngan sach]", e)

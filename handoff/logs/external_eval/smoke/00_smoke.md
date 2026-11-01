@@ -53,7 +53,14 @@ Giao thức: GPT `hoi_codex_R64_dataset_moi_20261101/answer.json` (Q1–Q5). Mã
 - Test `src/r64_ngoai/test_danh_gia_ngoai.py` **13/13** (thêm: marker thiếu/hỏng, hash sai, đơn vị dở, timeline sai, lớp
   sai, NaN, mapping sai, meta lệch, MP4 thiếu frame/sai kích thước + gọi `detect_frame`).
 - Lặp PF500 cùng seed + chấm lại trên **RoundaboutHD** smoke (yolov8n_mixed5 c25 s0): `data/imagesc001.txt` **trùng
-  byte**, s1 khác s0, `combined_metrics`/`per_video_metrics` chấm lại trùng.
+  byte**, s1 khác s0, `combined_metrics`/`per_video_metrics` chấm lại trùng. **Bằng chứng kiểm lại được** (bổ sung theo
+  review cuối GPT): `04_lap_pf_cham_lai.json` — cho cả SVMOT và RoundaboutHD: tên run gốc/lặp, seed, sha256 MOT hai phía
+  + seed 1, so metric, mtime file (MOT lặp SVMOT 01:50:48, RoundaboutHD 02:07:18). Artifact:
+  `data/processed/trackers/<split>-smoke128/r64smoke-lap-*`, `results/trackeval/<split>-smoke128/r64smoke-lap-*`.
+- **Review cuối GPT 02/11 (DAT_CO_SUA):** thêm kiểm fingerprint `spec_sha256` từ GEN_FIELDS; marker legacy chỉ được nhận
+  khi có biên bản xác minh gắn đúng hash marker; marker mới phải có provenance (nguon, ma_sha256, split, gt lúc sinh);
+  `kiem-run` (xong / chưa / dở) thay kiểm `ls` lỗi trong `chay.sh` (đòi đồng thời run thường và -s0); tiền kiểm ngân
+  sách bắt buộc `--het-han` (trừ smoke), dự phòng 30 phút, ghi `ngan_sach.jsonl`. Test **15/15**.
 - Converter đầu/giữa/cuối + một cặp liên tiếp cho **mọi** chuỗi/camera: `../kiem_converter/` (13 ảnh + JSON số GT/frame).
 - **Sai lệch Q4 ghi nhận:** cache RoundaboutHD đầy đủ đã được mở song song lúc 01:51 trước khi xong SVMOT (cam1–2 xong);
   đã dừng sau review, không mở thêm đơn vị RoundaboutHD trước khi xong SVMOT.
