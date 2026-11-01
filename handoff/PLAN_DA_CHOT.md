@@ -3,14 +3,141 @@
 Nguồn: yêu cầu của người dùng sau khi Codex nghiệm thu `239b9c6` (**PASS WITH LIMITATIONS**, `handoff/CODEX_REVIEW_239b9c6.md`).
 File này là phạm vi làm việc cho các vòng sau. Thay đổi phạm vi phải do người dùng quyết định.
 
-## 0. TRẠNG THÁI HIỆN TẠI — tài liệu trạng thái chuẩn (cập nhật 2026-10-29)
+## 0. TRẠNG THÁI HIỆN TẠI — tài liệu trạng thái chuẩn (cập nhật 2026-11-02)
 
 > Mục này là **nguồn trạng thái duy nhất**. Brief, handoff, REVIEW*_CHI_TIET là lịch sử theo vòng; khi chúng
 > mâu thuẫn với mục này thì mục này đúng, trừ khi có commit/bằng chứng mới hơn (khi đó sửa mục này).
 > Mỗi vòng xong việc: cập nhật mục 0 trước, rồi mới viết brief/handoff. Lộ trình đọc: `AGENTS.md`.
 > Chỉ mục tài liệu cũ và vùng lưu trữ: `handoff/LUU_TRU.md`.
 
-**Lượt hiện tại 29/10/2026: MỐC 6 ĐÃ ĐÓNG VỚI KẾT QUẢ ÂM.** Đã đo baseline, kiểm ứng viên
+**Pilot UTUAV ngày 01/11/2026 — hồ sơ lịch sử** (theo yêu cầu người dùng); tại thời điểm pilot SVMOT chưa tải xong.
+Trạng thái SVMOT hiện hành xem R64 bên dưới. Hai archive UTUAV tại
+`D:/LABOTARY/` đã đọc hết luồng, CRC gzip đạt; gói ảnh có 11.898 JPG, gói GT có XML `track_id` cho B/C. Đã giải nén
+chọn lọc hai đoạn validation 120 frame liên tiếp: B đi thẳng `26401–26520`, C có xe máy rẽ `20901–21020`; giữ nguyên
+tracker/config/metric, dùng YOLO11n mixed5 theo lựa chọn người dùng. **Pilot YOLO11n mixed5 không ghép được GT động ở
+IoU ≥ 0,5 trên các frame đã thử; chưa đủ kết luận cho toàn UTUAV hoặc ba detector:** C 10 frame 640 có 0/1.795 GT động
+khớp IoU 0,5 ngay cả ở conf 0,05; C 3 frame 1280 và B 3 frame 640 cũng 0 khớp (smoke, không phải benchmark). Không chạy
+benchmark YOLO dài. Chẩn đoán **riêng, không phải kết quả YOLO** dùng GT-synthetic 3% jitter/15% dropout cùng cache,
+và kịch bản thêm gap 8 frame định trước (chỉ dùng `gap8_v2`; gap v1 không dùng kết luận): KF/CV, EKF và UKF gần nhau —
+kịch bản bỏ sót độc lập có UKF HOTA cao hơn CV 0,004 điểm phần trăm, kịch bản `gap8_v2` có CV nhỉnh hơn; PF100 thấp
+hơn ở cả ba seed; lớp xe máy riêng cùng chiều. `occluded` trong UTUAV đều 0, không dùng để phân tầng che khuất. FPS 30 chỉ là giả định cho pilot, chưa xác minh
+nguồn. Bằng chứng/giao thức/giới hạn: `handoff/logs/external_mot_prep/02_pilot_utuav.md`; chưa khóa benchmark mới.
+
+**R64 — đánh giá hệ thống trên tập ngoài (01–02/11/2026) — SVMOT + RoundaboutHD XONG 36/36 mỗi tập; UTUAV chỉ pilot.**
+Người dùng (01/11 đêm): "hệ thống đã hoàn chỉnh từ huấn luyện tới đánh giá, giờ mang đi test trên các dataset khác",
+phạm vi "đủ như R54/R61" (3 detector × CV/EKF/UKF/PF500 s0/1/2 × c25/c10); Claude chạy + viết báo cáo, GPT quyết giao
+thức và review. Giao thức GPT (`D:/LABOTARY/automation/runs_local/hoi_codex_R64_dataset_moi_20261101/answer.json`):
+**SVMOT** 9 chuỗi test chính thức (8.250 frame), ảnh toàn khung (không tô roi_mask — giao thức full-image dự án),
+`mot`, 30 fps, buffer 36 bước; **RoundaboutHD** frame 1–3000 mỗi camera imagesc001–004 (split `RoundaboutHD-prefix3000`),
+GT `SCT_GT.txt` (xe đỗ ngoài GT chịu FP — đánh giá theo phạm vi SCT), 15 fps, buffer 18 bước; **UTUAV** chỉ trích pilot
+(FPS nguồn chưa xác minh). Thống kê chỉ mô tả, **không CI** (2 scene / 4 camera một nút giao). Review smoke
+(`.../hoi_codex_R64_review_smoke_20261102/answer.json`): B1 — lỗi nguồn RoundaboutHD trùng (frame, id) ⇒ **bỏ 16 dòng
+cam4 (ID 105, frame 2536–2543)**, GT cũ (distractor lớp 8, bị bác vì TrackEval kiểm ID trước lọc) giữ ở
+`data/processed/_r64_bang_chung/`; B2 — viết lại cổng hoàn tất/nội dung/provenance/hậu kiểm/ngân sách/PARTIAL; sai lệch
+Q4 (mở cache RoundaboutHD trước khi xong SVMOT) ghi và dừng. Commit **`f588456`** (mã + báo cáo), sửa review cuối
+**`92fd797`**. **Review cuối**
+(`.../hoi_codex_R64_review_cuoi_20261102/answer.json`): **DAT_CO_SUA** — GPT tái tính 72 COMBINED + 468 dòng chuỗi/camera
++ 72 dòng scene khớp (≤ 2,2e-16), hash GT/mã khớp; đã sửa: số làm tròn/câu chữ PF ở SVMOT.md, khoảng COMBINED và giả
+thuyết PF ở RoundaboutHD.md, UTUAV B evaluation 975 frame liên tục, `kiem-run` thay kiểm `ls` lỗi trong `chay.sh`, cổng
+fingerprint + legacy cần biên bản gắn hash marker + provenance bắt buộc, tiền kiểm ngân sách ghi `ngan_sach.jsonl` + dự
+phòng 30 phút, bằng chứng lặp PF `external_eval/smoke/04_lap_pf_cham_lai.json`; test 15/15; kiểm lại cổng mới trên 39 đơn
+vị cache + 48 cấu hình run (24 mỗi tập; một cấu hình PF gồm ba seed ⇒ tổng 72 run đã chấm) ĐẠT
+(`external_eval/10_kiem_lai_cong_moi.log`). Lượt đêm **thiếu nhật ký ngân sách** (ghi nhận, không hồi tố).
+**Kết quả (mô tả):** SVMOT — yolov8n_coco cao nhất (c25 HOTA CV 48,66 / EKF 49,65 / UKF 49,21 / PF500 50,70); mixed5
+DetA thấp ~10 điểm, MOTA rất thấp; ở c25, theo COMBINED (PF500 lấy trung bình ba seed), CTRV hơn CV 0,3–2,0 điểm
+HOTA — không áp khoảng này cho c10 (có chênh EKF−CV chỉ ~0,15 điểm); lợi thế PF500 tập trung ở scene_06; PF500 IDSW
+cao hơn EKF/UKF ở cả 6 nhóm. RoundaboutHD — mixed5 hơn coco 4–6 điểm HOTA (coco nhiều FP, một phần xe đỗ ngoài SCT_GT); CV/EKF/UKF chênh
+≤ 0,6 (COMBINED); **PF500 thấp hơn rõ và nhất quán** (COMBINED TB 3 seed: HOTA −11,56…−12,35, IDSW ×2,22…×2,91; thấp
+hơn CV ở đủ 72 tổ hợp camera×detector×ngưỡng×seed), nguyên nhân chưa xác định. Chiều PF500 đảo giữa hai tập ⇒ không
+khái quát kết luận bộ lọc. Báo cáo: `handoff/logs/external_eval/{SVMOT,RoundaboutHD,UTUAV}.md`. Mã:
+`src/r64_ngoai/`. Ảnh giải nén ngoài repo: `F:/LABOTARY_data/svmot` (ổ rời), `C:/LABOTARY_data/RoundaboutHD`.
+Giới hạn giữ nguyên: SVMOT full-image là giao thức dự án; SCT có xe đỗ ngoài GT chịu FP; bỏ đúng 16 dòng cam4; không
+CI; thiếu nhật ký ngân sách lịch sử; chưa xác định nguyên nhân PF.
+**Quyết định việc tiếp (GPT 02/11, `D:/LABOTARY/automation/runs_local/hoi_codex_R64_viec_tiep_20261102/answer.json`,
+người dùng: "hỏi chat gpt đi"):** thứ tự Q1 → Q2 → Q3 → Q4. Q1 sửa + commit mục 0 (lượt này). **Q2 LÀM NGAY:** chẩn
+đoán PF500 RoundaboutHD (R65) — phạm vi khóa trước: imagesc001–004 frame 1–3000, yolov8n_mixed5 c25, CV/EKF/UKF + PF500
+s0/1/2 (24 đơn vị), cache/GT/cấu hình R64, không tune/không thay benchmark; cổng parity log tắt/bật trùng byte; ngân
+sách ≤ 2 giờ; đầu ra `results/phase2/r65_pf_roundabout_diag/`, `handoff/logs/review65_pf_roundabout/`. **Q3 LÀM NGAY
+có điều kiện:** tìm bằng chứng FPS nguồn UTUAV (≤ 30 phút, nguồn tác giả/chính thức, phải biết stride); chưa xác minh
+⇒ giữ pilot, không chạy ma trận; xác minh được ⇒ adapter + smoke 128 frame + ma trận 36 run × B/C validation
+(`UTUAVSYS-validation`). **Q4 LÀM SAU:** CI AP test40/BDD val không bắt buộc cho chương kết quả; ghi "AP là ước lượng
+điểm; chưa tính CI". Tài liệu pilot `handoff/logs/external_mot_prep/` và khảo sát `review62/32` còn **untracked** —
+bằng chứng đang ở máy local, chưa coi là đã bảo toàn trong Git.
+
+**R63 — vòng tối ưu Nano (30/10–02/11/2026): C1 đã chốt trên dev làm ứng viên; báo cáo cuối và G6 xong; launcher vẫn
+giữ v16** (commit `77662de`, `bd72eb4`, `c162d98`). Tốc độ: baseline là mã v16 với engine build lại `9fae6b43…`, đo
+trên Nano hiện tại; mức +42–44 % thuộc 5/8 cặp cùng tầng decode. Người dùng yêu cầu mở vòng mới. Đã làm phần
+chuẩn bị không cần Nano: kế hoạch `handoff/logs/review63/01_ke_hoach_r63.md` (baseline, đo, tiêu chí đạt/dừng, tái lập,
+câu hỏi Q1–Q5); công cụ `review63/cong_cu/` (kiểm sức khỏe chỉ đọc, trtexec, bench engine với CUDA event, xuất ONNX,
+build engine; test parser 5/5) và `review63/chat_luong/phan_tang_kich_thuoc.py` (test 3/3). Phát hiện: Nano letterbox
+vuông 640×640 (43,75 % pixel là đệm với video 960×540), còn đánh giá PC R53–R61 chạy ở 384×640; xuất lại ONNX 640 tương
+đương đồ thị v16; ở bước chuẩn bị ban đầu, các ONNX ứng viên 384×640/352×576/288×512/256×448 mới xuất (op trong bảng
+TRT 8.2), chưa build/đo; kết quả đo sau đó xem G1/G3 bên dưới.
+Nano đổi IP sang **192.168.1.5** (alias `nano` đã cập nhật). G0 tiền kiểm chỉ đọc (16:54) đạt: L4T 32.7.5, TRT 8.2.1,
+MAXN, nhàn rỗi 33,5 °C, swap 0, không panic trong boot hiện tại, pstore rỗng (journal không giữ boot trước); engine
+`c32690cd…`, v16 562/562, 1.470 ảnh khớp hash (`review63/g0/02_ket_qua_g0.md`). Tại G0 ngày 30/10 chưa đo tải. v16
+vẫn là bản dùng; chưa sửa `src/`. Người dùng giao GPT duyệt: **DUYET_CO_SUA** (`D:/LABOTARY/automation/
+runs_local/hoi_codex_R63_duyet_ke_hoach_20261030/answer.json`); đã sửa công cụ theo review (ghép tối đa số cặp, runner
+giám sát `chay_co_giam_sat.sh`, kiểm parity/shape/hash, tóm tắt G0 không báo giả). **17:10 smoke 5 ảnh trên bản sao v16
+làm Nano KERNEL PANIC** (hard lockup), cùng chữ ký R62: `mmc1 Data CRC error` → `xusb HC died` → I2C 0x3c/max77620
+timeout → RCU stall → panic. **Khi đó (30/10) đã dừng mọi phép đo GPU** (đã mở lại sau xử lý thẻ SD, xem dưới); nghi
+nguồn/thẻ SD/phần cứng (suy luận). Biên bản:
+`review63/su_co_20261030_1710/01_bien_ban_su_co.md`. **Chẩn đoán 17:50:** nguồn là jack DC 5 V 4 A (nhàn rỗi 5,128 V);
+người dùng chạy `dd` CHỈ ĐỌC thẻ SD, không GPU ⇒ máy **panic cùng chuỗi** (`mmc1 Data CRC` → `xusb HC died` → RCU
+stall → hard lockup), công suất lúc sập ~2,3 W ⇒ nghi đường thẻ SD (thẻ/khe/SDR104); lỗi xuất hiện cả khi đọc thẻ
+không dùng GPU (`review63/su_co_20261030_1750_dd/01_bien_ban.md`). **Phân định 30–31/10 (cùng biên bản):** boot rootfs từ eMMC
+(`extlinux.conf` → `root=/dev/mmcblk0p1`, bản gốc `extlinux.conf.r63_goc_the_sd`), cùng board/khe/nguồn/Wi-Fi USB:
+thẻ hộp đọc toàn thẻ 7,1 h **không lỗi mmc1** (SDR104 204 MHz, nhưng chỉ 2,4 MB/s); thẻ acer **sập sau ~5 phút** ⇒
+**bằng chứng nghiêng về đường thẻ acer ở chế độ SDR104 204 MHz**. Hệ eMMC là JetPack cài dở (TRT `iU`, cuDNN `rU`, không CUDA runtime, apt hỏng, OpenCV
+4.1.1 ≠ 3.2.0 của v16) nên không dùng. **Người dùng chọn B1 (31/10):** mua thẻ mới, đọc ảnh thẻ acer trên PC, ghi
+sang thẻ mới để giữ nguyên môi trường v16/R62; rồi kiểm v16/engine/env, `dd` toàn thẻ mới, G0, lượt ngắn có giám sát
+trước mọi phép đo R63. **Cập nhật cùng ngày:** trước khi mua, thử hạ xung khe SD xuống 100 MHz (debugfs, tạm thời)
+⇒ thẻ acer đọc toàn thẻ **sạch** (21,2 MB/s, 0 lỗi mmc1) ⇒ lỗi không tái hiện trong các lượt đọc ở xung thấp đã ghi
+nhận; chưa xác lập cơ chế hỏng phần cứng; đề xuất giữ thẻ acer + cố định
+100 MHz bằng DTB sao chép (`sdhci@700b0400` `max-clk-limit`), chờ người dùng duyệt; B1 tạm hoãn. **Người dùng duyệt
+và đã áp dụng:** `/boot/dtb/..._sd100.dtb` + `extlinux.conf` `42333ea6…` (root thẻ acer, LABEL `goc204` dự phòng);
+thẻ chạy HS 50 MHz 3,3 V (11,5–14 MB/s; đọc 15 GB sạch). Boot `5d3d12a9…` từ thẻ: v16 562/562, engine `c32690cd…`,
+G0 sạch, **smoke 5 ảnh (lượt từng panic) đạt**, runner `cong_cu_v4` (tegrastats xả từng dòng + sync). Mọi số đo R63
+từ đây ghi kèm cấu hình SD HS 50 MHz. Engine `c32690cd…` build trên board R62 trước (TRT cảnh báo khác thiết bị).
+**31/10 chiều (trường, IP 10.11.61.127):** kế hoạch đã sửa theo DUYET_CO_SUA (`01_ke_hoach_r63.md`); người dùng
+đồng ý build lại engine baseline. G0b lượt ổn định 300 frame ĐẠT (lượt đầu không hợp lệ do Chromium mở —
+`g1/01_luot_on_dinh_300.md`). G1 xong (`g1/02_hai_engine_trtexec_bench.md`, `g1/03_baseline_pipeline.md`): engine
+mới `9fae6b43…` (ONNX v16) nhanh hơn engine cũ ~0,5 ms, detection khớp 99,8 %; **~69 ms là GPU thực thi** (event
+68,11 vs host 68,16 ms) ⇒ engine là nút thắt (~61 % của ~113,5 ms/frame); baseline pipeline 8/8 hợp lệ, **FPS trung vị
+CV 8,81 / EKF 9,02**, hai tầng decode (11,4 vs 16,6 ms). **G3-C1 384×640:** gói v17-C (v16 + lấy (H,W) từ engine;
+`review63/v17_c/`, test PC 6/6 + 5/5; đường 640 trên Nano MOT trùng byte v16; letterbox 384×640 trùng pixel đường PC
+`predict(imgsz=640)` R53–R61). Engine C1 `a6912393…`: GPU exec 68,11 → 41,86 ms (−38,5 %) (`g3/01_…`). **So cặp
+pipeline 16/16 hợp lệ: FPS +43 % (CV 9,27 → 13,24; EKF 9,23 → 13,20; cặp cùng tầng decode +42–44 %), trễ p90 −27 %**
+(`g3/02_c1_so_cap_pipeline.md`; trình bày đúng: 5/8 cặp cùng tầng decode, xem `g3/04`). Cổng tốc độ ĐẠT.
+**G4 dev (31/10, `review63/g4/10_ket_qua_g4.md`):** `det_cache --no-rect`, `eval_detector_5lop --hinh-dang` (hash cũ
+giữ, test đạt); split tracking `BDDDEV-train` 139 video (Q3). C1 vs vuông 640, c25: **tracking đạt mọi cổng** (dev12
+ΔHOTA +0,08, ΔIDF1 +0,31..+0,36; BDD dev +0,02 / +0,03..+0,07; IDSW dev12 +0,6..+1,5 %, BDD −1,3..−2,1 %); recall
+detection giảm nhẹ nhất quán nhưng trong ngưỡng (BDD xe nhỏ −0,35 [−0,46; −0,25], dev12 che nặng −1,01 [−1,77; −0,40];
+dev12 không đủ xe nhỏ); AP ước lượng điểm đạt (dev12 ΔmAP50 −0,29, Δ50–95 −0,19; BDD +0,01 / +0,03);
+Nano↔PC 300 frame ĐẠT ở conf > 0,25 (C1 99,7 %, IoU 0,988). **Snapshot commit `b359515`** (31/10) chứa G0–G4 tới đây.
+**Sau `b359515` (01/11, review GPT `runs_local/hoi_codex_R63_chot_c1_20261101/answer.json`):** Q1 dừng ở C1, không mở
+C2/C3/G2; Q2 cổng đọc theo ước lượng điểm kèm CI hợp lệ ⇒ C1 đạt mọi cổng dev ⇒ **chốt C1** (giới hạn: tầng xe nhỏ dev12
+thiếu GT, không tính đạt). Đã sửa theo `sua_truoc_khi_chot`: CI AP bản 1 SAI (cụm theo ảnh) → bản 2 theo video 5.000
+vòng: dev12 ΔmAP50 −0,29 [−1,02; +0,24], Δ50–95 −0,19 [−0,76; +0,08]; BDD dev +0,01 [−0,18; +0,26], +0,03 [−0,07;
++0,11]; Nano↔PC A chạy lại sạch (trùng), conf > 0,05 chưa đạt 99 %; `--hinh-dang` ở hai wrapper báo cáo cuối,
+`test_v17_c` 7/7; đính chính provenance ONNX/swap/trình tự C2–C4/cách trình bày tốc độ (`g3/04_dinh_chinh_provenance.md`);
+bỏ tự miễn cổng ở `g3_duong_toc_do.sh`. Đường tốc độ C2–C4 (khảo sát ngoài trình tự): GPU exec 37,2 / 27,2 / 21,0 ms.
+**Báo cáo cuối XONG (02/11, `review63/bao_cao_cuoi/10_bao_cao_cuoi.md`, CHỈ báo cáo):** C1 − 640×640 ở c25 — test40
+ΔHOTA +0,09 (CV) / +0,20 (EKF), IDSW −7 %, ΔmAP50 (car, bus) −0,17, recall xe nhỏ −0,60, che nặng −0,81; BDD val
+ΔHOTA −0,02 / −0,02, IDSW −2 %, ΔmAP50 −0,01, recall xe nhỏ −0,18 (BDD val không có nhãn che). Nhánh C1 khớp các lượt
+lịch sử ở độ chính xác báo cáo (tracking test40 chênh ≤ 6e-9, BDD val trùng tuyệt đối; AP test40 chênh ~1e-8 so 10/10;
+AP BDD val = R43). GPT review 02/11: DAT_CO_SUA (đã sửa làm tròn/câu chữ/g6; `hoi_codex_R64_review_smoke_20261102`). CI AP test40/BDD val chưa tính. **G6 (`review63/g6/01_ket_luan_r63.md`):**
+đề xuất v17 = C1; launcher HDMI **giữ v16** (người dùng 01/11); FPS tăng chỉ đúng cho Nano này, thiết bị khác đo lại.
+
+**Khảo sát sau mốc 6 — 29/10/2026:** theo yêu cầu người dùng, đã rà mã từ đầu vào đến kết quả một video và
+tính lại số công đoạn từ raw R62. Chưa chạy benchmark MP4 mới hoặc sửa mã thực thi. Hai ứng viên cụ thể là bỏ
+bản sao float32 dư sau TensorRT và tái dùng ma trận điểm lớp đã lọc; thời gian tiết kiệm chưa được đo. Giải mã
+MP4, khởi tạo và xuất video có khung/ID cần được đo riêng theo đầu ra người dùng cần. Backend NumPy trên Nano
+hiện chỉ đăng ký CV/EKF; UKF/PF/SORT cần tích hợp và kiểm tương đương trước khi có benchmark Nano cho chúng.
+Chi tiết, số đo và thứ tự đề xuất: `handoff/logs/review62/32_khao_sat_toc_do_video.md`. Đây là khảo sát để lập kế
+hoạch tiếp, không thay kết luận/ngưỡng nghiệm thu R62; launcher vẫn dùng v16.
+
+**Lượt đo 29/10/2026: MỐC 6 ĐÃ ĐÓNG VỚI KẾT QUẢ ÂM.** Đã đo baseline, kiểm ứng viên
 chuyển tensor và hoàn tất phép so cặp. Ứng viên không đạt ngưỡng tăng FPS đã chốt nên giữ gói v16 làm bản dùng;
 không sửa engine, tracker, metric hay cấu hình thí nghiệm. Baseline lịch sử: pipeline
 300 JPG không hiển thị khoảng 9,1–9,4 FPS (`handoff/REVIEW21_CHI_TIET.md`, `REVIEW22_CHI_TIET.md`), 1.470 JPG
