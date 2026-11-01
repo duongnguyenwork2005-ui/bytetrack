@@ -265,6 +265,22 @@ def danh_gia(gt_ds: list[dict], du_doan: list[dict], conf_van_hanh: float = 0.25
 
 
 # =========================================================================== du doan
+def ap_dung_hinh_dang(qt: dict, hinh_dang: str) -> str | None:
+    """R63: 'mac_dinh' -> giu nguyen qt; 'HxW' -> qt['du_doan'] imgsz=[H,W], rect=False (tensor co dinh nhu engine tinh
+    tren Nano). Sua TAI CHO ban sao qt (khong dung cho QUY_TAC dung chung). Tra ve chuoi loi hoac None."""
+    if hinh_dang == "mac_dinh":
+        return None
+    try:
+        h, w = (int(x) for x in hinh_dang.lower().split("x"))
+    except ValueError:
+        return f"--hinh-dang {hinh_dang!r} khong phai HxW"
+    if h <= 0 or w <= 0 or h % 32 or w % 32:
+        return f"--hinh-dang {h}x{w} phai duong va chia het cho 32"
+    qt["du_doan"].update({"imgsz": [h, w], "rect": False,
+                          "hinh_dang": f"R63: tensor co dinh 1x3x{h}x{w} (letterbox auto=False)"})
+    return None
+
+
 def du_doan_ultralytics(weights: str, anh: list[Path], qt: dict, batch: int = 16, device="0"):
     from ultralytics import YOLO
     model = YOLO(weights)
@@ -343,17 +359,10 @@ def main() -> int:
     ds_info = {"data": str(a.data), "split": a.split, "n_anh": len(anh), "gioi_han_anh": a.gioi_han_anh,
                "dataset_da_xac_minh": danh_tinh}
     quy_tac = json.loads(json.dumps(QUY_TAC))
-    if a.hinh_dang != "mac_dinh":
-        try:
-            h, w = (int(x) for x in a.hinh_dang.lower().split("x"))
-        except ValueError:
-            print(f"[LOI] --hinh-dang {a.hinh_dang!r} khong phai HxW", file=sys.stderr)
-            return 2
-        if h % 32 or w % 32:
-            print(f"[LOI] --hinh-dang {h}x{w} phai chia het cho 32", file=sys.stderr)
-            return 2
-        quy_tac["du_doan"].update({"imgsz": [h, w], "rect": False,
-                                   "hinh_dang": f"R63: tensor co dinh 1x3x{h}x{w} (letterbox auto=False)"})
+    loi = ap_dung_hinh_dang(quy_tac, a.hinh_dang)
+    if loi:
+        print(f"[LOI] {loi}", file=sys.stderr)
+        return 2
     out.mkdir(parents=True)
     kq = {"tao_luc": dt.datetime.now().isoformat(timespec="seconds"), "quy_tac": quy_tac, "dataset": ds_info,
           "mo_hinh": {}}

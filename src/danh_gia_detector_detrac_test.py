@@ -344,7 +344,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--chi-kiem", action="store_true", help="chi kiem du lieu + doc GT roi dung; khong nap model, khong ghi")
     ap.add_argument("--cham-lai", help="thu muc luot da chay: cham lai tu NPZ da luu (khong du doan); ghi vao --out moi")
     ap.add_argument("--gioi-han-anh", type=int, default=0, help="chi N anh dau (0 = tat ca) -- CHI cho smoke ky thuat")
+    ap.add_argument("--hinh-dang", default="mac_dinh", help="R63: 'mac_dinh' | 'HxW' (vd 640x640, 384x640) -> tensor "
+                    "du doan co dinh imgsz=(H,W), rect=False (khac --kich-thuoc = kich thuoc anh GOC WxH)")
     a = ap.parse_args(argv)
+    try:
+        quy_tac_hieu_luc(a.conf_van_hanh, a.hinh_dang)       # kiem som --hinh-dang
+    except ValueError as e:
+        print(f"[LOI] {e}", file=sys.stderr)
+        return 2
     try:
         W, H = (int(x) for x in a.kich_thuoc.lower().split("x"))
     except ValueError:
@@ -385,7 +392,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if a.gioi_han_anh:
         anh, rel_ds, gt = anh[:a.gioi_han_anh], rel_ds[:a.gioi_han_anh], gt[:a.gioi_han_anh]
-    qt = quy_tac_hieu_luc(a.conf_van_hanh)
+    qt = quy_tac_hieu_luc(a.conf_van_hanh, a.hinh_dang)
     conf_vh = qt["van_hanh"]["conf"]
     nguon, meta = None, {}
     if a.cham_lai:

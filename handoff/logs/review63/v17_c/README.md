@@ -21,4 +21,12 @@ Kiểm trên PC (env `khoaluan-mot`, 31/10):
   đúng ảnh vào như mọi đánh giá PC R53–R61; NanoDetector (384,640) FP32 == `model.predict(imgsz=640)` trên 5 frame
   (bbox |d| ≤ 6,1e-5, conf |d| ≤ 1,3e-6); từ chối tensor 640×640 vào engine 384×640.
 
-Chưa: kiểm trên Nano (11 ca CPU như R62, đường 640 trùng byte v16, pipeline C1), so cặp tốc độ, chất lượng G4.
+Bổ sung 01/11 (review GPT): `test_v17_c.py` **7/7 PASS** — thêm (6) ảnh BDD 1280×720: letterbox (384,640) ==
+`LetterBox` auto=False == rect stride 32, 640 vuông == auto=False; (7) tensor hiệu lực của `du_doan_ultralytics`
+(`eval_detector_5lop`, cờ `--hinh-dang`) trên batch TRỘN BDD + UA-DETRAC: 384x640 / 640x640 cố định, `mac_dinh` batch
+trộn → vuông 640 (hành vi cũ).
+
+Đã làm trên Nano và PC (31/10–01/11): gói `r63_20261030/v17c/nano_transfer` (2 file thay, đường 640 trùng byte v16),
+so cặp pipeline C1 (`g3/02_c1_so_cap_pipeline.md`, đính chính `g3/04_dinh_chinh_provenance.md`), chất lượng dev G4
+(`g4/10_ket_qua_g4.md`), tương đương Nano↔PC (đạt ở conf > 0,25). Báo cáo cuối test40 + BDD val: `bao_cao_cuoi/`.
+Launcher HDMI **vẫn là v16** (người dùng 01/11: chưa chuyển).

@@ -15,6 +15,7 @@ Cac phep kiem:
   5. TRTEngine.__call__ tu choi tensor sai shape (640x640 vao engine 384x640) truoc khi memcpy.
 """
 import importlib.util
+import json
 import sys
 from pathlib import Path
 
@@ -22,6 +23,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[4]
 SMOKE = ROOT / "data" / "extracted" / "DETRAC-Images" / "MVI_39031"
+sys.path.insert(0, str(ROOT / "src"))                       # eval_detector_5lop (test 7); nano_detector van nap tu v17_c/src
 spec = importlib.util.spec_from_file_location("nano_detector", Path(__file__).resolve().parent / "src" / "nano_detector.py")
 nd = importlib.util.module_from_spec(spec)
 sys.modules["nano_detector"] = nd
@@ -78,6 +80,42 @@ def main():
         ok4 &= bool(same)
         print("         frame %d: n=%d/%d bbox|d|=%.2e conf|d|=%.2e" % (i, len(a), len(b), db, dc))
     kiem("4. NanoDetector (384,640) == ultralytics predict(imgsz=640) FP32 (rect)", ok4)
+
+    # 6-7 (bo sung 01/11 theo review GPT): anh BDD 1280x720 va tensor hieu luc cua duong AP (eval_detector_5lop)
+    bdd_dir = ROOT / "data" / "raw" / "bdd100k" / "images" / "track" / "train" / "0000f77c-cb820c98"
+    bdd = cv2.imread(str(sorted(bdd_dir.glob("*.jpg"))[0]))
+    lb, _, pad = nd.letterbox(bdd, (384, 640))
+    ok6 = (bdd.shape[:2] == (720, 1280) and lb.shape == (384, 640, 3) and pad == (0, 12)
+           and np.array_equal(lb, LetterBox((384, 640), auto=False)(image=bdd))
+           and np.array_equal(lb, LetterBox((640, 640), auto=True, stride=32)(image=bdd))
+           and np.array_equal(nd.letterbox(bdd, 640)[0], LetterBox((640, 640), auto=False)(image=bdd)))
+    kiem("6. BDD 1280x720: letterbox (384,640) == LetterBox auto=False == rect stride 32; 640 vuong == auto=False", ok6)
+
+    import eval_detector_5lop as ev
+    from ultralytics.data import augment as aug
+    hinh = []
+    goc_call = aug.LetterBox.__call__
+
+    def ghi(self, labels=None, image=None):
+        r = goc_call(self, labels, image)
+        hinh.append((r if image is not None else r["img"]).shape)
+        return r
+    aug.LetterBox.__call__ = ghi
+    ok7, mo_ta = True, {}
+    tron = [sorted(bdd_dir.glob("*.jpg"))[0], SMOKE / "img00001.jpg"]          # batch TRON 1280x720 + 960x540
+    try:
+        for hd, ky_vong in (("384x640", {(384, 640, 3)}), ("640x640", {(640, 640, 3)}), ("mac_dinh", {(640, 640, 3)})):
+            qt = json.loads(json.dumps(ev.QUY_TAC))
+            assert ev.ap_dung_hinh_dang(qt, hd) is None
+            hinh.clear()
+            ev.du_doan_ultralytics(str(ROOT / "models" / "yolov8n.pt"), tron, qt["du_doan"], batch=2, device=dev)
+            mo_ta[hd] = sorted(set(hinh))
+            ok7 &= set(hinh) == ky_vong
+    finally:
+        aug.LetterBox.__call__ = goc_call
+    kiem("7. tensor hieu luc du_doan_ultralytics, batch tron BDD+UA-DETRAC: 384x640 / 640x640 co dinh; mac_dinh batch "
+         "tron -> vuong 640 (hanh vi cu)", ok7)
+    print("         ", mo_ta)
 
     eng = nd.TRTEngine.__new__(nd.TRTEngine)
     eng.in_shape, eng.in_dtype = (1, 3, 384, 640), np.dtype(np.float32)

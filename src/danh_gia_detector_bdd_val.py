@@ -48,6 +48,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config  # noqa: E402
 from bdd_yolo_export import LoiDuLieu, NguonCocoVid, _hop_le_box, vai_tro  # noqa: E402
 from detector_classes import ID_LOP_5, LOP_5  # noqa: E402
+from eval_detector_5lop import ap_dung_hinh_dang  # noqa: E402
 from eval_detector_5lop import (QUY_TAC, _json_safe, danh_gia, du_doan_ultralytics, kich_thuoc_anh,  # noqa: E402
                                 luu_du_doan, sha256_file)
 
@@ -157,11 +158,15 @@ def kiem_va_doc_gt(nhan: Path, anh_goc: Path, manifest: Path, hash_anh: Path | N
     return danh_tinh, anh, gt
 
 
-def quy_tac_hieu_luc(conf_van_hanh: float) -> dict:
+def quy_tac_hieu_luc(conf_van_hanh: float, hinh_dang: str = "mac_dinh") -> dict:
     """Cau hinh HIEU LUC cua MOT luot (R43-N1): ban SAO SAU cua `QUY_TAC` voi nguong van hanh thuc dung. Metadata,
-    scorer va chan doan cung lay nguong tu day; `QUY_TAC` dung chung khong bi sua."""
+    scorer va chan doan cung lay nguong tu day; `QUY_TAC` dung chung khong bi sua.
+    R63: `hinh_dang` 'HxW' -> tensor du doan co dinh (eval_detector_5lop.ap_dung_hinh_dang); sai -> ValueError."""
     qt = copy.deepcopy(QUY_TAC)
     qt["van_hanh"]["conf"] = float(conf_van_hanh)
+    loi = ap_dung_hinh_dang(qt, hinh_dang)
+    if loi:
+        raise ValueError(loi)
     return qt
 
 
@@ -187,7 +192,14 @@ def main() -> int:
     ap.add_argument("--batch", type=int, default=16)
     ap.add_argument("--device", default="0")
     ap.add_argument("--gioi-han-anh", type=int, default=0, help="chi N anh dau (0 = tat ca) -- CHI cho smoke ky thuat")
+    ap.add_argument("--hinh-dang", default="mac_dinh", help="R63: 'mac_dinh' | 'HxW' (vd 640x640, 384x640) -> "
+                    "imgsz=(H,W), rect=False; xem eval_detector_5lop --hinh-dang")
     a = ap.parse_args()
+    try:
+        quy_tac_hieu_luc(a.conf_van_hanh, a.hinh_dang)       # kiem som, truoc khi doc du lieu / tao thu muc
+    except ValueError as e:
+        print(f"[LOI] {e}", file=sys.stderr)
+        return 2
     out = p_abs(a.out)
     if out.exists():
         print(f"[LOI] {out} da ton tai -- khong ghi de ket qua cu", file=sys.stderr)
@@ -214,7 +226,7 @@ def main() -> int:
     if a.gioi_han_anh:
         anh, gt = anh[:a.gioi_han_anh], gt[:a.gioi_han_anh]
     out.mkdir(parents=True)
-    qt = quy_tac_hieu_luc(a.conf_van_hanh)                  # R43-N1: MOT nguon nguong cho metadata / scorer / chan doan
+    qt = quy_tac_hieu_luc(a.conf_van_hanh, a.hinh_dang)     # R43-N1: MOT nguon nguong cho metadata / scorer / chan doan
     conf_vh = qt["van_hanh"]["conf"]
     kq = {"tao_luc": dt.datetime.now().isoformat(timespec="seconds"), "quy_tac": qt, "quy_tac_gt": QUY_TAC_GT,
           "dataset": {"ten": "bdd100k_mot_val_cocovid", "n_anh": len(anh), "gioi_han_anh": a.gioi_han_anh,

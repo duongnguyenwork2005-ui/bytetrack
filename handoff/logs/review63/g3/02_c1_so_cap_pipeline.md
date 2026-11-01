@@ -1,5 +1,10 @@
 # R63 G3-C1 — gói v17-C trên Nano + so cặp pipeline 384×640 vs baseline (31/10/2026)
 
+> **Đính chính 01/11 (review GPT): đọc kèm `g3/04_dinh_chinh_provenance.md`.** ONNX ghi nhầm `a66a5e03…` ở 8 lượt B
+> + `g3_v17c_kiem_384_cv` (đúng: `5f5b337d…`); build C1 vượt cổng swap (sai lệch, không phải "đạt cổng"); tốc độ trích
+> từ **5/8 cặp cùng tầng decode** (+42–44 %), không ghép G1 8,81 FPS với C1 13,24 FPS; C1 giảm **40 % tổng pixel đầu
+> vào** (43,75 % là hàng đệm của đầu vào vuông).
+
 Boot `89a0f445-6290-427d-9305-08ed1adaa30a` (reboot ấm, thẻ HS 50 MHz), Chromium đóng, MAXN, một tác vụ Nano một lúc.
 
 ## Gói v17-C trên Nano

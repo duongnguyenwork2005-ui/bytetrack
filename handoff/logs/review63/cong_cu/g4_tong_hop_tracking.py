@@ -13,7 +13,9 @@ GOC = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(GOC / "src"))
 import boot_stats  # noqa: E402
 
-MIEN = {"dev12": ("DETRAC-all", "r63g4"), "bdddev": ("BDDDEV-train", "r63g4b")}
+MIEN = {"dev12": ("DETRAC-all", "r63g4"), "bdddev": ("BDDDEV-train", "r63g4b"),
+        # bao cao cuoi (g4_bao_cao_cuoi.sh): chi bao cao sau khi chot C1, doc cong o day khong doi quyet dinh
+        "test40": ("DETRAC-test", "r63bc"), "bddval": ("BDDCOCOVID-val", "r63bcb")}
 
 
 def main() -> int:
