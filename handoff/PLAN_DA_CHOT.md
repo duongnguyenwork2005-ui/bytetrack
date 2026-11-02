@@ -46,7 +46,7 @@ File này là phạm vi làm việc cho các vòng sau. Thay đổi phạm vi ph
   `handoff/logs/review63/cong_cu/dung_video_so_sanh.py` phát lại cache Nano, MOT trùng hash Nano.
 - **Ổ rời:** 4 archive tải về (khoảng 50 GB) đã chuyển sang ổ rời F: với kiểm sha256. Quy tắc "F: chỉ chứa thứ tải
   lại được" ghi ở `handoff/LUU_TRU.md` mục 5.
-- **Git:** nhánh đang đi trước origin, chưa push. Repo public nên chờ người dùng quyết định.
+- **Git:** người dùng yêu cầu push (02/11); R63–R65 và phần ngoài lề đã lên origin `phase2-mixed-traffic`.
 
 **Pilot UTUAV ngày 01/11/2026 — hồ sơ lịch sử** (theo yêu cầu người dùng); tại thời điểm pilot SVMOT chưa tải xong.
 Trạng thái SVMOT hiện hành xem R64 bên dưới. Hai archive UTUAV tại
