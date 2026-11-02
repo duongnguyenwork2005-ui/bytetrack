@@ -1,0 +1,100 @@
+{
+ "nguon_quyet_dinh": "D:/LABOTARY/automation/runs_local/hoi_codex_R64_viec_tiep_20261102/answer.json (Q2)",
+ "pham_vi": {
+  "split": "RoundaboutHD-prefix3000",
+  "videos": [
+   "imagesc001",
+   "imagesc002",
+   "imagesc003",
+   "imagesc004"
+  ],
+  "frame": [
+   1,
+   3000
+  ],
+  "detector": "yolov8n_mixed5",
+  "dieu_kien": "c25",
+  "conf_min": 0.25,
+  "bo_loc": [
+   "cv",
+   "ekf",
+   "ukf",
+   "pf500"
+  ],
+  "seed_pf": [
+   0,
+   1,
+   2
+  ],
+  "so_don_vi_camera_x_boloc_seed": 24,
+  "khong_mo_them": "detector khac, c10, frame khac, ablation nhieu/so hat/FPS/do phan giai"
+ },
+ "cau_hinh": {
+  "cache": "r64_roundabout_yolov8n_mixed5_c0.05",
+  "lop": [
+   1,
+   2,
+   3,
+   5,
+   7
+  ],
+  "max_det": 300,
+  "fps": 15.0,
+  "track_buffer_sec": 1.2,
+  "track_buffer_buoc": 18,
+  "elapsed": "steps",
+  "yaml": {
+   "cv": "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\Lib\\site-packages\\ultralytics\\cfg\\trackers\\bytetrack.yaml",
+   "ekf": "D:\\LABOTARY\\bytetrack\\configs\\bytetrack_ekf_ctrv.yaml",
+   "ukf": "D:\\LABOTARY\\bytetrack\\configs\\bytetrack_ukf_ctrv.yaml",
+   "pf500": "D:\\LABOTARY\\bytetrack\\configs\\phase2\\trackers\\bytetrack_pf_ctrv_n500.yaml"
+  },
+  "set_seed_video": "ten video truyen nguyen (video_salt phu thuoc ten)"
+ },
+ "nhanh": {
+  "off": "khong log",
+  "on": "--assoc-log --pf-diag"
+ },
+ "quan_sat": "src/r65_pf_roundabout/quan_sat.py o CA HAI nhanh (chi doc, khong rut so ngau nhien)",
+ "cong": [
+  "MOT data/<v>.txt + data_cls/<v>.csv trung byte off == on == R64 goc",
+  "per_video/combined metric trung off == on == R64",
+  "chuoi hash trang thai (frame + PF) va pf_update off == on",
+  "khong NaN / thieu frame (hau kiem R64)",
+  "Lost / refind / resample / reset duoc phu (du lieu that hoac fixture test_quan_sat.py)"
+ ],
+ "dung_ngay_neu": "parity sai, provenance lech, NaN, thieu frame, log tac dong trang thai; loi thuat toan -> chi lap finding, khong sua roi chay thay benchmark",
+ "ngan_sach": "luot dau <= 2 h, 30 phut cuoi hau kiem/bao cao; artifact moi <= 1 GiB; trong >= 5 GiB",
+ "dau_ra": {
+  "log": "handoff\\logs\\review65_pf_roundabout",
+  "ket_qua": "results\\phase2\\r65_pf_roundabout_diag"
+ },
+ "cong_cache_truoc": {
+  "imagesc001": {
+   "n_frames": 3000,
+   "n_boxes": 29594,
+   "max_n_per_frame": 27
+  },
+  "imagesc002": {
+   "n_frames": 3000,
+   "n_boxes": 52647,
+   "max_n_per_frame": 43
+  },
+  "imagesc003": {
+   "n_frames": 3000,
+   "n_boxes": 42944,
+   "max_n_per_frame": 35
+  },
+  "imagesc004": {
+   "n_frames": 3000,
+   "n_boxes": 53432,
+   "max_n_per_frame": 37
+  }
+ },
+ "gt_cham_sha256": {
+  "imagesc001": "6e4da252306719d2ee6fc9351f862d42cb658b7dab4fed11a958310fc83b08b4",
+  "imagesc002": "9e907ff5887e20e30c16ca5dbee2f7e4364ec2658234ef496f6d8bbfbca8baad",
+  "imagesc003": "e4742c168070a5d403954e8a45a2d40d558f5ae5d018ba9cb752dde77be9d8bb",
+  "imagesc004": "39a9a5c41c38c77a149de38f5944308e19203eb6dfce55002e4994c8a0ccc190"
+ }
+}

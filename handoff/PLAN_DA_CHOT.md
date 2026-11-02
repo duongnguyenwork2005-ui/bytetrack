@@ -10,6 +10,35 @@ File này là phạm vi làm việc cho các vòng sau. Thay đổi phạm vi ph
 > Mỗi vòng xong việc: cập nhật mục 0 trước, rồi mới viết brief/handoff. Lộ trình đọc: `AGENTS.md`.
 > Chỉ mục tài liệu cũ và vùng lưu trữ: `handoff/LUU_TRU.md`.
 
+**R65 — chẩn đoán PF500 thấp trên RoundaboutHD (02/11/2026) — ĐÓNG, kết luận mô tả, nguyên nhân chưa xác định.**
+- **Nguồn quyết định:** Q2 của GPT (`D:/LABOTARY/automation/runs_local/hoi_codex_R64_viec_tiep_20261102/answer.json`).
+- **Phạm vi khóa trước:** imagesc001–004 frame 1–3000; yolov8n_mixed5 c25; CV/EKF/UKF + PF500 s0/1/2 (24 đơn vị);
+  cache, GT và cấu hình R64. Không tune, không ablation, R64 giữ nguyên.
+- **Mã và bằng chứng:**
+  - mã `src/r65_pf_roundabout/` (test 5/5);
+  - báo cáo `handoff/logs/review65_pf_roundabout/10_ket_luan.md`;
+  - số liệu `results/phase2/r65_pf_roundabout_diag/`.
+- **Hai lượt:**
+  - Lượt 1 (`r65{off,on}`) bị GPT review chỉ ra 6 lỗi phương pháp.
+  - Lượt 2 (`r65b{off,on}`) đã sửa. Review GPT lần 2 (`runs_local/hoi_codex_R65_review2_20261102/answer.json`) kết
+    luận CẦN SỬA TRƯỚC COMMIT. Đã sửa offline, không chạy lại tracking: nghĩa thời gian, finding Removed, giảm khẳng
+    định nhân quả, siết cổng/fixture, provenance hậu kiểm `manifest_hau_kiem.json`.
+- **Cổng "log không đổi hành vi" đạt 24/24:** MOT trùng byte off = on = R64; hash trạng thái sau dự đoán, sau update và
+  từng bước PF trùng off = on.
+- **Kết quả (mô tả, trong mẫu nối được GT):**
+  - **Dự đoán:** box dự đoán PF lệch GT hơn CV ngay ở frame liền kề (sai số tâm trung vị 0,095 h so với 0,063 h;
+    IoU 0,74 so với 0,81).
+  - **Association:** chênh lệch tập trung ở nhóm "có det phù hợp nhưng chi phí không đạt" (8,6–8,8 % so với 3,7 %),
+    chủ yếu ở track Lost. Tranh chấp và thiếu det tương đương giữa các bộ lọc.
+  - **Phân mảnh:** Frag +16–19 %, MT 79 → 46–48, IDSW khoảng ×2,2.
+  - **Nội bộ PF:** ESS/N trung vị 0,19, resample gần mọi update. Khi track thiếu ≥ 3 frame quan sát, sai số tăng nhanh
+    hơn độ trải hạt.
+  - **Nguyên nhân:** chưa xác định. Theo GPT, **dừng R65, không đề xuất ablation**.
+- **Finding phụ (mọi bộ lọc, không sửa):** `merge_track_pools` của ultralytics 8.4.141 (thực nạp) và bản vendor để
+  track vừa Removed được dự đoán thêm một lần (state 3, n_lost 20). Track được ghép lại lúc đó vẫn nằm trong
+  `removed_stracks`, nên bị loại ngay ở lần mất kế tiếp (40/40 ca).
+- **Dung lượng:** 363 MB cả hai lượt (trần 1 GiB).
+
 **Pilot UTUAV ngày 01/11/2026 — hồ sơ lịch sử** (theo yêu cầu người dùng); tại thời điểm pilot SVMOT chưa tải xong.
 Trạng thái SVMOT hiện hành xem R64 bên dưới. Hai archive UTUAV tại
 `D:/LABOTARY/` đã đọc hết luồng, CRC gzip đạt; gói ảnh có 11.898 JPG, gói GT có XML `track_id` cho B/C. Đã giải nén
@@ -54,7 +83,7 @@ khái quát kết luận bộ lọc. Báo cáo: `handoff/logs/external_eval/{SVM
 Giới hạn giữ nguyên: SVMOT full-image là giao thức dự án; SCT có xe đỗ ngoài GT chịu FP; bỏ đúng 16 dòng cam4; không
 CI; thiếu nhật ký ngân sách lịch sử; chưa xác định nguyên nhân PF.
 **Quyết định việc tiếp (GPT 02/11, `D:/LABOTARY/automation/runs_local/hoi_codex_R64_viec_tiep_20261102/answer.json`,
-người dùng: "hỏi chat gpt đi"):** thứ tự Q1 → Q2 → Q3 → Q4. Q1 sửa + commit mục 0 (lượt này). **Q2 LÀM NGAY:** chẩn
+người dùng: "hỏi chat gpt đi"):** thứ tự Q1 → Q2 → Q3 → Q4. Q1 sửa + commit mục 0 (lượt này). **Q2 LÀM NGAY (đã làm = R65, ĐÓNG, xem đầu mục 0):** chẩn
 đoán PF500 RoundaboutHD (R65) — phạm vi khóa trước: imagesc001–004 frame 1–3000, yolov8n_mixed5 c25, CV/EKF/UKF + PF500
 s0/1/2 (24 đơn vị), cache/GT/cấu hình R64, không tune/không thay benchmark; cổng parity log tắt/bật trùng byte; ngân
 sách ≤ 2 giờ; đầu ra `results/phase2/r65_pf_roundabout_diag/`, `handoff/logs/review65_pf_roundabout/`. **Q3 LÀM NGAY

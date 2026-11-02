@@ -1,0 +1,22 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\r65_pf_roundabout\\quan_sat.py', '--trace-dir', 'D:\\LABOTARY\\bytetrack\\results\\phase2\\r65_pf_roundabout_diag\\quan_sat', '--', '--cache-id', 'r64_roundabout_yolov8n_mixed5_c0.05', '--split-name', 'RoundaboutHD-prefix3000', '--tracker-yaml', 'configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml', '--tracker-name', 'r65bon-yolov8n_mixed5-c25-pf500', '--videos', 'imagesc001', 'imagesc002', 'imagesc003', 'imagesc004', '--conf-min', '0.25', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '15.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps', '--skip-existing', '--assoc-log', '--pf-diag', '--seeds', '0', '1', '2']
+exit: 0
+giay: 387.0
+--- stdout
+[run_tracking] cache=r64_roundabout_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[0, 1, 2]
+  r65bon-yolov8n_mixed5-c25-pf500-s0 imagesc001      3000 frame ->   8,160 bbox  264 track  predict 2.65 ms/frame  assoc 3.83  (21.1s, 142 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s0 imagesc002      3000 frame ->  12,070 bbox  420 track  predict 4.01 ms/frame  assoc 5.47  (29.8s, 101 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s0 imagesc003      3000 frame ->  12,464 bbox  503 track  predict 6.46 ms/frame  assoc 8.25  (45.8s, 65 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s0 imagesc004      3000 frame ->  18,202 bbox  475 track  predict 5.99 ms/frame  assoc 8.27  (44.3s, 68 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s0   4 video moi,   0 tai su dung
+  r65bon-yolov8n_mixed5-c25-pf500-s1 imagesc001      3000 frame ->   8,136 bbox  260 track  predict 3.40 ms/frame  assoc 4.91  (26.0s, 116 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s1 imagesc002      3000 frame ->  12,028 bbox  449 track  predict 3.73 ms/frame  assoc 4.79  (26.7s, 112 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s1 imagesc003      3000 frame ->  12,495 bbox  511 track  predict 3.99 ms/frame  assoc 5.06  (28.2s, 106 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s1 imagesc004      3000 frame ->  18,127 bbox  500 track  predict 4.70 ms/frame  assoc 6.47  (34.8s, 86 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s1   4 video moi,   0 tai su dung
+  r65bon-yolov8n_mixed5-c25-pf500-s2 imagesc001      3000 frame ->   8,157 bbox  271 track  predict 2.69 ms/frame  assoc 3.78  (20.4s, 147 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s2 imagesc002      3000 frame ->  12,025 bbox  444 track  predict 4.03 ms/frame  assoc 5.27  (29.2s, 103 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s2 imagesc003      3000 frame ->  12,476 bbox  497 track  predict 4.37 ms/frame  assoc 5.29  (30.1s, 100 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s2 imagesc004      3000 frame ->  18,184 bbox  477 track  predict 5.02 ms/frame  assoc 7.10  (37.8s, 79 fps)
+  r65bon-yolov8n_mixed5-c25-pf500-s2   4 video moi,   0 tai su dung
+
+--- stderr

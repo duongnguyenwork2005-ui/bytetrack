@@ -1,0 +1,508 @@
+[2026-11-02T06:33:21+07:00] chay off cv
+[run_tracking] cache=r64_roundabout_yolov8n_mixed5_c0.05 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[None]
+  r65off-yolov8n_mixed5-c25-cv imagesc001      3000 frame ->   8,353 bbox  161 track  predict 0.17 ms/frame  assoc 1.21  (4.8s, 619 fps)
+  r65off-yolov8n_mixed5-c25-cv imagesc002      3000 frame ->  12,378 bbox  277 track  predict 0.15 ms/frame  assoc 1.29  (5.2s, 581 fps)
+  r65off-yolov8n_mixed5-c25-cv imagesc003      3000 frame ->  12,868 bbox  336 track  predict 0.16 ms/frame  assoc 1.35  (5.2s, 574 fps)
+  r65off-yolov8n_mixed5-c25-cv imagesc004      3000 frame ->  18,429 bbox  328 track  predict 0.19 ms/frame  assoc 1.81  (7.2s, 419 fps)
+  r65off-yolov8n_mixed5-c25-cv   4 video moi,   0 tai su dung
+
+  xong off cv 58 s
+[2026-11-02T06:34:19+07:00] chay off ekf
+[run_tracking] cache=r64_roundabout_yolov8n_mixed5_c0.05 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[None]
+  r65off-yolov8n_mixed5-c25-ekf imagesc001      3000 frame ->   8,329 bbox  168 track  predict 0.27 ms/frame  assoc 1.29  (5.6s, 537 fps)
+  r65off-yolov8n_mixed5-c25-ekf imagesc002      3000 frame ->  12,362 bbox  286 track  predict 0.32 ms/frame  assoc 1.27  (5.4s, 557 fps)
+  r65off-yolov8n_mixed5-c25-ekf imagesc003      3000 frame ->  12,875 bbox  334 track  predict 0.32 ms/frame  assoc 1.20  (5.1s, 583 fps)
+  r65off-yolov8n_mixed5-c25-ekf imagesc004      3000 frame ->  18,422 bbox  329 track  predict 0.37 ms/frame  assoc 1.48  (6.2s, 483 fps)
+  r65off-yolov8n_mixed5-c25-ekf   4 video moi,   0 tai su dung
+
+  xong off ekf 31 s
+[2026-11-02T06:34:50+07:00] chay off ukf
+[run_tracking] cache=r64_roundabout_yolov8n_mixed5_c0.05 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[None]
+  r65off-yolov8n_mixed5-c25-ukf imagesc001      3000 frame ->   8,329 bbox  166 track  predict 1.38 ms/frame  assoc 1.37  (9.0s, 334 fps)
+  r65off-yolov8n_mixed5-c25-ukf imagesc002      3000 frame ->  12,357 bbox  281 track  predict 2.67 ms/frame  assoc 2.31  (15.9s, 188 fps)
+  r65off-yolov8n_mixed5-c25-ukf imagesc003      3000 frame ->  12,850 bbox  336 track  predict 2.51 ms/frame  assoc 2.22  (15.1s, 199 fps)
+  r65off-yolov8n_mixed5-c25-ukf imagesc004      3000 frame ->  18,455 bbox  329 track  predict 3.72 ms/frame  assoc 3.11  (21.5s, 140 fps)
+  r65off-yolov8n_mixed5-c25-ukf   4 video moi,   0 tai su dung
+
+  xong off ukf 73 s
+[2026-11-02T06:36:03+07:00] chay off pf500
+ps)
+  r65off-yolov8n_mixed5-c25-pf500-s0 imagesc004      3000 frame ->  18,202 bbox  475 track  predict 4.29 ms/frame  assoc 8.73  (40.2s, 75 fps)
+  r65off-yolov8n_mixed5-c25-pf500-s0   4 video moi,   0 tai su dung
+  r65off-yolov8n_mixed5-c25-pf500-s1 imagesc001      3000 frame ->   8,136 bbox  260 track  predict 1.97 ms/frame  assoc 4.06  (18.7s, 160 fps)
+  r65off-yolov8n_mixed5-c25-pf500-s1 imagesc002      3000 frame ->  12,028 bbox  449 track  predict 2.88 ms/frame  assoc 5.73  (26.9s, 112 fps)
+  r65off-yolov8n_mixed5-c25-pf500-s1 imagesc003      3000 frame ->  12,495 bbox  511 track  predict 4.28 ms/frame  assoc 7.41  (36.2s, 83 fps)
+  r65off-yolov8n_mixed5-c25-pf500-s1 imagesc004      3000 frame ->  18,127 bbox  500 track  predict 3.82 ms/frame  assoc 7.75  (35.7s, 84 fps)
+  r65off-yolov8n_mixed5-c25-pf500-s1   4 video moi,   0 tai su dung
+  r65off-yolov8n_mixed5-c25-pf500-s2 imagesc001      3000 frame ->   8,157 bbox  271 track  predict 2.15 ms/frame  assoc 4.49  (20.8s, 144 fps)
+  r65off-yolov8n_mixed5-c25-pf500-s2 imagesc002      3000 frame ->  12,025 bbox  444 track  predict 2.46 ms/frame  assoc 4.79  (22.5s, 133 fps)
+  r65off-yolov8n_mixed5-c25-pf500-s2 imagesc003      3000 frame ->  12,476 bbox  497 track  predict 5.00 ms/frame  assoc 9.17  (44.0s, 68 fps)
+  r65off-yolov8n_mixed5-c25-pf500-s2 imagesc004      3000 frame ->  18,184 bbox  477 track  predict 9.38 ms/frame  assoc 20.08  (90.5s, 33 fps)
+  r65off-yolov8n_mixed5-c25-pf500-s2   4 video moi,   0 tai su dung
+
+  xong off pf500 427 s
+[2026-11-02T06:43:13+07:00] chay on cv
+[run_tracking] cache=r64_roundabout_yolov8n_mixed5_c0.05 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[None]
+  r65on-yolov8n_mixed5-c25-cv  imagesc001      3000 frame ->   8,353 bbox  161 track  predict 0.25 ms/frame  assoc 1.42  (6.4s, 471 fps)
+  r65on-yolov8n_mixed5-c25-cv  imagesc002      3000 frame ->  12,378 bbox  277 track  predict 0.25 ms/frame  assoc 1.61  (6.7s, 446 fps)
+  r65on-yolov8n_mixed5-c25-cv  imagesc003      3000 frame ->  12,868 bbox  336 track  predict 0.28 ms/frame  assoc 1.76  (7.2s, 417 fps)
+  r65on-yolov8n_mixed5-c25-cv  imagesc004      3000 frame ->  18,429 bbox  328 track  predict 0.33 ms/frame  assoc 2.40  (9.4s, 318 fps)
+  r65on-yolov8n_mixed5-c25-cv    4 video moi,   0 tai su dung
+
+  xong on cv 91 s
+[2026-11-02T06:44:44+07:00] chay on ekf
+[run_tracking] cache=r64_roundabout_yolov8n_mixed5_c0.05 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[None]
+  r65on-yolov8n_mixed5-c25-ekf imagesc001      3000 frame ->   8,329 bbox  168 track  predict 1.00 ms/frame  assoc 4.77  (22.8s, 132 fps)
+  r65on-yolov8n_mixed5-c25-ekf imagesc002      3000 frame ->  12,362 bbox  286 track  predict 1.24 ms/frame  assoc 6.22  (25.6s, 117 fps)
+  r65on-yolov8n_mixed5-c25-ekf imagesc003      3000 frame ->  12,875 bbox  334 track  predict 1.42 ms/frame  assoc 6.24  (27.1s, 111 fps)
+  r65on-yolov8n_mixed5-c25-ekf imagesc004      3000 frame ->  18,422 bbox  329 track  predict 1.45 ms/frame  assoc 6.75  (28.2s, 106 fps)
+  r65on-yolov8n_mixed5-c25-ekf   4 video moi,   0 tai su dung
+
+  xong on ekf 144 s
+[2026-11-02T06:47:09+07:00] chay on ukf
+[run_tracking] cache=r64_roundabout_yolov8n_mixed5_c0.05 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[None]
+  r65on-yolov8n_mixed5-c25-ukf imagesc001      3000 frame ->   8,329 bbox  166 track  predict 3.59 ms/frame  assoc 4.31  (27.3s, 110 fps)
+  r65on-yolov8n_mixed5-c25-ukf imagesc002      3000 frame ->  12,357 bbox  281 track  predict 5.45 ms/frame  assoc 5.63  (36.3s, 83 fps)
+  r65on-yolov8n_mixed5-c25-ukf imagesc003      3000 frame ->  12,850 bbox  336 track  predict 10.07 ms/frame  assoc 9.33  (63.0s, 48 fps)
+  r65on-yolov8n_mixed5-c25-ukf imagesc004      3000 frame ->  18,455 bbox  329 track  predict 7.08 ms/frame  assoc 8.92  (50.7s, 59 fps)
+  r65on-yolov8n_mixed5-c25-ukf   4 video moi,   0 tai su dung
+
+  xong on ukf 244 s
+[2026-11-02T06:51:12+07:00] chay on pf500
+.5s, 109 fps)
+  r65on-yolov8n_mixed5-c25-pf500-s0 imagesc004      3000 frame ->  18,202 bbox  475 track  predict 3.14 ms/frame  assoc 7.93  (34.5s, 87 fps)
+  r65on-yolov8n_mixed5-c25-pf500-s0   4 video moi,   0 tai su dung
+  r65on-yolov8n_mixed5-c25-pf500-s1 imagesc001      3000 frame ->   8,136 bbox  260 track  predict 1.55 ms/frame  assoc 4.06  (17.7s, 169 fps)
+  r65on-yolov8n_mixed5-c25-pf500-s1 imagesc002      3000 frame ->  12,028 bbox  449 track  predict 2.55 ms/frame  assoc 6.03  (26.7s, 112 fps)
+  r65on-yolov8n_mixed5-c25-pf500-s1 imagesc003      3000 frame ->  12,495 bbox  511 track  predict 2.54 ms/frame  assoc 5.60  (25.9s, 116 fps)
+  r65on-yolov8n_mixed5-c25-pf500-s1 imagesc004      3000 frame ->  18,127 bbox  500 track  predict 3.04 ms/frame  assoc 7.67  (33.3s, 90 fps)
+  r65on-yolov8n_mixed5-c25-pf500-s1   4 video moi,   0 tai su dung
+  r65on-yolov8n_mixed5-c25-pf500-s2 imagesc001      3000 frame ->   8,157 bbox  271 track  predict 1.58 ms/frame  assoc 4.08  (17.8s, 169 fps)
+  r65on-yolov8n_mixed5-c25-pf500-s2 imagesc002      3000 frame ->  12,025 bbox  444 track  predict 2.27 ms/frame  assoc 5.25  (24.4s, 123 fps)
+  r65on-yolov8n_mixed5-c25-pf500-s2 imagesc003      3000 frame ->  12,476 bbox  497 track  predict 2.65 ms/frame  assoc 6.10  (27.3s, 110 fps)
+  r65on-yolov8n_mixed5-c25-pf500-s2 imagesc004      3000 frame ->  18,184 bbox  477 track  predict 2.71 ms/frame  assoc 6.91  (30.0s, 100 fps)
+  r65on-yolov8n_mixed5-c25-pf500-s2   4 video moi,   0 tai su dung
+
+  xong on pf500 337 s
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65off-yolov8n_mixed5-c25-cv
+
+
+HOTA: r65off-yolov8n_mixed5-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         34.026    29.504    39.287    31.258    76.193    40.656    84.415    84.019    35.037    42.358    78.386    33.203    
+imagesc002                         44.719    47.799    42.033    53.691    71.093    45.01     79.553    80.895    47.473    60.042    74.919    44.983    
+imagesc003                         38.298    36.534    40.461    43.062    64.894    41.836    85.575    84.013    41.666    46.17     80.167    37.013    
+imagesc004                         51.69     53.902    49.755    64.425    68.267    52.286    81.921    82.178    56.604    66.334    77.839    51.633    
+COMBINED                           42.832    41.847    44.016    47.701    69.378    46.171    82.833    82.6      45.799    54.459    77.717    42.324    
+
+CLEAR: r65off-yolov8n_mixed5-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         31.104    82.477    31.339    36.182    88.196    2.1978    71.429    26.374    24.763    7367      12994     986       48        2         65        24        328       
+imagesc002                         51.867    78.508    52.556    64.039    84.796    20.513    74.359    5.1282    38.104    10496     5894      1882      113       16        58        4         521       
+imagesc003                         33.473    82.131    34.282    50.32     75.832    13.333    73.333    13.333    24.481    9758      9634      3110      157       12        66        12        692       
+imagesc004                         59.494    79.822    60.278    77.325    81.936    52.688    46.237    1.0753    43.891    15100     4428      3329      153       49        43        1         403       
+COMBINED                           43.535    80.484    44.157    56.456    82.112    22.443    65.909    11.648    32.517    42721     32950     9307      471       79        232       41        1944      
+
+Identity: r65off-yolov8n_mixed5-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         49.321    34.777    84.772    7081      13280     1272      
+imagesc002                         59.17     51.928    68.759    8511      7879      3867      
+imagesc003                         48.562    40.393    60.872    7833      11559     5035      
+imagesc004                         62.713    60.948    64.583    11902     7626      6527      
+COMBINED                           55.329    46.685    67.9      35327     40344     16701     
+
+Count: r65off-yolov8n_mixed5-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8353      20361     161       91        
+imagesc002                         12378     16390     277       78        
+imagesc003                         12868     19392     336       90        
+imagesc004                         18429     19528     328       93        
+COMBINED                           52028     75671     1102      352       
+r65off-yolov8n_mixed5-c25-cv {'HOTA': 0.4283175584453237, 'IDF1': 0.5532854603403315, 'IDSW': 471, 'MOTA': 0.43534511239444434}
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65off-yolov8n_mixed5-c25-ekf
+
+
+HOTA: r65off-yolov8n_mixed5-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         33.68     29.532    38.46     31.27     76.442    39.772    84.681    84.174    34.673    41.73     78.606    32.803    
+imagesc002                         43.391    47.866    39.579    53.751    71.266    42.255    79.522    81.024    46.079    57.689    75.055    43.299    
+imagesc003                         38.096    36.536    40.053    43.06     64.856    41.452    85.433    83.958    41.448    45.965    80.143    36.838    
+imagesc004                         51.901    53.973    50.076    64.51     68.383    52.678    81.929    82.26     56.827    66.697    77.922    51.972    
+COMBINED                           42.483    41.891    43.266    47.739    69.486    45.369    82.815    82.675    45.423    53.872    77.814    41.92     
+
+CLEAR: r65off-yolov8n_mixed5-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         31.054    82.653    31.339    36.123    88.306    2.1978    71.429    26.374    24.788    7355      13006     974       58        2         65        24        322       
+imagesc002                         51.879    78.665    52.617    64.021    84.881    19.231    75.641    5.1282    38.22     10493     5897      1869      121       15        59        4         520       
+imagesc003                         33.54     82.087    34.318    50.356    75.845    13.333    73.333    13.333    24.52     9765      9627      3110      151       12        66        12        705       
+imagesc004                         59.448    79.939    60.201    77.269    81.908    50.538    48.387    1.0753    43.947    15089     4439      3333      147       47        45        1         419       
+COMBINED                           43.529    80.585    44.16     56.431    82.138    21.591    66.761    11.648    32.573    42702     32969     9286      477       76        235       41        1966      
+
+Identity: r65off-yolov8n_mixed5-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         48.595    34.237    83.696    6971      13390     1358      
+imagesc002                         56.379    49.451    65.564    8105      8285      4257      
+imagesc003                         48.247    40.14     60.458    7784      11608     5091      
+imagesc004                         63.088    61.302    64.982    11971     7557      6451      
+COMBINED                           54.569    46.03     66.998    34831     40840     17157     
+
+Count: r65off-yolov8n_mixed5-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8329      20361     168       91        
+imagesc002                         12362     16390     286       78        
+imagesc003                         12875     19392     334       90        
+imagesc004                         18422     19528     329       93        
+COMBINED                           51988     75671     1117      352       
+r65off-yolov8n_mixed5-c25-ekf {'HOTA': 0.4248292905584447, 'IDF1': 0.5456881222632168, 'IDSW': 477, 'MOTA': 0.4352922519855691}
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65off-yolov8n_mixed5-c25-ukf
+
+
+HOTA: r65off-yolov8n_mixed5-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         33.669    29.498    38.48     31.243    76.376    39.792    84.68     84.169    34.667    41.725    78.553    32.776    
+imagesc002                         43.401    47.884    39.589    53.753    71.296    42.267    79.548    81.025    46.084    57.678    75.098    43.315    
+imagesc003                         37.979    36.435    39.919    42.942    64.804    41.283    85.464    83.945    41.321    45.798    80.106    36.687    
+imagesc004                         51.852    53.85     50.096    64.472    68.22     52.724    81.699    82.242    56.821    66.671    77.892    51.931    
+COMBINED                           42.443    41.83     43.248    47.692    69.413    45.353    82.739    82.664    45.391    53.828    77.796    41.875    
+
+CLEAR: r65off-yolov8n_mixed5-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         30.951    82.664    31.241    36.074    88.186    2.1978    71.429    26.374    24.698    7345      13016     984       59        2         65        24        314       
+imagesc002                         51.989    78.637    52.709    64.051    84.956    17.949    76.923    5.1282    38.305    10498     5892      1859      118       14        60        4         516       
+imagesc003                         33.318    82.081    34.127    50.196    75.751    13.333    73.333    13.333    24.323    9734      9658      3116      157       12        66        12        694       
+imagesc004                         59.161    79.917    59.981    77.243    81.734    49.462    49.462    1.0753    43.648    15084     4444      3371      160       46        46        1         421       
+COMBINED                           43.394    80.568    44.047    56.377    82.055    21.023    67.33     11.648    32.44     42661     33010     9330      494       74        237       41        1945      
+
+Identity: r65off-yolov8n_mixed5-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         48.623    34.257    83.744    6975      13386     1354      
+imagesc002                         56.347    49.414    65.542    8099      8291      4258      
+imagesc003                         48.415    40.249    60.739    7805      11587     5045      
+imagesc004                         62.997    61.266    64.828    11964     7564      6491      
+COMBINED                           54.586    46.045    67.017    34843     40828     17148     
+
+Count: r65off-yolov8n_mixed5-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8329      20361     166       91        
+imagesc002                         12357     16390     281       78        
+imagesc003                         12850     19392     336       90        
+imagesc004                         18455     19528     329       93        
+COMBINED                           51991     75671     1112      352       
+r65off-yolov8n_mixed5-c25-ukf {'HOTA': 0.4244292251691311, 'IDF1': 0.5458632952640566, 'IDSW': 494, 'MOTA': 0.4339443115592499}
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65off-yolov8n_mixed5-c25-pf500-s0
+
+
+HOTA: r65off-yolov8n_mixed5-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         23.815    25.958    22.164    27.854    69.503    22.799    82.364    80.258    24.739    31.133    71.704    22.324    
+imagesc002                         32.065    43.25     24.121    49.006    66.546    25.177    78.217    78.198    34.286    44.694    70.24     31.393    
+imagesc003                         27.814    32.322    24.576    38.453    59.827    25.613    82.657    80.55     30.473    35.83     74.272    26.612    
+imagesc004                         39.001    49.326    31.268    59.388    63.715    32.6      78.629    78.806    42.98     52.586    72.856    38.312    
+COMBINED                           31.344    37.623    26.574    43.29     64.362    27.669    80.387    79.302    33.761    41.867    72.307    30.273    
+
+CLEAR: r65off-yolov8n_mixed5-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         23.683    78.859    24.38     32.228    80.417    1.0989    70.33     28.571    16.869    6562      13799     1598      142       1         64        26        380       
+imagesc002                         41.91     75.739    43.478    58.56     79.519    7.6923    85.897    6.4103    27.703    9598      6792      2472      257       6         67        5         605       
+imagesc003                         26.016    78.086    27.62     45.947    71.486    7.7778    77.778    14.444    15.947    8910      10482     3554      311       7         70        13        734       
+imagesc004                         52.755    75.721    54.322    73.766    79.14     35.484    63.441    1.0753    34.845    14405     5123      3797      306       33        59        1         550       
+COMBINED                           35.731    76.781    37.074    52.167    77.56     13.352    73.864    12.784    23.618    39475     36196     11421     1016      47        260       45        2269      
+
+Identity: r65off-yolov8n_mixed5-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         32.257    22.592    56.373    4600      15761     3560      
+imagesc002                         38.84     33.722    45.791    5527      10863     6543      
+imagesc003                         31.95     26.243    40.83     5089      14303     7375      
+imagesc004                         44.866    43.343    46.5      8464      11064     9738      
+COMBINED                           37.419    31.293    46.526    23680     51991     27216     
+
+Count: r65off-yolov8n_mixed5-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8160      20361     264       91        
+imagesc002                         12070     16390     420       78        
+imagesc003                         12464     19392     503       90        
+imagesc004                         18202     19528     475       93        
+COMBINED                           50896     75671     1662      352       
+r65off-yolov8n_mixed5-c25-pf500-s0 {'HOTA': 0.31344143662747126, 'IDF1': 0.3741891646321711, 'IDSW': 1016, 'MOTA': 0.3573099337923379}
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65off-yolov8n_mixed5-c25-pf500-s1
+
+
+HOTA: r65off-yolov8n_mixed5-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         24.366    26.093    23.006    27.933    69.904    23.662    82.026    80.219    25.272    31.956    71.95     22.992    
+imagesc002                         30.425    42.84     22.091    48.647    66.29     22.944    79.03     78.235    32.606    42.081    70.007    29.46     
+imagesc003                         27.761    32.603    24.286    38.766    60.164    25.178    82.399    80.758    30.409    35.387    74.76     26.455    
+imagesc004                         39.077    49.218    31.382    59.164    63.737    32.669    79.219    78.727    43.005    53.33     72.649    38.744    
+COMBINED                           31.114    37.616    26.179    43.255    64.45     27.172    80.57     79.324    33.501    41.597    72.33     30.087    
+
+CLEAR: r65off-yolov8n_mixed5-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         24.704    78.477    25.441    32.7      81.834    1.0989    70.33     28.571    17.666    6658      13703     1478      150       1         64        26        391       
+imagesc002                         40.232    75.863    41.928    57.657    78.567    5.1282    88.462    6.4103    26.315    9450      6940      2578      278       4         69        5         604       
+imagesc003                         26.599    78.292    28.275    46.354    71.941    6.6667    77.778    15.556    16.536    8989      10403     3506      325       6         70        14        771       
+imagesc004                         52.596    75.511    54.235    73.53     79.213    37.634    61.29     1.0753    34.59     14359     5169      3768      320       35        57        1         557       
+COMBINED                           35.751    76.73     37.169    52.142    77.691    13.068    73.864    13.068    23.617    39456     36215     11330     1073      46        260       46        2323      
+
+Identity: r65off-yolov8n_mixed5-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         33.203    23.236    58.149    4731      15630     3405      
+imagesc002                         35.668    30.921    42.135    5068      11322     6960      
+imagesc003                         31.994    26.305    40.824    5101      14291     7394      
+imagesc004                         44.366    42.774    46.08     8353      11175     9774      
+COMBINED                           36.776    30.729    45.786    23253     52418     27533     
+
+Count: r65off-yolov8n_mixed5-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8136      20361     260       91        
+imagesc002                         12028     16390     449       78        
+imagesc003                         12495     19392     511       90        
+imagesc004                         18127     19528     500       93        
+COMBINED                           50786     75671     1720      352       
+r65off-yolov8n_mixed5-c25-pf500-s1 {'HOTA': 0.31113558956595305, 'IDF1': 0.36776137343128495, 'IDSW': 1073, 'MOTA': 0.3575081603256201}
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65off-yolov8n_mixed5-c25-pf500-s2
+
+
+HOTA: r65off-yolov8n_mixed5-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         23.865    25.978    22.206    27.87     69.566    22.826    82.013    80.245    24.786    31.176    71.736    22.365    
+imagesc002                         30.299    42.913    21.852    48.704    66.384    22.663    78.73     78.25     32.465    41.804    70.08     29.296    
+imagesc003                         27.272    32.362    23.375    38.475    59.803    24.46     81.407    80.419    29.838    35.68     74.307    26.513    
+imagesc004                         40.521    49.713    33.362    59.781    64.199    35.023    78.296    79.144    44.595    54.804    73.233    40.135    
+COMBINED                           31.345    37.672    26.438    43.335    64.498    27.583    79.963    79.397    33.742    41.971    72.415    30.394    
+
+CLEAR: r65off-yolov8n_mixed5-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         24.252    78.556    25.043    32.552    81.255    1.0989    69.231    29.67     17.272    6628      13733     1529      161       1         63        27        398       
+imagesc002                         40.824    75.894    42.471    57.919    78.944    6.4103    88.462    5.1282    26.862    9493      6897      2532      270       5         69        4         604       
+imagesc003                         26.202    78.01     27.826    46.081    71.626    6.6667    77.778    15.556    16.068    8936      10456     3540      315       6         70        14        736       
+imagesc004                         53.349    76.083    54.926    74.022    79.493    38.71     60.215    1.0753    35.645    14455     5073      3729      308       36        56        1         524       
+COMBINED                           35.85     76.888    37.243    52.216    77.715    13.636    73.295    13.068    23.782    39512     36159     11330     1054      48        258       46        2262      
+
+Identity: r65off-yolov8n_mixed5-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         31.966    22.386    55.878    4558      15803     3599      
+imagesc002                         36.312    31.477    42.902    5159      11231     6866      
+imagesc003                         31.875    26.191    40.71     5079      14313     7397      
+imagesc004                         46.797    45.186    48.526    8824      10704     9360      
+COMBINED                           37.34     31.214    46.458    23620     52051     27222     
+
+Count: r65off-yolov8n_mixed5-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8157      20361     271       91        
+imagesc002                         12025     16390     444       78        
+imagesc003                         12476     19392     497       90        
+imagesc004                         18184     19528     477       93        
+COMBINED                           50842     75671     1689      352       
+r65off-yolov8n_mixed5-c25-pf500-s2 {'HOTA': 0.3134523434948118, 'IDF1': 0.37340036201813254, 'IDSW': 1054, 'MOTA': 0.3584992929920313}
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65on-yolov8n_mixed5-c25-cv
+
+
+HOTA: r65on-yolov8n_mixed5-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         34.026    29.504    39.287    31.258    76.193    40.656    84.415    84.019    35.037    42.358    78.386    33.203    
+imagesc002                         44.719    47.799    42.033    53.691    71.093    45.01     79.553    80.895    47.473    60.042    74.919    44.983    
+imagesc003                         38.298    36.534    40.461    43.062    64.894    41.836    85.575    84.013    41.666    46.17     80.167    37.013    
+imagesc004                         51.69     53.902    49.755    64.425    68.267    52.286    81.921    82.178    56.604    66.334    77.839    51.633    
+COMBINED                           42.832    41.847    44.016    47.701    69.378    46.171    82.833    82.6      45.799    54.459    77.717    42.324    
+
+CLEAR: r65on-yolov8n_mixed5-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         31.104    82.477    31.339    36.182    88.196    2.1978    71.429    26.374    24.763    7367      12994     986       48        2         65        24        328       
+imagesc002                         51.867    78.508    52.556    64.039    84.796    20.513    74.359    5.1282    38.104    10496     5894      1882      113       16        58        4         521       
+imagesc003                         33.473    82.131    34.282    50.32     75.832    13.333    73.333    13.333    24.481    9758      9634      3110      157       12        66        12        692       
+imagesc004                         59.494    79.822    60.278    77.325    81.936    52.688    46.237    1.0753    43.891    15100     4428      3329      153       49        43        1         403       
+COMBINED                           43.535    80.484    44.157    56.456    82.112    22.443    65.909    11.648    32.517    42721     32950     9307      471       79        232       41        1944      
+
+Identity: r65on-yolov8n_mixed5-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         49.321    34.777    84.772    7081      13280     1272      
+imagesc002                         59.17     51.928    68.759    8511      7879      3867      
+imagesc003                         48.562    40.393    60.872    7833      11559     5035      
+imagesc004                         62.713    60.948    64.583    11902     7626      6527      
+COMBINED                           55.329    46.685    67.9      35327     40344     16701     
+
+Count: r65on-yolov8n_mixed5-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8353      20361     161       91        
+imagesc002                         12378     16390     277       78        
+imagesc003                         12868     19392     336       90        
+imagesc004                         18429     19528     328       93        
+COMBINED                           52028     75671     1102      352       
+r65on-yolov8n_mixed5-c25-cv {'HOTA': 0.4283175584453237, 'IDF1': 0.5532854603403315, 'IDSW': 471, 'MOTA': 0.43534511239444434}
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65on-yolov8n_mixed5-c25-ekf
+
+
+HOTA: r65on-yolov8n_mixed5-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         33.68     29.532    38.46     31.27     76.442    39.772    84.681    84.174    34.673    41.73     78.606    32.803    
+imagesc002                         43.391    47.866    39.579    53.751    71.266    42.255    79.522    81.024    46.079    57.689    75.055    43.299    
+imagesc003                         38.096    36.536    40.053    43.06     64.856    41.452    85.433    83.958    41.448    45.965    80.143    36.838    
+imagesc004                         51.901    53.973    50.076    64.51     68.383    52.678    81.929    82.26     56.827    66.697    77.922    51.972    
+COMBINED                           42.483    41.891    43.266    47.739    69.486    45.369    82.815    82.675    45.423    53.872    77.814    41.92     
+
+CLEAR: r65on-yolov8n_mixed5-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         31.054    82.653    31.339    36.123    88.306    2.1978    71.429    26.374    24.788    7355      13006     974       58        2         65        24        322       
+imagesc002                         51.879    78.665    52.617    64.021    84.881    19.231    75.641    5.1282    38.22     10493     5897      1869      121       15        59        4         520       
+imagesc003                         33.54     82.087    34.318    50.356    75.845    13.333    73.333    13.333    24.52     9765      9627      3110      151       12        66        12        705       
+imagesc004                         59.448    79.939    60.201    77.269    81.908    50.538    48.387    1.0753    43.947    15089     4439      3333      147       47        45        1         419       
+COMBINED                           43.529    80.585    44.16     56.431    82.138    21.591    66.761    11.648    32.573    42702     32969     9286      477       76        235       41        1966      
+
+Identity: r65on-yolov8n_mixed5-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         48.595    34.237    83.696    6971      13390     1358      
+imagesc002                         56.379    49.451    65.564    8105      8285      4257      
+imagesc003                         48.247    40.14     60.458    7784      11608     5091      
+imagesc004                         63.088    61.302    64.982    11971     7557      6451      
+COMBINED                           54.569    46.03     66.998    34831     40840     17157     
+
+Count: r65on-yolov8n_mixed5-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8329      20361     168       91        
+imagesc002                         12362     16390     286       78        
+imagesc003                         12875     19392     334       90        
+imagesc004                         18422     19528     329       93        
+COMBINED                           51988     75671     1117      352       
+r65on-yolov8n_mixed5-c25-ekf {'HOTA': 0.4248292905584447, 'IDF1': 0.5456881222632168, 'IDSW': 477, 'MOTA': 0.4352922519855691}
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65on-yolov8n_mixed5-c25-ukf
+
+
+HOTA: r65on-yolov8n_mixed5-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         33.669    29.498    38.48     31.243    76.376    39.792    84.68     84.169    34.667    41.725    78.553    32.776    
+imagesc002                         43.401    47.884    39.589    53.753    71.296    42.267    79.548    81.025    46.084    57.678    75.098    43.315    
+imagesc003                         37.979    36.435    39.919    42.942    64.804    41.283    85.464    83.945    41.321    45.798    80.106    36.687    
+imagesc004                         51.852    53.85     50.096    64.472    68.22     52.724    81.699    82.242    56.821    66.671    77.892    51.931    
+COMBINED                           42.443    41.83     43.248    47.692    69.413    45.353    82.739    82.664    45.391    53.828    77.796    41.875    
+
+CLEAR: r65on-yolov8n_mixed5-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         30.951    82.664    31.241    36.074    88.186    2.1978    71.429    26.374    24.698    7345      13016     984       59        2         65        24        314       
+imagesc002                         51.989    78.637    52.709    64.051    84.956    17.949    76.923    5.1282    38.305    10498     5892      1859      118       14        60        4         516       
+imagesc003                         33.318    82.081    34.127    50.196    75.751    13.333    73.333    13.333    24.323    9734      9658      3116      157       12        66        12        694       
+imagesc004                         59.161    79.917    59.981    77.243    81.734    49.462    49.462    1.0753    43.648    15084     4444      3371      160       46        46        1         421       
+COMBINED                           43.394    80.568    44.047    56.377    82.055    21.023    67.33     11.648    32.44     42661     33010     9330      494       74        237       41        1945      
+
+Identity: r65on-yolov8n_mixed5-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         48.623    34.257    83.744    6975      13386     1354      
+imagesc002                         56.347    49.414    65.542    8099      8291      4258      
+imagesc003                         48.415    40.249    60.739    7805      11587     5045      
+imagesc004                         62.997    61.266    64.828    11964     7564      6491      
+COMBINED                           54.586    46.045    67.017    34843     40828     17148     
+
+Count: r65on-yolov8n_mixed5-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8329      20361     166       91        
+imagesc002                         12357     16390     281       78        
+imagesc003                         12850     19392     336       90        
+imagesc004                         18455     19528     329       93        
+COMBINED                           51991     75671     1112      352       
+r65on-yolov8n_mixed5-c25-ukf {'HOTA': 0.4244292251691311, 'IDF1': 0.5458632952640566, 'IDSW': 494, 'MOTA': 0.4339443115592499}
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65on-yolov8n_mixed5-c25-pf500-s0
+
+
+HOTA: r65on-yolov8n_mixed5-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         23.815    25.958    22.164    27.854    69.503    22.799    82.364    80.258    24.739    31.133    71.704    22.324    
+imagesc002                         32.065    43.25     24.121    49.006    66.546    25.177    78.217    78.198    34.286    44.694    70.24     31.393    
+imagesc003                         27.814    32.322    24.576    38.453    59.827    25.613    82.657    80.55     30.473    35.83     74.272    26.612    
+imagesc004                         39.001    49.326    31.268    59.388    63.715    32.6      78.629    78.806    42.98     52.586    72.856    38.312    
+COMBINED                           31.344    37.623    26.574    43.29     64.362    27.669    80.387    79.302    33.761    41.867    72.307    30.273    
+
+CLEAR: r65on-yolov8n_mixed5-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         23.683    78.859    24.38     32.228    80.417    1.0989    70.33     28.571    16.869    6562      13799     1598      142       1         64        26        380       
+imagesc002                         41.91     75.739    43.478    58.56     79.519    7.6923    85.897    6.4103    27.703    9598      6792      2472      257       6         67        5         605       
+imagesc003                         26.016    78.086    27.62     45.947    71.486    7.7778    77.778    14.444    15.947    8910      10482     3554      311       7         70        13        734       
+imagesc004                         52.755    75.721    54.322    73.766    79.14     35.484    63.441    1.0753    34.845    14405     5123      3797      306       33        59        1         550       
+COMBINED                           35.731    76.781    37.074    52.167    77.56     13.352    73.864    12.784    23.618    39475     36196     11421     1016      47        260       45        2269      
+
+Identity: r65on-yolov8n_mixed5-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         32.257    22.592    56.373    4600      15761     3560      
+imagesc002                         38.84     33.722    45.791    5527      10863     6543      
+imagesc003                         31.95     26.243    40.83     5089      14303     7375      
+imagesc004                         44.866    43.343    46.5      8464      11064     9738      
+COMBINED                           37.419    31.293    46.526    23680     51991     27216     
+
+Count: r65on-yolov8n_mixed5-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8160      20361     264       91        
+imagesc002                         12070     16390     420       78        
+imagesc003                         12464     19392     503       90        
+imagesc004                         18202     19528     475       93        
+COMBINED                           50896     75671     1662      352       
+r65on-yolov8n_mixed5-c25-pf500-s0 {'HOTA': 0.31344143662747126, 'IDF1': 0.3741891646321711, 'IDSW': 1016, 'MOTA': 0.3573099337923379}
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65on-yolov8n_mixed5-c25-pf500-s1
+
+
+HOTA: r65on-yolov8n_mixed5-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         24.366    26.093    23.006    27.933    69.904    23.662    82.026    80.219    25.272    31.956    71.95     22.992    
+imagesc002                         30.425    42.84     22.091    48.647    66.29     22.944    79.03     78.235    32.606    42.081    70.007    29.46     
+imagesc003                         27.761    32.603    24.286    38.766    60.164    25.178    82.399    80.758    30.409    35.387    74.76     26.455    
+imagesc004                         39.077    49.218    31.382    59.164    63.737    32.669    79.219    78.727    43.005    53.33     72.649    38.744    
+COMBINED                           31.114    37.616    26.179    43.255    64.45     27.172    80.57     79.324    33.501    41.597    72.33     30.087    
+
+CLEAR: r65on-yolov8n_mixed5-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         24.704    78.477    25.441    32.7      81.834    1.0989    70.33     28.571    17.666    6658      13703     1478      150       1         64        26        391       
+imagesc002                         40.232    75.863    41.928    57.657    78.567    5.1282    88.462    6.4103    26.315    9450      6940      2578      278       4         69        5         604       
+imagesc003                         26.599    78.292    28.275    46.354    71.941    6.6667    77.778    15.556    16.536    8989      10403     3506      325       6         70        14        771       
+imagesc004                         52.596    75.511    54.235    73.53     79.213    37.634    61.29     1.0753    34.59     14359     5169      3768      320       35        57        1         557       
+COMBINED                           35.751    76.73     37.169    52.142    77.691    13.068    73.864    13.068    23.617    39456     36215     11330     1073      46        260       46        2323      
+
+Identity: r65on-yolov8n_mixed5-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         33.203    23.236    58.149    4731      15630     3405      
+imagesc002                         35.668    30.921    42.135    5068      11322     6960      
+imagesc003                         31.994    26.305    40.824    5101      14291     7394      
+imagesc004                         44.366    42.774    46.08     8353      11175     9774      
+COMBINED                           36.776    30.729    45.786    23253     52418     27533     
+
+Count: r65on-yolov8n_mixed5-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8136      20361     260       91        
+imagesc002                         12028     16390     449       78        
+imagesc003                         12495     19392     511       90        
+imagesc004                         18127     19528     500       93        
+COMBINED                           50786     75671     1720      352       
+r65on-yolov8n_mixed5-c25-pf500-s1 {'HOTA': 0.31113558956595305, 'IDF1': 0.36776137343128495, 'IDSW': 1073, 'MOTA': 0.3575081603256201}
+
+Evaluating 1 tracker(s) on 4 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r65on-yolov8n_mixed5-c25-pf500-s2
+
+
+HOTA: r65on-yolov8n_mixed5-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+imagesc001                         23.865    25.978    22.206    27.87     69.566    22.826    82.013    80.245    24.786    31.176    71.736    22.365    
+imagesc002                         30.299    42.913    21.852    48.704    66.384    22.663    78.73     78.25     32.465    41.804    70.08     29.296    
+imagesc003                         27.272    32.362    23.375    38.475    59.803    24.46     81.407    80.419    29.838    35.68     74.307    26.513    
+imagesc004                         40.521    49.713    33.362    59.781    64.199    35.023    78.296    79.144    44.595    54.804    73.233    40.135    
+COMBINED                           31.345    37.672    26.438    43.335    64.498    27.583    79.963    79.397    33.742    41.971    72.415    30.394    
+
+CLEAR: r65on-yolov8n_mixed5-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+imagesc001                         24.252    78.556    25.043    32.552    81.255    1.0989    69.231    29.67     17.272    6628      13733     1529      161       1         63        27        398       
+imagesc002                         40.824    75.894    42.471    57.919    78.944    6.4103    88.462    5.1282    26.862    9493      6897      2532      270       5         69        4         604       
+imagesc003                         26.202    78.01     27.826    46.081    71.626    6.6667    77.778    15.556    16.068    8936      10456     3540      315       6         70        14        736       
+imagesc004                         53.349    76.083    54.926    74.022    79.493    38.71     60.215    1.0753    35.645    14455     5073      3729      308       36        56        1         524       
+COMBINED                           35.85     76.888    37.243    52.216    77.715    13.636    73.295    13.068    23.782    39512     36159     11330     1054      48        258       46        2262      
+
+Identity: r65on-yolov8n_mixed5-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+imagesc001                         31.966    22.386    55.878    4558      15803     3599      
+imagesc002                         36.312    31.477    42.902    5159      11231     6866      
+imagesc003                         31.875    26.191    40.71     5079      14313     7397      
+imagesc004                         46.797    45.186    48.526    8824      10704     9360      
+COMBINED                           37.34     31.214    46.458    23620     52051     27222     
+
+Count: r65on-yolov8n_mixed5-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+imagesc001                         8157      20361     271       91        
+imagesc002                         12025     16390     444       78        
+imagesc003                         12476     19392     497       90        
+imagesc004                         18184     19528     477       93        
+COMBINED                           50842     75671     1689      352       
+r65on-yolov8n_mixed5-c25-pf500-s2 {'HOTA': 0.3134523434948118, 'IDF1': 0.37340036201813254, 'IDSW': 1054, 'MOTA': 0.3584992929920313}
+PARITY DAT 24 dong; phu: {'pf_degenerate': 0, 'pf_resample': 152485, 'pf_reseed_motion': 5048, 'update_tu_lost': 6148, 'lost_event': 11168, 'refind_event': 6148}
+RC=0

@@ -1,0 +1,12 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\r65_pf_roundabout\\quan_sat.py', '--trace-dir', 'D:\\LABOTARY\\bytetrack\\results\\phase2\\r65_pf_roundabout_diag\\quan_sat', '--', '--cache-id', 'r64_roundabout_yolov8n_mixed5_c0.05', '--split-name', 'RoundaboutHD-prefix3000', '--tracker-yaml', 'bytetrack.yaml', '--tracker-name', 'r65bon-yolov8n_mixed5-c25-cv', '--videos', 'imagesc001', 'imagesc002', 'imagesc003', 'imagesc004', '--conf-min', '0.25', '--classes', '1', '2', '3', '5', '7', '--max-det', '300', '--fps', '15.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps', '--skip-existing', '--assoc-log', '--pf-diag']
+exit: 0
+giay: 36.7
+--- stdout
+[run_tracking] cache=r64_roundabout_yolov8n_mixed5_c0.05 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[None]
+  r65bon-yolov8n_mixed5-c25-cv imagesc001      3000 frame ->   8,353 bbox  161 track  predict 0.20 ms/frame  assoc 0.91  (4.4s, 681 fps)
+  r65bon-yolov8n_mixed5-c25-cv imagesc002      3000 frame ->  12,378 bbox  277 track  predict 0.32 ms/frame  assoc 1.52  (6.4s, 467 fps)
+  r65bon-yolov8n_mixed5-c25-cv imagesc003      3000 frame ->  12,868 bbox  336 track  predict 0.37 ms/frame  assoc 1.82  (7.5s, 401 fps)
+  r65bon-yolov8n_mixed5-c25-cv imagesc004      3000 frame ->  18,429 bbox  328 track  predict 0.33 ms/frame  assoc 1.70  (6.9s, 433 fps)
+  r65bon-yolov8n_mixed5-c25-cv   4 video moi,   0 tai su dung
+
+--- stderr
