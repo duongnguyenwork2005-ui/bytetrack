@@ -48,3 +48,17 @@ Gốc lưu trữ: `D:\LABOTARY\_luu_tru\pre_cleanup_20261010-1429\`
 - Mục đã chuyển ra ngoài: chuyển ngược thư mục/file từ `da_chuyen\` về đúng đường dẫn cũ, hoặc giải nén zip tương ứng
   vào `D:\LABOTARY\`; kiểm lại bằng cột sha256 của manifest.
 - Không cần `git reset --hard`, `git clean` hay force-push cho bất kỳ bước nào ở trên.
+
+## 5. Ổ rời F: (từ 2026-11-01) — chỉ chứa thứ tải lại / sinh lại được
+
+Người dùng 02/11: ổ rời có thể hỏng bất cứ lúc nào ⇒ **thứ quan trọng giữ trên ổ máy (D:/C:)**, thứ không quan trọng
+mang sang ổ rời. Không có bằng chứng, mã, model, cache detection hay kết quả nào chỉ nằm trên F:.
+
+| Trên F: | Loại | Nếu F: hỏng |
+|:--|:--|:--|
+| `F:\LABOTARY_data\svmot\` (ảnh SVMOT giải nén, 5 GB) | sinh lại được | giải nén lại từ `svmot_data_v1.0.zip`; kết quả R64 dùng cache `data/interim/det_cache/r64_svmot_*` (trên D:) |
+| `F:\LABOTARY_data\goc_tai_ve\` — `UTUAV_B_C_3and6class.tar.gz`, `svmot_data_v1.0.zip`, `RoundaboutHD.zip`, `images20-track-val-1.zip` (chuyển từ `D:\LABOTARY\` ngày 02/11) | archive tải về | tải lại từ nguồn công bố; kiểm bằng sha256 trong `D:\LABOTARY\_luu_tru\chuyen_o_roi_20261102\manifest.csv` |
+
+Chuyển bằng `D:\LABOTARY\_luu_tru\chuyen_o_roi_20261102\chuyen.py`: chép → sha256 hai phía → chỉ xóa bản D: khi khớp.
+`src/external_mot_preflight.py` (pilot 01/11) còn trỏ đường archive cũ trong `D:\LABOTARY\`: chạy lại pilot phải trỏ sang
+F: hoặc chép về. Ảnh RoundaboutHD giải nén vẫn ở `C:\LABOTARY_data\RoundaboutHD` (ổ máy).

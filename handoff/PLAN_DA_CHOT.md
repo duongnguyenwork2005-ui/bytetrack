@@ -39,6 +39,15 @@ File này là phạm vi làm việc cho các vòng sau. Thay đổi phạm vi ph
   `removed_stracks`, nên bị loại ngay ở lần mất kế tiếp (40/40 ca).
 - **Dung lượng:** 363 MB cả hai lượt (trần 1 GiB).
 
+**Ngoài lề 02/11 (yêu cầu người dùng):**
+- **UTUAV (Q3):** không xác minh được FPS/stride nguồn ⇒ giữ pilot (`handoff/logs/external_eval/utuav/00_nguon_fps.md`,
+  có nháp thư hỏi tác giả để người dùng tự gửi).
+- **Video so sánh trước/sau tối ưu Nano:** `results/track_video/r63_so_sanh_nano/` (không commit). Script
+  `handoff/logs/review63/cong_cu/dung_video_so_sanh.py` phát lại cache Nano, MOT trùng hash Nano.
+- **Ổ rời:** 4 archive tải về (khoảng 50 GB) đã chuyển sang ổ rời F: với kiểm sha256. Quy tắc "F: chỉ chứa thứ tải
+  lại được" ghi ở `handoff/LUU_TRU.md` mục 5.
+- **Git:** nhánh đang đi trước origin, chưa push. Repo public nên chờ người dùng quyết định.
+
 **Pilot UTUAV ngày 01/11/2026 — hồ sơ lịch sử** (theo yêu cầu người dùng); tại thời điểm pilot SVMOT chưa tải xong.
 Trạng thái SVMOT hiện hành xem R64 bên dưới. Hai archive UTUAV tại
 `D:/LABOTARY/` đã đọc hết luồng, CRC gzip đạt; gói ảnh có 11.898 JPG, gói GT có XML `track_id` cho B/C. Đã giải nén
@@ -86,7 +95,7 @@ CI; thiếu nhật ký ngân sách lịch sử; chưa xác định nguyên nhân
 người dùng: "hỏi chat gpt đi"):** thứ tự Q1 → Q2 → Q3 → Q4. Q1 sửa + commit mục 0 (lượt này). **Q2 LÀM NGAY (đã làm = R65, ĐÓNG, xem đầu mục 0):** chẩn
 đoán PF500 RoundaboutHD (R65) — phạm vi khóa trước: imagesc001–004 frame 1–3000, yolov8n_mixed5 c25, CV/EKF/UKF + PF500
 s0/1/2 (24 đơn vị), cache/GT/cấu hình R64, không tune/không thay benchmark; cổng parity log tắt/bật trùng byte; ngân
-sách ≤ 2 giờ; đầu ra `results/phase2/r65_pf_roundabout_diag/`, `handoff/logs/review65_pf_roundabout/`. **Q3 LÀM NGAY
+sách ≤ 2 giờ; đầu ra `results/phase2/r65_pf_roundabout_diag/`, `handoff/logs/review65_pf_roundabout/`. **Q3 (đã làm: FPS chưa xác minh ⇒ giữ pilot) LÀM NGAY
 có điều kiện:** tìm bằng chứng FPS nguồn UTUAV (≤ 30 phút, nguồn tác giả/chính thức, phải biết stride); chưa xác minh
 ⇒ giữ pilot, không chạy ma trận; xác minh được ⇒ adapter + smoke 128 frame + ma trận 36 run × B/C validation
 (`UTUAVSYS-validation`). **Q4 LÀM SAU:** CI AP test40/BDD val không bắt buộc cho chương kết quả; ghi "AP là ước lượng
