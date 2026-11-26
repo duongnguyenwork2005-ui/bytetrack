@@ -1,0 +1,212 @@
+{
+ "buoc": "fixture R55A",
+ "lan": "results/phase2/r55_tracking/tests/lan_20261021_053138_647000_pid19852",
+ "luc": "2026-10-21T05:32:17+0700",
+ "tong_giay": 38.7,
+ "so_test": 20,
+ "so_dat": 3,
+ "tat_ca_dat": false,
+ "so_lenh_cli_con": 13,
+ "dieu_phoi_sha256": "7623930782df9b28ef97af59d2acd625908c08043be2e1b7e06d70a146b1cd51",
+ "test_sha256": "57f334f5529efe2f721be37c082f7137583459900861d48d5d33768a9e3bcbc1",
+ "hop_dong_sha256": "bed7ba74f18f263758ff7830d13ab14af7bf05321d736aead21a789183672f93",
+ "thiet_ke_sha256": "c2ebfe70d85252810e1872b974dcf5ecf1ee9789956e75815347ff3832585b91",
+ "giao_thuc_r54_sha256": "eb1f8f3087401eaf3641c1bc215a864ad23850ec5ddd6970d7d74280715431ad",
+ "thu_vien": {
+  "python": "3.11.9",
+  "ultralytics": "8.4.141",
+  "torch": "2.6.0+cu124",
+  "torchvision": "0.21.0+cu124",
+  "trackeval": "1.3.0",
+  "numpy": "2.4.6",
+  "pandas": "2.3.3",
+  "opencv-python": "5.0.0.93",
+  "scipy": "1.17.1",
+  "lap": "0.5.13",
+  "fastparquet": "2026.5.0",
+  "filterpy": null
+ },
+ "gioi_han": [
+  "detector GIA LAP (MoHinhGia fixture R54) qua det_cache.build_video_yolo; YOLO/spec.fill_env()/GPU khong chay; khong setup_model/forward checkpoint that",
+  "du lieu tong hop 2 video x 20 anh (co frame khong GT va anh D4); duong that 40 video chua chay",
+  "tracker (CV/EKF/UKF/PF500) va TrackEval THAT tren CPU; mot so ca goi main() trong tien trinh, ngat/backend/chuoi chuan bi dung tien trinh con THAT (cli_log.json)",
+  "khoa fixture ke thua file khoa R54 THAT (bam lai, chi doc); ket qua test dung cho khoa fixture la ban GIA trong vung fixture",
+  "snapshot chi phu cac thu muc liet ke trong snapshot(), khong phai toan bo dia"
+ ],
+ "ket_qua": [
+  {
+   "ten": "A1 import khong chay gi; script khong tham so / buoc la -> exit 2, khong ghi",
+   "dat": true,
+   "chi_tiet": {
+    "import": "ok ('mo-phien', 'cache', 'xac-nhan-cache', 'tracking', 'cham', 'lap-tracker', 'cham-lai', 'hau-kiem')",
+    "khong_tham_so": {
+     "exit": 2,
+     "dong": [
+      "                           [--duyet DUYET]",
+      "dieu_phoi_test40.py: error: the following arguments are required: --buoc"
+     ]
+    },
+    "buoc_la": {
+     "exit": 2,
+     "dong": [
+      "                           [--duyet DUYET]",
+      "dieu_phoi_test40.py: error: argument --buoc: invalid choice: 'full' (choose from 'tien-kiem', 'khoa', 'kiem-khoa', 'thuc-thi')"
+     ]
+    }
+   },
+   "giay": 0.5
+  },
+  {
+   "ten": "A2 duong that: thieu --duyet / --cong-viec / --phien / ten khoa / R55_NGAT / env fixture ngoai tests -> exit 2, khong ghi",
+   "dat": true,
+   "chi_tiet": {
+    "khong_duyet": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi] LoiDauVao: duong that can --duyet <ma plan thuc thi da duoc nguoi dung duyet>; R55 khong cap quyen"
+     ]
+    },
+    "khong_cong_viec": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi] LoiDauVao: --cong-viec bat buoc, mot trong ('mo-phien', 'cache', 'xac-nhan-cache', 'tracking', 'cham', 'lap-tracker', 'cham-lai', 'hau-kiem')"
+     ]
+    },
+    "thieu_phien": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi] LoiDauVao: --cong-viec cham thieu tham so: ['phien']"
+     ]
+    },
+    "khoa_khong_ten": {
+     "exit": 2,
+     "dong": [
+      "[khoa] LoiDauVao: khoa can --tien-kiem <phien> va --tests <phien> TUONG MINH"
+     ]
+    },
+    "kiem_khoa_khong_ten": {
+     "exit": 2,
+     "dong": [
+      "[kiem-khoa] LoiDauVao: can --khoa <ten phien khoa R55> (khong tu chon khoa moi nhat)"
+     ]
+    },
+    "cong_viec_ngoai_thuc_thi": {
+     "exit": 2,
+     "dong": [
+      "[tien-kiem] LoiDauVao: --cong-viec/--phien/--detector/--run/--video chi dung voi --buoc thuc-thi"
+     ]
+    },
+    "ngat_duong_that": {
+     "exit": 2,
+     "dong": [
+      "[kiem-khoa] LoiDauVao: R55_NGAT chi dung trong fixture"
+     ]
+    },
+    "env_ngoai_tests": {
+     "exit": 2,
+     "dong": [
+      "[kiem-khoa] LoiDauVao: R55_FIXTURE=D:\\LABOTARY\\bytetrack\\results\\phase2\\r55_tracking\\fixture.json phai la .../fixture.json ben trong D:\\LABOTARY\\bytetrack\\results\\phase2\\r55_tracking\\tests"
+     ]
+    }
+   },
+   "giay": 1.23
+  },
+  {
+   "ten": "B1 CLI chuan bi fixture: tien-kiem -> khoa (ten tuong minh) -> kiem-khoa (chi doc / --luu)",
+   "dat": false,
+   "loi": "AssertionError: (1, 0, 'Traceback (most recent call last):\\n  File \"D:\\\\LABOTARY\\\\bytetrack\\\\src\\\\r55_tracking\\\\dieu_phoi_test40.py\", line 1123, in <module>\\n    raise SystemExit(main())\\n                     ^^^^^^\\n  File \"D:\\\\LABOTARY\\\\bytetrack\\\\src\\\\r55_tracking\\\\dieu_phoi_test40.py\", line 1115, in main\\n    return {\"tien-kiem\": buoc_tien_kiem, \"khoa\": buoc_khoa, \"kiem-khoa\": buoc_kiem_khoa,\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \"D:\\\\LABOTARY\\\\bytetrack\\\\src\\\\r55_tracking\\\\dieu_phoi_test40.py\", line 478, in buoc_khoa\\n    \"thu_vien\": W.phien_ban_thu_vien(), \"goc_ma_ngoai\": {k_: str(v) for k_, v in goc_ma_ngoai.items()},\\n                                                                                 ^^^^^^^^^^^^\\nNameError: name \\'goc_ma_ngoai\\' is not defined\\n')",
+   "trace": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r55_tracking\\test_dieu_phoi_test40.py\", line 42, in chay\n    ct = fn(*a, **k)\n         ^^^^^^^^^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r55_tracking\\test_dieu_phoi_test40.py\", line 213, in ca_chuoi_chuan_bi\n    r2 = can(cli([\"--buoc\", \"khoa\", \"--tien-kiem\", tk.name, \"--tests\", ten_t]), 0, \"khoa.json\")\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r55_tracking\\test_dieu_phoi_test40.py\", line 100, in can\n    assert r.returncode == ma, (r.returncode, ma, out[-1500:])\n           ^^^^^^^^^^^^^^^^^^\nAssertionError: (1, 0, 'Traceback (most recent call last):\\n  File \"D:\\\\LABOTARY\\\\bytetrack\\\\src\\\\r55_tracking\\\\dieu_phoi_test40.py\", line 1123, in <module>\\n    raise SystemExit(main())\\n                     ^^^^^^\\n  File \"D:\\\\LABOTARY\\\\bytetrack\\\\src\\\\r55_tracking\\\\dieu_phoi_test40.py\", line 1115, in main\\n    return {\"tien-kiem\": buoc_tien_kiem, \"khoa\": buoc_khoa, \"kiem-khoa\": buoc_kiem_khoa,\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \"D:\\\\LABOTARY\\\\bytetrack\\\\src\\\\r55_tracking\\\\dieu_phoi_test40.py\", line 478, in buoc_khoa\\n    \"thu_vien\": W.phien_ban_thu_vien(), \"goc_ma_ngoai\": {k_: str(v) for k_, v in goc_ma_ngoai.items()},\\n                                                                                 ^^^^^^^^^^^^\\nNameError: name \\'goc_ma_ngoai\\' is not defined\\n')\n",
+   "giay": 34.9
+  },
+  {
+   "ten": "C1 mo-phien; trung ten -> exit 1 (tu choi ghi de); ten thoat vung -> exit 2; tracking khi chua co cache -> exit 2",
+   "dat": false,
+   "loi": "KeyError: 'khoa'",
+   "trace": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r55_tracking\\test_dieu_phoi_test40.py\", line 42, in chay\n    ct = fn(*a, **k)\n         ^^^^^^^^^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r55_tracking\\test_dieu_phoi_test40.py\", line 234, in ca_mo_phien\n    r1 = can(cli([\"--buoc\", \"thuc-thi\", \"--cong-viec\", \"mo-phien\", \"--khoa\", FX[\"khoa\"], \"--phien\", \"p1\"]), 0, \"mo-phien\")\n                                                                             ~~^^^^^^^^\nKeyError: 'khoa'\n",
+   "giay": 0.0
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "H1 duong dan thoat vung / fixture.json sai / phien khong ton tai -> LoiDauVao, khong ghi",
+   "dat": false,
+   "loi": "KeyError: 'phien_dir'",
+   "trace": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r55_tracking\\test_dieu_phoi_test40.py\", line 42, in chay\n    ct = fn(*a, **k)\n         ^^^^^^^^^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r55_tracking\\test_dieu_phoi_test40.py\", line 532, in ca_duong_dan\n    D.lan_moi(GOC / \"results\" / \"thoat\", [FX[\"phien_dir\"]])\n                                          ~~^^^^^^^^^^^^^\nKeyError: 'phien_dir'\n",
+   "giay": 0.01
+  },
+  {
+   "ten": "Z1 khong ghi ngoai vung (snapshot thu muc nhay cam)",
+   "dat": true,
+   "chi_tiet": []
+  }
+ ],
+ "exit": 1
+}

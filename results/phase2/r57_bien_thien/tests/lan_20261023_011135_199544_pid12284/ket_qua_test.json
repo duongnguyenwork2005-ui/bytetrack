@@ -1,0 +1,209 @@
+{
+ "phien": "lan_20261023_011135_199544_pid12284",
+ "luc": "2026-10-23T01:11:56+07:00",
+ "so_ca": 15,
+ "so_dat": 15,
+ "tat_ca_dat": true,
+ "giay": 21.4,
+ "sha256": {
+  "phan_tich_test40.py": "53e4933e3355448090452d1ec247344a50946f5d9df8d3a982def2656a73ee82",
+  "boot_stats.py": "e9245f6729659f8f8488bab3b54c136925a935a9d65ecb263dc176e5d13c7b72",
+  "boot_seed.py": "f415a49ec45433c4dca1860ca015eaa5c94f32af78aacfa2eef48b79e9bead84",
+  "test_phan_tich_test40.py": "93f35f0fbbc6220cbdda3bcab6b05d3e67232448038119ab5593de86f7444b27",
+  "giao_thuc.json": "987986a58c6b175d246229853524d5afb56b3905061805ffdef0802393f2b4ed"
+ },
+ "moi_truong": {
+  "python": "3.11.9 | packaged by Anaconda, Inc. | (main, Apr 19 2024, 16:40:41) [MSC v.1916 64 bit (AMD64)]",
+  "numpy": "2.4.6",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "executable": "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe"
+ },
+ "B_fixture": 200,
+ "ket_qua": [
+  {
+   "ca": "t_combined_khac_tb_video",
+   "dat": true,
+   "chi_tiet": {
+    "HOTA_combined": 0.5401085158662644,
+    "HOTA_tb_video": 0.5135842077218781,
+    "doc_lap": 0.5401085158662645
+   },
+   "giay": 0.04
+  },
+  {
+   "ca": "t_pf_thu_tu_phi_tuyen",
+   "dat": true,
+   "chi_tiet": {
+    "pf_dung": {
+     "HOTA": 0.5446130436336684,
+     "IDF1": 0.619110067060677,
+     "IDSW": 245.66666666666666
+    },
+    "average_seeds_roi_combine": {
+     "HOTA": 0.5460702972091398,
+     "IDF1": 0.630215003540703,
+     "IDSW": 245.66666666666666
+    }
+   },
+   "giay": 0.0
+  },
+  {
+   "ca": "t_lap_trung_bao_toan",
+   "dat": true,
+   "chi_tiet": {
+    "idx": [
+     0,
+     0,
+     0,
+     3,
+     3,
+     5
+    ],
+    "HOTA": 0.5367062909687208,
+    "HOTA_khong_lap": 0.5439458171211486
+   },
+   "giay": 0.0
+  },
+  {
+   "ca": "t_cap_di_cung_va_giao_thuc_that",
+   "dat": true,
+   "chi_tiet": {
+    "so_mau": 2000,
+    "tong_lan_cap": 2028,
+    "do_dai_min": 39,
+    "do_dai_max": 44
+   },
+   "giay": 0.9
+  },
+  {
+   "ca": "t_ghep_cap_moi_run_seed",
+   "dat": true,
+   "chi_tiet": {
+    "so_run": 10,
+    "so_mau": 50,
+    "so_lan_combine": 500
+   },
+   "giay": 0.04
+  },
+  {
+   "ca": "t_dau_cuoi_fixture",
+   "dat": true,
+   "chi_tiet": {
+    "phien": "phien_20261023_011137_050478_pid12284",
+    "sai_so_nhom_doc_lap_max": 4.440892098500626e-16,
+    "loi_lan_hai": "phien da co dau ra / file la, khong ghi de: ['SHA256SUMS', 'chi_so_nhom.csv', 'chi_so_video.csv', 'diem_uoc_luong.csv', 'doi_chieu_nhom.csv', 'doi_chieu_video.csv', 'giao_thuc.json', 'kiem_chung.json', 'nguon.json', 'nhom_video.csv']",
+    "khac_dien_giai": 9,
+    "bang_r56_sai_so_max": {
+     "tong_hop_36_run": {
+      "HOTA": 0.000499303107801552,
+      "IDF1": 0.00046762112448561766,
+      "IDSW": 0.0
+     },
+     "pf500_trung_binh": {
+      "HOTA": 0.00017609067848667337,
+      "IDF1": 0.0002568800782896119,
+      "IDSW": 3.3333333334439885e-05
+     }
+    }
+   },
+   "giay": 7.36
+  },
+  {
+   "ca": "t_chan_sai_hash",
+   "dat": true,
+   "chi_tiet": {
+    "loi": "r54-yolov8n_coco-c25-cv: sai hash raw_fields.json so voi marker"
+   },
+   "giay": 0.34
+  },
+  {
+   "ca": "t_chan_thieu_video",
+   "dat": true,
+   "chi_tiet": {
+    "loi": "r54-yolo11n_mixed5-c10-ukf: raw_fields sai tap video (thieu ['MVI_90004'])"
+   },
+   "giay": 0.89
+  },
+  {
+   "ca": "t_chan_nan",
+   "dat": true,
+   "chi_tiet": {
+    "loi": "r54-yolov8n_coco-c25-pf500-s1/MVI_90001/AssA: khong huu han (nan)"
+   },
+   "giay": 0.39
+  },
+  {
+   "ca": "t_chan_csv_schema",
+   "dat": true,
+   "chi_tiet": {
+    "th_nan": "bang R56 tong_hop/r54-yolov8n_coco-c25-cv/HOTA: khong huu han ('nan')",
+    "th_dong_trung": "bang R56 tong_hop: dong trung khoa r54-yolov8n_coco-c25-pf500-s0",
+    "th_header_trung": "bang R56 tong_hop: header trung hoac rong ['run', 'detector', 'dieu_kien', 'bo_loc', 'seed', 'HOTA', 'IDF1', 'IDSW', 'HOTA']",
+    "th_dong_thua_cot": "bang R56 tong_hop: dong 4 co 9 cot, header 8 cot",
+    "th_seed_sai": "bang R56 tong_hop/r54-yolov8n_coco-c25-pf500-s0: detector / dieu_kien / bo_loc / seed khong khop ten run",
+    "pf_nan": "bang R56 pf500/('yolov8n_coco', 'c10')/IDSW_tb: khong huu han ('NaN')",
+    "pf_dong_trung": "bang R56 pf500: dong trung khoa ('yolov8n_coco', 'c25')",
+    "pf_header_trung": "bang R56 pf500: header trung hoac rong ['detector', 'dieu_kien', 'so_seed', 'HOTA_tb', 'IDF1_tb', 'IDSW_tb', 'IDSW_tb']",
+    "pf_so_seed": "bang R56 pf500/('yolov8n_mixed5', 'c25'): so_seed '2' != 3 (pf500)",
+    "combined_header_trung": "r54-yolov8n_coco-c25-cv/combined_metrics.csv: header trung hoac rong ['video', 'HOTA', 'IDF1', 'IDSW', 'HOTA']",
+    "combined_dong_thua_cot": "r54-yolov8n_coco-c25-cv/combined_metrics.csv: dong 2 co 5 cot, header 4 cot",
+    "per_video_dong_trung": "r54-yolov8n_coco-c25-cv/per_video_metrics.csv: dong trung khoa MVI_90001",
+    "per_video_dong_thua_cot": "r54-yolov8n_coco-c25-cv/per_video_metrics.csv: dong 6 co 5 cot, header 4 cot",
+    "per_video_nan": "r54-yolov8n_coco-c25-cv/per_video/MVI_40773/HOTA: khong huu han ('nan')"
+   },
+   "giay": 6.74
+  },
+  {
+   "ca": "t_ranh_gioi_lam_tron_r56",
+   "dat": true,
+   "chi_tiet": {
+    "ranh_gioi": "dat",
+    "mo_phong_ti_le_lech_tren_dung_sai_max": {
+     "HOTA": 0.9010387885346269,
+     "IDSW": 0.6666666740784422
+    },
+    "dau_cuoi": "lech bang R56 vuot do lam tron: [('yolov8n_coco-c25-pf500_tb', 'IDSW', 6.666666666887977e-05)]"
+   },
+   "giay": 2.01
+  },
+  {
+   "ca": "t_chan_thieu_run_va_trung",
+   "dat": true,
+   "chi_tiet": {
+    "thieu_run": "nguon R56: tap run sai (thieu ['r54-yolov8n_coco-c10-pf500-s2'], thua [])",
+    "trung_run": "khoa JSON trung: r54-yolov8n_coco-c25-cv"
+   },
+   "giay": 0.92
+  },
+  {
+   "ca": "t_chan_lien_ket_cache",
+   "dat": true,
+   "chi_tiet": {
+    "loi": "lien ket cache sai: moi detector phai co dung 1 manifest cache rieng ({'yolov8n_coco': ['9ee56c3ba952c33c42b66288e8bbcd3b76fa5c6a572320081067065d214c9002'], 'yolov8n_mixed5': ['19b92241dc3469de59d90b9ee64ac6036ab55225d3ef044e0f9a2b1006f04788', 'b4174ae7a87dd325311e686007995b37189eb2511443bbd85fbd078ddd4a925f'], 'yolo11n_mixed5': ['af07378e18bd8bedf2e9e9fc001a83084031680dd501a2e915034105fb7cc526']})"
+   },
+   "giay": 0.95
+  },
+  {
+   "ca": "t_giao_thuc_doi_sau_chuan_bi",
+   "dat": true,
+   "chi_tiet": {
+    "loi": "giao thuc trong configs da doi sau chuan-bi -> tao phien moi"
+   },
+   "giay": 0.86
+  },
+  {
+   "ca": "t_duong_dan_thoat_vung",
+   "dat": true,
+   "chi_tiet": {
+    "ngoai_vung": "ghi ngoai vung results/phase2/r57_bien_thien: D:\\LABOTARY\\bytetrack\\results\\phase2\\r57_bien_thien\\tests\\lan_20261023_011135_199544_pid12284\\fx_vung\\results\\phase2\\khac\\a.txt",
+    "cham_cham": "ghi ngoai vung results/phase2/r57_bien_thien: D:\\LABOTARY\\bytetrack\\results\\phase2\\r57_bien_thien\\tests\\lan_20261023_011135_199544_pid12284\\fx_vung\\results\\phase2\\r57_bien_thien\\..\\a.txt",
+    "doc_cham_cham": "duong dan doc khong hop le: '../ngoai.json'",
+    "doc_tuyet_doi": "duong dan doc khong hop le: 'D:\\\\LABOTARY\\\\bytetrack\\\\README.md'",
+    "ten_phien": "ten phien khong hop le: '..\\\\phien_x'",
+    "ghi_de": "khong ghi de: D:\\LABOTARY\\bytetrack\\results\\phase2\\r57_bien_thien\\tests\\lan_20261023_011135_199544_pid12284\\fx_vung\\results\\phase2\\r57_bien_thien\\giu_cho.txt",
+    "junction": "duong dan qua symlink/junction: D:\\LABOTARY\\bytetrack\\results\\phase2\\r57_bien_thien\\tests\\lan_20261023_011135_199544_pid12284\\fx_vung\\results\\phase2\\r57_bien_thien\\jn"
+   },
+   "giay": 0.01
+  }
+ ]
+}

@@ -1,0 +1,230 @@
+{
+ "tao_luc": "2026-10-20T06:45:14",
+ "quy_tac": {
+  "du_doan": {
+   "imgsz": 640,
+   "conf": 0.001,
+   "iou_nms": 0.7,
+   "max_det": 300,
+   "agnostic_nms": false,
+   "half": false,
+   "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+  },
+  "ghep": "COCO (pycocotools evaluateImg): conf giam dan (mergesort) trong (anh, lop); GT chua ghep co IoU cao nhat >= nguong, HOA IoU -> GT SAU trong thu tu duyet; IoU tinh nhu bbIou cua pycocotools (tu xywh)",
+  "bo_qua": "detection khong ghep ma IoA voi vung to xam >= nguong -> bo qua (nhu crowd cua COCO)",
+  "ap": "10 nguong IoU 0.50:0.05:0.95, noi suy 101 diem recall (COCO); lop khong co GT -> null",
+  "van_hanh": {
+   "conf": 0.25,
+   "iou": 0.5
+  },
+  "gop_lop": "KHONG -- moi so lieu theo lop; macro = trung binh cac lop co GT"
+ },
+ "quy_tac_gt": {
+  "nguon": "COCO-video val cua du an (khong native); iscrowd / ignore giu nguyen",
+  "gan_nhan": "car/truck/bus/motorcycle/bicycle, khong crowd, khong ignore -> GT lop 0..4 (bdd_yolo_export.vai_tro)",
+  "vung_bo_qua": "crowd/iscrowd cua 5 lop + distractor nhom xe (ignore=1 voi car/truck) -> vung bo qua (vai_tro)",
+  "lop_khac": "pedestrian, rider, train, other person -> khong GT, khong vung bo qua",
+  "box": "cat vao khung anh; < 1 px sau cat -> bo (bdd_yolo_export._hop_le_box); pixel theo kich thuoc anh thuc",
+  "anh": "moi anh trong file nhan cua 200 video manifest, ke ca anh khong annotation; khong to xam anh"
+ },
+ "dataset": {
+  "ten": "bdd100k_mot_val_cocovid",
+  "n_anh": 6,
+  "gioi_han_anh": 0,
+  "dataset_da_xac_minh": {
+   "nhan": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064506_842269_pid20924\\fixture_phu_luc\\fx_bdd\\nhan.json",
+   "nhan_sha256": "8de9eae9f70069382ed0951db539de049d39a0115ebf12f34dc1a03f10e45c2c",
+   "manifest": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064506_842269_pid20924\\fixture_phu_luc\\fx_bdd\\manifest.json",
+   "manifest_sha256": "08fb53415b73ab3a249aa9bcc7a4b70a8443aaa97937b97bda4b62e2c8c5e45c",
+   "anh_goc": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064506_842269_pid20924\\fixture_phu_luc\\fx_bdd\\anh",
+   "so_video": 2,
+   "danh_sach_anh_sha256": "6d59e9ee9072a5a840dc9511100e195e04bd6f6a95af3451799b3d9cf88523e5",
+   "dem": {
+    "anh": 6,
+    "anh_khong_annotation": 1,
+    "anh_khong_gt_5_lop": 2,
+    "anh_co_vung_bo_qua": 1,
+    "gt_theo_lop": {
+     "car": 1,
+     "truck": 1,
+     "bus": 1,
+     "motorcycle": 1,
+     "bicycle": 1
+    },
+    "vung_bo_qua": 1,
+    "annotation_lop_khac": 1,
+    "box_nho_hon_1px_sau_cat": 0,
+    "vung_bo_qua_rong": 0,
+    "box_bi_cat_vao_khung": 0
+   },
+   "sequence_da_xem_truoc": null,
+   "ghi_chu_manifest": null,
+   "noi_dung_anh_sha256_tong_hop": "2bddc52f9df047a2fb14b20bd6c794f5514882b477eba53fa206342ede283f10",
+   "doi_chieu_hash_anh": {
+    "file": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064506_842269_pid20924\\fixture_phu_luc\\fx_bdd\\hash.csv",
+    "file_sha256": "5fb62c7554bf500cbfe070952e59ec4da7c725023c958f52b8cb65164f10d373",
+    "so_anh_bang_hash": 6,
+    "khop": 6,
+    "lech": []
+   }
+  }
+ },
+ "lenh": [
+  "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+  "D:\\LABOTARY\\bytetrack\\src\\danh_gia_detector_bdd_val.py",
+  "--model",
+  "yolo11n_mixed5=D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064506_842269_pid20924\\fixture_phu_luc\\models\\yolo11n_mixed5.pt",
+  "--sha256",
+  "yolo11n_mixed5=0d9f195dd00a72b7bd211475cbdbd1a41d587f99246a7eacfa20e7c64480815b",
+  "--batch",
+  "16",
+  "--device",
+  "0",
+  "--conf-van-hanh",
+  "0.25",
+  "--gioi-han-anh",
+  "0",
+  "--out",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064506_842269_pid20924\\fixture_phu_luc\\full\\bdd_val\\yolo11n_mixed5",
+  "--nhan-cocovid",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064506_842269_pid20924\\fixture_phu_luc\\fx_bdd\\nhan.json",
+  "--anh-goc",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064506_842269_pid20924\\fixture_phu_luc\\fx_bdd\\anh",
+  "--manifest-video",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064506_842269_pid20924\\fixture_phu_luc\\fx_bdd\\manifest.json",
+  "--hash-anh",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064506_842269_pid20924\\fixture_phu_luc\\fx_bdd\\hash.csv"
+ ],
+ "mo_hinh": {
+  "yolo11n_mixed5": {
+   "checkpoint": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064506_842269_pid20924\\fixture_phu_luc\\models\\yolo11n_mixed5.pt",
+   "sha256": "0d9f195dd00a72b7bd211475cbdbd1a41d587f99246a7eacfa20e7c64480815b",
+   "anh_xa_lop": {
+    "loai_checkpoint": "lop5",
+    "so_lop_model": 5,
+    "model_id_sang_lop5": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4
+    },
+    "ten": {
+     "0": "car",
+     "1": "truck",
+     "2": "bus",
+     "3": "motorcycle",
+     "4": "bicycle"
+    },
+    "lop5": [
+     "car",
+     "truck",
+     "bus",
+     "motorcycle",
+     "bicycle"
+    ]
+   },
+   "so_anh_da_du_doan": 6,
+   "thoi_gian_s": 0.0,
+   "chan_doan": {
+    "so_anh_khong_gt_5_lop": 2,
+    "so_det_conf_ge_0.25_tren_anh_khong_gt": 2
+   },
+   "theo_lop": {
+    "car": {
+     "n_gt": 1,
+     "n_anh_co_lop": 1,
+     "n_det_conf_thap": 7,
+     "AP50": 1.0,
+     "AP75": 0.0,
+     "AP50_95": 0.5,
+     "van_hanh": {
+      "TP": 1,
+      "FP": 6,
+      "FN": 0,
+      "precision": 0.14285714285714285,
+      "recall": 1.0,
+      "f1": 0.25
+     }
+    },
+    "truck": {
+     "n_gt": 1,
+     "n_anh_co_lop": 1,
+     "n_det_conf_thap": 1,
+     "AP50": 1.0,
+     "AP75": 1.0,
+     "AP50_95": 0.6,
+     "van_hanh": {
+      "TP": 1,
+      "FP": 0,
+      "FN": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+     }
+    },
+    "bus": {
+     "n_gt": 1,
+     "n_anh_co_lop": 1,
+     "n_det_conf_thap": 1,
+     "AP50": 1.0,
+     "AP75": 0.0,
+     "AP50_95": 0.5,
+     "van_hanh": {
+      "TP": 1,
+      "FP": 0,
+      "FN": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+     }
+    },
+    "motorcycle": {
+     "n_gt": 1,
+     "n_anh_co_lop": 1,
+     "n_det_conf_thap": 1,
+     "AP50": 1.0,
+     "AP75": 0.0,
+     "AP50_95": 0.4,
+     "van_hanh": {
+      "TP": 1,
+      "FP": 0,
+      "FN": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+     }
+    },
+    "bicycle": {
+     "n_gt": 1,
+     "n_anh_co_lop": 1,
+     "n_det_conf_thap": 1,
+     "AP50": 1.0,
+     "AP75": 0.0,
+     "AP50_95": 0.4,
+     "van_hanh": {
+      "TP": 1,
+      "FP": 0,
+      "FN": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+     }
+    }
+   },
+   "macro": {
+    "so_lop_co_gt": 5,
+    "lop_khong_co_gt": [],
+    "mAP50": 1.0,
+    "mAP50_95": 0.48,
+    "precision_vh": 0.8285714285714285,
+    "recall_vh": 1.0
+   },
+   "n_anh": 6,
+   "van_hanh": {
+    "conf": 0.25,
+    "iou": 0.5
+   }
+  }
+ }
+}

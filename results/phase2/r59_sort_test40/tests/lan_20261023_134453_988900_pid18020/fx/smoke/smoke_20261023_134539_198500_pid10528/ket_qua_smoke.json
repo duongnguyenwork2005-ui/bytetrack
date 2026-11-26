@@ -1,0 +1,158 @@
+{
+ "run": {
+  "r59-yolov8n_coco-c25-sort-cv30": {
+   "info": [
+    {
+     "video": "MVI_39031",
+     "n_frames": 128,
+     "n_buoc_timing": 128,
+     "n_steps": [
+      1
+     ],
+     "n_boxes": 272,
+     "n_tracks": 3,
+     "seed_truyen": null,
+     "seed_thuc_dung": null,
+     "tracker_lop": "ElapsedSORT",
+     "track_buffer": 30,
+     "giay": 0.066,
+     "data_sha256": "84ff7dc1325122e4f2b3b82f830ced90c402b982473de28d2e7c7c047d015f34"
+    },
+    {
+     "video": "MVI_39051",
+     "n_frames": 128,
+     "n_buoc_timing": 128,
+     "n_steps": [
+      1
+     ],
+     "n_boxes": 285,
+     "n_tracks": 3,
+     "seed_truyen": null,
+     "seed_thuc_dung": null,
+     "tracker_lop": "ElapsedSORT",
+     "track_buffer": 30,
+     "giay": 0.064,
+     "data_sha256": "f8b9f4bf7889ad0fb091805d6f401ced79cd1e3ef173c62d2d559b0df4f8882c"
+    }
+   ],
+   "combined": {
+    "video": "COMBINED_SEQ",
+    "HOTA": 0.6941009669765512,
+    "DetA": 0.6912535515656648,
+    "AssA": 0.696960905853795,
+    "MOTA": 0.7154150197628458,
+    "MOTP": 0.9477413784140719,
+    "FP": 7.0,
+    "FN": 209.0,
+    "IDSW": 0.0,
+    "GT_dets": 759.0,
+    "IDF1": 0.8358662613981763,
+    "IDP": 0.9874326750448833,
+    "IDR": 0.7246376811594203
+   },
+   "file_metric": {
+    "per_video_metrics.csv": "77bd0c14c79e6122942acf6da76d4490e85f27134b4f8499ab1b7d88d0b1df5d",
+    "combined_metrics.csv": "9dcef901e51f1362c70e202f811485c5e8df2ea4b8102112e72a98d947f07d1b",
+    "raw_fields.json": "7128af4593e9a2ebdcf13b132791d85d72a7ea3ca044284ba9aaf715174fd953"
+   },
+   "cfg_sha256": "eb2ddeac66ed7a1f7da89f6810800896648eb56d5e0323b134916d593bce5041",
+   "assoc_log": false,
+   "pf_diag_truyen": true,
+   "co_pf_diag": false,
+   "co_assoc_log": false
+  },
+  "r59-yolov8n_coco-c25-sort-ekf30": {
+   "info": [
+    {
+     "video": "MVI_39031",
+     "n_frames": 128,
+     "n_buoc_timing": 128,
+     "n_steps": [
+      1
+     ],
+     "n_boxes": 272,
+     "n_tracks": 3,
+     "seed_truyen": null,
+     "seed_thuc_dung": null,
+     "tracker_lop": "ElapsedSORT",
+     "track_buffer": 30,
+     "giay": 0.066,
+     "data_sha256": "e613605783ef84c2485e98bfda72869d1a32b578c69ed5776d2fddc1bf8720aa"
+    },
+    {
+     "video": "MVI_39051",
+     "n_frames": 128,
+     "n_buoc_timing": 128,
+     "n_steps": [
+      1
+     ],
+     "n_boxes": 285,
+     "n_tracks": 3,
+     "seed_truyen": null,
+     "seed_thuc_dung": null,
+     "tracker_lop": "ElapsedSORT",
+     "track_buffer": 30,
+     "giay": 0.066,
+     "data_sha256": "8928b93247f77b7df21211eb8f354cd897cec09471162467d449f8106f0c5559"
+    }
+   ],
+   "combined": {
+    "video": "COMBINED_SEQ",
+    "HOTA": 0.6942515780896151,
+    "DetA": 0.6915126846277354,
+    "AssA": 0.6970013880920071,
+    "MOTA": 0.7154150197628458,
+    "MOTP": 0.9481656406189878,
+    "FP": 7.0,
+    "FN": 209.0,
+    "IDSW": 0.0,
+    "GT_dets": 759.0,
+    "IDF1": 0.8358662613981763,
+    "IDP": 0.9874326750448833,
+    "IDR": 0.7246376811594203
+   },
+   "file_metric": {
+    "per_video_metrics.csv": "5c33e99d01262467f360403807e5f74517fb731e5f5131116af3d60f74e82874",
+    "combined_metrics.csv": "e0d1c5ef020fed6abd3abfac26666c2911efb9d28bba9053307322365a72336f",
+    "raw_fields.json": "e187113913f181e4d72f4f4337bb4e7631de7c19f0798afafe9ea63bb62156f2"
+   },
+   "cfg_sha256": "8dcc57eb1806110ccc3dc6af61ec9de418427b61bc07965e2e17bfad75093c16",
+   "assoc_log": false,
+   "pf_diag_truyen": true,
+   "co_pf_diag": false,
+   "co_assoc_log": false
+  }
+ },
+ "gt_smoke": {
+  "MVI_39031": {
+   "so_dong_gt": 384,
+   "so_frame_co_gt": 128,
+   "gt_goc_sha256": "100fcf9bf560aa08e93bf03c7ada80c808f4608d275fcf714c49fd7595415dd3",
+   "gt_smoke_sha256": "66b382fb7794e07c208c9d1ffb17bb8beaf97439127a0115e51ae8841d2a06b3",
+   "seqinfo_smoke_sha256": "09e4e06964d4f6711f02485d2986d5b085fcae1da6c00feb00d38798ab736456",
+   "seq_length": 128
+  },
+  "MVI_39051": {
+   "so_dong_gt": 375,
+   "so_frame_co_gt": 125,
+   "gt_goc_sha256": "091dc8b2fbb508b6e0863744a97b7598847ba356fa0c62942e56cc5c2c597b56",
+   "gt_smoke_sha256": "ab03d4b9d46db131ad0635e671cf6100878e022244de16169d519df17000fde7",
+   "seqinfo_smoke_sha256": "4c6ab349c3a05b8b47968ff6f53585befc576a628f580e8d0e471835b64e64ac",
+   "seq_length": 128
+  }
+ },
+ "khoa": "results/phase2/r59_sort_test40/tests/lan_20261023_134453_988900_pid18020/fx/chuan_bi/khoa_20261023_134517_558700_pid25188",
+ "khoa_sha256": "1221742e17e6cdf475d90506a71795f639885d6569ed6014d5c37f8f22502d8d",
+ "cache_truoc": {
+  "so_file": 11,
+  "sha256_ds": "86b6cd32ddc1832f5bb7a6a293afeb48175c2887d3cfdf8fbb5f98576c9c33a4"
+ },
+ "cache_sau": {
+  "so_file": 11,
+  "sha256_ds": "86b6cd32ddc1832f5bb7a6a293afeb48175c2887d3cfdf8fbb5f98576c9c33a4"
+ },
+ "khong_goi_detector": "chi W.mo_cache (doc NPZ R56); khong mo checkpoint, khong predict",
+ "lech": [],
+ "dat": true,
+ "luc": "2026-10-23T13:45:51+0700"
+}

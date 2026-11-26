@@ -1,0 +1,253 @@
+{
+ "dat": false,
+ "so_test": 13,
+ "so_dat": 7,
+ "ket_qua": [
+  {
+   "test": "K1 cau hinh SORT hieu luc tu cfg + instance (det_thresh/max_age/iou/min_hits, khong assoc_log mixin)",
+   "dat": true,
+   "chi_tiet": {
+    "sort-cv30": {
+     "max_age": 30,
+     "iou_threshold": 0.3,
+     "min_hits": 3,
+     "det_thresh": 0.25,
+     "filter": "XYAHFilter",
+     "kf": "ultralytics.trackers.utils.kalman_filter.KalmanFilterXYAH"
+    },
+    "sort-ekf30": {
+     "max_age": 30,
+     "iou_threshold": 0.3,
+     "min_hits": 3,
+     "det_thresh": 0.25,
+     "filter": "CTRVFilter",
+     "kf": "ekf_ctrv.EKFTrackerCTRV"
+    }
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "K1 Q/R/P0 + lop bo loc + dt: SORT == ByteTrack o cung trang thai tham chieu (trung bit)",
+   "dat": true,
+   "chi_tiet": {
+    "sort-cv30": {
+     "lop": "ultralytics.trackers.utils.kalman_filter.KalmanFilterXYAH",
+     "buoc": [
+      "P0",
+      "predict",
+      "update"
+     ]
+    },
+    "sort-ekf30": {
+     "lop": "ekf_ctrv.EKFTrackerCTRV",
+     "buoc": [
+      "P0",
+      "predict",
+      "init_motion",
+      "update"
+     ]
+    }
+   },
+   "giay": 0.1
+  },
+  {
+   "test": "K1 bo dem buoc/quan sat CTRV duoi skip: n_frames SORT == ByteTrack (mat frame 2-3 -> 3)",
+   "dat": true,
+   "chi_tiet": {
+    "sort": {
+     "n_frames": [
+      3
+     ],
+     "predict": 7,
+     "multi_predict_hang": 0
+    },
+    "bytetrack": {
+     "n_frames": [
+      3
+     ],
+     "predict": 7,
+     "multi_predict_hang": 7
+    },
+    "trung_n_frames": true,
+    "ghi_chu": "so lan predict khac nhau la KHAC VONG DOI du kien (SORT predict moi track moi frame; ByteTrack chi predict strack_pool, multi_predict vector hoa), khong phai khac tham so"
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "K3 nguong float32: == 0.25 bi loai (runner + SORT), ngay tren giu, ngay duoi loai; tang ByteTrack",
+   "dat": true,
+   "chi_tiet": {
+    "sau_runner": {
+     "sort": 1,
+     "bt_cao": 1,
+     "bt_thap": 0
+    },
+    "khong_runner": {
+     "sort": 1,
+     "bt_cao": 2,
+     "bt_thap": 2
+    }
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "K4 frame rong dau/giua/cuoi; giu track o time_since_update 30, xoa o frame hut thu 31 (ca 2 SORT)",
+   "dat": false,
+   "loi": "AssertionError: sort-cv30 xuat [0, 0, 0, 0, 0, 0, 1, 1]",
+   "traceback": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 47, in deco\n    chi_tiet = f()\n               ^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 131, in _\n    kiem(ra[:3] == [0, 0, 0] and ra[3:5] == [0, 0] and ra[5:] == [1, 1, 1], f\"{ten} xuat {ra}\")\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 60, in kiem\n    raise AssertionError(msg)\nAssertionError: sort-cv30 xuat [0, 0, 0, 0, 0, 0, 1, 1]\n"
+  },
+  {
+   "test": "K4 reset ID moi video qua run_tracking.track_video (ID bat dau 1 o moi video)",
+   "dat": true,
+   "chi_tiet": {
+    "sort-cv30": [
+     [
+      1
+     ],
+     [
+      1
+     ]
+    ],
+    "sort-ekf30": [
+     [
+      1
+     ],
+     [
+      1
+     ]
+    ]
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "Khac vong doi DU KIEN (khong phai tham so): track chua xac nhan - ByteTrack xoa sau 1 frame hut, SORT giu",
+   "dat": true,
+   "chi_tiet": {
+    "bytetrack_con": 0,
+    "sort_con": 1,
+    "phan_loai": "vong_doi_du_kien"
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "Fixture: tao du lieu tong hop + nguon R56 gia lap bang helper R54 (tracker ByteTrack that, W.cham that)",
+   "dat": true,
+   "chi_tiet": {
+    "khoa_r56_gia_lap": "e2bf56be1ce497b8c3b92fbc85ae29aaca36f260123f160d98fb497a77e75357"
+   },
+   "giay": 3.8
+  },
+  {
+   "test": "A: chuan-bi -> khoa -> kiem-khoa -> smoke -> cham-nguon -> dong-goi-a (fixture)",
+   "dat": false,
+   "loi": "AssertionError: smoke: exit 4 != 0: [exit 4]\nTraceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\dieu_phoi_sort_test40.py\", line 1732, in main\n    ma = HAM[args.buoc](ctx, args, rec)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\dieu_phoi_sort_test40.py\", line 1035, in buoc_smoke\n    import run_tracking as rt\nModuleNotFoundError: No module named 'run_tracking'\n",
+   "traceback": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 47, in deco\n    chi_tiet = f()\n               ^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 358, in _\n    sm = buoc(\"smoke\", \"--buoc\", \"smoke\", \"--khoa\", k, id_=\"SMOKE_ID\")\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 342, in buoc\n    kiem(ma == ky_vong, f\"{ten}: exit {ma} != {ky_vong}: {out[-1500:]}\")\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 60, in kiem\n    raise AssertionError(msg)\nAssertionError: smoke: exit 4 != 0: [exit 4]\nTraceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\dieu_phoi_sort_test40.py\", line 1732, in main\n    ma = HAM[args.buoc](ctx, args, rec)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\dieu_phoi_sort_test40.py\", line 1035, in buoc_smoke\n    import run_tracking as rt\nModuleNotFoundError: No module named 'run_tracking'\n\n"
+  },
+  {
+   "test": "B: chan thieu approve A / review khong rang buoc / khoa sai; cham truoc full bi chan, khong marker",
+   "dat": false,
+   "loi": "KeyError: 'khoa'",
+   "traceback": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 47, in deco\n    chi_tiet = f()\n               ^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 369, in _\n    k = st[\"khoa\"]\n        ~~^^^^^^^^\nKeyError: 'khoa'\n"
+  },
+  {
+   "test": "B: full bi ngat sau marker / marker cat / gioi han 0 s (exit 10) roi tiep tuc; giu lan do dang/hong",
+   "dat": false,
+   "loi": "KeyError: 'phien'",
+   "traceback": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 47, in deco\n    chi_tiet = f()\n               ^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 386, in _\n    p = st[\"phien\"]\n        ~~^^^^^^^^^\nKeyError: 'phien'\n"
+  },
+  {
+   "test": "B: cham x6 -> lap-tracker / cham-lai (trung byte) -> hau-kiem -> tong-hop; kiem-khoa cuoi",
+   "dat": false,
+   "loi": "KeyError: 'phien'",
+   "traceback": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 47, in deco\n    chi_tiet = f()\n               ^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 402, in _\n    p = st[\"phien\"]\n        ~~^^^^^^^^^\nKeyError: 'phien'\n"
+  },
+  {
+   "test": "Khoa sai: sua byte MOT nguon (tong hop) -> kiem-khoa exit 2; khoi phuc -> exit 0",
+   "dat": false,
+   "loi": "KeyError: 'khoa'",
+   "traceback": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 47, in deco\n    chi_tiet = f()\n               ^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 422, in _\n    buoc(\"kiem-khoa lech\", \"--buoc\", \"kiem-khoa\", \"--khoa\", st[\"khoa\"], ky_vong=2)\n                                                            ~~^^^^^^^^\nKeyError: 'khoa'\n"
+  }
+ ],
+ "tien_trinh_con": [
+  {
+   "argv": [
+    "--buoc",
+    "chuan-bi"
+   ],
+   "ngat": null,
+   "exit": 0,
+   "stdout_cuoi": "  [nguon] cache yolov8n_coco: 2 video, manifest d01818301850\n  [nguon] cache yolov8n_mixed5: 2 video, manifest a0d403d58933\n  [nguon] cache yolo11n_mixed5: 2 video, manifest e2229b8988f2\n  [nguon] doi chung r54-yolov8n_coco-c25-cv: dat\n  [nguon] doi chung r54-yolov8n_coco-c25-ekf: dat\n  [nguon] doi chung r54-yolov8n_mixed5-c25-cv: dat\n  [nguon] doi chung r54-yolov8n_mixed5-c25-ekf: dat\n  [nguon] doi chung r54-yolo11n_mixed5-c25-cv: dat\n  [nguon] doi chung r54-yolo11n_mixed5-c25-ekf: dat\n  [K2] yolov8n_coco: 2/2 dat\n  [K2] yolov8n_mixed5: 2/2 dat\n  [K2] yolo11n_mixed5: 2/2 dat\n[chuan-bi] results/phase2/r59_sort_test40/tests/lan_20261023_125710_525500_pid17944/fx/chuan_bi/chuan_bi_20261023_125723_961400_pid22612: dat (0 lech); K2 6/6; anh {'yolov8n_coco': 260, 'yolov8n_mixed5': 260, 'yolo11n_mixed5': 260}; D4 {'yolov8n_coco': 3, 'yolov8n_mixed5': 3, 'yolo11n_mixed5': 3}; config.py byte False LF-R51 True\nCHUAN_BI_ID=chuan_bi_20261023_125723_961400_pid22612\n[exit 0]\n",
+   "stderr_cuoi": ""
+  },
+  {
+   "argv": [
+    "--buoc",
+    "khoa",
+    "--chuan-bi",
+    "chuan_bi_20261023_125723_961400_pid22612"
+   ],
+   "ngat": null,
+   "exit": 2,
+   "stdout_cuoi": "[exit 2]\n",
+   "stderr_cuoi": "[LOI LoiDauVao] can --chuan-bi <ID> --tests <ID> tuong minh\n"
+  },
+  {
+   "argv": [
+    "--buoc",
+    "khoa",
+    "--chuan-bi",
+    "chuan_bi_20261023_125723_961400_pid22612",
+    "--tests",
+    "lan_stub"
+   ],
+   "ngat": null,
+   "exit": 0,
+   "stdout_cuoi": "[khoa] results/phase2/r59_sort_test40/tests/lan_20261023_125710_525500_pid17944/fx/chuan_bi/khoa_20261023_125736_720500_pid8468: 339 file, khoa.json 4e4433eb82fd1b495bf9976c546810958bbf3a9462c91d508e5b644c220b5b63\nKHOA_ID=khoa_20261023_125736_720500_pid8468\n[exit 0]\n",
+   "stderr_cuoi": ""
+  },
+  {
+   "argv": [
+    "--buoc",
+    "kiem-khoa",
+    "--khoa",
+    "khoa_20261023_125736_720500_pid8468"
+   ],
+   "ngat": null,
+   "exit": 0,
+   "stdout_cuoi": "[kiem-khoa] results/phase2/r59_sort_test40/tests/lan_20261023_125710_525500_pid17944/fx/chuan_bi/khoa_20261023_125736_720500_pid8468: 339 file, khoa.json 4e4433eb82fd1b495bf9976c546810958bbf3a9462c91d508e5b644c220b5b63, DAT\n[exit 0]\n",
+   "stderr_cuoi": ""
+  },
+  {
+   "argv": [
+    "--buoc",
+    "kiem-khoa",
+    "--khoa",
+    "khoa_khong_co"
+   ],
+   "ngat": null,
+   "exit": 2,
+   "stdout_cuoi": "[exit 2]\n",
+   "stderr_cuoi": "[LOI LoiDauVao] chua co phien khoa\n"
+  },
+  {
+   "argv": [
+    "--buoc",
+    "smoke",
+    "--khoa",
+    "khoa_20261023_125736_720500_pid8468"
+   ],
+   "ngat": null,
+   "exit": 4,
+   "stdout_cuoi": "[exit 4]\n",
+   "stderr_cuoi": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\dieu_phoi_sort_test40.py\", line 1732, in main\n    ma = HAM[args.buoc](ctx, args, rec)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\dieu_phoi_sort_test40.py\", line 1035, in buoc_smoke\n    import run_tracking as rt\nModuleNotFoundError: No module named 'run_tracking'\n"
+  }
+ ],
+ "ma_sha256": {
+  "dieu_phoi": "f7d9b23f34f38299a0e100bb74db1ca2972e8089a1410033e4340af7fbdfb1b3",
+  "test": "d81c01a6760364bce3247ce6f76ffef34b7aa554a350b33bf41e3ab8b0eae7c8",
+  "giao_thuc": "06e998d473c2e88afa13d8cff24b683fc9cdc615e3d05c36bae291d8ba1e33c4"
+ },
+ "python": "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+ "giay": 48.6,
+ "luc": "2026-10-23T12:57:59+0700"
+}

@@ -1,0 +1,320 @@
+{
+ "dat": false,
+ "so_test": 13,
+ "so_dat": 8,
+ "ket_qua": [
+  {
+   "test": "K1 cau hinh SORT hieu luc tu cfg + instance (det_thresh/max_age/iou/min_hits, khong assoc_log mixin)",
+   "dat": true,
+   "chi_tiet": {
+    "sort-cv30": {
+     "max_age": 30,
+     "iou_threshold": 0.3,
+     "min_hits": 3,
+     "det_thresh": 0.25,
+     "filter": "XYAHFilter",
+     "kf": "ultralytics.trackers.utils.kalman_filter.KalmanFilterXYAH"
+    },
+    "sort-ekf30": {
+     "max_age": 30,
+     "iou_threshold": 0.3,
+     "min_hits": 3,
+     "det_thresh": 0.25,
+     "filter": "CTRVFilter",
+     "kf": "ekf_ctrv.EKFTrackerCTRV"
+    }
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "K1 Q/R/P0 + lop bo loc + dt: SORT == ByteTrack o cung trang thai tham chieu (trung bit)",
+   "dat": true,
+   "chi_tiet": {
+    "sort-cv30": {
+     "lop": "ultralytics.trackers.utils.kalman_filter.KalmanFilterXYAH",
+     "buoc": [
+      "P0",
+      "predict",
+      "update"
+     ]
+    },
+    "sort-ekf30": {
+     "lop": "ekf_ctrv.EKFTrackerCTRV",
+     "buoc": [
+      "P0",
+      "predict",
+      "init_motion",
+      "update"
+     ]
+    }
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "K1 bo dem buoc/quan sat CTRV duoi skip: n_frames SORT == ByteTrack (mat frame 2-3 -> 3)",
+   "dat": true,
+   "chi_tiet": {
+    "sort": {
+     "n_frames": [
+      3
+     ],
+     "predict": 7,
+     "multi_predict_hang": 0
+    },
+    "bytetrack": {
+     "n_frames": [
+      3
+     ],
+     "predict": 7,
+     "multi_predict_hang": 7
+    },
+    "trung_n_frames": true,
+    "ghi_chu": "so lan predict khac nhau la KHAC VONG DOI du kien (SORT predict moi track moi frame; ByteTrack chi predict strack_pool, multi_predict vector hoa), khong phai khac tham so"
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "K3 nguong float32: == 0.25 bi loai (runner + SORT), ngay tren giu, ngay duoi loai; tang ByteTrack",
+   "dat": true,
+   "chi_tiet": {
+    "sau_runner": {
+     "sort": 1,
+     "bt_cao": 1,
+     "bt_thap": 0
+    },
+    "khong_runner": {
+     "sort": 1,
+     "bt_cao": 2,
+     "bt_thap": 2
+    }
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "K4 frame rong dau/giua/cuoi; giu track o time_since_update 30, xoa o frame hut thu 31 (ca 2 SORT)",
+   "dat": true,
+   "chi_tiet": {
+    "sort-cv30": {
+     "xuat_dau": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+     ],
+     "giu_30": true,
+     "xoa_31": true,
+     "cuoi_rong": [
+      0,
+      0,
+      0
+     ]
+    },
+    "sort-ekf30": {
+     "xuat_dau": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+     ],
+     "giu_30": true,
+     "xoa_31": true,
+     "cuoi_rong": [
+      0,
+      0,
+      0
+     ]
+    }
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "K4 reset ID moi video qua run_tracking.track_video (ID bat dau 1 o moi video)",
+   "dat": true,
+   "chi_tiet": {
+    "sort-cv30": [
+     [
+      1
+     ],
+     [
+      1
+     ]
+    ],
+    "sort-ekf30": [
+     [
+      1
+     ],
+     [
+      1
+     ]
+    ]
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "Khac vong doi DU KIEN (khong phai tham so): track chua xac nhan - ByteTrack xoa sau 1 frame hut, SORT giu",
+   "dat": true,
+   "chi_tiet": {
+    "bytetrack_con": 0,
+    "sort_con": 1,
+    "phan_loai": "vong_doi_du_kien"
+   },
+   "giay": 0.0
+  },
+  {
+   "test": "Fixture: tao du lieu tong hop + nguon R56 gia lap bang helper R54 (tracker ByteTrack that, W.cham that)",
+   "dat": true,
+   "chi_tiet": {
+    "khoa_r56_gia_lap": "c6e71d8ae3c387577454edd34ba2fc73bf77010b7a36a262cfab25e50d327ef5"
+   },
+   "giay": 3.0
+  },
+  {
+   "test": "A: chuan-bi -> khoa -> kiem-khoa -> smoke -> cham-nguon -> dong-goi-a (fixture)",
+   "dat": false,
+   "loi": "AssertionError: khong thay CHAM_NGUON_ID= trong dau ra: [cham-nguon] 3 file metric trung byte nguon; CHAM_NGUON_ID=cham_nguon_20261023_125933_542700_pid25312\n[exit 0]\n",
+   "traceback": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 47, in deco\n    chi_tiet = f()\n               ^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 362, in _\n    cn = buoc(\"cham-nguon\", \"--buoc\", \"cham-nguon\", \"--khoa\", k, \"--run\", D.CHAM_NGUON_RUN, id_=\"CHAM_NGUON_ID\")\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 345, in buoc\n    return lay_id(out, id_) if id_ else out\n           ^^^^^^^^^^^^^^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 330, in lay_id\n    raise AssertionError(f\"khong thay {khoa}= trong dau ra: {out[-800:]}\")\nAssertionError: khong thay CHAM_NGUON_ID= trong dau ra: [cham-nguon] 3 file metric trung byte nguon; CHAM_NGUON_ID=cham_nguon_20261023_125933_542700_pid25312\n[exit 0]\n\n"
+  },
+  {
+   "test": "B: chan thieu approve A / review khong rang buoc / khoa sai; cham truoc full bi chan, khong marker",
+   "dat": false,
+   "loi": "KeyError: 'khoa'",
+   "traceback": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 47, in deco\n    chi_tiet = f()\n               ^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 371, in _\n    k = st[\"khoa\"]\n        ~~^^^^^^^^\nKeyError: 'khoa'\n"
+  },
+  {
+   "test": "B: full bi ngat sau marker / marker cat / gioi han 0 s (exit 10) roi tiep tuc; giu lan do dang/hong",
+   "dat": false,
+   "loi": "KeyError: 'phien'",
+   "traceback": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 47, in deco\n    chi_tiet = f()\n               ^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 388, in _\n    p = st[\"phien\"]\n        ~~^^^^^^^^^\nKeyError: 'phien'\n"
+  },
+  {
+   "test": "B: cham x6 -> lap-tracker / cham-lai (trung byte) -> hau-kiem -> tong-hop; kiem-khoa cuoi",
+   "dat": false,
+   "loi": "KeyError: 'phien'",
+   "traceback": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 47, in deco\n    chi_tiet = f()\n               ^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 404, in _\n    p = st[\"phien\"]\n        ~~^^^^^^^^^\nKeyError: 'phien'\n"
+  },
+  {
+   "test": "Khoa sai: sua byte MOT nguon (tong hop) -> kiem-khoa exit 2; khoi phuc -> exit 0",
+   "dat": false,
+   "loi": "KeyError: 'khoa'",
+   "traceback": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 47, in deco\n    chi_tiet = f()\n               ^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r59_sort_test40\\test_dieu_phoi_sort_test40.py\", line 424, in _\n    buoc(\"kiem-khoa lech\", \"--buoc\", \"kiem-khoa\", \"--khoa\", st[\"khoa\"], ky_vong=2)\n                                                            ~~^^^^^^^^\nKeyError: 'khoa'\n"
+  }
+ ],
+ "tien_trinh_con": [
+  {
+   "argv": [
+    "--buoc",
+    "chuan-bi"
+   ],
+   "ngat": null,
+   "exit": 0,
+   "stdout_cuoi": "  [nguon] cache yolov8n_coco: 2 video, manifest 478080c5cb80\n  [nguon] cache yolov8n_mixed5: 2 video, manifest 967bd49493e5\n  [nguon] cache yolo11n_mixed5: 2 video, manifest 65604beba90f\n  [nguon] doi chung r54-yolov8n_coco-c25-cv: dat\n  [nguon] doi chung r54-yolov8n_coco-c25-ekf: dat\n  [nguon] doi chung r54-yolov8n_mixed5-c25-cv: dat\n  [nguon] doi chung r54-yolov8n_mixed5-c25-ekf: dat\n  [nguon] doi chung r54-yolo11n_mixed5-c25-cv: dat\n  [nguon] doi chung r54-yolo11n_mixed5-c25-ekf: dat\n  [K2] yolov8n_coco: 2/2 dat\n  [K2] yolov8n_mixed5: 2/2 dat\n  [K2] yolo11n_mixed5: 2/2 dat\n[chuan-bi] results/phase2/r59_sort_test40/tests/lan_20261023_125842_798900_pid15304/fx/chuan_bi/chuan_bi_20261023_125849_314900_pid22984: dat (0 lech); K2 6/6; anh {'yolov8n_coco': 260, 'yolov8n_mixed5': 260, 'yolo11n_mixed5': 260}; D4 {'yolov8n_coco': 3, 'yolov8n_mixed5': 3, 'yolo11n_mixed5': 3}; config.py byte False LF-R51 True\nCHUAN_BI_ID=chuan_bi_20261023_125849_314900_pid22984\n[exit 0]\n",
+   "stderr_cuoi": ""
+  },
+  {
+   "argv": [
+    "--buoc",
+    "khoa",
+    "--chuan-bi",
+    "chuan_bi_20261023_125849_314900_pid22984"
+   ],
+   "ngat": null,
+   "exit": 2,
+   "stdout_cuoi": "[exit 2]\n",
+   "stderr_cuoi": "[LOI LoiDauVao] can --chuan-bi <ID> --tests <ID> tuong minh\n"
+  },
+  {
+   "argv": [
+    "--buoc",
+    "khoa",
+    "--chuan-bi",
+    "chuan_bi_20261023_125849_314900_pid22984",
+    "--tests",
+    "lan_stub"
+   ],
+   "ngat": null,
+   "exit": 0,
+   "stdout_cuoi": "[khoa] results/phase2/r59_sort_test40/tests/lan_20261023_125842_798900_pid15304/fx/chuan_bi/khoa_20261023_125900_737200_pid2900: 339 file, khoa.json 2cb90e1a71597cf005d6459085cf7961cf0e8f15f8911cb961411857c6589616\nKHOA_ID=khoa_20261023_125900_737200_pid2900\n[exit 0]\n",
+   "stderr_cuoi": ""
+  },
+  {
+   "argv": [
+    "--buoc",
+    "kiem-khoa",
+    "--khoa",
+    "khoa_20261023_125900_737200_pid2900"
+   ],
+   "ngat": null,
+   "exit": 0,
+   "stdout_cuoi": "[kiem-khoa] results/phase2/r59_sort_test40/tests/lan_20261023_125842_798900_pid15304/fx/chuan_bi/khoa_20261023_125900_737200_pid2900: 339 file, khoa.json 2cb90e1a71597cf005d6459085cf7961cf0e8f15f8911cb961411857c6589616, DAT\n[exit 0]\n",
+   "stderr_cuoi": ""
+  },
+  {
+   "argv": [
+    "--buoc",
+    "kiem-khoa",
+    "--khoa",
+    "khoa_khong_co"
+   ],
+   "ngat": null,
+   "exit": 2,
+   "stdout_cuoi": "[exit 2]\n",
+   "stderr_cuoi": "[LOI LoiDauVao] chua co phien khoa\n"
+  },
+  {
+   "argv": [
+    "--buoc",
+    "smoke",
+    "--khoa",
+    "khoa_20261023_125900_737200_pid2900"
+   ],
+   "ngat": null,
+   "exit": 0,
+   "stdout_cuoi": "  [smoke] r59-yolov8n_coco-c25-sort-cv30: HOTA 0.6941, 557 box\n  [smoke] r59-yolov8n_coco-c25-sort-ekf30: HOTA 0.6943, 557 box\nSMOKE_ID=smoke_20261023_125921_059200_pid18348\n[exit 0]\n",
+   "stderr_cuoi": ""
+  },
+  {
+   "argv": [
+    "--buoc",
+    "cham-nguon",
+    "--khoa",
+    "khoa_20261023_125900_737200_pid2900",
+    "--run",
+    "r54-yolov8n_coco-c25-ekf"
+   ],
+   "ngat": null,
+   "exit": 2,
+   "stdout_cuoi": "[exit 2]\n",
+   "stderr_cuoi": "[LOI LoiDauVao] cham-nguon chi cho --run r54-yolov8n_coco-c25-cv (dinh danh truoc)\n"
+  },
+  {
+   "argv": [
+    "--buoc",
+    "cham-nguon",
+    "--khoa",
+    "khoa_20261023_125900_737200_pid2900",
+    "--run",
+    "r54-yolov8n_coco-c25-cv"
+   ],
+   "ngat": null,
+   "exit": 0,
+   "stdout_cuoi": "[cham-nguon] 3 file metric trung byte nguon; CHAM_NGUON_ID=cham_nguon_20261023_125933_542700_pid25312\n[exit 0]\n",
+   "stderr_cuoi": ""
+  }
+ ],
+ "ma_sha256": {
+  "dieu_phoi": "b0f248e84581c9eae5d92282537e00028404a2720cb21e1d0d8fe3a4ee1be927",
+  "test": "53242ab4a47f848239b43ad28af639680a28ec8addcd833be8a7928a0ad8f17a",
+  "giao_thuc": "06e998d473c2e88afa13d8cff24b683fc9cdc615e3d05c36bae291d8ba1e33c4"
+ },
+ "python": "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+ "giay": 62.3,
+ "luc": "2026-10-23T12:59:44+0700"
+}
