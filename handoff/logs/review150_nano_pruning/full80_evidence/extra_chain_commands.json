@@ -1,0 +1,47 @@
+[
+  {
+    "state": "RUNNING",
+    "root": "/home/jetson/nano_run/r150_pruning_20261120",
+    "phase": "engine",
+    "command": [
+      "/home/jetson/miniforge3/envs/nano/bin/python",
+      "/home/jetson/nano_run/r150_pruning_20261120/timing_v2.py",
+      "engine",
+      "/home/jetson/nano_run/r150_pruning_20261120/timing_models_v2.json",
+      "/home/jetson/nano_run/r150_pruning_20261120/runs_absolute/engine"
+    ],
+    "driver_sha256": "0a98ab519df2671e263916dbf5cefc335524f6853da87107bf7f6f6c752a881d",
+    "returncode": 0,
+    "log_sha256": "aca690aa7d0b6d8f7b22f34629b5d2178ea876e930ac0c1d371d45041620e1f5"
+  },
+  {
+    "state": "RUNNING",
+    "root": "/home/jetson/nano_run/r150_pruning_20261120",
+    "phase": "pilot",
+    "command": [
+      "/home/jetson/miniforge3/envs/nano/bin/python",
+      "/home/jetson/nano_run/r150_pruning_20261120/timing_v2.py",
+      "pilot",
+      "/home/jetson/nano_run/r150_pruning_20261120/timing_models_v2.json",
+      "/home/jetson/nano_run/r150_pruning_20261120/runs_absolute/pilot"
+    ],
+    "driver_sha256": "0a98ab519df2671e263916dbf5cefc335524f6853da87107bf7f6f6c752a881d",
+    "returncode": 0,
+    "log_sha256": "9625026923c34568398c691381e9e604c75a62b3c61f3cce9a2e6ceca2a6406d"
+  },
+  {
+    "state": "RUNNING",
+    "root": "/home/jetson/nano_run/r150_pruning_20261120",
+    "phase": "full",
+    "command": [
+      "/home/jetson/miniforge3/envs/nano/bin/python",
+      "/home/jetson/nano_run/r150_pruning_20261120/timing_v2.py",
+      "full",
+      "/home/jetson/nano_run/r150_pruning_20261120/full_models.json",
+      "/home/jetson/nano_run/r150_pruning_20261120/runs_absolute/full"
+    ],
+    "driver_sha256": "0a98ab519df2671e263916dbf5cefc335524f6853da87107bf7f6f6c752a881d",
+    "returncode": 0,
+    "log_sha256": "640a1d46a60ac2296b43f2f15ef0802fd7e09d078d12c4be31b7081275ed664e"
+  }
+]

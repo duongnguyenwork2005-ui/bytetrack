@@ -1,0 +1,58 @@
+{
+  "models": {
+    "original": {
+      "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+      "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+      "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity"
+    },
+    "anchor_rebuilt": {
+      "engine": "/home/jetson/nano_run/r151_resolution_20261120/models/baseline.engine",
+      "engine_sha256": "bcf4a5a82379ecc736f54b41817239ff74d52399ac20815b34f3cf3eaf8fe739",
+      "onnx": "/home/jetson/nano_run/r151_resolution_20261120/models/baseline.onnx",
+      "onnx_sha256": "ad4c71c84b44d9afa2e69eed55ad7013ad88773b5f861c4ab7fc9f321236301c",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity"
+    },
+    "r352x608_psa32": {
+      "engine": "/home/jetson/nano_run/r151_resolution_20261120/models/r352x608_psa32.engine",
+      "engine_sha256": "bfca0124fec13f9ac09828ebc10839231a890b73fd04baf7ac7977c0955ee6dc",
+      "onnx": "/home/jetson/nano_run/r151_resolution_20261120/models/r352x608.onnx",
+      "onnx_sha256": "932af38dda2ae5f2ac50e7f4949a341bf32c063a6c9a95db7c47fed958d15f32",
+      "hw": [
+        352,
+        608
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/r352x608/parity",
+      "precision": "FP32 C2PSA /model.10; FP16 allowed outside",
+      "build_inputs_sha256": "4d695fbb5c45870e6f7d1d945e2b12e04ac69e8dbcbdffb22257bfd5e29abedd"
+    },
+    "r320x576_psa32": {
+      "engine": "/home/jetson/nano_run/r151_resolution_20261120/models/r320x576_psa32.engine",
+      "engine_sha256": "e78a4c79db07a81deee589fa2b56addfb5f0d2756d13b97cf49df4b5f1e0aa58",
+      "onnx": "/home/jetson/nano_run/r151_resolution_20261120/models/r320x576.onnx",
+      "onnx_sha256": "502a401529c10b28c40fa5401fdb824175f0d1a90dfcb29f5f0065447564ae7c",
+      "hw": [
+        320,
+        576
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/r320x576/parity",
+      "precision": "FP32 C2PSA /model.10; FP16 allowed outside",
+      "build_inputs_sha256": "4ee23550ba0d2f3d6339eb5522e71fc7c23300eba2b876da14a40525c6c2dc4e"
+    }
+  },
+  "package": "/home/jetson/nano_run/r108_15fps_20261117/overlap_package",
+  "original_config_sha256": "25e26cadce7ad9a4e448d78dca1c369767caf61c9f148b0264483b59cb76f1fe",
+  "failed_pure_FP16_excluded": [
+    "r352x608",
+    "r320x576"
+  ]
+}

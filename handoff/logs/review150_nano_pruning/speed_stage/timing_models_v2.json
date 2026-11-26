@@ -1,0 +1,79 @@
+{
+  "models": {
+    "original": {
+      "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+      "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+      "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity",
+      "runtime_quality": "/home/jetson/nano_run/r150_pruning_20261120/quality/original.json",
+      "runtime_quality_sha256": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+      "quality_recommended": true,
+      "historical_raw_parity": "PASS"
+    },
+    "anchor": {
+      "onnx": "/home/jetson/nano_run/r150_pruning_20261120/anchor/model.onnx",
+      "onnx_sha256": "3a04752f2aae983f0a7b4c08480c2330be379242b6b925d999431d7c3a59b741",
+      "engine": "/home/jetson/nano_run/r150_pruning_20261120/anchor/model.engine",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r150_pruning_20261120/anchor/parity",
+      "engine_sha256": "c2448c7bf6067b281b3c7909bfa575dc3d9c745791524425648d8489dcc8ab6c",
+      "runtime_quality": "/home/jetson/nano_run/r150_pruning_20261120/quality/anchor.json",
+      "runtime_quality_sha256": "e4adf4a175514ee353a7e5f83056629da6548456d0f131028d0074bf7c1368bc",
+      "quality_recommended": true,
+      "historical_raw_parity": "PASS"
+    },
+    "control": {
+      "onnx": "/home/jetson/nano_run/r150_pruning_20261120/control/model.onnx",
+      "onnx_sha256": "aab58937fc4c226411a20dcb88f221f1cd8c6373a28c728cd0e7564ff64bdddf",
+      "engine": "/home/jetson/nano_run/r150_pruning_20261120/control/model.engine",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r150_pruning_20261120/control/parity",
+      "engine_sha256": "9335edba3a08373bc91ed057b79fdac6142697c97cdde40ac76b939a45f8d42f",
+      "runtime_quality": "/home/jetson/nano_run/r150_pruning_20261120/quality/control.json",
+      "runtime_quality_sha256": "6c54289a18e188529cdba84b53bc58d3d4cdbc77593a9efe0279f08392e49177",
+      "quality_recommended": false,
+      "historical_raw_parity": "PASS"
+    },
+    "channel25_KD": {
+      "onnx": "/home/jetson/nano_run/r150_pruning_20261120/channel25_KD/model.onnx",
+      "onnx_sha256": "651cb42ca48ec154b3deee45f85986de96404c17ae158cbab79cc7c42e528517",
+      "engine": "/home/jetson/nano_run/r150_pruning_20261120/channel25_KD/model.engine",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r150_pruning_20261120/channel25_KD/parity",
+      "engine_sha256": "e940cdb9010e5f48fb661e6365ad2ab11baae2f07afd2e83f623ea2b7d91e17a",
+      "runtime_quality": "/home/jetson/nano_run/r150_pruning_20261120/quality/channel25_KD.json",
+      "runtime_quality_sha256": "fc68bd359369acd2c97f9d0520d1b27361fc7d2e2af463a157d33c70f922463d",
+      "quality_recommended": false,
+      "historical_raw_parity": "FAIL"
+    }
+  },
+  "package": "/home/jetson/nano_run/r108_15fps_20261117/overlap_package",
+  "baseline_quality": "/home/jetson/nano_run/r150_pruning_20261120/quality/original.json",
+  "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+  "allow_diagnostic_quality_failure": true,
+  "batch": "pruning",
+  "source_sha256": {
+    "/home/jetson/nano_run/r150_pruning_20261120/timing_v2.py": "c427cc911e15e3e9b7526a4dd0dca2a448e9fe8ce96eca8c87182a9e19caffbe",
+    "/home/jetson/nano_run/r150_pruning_20261120/run_models_v2.py": "39b622bdb1e5b06deba68d6f8a51ed3d0219e53abb7f40ac6c51bdfe89c42ca9",
+    "/home/jetson/nano_run/r150_pruning_20261120/select_full.py": "c6af0efbff7bc6dd7fb2063007fe655d7165959b52f9933772d83b78cf67ba01",
+    "/home/jetson/nano_run/r150_pruning_20261120/scope.md": "6d3565a26352c5a5acecabd2d3d86c29179059ff6267ea3d033a3a8cbeb46a06",
+    "/home/jetson/nano_run/r150_pruning_20261120/quality/original.json": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+    "/home/jetson/nano_run/r150_pruning_20261120/quality/anchor.json": "e4adf4a175514ee353a7e5f83056629da6548456d0f131028d0074bf7c1368bc",
+    "/home/jetson/nano_run/r150_pruning_20261120/quality/control.json": "6c54289a18e188529cdba84b53bc58d3d4cdbc77593a9efe0279f08392e49177",
+    "/home/jetson/nano_run/r150_pruning_20261120/quality/channel25_KD.json": "fc68bd359369acd2c97f9d0520d1b27361fc7d2e2af463a157d33c70f922463d"
+  }
+}

@@ -1,0 +1,8 @@
+ENGINE PARITY PASS original
+ENGINE PARITY PASS anchor_rebuilt
+Traceback (most recent call last):
+  File "check_engine.py", line 42, in <module>
+    if __name__=='__main__':main()
+  File "check_engine.py", line 34, in main
+    assert box<=6. and score<=.02,(args.mode,str(path),box,score)
+AssertionError: ('r352x608', '/home/jetson/nano_run/r151_resolution_20261120/r352x608/parity/00.npz', 0.233673095703125, 0.020082056522369385)
