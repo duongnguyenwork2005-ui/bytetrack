@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "GPU_only": true,
+  "models": {
+    "original": {
+      "mean_two_medians_ms": 41.621300000000005,
+      "repeat_difference_pct": 0.1383906797721377
+    },
+    "control": {
+      "mean_two_medians_ms": 42.089349999999996,
+      "repeat_difference_pct": 0.011641899910545634,
+      "GPU_time_reduction_pct": -1.1245444039470032
+    },
+    "precise": {
+      "mean_two_medians_ms": 30.281950000000002,
+      "repeat_difference_pct": 0.018162634836928905,
+      "GPU_time_reduction_pct": 27.24410337975989
+    },
+    "fast": {
+      "mean_two_medians_ms": 30.390349999999998,
+      "repeat_difference_pct": 0.024020782912987832,
+      "GPU_time_reduction_pct": 26.983659808799832
+    }
+  },
+  "eligible_for_actual_AP": [
+    "precise",
+    "fast"
+  ],
+  "Nano_pipeline_FPS_measured": false,
+  "after": {
+    "boot": "51280481-0986-4322-a37c-824de9e072af",
+    "swap_MiB": 209.8046875,
+    "available_MiB": 1882.515625,
+    "thermal_C": {
+      "CPU-therm": 30.5,
+      "GPU-therm": 27.5
+    },
+    "SD_errors": "0"
+  },
+  "config_sha256": "dd88a0f24a9ab15e2a743652fba22a681c6337fbc677751a59c278318601d272",
+  "runtime_models_sha256": "a6a72fc2301e279d9649baf4f913cdb72977f01935852348458cc57fcca056db",
+  "gpu_rows_sha256": "eafdff221f3157e2166ea8f5211f1cbe1c6021b01a51f2e1611141af4d90041c"
+}

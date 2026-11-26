@@ -1,0 +1,60 @@
+{
+  "models": {
+    "original": {
+      "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+      "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+      "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity",
+      "runtime_quality": "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/original.json",
+      "runtime_quality_sha256": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+      "quality_recommended": true,
+      "historical_raw_parity": "PASS"
+    },
+    "r320x576": {
+      "engine": "/home/jetson/nano_run/r151_resolution_20261120/models/r320x576.engine",
+      "engine_sha256": "d54f584ba6b0311f7f82dc465856207c0197d6939be54de1ae54baa1af3ef08c",
+      "onnx": "/home/jetson/nano_run/r151_resolution_20261120/models/r320x576.onnx",
+      "onnx_sha256": "502a401529c10b28c40fa5401fdb824175f0d1a90dfcb29f5f0065447564ae7c",
+      "hw": [
+        320,
+        576
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/r320x576/parity",
+      "runtime_quality": "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r320x576.json",
+      "runtime_quality_sha256": "d017b83231babbaa42f31a13b1f841c1beef620a315d3926fd5edc7f90914d05",
+      "quality_recommended": false,
+      "historical_raw_parity": "FAIL"
+    }
+  },
+  "package": "/home/jetson/nano_run/r108_15fps_20261117/overlap_package",
+  "purpose": "Actual TensorRT dev AP audit; historical R151 raw-parity failures retained",
+  "historical_raw_parity": {
+    "r352x608": "FAIL",
+    "r352x608_psa32": "FAIL",
+    "original": "PASS",
+    "r320x576": "FAIL",
+    "anchor_rebuilt": "PASS",
+    "r320x576_psa32": "FAIL"
+  },
+  "baseline_quality": "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/original.json",
+  "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+  "allow_diagnostic_quality_failure": true,
+  "source_sha256": {
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/original.json": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/anchor_rebuilt.json": "957603cb3d1cb0402fc00faa59dca80105d7e6143fbb676c61968d5066fbd265",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r352x608.json": "7925f24775b86b7f125b2bff8891df430bc51dd6adccff8c4c133aab18dc8a87",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r320x576.json": "d017b83231babbaa42f31a13b1f841c1beef620a315d3926fd5edc7f90914d05",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r352x608_psa32.json": "3c2642df772f60a2964ac9e67fc53abf93196e731736b083a0696c1f3805290b",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r320x576_psa32.json": "3681ccc29c1bccbb07a8cc992e396d0549d9299f344f50626be3f32f960ecab3",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/timing_v2.py": "c427cc911e15e3e9b7526a4dd0dca2a448e9fe8ce96eca8c87182a9e19caffbe",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/run_models_v2.py": "39b622bdb1e5b06deba68d6f8a51ed3d0219e53abb7f40ac6c51bdfe89c42ca9",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/04_full_tradeoff.md": "7c65b68f3cc8cf1d02118ebf03c7ef58eda3d2108ec25e010ca900844c5f8364",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/select_full.py": "3e96d14f1bbda011f2c35171f264f8f3978439fb873cd0aae37a4fbbf048ec31",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/selection.json": "de1dde32c96c173669f3ad233dcaf84dfc4e296788d4cf776567c51b556ea47e"
+  }
+}

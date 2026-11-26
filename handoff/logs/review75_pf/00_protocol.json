@@ -1,0 +1,24 @@
+{
+  "round": "R75",
+  "date": "2026-11-04",
+  "request": "Improve PF IDSW toward CV/EKF on BDD and UA-DETRAC",
+  "hypothesis": "Frequent resampling and roughening displace the particle-cloud mean from the posterior state just returned to ByteTrack; preserving that mean may stabilize the next predicted box and ID association.",
+  "change": "Optional PF-only moment-preserving recentering after resampling; default false. Keep particle deviations, weights, ByteTrack association, detector, metric, and other PF settings unchanged.",
+  "baseline": "PF500-K1K2, motion roughening 2.0, seeds 0/1/2 from R72 and R74",
+  "candidate": "same with pf_recenter_resample true",
+  "development": "UA-DETRAC train dev12, YOLOv8n COCO c25, 25 fps, classes [2,3,5,7], elapsed skip, original R72 cache and GT",
+  "confirmation": "BDDCOCOVID-val 200 videos, R61 YOLOv8n COCO cache, c25, 5 fps, classes [1,2,3,5,7], buffer 6, elapsed steps, mot_crowd; already observed val, not blind",
+  "stages": [
+    "synthetic invariance and deterministic replay checks",
+    "UA smoke on two preselected R72 videos, all three seeds",
+    "UA full dev12, all three seeds, only if smoke is valid",
+    "BDD three-video smoke and full 200-video three-seed run if UA IDSW decreases and HOTA drops no more than 0.5 percentage points"
+  ],
+  "primary": "COMBINED IDSW mean over three seeds, paired within each dataset",
+  "guardrails": [
+    "TrackEval COMBINED HOTA must not decline more than 0.5 percentage points on UA dev12 before BDD full",
+    "also report IDF1, DetA, AssA, MOTA, per-seed IDSW, and paired video bootstrap",
+    "no claim of convergence to EKF from IDSW alone; compare HOTA and recall",
+    "keep old default and thesis benchmark configuration unchanged until evidence is reviewed"
+  ]
+}

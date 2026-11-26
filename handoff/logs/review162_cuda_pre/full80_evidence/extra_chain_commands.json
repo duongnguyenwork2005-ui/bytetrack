@@ -1,0 +1,44 @@
+[
+  {
+    "state": "RUNNING",
+    "root": "/home/jetson/nano_run/r162_cuda_pre_20261120",
+    "phase": "cuda_micro",
+    "command": [
+      "python3",
+      "/home/jetson/nano_run/r162_cuda_pre_20261120/micro.py"
+    ],
+    "driver_sha256": "0a98ab519df2671e263916dbf5cefc335524f6853da87107bf7f6f6c752a881d",
+    "returncode": 0,
+    "log_sha256": "151093aecd4955ffed8c19595d537c7796a350eafe92893ca6e6b3ea29891e32"
+  },
+  {
+    "state": "RUNNING",
+    "root": "/home/jetson/nano_run/r162_cuda_pre_20261120",
+    "phase": "pilot",
+    "command": [
+      "/home/jetson/miniforge3/envs/nano/bin/python",
+      "/home/jetson/nano_run/r162_cuda_pre_20261120/timing_v3.py",
+      "pilot",
+      "/home/jetson/nano_run/r162_cuda_pre_20261120/timing_models_v3.json",
+      "/home/jetson/nano_run/r162_cuda_pre_20261120/runs_absolute/pilot"
+    ],
+    "driver_sha256": "0a98ab519df2671e263916dbf5cefc335524f6853da87107bf7f6f6c752a881d",
+    "returncode": 0,
+    "log_sha256": "054916b782b0a5ebf710e253823658247869edfe97c20b592fdc868f8f414f2b"
+  },
+  {
+    "state": "RUNNING",
+    "root": "/home/jetson/nano_run/r162_cuda_pre_20261120",
+    "phase": "full",
+    "command": [
+      "/home/jetson/miniforge3/envs/nano/bin/python",
+      "/home/jetson/nano_run/r162_cuda_pre_20261120/timing_v3.py",
+      "full",
+      "/home/jetson/nano_run/r162_cuda_pre_20261120/full_models.json",
+      "/home/jetson/nano_run/r162_cuda_pre_20261120/runs_absolute/full"
+    ],
+    "driver_sha256": "0a98ab519df2671e263916dbf5cefc335524f6853da87107bf7f6f6c752a881d",
+    "returncode": 0,
+    "log_sha256": "bd3463a0f18109d10792f2f9e3925ee81b8d7907de328e30b31f602c1b6c7365"
+  }
+]

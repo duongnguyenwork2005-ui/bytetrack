@@ -1,0 +1,22 @@
+{
+  "purpose": "Exploratory ByteTrack filter comparison on contiguous UTUAV validation frames, chosen from GT motion before tracker results",
+  "selection_source": "window_candidates.json",
+  "class_policy": "6-class XML: moving motorbike/car/bus -> MOT class 1; static variants -> MOT distractor class 8",
+  "fps_policy": "30 fps provisional; source archive and official webpage do not specify capture fps; results must be labelled provisional",
+  "sequences": [
+    {
+      "name": "B_straight_26401_26520",
+      "scene": "B",
+      "first_source_frame": 26401,
+      "last_source_frame": 26520,
+      "selection_reason": "straight control: 0 GT turning tracks by the fixed 10-frame/30-degree rule; 1013 moving-motorbike observations"
+    },
+    {
+      "name": "C_turn_20901_21020",
+      "scene": "C",
+      "first_source_frame": 20901,
+      "last_source_frame": 21020,
+      "selection_reason": "turning case: 31 GT turning tracks, including 12 motorbikes by the same rule; 5720 moving-motorbike observations"
+    }
+  ]
+}

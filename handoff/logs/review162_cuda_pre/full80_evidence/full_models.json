@@ -1,0 +1,54 @@
+{
+  "models": {
+    "original": {
+      "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+      "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+      "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity",
+      "runtime_quality": "/home/jetson/nano_run/r162_cuda_pre_20261120/quality/original.json",
+      "runtime_quality_sha256": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+      "quality_recommended": true,
+      "historical_raw_parity": "PASS",
+      "runtime_package": "/home/jetson/nano_run/r108_15fps_20261117/overlap_package"
+    },
+    "gpu_pre": {
+      "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+      "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+      "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity",
+      "runtime_quality": "/home/jetson/nano_run/r162_cuda_pre_20261120/quality/gpu_pre.json",
+      "runtime_quality_sha256": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+      "quality_recommended": true,
+      "historical_raw_parity": "PASS",
+      "runtime_package": "/home/jetson/nano_run/r162_cuda_pre_20261120/package"
+    }
+  },
+  "package": "per-model runtime_package",
+  "baseline_quality": "/home/jetson/nano_run/r162_cuda_pre_20261120/quality/original.json",
+  "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+  "allow_diagnostic_quality_failure": true,
+  "batch": "CUDA_preprocessing",
+  "source_sha256": {
+    "/home/jetson/nano_run/r162_cuda_pre_20261120/00_protocol.md": "23a7ed09578400c6535d27d493da1e585d2aec50b6cf47bf002e714105f8cea1",
+    "/home/jetson/nano_run/r162_cuda_pre_20261120/candidate_parity.json": "f26d0a2260cbbbc47053697cd24256961bdd87c0db648b91392a8d361283d543",
+    "/home/jetson/nano_run/r162_cuda_pre_20261120/micro.py": "3c1efc224d411780e238ad47c7594840bf36a442329d44520c6ac6b95894b08d",
+    "/home/jetson/nano_run/r162_cuda_pre_20261120/oracle.json": "b55aef5832e3a7d556c2559e71e4074459d58b1e4f78521bc61061b76d9cd35c",
+    "/home/jetson/nano_run/r162_cuda_pre_20261120/package_verification.json": "fb5463e5312b68672af9edae8cdbfb2c1c6183ed8fc2fcc80dbcdf88b0fe1e8d",
+    "/home/jetson/nano_run/r162_cuda_pre_20261120/run_models_v3.py": "310c0e2f99460e72c444aa975b3c2aae2e251506fe57a66662bcc1a6204ab9e4",
+    "/home/jetson/nano_run/r162_cuda_pre_20261120/select_full.py": "1a0e95701fb014125e2d9f35932e10dd71b73e53350d8da2d517768b0965755f",
+    "/home/jetson/nano_run/r162_cuda_pre_20261120/timing_v3.py": "d2320415416ba452ee47325f929a82c881124e1fd858e2b61b724f16d47f0fa7",
+    "/home/jetson/nano_run/r162_cuda_pre_20261120/quality/original.json": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+    "/home/jetson/nano_run/r162_cuda_pre_20261120/quality/gpu_pre.json": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+    "/home/jetson/nano_run/r162_cuda_pre_20261120/selection.json": "30e3152bd11375a35bfd224a999276e40c73ba70a12d67f00b19ba3555254289"
+  }
+}

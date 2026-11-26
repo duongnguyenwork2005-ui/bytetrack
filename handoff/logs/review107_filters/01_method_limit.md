@@ -1,0 +1,7 @@
+# R107 — giới hạn phương pháp nhận ra khi dev đang chạy, trước mở điểm
+
+`PFCTRV.update_particles` (`src/pf_ctrv.py`) ước lượng mean/cov **trước** resampling rồi trả cùng particles/logw **sau** resampling và roughening. `pf_postgap.py` giữ nguyên tọa độ hộp của particles, nhưng ở frame kích hoạt gọi lại `estimate_state` sau khi dịch vận tốc. Vì vậy, mean của `cx,cy,a,h` báo ra tại frame đó có thể khác mean baseline do thời điểm ước lượng. K1 prior đã tiêu thụ đúng một lần; không có likelihood/update giả thứ hai.
+
+Đây là giới hạn của ứng viên đã đăng ký, không đổi thuật toán khi đang chạy. Giao thức gốc đã ghi tính lại mean/cov từ hạt, nhưng câu “chỉ tác động dự đoán sau này” quá mạnh: chính output hiện tại cũng có thể đổi. Không diễn giải đây là ablation thuần vận tốc, không quy toàn bộ chênh lệch HOTA/IDSW cho việc phục hồi vận tốc. Không thêm biến thể/ablation để giải quyết yếu tố gây nhiễu trong lượt này; giữ một ứng viên, cùng cổng và cả kết quả âm.
+
+Phát sinh quyền ghi: lần unit đầu, thư viện Ultralytics fallback sang `D:/LABOTARY/bytetrack/Ultralytics/settings.json` khi cha của `YOLO_CONFIG_DIR` chưa tồn tại. Đây là tệp thư viện tự sinh ngoài write_paths R107, không phải sửa cấu hình tracker. Đã tạo sẵn thư mục cấu hình trong R107 trước lần chạy kế; không sửa/xóa tệp ngoài phạm vi đó. Hash và bằng chứng ở `diagnosis_verified.json` và `tier1_unit.log`. Không tuyên bố toàn lượt chỉ ghi trong write_paths.

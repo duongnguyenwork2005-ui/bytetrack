@@ -1,0 +1,297 @@
+{
+ "tao_luc": "2026-10-20T10:46:03",
+ "quy_tac": {
+  "du_doan": {
+   "imgsz": 640,
+   "conf": 0.001,
+   "iou_nms": 0.7,
+   "max_det": 300,
+   "agnostic_nms": false,
+   "half": false,
+   "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+  },
+  "ghep": "COCO (pycocotools evaluateImg): conf giam dan (mergesort) trong (anh, lop); GT chua ghep co IoU cao nhat >= nguong, HOA IoU -> GT SAU trong thu tu duyet; IoU tinh nhu bbIou cua pycocotools (tu xywh)",
+  "bo_qua": "detection khong ghep ma IoA voi vung to xam >= nguong -> bo qua (nhu crowd cua COCO)",
+  "ap": "10 nguong IoU 0.50:0.05:0.95, noi suy 101 diem recall (COCO); lop khong co GT -> null",
+  "van_hanh": {
+   "conf": 0.25,
+   "iou": 0.5
+  },
+  "gop_lop": "KHONG -- moi so lieu theo lop; macro = trung binh cac lop co GT"
+ },
+ "quy_tac_gt": {
+  "nguon_quyet_dinh": "D1-D5 nguoi dung chot 2026-10-09 (handoff/REVIEW46_CHI_TIET.md muc 11.4)",
+  "gan_nhan": "vehicle_type car, bus -> GT lop car (0), bus (2)",
+  "D1_van": "box van -> vung bo qua cho moi lop; khong gop van vao GT car",
+  "D2_others": "box others -> vung bo qua cho moi lop; khong gan others thanh GT truck",
+  "ignored_region": "vung bo qua cap sequence, ap cho moi anh cua video",
+  "D3": "chi bao AP cho car, bus; 'mAP (car, bus)' = trung binh 2 lop; truck, motorcycle, bicycle = N/A, khong vao mAP",
+  "D4": "anh tren dia khong co <frame num> trong XML -> loai khoi tap danh gia, luu danh sach; khong coi la anh am tinh",
+  "D5": "quy tac bo qua cua evaluator nhu BDD: ghep GT hop le truoc; chi detection chua ghep moi xet bo qua; IoA = giao / dien tich detection, max theo tung vung; nguong IoA = nguong IoU dang xet; GT hop le trong vung bo qua van duoc cham; khong to xam anh",
+  "box": "(left, top, width, height) -> xyxy; cat vao khung anh thuc; < 1 px sau cat -> bo (dem rieng); khong sua XML"
+ },
+ "dataset": {
+  "ten": "ua_detrac_test",
+  "n_anh": 4,
+  "gioi_han_anh": 0,
+  "dataset_da_xac_minh": {
+   "manifest": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\fx_detrac\\manifest.json",
+   "manifest_sha256": "fbc2029ce767a84dd0b3c92f5f3be7284a9e049e2c10733f50518cc83b13059d",
+   "so_video": 2,
+   "fingerprint": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\fx_detrac\\fp\\detrac_test_fingerprint.json",
+   "fingerprint_sha256": "4daaf98da1cc177310d5df3c8a7b697ff645b54566f0afa8969e2416c4375ae4",
+   "bang_hash_sha256": "9886b45fcc7540f99a2cc8eece94b4cf0ed365af0ca180f0d999ddefd87c674b",
+   "loai_D4_sha256": "13fa5fc2ed342dc30438d8181c8373df43518cfe0fbaeac78f348a4fea80a995",
+   "danh_sach_anh_co_thu_tu_sha256": "1972dcc2afab62b41c88c8f62205f89a9e42bf3fe173bdb913413033891ddb3e",
+   "loai_D4": [
+    "MVI_00001/img00003.jpg"
+   ],
+   "dem": {
+    "anh_tren_dia": 5,
+    "anh_danh_gia": 4,
+    "anh_loai_D4": 1,
+    "anh_khong_gt": 0,
+    "gt_theo_lop": {
+     "car": 4,
+     "truck": 0,
+     "bus": 1,
+     "motorcycle": 0,
+     "bicycle": 0
+    },
+    "vung_bo_qua_ignored_region": 2,
+    "vung_bo_qua_tu_van": 2,
+    "vung_bo_qua_tu_others": 1,
+    "vung_bo_qua_rong": 0,
+    "box_gt_nho_hon_1px_sau_cat": 1,
+    "box_gt_bi_cat_vao_khung": 1
+   },
+   "kiem_noi_dung_anh": true,
+   "noi_dung_anh_sha256_tong_hop": "c98ef90f91af800d87604d471014291a4c15ae8efda3ed13466272529eb9e86d"
+  }
+ },
+ "lenh": [
+  "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+  "--cham-lai",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\cli\\detrac_test\\yolov8n_mixed5__cham_loi",
+  "--out",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\cli\\detrac_test\\yolov8n_mixed5__cham_loi__cham_lai",
+  "--xml",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\fx_detrac\\xml",
+  "--anh",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\fx_detrac\\anh",
+  "--manifest",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\fx_detrac\\manifest.json",
+  "--fingerprint",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\fx_detrac\\fp\\detrac_test_fingerprint.json",
+  "--hash-anh",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\fx_detrac\\fp\\detrac_test_sha256.csv",
+  "--loai-d4",
+  "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\fx_detrac\\fp\\detrac_test_loai_D4.csv",
+  "--kich-thuoc",
+  "960x540"
+ ],
+ "cham_lai_tu": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\cli\\detrac_test\\yolov8n_mixed5__cham_loi",
+ "mo_hinh": {
+  "yolov8n_mixed5": {
+   "checkpoint": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\models\\yolov8n_mixed5.pt",
+   "sha256": "bddfb8fe2e7f201511cb4247d74d71fb3df541c20dfa866ef10f93c2eded4eec",
+   "anh_xa_lop": {
+    "loai_checkpoint": "lop5",
+    "so_lop_model": 5,
+    "model_id_sang_lop5": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4
+    },
+    "ten": {
+     "0": "car",
+     "1": "truck",
+     "2": "bus",
+     "3": "motorcycle",
+     "4": "bicycle"
+    },
+    "lop5": [
+     "car",
+     "truck",
+     "bus",
+     "motorcycle",
+     "bicycle"
+    ]
+   },
+   "so_anh_da_du_doan": 4,
+   "thoi_gian_s": 0.0,
+   "chan_doan_tho": {
+    "so_anh_khong_gt_5_lop": 0,
+    "so_det_conf_ge_0.25_tren_anh_khong_gt": 0
+   },
+   "ket_qua_D3": {
+    "lop_danh_gia": [
+     "car",
+     "bus"
+    ],
+    "lop_ngoai_tap": [
+     "truck",
+     "motorcycle",
+     "bicycle"
+    ],
+    "mAP (car, bus)": {
+     "mAP50": 0.6287128712871287,
+     "mAP50_95": 0.6287128712871287,
+     "mAP75": 0.6287128712871287,
+     "precision_vh": 0.25,
+     "recall_vh": 0.625
+    },
+    "theo_lop": {
+     "car": {
+      "n_gt": 4,
+      "n_anh_co_lop": 4,
+      "n_det_conf_thap": 4,
+      "AP50": 0.25742574257425743,
+      "AP75": 0.25742574257425743,
+      "AP50_95": 0.2574257425742575,
+      "van_hanh": {
+       "TP": 1,
+       "FP": 3,
+       "FN": 3,
+       "precision": 0.25,
+       "recall": 0.25,
+       "f1": 0.25
+      }
+     },
+     "truck": "N/A",
+     "bus": {
+      "n_gt": 1,
+      "n_anh_co_lop": 1,
+      "n_det_conf_thap": 4,
+      "AP50": 1.0,
+      "AP75": 1.0,
+      "AP50_95": 1.0,
+      "van_hanh": {
+       "TP": 1,
+       "FP": 3,
+       "FN": 0,
+       "precision": 0.25,
+       "recall": 1.0,
+       "f1": 0.4
+      }
+     },
+     "motorcycle": "N/A",
+     "bicycle": "N/A"
+    },
+    "so_lieu_tho_khong_phai_metric": {
+     "ghi_chu": "tho, khong phai metric: bo dem cua scorer cho lop khong thuoc tap danh gia D3 (UA-DETRAC test khong co GT lop nay); khong trinh bay nhu chat luong detector",
+     "theo_lop": {
+      "truck": {
+       "n_gt": 0,
+       "n_anh_co_lop": 0,
+       "n_det_conf_thap": 4,
+       "AP50": null,
+       "AP75": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 4,
+        "FN": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null
+       }
+      },
+      "motorcycle": {
+       "n_gt": 0,
+       "n_anh_co_lop": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP75": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      },
+      "bicycle": {
+       "n_gt": 0,
+       "n_anh_co_lop": 0,
+       "n_det_conf_thap": 0,
+       "AP50": null,
+       "AP75": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      }
+     }
+    },
+    "n_anh": 4,
+    "van_hanh": {
+     "conf": 0.25,
+     "iou": 0.5
+    }
+   },
+   "nguon_du_doan": {
+    "phien_ban": 1,
+    "mo_hinh": "yolov8n_mixed5",
+    "checkpoint": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_104602_061598_pid15436\\fixture_cli\\models\\yolov8n_mixed5.pt",
+    "sha256": "bddfb8fe2e7f201511cb4247d74d71fb3df541c20dfa866ef10f93c2eded4eec",
+    "anh_xa_lop": {
+     "loai_checkpoint": "lop5",
+     "so_lop_model": 5,
+     "model_id_sang_lop5": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4
+     },
+     "ten": {
+      "0": "car",
+      "1": "truck",
+      "2": "bus",
+      "3": "motorcycle",
+      "4": "bicycle"
+     },
+     "lop5": [
+      "car",
+      "truck",
+      "bus",
+      "motorcycle",
+      "bicycle"
+     ]
+    },
+    "quy_tac_du_doan": {
+     "imgsz": 640,
+     "conf": 0.001,
+     "iou_nms": 0.7,
+     "max_det": 300,
+     "agnostic_nms": false,
+     "half": false,
+     "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+    },
+    "npz": "du_doan_yolov8n_mixed5.npz",
+    "npz_sha256": "e04193d67b1eec86e84628ede07368676230ddf87fc357872f768913c3b34473",
+    "so_anh": 4,
+    "du_lieu": {
+     "manifest_sha256": "fbc2029ce767a84dd0b3c92f5f3be7284a9e049e2c10733f50518cc83b13059d",
+     "fingerprint_sha256": "4daaf98da1cc177310d5df3c8a7b697ff645b54566f0afa8969e2416c4375ae4",
+     "bang_hash_sha256": "9886b45fcc7540f99a2cc8eece94b4cf0ed365af0ca180f0d999ddefd87c674b",
+     "loai_D4_sha256": "13fa5fc2ed342dc30438d8181c8373df43518cfe0fbaeac78f348a4fea80a995",
+     "danh_sach_anh_co_thu_tu_sha256": "1972dcc2afab62b41c88c8f62205f89a9e42bf3fe173bdb913413033891ddb3e",
+     "noi_dung_anh_sha256_tong_hop": "c98ef90f91af800d87604d471014291a4c15ae8efda3ed13466272529eb9e86d"
+    },
+    "adapter_sha256": "bb4b497b4f89a4464777144a35d66cbd109d03d3c485c4176cde0b67e358ccb4",
+    "tao_luc": "2026-10-20T10:46:03"
+   }
+  }
+ }
+}

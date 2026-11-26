@@ -1,0 +1,21 @@
+Creating new Ultralytics Settings v0.0.8 file  
+View Ultralytics Settings with 'yolo settings' or at 'D:\LABOTARY\bytetrack\handoff\logs\review164_latency_pruning\settings\Ultralytics\settings.json'
+Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/quickstart#ultralytics-settings.
+R164 STRUCTURAL ORACLE PASS head50 2346847 1589422080
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review164_latency_pruning\build_cpu.py", line 157, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review164_latency_pruning\build_cpu.py", line 132, in main
+    if mode in ('body50','joint50'):body(student,reference,changes)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review164_latency_pruning\build_cpu.py", line 53, in body
+    for name,_ in targets:pair(student,reference,name+'.cv1',name+'.cv2',changes)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review164_latency_pruning\build_cpu.py", line 46, in pair
+    old,keep,removed=indices(a);bc=b.conv if hasattr(b,'conv') else b
+                     ^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review164_latency_pruning\build_cpu.py", line 39, in indices
+    assert count<old,(old,count)
+           ^^^^^^^^^
+AssertionError: (8, 8)

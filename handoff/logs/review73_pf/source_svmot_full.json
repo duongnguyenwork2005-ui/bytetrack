@@ -1,0 +1,84 @@
+{
+  "dataset": "svmot",
+  "smoke": false,
+  "split": "SVMOTSYS-test",
+  "cache": "r64_svmot_yolov8n_coco_c0.05",
+  "videos": [
+    "seq_22_morning",
+    "seq_23_morning",
+    "seq_24_morning",
+    "seq_25_morning",
+    "seq_26_evening",
+    "seq_27_evening",
+    "seq_28_evening",
+    "seq_29_evening",
+    "seq_30_evening"
+  ],
+  "cache_checks": {
+    "seq_22_morning": {
+      "n_frames": 1200,
+      "n_boxes": 44519,
+      "max_n_per_frame": 55
+    },
+    "seq_23_morning": {
+      "n_frames": 900,
+      "n_boxes": 32898,
+      "max_n_per_frame": 58
+    },
+    "seq_24_morning": {
+      "n_frames": 900,
+      "n_boxes": 28886,
+      "max_n_per_frame": 58
+    },
+    "seq_25_morning": {
+      "n_frames": 900,
+      "n_boxes": 34194,
+      "max_n_per_frame": 60
+    },
+    "seq_26_evening": {
+      "n_frames": 870,
+      "n_boxes": 32185,
+      "max_n_per_frame": 61
+    },
+    "seq_27_evening": {
+      "n_frames": 870,
+      "n_boxes": 24489,
+      "max_n_per_frame": 57
+    },
+    "seq_28_evening": {
+      "n_frames": 870,
+      "n_boxes": 25883,
+      "max_n_per_frame": 53
+    },
+    "seq_29_evening": {
+      "n_frames": 870,
+      "n_boxes": 29441,
+      "max_n_per_frame": 52
+    },
+    "seq_30_evening": {
+      "n_frames": 870,
+      "n_boxes": 21712,
+      "max_n_per_frame": 57
+    }
+  },
+  "gt_sha256": {
+    "seq_22_morning": "292dd327fd3161379c3a870d68540dcd2a8ef35f16cd6586998615db5a7a197b",
+    "seq_23_morning": "e5d4d0c6f47966c4716a8f02ef1f16b05d6a4765a372f3cf0630e8513cb00d35",
+    "seq_24_morning": "c903c22da7ea5a6114434daa570bf61f7c6b0727aba3090bf173c6efa55d6105",
+    "seq_25_morning": "d5eb895d3ac64806f625617a775c3be794037de77a08c4d26d734598ebcd821e",
+    "seq_26_evening": "7608a8a2f80437629ed5b35bc4f2e0486194270b9eb4f818ce751f1d087d326b",
+    "seq_27_evening": "a74569b97561200b0ad1ed2fb54ad3c681138b3454fb973d1273bee1efa84fbf",
+    "seq_28_evening": "c9f7d635c18bdfac4d2c5faac7d4fce2f88ec137cba2bd348eea10bd64123582",
+    "seq_29_evening": "4e4aa3dfd1974a247210343f518a114a8a91b4eb4d450e65510034d525eec94a",
+    "seq_30_evening": "28e2bb2fc1c9453dc18810eddd6538e47da84d95e29455e0150a9e0690f6cd23"
+  },
+  "yaml_sha256": {
+    "motion100": "3ac2894c48324728d6d5db126684331744d4e8c191fa1a9fb0bf8acc214d5b4c",
+    "motion200": "9b41f5d2befae4d435769495defe365fe0db40479d60cc1a0926eb4869e47c80"
+  },
+  "code_sha256": {
+    "src/pf_ctrv.py": "5b6db25a6ff0161e725414cb286746e86d23e261ca97875a16118161448d717c",
+    "src/tracker_ctrv.py": "e806d8dd4777f87954844db710078c32e1be01146327b67ad46c77b61c534c5f",
+    "src/run_tracking.py": "5bd131fe958bdf04ed59f704c85919aec43049df1922cb552dced98324910629"
+  }
+}

@@ -1,0 +1,6248 @@
+{"Layers": [{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /model.0/conv/Conv",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "images",
+    "Dimensions": [1,3,384,640],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.0/conv/Conv",
+    "Dimensions": [1,3,384,640],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.0/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.0/conv/Conv",
+    "Dimensions": [1,3,384,640],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.0/conv/Conv_output_0",
+    "Dimensions": [1,16,192,320],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 16,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 432},
+  "Bias": {"Type": "Half", "Count": 16},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_small_nn_v1",
+  "TacticValue": "0x49d4481f49cb4fcc"
+},{
+  "Name": "r167_/model.0/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.0/conv/Conv_output_0",
+    "Dimensions": [1,16,192,320],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.0/act/Mul_output_0",
+    "Dimensions": [1,16,192,320],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.0/act/Mul_output_0",
+    "Dimensions": [1,16,192,320],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.1/conv/Conv_output_0",
+    "Dimensions": [1,32,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4608},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_small_nn_v1",
+  "TacticValue": "0x49d4481f49cb4fcc"
+},{
+  "Name": "r167_/model.1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.1/conv/Conv_output_0",
+    "Dimensions": [1,32,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.1/act/Mul_output_0",
+    "Dimensions": [1,32,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.2/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.1/act/Mul_output_0",
+    "Dimensions": [1,32,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 1024},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_interior_nn_v1",
+  "TacticValue": "0x2a8d12e8ad654d04"
+},{
+  "Name": "r167_/model.2/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.2/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.2/Split",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.2/cv1/act/Mul_output_0",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/Concat_output_0",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.2/Split_0",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.2/cv1/act/Mul_output_0",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/Split_output_1",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.2/m.0/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.2/Split_output_1",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,8,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 8,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 1152},
+  "Bias": {"Type": "Half", "Count": 8},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "r167_/model.2/m.0/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.2/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,8,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,8,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.2/m.0/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.2/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,8,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 16,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 1152},
+  "Bias": {"Type": "Half", "Count": 16},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_small_nn_v1",
+  "TacticValue": "0x49d4481f49cb4fcc"
+},{
+  "Name": "r167_/model.2/m.0/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.2/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.2/m.0/Add",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.2/Split_output_1",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.2/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/Concat_output_0",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.2/Split_output_1 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.2/Split_output_1",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/Concat_output_0",
+    "Dimensions": [1,16,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.2/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.2/Concat_output_0",
+    "Dimensions": [1,48,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 3072},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "r167_/model.2/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.2/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.2/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.3/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.2/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,96,160],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.3/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "r167_/model.3/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.3/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.3/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.4/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.3/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.4/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4096},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "r167_/model.4/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.4/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.4/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.4/m.0/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.4/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.4/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,16,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 16,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4608},
+  "Bias": {"Type": "Half", "Count": 16},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "r167_/model.4/m.0/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.4/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,16,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.4/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,16,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.4/m.0/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.4/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,16,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.4/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4608},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "r167_/model.4/m.0/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.4/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.4/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.4/m.0/Add",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.4/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.4/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.4/Concat_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.4/Split_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.4/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.4/Concat_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.4/Split_output_1 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.4/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.4/Concat_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.4/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.4/Concat_output_0",
+    "Dimensions": [1,96,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.4/cv2/conv/Conv_output_0",
+    "Dimensions": [1,128,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 12288},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "r167_/model.4/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.4/cv2/conv/Conv_output_0",
+    "Dimensions": [1,128,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.4/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.5/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.4/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.5/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 147456},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_small_nn_v1",
+  "TacticValue": "0xc58b636be383c4e6"
+},{
+  "Name": "r167_/model.5/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.5/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.5/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.5/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/cv1/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 16384},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.6/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.6/cv1/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/m.0/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.6/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 2048},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_interior_nn_v1",
+  "TacticValue": "0x2a8d12e8ad654d04"
+},{
+  "Name": "/model.6/m.0/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.6/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 2048},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_interior_nn_v1",
+  "TacticValue": "0x2a8d12e8ad654d04"
+},{
+  "Name": "r167_/model.6/m.0/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.6/m.0/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/m.0/m/m.0/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/m/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 9216},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "r167_/model.6/m.0/m/m.0/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/m/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/m/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/m.0/m/m.0/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/m/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/m/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 9216},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "r167_/model.6/m.0/m/m.0/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/m/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/m/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/m.0/m/m.0/Add",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.6/m.0/m/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/m/m.0/Add_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.6/m.0/m/m.1/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/m/m.0/Add_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/m/m.1/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 9216},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "r167_/model.6/m.0/m/m.1/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/m/m.1/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/m/m.1/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/m.0/m/m.1/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/m/m.1/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/m/m.1/cv2/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 9216},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "r167_/model.6/m.0/m/m.1/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/m/m.1/cv2/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/m/m.1/cv2/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/m.0/m/m.1/Add",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/m/m.0/Add_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.6/m.0/m/m.1/cv2/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/Concat_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.6/m.0/cv2/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/Concat_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/m.0/cv3/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/Concat_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/cv3/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4096},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "r167_/model.6/m.0/cv3/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/cv3/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/m.0/cv3/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/Split_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.6/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/Concat_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/Split_output_1 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.6/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/Concat_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/m.0/cv3/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.6/m.0/cv3/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/Concat_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.6/Concat_output_0",
+    "Dimensions": [1,192,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/cv2/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 24576},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.6/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.6/cv2/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.6/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.7/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.6/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.7/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 294912},
+  "Bias": {"Type": "Half", "Count": 256},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_small_nn_v1",
+  "TacticValue": "0xc58b636be383c4e6"
+},{
+  "Name": "r167_/model.7/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.7/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.7/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.7/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/cv1/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 65536},
+  "Bias": {"Type": "Half", "Count": 256},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.8/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.8/cv1/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/cv1/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/m.0/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.8/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 8192},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "/model.8/m.0/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.8/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 8192},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "r167_/model.8/m.0/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.8/m.0/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/m.0/m/m.0/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/m/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "r167_/model.8/m.0/m/m.0/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/m/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/m/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/m.0/m/m.0/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/m/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/m/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "r167_/model.8/m.0/m/m.0/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/m/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/m/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/m.0/m/m.0/Add",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.8/m.0/m/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/m/m.0/Add_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.8/m.0/m/m.1/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/m/m.0/Add_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/m/m.1/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "r167_/model.8/m.0/m/m.1/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/m/m.1/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/m/m.1/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/m.0/m/m.1/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/m/m.1/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/m/m.1/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "r167_/model.8/m.0/m/m.1/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/m/m.1/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/m/m.1/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/m.0/m/m.1/Add",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/m/m.0/Add_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.8/m.0/m/m.1/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/Concat_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.8/m.0/cv2/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/Concat_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/m.0/cv3/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/cv3/conv/Conv_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 16384},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.8/m.0/cv3/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/cv3/conv/Conv_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/m.0/cv3/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/Split_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.8/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/Split_output_1 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.8/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/m.0/cv3/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.8/m.0/cv3/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.8/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.8/Concat_output_0",
+    "Dimensions": [1,384,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/cv2/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 98304},
+  "Bias": {"Type": "Half", "Count": 256},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.8/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.8/cv2/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.8/cv2/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.9/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.8/cv2/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.9/cv1/conv/Conv_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 32768},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.9/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.9/cv1/conv/Conv_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.9/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.9/m/MaxPool",
+  "LayerType": "TiledPooling",
+  "Inputs": [
+  {
+    "Name": "/model.9/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.9/m/MaxPool_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Pooling",
+  "PoolingType": "MAX",
+  "WindowSize": [5,5],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [2,2],
+  "PostPadding": [2,2],
+  "Stride": [1,1],
+  "BlendFactor": 0,
+  "AverageCountExcludesPadding": 1,
+  "TacticValue": "0x760c14"
+},{
+  "Name": "/model.9/m_1/MaxPool",
+  "LayerType": "TiledPooling",
+  "Inputs": [
+  {
+    "Name": "/model.9/m/MaxPool_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.9/m_1/MaxPool_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Pooling",
+  "PoolingType": "MAX",
+  "WindowSize": [5,5],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [2,2],
+  "PostPadding": [2,2],
+  "Stride": [1,1],
+  "BlendFactor": 0,
+  "AverageCountExcludesPadding": 1,
+  "TacticValue": "0x760c14"
+},{
+  "Name": "/model.9/m_2/MaxPool",
+  "LayerType": "TiledPooling",
+  "Inputs": [
+  {
+    "Name": "/model.9/m_1/MaxPool_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.9/m_2/MaxPool_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Pooling",
+  "PoolingType": "MAX",
+  "WindowSize": [5,5],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [2,2],
+  "PostPadding": [2,2],
+  "Stride": [1,1],
+  "BlendFactor": 0,
+  "AverageCountExcludesPadding": 1,
+  "TacticValue": "0x760c14"
+},{
+  "Name": "/model.9/cv1/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.9/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.9/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.9/m/MaxPool_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.9/m/MaxPool_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.9/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.9/m_1/MaxPool_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.9/m_1/MaxPool_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.9/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.9/m_2/MaxPool_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.9/m_2/MaxPool_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.9/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.9/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.9/Concat_output_0",
+    "Dimensions": [1,512,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.9/cv2/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 131072},
+  "Bias": {"Type": "Half", "Count": 256},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "r167_/model.9/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.9/cv2/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.9/cv2/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.9/cv2/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/cv1/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 65536},
+  "Bias": {"Type": "Half", "Count": 256},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.10/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.10/cv1/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/cv1/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/Split_4",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.10/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/Split_output_1",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/attn/qkv/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.10/Split_output_1",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/qkv/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 32768},
+  "Bias": {"Type": "Half", "Count": 256},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_small_nn_v1",
+  "TacticValue": "0xc58b636be383c4e6"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /model.10/m/m.0/attn/Reshape",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/qkv/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.10/m/m.0/attn/Reshape",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/attn/Reshape",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.10/m/m.0/attn/Reshape",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Reshape_output_0",
+    "Dimensions": [1,2,128,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/attn/Split",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Reshape_output_0",
+    "Dimensions": [1,2,32,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Split_output_0",
+    "Dimensions": [1,2,32,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.10/m/m.0/attn/Split_5",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Reshape_output_0",
+    "Dimensions": [1,2,32,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Split_output_1",
+    "Dimensions": [1,2,32,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.10/m/m.0/attn/Split_6",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Reshape_output_0",
+    "Dimensions": [1,2,64,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Split_output_2",
+    "Dimensions": [1,2,64,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.10/m/m.0/attn/Constant_1_output_0 + (Unnamed Layer* 100) [Shuffle] + /model.10/m/m.0/attn/Mul",
+  "LayerType": "Scale",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Split_output_0",
+    "Dimensions": [1,2,32,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Mul_output_0",
+    "Dimensions": [1,2,32,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Scale",
+  "Mode": "UNIFORM",
+  "Shift": {"Type": "Half", "Count": 0},
+  "Scale": {"Type": "Half", "Count": 1},
+  "Power": {"Type": "Half", "Count": 0},
+  "Activation": "NONE",
+  "ChannelAxis": 1,
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/attn/Reshape_2",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Split_output_2",
+    "Dimensions": [1,2,64,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Reshape_2_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/attn/MatMul",
+  "LayerType": "MatrixMultiply",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Mul_output_0",
+    "Dimensions": [1,2,32,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  },
+  {
+    "Name": "/model.10/m/m.0/attn/Split_output_1",
+    "Dimensions": [1,2,32,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/MatMul_output_0",
+    "Dimensions": [1,2,240,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "MatrixMultiply",
+  "MatrixOpA": "TRANSPOSE",
+  "MatrixOpB": "NONE",
+  "Alpha": 1,
+  "Beta": 0,
+  "TacticValue": "0x0"
+},{
+  "Name": "(Unnamed Layer* 104) [Shuffle]",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/MatMul_output_0",
+    "Dimensions": [1,2,240,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 104) [Shuffle]_output",
+    "Dimensions": [480,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/attn/Softmax",
+  "LayerType": "CudaSoftMax",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 104) [Shuffle]_output",
+    "Dimensions": [480,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 105) [Softmax]_output",
+    "Dimensions": [480,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "SoftMax",
+  "Axes": 2,
+  "HasLog": 0,
+  "TacticValue": "0x3e9"
+},{
+  "Name": "(Unnamed Layer* 106) [Shuffle] + /model.10/m/m.0/attn/Transpose_1",
+  "LayerType": "Shuffle",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 105) [Softmax]_output",
+    "Dimensions": [480,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Transpose_1_output_0",
+    "Dimensions": [1,2,240,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Shuffle",
+  "FirstTranspose": [0,1],
+  "Reshape": [1,2,240,240],
+  "SecondTranspose": [0,1,3,2],
+  "ZeroIsPlaceholder": 0,
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/attn/MatMul_1",
+  "LayerType": "MatrixMultiply",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Split_output_2",
+    "Dimensions": [1,2,64,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  },
+  {
+    "Name": "/model.10/m/m.0/attn/Transpose_1_output_0",
+    "Dimensions": [1,2,240,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/MatMul_1_output_0",
+    "Dimensions": [1,2,64,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "MatrixMultiply",
+  "MatrixOpA": "NONE",
+  "MatrixOpB": "NONE",
+  "Alpha": 1,
+  "Beta": 0,
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/attn/Reshape_1",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/MatMul_1_output_0",
+    "Dimensions": [1,2,64,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Reshape_1_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/attn/pe/conv/Conv + /model.10/m/m.0/attn/Add",
+  "LayerType": "CudnnConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Reshape_2_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  },
+  {
+    "Name": "/model.10/m/m.0/attn/Reshape_1_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Add_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 128,
+  "Weights": {"Type": "Half", "Count": 1152},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "TacticValue": "0x1"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /model.10/m/m.0/attn/proj/conv/Conv + /model.10/m/m.0/Add",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/attn/Add_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.10/m/m.0/attn/proj/conv/Conv + /model.10/m/m.0/Add",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/attn/proj/conv/Conv + /model.10/m/m.0/Add",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.10/m/m.0/attn/proj/conv/Conv + /model.10/m/m.0/Add",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.10/Split_output_1",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/Add_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 16384},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "/model.10/m/m.0/ffn/ffn.0/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/Add_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/ffn/ffn.0/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 32768},
+  "Bias": {"Type": "Half", "Count": 256},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_small_nn_v1",
+  "TacticValue": "0xc58b636be383c4e6"
+},{
+  "Name": "r167_/model.10/m/m.0/ffn/ffn.0/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/ffn/ffn.0/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/ffn/ffn.0/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/ffn/ffn.1/conv/Conv + /model.10/m/m.0/Add_1",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/ffn/ffn.0/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.10/m/m.0/Add_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/m/m.0/Add_1_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 32768},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "/model.10/Split_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.10/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/m/m.0/Add_1_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.10/m/m.0/Add_1_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.10/Concat_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/cv2/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 65536},
+  "Bias": {"Type": "Half", "Count": 256},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.10/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.10/cv2/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to r167_/model.10/cv2/act/Mul",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "Reformatting CopyNode for Output Tensor 0 to r167_/model.10/cv2/act/Mul",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to r167_/model.10/cv2/act/Mul",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.10/cv2/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.11/Resize",
+  "LayerType": "Resize",
+  "Inputs": [
+  {
+    "Name": "/model.10/cv2/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.11/Resize_output_0",
+    "Dimensions": [1,256,24,40],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Resize",
+  "ResizeMode": "NEAREST",
+  "ResizeScales": [1, 1, 2, 2, 0, 0, 0, 0],
+  "CoordTransform": "kASYMMETRIC",
+  "ResizeSelector": "kFORMULA",
+  "NNRounding": "kFLOOR",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.11/Resize_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.11/Resize_output_0",
+    "Dimensions": [1,256,24,40],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.12/Concat_output_0",
+    "Dimensions": [1,256,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.6/cv2/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.6/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.12/Concat_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.13/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.12/Concat_output_0",
+    "Dimensions": [1,384,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.13/cv1/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 49152},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.13/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.13/cv1/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.13/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.13/m.0/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.13/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.13/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 18432},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "r167_/model.13/m.0/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.13/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.13/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.13/m.0/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.13/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.13/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 18432},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "r167_/model.13/m.0/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.13/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.13/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.13/m.0/Add",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.13/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.13/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.13/Concat_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.13/Split_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.13/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.13/Concat_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.13/Split_output_1 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.13/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.13/Concat_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.13/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.13/Concat_output_0",
+    "Dimensions": [1,192,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.13/cv2/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 24576},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.13/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.13/cv2/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.13/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /model.14/Resize",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.13/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.14/Resize",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.14/Resize",
+  "LayerType": "Resize",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.14/Resize",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.14/Resize_output_0",
+    "Dimensions": [1,128,48,80],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Resize",
+  "ResizeMode": "NEAREST",
+  "ResizeScales": [1, 1, 2, 2, 0, 0, 0, 0],
+  "CoordTransform": "kASYMMETRIC",
+  "ResizeSelector": "kFORMULA",
+  "NNRounding": "kFLOOR",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.14/Resize_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.14/Resize_output_0",
+    "Dimensions": [1,128,48,80],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.15/Concat_output_0",
+    "Dimensions": [1,128,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.4/cv2/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.4/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.15/Concat_output_0",
+    "Dimensions": [1,128,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.16/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.15/Concat_output_0",
+    "Dimensions": [1,256,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.16/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 16384},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "r167_/model.16/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.16/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.16/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.16/m.0/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.16/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.16/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,16,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 16,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4608},
+  "Bias": {"Type": "Half", "Count": 16},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "r167_/model.16/m.0/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.16/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,16,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.16/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,16,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.16/m.0/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.16/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,16,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.16/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4608},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "r167_/model.16/m.0/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.16/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.16/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.16/m.0/Add",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.16/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.16/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.16/Concat_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.16/Split_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.16/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.16/Concat_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.16/Split_output_1 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.16/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.16/Concat_output_0",
+    "Dimensions": [1,32,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.16/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.16/Concat_output_0",
+    "Dimensions": [1,96,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.16/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 6144},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "r167_/model.16/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.16/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.16/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.17/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.16/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.17/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "/model.23/cv2.0/cv2.0.0/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.16/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.0/cv2.0.0/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /model.23/cv3.0/cv3.0.0/cv3.0.0.0/conv/Conv",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.16/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/cv3.0/cv3.0.0/cv3.0.0.0/conv/Conv",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/cv3.0/cv3.0.0/cv3.0.0.0/conv/Conv",
+  "LayerType": "CudnnConvolution",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/cv3.0/cv3.0.0/cv3.0.0.0/conv/Conv",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.0/cv3.0.0.0/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 64,
+  "Weights": {"Type": "Half", "Count": 576},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "TacticValue": "0x1"
+},{
+  "Name": "r167_/model.17/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.17/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.17/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv2.0/cv2.0.0/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.0/cv2.0.0/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.0/cv2.0.0/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.0/cv3.0.0/cv3.0.0.0/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.0/cv3.0.0.0/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.0/cv3.0.0.0/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.17/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.17/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.18/Concat_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.13/cv2/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.13/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.18/Concat_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/cv2.0/cv2.0.1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.0/cv2.0.0/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.0/cv2.0.1/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "/model.23/cv3.0/cv3.0.0/cv3.0.0.1/conv/Conv",
+  "LayerType": "CudnnConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.0/cv3.0.0.0/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.0/cv3.0.0.1/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4096},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.19/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.18/Concat_output_0",
+    "Dimensions": [1,192,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.19/cv1/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 24576},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.23/cv2.0/cv2.0.1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.0/cv2.0.1/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.0/cv2.0.1/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.0/cv3.0.0/cv3.0.0.1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.0/cv3.0.0.1/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.0/cv3.0.0.1/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.19/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.19/cv1/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.19/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/cv2.0/cv2.0.2/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.0/cv2.0.1/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.0/cv2.0.2/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4096},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "/model.23/cv3.0/cv3.0.1/cv3.0.1.0/conv/Conv",
+  "LayerType": "CudnnConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.0/cv3.0.0.1/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.1/cv3.0.1.0/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 64,
+  "Weights": {"Type": "Half", "Count": 576},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "TacticValue": "0x1"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /model.23/Reshape",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.0/cv2.0.2/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/Reshape",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Reshape",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/Reshape",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Reshape_output_0",
+    "Dimensions": [1,64,3840],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to r167_/model.23/cv3.0/cv3.0.1/cv3.0.1.0/act/Mul",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.1/cv3.0.1.0/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to r167_/model.23/cv3.0/cv3.0.1/cv3.0.1.0/act/Mul",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.0/cv3.0.1/cv3.0.1.0/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to r167_/model.23/cv3.0/cv3.0.1/cv3.0.1.0/act/Mul",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.1/cv3.0.1.0/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.19/m.0/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.19/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.19/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 32,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 18432},
+  "Bias": {"Type": "Half", "Count": 32},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "/model.23/cv3.0/cv3.0.1/cv3.0.1.1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.1/cv3.0.1.0/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.1/cv3.0.1.1/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4096},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "r167_/model.19/m.0/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.19/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.19/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.0/cv3.0.1/cv3.0.1.1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.1/cv3.0.1.1/conv/Conv_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.1/cv3.0.1.1/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.19/m.0/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.19/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,32,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.19/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 18432},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "/model.23/cv3.0/cv3.0.2/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.1/cv3.0.1.1/act/Mul_output_0",
+    "Dimensions": [1,64,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.2/Conv_output_0",
+    "Dimensions": [1,5,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 5,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 320},
+  "Bias": {"Type": "Half", "Count": 5},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x32_relu_interior_nn_v1",
+  "TacticValue": "0x2a8d12e8ad654d04"
+},{
+  "Name": "r167_/model.19/m.0/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.19/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.19/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /model.23/Reshape_3",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.0/cv3.0.2/Conv_output_0",
+    "Dimensions": [1,5,48,80],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/Reshape_3",
+    "Dimensions": [1,5,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Reshape_3",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/Reshape_3",
+    "Dimensions": [1,5,48,80],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Reshape_3_output_0",
+    "Dimensions": [1,5,3840],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.19/m.0/Add",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.19/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.19/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.19/Concat_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.19/Split_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.19/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.19/Concat_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.19/Split_output_1 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.19/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.19/Concat_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.19/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.19/Concat_output_0",
+    "Dimensions": [1,192,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.19/cv2/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 24576},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.19/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.19/cv2/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.19/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.20/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.19/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.20/conv/Conv_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [2,2],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 147456},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_small_nn_v1",
+  "TacticValue": "0xc58b636be383c4e6"
+},{
+  "Name": "/model.23/cv2.1/cv2.1.0/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.19/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.1/cv2.1.0/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 73728},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /model.23/cv3.1/cv3.1.0/cv3.1.0.0/conv/Conv",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.19/cv2/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/cv3.1/cv3.1.0/cv3.1.0.0/conv/Conv",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/cv3.1/cv3.1.0/cv3.1.0.0/conv/Conv",
+  "LayerType": "CudaDepthwiseConvolution",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/cv3.1/cv3.1.0/cv3.1.0.0/conv/Conv",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.0/cv3.1.0.0/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 128,
+  "Weights": {"Type": "Float", "Count": 1152},
+  "Bias": {"Type": "Float", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "TacticValue": "0xffffffffffffffff"
+},{
+  "Name": "r167_/model.20/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.20/conv/Conv_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.20/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv2.1/cv2.1.0/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.1/cv2.1.0/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.1/cv2.1.0/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.1/cv3.1.0/cv3.1.0.0/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.0/cv3.1.0.0/conv/Conv_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.0/cv3.1.0.0/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.20/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.20/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.21/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.10/cv2/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.10/cv2/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.21/Concat_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/cv2.1/cv2.1.1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.1/cv2.1.0/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.1/cv2.1.1/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_winograd_fp16x2_128x128_ldg1_ldg4_relu_tile148m_nt_v1",
+  "TacticValue": "0x423c7816ea4ad199"
+},{
+  "Name": "/model.23/cv3.1/cv3.1.0/cv3.1.0.1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.0/cv3.1.0.0/act/Mul_output_0",
+    "Dimensions": [1,128,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.0/cv3.1.0.1/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Float", "Count": 8192},
+  "Bias": {"Type": "Float", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_scudnn_128x64_relu_interior_nn_v1",
+  "TacticValue": "0xff7bc8e660bee75d"
+},{
+  "Name": "/model.22/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.21/Concat_output_0",
+    "Dimensions": [1,384,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/cv1/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 98304},
+  "Bias": {"Type": "Half", "Count": 256},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.23/cv2.1/cv2.1.1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.1/cv2.1.1/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.1/cv2.1.1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.1/cv3.1.0/cv3.1.0.1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.0/cv3.1.0.1/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.0/cv3.1.0.1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.22/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.22/cv1/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/cv1/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/cv2.1/cv2.1.2/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.1/cv2.1.1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.1/cv2.1.2/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4096},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "/model.23/cv3.1/cv3.1.1/cv3.1.1.0/conv/Conv",
+  "LayerType": "CudaDepthwiseConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.0/cv3.1.0.1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.1/cv3.1.1.0/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 64,
+  "Weights": {"Type": "Float", "Count": 576},
+  "Bias": {"Type": "Float", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "TacticValue": "0xffffffffffffffff"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /model.23/Reshape_1",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.1/cv2.1.2/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/Reshape_1",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Reshape_1",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/Reshape_1",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Reshape_1_output_0",
+    "Dimensions": [1,64,960],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.1/cv3.1.1/cv3.1.1.0/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.1/cv3.1.1.0/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.1/cv3.1.1.0/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.22/m.0/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.22/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 8192},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "/model.22/m.0/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.22/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 8192},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "/model.23/cv3.1/cv3.1.1/cv3.1.1.1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.1/cv3.1.1.0/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.1/cv3.1.1.1/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Float", "Count": 4096},
+  "Bias": {"Type": "Float", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_scudnn_128x64_relu_interior_nn_v1",
+  "TacticValue": "0xff7bc8e660bee75d"
+},{
+  "Name": "r167_/model.22/m.0/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.22/m.0/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.1/cv3.1.1/cv3.1.1.1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.1/cv3.1.1.1/conv/Conv_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.1/cv3.1.1.1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.22/m.0/m/m.0/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/m/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "/model.23/cv3.1/cv3.1.2/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.1/cv3.1.1.1/act/Mul_output_0",
+    "Dimensions": [1,64,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.2/Conv_output_0",
+    "Dimensions": [1,5,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 5,
+  "Groups": 1,
+  "Weights": {"Type": "Float", "Count": 320},
+  "Bias": {"Type": "Float", "Count": 5},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_scudnn_128x32_relu_interior_nn_v0",
+  "TacticValue": "0x1792ed6b0f1ea883"
+},{
+  "Name": "r167_/model.22/m.0/m/m.0/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/m/m.0/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/m/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Reshape_4",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.1/cv3.1.2/Conv_output_0",
+    "Dimensions": [1,5,24,40],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Reshape_4_output_0",
+    "Dimensions": [1,5,960],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.22/m.0/m/m.0/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/m/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/m/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "r167_/model.22/m.0/m/m.0/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/m/m.0/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/m/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.22/m.0/m/m.0/Add",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.22/m.0/m/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/m/m.0/Add_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.22/m.0/m/m.1/cv1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/m/m.0/Add_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/m/m.1/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "r167_/model.22/m.0/m/m.1/cv1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/m/m.1/cv1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/m/m.1/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.22/m.0/m/m.1/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/m/m.1/cv1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/m/m.1/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "r167_/model.22/m.0/m/m.1/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/m/m.1/cv2/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/m/m.1/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.22/m.0/m/m.1/Add",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/m/m.0/Add_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  },
+  {
+    "Name": "/model.22/m.0/m/m.1/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/Concat_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.22/m.0/cv2/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/cv2/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/Concat_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.22/m.0/cv3/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/cv3/conv/Conv_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 128,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 16384},
+  "Bias": {"Type": "Half", "Count": 128},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.22/m.0/cv3/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/cv3/conv/Conv_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/m.0/cv3/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.22/Split_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.22/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.22/Split_output_1 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.22/cv1/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.22/m.0/cv3/act/Mul_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.22/m.0/cv3/act/Mul_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/Concat_output_0",
+    "Dimensions": [1,128,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.22/cv2/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.22/Concat_output_0",
+    "Dimensions": [1,384,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/cv2/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 98304},
+  "Bias": {"Type": "Half", "Count": 256},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x128_relu_interior_nn_v1",
+  "TacticValue": "0xe82e2508fad16cd6"
+},{
+  "Name": "r167_/model.22/cv2/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.22/cv2/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.22/cv2/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/cv2.2/cv2.2.0/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.22/cv2/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.2/cv2.2.0/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 147456},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /model.23/cv3.2/cv3.2.0/cv3.2.0.0/conv/Conv",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.22/cv2/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/cv3.2/cv3.2.0/cv3.2.0.0/conv/Conv",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/cv3.2/cv3.2.0/cv3.2.0.0/conv/Conv",
+  "LayerType": "CudnnConvolution",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/cv3.2/cv3.2.0/cv3.2.0.0/conv/Conv",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.0/cv3.2.0.0/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 256,
+  "Groups": 256,
+  "Weights": {"Type": "Half", "Count": 2304},
+  "Bias": {"Type": "Half", "Count": 256},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "TacticValue": "0x1"
+},{
+  "Name": "r167_/model.23/cv2.2/cv2.2.0/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.2/cv2.2.0/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.2/cv2.2.0/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to r167_/model.23/cv3.2/cv3.2.0/cv3.2.0.0/act/Mul",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.0/cv3.2.0.0/conv/Conv_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to r167_/model.23/cv3.2/cv3.2.0/cv3.2.0.0/act/Mul",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.2/cv3.2.0/cv3.2.0.0/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to r167_/model.23/cv3.2/cv3.2.0/cv3.2.0.0/act/Mul",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.0/cv3.2.0.0/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/cv2.2/cv2.2.1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.2/cv2.2.0/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.2/cv2.2.1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 36864},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "/model.23/cv3.2/cv3.2.0/cv3.2.0.1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.0/cv3.2.0.0/act/Mul_output_0",
+    "Dimensions": [1,256,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.0/cv3.2.0.1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 16384},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_interior_nn_v1",
+  "TacticValue": "0x714a7bdbc1625db5"
+},{
+  "Name": "r167_/model.23/cv2.2/cv2.2.1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.2/cv2.2.1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.2/cv2.2.1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to r167_/model.23/cv3.2/cv3.2.0/cv3.2.0.1/act/Mul",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.0/cv3.2.0.1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to r167_/model.23/cv3.2/cv3.2.0/cv3.2.0.1/act/Mul",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.2/cv3.2.0/cv3.2.0.1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to r167_/model.23/cv3.2/cv3.2.0/cv3.2.0.1/act/Mul",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.0/cv3.2.0.1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/cv2.2/cv2.2.2/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.2/cv2.2.1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv2.2/cv2.2.2/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 4096},
+  "Bias": {"Type": "Half", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_fp16x2_hcudnn_fp16x2_128x64_relu_small_nn_v1",
+  "TacticValue": "0xde90ee8a0a9789b7"
+},{
+  "Name": "/model.23/cv3.2/cv3.2.1/cv3.2.1.0/conv/Conv",
+  "LayerType": "CudaDepthwiseConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.0/cv3.2.0.1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.1/cv3.2.1.0/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [3,3],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [1,1],
+  "PostPadding": [1,1],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 64,
+  "Weights": {"Type": "Float", "Count": 576},
+  "Bias": {"Type": "Float", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "TacticValue": "0xffffffffffffffff"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /model.23/Reshape_2",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv2.2/cv2.2.2/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Two wide channel vectorized row major FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/Reshape_2",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Reshape_2",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /model.23/Reshape_2",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Reshape_2_output_0",
+    "Dimensions": [1,64,240],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.2/cv3.2.1/cv3.2.1.0/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.1/cv3.2.1.0/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.1/cv3.2.1.0/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Reshape_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/Reshape_output_0",
+    "Dimensions": [1,64,3840],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Concat_output_0",
+    "Dimensions": [1,64,3840],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.23/Reshape_1_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/Reshape_1_output_0",
+    "Dimensions": [1,64,960],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Concat_output_0",
+    "Dimensions": [1,64,960],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.23/Reshape_2_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/Reshape_2_output_0",
+    "Dimensions": [1,64,240],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Concat_output_0",
+    "Dimensions": [1,64,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.23/cv3.2/cv3.2.1/cv3.2.1.1/conv/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.1/cv3.2.1.0/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.1/cv3.2.1.1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 64,
+  "Groups": 1,
+  "Weights": {"Type": "Float", "Count": 4096},
+  "Bias": {"Type": "Float", "Count": 64},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_scudnn_128x32_relu_interior_nn_v0",
+  "TacticValue": "0x1792ed6b0f1ea883"
+},{
+  "Name": "/model.23/dfl/Reshape + /model.23/dfl/Transpose",
+  "LayerType": "Shuffle",
+  "Inputs": [
+  {
+    "Name": "/model.23/Concat_output_0",
+    "Dimensions": [1,64,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/dfl/Transpose_output_0",
+    "Dimensions": [1,5040,4,16],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Shuffle",
+  "FirstTranspose": [0,1,2],
+  "Reshape": [1,4,16,5040],
+  "SecondTranspose": [0,3,1,2],
+  "ZeroIsPlaceholder": 1,
+  "TacticValue": "0x0"
+},{
+  "Name": "r167_/model.23/cv3.2/cv3.2.1/cv3.2.1.1/act/Mul",
+  "LayerType": "PluginV2",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.1/cv3.2.1.1/conv/Conv_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.1/cv3.2.1.1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/cv3.2/cv3.2.2/Conv",
+  "LayerType": "CaskConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.1/cv3.2.1.1/act/Mul_output_0",
+    "Dimensions": [1,64,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.2/Conv_output_0",
+    "Dimensions": [1,5,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 5,
+  "Groups": 1,
+  "Weights": {"Type": "Float", "Count": 320},
+  "Bias": {"Type": "Float", "Count": 5},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 1,
+  "HasReLU": 0,
+  "TacticName": "maxwell_scudnn_128x32_relu_interior_nn_v0",
+  "TacticValue": "0x1792ed6b0f1ea883"
+},{
+  "Name": "(Unnamed Layer* 244) [Shuffle]",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "/model.23/dfl/Transpose_output_0",
+    "Dimensions": [1,5040,4,16],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 244) [Shuffle]_output",
+    "Dimensions": [20160,16],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Reshape_5",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "/model.23/cv3.2/cv3.2.2/Conv_output_0",
+    "Dimensions": [1,5,12,20],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Reshape_5_output_0",
+    "Dimensions": [1,5,240],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/dfl/Softmax",
+  "LayerType": "CudaSoftMax",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 244) [Shuffle]_output",
+    "Dimensions": [20160,16],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 245) [Softmax]_output",
+    "Dimensions": [20160,16],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "SoftMax",
+  "Axes": 2,
+  "HasLog": 0,
+  "TacticValue": "0x3e9"
+},{
+  "Name": "/model.23/Reshape_3_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/Reshape_3_output_0",
+    "Dimensions": [1,5,3840],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Concat_1_output_0",
+    "Dimensions": [1,5,3840],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.23/Reshape_4_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/Reshape_4_output_0",
+    "Dimensions": [1,5,960],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Concat_1_output_0",
+    "Dimensions": [1,5,960],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.23/Reshape_5_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/Reshape_5_output_0",
+    "Dimensions": [1,5,240],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Concat_1_output_0",
+    "Dimensions": [1,5,240],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x0"
+},{
+  "Name": "(Unnamed Layer* 246) [Shuffle] + /model.23/dfl/Transpose_1",
+  "LayerType": "Shuffle",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 245) [Softmax]_output",
+    "Dimensions": [20160,16],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/dfl/Transpose_1_output_0",
+    "Dimensions": [1,16,4,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Shuffle",
+  "FirstTranspose": [0,1],
+  "Reshape": [1,5040,4,16],
+  "SecondTranspose": [0,3,2,1],
+  "ZeroIsPlaceholder": 0,
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/dfl/conv/Conv",
+  "LayerType": "CudnnConvolution",
+  "Inputs": [
+  {
+    "Name": "/model.23/dfl/Transpose_1_output_0",
+    "Dimensions": [1,16,4,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/dfl/conv/Conv_output_0",
+    "Dimensions": [1,1,4,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 1,
+  "Groups": 1,
+  "Weights": {"Type": "Half", "Count": 16},
+  "Bias": {"Type": "Half", "Count": 0},
+  "AllowSparse": 0,
+  "Activation": "NONE",
+  "HasBias": 0,
+  "TacticValue": "0x2"
+},{
+  "Name": "/model.23/dfl/Reshape_1",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "/model.23/dfl/conv/Conv_output_0",
+    "Dimensions": [1,1,4,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/dfl/Reshape_1_output_0",
+    "Dimensions": [1,4,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Slice",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/dfl/Reshape_1_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Slice_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.23/Slice_1",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/dfl/Reshape_1_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Slice_1_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.23/Constant_12_output_0",
+  "LayerType": "Constant",
+  "Inputs": [],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 302) [Constant]_output",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Constant",
+  "weights": {"Type": "Float", "Count": 10080},
+  "dimensions": [1,2,5040],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Sub",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 302) [Constant]_output",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  },
+  {
+    "Name": "/model.23/Slice_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Sub_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUB",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.23/Constant_13_output_0",
+  "LayerType": "Constant",
+  "Inputs": [],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 304) [Constant]_output",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Constant",
+  "weights": {"Type": "Float", "Count": 10080},
+  "dimensions": [1,2,5040],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Add_1",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 304) [Constant]_output",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  },
+  {
+    "Name": "/model.23/Slice_1_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Add_1_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.23/Add_2",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.23/Sub_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  },
+  {
+    "Name": "/model.23/Add_1_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Add_2_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUM",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.23/Constant_14_output_0 + (Unnamed Layer* 308) [Shuffle]",
+  "LayerType": "Constant",
+  "Inputs": [],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 308) [Shuffle]_output",
+    "Dimensions": [1,1,1],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Constant",
+  "weights": {"Type": "Float", "Count": 1},
+  "dimensions": [1,1,1],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Div_1",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.23/Add_2_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  },
+  {
+    "Name": "(Unnamed Layer* 308) [Shuffle]_output",
+    "Dimensions": [1,1,1],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Div_1_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "DIV",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.23/Sub_1",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.23/Add_1_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  },
+  {
+    "Name": "/model.23/Sub_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Sub_1_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "SUB",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "/model.23/Div_1_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/Div_1_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Concat_2_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.23/Sub_1_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/Sub_1_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Concat_2_output_0",
+    "Dimensions": [1,2,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.23/Constant_15_output_0 + (Unnamed Layer* 313) [Shuffle]",
+  "LayerType": "Constant",
+  "Inputs": [],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 313) [Shuffle]_output",
+    "Dimensions": [1,1,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "Constant",
+  "weights": {"Type": "Float", "Count": 5040},
+  "dimensions": [1,1,5040],
+  "TacticValue": "0x0"
+},{
+  "Name": "/model.23/Mul_2",
+  "LayerType": "ElementWise",
+  "Inputs": [
+  {
+    "Name": "/model.23/Concat_2_output_0",
+    "Dimensions": [1,4,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  },
+  {
+    "Name": "(Unnamed Layer* 313) [Shuffle]_output",
+    "Dimensions": [1,1,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Mul_2_output_0",
+    "Dimensions": [1,4,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "ElementWise",
+  "ElementWiseOperation": "PROD",
+  "relu": 0,
+  "TacticValue": "0x1"
+},{
+  "Name": "PWN(/model.23/Sigmoid)",
+  "LayerType": "PointWise",
+  "Inputs": [
+  {
+    "Name": "/model.23/Concat_1_output_0",
+    "Dimensions": [1,5,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/model.23/Sigmoid_output_0",
+    "Dimensions": [1,5,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "ParameterType": "PointWise",
+  "ParameterSubType": "VirtualMachineProgram",
+  "NbInputs": 1,
+  "NbRegisters": 4,
+  "NbConstants": 0,
+  "Constants": [],
+  "NbInstructions": 1,
+  "Instructions": ["SIGMOID 0 0"],
+  "TacticValue": "0x200"
+},{
+  "Name": "/model.23/Mul_2_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/Mul_2_output_0",
+    "Dimensions": [1,4,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "output0",
+    "Dimensions": [1,4,5040],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x3ea"
+},{
+  "Name": "/model.23/Sigmoid_output_0 copy",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/model.23/Sigmoid_output_0",
+    "Dimensions": [1,5,5040],
+    "Format/Datatype": "Row major linear FP16 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "output0",
+    "Dimensions": [1,5,5040],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "CONCAT",
+  "TacticValue": "0x3ea"
+}],
+"Bindings": ["images"
+,"output0"
+]}

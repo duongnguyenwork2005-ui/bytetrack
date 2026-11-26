@@ -1,0 +1,43 @@
+         570955 function calls (569917 primitive calls) in 2.656 seconds
+
+   Ordered by: cumulative time
+   List reduced from 753 to 35 due to restriction <35>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        2    0.000    0.000    2.656    1.328 run.py:132(replay)
+        2    0.000    0.000    2.643    1.322 run_tracking.py:179(track_video)
+        2    0.017    0.008    2.638    1.319 run_tracking.py:229(_vong_lap_tracker)
+      400    0.003    0.000    2.563    0.006 time_units.py:189(update)
+      400    0.013    0.000    2.560    0.006 byte_tracker.py:266(update)
+      400    0.002    0.000    1.239    0.003 byte_tracker.py:367(_first_association)
+      400    0.003    0.000    1.126    0.003 byte_tracker.py:396(_apply_matches)
+     1919    0.008    0.000    1.126    0.001 tracker_ctrv.py:220(update)
+     1925    0.004    0.000    1.122    0.001 byte_tracker.py:408(_apply_match)
+     2006    0.010    0.000    1.095    0.001 pf_ctrv.py:496(update)
+     2006    0.049    0.000    1.084    0.001 pf_ctrv.py:364(update_particles)
+     1919    0.012    0.000    1.067    0.001 byte_tracker.py:129(update)
+      400    0.002    0.000    0.746    0.002 run_tracking.py:168(timed)
+      400    0.002    0.000    0.744    0.002 time_units.py:201(multi_predict)
+      400    0.003    0.000    0.743    0.002 tracker_ctrv.py:385(multi_predict)
+      400    0.082    0.000    0.740    0.002 tracker_ctrv.py:292(multi_predict)
+     4805    0.357    0.000    0.499    0.000 pf_ctrv.py:313(estimate_state)
+     2006    0.184    0.000    0.383    0.000 pf_ctrv.py:332(resample_if_needed)
+     1925    0.233    0.000    0.265    0.000 pf_ctrv.py:284(optimal_proposal_step)
+      400    0.004    0.000    0.209    0.001 byte_tracker.py:470(_init_new_tracks)
+      838    0.010    0.000    0.205    0.000 tracker_ctrv.py:278(activate)
+    10416    0.152    0.000    0.154    0.000 ekf_ctrv.py:193(normalize_angle)
+      398    0.117    0.000    0.151    0.000 pf_ctrv.py:210(f_batch)
+     8817    0.070    0.000    0.147    0.000 pf_ctrv.py:72(_logsumexp)
+     2708    0.134    0.000    0.134    0.000 pf_ctrv.py:258(sample_process_noise)
+      400    0.004    0.000    0.128    0.000 byte_tracker.py:442(_unconfirmed_association)
+     1100    0.011    0.000    0.117    0.000 matching.py:62(iou_distance)
+      700    0.003    0.000    0.117    0.000 tracker_ctrv.py:434(get_dists)
+      700    0.006    0.000    0.109    0.000 lost_association.py:159(get_dists)
+      838    0.069    0.000    0.096    0.000 pf_ctrv.py:250(sample_initial)
+    27779    0.094    0.000    0.094    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+     1485    0.018    0.000    0.086    0.000 pf_ctrv.py:79(systematic_resample)
+     2006    0.057    0.000    0.084    0.000 pf_ctrv.py:307(log_likelihood)
+      400    0.005    0.000    0.083    0.000 stracks.py:18(merge_track_pools)
+      800    0.002    0.000    0.078    0.000 byte_tracker.py:500(init_track)
+
+

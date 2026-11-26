@@ -1,0 +1,95 @@
+{
+  "round": "R73",
+  "date": "2026-11-03",
+  "decision": "User said 'thế làm nốt đi' after R72 candidate 2.0 on dev12.",
+  "hypothesis": "Increasing motion roughening from 1.0 to 2.0 improves PF tracking outside UA-DETRAC dev12.",
+  "scope": "Two previously evaluated external datasets, neither used to choose the R72 motion scale. They have been inspected in R64/R65, so not a blind final benchmark.",
+  "datasets": [
+    {
+      "name": "SVMOT test",
+      "split": "SVMOTSYS-test",
+      "videos": [
+        "seq_22_morning",
+        "seq_23_morning",
+        "seq_24_morning",
+        "seq_25_morning",
+        "seq_26_evening",
+        "seq_27_evening",
+        "seq_28_evening",
+        "seq_29_evening",
+        "seq_30_evening"
+      ],
+      "cache": "r64_svmot_yolov8n_coco_c0.05",
+      "fps": 30,
+      "reference_runs": [
+        "r64-yolov8n_coco-c25-cv",
+        "r64-yolov8n_coco-c25-ekf"
+      ],
+      "caveat": "full-image project protocol, not official SVMOT ROI protocol"
+    },
+    {
+      "name": "RoundaboutHD",
+      "split": "RoundaboutHD-prefix3000",
+      "videos": [
+        "imagesc001",
+        "imagesc002",
+        "imagesc003",
+        "imagesc004"
+      ],
+      "cache": "r64_roundabout_yolov8n_mixed5_c0.05",
+      "fps": 15,
+      "reference_runs": [
+        "r64-yolov8n_mixed5-c25-cv",
+        "r64-yolov8n_mixed5-c25-ekf"
+      ],
+      "caveat": "first 3000 frames of each camera; SCT GT excludes some parked vehicles"
+    }
+  ],
+  "tracker": {
+    "particle_count": 500,
+    "K1": true,
+    "K2": 1,
+    "box_roughening_scale": 1,
+    "motion_scales": [
+      1,
+      2
+    ],
+    "measurement_height": "observation",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "conf_min": 0.25,
+    "classes": [
+      1,
+      2,
+      3,
+      5,
+      7
+    ],
+    "max_det": 300,
+    "buffer_seconds": 1.2,
+    "elapsed_mode": "steps",
+    "association": "unchanged ByteTrack"
+  },
+  "analysis": {
+    "primary": "TrackEval COMBINED HOTA, mean over PF seeds, per dataset",
+    "secondary": [
+      "DetA",
+      "AssA",
+      "IDF1",
+      "MOTA",
+      "IDSW",
+      "per-video/scene scores"
+    ],
+    "uncertainty": "descriptive, do not claim 9 SVMOT sequences and 4 Roundabout cameras independent draws or use naive frame bootstrap",
+    "decision_rule": "If 2.0 improves both datasets without a material detection/ID penalty, consider it candidate; otherwise keep 1.0. No config change from this test alone."
+  },
+  "gates": [
+    "source cache and GT fingerprint preflight",
+    "128-frame smoke per dataset, both scales ×3 seeds",
+    "full 13 video ×2 scales×3 seeds with raw metric recomposition",
+    "compare R64 references"
+  ]
+}

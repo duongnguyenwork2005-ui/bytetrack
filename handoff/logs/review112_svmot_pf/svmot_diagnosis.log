@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review112_svmot_pf\diagnose_svmot.py", line 178, in <module>
+    main()
+  File "D:\LABOTARY\bytetrack\handoff\logs\review112_svmot_pf\diagnose_svmot.py", line 112, in main
+    ec, dc, mc = rte.build_configs(split, tracker, [video])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\src\run_trackeval.py", line 109, in build_configs
+    seq_info[v] = int(cp["Sequence"]["seqLength"])
+                      ~~^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\configparser.py", line 979, in __getitem__
+    raise KeyError(key)
+KeyError: 'Sequence'

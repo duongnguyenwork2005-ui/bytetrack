@@ -1,0 +1,9 @@
+{
+  "round": "R80",
+  "reason": "R79 max_lost=1 was bit-identical to the BDD baseline; the first effective Lost reappearance needs a larger frame gap in the current tracker lifecycle.",
+  "hypothesis": "Allow only the first eligible Lost reappearance on BDD with max_lost=2, rather than max_lost=3 in R78; this may reduce false reactivations while preserving some genuine ones.",
+  "single_candidate": {"lost_recover": "iou", "lost_recover_iou": 0.05, "max_lost_ua_frames": 3, "max_lost_bdd_frames": 2},
+  "data": "Reuse R78 UA dev12; BDD COCO-video val200, R74 cache/GT/evaluator, three seeds 0/1/2",
+  "decision_rule": "Select only if BDD mean IDSW <=6102.8 (within 10% of EKF 5548), mean HOTA and IDF1 each no more than 0.5 percentage point below PF R74, and UA R78 quality gate remains satisfied. Otherwise stop this Lost-window line and keep defaults unchanged.",
+  "limitations": "BDD val has already been inspected in R61/R74/R78/R79; this is exploratory, not an independent benchmark. PF-specific association makes an algorithm-level variant, not a pure motion-filter comparison."
+}

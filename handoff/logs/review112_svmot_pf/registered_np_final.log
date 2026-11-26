@@ -1,0 +1,19 @@
+PASS conditional Kalman reference, 30 prediction/update pairs
+PASS angle wrap, missing observations, covariance PSD, exact repeat
+PASS normal registry prefix np base 0
+PASS normal registry prefix np candidate 0
+PASS normal registry prefix np base 1
+PASS normal registry prefix np candidate 1
+PASS normal registry prefix np base 2
+PASS normal registry prefix np candidate 2
+PASS incompatible configuration rejection np
+[run_tracking] cache=yolov8n-coco_conf0.05_all tracker=bytetrack_rbpf_ctrv yaml=D:\LABOTARY\bytetrack\configs\phase2\trackers\r112\rbpf500.yaml conf>0.25 classes=[2, 3, 5, 7] max_det=300 fps=25.0 track_buffer=30 elapsed=skip seeds=[0, 1, 2]
+  rbpf-s0                      MVI_20052        694 frame ->   8,108 bbox   88 track  predict 16.57 ms/frame  assoc 32.84  (34.6s, 20 fps)
+  rbpf-s0                        1 video moi,   0 tai su dung
+  rbpf-s1                      MVI_20052        694 frame ->   8,108 bbox   88 track  predict 14.59 ms/frame  assoc 29.20  (30.6s, 23 fps)
+  rbpf-s1                        1 video moi,   0 tai su dung
+  rbpf-s2                      MVI_20052        694 frame ->   8,107 bbox   89 track  predict 14.94 ms/frame  assoc 29.76  (31.3s, 22 fps)
+  rbpf-s2                        1 video moi,   0 tai su dung
+PASS full CLI parity np 0 694
+PASS full CLI parity np 1 694
+PASS full CLI parity np 2 694

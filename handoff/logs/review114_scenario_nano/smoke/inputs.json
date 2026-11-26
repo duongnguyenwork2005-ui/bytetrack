@@ -1,0 +1,55 @@
+{
+  "sample": [
+    {
+      "dataset": "bdd",
+      "name": "b1c81faa-c80764c5",
+      "seq_length": 202,
+      "first": 27,
+      "last": 176,
+      "n_frames": 150,
+      "first_file": "b1c81faa-c80764c5-0000027.jpg",
+      "last_file": "b1c81faa-c80764c5-0000176.jpg"
+    },
+    {
+      "dataset": "ua",
+      "name": "MVI_39031",
+      "seq_length": 1470,
+      "first": 661,
+      "last": 810,
+      "n_frames": 150,
+      "first_file": "img00661.jpg",
+      "last_file": "img00810.jpg"
+    }
+  ],
+  "methods": [
+    "kf",
+    "ekf",
+    "ukf",
+    "rbpf"
+  ],
+  "warmup": 25,
+  "rbpf_seed": 0,
+  "hardware_start": {
+    "boot": "bf65d984-6fc3-4764-8f56-a0dfe921bf96",
+    "sd_errors": "0",
+    "swap_mib": 0.0
+  },
+  "code_sha256": {
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/pipeline_package/src/nano_live.py": "864fa6b12f191432c73608cd9304bc5abdd4e8a0be5ca3dbc2eeaa345ead76c8",
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/pipeline_package/src/nano_detector.py": "71bd3f922a0d9c59378e02b7425dd210d742131bbebe54e99e0ba4bd4acad173",
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/pipeline_package/src/nano_detect_stream.py": "f583be199edbcbe410be5d3092b79bfe198e400f3a2f7aa13b2609127bbeed36",
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/pipeline_package/src/run_tracking.py": "a7a22f02ef5a30d687b076d79eb12c3151fd649ad39b43da075b486f8b75ab3b",
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/pipeline_package/src/pf_ctrv.py": "8cc4a895ec2e811d62b9f6ef06eb03e1e30bd41bdd6227321e0f966aaeb1ce58",
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/pipeline_package/src/rbpf_ctrv.py": "aeb9972aff5d44a91d0c13beb4580aa54da751a869bcad7eb0437cfdc84f8536",
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/pipeline_package/src/tracker_ctrv.py": "fa0bcbdfd6062b239083122588acf38a0fb692db44b63a65b54f90530799d3e1",
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/pipeline_package/src/ekf_ctrv.py": "b516781efa01f473a8be056e33955385b90f7fdaf479c7c907f1eb648159186c",
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/pipeline_package/src/ukf_ctrv.py": "2d59daf4794d8039cce99991609b3d2909393ff4cf4919af89a382305c414f0d"
+  },
+  "config_sha256": {
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/overlay/bytetrack_ekf_ctrv.yaml": "2c35f2da40c56d1d85125db927dd8f0c7296d3cd4408fba3b24d945c6504ab69",
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/overlay/bytetrack_ukf_ctrv.yaml": "5d1286e41ebe8f76f94045ea36ba57571efcf73633e7039bb29ab96366b45661",
+    "/home/jetson/nano_run/r114_scenario_nano_20261118/overlay/rbpf500.yaml": "4788f136d9765aaad52ac027f93bde41291f70a310e9b2dabf4e9111dc2d1e10"
+  },
+  "source_run": "/home/jetson/nano_run/r109_full80_20261117/results",
+  "numpy": "1.24.4"
+}

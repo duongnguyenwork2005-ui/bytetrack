@@ -1,0 +1,12 @@
+PASS conditional Kalman reference, 30 prediction/update pairs
+PASS angle wrap, missing observations, covariance PSD, exact repeat
+PASS normal registry prefix ultralytics base 0
+PASS normal registry prefix ultralytics candidate 0
+PASS normal registry prefix ultralytics base 1
+PASS normal registry prefix ultralytics candidate 1
+PASS normal registry prefix ultralytics base 2
+PASS normal registry prefix ultralytics candidate 2
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review112_svmot_pf\test_registered.py", line 46, in <module>
+    RBPFByteTracker(bad, frame_rate=30)
+TypeError: BYTETracker.__init__() got an unexpected keyword argument 'frame_rate'

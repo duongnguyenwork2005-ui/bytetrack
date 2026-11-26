@@ -1,0 +1,23 @@
+\chapter{Mở đầu}
+\section{Một lần mất dấu ở giao lộ}
+Xét hai xe máy đi sát nhau trước đầu xe buýt. Ở khung hình đầu, cả hai xe máy đều có hộp phát hiện. Vài khung hình sau, xe buýt che một xe máy đang rẽ. Khi xe này xuất hiện trở lại, bộ phát hiện có thể vẽ đúng hộp bao quanh nó mà hệ thống vẫn gán sai mã định danh. Với bài toán đếm phương tiện, một hành trình có thể bị đếm hai lần. Với bài toán khôi phục quỹ đạo, đoạn trước và sau xe buýt sẽ thuộc hai bản ghi khác nhau. Đây là tình huống minh họa cho sự khác nhau giữa phát hiện một xe và theo dõi cùng một xe qua thời gian.
+
+Trong khoảng bị che, hệ thống có hai nguồn thông tin. Trạng thái tích lũy trước đó cho biết xe có khả năng đi đâu. Hộp phát hiện mới, nếu có, cho biết phương tiện có thể đang ở vị trí nào. ByteTrack nối hai nguồn thông tin bằng phép ghép quỹ đạo với phát hiện \cite{zhang2022bytetrack}. Bộ lọc chuyển động tham gia trực tiếp vào phép ghép qua vị trí và kích thước hộp dự đoán. Tuy nhiên một dự đoán tốt cũng có thể mất ID nếu xe khác chiếm phép ghép hoặc nếu quỹ đạo đã hết thời gian chờ.
+
+\section{Từ SORT đến câu hỏi về bộ lọc}
+SORT kết hợp bộ lọc Kalman với bài toán gán giữa các khung hình. Bewley và cộng sự chỉ ra rằng việc đổi bộ phát hiện có thể làm thay đổi đáng kể kết quả theo dõi \cite{sort}. ByteTrack mở rộng cách dùng các phát hiện bằng việc thử ghép những hộp có điểm thấp với các quỹ đạo còn đủ điều kiện. Một hộp xe bị che một phần có thể không đủ tin cậy để khởi tạo quỹ đạo nhưng vẫn giúp nối tiếp một quỹ đạo đã có. Hai nghiên cứu gợi ra hai phép đối chứng khác nhau cho khóa luận. Khi khảo sát mô hình chuyển động, cần cho các bộ lọc đọc cùng một danh sách phát hiện. Khi so sánh hai bộ theo dõi, cần giữ cùng bộ lọc và điều kiện đầu vào.
+
+Mô hình vận tốc không đổi dự đoán tâm xe tiếp tục đi theo hướng vừa quan sát. Mô hình có tốc độ quay cho phép tâm xe đi theo một cung tròn. Khả năng biểu diễn này đặc biệt đáng khảo sát ở nút giao, nhưng bản thân độ cong của mô hình chưa bảo đảm một ID sẽ được giữ lâu hơn. Tâm hộp trên ảnh còn phụ thuộc phối cảnh, góc quay camera và phần thân xe nhìn thấy. Khi xe mới xuất hiện, chỉ một phép đo vị trí không đủ xác định đồng thời hướng đi và tốc độ quay.
+
+\section{Câu hỏi và phương pháp}
+Khóa luận đặt ra ba câu hỏi. Thứ nhất, khi đầu vào phát hiện đã cố định, thay KF/CV bằng EKF, UKF hoặc PF dùng mô hình CTRV làm thay đổi chất lượng theo dõi bao nhiêu? Thứ hai, các bộ lọc có giữ ID tốt hơn khi xe đổi hướng, có khả kiến thấp hoặc thuộc lớp xe máy không? Thứ ba, có thể đạt 15 FPS trên Jetson Nano trong điều kiện nào và chất lượng phát hiện, theo dõi và độ trễ thay đổi ra sao?
+
+Để trả lời hai câu đầu, nghiên cứu lưu phát hiện theo video, phát lại chúng cho từng bộ lọc rồi chấm quỹ đạo theo cùng một bộ nhãn. Đánh giá chính sử dụng UA-DETRAC và BDD100K, hai bộ dữ liệu có điều kiện ghi hình và quy ước nhãn khác nhau \cite{detrac,bdd}. Phân tích theo tình huống dùng RoundaboutHD cho xe đổi hướng, UA-DETRAC cho che khuất và HELMET cho xe máy. SVMOT cung cấp phép đối chiếu khả kiến thấp ở miền khác. Phép thử UTUAV kiểm tra chuyển miền sang góc nhìn từ trên cao. Phép đo trên Jetson Nano dùng cùng 80 đoạn cho hai cấu hình detector và chấm đầu ra bằng nhãn gốc.
+
+\section{Đóng góp và phạm vi}
+Đóng góp thứ nhất là một đường thực nghiệm từ huấn luyện detector năm lớp đến chấm quỹ đạo. Đường này giữ được quan hệ giữa checkpoint, phát hiện theo khung hình và kết quả theo video. Đóng góp thứ hai là các phép so ghép cặp giữa bốn cấu hình chuyển động, có kiểm tra ảnh hưởng của seed đối với PF, kèm phân tích dự đoán và liên kết khi PF giảm điểm trên RoundaboutHD. Đóng góp thứ ba là phép đo trên Nano tách thời gian chạy mạng khỏi tốc độ toàn hệ thống, đi kèm đối chiếu chất lượng khi đổi hình dạng ảnh.
+
+Nghiên cứu theo dõi ID trong từng camera và ước lượng chuyển động trên mặt phẳng ảnh. Kết luận riêng về xe máy rẽ phụ thuộc số quỹ đạo có nhãn cho tình huống đó.
+
+\section{Bố cục khóa luận}
+Chương 2 trình bày mô hình chuyển động và chỉ số đánh giá. Chương 3 mô tả dữ liệu huấn luyện, các thành phần của hệ thống và giao thức. Chương 4 trình bày độ chính xác detector, kết quả theo dõi và phân tích theo tình huống. Chương 5 trình bày tối ưu Jetson Nano và đánh đổi về chất lượng, tốc độ và độ trễ. Chương 6 tổng kết kết quả và hướng phát triển.

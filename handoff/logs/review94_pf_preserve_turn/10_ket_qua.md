@@ -1,0 +1,12 @@
+# R94 — giữ vận tốc góc ẩn của PF khi chuyển tiếp thẳng qua Lost
+
+Ngày 06/11/2026. Giao thức và cổng khóa trước ở `00_protocol.md`. Camera chính của đề tài là ven đường và gắn xe; [UTUAV-B/C theo trang tác giả](https://videodatasets.org/UTUAV/) là UAV nhìn từ cao 100/120 m và chỉ dùng để khảo sát chuyển miền. R94 giữ `omega` ẩn của hạt sau một bước Lost chọn nhánh đi thẳng; vẫn dùng cùng xác suất 0,5 của R92 và không thay detection/ByteTrack/K1/K2. Tùy chọn `pf_lost_cv_preserve_omega` mặc định tắt, chỉ bật trong YAML R94. Không coi đây là IMM đầy đủ.
+
+Kiểm thử `src/r94_pf_preserve_turn/test_preserve.py` đạt: vận tốc góc được giữ đúng cho nhánh thẳng, vị trí và hướng một bước không đổi, `predict` đơn và `multi_predict` trùng hạt/K1 prior dù đảo thứ tự track. Kiểm R92 cũ vẫn đạt, và chạy lại R92 smoke UA trên mã mới tạo **6/6 tệp MOT trùng SHA** bản trước. Cả UA và BDD smoke đủ ba seed. Full UA 12 video × 3 seed có 16.919 frame mỗi seed; BDD 200 video × 3 seed có 39.973 frame mỗi seed. `audit.py` xác nhận tệp/marker đủ, giá trị MOT hữu hạn, không trùng `(frame, ID)`, số frame bằng bản đối chứng. BDD preflight kiểm SHA cache/GT nguồn R61. TrackEval chấm đủ từng video/seed, raw fields lưu ở `results/trackeval/`.
+
+Trung bình ba seed của COMBINED so PF R72/R74 motion2 → R94:
+
+- UA-DETRAC dev12, camera cố định: HOTA **57,0057% → 57,2395%**; IDF1 **68,3610% → 68,9041%**; IDSW **697 → 680**, giảm 2,44% nhưng chưa tới cổng 627,3 (giảm ≥10%); FP 13.485 → 13.409,67. Bảy video giảm IDSW, ba tăng, hai bằng; bootstrap ghép cặp video 95% cho delta [−31,67; −2,67]. R92 trước đó tốt hơn ở IDSW (642,33), nên giữ `omega` ẩn không cải thiện cơ chế R92 trên UA.
+- BDD val200, camera xe: HOTA **32,9508% → 32,9352%**; IDF1 **37,0857% → 37,0799%**; IDSW **6.291,33 → 6.296,33**, tăng 5 thay vì đạt cổng ≤6.102,59 (giảm ≥3%); FP 18.710 → 19.100,67. 83 video giảm IDSW, 88 tăng, 29 bằng; bootstrap ghép cặp video 95% cho delta [−57,67; +68,67]. R94 tốt hơn R93 về IDSW nhưng vẫn không tốt hơn PF nền.
+
+**Không qua cổng ở cả hai miền.** Không đổi cấu hình luận văn, checkpoint hay Nano. Các tập đã được xem nhiều lần nên cả kết quả và khoảng bootstrap chỉ mô tả thăm dò, không xác nhận khả năng khái quát. Cải tiến PF tiếp theo nên đo chính xác trường hợp mất ID ở lúc ghép lại và khảo sát bất định ghép cặp/khởi tạo lại track bằng dữ liệu phát triển riêng; không tiếp tục dò xác suất chuyển tiếp trên UA/BDD để lấy một con số đẹp. Dữ liệu chi tiết ở `ua_full_gate.json`, `bdd_full_gate.json`, các `*_scores.json`, `*_audit.json` và log trong thư mục này.

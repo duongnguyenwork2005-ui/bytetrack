@@ -1,0 +1,9 @@
+{
+  "round": "R79",
+  "reason": "R78 IoU Lost <=3 frames reduces UA IDSW but increases BDD IDSW; 3 frames span 0.12 s at 25 fps versus 0.6 s at 5 fps.",
+  "hypothesis": "Limit IoU Lost recovery to approximately 0.12 seconds, rounded to at least one frame. UA remains max_lost=3 and is reused unchanged; BDD uses max_lost=1 at 5 fps.",
+  "single_candidate": {"lost_recover": "iou", "lost_recover_iou": 0.05, "max_lost_ua_frames": 3, "max_lost_bdd_frames": 1},
+  "datasets": "UA-DETRAC dev12 R78 existing runs; BDD COCO-video val200 R74 detector/cache/GT/evaluator, 3 seeds 0/1/2",
+  "decision_rule": "Select only if BDD mean IDSW < 6291.3 and within 10% of EKF 5548 (<=6102.8), BDD HOTA and IDF1 each no more than 0.5 percentage point below PF R74, and UA R78 quality gate remains satisfied. Otherwise report failure and keep defaults unchanged.",
+  "interpretation": "BDD val has already been inspected in R61/R74/R78, so this is exploratory and not an independent test. Comparing PF-specific association to unchanged EKF is an algorithm-level comparison, not a pure filter comparison."
+}

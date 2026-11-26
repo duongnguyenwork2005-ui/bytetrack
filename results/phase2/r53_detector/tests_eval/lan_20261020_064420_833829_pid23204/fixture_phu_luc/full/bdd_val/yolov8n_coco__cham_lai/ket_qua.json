@@ -1,0 +1,254 @@
+{
+ "tao_luc": "2026-10-20T06:44:28",
+ "quy_tac": {
+  "du_doan": {
+   "imgsz": 640,
+   "conf": 0.001,
+   "iou_nms": 0.7,
+   "max_det": 300,
+   "agnostic_nms": false,
+   "half": false,
+   "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+  },
+  "ghep": "COCO (pycocotools evaluateImg): conf giam dan (mergesort) trong (anh, lop); GT chua ghep co IoU cao nhat >= nguong, HOA IoU -> GT SAU trong thu tu duyet; IoU tinh nhu bbIou cua pycocotools (tu xywh)",
+  "bo_qua": "detection khong ghep ma IoA voi vung to xam >= nguong -> bo qua (nhu crowd cua COCO)",
+  "ap": "10 nguong IoU 0.50:0.05:0.95, noi suy 101 diem recall (COCO); lop khong co GT -> null",
+  "van_hanh": {
+   "conf": 0.25,
+   "iou": 0.5
+  },
+  "gop_lop": "KHONG -- moi so lieu theo lop; macro = trung binh cac lop co GT"
+ },
+ "quy_tac_gt": {
+  "nguon": "COCO-video val cua du an (khong native); iscrowd / ignore giu nguyen",
+  "gan_nhan": "car/truck/bus/motorcycle/bicycle, khong crowd, khong ignore -> GT lop 0..4 (bdd_yolo_export.vai_tro)",
+  "vung_bo_qua": "crowd/iscrowd cua 5 lop + distractor nhom xe (ignore=1 voi car/truck) -> vung bo qua (vai_tro)",
+  "lop_khac": "pedestrian, rider, train, other person -> khong GT, khong vung bo qua",
+  "box": "cat vao khung anh; < 1 px sau cat -> bo (bdd_yolo_export._hop_le_box); pixel theo kich thuoc anh thuc",
+  "anh": "moi anh trong file nhan cua 200 video manifest, ke ca anh khong annotation; khong to xam anh"
+ },
+ "dataset": {
+  "ten": "bdd100k_mot_val_cocovid",
+  "n_anh": 6,
+  "gioi_han_anh": 0,
+  "dataset_da_xac_minh": {
+   "nhan": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064420_833829_pid23204\\fixture_phu_luc\\fx_bdd\\nhan.json",
+   "nhan_sha256": "8de9eae9f70069382ed0951db539de049d39a0115ebf12f34dc1a03f10e45c2c",
+   "manifest": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064420_833829_pid23204\\fixture_phu_luc\\fx_bdd\\manifest.json",
+   "manifest_sha256": "08fb53415b73ab3a249aa9bcc7a4b70a8443aaa97937b97bda4b62e2c8c5e45c",
+   "anh_goc": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064420_833829_pid23204\\fixture_phu_luc\\fx_bdd\\anh",
+   "so_video": 2,
+   "danh_sach_anh_sha256": "6d59e9ee9072a5a840dc9511100e195e04bd6f6a95af3451799b3d9cf88523e5",
+   "dem": {
+    "anh": 6,
+    "anh_khong_annotation": 1,
+    "anh_khong_gt_5_lop": 2,
+    "anh_co_vung_bo_qua": 1,
+    "gt_theo_lop": {
+     "car": 1,
+     "truck": 1,
+     "bus": 1,
+     "motorcycle": 1,
+     "bicycle": 1
+    },
+    "vung_bo_qua": 1,
+    "annotation_lop_khac": 1,
+    "box_nho_hon_1px_sau_cat": 0,
+    "vung_bo_qua_rong": 0,
+    "box_bi_cat_vao_khung": 0
+   },
+   "sequence_da_xem_truoc": null,
+   "ghi_chu_manifest": null,
+   "noi_dung_anh_sha256_tong_hop": "2bddc52f9df047a2fb14b20bd6c794f5514882b477eba53fa206342ede283f10",
+   "doi_chieu_hash_anh": {
+    "file": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064420_833829_pid23204\\fixture_phu_luc\\fx_bdd\\hash.csv",
+    "file_sha256": "62346ed7cbcc09ac19e2a6cdfa43d915578e22c003f626249d6db35324f0bf89",
+    "so_anh_bang_hash": 6,
+    "khop": 6,
+    "lech": []
+   }
+  }
+ },
+ "lenh": [
+  "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+  "--buoc",
+  "cham-lai-bdd",
+  "--model",
+  "yolov8n_coco"
+ ],
+ "mo_hinh": {
+  "yolov8n_coco": {
+   "checkpoint": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064420_833829_pid23204\\fixture_phu_luc\\models\\yolov8n_coco.pt",
+   "sha256": "d15530b8ebbf6adc4823e3e7691dea867b788e87b55838682f0e774f895fc952",
+   "so_anh_da_du_doan": 6,
+   "chan_doan": {
+    "so_anh_khong_gt_5_lop": 2,
+    "so_det_conf_ge_0.25_tren_anh_khong_gt": 6
+   },
+   "theo_lop": {
+    "car": {
+     "n_gt": 1,
+     "n_anh_co_lop": 1,
+     "n_det_conf_thap": 6,
+     "AP50": 0.0,
+     "AP75": 0.0,
+     "AP50_95": 0.0,
+     "van_hanh": {
+      "TP": 0,
+      "FP": 6,
+      "FN": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+     }
+    },
+    "truck": {
+     "n_gt": 1,
+     "n_anh_co_lop": 1,
+     "n_det_conf_thap": 6,
+     "AP50": 0.0,
+     "AP75": 0.0,
+     "AP50_95": 0.0,
+     "van_hanh": {
+      "TP": 0,
+      "FP": 6,
+      "FN": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+     }
+    },
+    "bus": {
+     "n_gt": 1,
+     "n_anh_co_lop": 1,
+     "n_det_conf_thap": 6,
+     "AP50": 0.0,
+     "AP75": 0.0,
+     "AP50_95": 0.0,
+     "van_hanh": {
+      "TP": 0,
+      "FP": 6,
+      "FN": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+     }
+    },
+    "motorcycle": {
+     "n_gt": 1,
+     "n_anh_co_lop": 1,
+     "n_det_conf_thap": 0,
+     "AP50": 0.0,
+     "AP75": 0.0,
+     "AP50_95": 0.0,
+     "van_hanh": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 1,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0
+     }
+    },
+    "bicycle": {
+     "n_gt": 1,
+     "n_anh_co_lop": 1,
+     "n_det_conf_thap": 0,
+     "AP50": 0.0,
+     "AP75": 0.0,
+     "AP50_95": 0.0,
+     "van_hanh": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 1,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0
+     }
+    }
+   },
+   "macro": {
+    "so_lop_co_gt": 5,
+    "lop_khong_co_gt": [],
+    "mAP50": 0.0,
+    "mAP50_95": 0.0,
+    "precision_vh": 0.0,
+    "recall_vh": 0.0
+   },
+   "n_anh": 6,
+   "van_hanh": {
+    "conf": 0.25,
+    "iou": 0.5
+   },
+   "npz": "results/phase2/r53_detector/tests_eval/lan_20261020_064420_833829_pid23204/fixture_phu_luc/full/bdd_val/yolov8n_coco/du_doan_yolov8n_coco.npz",
+   "npz_sha256": "1a693d13afe579da4afc4d717ebfa3e0b06b7c79cdf45b13f15ebdbd99f39fbf"
+  }
+ },
+ "cham_lai": {
+  "canh_bao": "CHAM LAI tu NPZ da luu, khong suy luan; khong phai bang so sanh detector",
+  "thu_muc_vao": "results/phase2/r53_detector/tests_eval/lan_20261020_064420_833829_pid23204/fixture_phu_luc/full/bdd_val/yolov8n_coco",
+  "npz_sha256": "1a693d13afe579da4afc4d717ebfa3e0b06b7c79cdf45b13f15ebdbd99f39fbf",
+  "bang_chung_npz": "results/phase2/r53_detector/tests_eval/lan_20261020_064420_833829_pid23204/fixture_phu_luc/full/_hau_kiem/bdd_val__yolov8n_coco__npz.txt",
+  "giam_sat_tom_tat": "results/phase2/r53_detector/tests_eval/lan_20261020_064420_833829_pid23204/fixture_phu_luc/full/_giam_sat/bdd_val__yolov8n_coco/tom_tat.json",
+  "lenh_goc": [
+   "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+   "-B",
+   "-u",
+   "src\\danh_gia_detector_bdd_val.py",
+   "--model",
+   "yolov8n_coco=D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064420_833829_pid23204\\fixture_phu_luc\\models\\yolov8n_coco.pt",
+   "--sha256",
+   "yolov8n_coco=d15530b8ebbf6adc4823e3e7691dea867b788e87b55838682f0e774f895fc952",
+   "--batch",
+   "16",
+   "--device",
+   "0",
+   "--conf-van-hanh",
+   "0.25",
+   "--gioi-han-anh",
+   "0",
+   "--out",
+   "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064420_833829_pid23204\\fixture_phu_luc\\full\\bdd_val\\yolov8n_coco",
+   "--nhan-cocovid",
+   "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064420_833829_pid23204\\fixture_phu_luc\\fx_bdd\\nhan.json",
+   "--anh-goc",
+   "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064420_833829_pid23204\\fixture_phu_luc\\fx_bdd\\anh",
+   "--manifest-video",
+   "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064420_833829_pid23204\\fixture_phu_luc\\fx_bdd\\manifest.json",
+   "--hash-anh",
+   "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_064420_833829_pid23204\\fixture_phu_luc\\fx_bdd\\hash.csv"
+  ],
+  "exit_goc": 1,
+  "ham": [
+   "danh_gia_detector_bdd_val.kiem_va_doc_gt",
+   "danh_gia_detector_detrac_test.doc_du_doan",
+   "danh_gia_detector_bdd_val.quy_tac_hieu_luc(0.25)",
+   "eval_detector_5lop.danh_gia",
+   "danh_gia_detector_bdd_val.chan_doan"
+  ],
+  "goi_suy_luan": 0,
+  "module_da_nap": {
+   "ultralytics": false,
+   "torch": false
+  },
+  "khoa": {
+   "chuoi": [
+    "khoa_goc",
+    "phu_luc_1",
+    "phu_luc_2"
+   ],
+   "sha256sums_sha256": "09846c2ff324cab7dcfbe59c3f7abb23e9db89270acf04db89b474546d98aef0"
+  },
+  "dau_vao_sha256": {
+   "D:/LABOTARY/bytetrack/results/phase2/r53_detector/tests_eval/lan_20261020_064420_833829_pid23204/fixture_phu_luc/full/bdd_val/yolov8n_coco/du_doan_yolov8n_coco.npz": "1a693d13afe579da4afc4d717ebfa3e0b06b7c79cdf45b13f15ebdbd99f39fbf",
+   "D:/LABOTARY/bytetrack/results/phase2/r53_detector/tests_eval/lan_20261020_064420_833829_pid23204/fixture_phu_luc/full/_hau_kiem/bdd_val__yolov8n_coco__npz.txt": "5a32636597dc2fe9aeaeea4acede11d914d5579683916eb03a74fd997d628d4e",
+   "D:/LABOTARY/bytetrack/results/phase2/r53_detector/tests_eval/lan_20261020_064420_833829_pid23204/fixture_phu_luc/full/_giam_sat/bdd_val__yolov8n_coco/tom_tat.json": "64f1d34f9fc45b223ac896270504e02cc606a247da8bb257cd03e260216bef60"
+  },
+  "dau_vao_khong_doi": true,
+  "truong_khong_tu_npz": [
+   "anh_xa_lop",
+   "thoi_gian_s"
+  ],
+  "thoi_gian_kiem_du_lieu_s": 0.0
+ }
+}

@@ -1,0 +1,424 @@
+"""
+run_tracking.py -- Chay tracker tren DETECTION CACHE (khong chay detector).
+
+Duong chay Y HET callback cua ultralytics (trackers/track.py,
+on_predict_postprocess_end): `det = result.boxes.cpu().numpy()` roi
+`tracker.update(det, orig_img)`. O day `det` duoc boi lai tu cache bang
+det_cache.to_boxes() (float32, thu tu NMS) va `orig_img = None` (ByteTrack
+khong dung anh). Frame khong co detection VAN goi update voi Boxes rong (nhu
+model.track van goi callback) de frame_id tang deu. Ket qua tracker (mang
+[x1,y1,x2,y2,id,score,cls,idx]) ghi ra MOTChallenge 7 cot y het
+baseline_track.py (xem test_run_tracking_replay.py: bit-identical khi cung
+detection).
+
+QUY TAC DE TAI LAP
+    - Moi (tracker, seed, video) MOT tracker moi: bo dem track_id cua ultralytics
+      la toan cuc, xen ke hai tracker se cap ID chen nhau.
+    - Tracker xac dinh (cv / ekf / ukf / sort) chay 1 lan du co nhieu seed; tracker
+      ngau nhien (pf) chay moi seed mot lan, thu muc them hau to -s<seed>.
+    - `--elapsed-mode skip` (mac dinh, tai lap baseline): frame khong doc duoc bi
+      bo qua hoan toan nhu baseline_track.py. `--elapsed-mode steps`: so buoc da
+      troi qua (tu time_s cua cache) duoc dua vao update(n_steps=k) - xem time_units.py.
+
+THU MUC KET QUA
+    data/processed/trackers/<split>/<tracker_name>/
+        data/<video>.txt        frame,id,x,y,w,h,conf   (TrackEval + occlusion_eval doc)
+        data_cls/<video>.csv    frame,id,cls            (tach theo lop cho BDD100K)
+        timing/<video>.csv      frame,n_steps,n_tracks,n_dets,t_predict_ms,t_assoc_ms,t_update_ms
+        run_meta.json           cache_id, yaml (sha), override, seed, elapsed_mode, commit, phien ban
+
+CACH DUNG
+    python src/run_tracking.py --cache-id yolov8n-coco_conf0.05_all --split-name DETRAC-test \
+        --tracker-yaml configs/bytetrack_ekf_ctrv.yaml --tracker-name p2-ekf --videos MVI_39031 --conf-min 0.25
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import config  # noqa: E402
+import det_cache  # noqa: E402
+import run_state  # noqa: E402
+import tracker_ctrv  # noqa: E402
+import ul_backend  # noqa: E402
+from time_units import steps_between, track_buffer_frames, with_elapsed_steps  # noqa: E402
+
+# Backend `np` (Jetson Nano) khong co ultralytics -> khong duoc import o muc module.
+# `IterableSimpleNamespace` chi dung lam kieu tra ve; `ul_backend._Cfg` thay the tuong duong.
+if ul_backend.backend_name() == "np":
+    from ul_backend import _Cfg as IterableSimpleNamespace  # noqa: E402
+    YAML = None
+else:
+    from ultralytics.utils import IterableSimpleNamespace, YAML  # noqa: E402
+
+#: True khi chay backend NumPy (khong co torch/ultralytics). Doc MOT LAN luc import.
+_BACKEND_NP = ul_backend.backend_name() == "np"
+
+#: tracker_type ma output phu thuoc seed (chay moi seed mot lan)
+STOCHASTIC_TRACKERS = {"bytetrack_pf_ctrv"}
+TRK_COLS = ["frame", "id", "bb_left", "bb_top", "bb_width", "bb_height", "conf"]
+
+
+def tracker_registry() -> dict:
+    """tracker_type -> lop tracker. Gom ultralytics TRACKER_MAP + CTRV + SORT (neu co).
+
+    Backend `np`: chi CV + EKF-CTRV (pham vi da chot), lay tu `bytetrack_np.tracker_registry_np()`.
+    """
+    if ul_backend.backend_name() == "np":
+        import bytetrack_np
+        return bytetrack_np.tracker_registry_np()
+    tracker_ctrv.register()
+    from ultralytics.trackers.track import TRACKER_MAP
+    reg = dict(TRACKER_MAP)
+    try:
+        import sort_tracker
+        reg.update(sort_tracker.SORT_TRACKERS)
+    except ImportError:
+        pass
+    return reg
+
+
+def resolve_tracker_yaml(yaml_path: str | Path) -> str:
+    """Duong dan THUC cua cau hinh tracker -- resolver DUY NHAT, biet backend.
+
+    Ca CLI lan `run_experiment.stage_track` dung ham nay de HASH file cau hinh, nen no phai chay duoc
+    tren backend `np` (khong co ultralytics) -- review vong 5, P1-A. `load_tracker_cfg` nap tu dung
+    duong dan ham nay tra ve, nho vay file duoc HASH dung la file duoc NAP.
+    """
+    if ul_backend.backend_name() == "np":
+        return str(ul_backend.resolve_tracker_yaml_np(yaml_path))
+    from ultralytics.utils.checks import check_yaml
+    return str(check_yaml(str(yaml_path)))
+
+
+def load_tracker_cfg(yaml_path: str | Path, overrides: dict | None = None) -> IterableSimpleNamespace:
+    """Nap cau hinh tracker tu DUNG file `resolve_tracker_yaml` tra ve (ca hai backend)."""
+    if ul_backend.backend_name() == "np":
+        return ul_backend.load_tracker_cfg_np(yaml_path, overrides)
+    d = YAML.load(resolve_tracker_yaml(yaml_path))
+    for k, v in (overrides or {}).items():
+        d[k] = v
+    return IterableSimpleNamespace(**d)
+
+
+def cfg_to_dict(cfg) -> dict:
+    """Cau hinh HIEU LUC duoi dang mapping (dung cho metadata va dau van tay), ca hai backend."""
+    return ul_backend.as_mapping(cfg)
+
+
+def parse_set(items: list[str] | None) -> dict:
+    """--set key=value (value: so / bool / chuoi)."""
+    out = {}
+    for it in items or []:
+        k, _, v = it.partition("=")
+        vl = v.lower()
+        if vl in ("true", "false"):
+            out[k] = vl == "true"
+        else:
+            try:
+                out[k] = int(v) if v.lstrip("-").isdigit() else float(v)
+            except ValueError:
+                out[k] = v
+    return out
+
+
+def parse_class_map(s: str | None) -> dict[int, int] | None:
+    """'7:2,5:2' -> {7: 2, 5: 2}"""
+    if not s:
+        return None
+    return {int(a): int(b) for a, b in (p.split(":") for p in s.split(","))}
+
+
+def make_tracker(cfg: IterableSimpleNamespace, registry: dict | None = None, assoc_log: bool = False):
+    registry = registry or tracker_registry()
+    if cfg.tracker_type not in registry:
+        raise ValueError(f"tracker_type {cfg.tracker_type!r} khong co trong registry {sorted(registry)}")
+    cls = registry[cfg.tracker_type]
+    if getattr(cfg, "lost_no_fuse", False) or str(getattr(cfg, "lost_recover", "none")).lower() not in ("none", "false", ""):
+        from lost_recovery import with_lost_recovery    # Moc 2 C2: chi khi .yaml bat (mac dinh: khong boc)
+        cls = with_lost_recovery(cls)
+    cls = with_elapsed_steps(cls)
+    if assoc_log:
+        from assoc_log import with_assoc_log       # Moc 2: log quyet dinh ghep (khong doi hanh vi)
+        cls = with_assoc_log(cls)
+    tr = cls(args=cfg)
+    tr.reset()
+    return tr
+
+
+class _PredictTimer:
+    """Boc tracker.multi_predict de do thoi gian bo loc, khong doi hanh vi."""
+
+    def __init__(self, tracker):
+        self.tracker = tracker
+        self.t = 0.0
+        self._orig = tracker.multi_predict
+
+        def timed(tracks):
+            t0 = time.perf_counter()
+            self._orig(tracks)
+            self.t += time.perf_counter() - t0
+        tracker.multi_predict = timed
+
+    def pop(self) -> float:
+        t, self.t = self.t, 0.0
+        return t
+
+
+def track_video(vd: det_cache.VideoDetections, cfg: IterableSimpleNamespace, dt_nominal: float,
+                elapsed_mode: str = "skip", seed: int | None = None, video: str = "",
+                registry: dict | None = None, log_sink: dict | None = None, on_frame=None):
+    """Chay mot tracker moi tren toan bo frame cua `vd`. Tra ve (rows, cls_rows, timing).
+
+    `vd` la bat ky doi tuong co `iter_frames()` -> (frame_idx, t_s, unreadable, arr(n,6)) va
+    `orig_shape` (H, W): `det_cache.VideoDetections` (replay tu cache) HOAC
+    `track_video_file.LiveVideoDetections` (detector chay truc tiep tren video). Ca hai duong
+    dung CHUNG vong lap nay -> cung cach tao tracker, truyen n_steps, cap nhat vong doi.
+
+    log_sink (Moc 2, tuy chon): dict; neu co khoa "assoc_log": True thi tracker duoc boc
+    AssociationLogMixin va sau khi chay `log_sink["assoc_log"]` = AssocLog; neu "pf_diag": True
+    (tracker PF) thi `log_sink["pf_diag"]` = DataFrame chan doan particle; luon dat
+    `log_sink["tracker"]` = tracker (de test doc trang thai cuoi).
+
+    on_frame (moc he thong PC, tuy chon): callable(frame_idx, out) goi SAU moi `tracker.update`
+    voi `out` = mang (n, 7+) [x1,y1,x2,y2,id,conf,cls,...] cua frame do -- de hien thi / ghi video.
+    Tra ve False de DUNG som (nguoi dung bam thoat); ket qua da tich luy van duoc tra ve.
+    Mac dinh None: hanh vi y het truoc.
+    """
+    log_sink = log_sink if log_sink is not None else {}
+    tr = make_tracker(cfg, registry, assoc_log=bool(log_sink.get("assoc_log")))
+    if seed is not None and hasattr(tr, "set_seed"):
+        tr.set_seed(seed, video)          # PF: rng theo (seed, video, track_id)
+    if log_sink.get("pf_diag") and hasattr(tr, "kalman_filter") and hasattr(tr.kalman_filter, "enable_diag"):
+        tr.kalman_filter.enable_diag()
+    timer = _PredictTimer(tr)
+    rows, cls_rows, timing = [], [], []
+    # Giu generator de DONG TUONG MINH khi dung som (on_frame tra False -> break): adapter live chot
+    # timing cua frame cuoi trong `finally` quanh `yield`, nen phai close() ngay tai day, khong cho
+    # thu gom doi tuong (review 923305d). Voi VideoDetections (cache) close() la no-op vo hai.
+    gen = vd.iter_frames()
+    try:
+        _vong_lap_tracker(gen, vd, tr, timer, elapsed_mode, dt_nominal, rows, cls_rows, timing, on_frame)
+    finally:
+        close = getattr(gen, "close", None)
+        if close is not None:
+            close()
+    df = pd.DataFrame(rows, columns=TRK_COLS)
+    df_cls = pd.DataFrame(cls_rows, columns=["frame", "id", "cls"])
+    df_t = pd.DataFrame(timing, columns=["frame", "n_steps", "n_tracks", "n_dets",
+                                         "t_predict_ms", "t_assoc_ms", "t_update_ms"])
+    log_sink["tracker"] = tr
+    if log_sink.get("assoc_log"):
+        log_sink["assoc_log"] = tr.assoc_log
+    if log_sink.get("pf_diag") and hasattr(getattr(tr, "kalman_filter", None), "diag_frame"):
+        log_sink["pf_diag"] = tr.kalman_filter.diag_frame()
+    return df, df_cls, df_t
+
+
+def _vong_lap_tracker(gen, vd, tr, timer, elapsed_mode, dt_nominal, rows, cls_rows, timing, on_frame):
+    """Than vong lap cua `track_video` (tach ra de dong generator trong `finally` cua ham goi)."""
+    last_t = None
+    pending_steps = 0
+    for frame_idx, t_s, unreadable, arr in gen:
+        if unreadable:
+            if elapsed_mode == "steps":
+                pending_steps += 1        # thoi gian van troi, khong co quan sat
+            continue                      # 'skip': bo qua hoan toan nhu baseline_track.py
+        if elapsed_mode == "steps" and last_t is not None:
+            n_steps, _regular = steps_between(t_s - last_t, dt_nominal)
+        else:
+            n_steps = 1
+        pending_steps = 0
+        last_t = t_s
+        # Backend `ultralytics`: `Boxes` roi `.cpu().numpy()` y het callback goc.
+        # Backend `np`: `Detections` NumPy thuan (khong co tensor nen khong can .cpu()/.numpy()).
+        dets = (det_cache.to_boxes_np(arr, vd.orig_shape) if _BACKEND_NP
+                else det_cache.to_boxes(arr, vd.orig_shape).cpu().numpy())
+        tr.log_frame = int(frame_idx)      # chi so frame cua video (cho assoc_log / pf_diag)
+        t0 = time.perf_counter()
+        out = tr.update(dets, None, n_steps=n_steps)
+        t_update = time.perf_counter() - t0
+        t_pred = timer.pop()
+        n_tracks = len(getattr(tr, "tracked_stracks", None) or getattr(tr, "tracks", []))
+        timing.append((frame_idx, n_steps, n_tracks, len(arr),
+                       t_pred * 1e3, (t_update - t_pred) * 1e3, t_update * 1e3))
+        if len(out):
+            xyxy = out[:, :4].astype(np.float32)      # giong r.boxes.xyxy.cpu().numpy() cua baseline
+            ids = out[:, 4].astype(int)
+            confs = out[:, 5].astype(np.float32)
+            clss = out[:, 6].astype(int)
+            for (x1, y1, x2, y2), tid, cf, c in zip(xyxy, ids, confs, clss):
+                rows.append((frame_idx, int(tid), float(x1), float(y1),
+                             float(x2 - x1), float(y2 - y1), float(cf)))
+                cls_rows.append((frame_idx, int(tid), int(c)))
+        # callback SAU khi da ghi hang cua frame nay -> dung som van giu tron ket qua frame cuoi
+        if on_frame is not None and on_frame(int(frame_idx), out) is False:
+            break
+
+
+def run_video_to_dir(out_root: Path, video: str, vd, cfg, dt_nominal, elapsed_mode, seed=None,
+                     registry=None, assoc_log: bool = False, pf_diag: bool = False):
+    sink = {"assoc_log": assoc_log, "pf_diag": pf_diag}
+    df, df_cls, df_t = track_video(vd, cfg, dt_nominal, elapsed_mode, seed, video, registry, log_sink=sink)
+    (out_root / "data").mkdir(parents=True, exist_ok=True)
+    (out_root / "data_cls").mkdir(exist_ok=True)
+    (out_root / "timing").mkdir(exist_ok=True)
+    df.to_csv(out_root / "data" / f"{video}.txt", header=False, index=False)
+    df_cls.to_csv(out_root / "data_cls" / f"{video}.csv", index=False)
+    df_t.to_csv(out_root / "timing" / f"{video}.csv", index=False)
+    if assoc_log:
+        from assoc_log import save_log
+        save_log(sink["assoc_log"], out_root / "assoc_log", video)
+    if pf_diag and isinstance(sink.get("pf_diag"), pd.DataFrame):
+        (out_root / "pf_diag").mkdir(exist_ok=True)
+        sink["pf_diag"].to_csv(out_root / "pf_diag" / f"{video}.csv", index=False)
+    return df, df_t
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description="Chay tracker tren detection cache")
+    ap.add_argument("--cache-id", required=True)
+    ap.add_argument("--split-name", required=True, help="split GT (thu muc data/processed/<split>)")
+    ap.add_argument("--tracker-yaml", required=True)
+    ap.add_argument("--tracker-name", required=True)
+    ap.add_argument("--videos", nargs="*", default=None)
+    ap.add_argument("--manifest", default=None)
+    ap.add_argument("--all-cached", action="store_true", help="moi video co trong cache")
+    ap.add_argument("--conf-min", type=float, default=0.25, help="loc detection > conf (dieu kien A=0.25, B=0.10)")
+    ap.add_argument("--classes", nargs="*", type=int, default=[2, 3, 5, 7])
+    ap.add_argument("--all-classes", action="store_true")
+    ap.add_argument("--class-map", default=None, help="vd '7:2,5:2' gop lop truoc khi vao tracker")
+    ap.add_argument("--max-det", type=int, default=300)
+    ap.add_argument("--fps", type=float, default=None, help="mac dinh: theo dataset trong meta cache")
+    ap.add_argument("--track-buffer-sec", type=float, default=None, help="doi sang buoc theo fps, ghi de yaml")
+    ap.add_argument("--set", nargs="*", default=None, help="ghi de khoa yaml: key=value")
+    ap.add_argument("--seeds", nargs="*", type=int, default=None)
+    ap.add_argument("--elapsed-mode", choices=["skip", "steps"], default="skip")
+    ap.add_argument("--allow-truncated", action="store_true")
+    ap.add_argument("--skip-existing", action="store_true")
+    ap.add_argument("--assoc-log", action="store_true", help="ghi assoc_log/<video>_*.parquet (Moc 2)")
+    ap.add_argument("--pf-diag", action="store_true", help="ghi pf_diag/<video>.csv (PF)")
+    args = ap.parse_args()
+
+    cache_dir = det_cache.CACHE_ROOT / args.cache_id
+    meta = det_cache.load_meta(cache_dir)
+    if args.videos:
+        videos = args.videos
+    elif args.manifest:
+        videos = json.loads(Path(args.manifest).read_text(encoding="utf-8"))["videos"]
+    elif args.all_cached:
+        videos = sorted(p.stem for p in cache_dir.glob("*.npz"))
+    else:
+        print("[ERROR] Can --videos, --manifest hoac --all-cached"); return 1
+
+    fps = args.fps
+    if fps is None:
+        from mot_datasets import get_dataset
+        fps = get_dataset(meta["dataset"]).fps
+    dt_nominal = 1.0 / fps
+
+    overrides = parse_set(args.set)
+    if args.track_buffer_sec is not None:
+        overrides["track_buffer"] = track_buffer_frames(args.track_buffer_sec, fps)
+    cfg = load_tracker_cfg(args.tracker_yaml, overrides)
+    registry = tracker_registry()
+    classes = None if args.all_classes else args.classes
+    class_map = parse_class_map(args.class_map)
+    stochastic = cfg.tracker_type in STOCHASTIC_TRACKERS
+    seeds = args.seeds if (stochastic and args.seeds) else [None]
+    if stochastic and not args.seeds:
+        seeds = [int(getattr(cfg, "pf_seed", 0))]
+
+    yaml_sha = hashlib.sha256(Path(resolve_tracker_yaml(args.tracker_yaml)).read_bytes()).hexdigest()[:12]
+    print(f"[run_tracking] cache={args.cache_id} tracker={cfg.tracker_type} yaml={args.tracker_yaml} "
+          f"conf>{args.conf_min} classes={classes} max_det={args.max_det} fps={fps} "
+          f"track_buffer={cfg.track_buffer} elapsed={args.elapsed_mode} seeds={seeds}")
+    for seed in seeds:
+        name = args.tracker_name + (f"-s{seed}" if seed is not None else "")
+        out_root = config.PROCESSED_DIR / "trackers" / args.split_name / name
+        out_root.mkdir(parents=True, exist_ok=True)
+        # F3: backend TRACKER tuong minh (khac `cache_meta.backend` = backend DETECTOR cua cache).
+        import run_fingerprint as _fp
+        code_fp = _fp.code_fingerprint()
+        run_meta = {"tracker_backend": code_fp["backend"]["backend"], "code": code_fp,
+                    "cache_id": args.cache_id, "cache_meta": meta, "tracker_yaml": str(args.tracker_yaml),
+                    "tracker_yaml_sha256_12": yaml_sha, "tracker_cfg": cfg_to_dict(cfg), "overrides": overrides,
+                    "conf_min": args.conf_min, "classes": classes, "class_map": class_map,
+                    "max_det": args.max_det, "fps": fps, "dt_nominal_s": dt_nominal,
+                    "track_buffer_frames": int(cfg.track_buffer),
+                    "track_buffer_sec": round(int(cfg.track_buffer) / fps, 4),
+                    "elapsed_mode": args.elapsed_mode, "seed": seed,
+                    "git_commit": det_cache.git_commit(), "created": time.strftime("%Y-%m-%dT%H:%M:%S")}
+        # F2 (review vong 6): CUNG chinh sach resume voi `stage_track` - chi tai su dung khi co BANG
+        # CHUNG HOAN TAT va dau van tay khop. Truoc day CLI ghi metadata moi TRUOC vong lap roi bo qua
+        # video chi vi file tracking ton tai => output cu bi gan cau hinh moi.
+        run_meta["input_fingerprint"] = _fp.sha256_obj({
+            "tracker_cfg": cfg_to_dict(cfg), "tracker_yaml_sha256_12": yaml_sha, "overrides": overrides,
+            "conf_min": args.conf_min, "classes": classes, "class_map": class_map,
+            "max_det": args.max_det, "elapsed_mode": args.elapsed_mode, "fps": fps, "seed": seed,
+            "assoc_log": bool(args.assoc_log), "pf_diag": bool(args.pf_diag),
+            "cache": _fp.cache_fingerprint(args.cache_id, videos), "sequences": list(videos),
+            "code": code_fp})
+        fingerprint = run_meta["input_fingerprint"]
+        meta_path = out_root / "run_meta.json"
+        plan_reuse, plan_run, reasons = run_state.plan_videos(out_root, videos, fingerprint,
+                                                              args.skip_existing)
+        for v, why in reasons.items():
+            if (out_root / "data" / f"{v}.txt").exists():
+                print(f"  {name:<28} {v:<14} CHAY LAI (ghi de): {why}")
+        for v in plan_reuse:
+            print(f"  {name:<28} {v:<14} [TAI SU DUNG] bang chung hoan tat + dau van tay khop")
+        if plan_run:
+            # danh dau DANG CHAY truoc khi ghi de bat ky dau ra nao (va GIU provenance goc neu
+            # dau van tay khong doi)
+            run_meta = run_state.mark_run_started(meta_path, run_meta)
+        else:
+            run_state.mark_run_finished(meta_path, run_meta, 0, len(plan_reuse), videos,
+                                        det_cache.git_commit())
+        summary = []
+        for v in plan_run:
+            vmp = run_state.video_meta_path(out_root, v)
+            if vmp.exists():
+                vmp.unlink()          # dau ra cu khong con dung -> xoa bang chung truoc khi ghi de
+            vd = det_cache.open_cache(args.cache_id, v, args.conf_min, classes, args.max_det, class_map,
+                                      allow_truncated=args.allow_truncated)
+            t0 = time.time()
+            df, df_t = run_video_to_dir(out_root, v, vd, cfg, dt_nominal, args.elapsed_mode, seed, registry,
+                                        assoc_log=args.assoc_log, pf_diag=args.pf_diag)
+            sec = time.time() - t0
+            run_state.write_video_meta(out_root, v, fingerprint,
+                                       {"created": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                                        "git_commit": det_cache.git_commit(), "seed": seed,
+                                        "n_frames": len(vd), "n_boxes": int(len(df))})
+            n_tr = int(df["id"].nunique()) if len(df) else 0
+            print(f"  {name:<28} {v:<14} {len(vd):>5} frame -> {len(df):>7,} bbox {n_tr:>4} track  "
+                  f"predict {df_t.t_predict_ms.mean():.2f} ms/frame  assoc {df_t.t_assoc_ms.mean():.2f}  "
+                  f"({sec:.1f}s, {len(vd) / max(sec, 1e-9):.0f} fps)")
+            summary.append({"video": v, "n_frames": len(vd), "n_boxes": len(df), "n_tracks": n_tr,
+                            "predict_ms_per_frame": round(float(df_t.t_predict_ms.mean()), 4),
+                            "assoc_ms_per_frame": round(float(df_t.t_assoc_ms.mean()), 4),
+                            "update_ms_per_frame": round(float(df_t.t_update_ms.mean()), 4),
+                            "seconds": round(sec, 2)})
+        if summary:
+            # giu lai hang cua cac video DUOC TAI SU DUNG (giong stage_track), khong ghi de mat
+            old_csv = out_root / "summary.csv"
+            sdf = pd.DataFrame(summary)
+            if plan_reuse and old_csv.exists():
+                sdf = pd.concat([pd.read_csv(old_csv), sdf]).drop_duplicates("video", keep="last")
+            sdf.to_csv(old_csv, index=False)
+            run_state.mark_run_finished(meta_path, run_meta, len(summary), len(plan_reuse), videos,
+                                        det_cache.git_commit())
+        print(f"  {name:<28} {len(summary):>3} video moi, {len(plan_reuse):>3} tai su dung")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

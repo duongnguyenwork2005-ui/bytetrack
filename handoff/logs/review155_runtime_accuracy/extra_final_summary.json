@@ -1,0 +1,1593 @@
+{
+  "status": "PASS",
+  "trials": {
+    "review162_cuda_pre": {
+      "scope": "paired full80 windows,40BDD+40UA,150JPEG,25warmup,displayoff",
+      "full80_measured": true,
+      "original_detection": {
+        "images": 7190,
+        "mAP50": 0.47146726996306293,
+        "mAP50_95": 0.31984831508791156,
+        "classes": {
+          "car": {
+            "AP50": 0.8445772932098297,
+            "AP50_95": 0.5871142885959562,
+            "GT_boxes": 53204,
+            "detections_c25": 51100,
+            "TP_c25_IoU50": 41910,
+            "precision_c25": 0.8201565557729942,
+            "recall_c25": 0.787722727614465
+          },
+          "truck": {
+            "AP50": 0.44042237004268936,
+            "AP50_95": 0.3288746997145493,
+            "GT_boxes": 3054,
+            "detections_c25": 1732,
+            "TP_c25_IoU50": 1208,
+            "precision_c25": 0.6974595842956121,
+            "recall_c25": 0.39554682383759004
+          },
+          "bus": {
+            "AP50": 0.5140628132579861,
+            "AP50_95": 0.4083830116147594,
+            "GT_boxes": 1469,
+            "detections_c25": 1178,
+            "TP_c25_IoU50": 759,
+            "precision_c25": 0.6443123938879457,
+            "recall_c25": 0.5166780122532335
+          },
+          "motorcycle": {
+            "AP50": 0.34417362878117774,
+            "AP50_95": 0.17953535438880208,
+            "GT_boxes": 226,
+            "detections_c25": 223,
+            "TP_c25_IoU50": 92,
+            "precision_c25": 0.4125560538116592,
+            "recall_c25": 0.40707964601769914
+          },
+          "bicycle": {
+            "AP50": 0.2141002445236318,
+            "AP50_95": 0.09533422112549125,
+            "GT_boxes": 407,
+            "detections_c25": 221,
+            "TP_c25_IoU50": 90,
+            "precision_c25": 0.4072398190045249,
+            "recall_c25": 0.22113022113022113
+          }
+        },
+        "engine": {
+          "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+          "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+          "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+          "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+          "hw": [
+            384,
+            640
+          ],
+          "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity"
+        },
+        "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+        "runtime": "actual Nano TensorRT",
+        "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+        "precision_recall_at_fixed_confidence": 0.25,
+        "Nano_pipeline_FPS_measured": false
+      },
+      "candidates": {
+        "gpu_pre": {
+          "speed": {
+            "bdd": {
+              "original": {
+                "clips": 40,
+                "mean_FPS": 19.60333508329291,
+                "median_FPS": 19.604366464128695,
+                "aggregate_FPS": 19.602276261298254,
+                "min_FPS": 19.328298881322564,
+                "max_FPS": 19.967094668857687,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 117.9167989994312
+              },
+              "candidate": {
+                "clips": 40,
+                "mean_FPS": 20.885710059682957,
+                "median_FPS": 20.890357701632382,
+                "aggregate_FPS": 20.88487542527305,
+                "min_FPS": 20.657595150045218,
+                "max_FPS": 21.278718165522594,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 110.3904555002373
+              },
+              "paired": {
+                "mean_FPS_gain_pct": 6.5416163675279915,
+                "median_paired_FPS_gain_pct": 6.556306342602014,
+                "CI95_median_paired_gain_pct": [
+                  6.369737870100211,
+                  6.726557438277824
+                ],
+                "videos_faster": 40,
+                "videos_total": 40
+              }
+            },
+            "ua": {
+              "original": {
+                "clips": 40,
+                "mean_FPS": 18.03631623073779,
+                "median_FPS": 18.11049669064554,
+                "aggregate_FPS": 18.022917253796578,
+                "min_FPS": 16.884177905733736,
+                "max_FPS": 18.67444575833037,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 125.6330149999485
+              },
+              "candidate": {
+                "clips": 40,
+                "mean_FPS": 20.066742906800247,
+                "median_FPS": 20.205115390399264,
+                "aggregate_FPS": 20.04779883695281,
+                "min_FPS": 18.647872288738668,
+                "max_FPS": 21.12377983500422,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 112.98361899935117
+              },
+              "paired": {
+                "mean_FPS_gain_pct": 11.257435554396466,
+                "median_paired_FPS_gain_pct": 11.286612398897333,
+                "CI95_median_paired_gain_pct": [
+                  10.89639249375892,
+                  11.452337045466056
+                ],
+                "videos_faster": 40,
+                "videos_total": 40
+              }
+            },
+            "all": {
+              "original": {
+                "clips": 80,
+                "mean_FPS": 18.81982565701535,
+                "median_FPS": 19.001372319826466,
+                "aggregate_FPS": 18.77944908916963,
+                "min_FPS": 16.884177905733736,
+                "max_FPS": 19.967094668857687,
+                "clips_at_least_15": 80,
+                "median_clip_p90_latency_ms": 121.67593600042892
+              },
+              "candidate": {
+                "clips": 80,
+                "mean_FPS": 20.4762264832416,
+                "median_FPS": 20.71646801740042,
+                "aggregate_FPS": 20.457777988235716,
+                "min_FPS": 18.647872288738668,
+                "max_FPS": 21.278718165522594,
+                "clips_at_least_15": 80,
+                "median_clip_p90_latency_ms": 111.3904150001872
+              },
+              "paired": {
+                "mean_FPS_gain_pct": 8.801361162497301,
+                "median_paired_FPS_gain_pct": 8.603465678553867,
+                "CI95_median_paired_gain_pct": [
+                  8.396623437212103,
+                  9.000983051391454
+                ],
+                "videos_faster": 80,
+                "videos_total": 80
+              }
+            }
+          },
+          "detection": {
+            "images": 7190,
+            "mAP50": 0.47146726996306293,
+            "mAP50_95": 0.31984831508791156,
+            "classes": {
+              "car": {
+                "AP50": 0.8445772932098297,
+                "AP50_95": 0.5871142885959562,
+                "GT_boxes": 53204,
+                "detections_c25": 51100,
+                "TP_c25_IoU50": 41910,
+                "precision_c25": 0.8201565557729942,
+                "recall_c25": 0.787722727614465
+              },
+              "truck": {
+                "AP50": 0.44042237004268936,
+                "AP50_95": 0.3288746997145493,
+                "GT_boxes": 3054,
+                "detections_c25": 1732,
+                "TP_c25_IoU50": 1208,
+                "precision_c25": 0.6974595842956121,
+                "recall_c25": 0.39554682383759004
+              },
+              "bus": {
+                "AP50": 0.5140628132579861,
+                "AP50_95": 0.4083830116147594,
+                "GT_boxes": 1469,
+                "detections_c25": 1178,
+                "TP_c25_IoU50": 759,
+                "precision_c25": 0.6443123938879457,
+                "recall_c25": 0.5166780122532335
+              },
+              "motorcycle": {
+                "AP50": 0.34417362878117774,
+                "AP50_95": 0.17953535438880208,
+                "GT_boxes": 226,
+                "detections_c25": 223,
+                "TP_c25_IoU50": 92,
+                "precision_c25": 0.4125560538116592,
+                "recall_c25": 0.40707964601769914
+              },
+              "bicycle": {
+                "AP50": 0.2141002445236318,
+                "AP50_95": 0.09533422112549125,
+                "GT_boxes": 407,
+                "detections_c25": 221,
+                "TP_c25_IoU50": 90,
+                "precision_c25": 0.4072398190045249,
+                "recall_c25": 0.22113022113022113
+              }
+            },
+            "engine": {
+              "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+              "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+              "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+              "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+              "hw": [
+                384,
+                640
+              ],
+              "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity"
+            },
+            "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+            "runtime": "actual Nano TensorRT",
+            "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+            "precision_recall_at_fixed_confidence": 0.25,
+            "Nano_pipeline_FPS_measured": false
+          },
+          "tracking_changes": {
+            "bdd": {
+              "hota": {
+                "original": 0.4371883772445088,
+                "candidate": 0.4371883772445088,
+                "difference": 0.0
+              },
+              "idf1": {
+                "original": 0.5296834008001045,
+                "candidate": 0.5296834008001045,
+                "difference": 0.0
+              },
+              "idsw": {
+                "original": 1534,
+                "candidate": 1534,
+                "difference": 0
+              },
+              "fn": {
+                "original": 28539,
+                "candidate": 28539,
+                "difference": 0
+              },
+              "fp": {
+                "original": 2194,
+                "candidate": 2194,
+                "difference": 0
+              }
+            },
+            "ua": {
+              "hota": {
+                "original": 0.6657319586581798,
+                "candidate": 0.6657319586581798,
+                "difference": 0.0
+              },
+              "idf1": {
+                "original": 0.7837332991116625,
+                "candidate": 0.7837332991116625,
+                "difference": 0.0
+              },
+              "idsw": {
+                "original": 245,
+                "candidate": 245,
+                "difference": 0
+              },
+              "fn": {
+                "original": 17590,
+                "candidate": 17590,
+                "difference": 0
+              },
+              "fp": {
+                "original": 9144,
+                "candidate": 9144,
+                "difference": 0
+              }
+            }
+          },
+          "byte_equal_clips": {
+            "bdd": {
+              "mot": 40,
+              "cls": 40
+            },
+            "ua": {
+              "mot": 40,
+              "cls": 40
+            }
+          },
+          "all80_tracking_byte_exact": true,
+          "AP_recommended": true,
+          "historical_raw_parity": "PASS",
+          "same_detection_and_tracking_quality": true,
+          "stage_median_of_clip_medians_ms": {
+            "bdd": {
+              "original": {
+                "decode_ms": 19.789092999417335,
+                "mask_ms": 0.0010414996722829528,
+                "pre_ms": 3.75746200006688,
+                "h2d_ms": 1.7335200000161421,
+                "exec_ms": 41.96587900014492,
+                "d2h_ms": 0.33229749988095136,
+                "infer_ms": 44.14480250034103,
+                "post_ms": 2.3110550000637886,
+                "loc_ms": 0.9107969999604393,
+                "xu_ly_ms": 10.835678999683296,
+                "t_predict_ms": 1.0972590007440886,
+                "t_assoc_ms": 9.082576500077266,
+                "t_update_ms": 10.203012499914621
+              },
+              "candidate": {
+                "decode_ms": 20.36646099986683,
+                "mask_ms": 0.0009890004548651632,
+                "pre_ms": 0.0,
+                "h2d_ms": 1.7488575003881124,
+                "exec_ms": 41.92115600062607,
+                "d2h_ms": 0.3420630000618985,
+                "infer_ms": 44.997814500675304,
+                "post_ms": 2.173058500375191,
+                "loc_ms": 0.8561344993722741,
+                "xu_ly_ms": 9.957644000678556,
+                "t_predict_ms": 0.9703294999781065,
+                "t_assoc_ms": 8.211702999687986,
+                "t_update_ms": 9.176900999591453
+              }
+            },
+            "ua": {
+              "original": {
+                "decode_ms": 11.763450499529426,
+                "mask_ms": 1.5823739995539654,
+                "pre_ms": 5.501427000126569,
+                "h2d_ms": 1.741569499245088,
+                "exec_ms": 41.928052000002936,
+                "d2h_ms": 0.33175050066347467,
+                "infer_ms": 44.09260850025021,
+                "post_ms": 2.718072500101698,
+                "loc_ms": 0.7839720010451856,
+                "xu_ly_ms": 12.016148500151758,
+                "t_predict_ms": 1.0496040003999951,
+                "t_assoc_ms": 10.158234000300581,
+                "t_update_ms": 11.185544999534613
+              },
+              "candidate": {
+                "decode_ms": 11.648134000097343,
+                "mask_ms": 1.4475274992946652,
+                "pre_ms": 0.0,
+                "h2d_ms": 1.0757740010376438,
+                "exec_ms": 41.906092000317585,
+                "d2h_ms": 0.3554229988367297,
+                "infer_ms": 44.332638499327004,
+                "post_ms": 2.7007794997189194,
+                "loc_ms": 0.7481129996449454,
+                "xu_ly_ms": 10.929581500931818,
+                "t_predict_ms": 1.1465839997981675,
+                "t_assoc_ms": 9.196047999466828,
+                "t_update_ms": 10.297325000465207
+              }
+            },
+            "all": {
+              "original": {
+                "decode_ms": 15.7395615005953,
+                "mask_ms": 0.19937849901907612,
+                "pre_ms": 4.632688000128837,
+                "h2d_ms": 1.7391469991707709,
+                "exec_ms": 41.94869499951892,
+                "d2h_ms": 0.3322715001559118,
+                "infer_ms": 44.12460750063474,
+                "post_ms": 2.5365299998156843,
+                "loc_ms": 0.8175679995474638,
+                "xu_ly_ms": 11.515861498992308,
+                "t_predict_ms": 1.0739274994193693,
+                "t_assoc_ms": 9.759440000379982,
+                "t_update_ms": 10.840494500371278
+              },
+              "candidate": {
+                "decode_ms": 15.576200999930734,
+                "mask_ms": 0.16492450004079728,
+                "pre_ms": 0.0,
+                "h2d_ms": 1.3928114994996577,
+                "exec_ms": 41.91484550074165,
+                "d2h_ms": 0.34761050028464524,
+                "infer_ms": 44.67780499999208,
+                "post_ms": 2.5092875002883375,
+                "loc_ms": 0.8119945005091722,
+                "xu_ly_ms": 10.666238999874622,
+                "t_predict_ms": 1.0399399998277659,
+                "t_assoc_ms": 8.847525500641495,
+                "t_update_ms": 9.907779000059236
+              }
+            }
+          }
+        }
+      },
+      "boot": "51280481-0986-4322-a37c-824de9e072af",
+      "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823"
+    },
+    "review150_nano_pruning": {
+      "scope": "paired full80 windows,40BDD+40UA,150JPEG,25warmup,displayoff",
+      "full80_measured": true,
+      "original_detection": {
+        "images": 7190,
+        "mAP50": 0.47146726996306293,
+        "mAP50_95": 0.31984831508791156,
+        "classes": {
+          "car": {
+            "AP50": 0.8445772932098297,
+            "AP50_95": 0.5871142885959562,
+            "GT_boxes": 53204,
+            "detections_c25": 51100,
+            "TP_c25_IoU50": 41910,
+            "precision_c25": 0.8201565557729942,
+            "recall_c25": 0.787722727614465
+          },
+          "truck": {
+            "AP50": 0.44042237004268936,
+            "AP50_95": 0.3288746997145493,
+            "GT_boxes": 3054,
+            "detections_c25": 1732,
+            "TP_c25_IoU50": 1208,
+            "precision_c25": 0.6974595842956121,
+            "recall_c25": 0.39554682383759004
+          },
+          "bus": {
+            "AP50": 0.5140628132579861,
+            "AP50_95": 0.4083830116147594,
+            "GT_boxes": 1469,
+            "detections_c25": 1178,
+            "TP_c25_IoU50": 759,
+            "precision_c25": 0.6443123938879457,
+            "recall_c25": 0.5166780122532335
+          },
+          "motorcycle": {
+            "AP50": 0.34417362878117774,
+            "AP50_95": 0.17953535438880208,
+            "GT_boxes": 226,
+            "detections_c25": 223,
+            "TP_c25_IoU50": 92,
+            "precision_c25": 0.4125560538116592,
+            "recall_c25": 0.40707964601769914
+          },
+          "bicycle": {
+            "AP50": 0.2141002445236318,
+            "AP50_95": 0.09533422112549125,
+            "GT_boxes": 407,
+            "detections_c25": 221,
+            "TP_c25_IoU50": 90,
+            "precision_c25": 0.4072398190045249,
+            "recall_c25": 0.22113022113022113
+          }
+        },
+        "engine": {
+          "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+          "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+          "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+          "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+          "hw": [
+            384,
+            640
+          ],
+          "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity"
+        },
+        "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+        "runtime": "actual Nano TensorRT",
+        "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+        "precision_recall_at_fixed_confidence": 0.25,
+        "Nano_pipeline_FPS_measured": false
+      },
+      "candidates": {
+        "control": {
+          "speed": {
+            "bdd": {
+              "original": {
+                "clips": 40,
+                "mean_FPS": 19.597326470051097,
+                "median_FPS": 19.57334087985563,
+                "aggregate_FPS": 19.596461924156305,
+                "min_FPS": 19.37474803575775,
+                "max_FPS": 20.01035114013303,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 118.04819999997562
+              },
+              "candidate": {
+                "clips": 40,
+                "mean_FPS": 19.425546304730815,
+                "median_FPS": 19.424928615423486,
+                "aggregate_FPS": 19.424725180731727,
+                "min_FPS": 19.224779203639578,
+                "max_FPS": 19.82336816300684,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 118.73742899933859
+              },
+              "paired": {
+                "mean_FPS_gain_pct": -0.8765489802029958,
+                "median_paired_FPS_gain_pct": -0.9093982614586993,
+                "CI95_median_paired_gain_pct": [
+                  -1.0530802581693754,
+                  -0.7536067042461014
+                ],
+                "videos_faster": 0,
+                "videos_total": 40
+              }
+            },
+            "ua": {
+              "original": {
+                "clips": 40,
+                "mean_FPS": 18.046831549201844,
+                "median_FPS": 18.163806370114052,
+                "aggregate_FPS": 18.0328735638532,
+                "min_FPS": 16.877120212949986,
+                "max_FPS": 18.829229274123872,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 124.97185449956305
+              },
+              "candidate": {
+                "clips": 40,
+                "mean_FPS": 17.87856708084259,
+                "median_FPS": 17.96018325351433,
+                "aggregate_FPS": 17.86577996854788,
+                "min_FPS": 16.70770410721796,
+                "max_FPS": 18.56800347464122,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 126.5371170011349
+              },
+              "paired": {
+                "mean_FPS_gain_pct": -0.9323767881387446,
+                "median_paired_FPS_gain_pct": -0.9498684090013143,
+                "CI95_median_paired_gain_pct": [
+                  -1.0673588662105826,
+                  -0.7768516553033955
+                ],
+                "videos_faster": 1,
+                "videos_total": 40
+              }
+            },
+            "all": {
+              "original": {
+                "clips": 80,
+                "mean_FPS": 18.82207900962647,
+                "median_FPS": 19.10198865494081,
+                "aggregate_FPS": 18.782182336957714,
+                "min_FPS": 16.877120212949986,
+                "max_FPS": 20.01035114013303,
+                "clips_at_least_15": 80,
+                "median_clip_p90_latency_ms": 121.20546900041518
+              },
+              "candidate": {
+                "clips": 80,
+                "mean_FPS": 18.6520566927867,
+                "median_FPS": 18.8963913391404,
+                "aggregate_FPS": 18.6126663953314,
+                "min_FPS": 16.70770410721796,
+                "max_FPS": 19.82336816300684,
+                "clips_at_least_15": 80,
+                "median_clip_p90_latency_ms": 122.86046649933269
+              },
+              "paired": {
+                "mean_FPS_gain_pct": -0.9033131608512157,
+                "median_paired_FPS_gain_pct": -0.9219005369814959,
+                "CI95_median_paired_gain_pct": [
+                  -1.028798160898703,
+                  -0.8171955126585861
+                ],
+                "videos_faster": 1,
+                "videos_total": 80
+              }
+            }
+          },
+          "detection": {
+            "images": 7190,
+            "mAP50": 0.46171508022765256,
+            "mAP50_95": 0.31124976879190425,
+            "classes": {
+              "car": {
+                "AP50": 0.8430537848956248,
+                "AP50_95": 0.5839088719705996,
+                "GT_boxes": 53204,
+                "detections_c25": 53092,
+                "TP_c25_IoU50": 42368,
+                "precision_c25": 0.7980109997739773,
+                "recall_c25": 0.7963311029245921
+              },
+              "truck": {
+                "AP50": 0.43721660360543113,
+                "AP50_95": 0.3263947545605733,
+                "GT_boxes": 3054,
+                "detections_c25": 1900,
+                "TP_c25_IoU50": 1250,
+                "precision_c25": 0.6578947368421053,
+                "recall_c25": 0.40929927963326784
+              },
+              "bus": {
+                "AP50": 0.5222421826821875,
+                "AP50_95": 0.41064628624106003,
+                "GT_boxes": 1469,
+                "detections_c25": 1275,
+                "TP_c25_IoU50": 777,
+                "precision_c25": 0.6094117647058823,
+                "recall_c25": 0.5289312457454051
+              },
+              "motorcycle": {
+                "AP50": 0.29811186325192085,
+                "AP50_95": 0.14879634811367143,
+                "GT_boxes": 226,
+                "detections_c25": 330,
+                "TP_c25_IoU50": 88,
+                "precision_c25": 0.26666666666666666,
+                "recall_c25": 0.3893805309734513
+              },
+              "bicycle": {
+                "AP50": 0.20795096670309887,
+                "AP50_95": 0.08650258307361691,
+                "GT_boxes": 407,
+                "detections_c25": 345,
+                "TP_c25_IoU50": 107,
+                "precision_c25": 0.3101449275362319,
+                "recall_c25": 0.2628992628992629
+              }
+            },
+            "engine": {
+              "onnx": "/home/jetson/nano_run/r150_pruning_20261120/control/model.onnx",
+              "onnx_sha256": "aab58937fc4c226411a20dcb88f221f1cd8c6373a28c728cd0e7564ff64bdddf",
+              "engine": "/home/jetson/nano_run/r150_pruning_20261120/control/model.engine",
+              "hw": [
+                384,
+                640
+              ],
+              "parity": "/home/jetson/nano_run/r150_pruning_20261120/control/parity",
+              "engine_sha256": "9335edba3a08373bc91ed057b79fdac6142697c97cdde40ac76b939a45f8d42f"
+            },
+            "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+            "runtime": "actual Nano TensorRT",
+            "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+            "precision_recall_at_fixed_confidence": 0.25,
+            "Nano_pipeline_FPS_measured": false
+          },
+          "tracking_changes": {
+            "bdd": {
+              "hota": {
+                "original": 0.4371883772445088,
+                "candidate": 0.44068532780675057,
+                "difference": 0.003496950562241752
+              },
+              "idf1": {
+                "original": 0.5296834008001045,
+                "candidate": 0.5360914151772634,
+                "difference": 0.006408014377158988
+              },
+              "idsw": {
+                "original": 1534,
+                "candidate": 1695,
+                "difference": 161
+              },
+              "fn": {
+                "original": 28539,
+                "candidate": 27799,
+                "difference": -740
+              },
+              "fp": {
+                "original": 2194,
+                "candidate": 2540,
+                "difference": 346
+              }
+            },
+            "ua": {
+              "hota": {
+                "original": 0.6657319586581798,
+                "candidate": 0.659064291213384,
+                "difference": -0.006667667444795855
+              },
+              "idf1": {
+                "original": 0.7837332991116625,
+                "candidate": 0.7753521730434038,
+                "difference": -0.008381126068258693
+              },
+              "idsw": {
+                "original": 245,
+                "candidate": 273,
+                "difference": 28
+              },
+              "fn": {
+                "original": 17590,
+                "candidate": 18176,
+                "difference": 586
+              },
+              "fp": {
+                "original": 9144,
+                "candidate": 9456,
+                "difference": 312
+              }
+            }
+          },
+          "byte_equal_clips": {
+            "bdd": {
+              "mot": 0,
+              "cls": 0
+            },
+            "ua": {
+              "mot": 0,
+              "cls": 0
+            }
+          },
+          "all80_tracking_byte_exact": false,
+          "AP_recommended": false,
+          "historical_raw_parity": "PASS",
+          "same_detection_and_tracking_quality": false,
+          "stage_median_of_clip_medians_ms": {
+            "bdd": {
+              "original": {
+                "decode_ms": 20.268360000045504,
+                "mask_ms": 0.0010420008038636297,
+                "pre_ms": 3.7894699999014847,
+                "h2d_ms": 1.7427435004719882,
+                "exec_ms": 41.98204749991419,
+                "d2h_ms": 0.32958900101220934,
+                "infer_ms": 44.163372500406695,
+                "post_ms": 2.3302265008169343,
+                "loc_ms": 0.8994190011435421,
+                "xu_ly_ms": 10.54850149921549,
+                "t_predict_ms": 1.1011164997398737,
+                "t_assoc_ms": 8.825450000585988,
+                "t_update_ms": 9.96750099966448
+              },
+              "candidate": {
+                "decode_ms": 20.07167800093157,
+                "mask_ms": 0.001094000253942795,
+                "pre_ms": 3.7871025006097625,
+                "h2d_ms": 1.7516220004836214,
+                "exec_ms": 42.4330395007928,
+                "d2h_ms": 0.3313609995529987,
+                "infer_ms": 44.61474350046046,
+                "post_ms": 2.3485635001634364,
+                "loc_ms": 0.8905119993869448,
+                "xu_ly_ms": 10.856058499484789,
+                "t_predict_ms": 1.089292500182637,
+                "t_assoc_ms": 9.039733500685543,
+                "t_update_ms": 10.169860000132758
+              }
+            },
+            "ua": {
+              "original": {
+                "decode_ms": 11.833053499685775,
+                "mask_ms": 1.4157814994177897,
+                "pre_ms": 5.466479999086005,
+                "h2d_ms": 1.7246665001948713,
+                "exec_ms": 41.94071000074473,
+                "d2h_ms": 0.32958900010271464,
+                "infer_ms": 44.106944499617384,
+                "post_ms": 2.754008000920294,
+                "loc_ms": 0.7694144997003605,
+                "xu_ly_ms": 11.985894499957794,
+                "t_predict_ms": 1.0689774990169099,
+                "t_assoc_ms": 10.059974000796501,
+                "t_update_ms": 11.155615999996371
+              },
+              "candidate": {
+                "decode_ms": 11.866725500112807,
+                "mask_ms": 1.4800270009800442,
+                "pre_ms": 5.484553000314918,
+                "h2d_ms": 1.744301499456924,
+                "exec_ms": 42.400124000778305,
+                "d2h_ms": 0.3306834996692487,
+                "infer_ms": 44.58770499968523,
+                "post_ms": 2.7753100002883,
+                "loc_ms": 0.7830085005480214,
+                "xu_ly_ms": 11.937508500523109,
+                "t_predict_ms": 1.0740035004346282,
+                "t_assoc_ms": 10.23755599908327,
+                "t_update_ms": 11.37192500027595
+              }
+            },
+            "all": {
+              "original": {
+                "decode_ms": 15.874087000156578,
+                "mask_ms": 0.2007590001085191,
+                "pre_ms": 4.6290684995256015,
+                "h2d_ms": 1.7405524995410815,
+                "exec_ms": 41.95411000000604,
+                "d2h_ms": 0.32958900010271464,
+                "infer_ms": 44.13520050002262,
+                "post_ms": 2.560806999099441,
+                "loc_ms": 0.8148845008690841,
+                "xu_ly_ms": 11.489372999676561,
+                "t_predict_ms": 1.0830945002453518,
+                "t_assoc_ms": 9.817959499741846,
+                "t_update_ms": 10.905558999183995
+              },
+              "candidate": {
+                "decode_ms": 15.839166000660043,
+                "mask_ms": 0.1821390005716239,
+                "pre_ms": 4.629822499737202,
+                "h2d_ms": 1.7493085006208275,
+                "exec_ms": 42.42028449971258,
+                "d2h_ms": 0.3311529999336926,
+                "infer_ms": 44.59636750016216,
+                "post_ms": 2.561374999459076,
+                "loc_ms": 0.8156665007845731,
+                "xu_ly_ms": 11.376606000339962,
+                "t_predict_ms": 1.0834580007212935,
+                "t_assoc_ms": 9.57212049888767,
+                "t_update_ms": 10.635290000209352
+              }
+            }
+          }
+        },
+        "channel25_KD": {
+          "speed": {
+            "bdd": {
+              "original": {
+                "clips": 40,
+                "mean_FPS": 19.597326470051097,
+                "median_FPS": 19.57334087985563,
+                "aggregate_FPS": 19.596461924156305,
+                "min_FPS": 19.37474803575775,
+                "max_FPS": 20.01035114013303,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 118.04819999997562
+              },
+              "candidate": {
+                "clips": 40,
+                "mean_FPS": 19.718525633953696,
+                "median_FPS": 19.70354283124116,
+                "aggregate_FPS": 19.717553599118414,
+                "min_FPS": 19.529648105027423,
+                "max_FPS": 20.200343516375444,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 117.24123200019676
+              },
+              "paired": {
+                "mean_FPS_gain_pct": 0.6184474402047391,
+                "median_paired_FPS_gain_pct": 0.6696575635278257,
+                "CI95_median_paired_gain_pct": [
+                  0.506653595799178,
+                  0.8215139496147938
+                ],
+                "videos_faster": 37,
+                "videos_total": 40
+              }
+            },
+            "ua": {
+              "original": {
+                "clips": 40,
+                "mean_FPS": 18.046831549201844,
+                "median_FPS": 18.163806370114052,
+                "aggregate_FPS": 18.0328735638532,
+                "min_FPS": 16.877120212949986,
+                "max_FPS": 18.829229274123872,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 124.97185449956305
+              },
+              "candidate": {
+                "clips": 40,
+                "mean_FPS": 18.157649280570286,
+                "median_FPS": 18.21824939956727,
+                "aggregate_FPS": 18.14538452281771,
+                "min_FPS": 16.96697043571055,
+                "max_FPS": 18.91515379723334,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 124.56616350027616
+              },
+              "paired": {
+                "mean_FPS_gain_pct": 0.6140564401364124,
+                "median_paired_FPS_gain_pct": 0.5281886775325262,
+                "CI95_median_paired_gain_pct": [
+                  0.43918474878553715,
+                  0.8012251812346549
+                ],
+                "videos_faster": 37,
+                "videos_total": 40
+              }
+            },
+            "all": {
+              "original": {
+                "clips": 80,
+                "mean_FPS": 18.82207900962647,
+                "median_FPS": 19.10198865494081,
+                "aggregate_FPS": 18.782182336957714,
+                "min_FPS": 16.877120212949986,
+                "max_FPS": 20.01035114013303,
+                "clips_at_least_15": 80,
+                "median_clip_p90_latency_ms": 121.20546900041518
+              },
+              "candidate": {
+                "clips": 80,
+                "mean_FPS": 18.938087457261993,
+                "median_FPS": 19.222400951130382,
+                "aggregate_FPS": 18.898828757189786,
+                "min_FPS": 16.96697043571055,
+                "max_FPS": 20.200343516375444,
+                "clips_at_least_15": 80,
+                "median_clip_p90_latency_ms": 121.0862919997453
+              },
+              "paired": {
+                "mean_FPS_gain_pct": 0.6163423688541059,
+                "median_paired_FPS_gain_pct": 0.5977115949653555,
+                "CI95_median_paired_gain_pct": [
+                  0.4971253709435519,
+                  0.7787301079493991
+                ],
+                "videos_faster": 74,
+                "videos_total": 80
+              }
+            }
+          },
+          "detection": {
+            "images": 7190,
+            "mAP50": 0.4386807315285063,
+            "mAP50_95": 0.29283907601148257,
+            "classes": {
+              "car": {
+                "AP50": 0.8361712089136554,
+                "AP50_95": 0.5739761489460229,
+                "GT_boxes": 53204,
+                "detections_c25": 51952,
+                "TP_c25_IoU50": 41706,
+                "precision_c25": 0.8027794887588543,
+                "recall_c25": 0.7838884294413954
+              },
+              "truck": {
+                "AP50": 0.4212209278113845,
+                "AP50_95": 0.30873816749499716,
+                "GT_boxes": 3054,
+                "detections_c25": 1795,
+                "TP_c25_IoU50": 1194,
+                "precision_c25": 0.6651810584958218,
+                "recall_c25": 0.39096267190569745
+              },
+              "bus": {
+                "AP50": 0.4982036840972045,
+                "AP50_95": 0.37874501600352145,
+                "GT_boxes": 1469,
+                "detections_c25": 1261,
+                "TP_c25_IoU50": 750,
+                "precision_c25": 0.5947660586835845,
+                "recall_c25": 0.5105513955071477
+              },
+              "motorcycle": {
+                "AP50": 0.2739579114556142,
+                "AP50_95": 0.13402464556589902,
+                "GT_boxes": 226,
+                "detections_c25": 339,
+                "TP_c25_IoU50": 83,
+                "precision_c25": 0.2448377581120944,
+                "recall_c25": 0.3672566371681416
+              },
+              "bicycle": {
+                "AP50": 0.16384992536467274,
+                "AP50_95": 0.06871140204697235,
+                "GT_boxes": 407,
+                "detections_c25": 445,
+                "TP_c25_IoU50": 104,
+                "precision_c25": 0.23370786516853934,
+                "recall_c25": 0.25552825552825553
+              }
+            },
+            "engine": {
+              "onnx": "/home/jetson/nano_run/r150_pruning_20261120/channel25_KD/model.onnx",
+              "onnx_sha256": "651cb42ca48ec154b3deee45f85986de96404c17ae158cbab79cc7c42e528517",
+              "engine": "/home/jetson/nano_run/r150_pruning_20261120/channel25_KD/model.engine",
+              "hw": [
+                384,
+                640
+              ],
+              "parity": "/home/jetson/nano_run/r150_pruning_20261120/channel25_KD/parity",
+              "engine_sha256": "e940cdb9010e5f48fb661e6365ad2ab11baae2f07afd2e83f623ea2b7d91e17a"
+            },
+            "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+            "runtime": "actual Nano TensorRT",
+            "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+            "precision_recall_at_fixed_confidence": 0.25,
+            "Nano_pipeline_FPS_measured": false
+          },
+          "tracking_changes": {
+            "bdd": {
+              "hota": {
+                "original": 0.4371883772445088,
+                "candidate": 0.4330411478614668,
+                "difference": -0.004147229383042017
+              },
+              "idf1": {
+                "original": 0.5296834008001045,
+                "candidate": 0.5257382070172534,
+                "difference": -0.003945193782851075
+              },
+              "idsw": {
+                "original": 1534,
+                "candidate": 1644,
+                "difference": 110
+              },
+              "fn": {
+                "original": 28539,
+                "candidate": 28457,
+                "difference": -82
+              },
+              "fp": {
+                "original": 2194,
+                "candidate": 2436,
+                "difference": 242
+              }
+            },
+            "ua": {
+              "hota": {
+                "original": 0.6657319586581798,
+                "candidate": 0.647722538834531,
+                "difference": -0.018009419823648787
+              },
+              "idf1": {
+                "original": 0.7837332991116625,
+                "candidate": 0.7638514078718622,
+                "difference": -0.01988189123980022
+              },
+              "idsw": {
+                "original": 245,
+                "candidate": 336,
+                "difference": 91
+              },
+              "fn": {
+                "original": 17590,
+                "candidate": 19654,
+                "difference": 2064
+              },
+              "fp": {
+                "original": 9144,
+                "candidate": 8423,
+                "difference": -721
+              }
+            }
+          },
+          "byte_equal_clips": {
+            "bdd": {
+              "mot": 0,
+              "cls": 0
+            },
+            "ua": {
+              "mot": 0,
+              "cls": 0
+            }
+          },
+          "all80_tracking_byte_exact": false,
+          "AP_recommended": false,
+          "historical_raw_parity": "FAIL",
+          "same_detection_and_tracking_quality": false,
+          "stage_median_of_clip_medians_ms": {
+            "bdd": {
+              "original": {
+                "decode_ms": 20.268360000045504,
+                "mask_ms": 0.0010420008038636297,
+                "pre_ms": 3.7894699999014847,
+                "h2d_ms": 1.7427435004719882,
+                "exec_ms": 41.98204749991419,
+                "d2h_ms": 0.32958900101220934,
+                "infer_ms": 44.163372500406695,
+                "post_ms": 2.3302265008169343,
+                "loc_ms": 0.8994190011435421,
+                "xu_ly_ms": 10.54850149921549,
+                "t_predict_ms": 1.1011164997398737,
+                "t_assoc_ms": 8.825450000585988,
+                "t_update_ms": 9.96750099966448
+              },
+              "candidate": {
+                "decode_ms": 20.00555050017283,
+                "mask_ms": 0.001094000253942795,
+                "pre_ms": 3.7618754995492054,
+                "h2d_ms": 1.7472964991611661,
+                "exec_ms": 41.68806150119053,
+                "d2h_ms": 0.33138749950012425,
+                "infer_ms": 43.87117999976908,
+                "post_ms": 2.3026705002848757,
+                "loc_ms": 0.8879339993654867,
+                "xu_ly_ms": 10.543526499532163,
+                "t_predict_ms": 1.0749965003924444,
+                "t_assoc_ms": 8.68540099963866,
+                "t_update_ms": 9.783755999706045
+              }
+            },
+            "ua": {
+              "original": {
+                "decode_ms": 11.833053499685775,
+                "mask_ms": 1.4157814994177897,
+                "pre_ms": 5.466479999086005,
+                "h2d_ms": 1.7246665001948713,
+                "exec_ms": 41.94071000074473,
+                "d2h_ms": 0.32958900010271464,
+                "infer_ms": 44.106944499617384,
+                "post_ms": 2.754008000920294,
+                "loc_ms": 0.7694144997003605,
+                "xu_ly_ms": 11.985894499957794,
+                "t_predict_ms": 1.0689774990169099,
+                "t_assoc_ms": 10.059974000796501,
+                "t_update_ms": 11.155615999996371
+              },
+              "candidate": {
+                "decode_ms": 11.921598999833805,
+                "mask_ms": 1.5251840013661422,
+                "pre_ms": 5.51991900010762,
+                "h2d_ms": 1.746959501360834,
+                "exec_ms": 41.65932149953733,
+                "d2h_ms": 0.3305014997749822,
+                "infer_ms": 43.83936700014601,
+                "post_ms": 2.7529660001164302,
+                "loc_ms": 0.7911339998827316,
+                "xu_ly_ms": 11.34684400039987,
+                "t_predict_ms": 1.0622589998092735,
+                "t_assoc_ms": 9.56399999995483,
+                "t_update_ms": 10.636961999807681
+              }
+            },
+            "all": {
+              "original": {
+                "decode_ms": 15.874087000156578,
+                "mask_ms": 0.2007590001085191,
+                "pre_ms": 4.6290684995256015,
+                "h2d_ms": 1.7405524995410815,
+                "exec_ms": 41.95411000000604,
+                "d2h_ms": 0.32958900010271464,
+                "infer_ms": 44.13520050002262,
+                "post_ms": 2.560806999099441,
+                "loc_ms": 0.8148845008690841,
+                "xu_ly_ms": 11.489372999676561,
+                "t_predict_ms": 1.0830945002453518,
+                "t_assoc_ms": 9.817959499741846,
+                "t_update_ms": 10.905558999183995
+              },
+              "candidate": {
+                "decode_ms": 15.934165999169636,
+                "mask_ms": 0.20445649988687364,
+                "pre_ms": 4.590083000948653,
+                "h2d_ms": 1.7472964991611661,
+                "exec_ms": 41.67629850053345,
+                "d2h_ms": 0.3309184994577663,
+                "infer_ms": 43.85402800016891,
+                "post_ms": 2.521218500987743,
+                "loc_ms": 0.8117855004456942,
+                "xu_ly_ms": 11.252648499976203,
+                "t_predict_ms": 1.065956499587628,
+                "t_assoc_ms": 9.395717499501188,
+                "t_update_ms": 10.499589000573906
+              }
+            }
+          }
+        }
+      },
+      "boot": "51280481-0986-4322-a37c-824de9e072af",
+      "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823"
+    },
+    "review160_height352": {
+      "scope": "paired full80 windows,40BDD+40UA,150JPEG,25warmup,displayoff",
+      "full80_measured": true,
+      "original_detection": {
+        "images": 7190,
+        "mAP50": 0.47146726996306293,
+        "mAP50_95": 0.31984831508791156,
+        "classes": {
+          "car": {
+            "AP50": 0.8445772932098297,
+            "AP50_95": 0.5871142885959562,
+            "GT_boxes": 53204,
+            "detections_c25": 51100,
+            "TP_c25_IoU50": 41910,
+            "precision_c25": 0.8201565557729942,
+            "recall_c25": 0.787722727614465
+          },
+          "truck": {
+            "AP50": 0.44042237004268936,
+            "AP50_95": 0.3288746997145493,
+            "GT_boxes": 3054,
+            "detections_c25": 1732,
+            "TP_c25_IoU50": 1208,
+            "precision_c25": 0.6974595842956121,
+            "recall_c25": 0.39554682383759004
+          },
+          "bus": {
+            "AP50": 0.5140628132579861,
+            "AP50_95": 0.4083830116147594,
+            "GT_boxes": 1469,
+            "detections_c25": 1178,
+            "TP_c25_IoU50": 759,
+            "precision_c25": 0.6443123938879457,
+            "recall_c25": 0.5166780122532335
+          },
+          "motorcycle": {
+            "AP50": 0.34417362878117774,
+            "AP50_95": 0.17953535438880208,
+            "GT_boxes": 226,
+            "detections_c25": 223,
+            "TP_c25_IoU50": 92,
+            "precision_c25": 0.4125560538116592,
+            "recall_c25": 0.40707964601769914
+          },
+          "bicycle": {
+            "AP50": 0.2141002445236318,
+            "AP50_95": 0.09533422112549125,
+            "GT_boxes": 407,
+            "detections_c25": 221,
+            "TP_c25_IoU50": 90,
+            "precision_c25": 0.4072398190045249,
+            "recall_c25": 0.22113022113022113
+          }
+        },
+        "engine": {
+          "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+          "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+          "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+          "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+          "hw": [
+            384,
+            640
+          ],
+          "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity"
+        },
+        "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+        "runtime": "actual Nano TensorRT",
+        "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+        "precision_recall_at_fixed_confidence": 0.25,
+        "Nano_pipeline_FPS_measured": false
+      },
+      "candidates": {
+        "r352x640": {
+          "speed": {
+            "bdd": {
+              "original": {
+                "clips": 40,
+                "mean_FPS": 19.589197306700733,
+                "median_FPS": 19.57860277652119,
+                "aggregate_FPS": 19.588107241817212,
+                "min_FPS": 19.309057495441994,
+                "max_FPS": 20.0488086803887,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 117.72249849855143
+              },
+              "candidate": {
+                "clips": 40,
+                "mean_FPS": 19.30611987038102,
+                "median_FPS": 19.278924876087274,
+                "aggregate_FPS": 19.30311496187775,
+                "min_FPS": 18.939434705101252,
+                "max_FPS": 19.99998898880464,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 119.52859950179118
+              },
+              "paired": {
+                "mean_FPS_gain_pct": -1.4450690954186385,
+                "median_paired_FPS_gain_pct": -1.5277572573390796,
+                "CI95_median_paired_gain_pct": [
+                  -1.8331819158560636,
+                  -1.2940461017809712
+                ],
+                "videos_faster": 1,
+                "videos_total": 40
+              }
+            },
+            "ua": {
+              "original": {
+                "clips": 40,
+                "mean_FPS": 18.03140752532406,
+                "median_FPS": 18.077575877019598,
+                "aggregate_FPS": 18.01870142022159,
+                "min_FPS": 16.934109370283082,
+                "max_FPS": 18.75895061568145,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 125.39832450056565
+              },
+              "candidate": {
+                "clips": 40,
+                "mean_FPS": 18.76512769751837,
+                "median_FPS": 18.809740354475228,
+                "aggregate_FPS": 18.74717143881705,
+                "min_FPS": 17.505924647019683,
+                "max_FPS": 19.81746034856242,
+                "clips_at_least_15": 40,
+                "median_clip_p90_latency_ms": 121.2735570006771
+              },
+              "paired": {
+                "mean_FPS_gain_pct": 4.069123118446738,
+                "median_paired_FPS_gain_pct": 4.059731634763441,
+                "CI95_median_paired_gain_pct": [
+                  3.733837001929474,
+                  4.349174109647458
+                ],
+                "videos_faster": 40,
+                "videos_total": 40
+              }
+            },
+            "all": {
+              "original": {
+                "clips": 80,
+                "mean_FPS": 18.810302416012398,
+                "median_FPS": 19.034004055561724,
+                "aggregate_FPS": 18.770657140809874,
+                "min_FPS": 16.934109370283082,
+                "max_FPS": 20.0488086803887,
+                "clips_at_least_15": 80,
+                "median_clip_p90_latency_ms": 121.43245550032589
+              },
+              "candidate": {
+                "clips": 80,
+                "mean_FPS": 19.035623783949696,
+                "median_FPS": 19.128526788927477,
+                "aggregate_FPS": 19.02108182223347,
+                "min_FPS": 17.505924647019683,
+                "max_FPS": 19.99998898880464,
+                "clips_at_least_15": 80,
+                "median_clip_p90_latency_ms": 120.85748600111401
+              },
+              "paired": {
+                "mean_FPS_gain_pct": 1.197861485445828,
+                "median_paired_FPS_gain_pct": 1.4494950375907534,
+                "CI95_median_paired_gain_pct": [
+                  1.204435299028317,
+                  1.5838133443087377
+                ],
+                "videos_faster": 41,
+                "videos_total": 80
+              }
+            }
+          },
+          "detection": {
+            "images": 7190,
+            "mAP50": 0.46190079503183173,
+            "mAP50_95": 0.317698424090729,
+            "classes": {
+              "car": {
+                "AP50": 0.8430382015972384,
+                "AP50_95": 0.5919282789000767,
+                "GT_boxes": 53204,
+                "detections_c25": 50233,
+                "TP_c25_IoU50": 41647,
+                "precision_c25": 0.8290765034937193,
+                "recall_c25": 0.7827794902638899
+              },
+              "truck": {
+                "AP50": 0.4304941053782853,
+                "AP50_95": 0.32120058000937685,
+                "GT_boxes": 3054,
+                "detections_c25": 1704,
+                "TP_c25_IoU50": 1177,
+                "precision_c25": 0.6907276995305164,
+                "recall_c25": 0.385396201702685
+              },
+              "bus": {
+                "AP50": 0.5097158456553254,
+                "AP50_95": 0.4045661134115986,
+                "GT_boxes": 1469,
+                "detections_c25": 1103,
+                "TP_c25_IoU50": 731,
+                "precision_c25": 0.6627379873073436,
+                "recall_c25": 0.49761742682096666
+              },
+              "motorcycle": {
+                "AP50": 0.33358283183931864,
+                "AP50_95": 0.1846399614507514,
+                "GT_boxes": 226,
+                "detections_c25": 198,
+                "TP_c25_IoU50": 90,
+                "precision_c25": 0.45454545454545453,
+                "recall_c25": 0.39823008849557523
+              },
+              "bicycle": {
+                "AP50": 0.1926729906889908,
+                "AP50_95": 0.08615718668184165,
+                "GT_boxes": 407,
+                "detections_c25": 231,
+                "TP_c25_IoU50": 86,
+                "precision_c25": 0.3722943722943723,
+                "recall_c25": 0.2113022113022113
+              }
+            },
+            "engine": {
+              "onnx": "/home/jetson/nano_run/r160_height352_20261120/model.onnx",
+              "onnx_sha256": "d8e186035026dc605e6102c9af0b0e9c71e654b238967f5485a2ed819d30d24a",
+              "engine": "/home/jetson/nano_run/r160_height352_20261120/model.engine",
+              "hw": [
+                352,
+                640
+              ],
+              "parity": "/home/jetson/nano_run/r160_height352_20261120/parity",
+              "engine_sha256": "ad2601a2800c840e68e60219269aba7797c02f3c9e5aa5bae1bf571ffeb6b801"
+            },
+            "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+            "runtime": "actual Nano TensorRT",
+            "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+            "precision_recall_at_fixed_confidence": 0.25,
+            "Nano_pipeline_FPS_measured": false
+          },
+          "tracking_changes": {
+            "bdd": {
+              "hota": {
+                "original": 0.4371883772445088,
+                "candidate": 0.43663525358522964,
+                "difference": -0.0005531236592791755
+              },
+              "idf1": {
+                "original": 0.5296834008001045,
+                "candidate": 0.5280185001966838,
+                "difference": -0.001664900603420616
+              },
+              "idsw": {
+                "original": 1534,
+                "candidate": 1577,
+                "difference": 43
+              },
+              "fn": {
+                "original": 28539,
+                "candidate": 28411,
+                "difference": -128
+              },
+              "fp": {
+                "original": 2194,
+                "candidate": 1718,
+                "difference": -476
+              }
+            },
+            "ua": {
+              "hota": {
+                "original": 0.6657319586581798,
+                "candidate": 0.6673017377772572,
+                "difference": 0.001569779119077408
+              },
+              "idf1": {
+                "original": 0.7837332991116625,
+                "candidate": 0.7856759867597961,
+                "difference": 0.0019426876481336564
+              },
+              "idsw": {
+                "original": 245,
+                "candidate": 339,
+                "difference": 94
+              },
+              "fn": {
+                "original": 17590,
+                "candidate": 17466,
+                "difference": -124
+              },
+              "fp": {
+                "original": 9144,
+                "candidate": 8635,
+                "difference": -509
+              }
+            }
+          },
+          "byte_equal_clips": {
+            "bdd": {
+              "mot": 0,
+              "cls": 0
+            },
+            "ua": {
+              "mot": 0,
+              "cls": 0
+            }
+          },
+          "all80_tracking_byte_exact": false,
+          "AP_recommended": false,
+          "historical_raw_parity": "FAIL",
+          "same_detection_and_tracking_quality": false,
+          "stage_median_of_clip_medians_ms": {
+            "bdd": {
+              "original": {
+                "decode_ms": 19.792920000327285,
+                "mask_ms": 0.0010410003596916795,
+                "pre_ms": 3.752519498448237,
+                "h2d_ms": 1.7496684995421674,
+                "exec_ms": 41.97942599785165,
+                "d2h_ms": 0.3316729998914525,
+                "infer_ms": 44.16414599836571,
+                "post_ms": 2.317309001227841,
+                "loc_ms": 0.8854080006130971,
+                "xu_ly_ms": 10.779682001157198,
+                "t_predict_ms": 1.080411499060574,
+                "t_assoc_ms": 8.722481499717105,
+                "t_update_ms": 9.793332999834092
+              },
+              "candidate": {
+                "decode_ms": 19.830969498798368,
+                "mask_ms": 0.0010410003596916795,
+                "pre_ms": 7.419930501782801,
+                "h2d_ms": 1.6101340006571263,
+                "exec_ms": 39.70926250076445,
+                "d2h_ms": 0.3176359987264732,
+                "infer_ms": 41.72155549895251,
+                "post_ms": 2.282151999679627,
+                "loc_ms": 0.8286870015581371,
+                "xu_ly_ms": 10.369883000748814,
+                "t_predict_ms": 1.0124410000571515,
+                "t_assoc_ms": 8.753366499149706,
+                "t_update_ms": 9.750363502462278
+              }
+            },
+            "ua": {
+              "original": {
+                "decode_ms": 11.795190001066658,
+                "mask_ms": 1.521041998785222,
+                "pre_ms": 5.479809498865507,
+                "h2d_ms": 1.7286230031459127,
+                "exec_ms": 41.94006900070235,
+                "d2h_ms": 0.3297454968560487,
+                "infer_ms": 44.115831500675995,
+                "post_ms": 2.7640849984891247,
+                "loc_ms": 0.789154499216238,
+                "xu_ly_ms": 11.912434500118252,
+                "t_predict_ms": 1.0763214995677117,
+                "t_assoc_ms": 10.139439000340644,
+                "t_update_ms": 11.277038498519687
+              },
+              "candidate": {
+                "decode_ms": 11.772541000027559,
+                "mask_ms": 1.5409115003421903,
+                "pre_ms": 6.09109549986897,
+                "h2d_ms": 1.6325269989465596,
+                "exec_ms": 39.681792999544996,
+                "d2h_ms": 0.31802600096852984,
+                "infer_ms": 41.72098999879381,
+                "post_ms": 2.6936135000141803,
+                "loc_ms": 0.7862120000936557,
+                "xu_ly_ms": 11.495300499518635,
+                "t_predict_ms": 1.059289499607985,
+                "t_assoc_ms": 9.845849501289194,
+                "t_update_ms": 10.85399349904037
+              }
+            },
+            "all": {
+              "original": {
+                "decode_ms": 15.79560449681594,
+                "mask_ms": 0.2015664995269617,
+                "pre_ms": 4.622038501111092,
+                "h2d_ms": 1.7410745003871853,
+                "exec_ms": 41.96897200017702,
+                "d2h_ms": 0.3308655013825046,
+                "infer_ms": 44.13538750122825,
+                "post_ms": 2.5260324982809834,
+                "loc_ms": 0.8178789994417457,
+                "xu_ly_ms": 11.607510001340415,
+                "t_predict_ms": 1.0795514990604715,
+                "t_assoc_ms": 9.731165500852512,
+                "t_update_ms": 10.79764700079977
+              },
+              "candidate": {
+                "decode_ms": 15.754120000565308,
+                "mask_ms": 0.1890659987111576,
+                "pre_ms": 6.3241195002774475,
+                "h2d_ms": 1.619299500816851,
+                "exec_ms": 39.69360800147115,
+                "d2h_ms": 0.3179739996994613,
+                "infer_ms": 41.721215999132255,
+                "post_ms": 2.4906460002966924,
+                "loc_ms": 0.801603000581963,
+                "xu_ly_ms": 11.382968001271365,
+                "t_predict_ms": 1.0310345005564159,
+                "t_assoc_ms": 9.579024497725186,
+                "t_update_ms": 10.6678934989759
+              }
+            }
+          }
+        }
+      },
+      "boot": "51280481-0986-4322-a37c-824de9e072af",
+      "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823"
+    }
+  },
+  "quality_preserving_candidates": [
+    {
+      "trial": "review162_cuda_pre",
+      "mode": "gpu_pre",
+      "paired_gain_pct": 8.801361162497301
+    }
+  ],
+  "default_or_launcher_changed": false,
+  "comparison_note": "Use each trial fresh paired original. Do not compare absolute FPS across trials as a paired experiment. Decode overlaps processing; stage medians are not additive.",
+  "selection_note": "Quality-preserving label requires actual AP gate, raw parity PASS and exact MOT/CLS on all80; this report does not change any preregistered test rule.",
+  "source_sha256": {
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review155_runtime_accuracy\\summarize_extra.py": "0c868b6ef50140f3ccddd702ff96d3c91139123a1393f3db21ff46574a0d7b6f",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review162_cuda_pre\\full80_evidence\\runs_absolute\\full\\score_verified.json": "ec0432cad4b5b2c502cc0eed0f19481312a3a83f0b0537c86e84088f48e31e5f",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review150_nano_pruning\\full80_evidence\\runs_absolute\\full\\score_verified.json": "be9e239d277ab7ba750e12c40089820f29c3595f9808f2911ee05bba6c50e60b",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review160_height352\\full80_evidence\\runs_absolute\\full\\score_verified.json": "64f2eb6bb15cc9e22b5937ca8e9387cb049296c27a5099dd649ea65daaa210a9"
+  }
+}

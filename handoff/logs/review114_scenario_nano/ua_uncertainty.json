@@ -1,0 +1,12 @@
+{
+  "source": "../review113_vehicle_scenarios/ua_occlusion.json",
+  "scope": "descriptive bootstrap on the existing 40 clips, paired by clip",
+  "draws": 10000,
+  "seed": 114,
+  "draw_shape": [10000, 40],
+  "statistic": "sum of per-clip differences candidate minus KF, sampling 40 pair indices with replacement in lexicographic clip order",
+  "interval": "percentiles 2.5 and 97.5",
+  "visibility_le_0.5": {"ekf": {"delta": -3, "interval": [-8, 2]}, "ukf": {"delta": -5, "interval": [-15, 3]}},
+  "current_or_prior_1s": {"ekf": {"delta": -3, "interval": [-10, 4]}, "ukf": {"delta": -9, "interval": [-22, 2]}},
+  "whole_clip": {"ekf": {"delta": 5, "interval": [-12, 24]}, "ukf": {"delta": 3, "interval": [-23, 29]}}
+}

@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "timing.py", line 43, in <module>
+    if __name__=='__main__':main()
+  File "timing.py", line 41, in main
+    else:bench.pipeline(config,args.action,args.output)
+  File "/home/jetson/nano_run/r155_runtime_accuracy_20261120/run_models.py", line 68, in pipeline
+    code={str(p):guard.sha(p) for p in [Path(__file__),Path(config['_config']),SOURCE/'bench_nano.py',
+  File "/home/jetson/nano_run/r155_runtime_accuracy_20261120/run_models.py", line 68, in <dictcomp>
+    code={str(p):guard.sha(p) for p in [Path(__file__),Path(config['_config']),SOURCE/'bench_nano.py',
+  File "/home/jetson/nano_run/r105_nano_fps/r86_driver.py", line 41, in sha
+    with path.open("rb") as f:
+  File "/home/jetson/miniforge3/envs/nano/lib/python3.8/pathlib.py", line 1222, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/home/jetson/miniforge3/envs/nano/lib/python3.8/pathlib.py", line 1078, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/jetson/nano_run/r105_nano_fps/drivers/r86_driver.py'

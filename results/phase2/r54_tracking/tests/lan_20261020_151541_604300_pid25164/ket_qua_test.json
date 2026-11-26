@@ -1,0 +1,411 @@
+{
+ "buoc": "fixture",
+ "lan": "results/phase2/r54_tracking/tests/lan_20261020_151541_604300_pid25164",
+ "luc": "2026-10-20T15:16:15+0700",
+ "tong_giay": 34.6,
+ "so_test": 19,
+ "so_dat": 19,
+ "tat_ca_dat": true,
+ "wrapper_sha256": "6807549a4fe51e96cae27f76df5184db622ddd426fd20c5eb0348cc6caab7856",
+ "test_sha256": "93d0930a6fc6e35dba703e96e5fb5083f496fb33e4fbee534abfb8a97fcc47b3",
+ "giao_thuc_sha256": "a183b9f0beb2e3d441dedb2ff84f8f129424b66e3a5f824aade7608fdad5318d",
+ "thu_vien": {
+  "python": "3.11.9",
+  "ultralytics": "8.4.141",
+  "torch": "2.6.0+cu124",
+  "torchvision": "0.21.0+cu124",
+  "trackeval": "1.3.0",
+  "numpy": "2.4.6",
+  "pandas": "2.3.3",
+  "opencv-python": "5.0.0.93",
+  "scipy": "1.17.1",
+  "lap": "0.5.13",
+  "fastparquet": "2026.5.0",
+  "filterpy": null
+ },
+ "gioi_han": [
+  "detector la mo hinh gia; duong spec.fill_env()/YOLO that va GPU khong chay o fixture",
+  "fixture smoke dung so_khop_dataset=False; doi chieu DetracDataset/vung bo qua that o ca H1",
+  "snapshot chi phu cac thu muc liet ke trong snapshot(), khong phai toan bo dia"
+ ],
+ "ket_qua": [
+  {
+   "ten": "G1 giao thuc that: 36 run, 3 detector, 40 video; ban sua them nhanh bi tu choi",
+   "dat": true,
+   "chi_tiet": {
+    "run_dau": "r54-yolov8n_coco-c25-cv",
+    "run_cuoi": "r54-yolo11n_mixed5-c10-pf500-s2"
+   },
+   "giay": 0.0
+  },
+  {
+   "ten": "A1 anh xa coco80 giu ID, lop5 -> COCO theo ten, khong doi box/conf/thu tu",
+   "dat": true,
+   "chi_tiet": {
+    "bang_lop5": {
+     "0": 2,
+     "1": 7,
+     "2": 5,
+     "3": 3,
+     "4": 1
+    }
+   },
+   "giay": 0.12
+  },
+  {
+   "ten": "A2 thieu / trung ten lop, sai loai checkpoint -> loi",
+   "dat": true,
+   "chi_tiet": [
+    "checkpoint thieu lop ['bicycle'] (co 4 lop: ['bus', 'car', 'motorcycle', 'truck']...)",
+    "ten lop trung trong checkpoint: {'car': [0, 5]}",
+    "loai checkpoint 'khac' != 'lop5' da khoa",
+    "loai checkpoint 'lop5' != 'coco80' da khoa"
+   ],
+   "giay": 0.0
+  },
+  {
+   "ten": "B1 loc luc load: conf strict >, lop [2,3,5,7], max_det 300 (VideoDetections + mo_cache that)",
+   "dat": true,
+   "chi_tiet": {
+    "c25": [
+     [
+      0.0,
+      0.0,
+      10.0,
+      10.0,
+      0.8999999761581421,
+      2.0
+     ],
+     [
+      0.0,
+      0.0,
+      10.0,
+      10.0,
+      0.25000008940696716,
+      3.0
+     ]
+    ],
+    "c10": [
+     [
+      0.8999999761581421,
+      2.0
+     ],
+     [
+      0.25000008940696716,
+      3.0
+     ],
+     [
+      0.25,
+      5.0
+     ],
+     [
+      0.20000000298023224,
+      7.0
+     ]
+    ]
+   },
+   "giay": 0.02
+  },
+  {
+   "ten": "C1 pixel to xam = 114 trong vung, ngoai vung giu nguyen (ham hien hanh)",
+   "dat": true,
+   "chi_tiet": {
+    "so_pixel_xam": 8090
+   },
+   "giay": 0.5
+  },
+  {
+   "ten": "D2 chay_tracker ghi Y HET run_tracking.run_video_to_dir (cv, pf500 s0)",
+   "dat": true,
+   "chi_tiet": {
+    "cv": [
+     "assoc_log\\V_dets.parquet",
+     "assoc_log\\V_events.parquet",
+     "assoc_log\\V_tracks.parquet",
+     "data\\V.txt",
+     "data_cls\\V.csv",
+     "timing\\V.csv"
+    ],
+    "pf": [
+     "assoc_log\\V_dets.parquet",
+     "assoc_log\\V_events.parquet",
+     "assoc_log\\V_tracks.parquet",
+     "data\\V.txt",
+     "data_cls\\V.csv",
+     "pf_diag\\V.csv",
+     "timing\\V.csv"
+    ]
+   },
+   "giay": 3.42
+  },
+  {
+   "ten": "D1 smoke fixture: 3 detector gia -> cache -> 36 to hop x 2 video -> cham THAT; lap PF; cham lai; hau_kiem",
+   "dat": true,
+   "chi_tiet": {
+    "so_run": 36,
+    "thoi_gian": {
+     "suy_luan_s": {
+      "yolov8n_coco": 0.22,
+      "yolov8n_mixed5": 0.19,
+      "yolo11n_mixed5": 0.17
+     },
+     "tracking_s": {
+      "r54-yolov8n_coco-c25-cv": 0.082,
+      "r54-yolov8n_coco-c25-ekf": 0.077,
+      "r54-yolov8n_coco-c25-ukf": 0.103,
+      "r54-yolov8n_coco-c25-pf500-s0": 0.137,
+      "r54-yolov8n_coco-c25-pf500-s1": 0.125,
+      "r54-yolov8n_coco-c25-pf500-s2": 0.131,
+      "r54-yolov8n_coco-c10-cv": 0.077,
+      "r54-yolov8n_coco-c10-ekf": 0.095,
+      "r54-yolov8n_coco-c10-ukf": 0.122,
+      "r54-yolov8n_coco-c10-pf500-s0": 0.127,
+      "r54-yolov8n_coco-c10-pf500-s1": 0.135,
+      "r54-yolov8n_coco-c10-pf500-s2": 0.128,
+      "r54-yolov8n_mixed5-c25-cv": 0.077,
+      "r54-yolov8n_mixed5-c25-ekf": 0.095,
+      "r54-yolov8n_mixed5-c25-ukf": 0.117,
+      "r54-yolov8n_mixed5-c25-pf500-s0": 0.143,
+      "r54-yolov8n_mixed5-c25-pf500-s1": 0.138,
+      "r54-yolov8n_mixed5-c25-pf500-s2": 0.133,
+      "r54-yolov8n_mixed5-c10-cv": 0.078,
+      "r54-yolov8n_mixed5-c10-ekf": 0.08,
+      "r54-yolov8n_mixed5-c10-ukf": 0.103,
+      "r54-yolov8n_mixed5-c10-pf500-s0": 0.138,
+      "r54-yolov8n_mixed5-c10-pf500-s1": 0.129,
+      "r54-yolov8n_mixed5-c10-pf500-s2": 0.126,
+      "r54-yolo11n_mixed5-c25-cv": 0.079,
+      "r54-yolo11n_mixed5-c25-ekf": 0.081,
+      "r54-yolo11n_mixed5-c25-ukf": 0.105,
+      "r54-yolo11n_mixed5-c25-pf500-s0": 0.12,
+      "r54-yolo11n_mixed5-c25-pf500-s1": 0.12,
+      "r54-yolo11n_mixed5-c25-pf500-s2": 0.132,
+      "r54-yolo11n_mixed5-c10-cv": 0.079,
+      "r54-yolo11n_mixed5-c10-ekf": 0.078,
+      "r54-yolo11n_mixed5-c10-ukf": 0.094,
+      "r54-yolo11n_mixed5-c10-pf500-s0": 0.122,
+      "r54-yolo11n_mixed5-c10-pf500-s1": 0.127,
+      "r54-yolo11n_mixed5-c10-pf500-s2": 0.126
+     },
+     "cham_s": 2.09,
+     "nap_model_s": {
+      "yolov8n_coco": 0.0,
+      "yolov8n_mixed5": 0.0,
+      "yolo11n_mixed5": 0.0
+     }
+    },
+    "hota_cv_c25": 0.85,
+    "loi_hau_kiem_khi_sua": [
+     "cache yolov8n_coco/MVI_39031 sha256 lech"
+    ]
+   },
+   "giay": 8.1
+  },
+  {
+   "ten": "E1 tien_kiem fixture hop le -> dat; bang 2 dong; frame khong GT ngoai D4 duoc bao",
+   "dat": true,
+   "chi_tiet": {
+    "tong": {
+     "anh": 40,
+     "anh_d4": 3,
+     "frame_co_gt": 34,
+     "dong_gt": 68,
+     "vung": 2,
+     "seq_length": 40,
+     "anh_stat_dung_size": 40
+    },
+    "yaml": {
+     "cv": "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\Lib\\site-packages\\ultralytics\\cfg\\trackers\\bytetrack.yaml",
+     "ekf": "D:\\LABOTARY\\bytetrack\\configs\\bytetrack_ekf_ctrv.yaml",
+     "ukf": "D:\\LABOTARY\\bytetrack\\configs\\bytetrack_ukf_ctrv.yaml",
+     "pf500": "D:\\LABOTARY\\bytetrack\\configs\\phase2\\trackers\\bytetrack_pf_ctrv_n500.yaml"
+    }
+   },
+   "giay": 0.2
+  },
+  {
+   "ten": "E2 sai hash bang (so voi khoa) -> khong dat",
+   "dat": true,
+   "chi_tiet": {
+    "lech": [
+     "sha256 bang_hash cc3d4c5a708ad766ab6f654e7afcd1012019e2ff69d37c2502b683449a648489 != khoa 0000000000000000000000000000000000000000000000000000000000000000"
+    ]
+   },
+   "giay": 0.18
+  },
+  {
+   "ten": "E3 sai hash anh mau (tu bam lai) -> khong dat",
+   "dat": true,
+   "chi_tiet": {
+    "lech": [
+     "MVI_39031: anh mau MVI_39031/img00003.jpg: sha256 tu bam != bang hash"
+    ]
+   },
+   "giay": 0.22
+  },
+  {
+   "ten": "E4 thieu GT -> khong dat",
+   "dat": true,
+   "chi_tiet": {
+    "lech": [
+     "MVI_39051: thieu gt: results/phase2/r54_tracking/tests/lan_20261020_151541_604300_pid25164/fx_thieu_gt/data/processed/DETRAC-test/MVI_39051/gt/gt.txt",
+     "tong anh = 20 != 40",
+     "tong seq_length = 20 != 40",
+     "tong anh_d4 = 0 != 3",
+     "tong anh - D4 != so_anh_co_frame_xml"
+    ]
+   },
+   "giay": 0.24
+  },
+  {
+   "ten": "E5 sai timeline (bang hash mat 1 anh) -> khong dat",
+   "dat": true,
+   "chi_tiet": {
+    "lech": [
+     "bang hash 39 dong != 40",
+     "MVI_39031: timeline: dong 5 = MVI_39031/img00006.jpg (khong lien tuc tu 1)",
+     "MVI_39031: bang hash (19) != fingerprint anh (20, 1-20)",
+     "MVI_39031: anh mau MVI_39031/img00005.jpg: sha256 tu bam != bang hash",
+     "MVI_39031: seqinfo name/seqLength(20)/frameRate/kich thuoc khong khop (so anh 19)",
+     "MVI_39031: GT co frame ngoai 1..so anh"
+    ]
+   },
+   "giay": 0.26
+  },
+  {
+   "ten": "E6 seqLength != so anh -> khong dat",
+   "dat": true,
+   "chi_tiet": {
+    "lech": [
+     "MVI_39031: seqinfo name/seqLength(21)/frameRate/kich thuoc khong khop (so anh 20)",
+     "tong seq_length = 41 != 40"
+    ]
+   },
+   "giay": 0.25
+  },
+  {
+   "ten": "E7 anh D4 co dong GT -> khong dat",
+   "dat": true,
+   "chi_tiet": {
+    "lech": [
+     "MVI_39051: 1 anh D4 lai co dong GT"
+    ]
+   },
+   "giay": 0.27
+  },
+  {
+   "ten": "F1 duong dan thoat vung ghi + tu choi ghi de (ham)",
+   "dat": true,
+   "chi_tiet": "ok",
+   "giay": 0.01
+  },
+  {
+   "ten": "H1 duong that: khung mau khop DetracDataset.frames; vung bo qua khop ham hien hanh (3 anh dau)",
+   "dat": true,
+   "chi_tiet": {
+    "MVI_39031": {
+     "frame": [
+      1,
+      2,
+      3
+     ],
+     "vung": 3
+    },
+    "MVI_39051": {
+     "frame": [
+      1,
+      2,
+      3
+     ],
+     "vung": 2
+    }
+   },
+   "giay": 0.31
+  },
+  {
+   "ten": "I1 CLI that: buoc la / ten phien xau / env ngoai tests / thieu khoa / thieu tien-kiem -> nonzero, khong ghi",
+   "dat": true,
+   "chi_tiet": {
+    "full": {
+     "exit": 2,
+     "stderr": "      {tien-kiem,khoa,kiem-khoa,smoke,hau-kiem}\n                          [--lan LAN] [--khoa KHOA] [--tien-kiem TIEN_KIEM]\n                          [--smoke SMOKE]\nchuan_bi_test40.py: error: argument --buoc: invalid choice: 'full' (choose from 'tien-kiem', 'khoa', 'kiem-khoa', 'smoke', 'hau-kiem')"
+    },
+    "lan_xau": {
+     "exit": 2,
+     "stderr": "[LOI] LoiDauVao: ten phien '../thoat' khong hop le (chi [A-Za-z0-9_.-], khong '..')"
+    },
+    "khoa_xau": {
+     "exit": 2,
+     "stderr": "[LOI] ten phien '..\\\\x' khong hop le"
+    },
+    "env_ngoai": {
+     "exit": 2,
+     "stderr": "[LOI] LoiDauVao: R54_GOC_KET_QUA_TEST=D:\\LABOTARY\\bytetrack\\results\\phase2\\r54_tracking\\chuan_bi phai nam ben trong D:\\LABOTARY\\bytetrack\\results\\phase2\\r54_tracking\\tests"
+    },
+    "smoke_khong_khoa": {
+     "exit": 2,
+     "stderr": "[LOI] LoiDauVao: chua co phien khoa"
+    },
+    "kiem_khoa_khong_khoa": {
+     "exit": 2,
+     "stderr": "[LOI] LoiDauVao: chua co phien khoa"
+    },
+    "khoa_khong_tien_kiem": {
+     "exit": 2,
+     "stderr": "[LOI] LoiDauVao: chua co phien tien-kiem"
+    },
+    "hau_kiem_khong_smoke": {
+     "exit": 2,
+     "stderr": "[LOI] LoiDauVao: chua co phien smoke hoan tat"
+    }
+   },
+   "giay": 1.27
+  },
+  {
+   "ten": "I2 CLI that tren du lieu that (vung tests): tien-kiem -> khoa -> kiem-khoa 0; ghi de 1; khoa bi sua -> 2; smoke tu choi",
+   "dat": true,
+   "chi_tiet": {
+    "tien_kiem": {
+     "ket_luan": "dat",
+     "tong": {
+      "anh": 56340,
+      "anh_d4": 173,
+      "frame_co_gt": 56167,
+      "dong_gt": 675774,
+      "vung": 163,
+      "seq_length": 56340,
+      "anh_stat_dung_size": 56340
+     },
+     "thoi_gian_s": 12.2
+    },
+    "khoa_so_file": 169,
+    "vai_tro": {
+     "giao_thuc": 1,
+     "tai_lieu_01": 1,
+     "wrapper": 1,
+     "test_fixture": 1,
+     "ket_qua_test_fixture": 1,
+     "tien_kiem": 3,
+     "du_lieu": 4,
+     "khoa_r53": 2,
+     "checkpoint": 3,
+     "gt": 40,
+     "seqinfo": 40,
+     "ignored_regions": 40,
+     "ma_phu_thuoc": 22,
+     "ma_doi_chieu": 1,
+     "yaml_tracker": 4,
+     "trackeval": 5
+    },
+    "kiem_khoa_sau_sua": "[kiem-khoa] results/phase2/r54_tracking/tests/lan_20261020_151541_604300_pid25164/cli_chuoi/chuan_bi/khoa_cli: 169 file, 1 lech -> exit 2\n   - khoa.json aa0231e23f0aaee01cfe176b91f3bd1730bdbfbb108857249b7b86d0b94f727c != SHA256SUMS ['db97b8addc780ba045beb4481be4cbe24ef8b676f3b809f035e029451066fc39']"
+   },
+   "giay": 19.15
+  },
+  {
+   "ten": "Z1 khong ghi ngoai vung (snapshot thu muc nhay cam)",
+   "dat": true,
+   "chi_tiet": []
+  }
+ ],
+ "exit": 0
+}

@@ -1,0 +1,169 @@
+{
+  "status": "PASS",
+  "videos": 200,
+  "frames_per_seed": 39973,
+  "quality_units": 600,
+  "raw_metric_parity": 600,
+  "max_box_error": 5.002220859751105e-11,
+  "quality": {
+    "HOTA": 0.3349751134728782,
+    "DetA": 0.24583123443685906,
+    "AssA": 0.4734642994346682,
+    "IDF1": 0.3825107055577961,
+    "MOTA": 0.2558498279372757,
+    "IDSW": 5609.333333333333,
+    "FP": 17949.333333333332,
+    "FN": 261378.66666666666
+  },
+  "references": {
+    "pf100": {
+      "HOTA": 0.3349751134728782,
+      "DetA": 0.24583123443685906,
+      "AssA": 0.4734642994346682,
+      "IDF1": 0.3825107055577961,
+      "MOTA": 0.2558498279372757,
+      "IDSW": 5609.333333333333,
+      "FP": 17949.333333333332,
+      "FN": 261378.66666666666
+    },
+    "cart500": {
+      "HOTA": 0.3350274588314379,
+      "DetA": 0.2458791571706996,
+      "AssA": 0.4734852507983128,
+      "IDF1": 0.38256668227451457,
+      "MOTA": 0.25588726126460226,
+      "IDSW": 5599.333333333333,
+      "FP": 17956.0,
+      "FN": 261367.66666666666
+    },
+    "classic500": {
+      "HOTA": 0.32950768234914246,
+      "DetA": 0.24283314425233674,
+      "AssA": 0.4647189524192934,
+      "IDF1": 0.37085676512137367,
+      "MOTA": 0.2474647626161195,
+      "IDSW": 6291.333333333333,
+      "FP": 18710.0,
+      "FN": 263146.6666666667
+    },
+    "kf": {
+      "HOTA": 0.33676876936173655,
+      "DetA": 0.24741312629757223,
+      "AssA": 0.4753945994294098,
+      "IDF1": 0.38251096554124075,
+      "MOTA": 0.25586114498972323,
+      "IDSW": 6345.0,
+      "FP": 17892.0,
+      "FN": 260696.0
+    },
+    "ekf": {
+      "HOTA": 0.3382652847207071,
+      "DetA": 0.24731254867132174,
+      "AssA": 0.47916800371256396,
+      "IDF1": 0.3870998610542271,
+      "MOTA": 0.2577441284085003,
+      "IDSW": 5548.0,
+      "FP": 17682.0,
+      "FN": 260982.0
+    },
+    "ukf": {
+      "HOTA": 0.3376875090418567,
+      "DetA": 0.24745309589618933,
+      "AssA": 0.4773114929839067,
+      "IDF1": 0.38627526025719533,
+      "MOTA": 0.25777807956584303,
+      "IDSW": 5655.0,
+      "FP": 17649.0,
+      "FN": 260895.0
+    }
+  },
+  "mean_update_ms": {
+    "classic500": 5.34125960183556,
+    "parent100": 6.509729982164994,
+    "fast100": 4.225218659643281
+  },
+  "paired_timing": {
+    "parent100": {
+      "reduction_of_mean_update_time_pct": 35.093795422862286,
+      "range_paired_reduction_pct": [
+        27.44798277066569,
+        41.83280188697315
+      ],
+      "faster_pairs": 6,
+      "pairs": [
+        {
+          "repeat": 0,
+          "video": "b1f4491b-846d8cb2",
+          "update_time_reduction_pct": 41.83280188697315
+        },
+        {
+          "repeat": 0,
+          "video": "b1fc95c9-cb2882c7",
+          "update_time_reduction_pct": 37.13521018990189
+        },
+        {
+          "repeat": 1,
+          "video": "b1f4491b-846d8cb2",
+          "update_time_reduction_pct": 27.44798277066569
+        },
+        {
+          "repeat": 1,
+          "video": "b1fc95c9-cb2882c7",
+          "update_time_reduction_pct": 33.75400453102687
+        },
+        {
+          "repeat": 2,
+          "video": "b1f4491b-846d8cb2",
+          "update_time_reduction_pct": 37.05627292030754
+        },
+        {
+          "repeat": 2,
+          "video": "b1fc95c9-cb2882c7",
+          "update_time_reduction_pct": 33.47654646347542
+        }
+      ]
+    },
+    "classic500": {
+      "reduction_of_mean_update_time_pct": 20.894714456656327,
+      "range_paired_reduction_pct": [
+        8.944267742098798,
+        27.695278856969885
+      ],
+      "faster_pairs": 6,
+      "pairs": [
+        {
+          "repeat": 0,
+          "video": "b1f4491b-846d8cb2",
+          "update_time_reduction_pct": 18.161600318789183
+        },
+        {
+          "repeat": 0,
+          "video": "b1fc95c9-cb2882c7",
+          "update_time_reduction_pct": 17.727928698519236
+        },
+        {
+          "repeat": 1,
+          "video": "b1f4491b-846d8cb2",
+          "update_time_reduction_pct": 8.944267742098798
+        },
+        {
+          "repeat": 1,
+          "video": "b1fc95c9-cb2882c7",
+          "update_time_reduction_pct": 23.349919095861583
+        },
+        {
+          "repeat": 2,
+          "video": "b1f4491b-846d8cb2",
+          "update_time_reduction_pct": 27.695278856969885
+        },
+        {
+          "repeat": 2,
+          "video": "b1fc95c9-cb2882c7",
+          "update_time_reduction_pct": 24.673908051660874
+        }
+      ]
+    }
+  },
+  "scope": "two BDD clips, PC tracker.update, serial, 16warmup, not Nano FPS",
+  "default_changed": false
+}

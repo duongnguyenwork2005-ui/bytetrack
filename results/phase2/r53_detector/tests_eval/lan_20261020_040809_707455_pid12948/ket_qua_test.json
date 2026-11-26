@@ -1,0 +1,163 @@
+{
+ "thu_muc": "D:\\LABOTARY\\bytetrack\\results\\phase2\\r53_detector\\tests_eval\\lan_20261020_040809_707455_pid12948",
+ "dat": 36,
+ "tong": 36,
+ "ket_qua": [
+  {
+   "ten": "A1 COCO-80 -> 5 lop theo ten (car 2, truck 7, bus 5, motorcycle 3, bicycle 1)",
+   "dat": true
+  },
+  {
+   "ten": "A2 checkpoint 5 lop -> dong nhat 0..4",
+   "dat": true
+  },
+  {
+   "ten": "A3 khoa ky vong loai checkpoint: coco cho baseline, lop5 cho mixed5",
+   "dat": true
+  },
+  {
+   "ten": "M1 anh dau co GT tung lop + bo sung anh dau toi 64, loai trung, giu thu tu",
+   "dat": true
+  },
+  {
+   "ten": "M2 gioi han 64: hang so va mau DETRAC car/bus",
+   "dat": true
+  },
+  {
+   "ten": "M3 it anh -> khong vuot so anh co",
+   "dat": true
+  },
+  {
+   "ten": "M4 thieu lop bicycle -> loi",
+   "dat": true
+  },
+  {
+   "ten": "T1 so anh khac ho so -> exit 2, khong ghi",
+   "dat": true
+  },
+  {
+   "ten": "S0 smoke truoc khi khoa -> exit 2, khong du doan",
+   "dat": true
+  },
+  {
+   "ten": "T2 tien kiem detrac_test -> exit 0",
+   "dat": true
+  },
+  {
+   "ten": "T2 tien kiem bdd_val -> exit 0",
+   "dat": true
+  },
+  {
+   "ten": "T3 mau DETRAC: 4 anh sau D4, co car + bus; mau BDD: du 5 lop",
+   "dat": true
+  },
+  {
+   "ten": "T4 tien kiem lai -> exit 1, file cu khong doi",
+   "dat": true
+  },
+  {
+   "ten": "K1 thieu tai lieu 02 -> exit 2, khong tao khoa",
+   "dat": true
+  },
+  {
+   "ten": "K2 tai lieu 02 thieu mot lenh day du -> exit 2",
+   "dat": true
+  },
+  {
+   "ten": "K3 tai lieu 02 con TODO -> exit 2",
+   "dat": true
+  },
+  {
+   "ten": "K4 khoa -> exit 0, co SHA256SUMS + thoi diem",
+   "dat": true
+  },
+  {
+   "ten": "K5 khoa lai -> exit 1, khong doi",
+   "dat": true
+  },
+  {
+   "ten": "K6 khoa chua 6 lenh day du (batch 16, device 0, conf 0.25, gioi han 0, full/<tap>/<model>) va quy tac",
+   "dat": true
+  },
+  {
+   "ten": "S1 sau smoke gia lap -> exit 0",
+   "dat": true
+  },
+  {
+   "ten": "S2 tham so du doan dung khoa (imgsz 640, conf 0.001, NMS 0.7, max_det 300, FP32, batch 16, device 0)",
+   "dat": true
+  },
+  {
+   "ten": "S3 detrac_test: cung mau giua 3 model, = mau da khoa, <= 64",
+   "dat": true
+  },
+  {
+   "ten": "S3 bdd_val: cung mau giua 3 model, = mau da khoa, <= 64",
+   "dat": true
+  },
+  {
+   "ten": "S4 NPZ + sha256 khop nguon_du_doan va ket_qua; exit.json 0; log.txt",
+   "dat": true
+  },
+  {
+   "ten": "S5 moi kiem sau du doan dat (cham lai tu NPZ trung, loai checkpoint dung)",
+   "dat": true
+  },
+  {
+   "ten": "S6 D3: truck/motorcycle/bicycle = N/A; mAP (car, bus) = trung binh scorer goi truc tiep",
+   "dat": true
+  },
+  {
+   "ten": "S7 D3 trong CSV: 3 lop ngoai tap ghi N/A",
+   "dat": true
+  },
+  {
+   "ten": "S8 BDD: bao du nam lop, moi lop co GT",
+   "dat": true
+  },
+  {
+   "ten": "S9 smoke lai cung thu muc -> exit 1, khong du doan, khong doi",
+   "dat": true
+  },
+  {
+   "ten": "A4 mixed5 nhung checkpoint COCO-80 -> exit 3",
+   "dat": true
+  },
+  {
+   "ten": "H mau smoke bi sua sau khoa -> exit 2, khong du doan",
+   "dat": true
+  },
+  {
+   "ten": "H checkpoint bi sua sau khoa -> exit 2, khong du doan",
+   "dat": true
+  },
+  {
+   "ten": "H SHA256SUMS bi sua sau khoa -> exit 2, khong du doan",
+   "dat": true
+  },
+  {
+   "ten": "H tai lieu 02 bi sua sau khoa -> exit 2, khong du doan",
+   "dat": true
+  },
+  {
+   "ten": "H khoi phuc dung byte -> smoke lai vao thu muc moi exit 0",
+   "dat": true
+  },
+  {
+   "ten": "P tham so sai (--tap voi khoa) -> exit 2",
+   "dat": true
+  }
+ ],
+ "ma_sha256": {
+  "src/danh_gia_detector_detrac_test.py": "bb4b497b4f89a4464777144a35d66cbd109d03d3c485c4176cde0b67e358ccb4",
+  "src/danh_gia_detector_bdd_val.py": "de2c06f4db2eb99c15b44d873cc63b6b6b446bc632000701671dedd65677020a",
+  "src/eval_detector_5lop.py": "30a1fd5a63641f1cebc22e4e7ef7e4600a48a45ed6f7d533bf319af0fa156f7f",
+  "src/detector_classes.py": "7bba3439987377cb2f161eb31e2cf0afafae3e814f165279087b7a3780699c3e",
+  "src/fingerprint_detrac_test.py": "37b62da99b77880a27aa234a887158e51498b6822921b430c1366d271f621255",
+  "src/bdd_yolo_export.py": "1ca964b0fc81701ac746335fa20ac6e5231322a4cdd11ad47753a2b25fc31493",
+  "src/config.py": "37e4f56247b7be0896c29d74026b863435b2eec5f53c11fc1a8cd073da70d88b",
+  "src/r53_detector/chuan_bi_danh_gia.py": "5b6f0089897fab1f34b019d1cc5d4078c110846c58e7756aa6ffe351d5cea617",
+  "src/r53_detector/test_chuan_bi_danh_gia.py": "f5d85929d290f16ebe7569b40d990d6e48dfc4d0d9bf187a5b3884eb648665db"
+ },
+ "luc": "2026-10-20T04:08:13"
+}

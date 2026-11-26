@@ -1,0 +1,76 @@
+{
+ "protocol_hash": "05e3f9592c86e4c162f6860504c9843791209c252944d0104fe80e0112e40f08",
+ "fingerprint": "be2ff3d5e50446de41aee2478b7a7eaefa08b3dcd645abc01a8a93b895711a07",
+ "video": "Pakokku_urban_59",
+ "seed": 0,
+ "settings": {
+  "protocol_hash": "05e3f9592c86e4c162f6860504c9843791209c252944d0104fe80e0112e40f08",
+  "tracker_cfg": {
+   "tracker_type": "bytetrack_pf_ctrv",
+   "track_high_thresh": 0.25,
+   "track_low_thresh": 0.1,
+   "new_track_thresh": 0.25,
+   "track_buffer": 12,
+   "match_thresh": 0.8,
+   "fuse_score": true,
+   "pf_num_particles": 500,
+   "pf_seed": 0,
+   "pf_resample_ess_ratio": 0.5,
+   "pf_estimate": "mean",
+   "pf_roughening": 0.0,
+   "pf_degenerate_maha2": 10000.0
+  },
+  "yaml_sha256": "ff43d4934d6ec72744ada9bb2a87dea7b10b3d0ac8764e8c1ec5a20ef8fa880b",
+  "backend": {
+   "git_commit": "8f3b63d",
+   "modules": {
+    "run_tracking.py": "5bd131fe958bdf04",
+    "run_experiment.py": "9952441194b7e70f",
+    "tracker_ctrv.py": "b22b4688f50058e8",
+    "sort_tracker.py": "a4ab4b26867989eb",
+    "ekf_ctrv.py": "b516781efa01f473",
+    "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+    "ukf_ctrv.py": "2d59daf4794d8039",
+    "pf_ctrv.py": "de141de5aa698735",
+    "lost_recovery.py": "38f30192b492fa80",
+    "lost_association.py": "469c2782cba41e01",
+    "time_units.py": "c13b6e20fe003f6d",
+    "det_cache.py": "17024ddc6afec534",
+    "occlusion_eval.py": "1b892596be674b9e",
+    "boot_stats.py": "e9245f6729659f8f",
+    "run_trackeval.py": "519d3f9165803fde",
+    "trackeval_ext.py": "3dcf6582548adcfa",
+    "assoc_log.py": "0915453e70f75eb2",
+    "ul_backend.py": "7381910281d8a273",
+    "bytetrack_np.py": "8d37ec565230603b",
+    "run_state.py": "2bc38e3a86fbf50b"
+   },
+   "backend": {
+    "backend": "ultralytics",
+    "ultralytics": "8.4.141",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13"
+   }
+  },
+  "detector": "yolov8n_mixed5",
+  "threshold": 0.1,
+  "classes": [
+   3
+  ],
+  "max_det": 300,
+  "seed": 0,
+  "elapsed_mode": "steps",
+  "fps": 10,
+  "max_time_lost_thuc": 12,
+  "track_buffer_frames": 12,
+  "dt_nominal_s": 0.1
+ },
+ "cache_marker_sha256": "cf63a19b1f3791eab484ba47bbf1ca202c6cac6f1ff1e9126533993d85ece65a",
+ "sha256": {
+  "data/Pakokku_urban_59.txt": "4fec3b3e2b1938fe9f344a5ab32e05ce2bc942fb2f42745eca86ab758ff5be14",
+  "data_cls/Pakokku_urban_59.csv": "0b1b88d387516271ad3a01ee04426a896175fc7da8ef08316a70e38335b035c7",
+  "timing/Pakokku_urban_59.csv": "49b8378c7b78ad9c851ec5f6fca5e7c9f26e422a2491670df7e8c03847d596bf"
+ },
+ "seconds": 0.1880000000819564
+}

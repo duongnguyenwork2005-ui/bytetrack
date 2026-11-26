@@ -1,0 +1,60 @@
+{
+  "round": "R71",
+  "date": "2026-11-03",
+  "authorization": "User accepted selective K2 box roughening experiment: 'ok làm đi'.",
+  "purpose": "Test whether K2 noise on measured bounding-box dimensions harms next-frame prediction while motion-state roughening helps.",
+  "dataset": {
+    "name": "UA-DETRAC train dev12",
+    "manifest": "results/phase2/manifests/detrac_dev.json",
+    "cache": "yolov8n-coco_conf0.05_all",
+    "conf": 0.25,
+    "classes": [
+      2,
+      3,
+      5,
+      7
+    ],
+    "fps": 25,
+    "elapsed_mode": "skip"
+  },
+  "design": {
+    "particles": 500,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "optimal_proposal": true,
+    "roughening": 1,
+    "measurement_height": "observation",
+    "box_scales": [
+      1,
+      0.5,
+      0
+    ],
+    "motion_scale": 1,
+    "units": 108,
+    "association": "unchanged ByteTrack",
+    "controls": "R70 K1K2 box scale 1 must match MOT files byte-for-byte"
+  },
+  "analysis": {
+    "metrics": [
+      "HOTA",
+      "AssA",
+      "DetA",
+      "IDF1",
+      "MOTA",
+      "IDSW"
+    ],
+    "aggregation": "TrackEval COMBINED per seed then arithmetic seed mean",
+    "uncertainty": "paired video bootstrap 5000 draws, fixed seed 0; compare box 0.5 and 0 against box 1",
+    "diagnostics": "ancestor diversity from last_resample_idx; prediction error conditional on prior output and current GT, by gap",
+    "scope": "dev evidence only; no new test dataset"
+  },
+  "gates": [
+    "Targeted synthetic and YAML tests pass",
+    "All 9 configurations pass two-video smoke",
+    "Baseline box1 outputs equal R70 bytes",
+    "Full 9x12 tracking and raw-field evaluation validated"
+  ]
+}

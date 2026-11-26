@@ -1,0 +1,26 @@
+% Hình thức bìa theo hai mẫu PDF người dùng cung cấp.
+\newcommand{\trangbia}[1]{%
+  \thispagestyle{empty}\null
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw[line width=1.05pt] ($(current page.north west)+(24.5mm,-20mm)$)
+      rectangle ($(current page.south east)+(-15mm,24.5mm)$);
+    \draw[line width=.35pt] ($(current page.north west)+(26mm,-21.5mm)$)
+      rectangle ($(current page.south east)+(-16.5mm,26mm)$);
+    \coordinate (center) at ($(current page.north)+(4.75mm,0)$);
+    \node[anchor=north,align=center,font=\bfseries] at ($(center)+(0,-25mm)$)
+      {\DonVi\\[2mm]\Truong};
+    \ifnum#1=0\relax
+      \node at ($(center)+(0,-75mm)$){\includegraphics[height=31mm]{hinh/logo-uet.png}};
+    \fi
+    \node[align=center,font=\large\bfseries] at ($(center)+(0,-102mm)$){\SinhVien};
+    \node[align=center,text width=154mm,font=\Large\bfseries] at ($(center)+(0,-135mm)$)
+      {\MakeUppercase{\TenDeTai}};
+    \node[align=center,font=\large\bfseries] at ($(center)+(0,-176mm)$)
+      {\MakeUppercase{\LoaiQuyen}\\[2mm]Ngành\enspace \Nganh};
+    \ifnum#1=1\relax
+      \node[anchor=north west,align=left,font=\large\bfseries] at ($(current page.north west)+(36mm,-200mm)$)
+        {Cán bộ hướng dẫn\enspace \HuongDan
+         \ifx\DongHuongDan\empty\else\\[6mm]Cán bộ đồng hướng dẫn\enspace \DongHuongDan\fi};
+    \fi
+    \node[font=\bfseries] at ($(center)+(0,-255mm)$){\NoiNam};
+  \end{tikzpicture}\clearpage}

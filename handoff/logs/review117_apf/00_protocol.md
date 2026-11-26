@@ -1,0 +1,9 @@
+# R117 — Auxiliary Particle Filter cho CTRV
+
+Thử hai biến thể cùng 500 hạt và ba seed 0, 1, 2 trên UA-DETRAC train dev12 của R72. APF sinh hạt mới từ tổ tiên đã được chọn theo xác suất quan sát, có Gaussian điều kiện cho bốn tọa độ hộp. Các tọa độ chuyển động được lấy mẫu lại độc lập theo Q của từng tổ tiên. Khi mất detection, dùng bước predict hiện có. Biến thể thứ hai thêm K2 hiện tại vào APF sau ước lượng để kiểm vai trò của roughening. Cả hai là thử nghiệm riêng trong tiến trình.
+
+Giữ detector, cache, ghép ByteTrack và metric của dev12. Đối chứng PF500 K1K2 motion2 R72, và báo thêm RBPF R112 khi có cùng cấu hình. Kiểm lại prefix của đối chứng với MOT đã lưu và lặp cùng seed trước full. Khóa trước cổng so nền PF hiện hành là IDSW giảm ≥10%, HOTA giảm tối đa 0,5 điểm phần trăm, FN tăng tối đa 0,5%, cả ba seed đều không tăng IDSW. Chọn ứng viên có IDSW dev thấp hơn trong các ứng viên đạt cổng, thử chuyển miền toàn 12 FastTrack cùng cache R115/R116 để kiểm tính nhất quán. Trên FastTrack báo cả PF hiện hành và các chỉ số đã có. Không điều chỉnh tham số theo điểm FastTrack.
+
+Mô hình diagonal Gaussian làm tính likelihood tiên đoán và proposal điều kiện đơn giản, nhưng clamp chiều cao dương vẫn là phép xấp xỉ của mô hình đang dùng. Nhiễu R phụ thuộc detection đã ghép như nền. Đây là sử dụng quan sát hiện tại sau association, không nhìn khung tương lai. APF resample tổ tiên trước khi lấy mẫu con ở mọi update hợp lệ. Biến thể APF+K2 có roughening bổ sung nên mang tính heuristic.
+
+Nguồn phương pháp [Whiteley và Johansen](https://people.maths.bris.ac.uk/~manpw/apf_chapter.pdf), [MRPT](https://www.mrpt.org/tutorials/programming/statistics-and-bayes-filtering/particle_filter_algorithms/). Hướng Rao–Blackwell đã thử R87/R112, antithetic đã thử R81, Student-t đã thử R112 và không được lặp lại trong vòng này.

@@ -1,0 +1,20 @@
+{
+  "status": "fixed before SVMOT tracker runs on official test split",
+  "archive": "D:/LABOTARY/svmot_data_v1.0.zip",
+  "official_split_source": "https://zenodo.org/records/19468203",
+  "official_test_scenes": ["scene_05", "scene_06"],
+  "official_test_sequences": [
+    "seq_22_morning", "seq_23_morning", "seq_24_morning", "seq_25_morning",
+    "seq_26_evening", "seq_27_evening", "seq_28_evening", "seq_29_evening", "seq_30_evening"
+  ],
+  "train_only_detector_smoke": {"sequence": "seq_07_morning", "source_frames": [600, 629], "model": "YOLO11n mixed5 best.pt"},
+  "gt_policy": "All seven SVMOT vehicle classes pooled as TrackEval MOT class 1; retain all GT boxes and source visibility",
+  "detection_conditions": {
+    "release": "Use released det.txt unchanged except format conversion; box coordinates are identical to GT in all 30 sequences, so this is oracle-geometry input",
+    "visibility_drop": "From the same released detections, remove exactly boxes whose matched GT visibility is <0.5; leave all other boxes and scores bit-identical"
+  },
+  "trackers": ["ByteTrack KF/CV", "ByteTrack EKF/CTRV", "ByteTrack UKF/CTRV", "ByteTrack PF/CTRV 100 particles"],
+  "tracker_policy": "Use existing YAML files with common association thresholds, conf_min=0.25, FPS from each seqinfo.ini (30), PF seeds 0/1/2; no tuning on test",
+  "metrics": ["HOTA", "IDF1", "IDSW", "MOTA", "per-sequence results"],
+  "interpretation": "This is a released-detection and controlled-missing-detection diagnostic, not an end-to-end YOLO benchmark. Do not select favorable test sequences after seeing scores."
+}

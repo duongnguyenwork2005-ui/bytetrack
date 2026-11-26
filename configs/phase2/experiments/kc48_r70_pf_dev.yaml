@@ -1,0 +1,64 @@
+# R70. Fixed development matrix; diagnostic logging enabled for every run.
+name: kc48_r70_pf_dev
+dataset: detrac
+split_name: DETRAC-all
+part: train
+cache_id: yolov8n-coco_conf0.05_all
+classes:
+- 2
+- 3
+- 5
+- 7
+max_det: 300
+fps: 25
+elapsed_mode: skip
+conditions:
+  A:
+    conf_min: 0.25
+assoc_log: true
+pf_diag: true
+trackers:
+- name: cv
+  yaml: bytetrack.yaml
+- name: ekf
+  yaml: configs/bytetrack_ekf_ctrv.yaml
+- name: ukf
+  yaml: configs/bytetrack_ukf_ctrv.yaml
+- name: pf500
+  yaml: configs/phase2/trackers/r70/pf500.yaml
+  seeds:
+  - 0
+  - 1
+  - 2
+- name: pf500-k1
+  yaml: configs/phase2/trackers/r70/pf500-k1.yaml
+  seeds:
+  - 0
+  - 1
+  - 2
+- name: pf500-k1k2
+  yaml: configs/phase2/trackers/r70/pf500-k1k2.yaml
+  seeds:
+  - 0
+  - 1
+  - 2
+- name: pf500-rpred
+  yaml: configs/phase2/trackers/r70/pf500-rpred.yaml
+  seeds:
+  - 0
+  - 1
+  - 2
+- name: pf500-k1-rpred
+  yaml: configs/phase2/trackers/r70/pf500-k1-rpred.yaml
+  seeds:
+  - 0
+  - 1
+  - 2
+- name: pf500-k1k2-rpred
+  yaml: configs/phase2/trackers/r70/pf500-k1k2-rpred.yaml
+  seeds:
+  - 0
+  - 1
+  - 2
+baseline: cv
+manifest: results/phase2/manifests/detrac_dev.json

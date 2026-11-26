@@ -1,0 +1,79 @@
+{
+  "control": {
+    "returncode": 0,
+    "seconds": 328.0509595200019,
+    "log_sha256": "270e6bf5f6649b9adae0313f780e7279a3ffef1988ee4bce484873058a36731e",
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--onnx=/home/jetson/nano_run/r167_fused_silu_20261121/control.onnx",
+      "--saveEngine=/home/jetson/nano_run/r167_fused_silu_20261121/control.engine",
+      "--fp16",
+      "--workspace=512",
+      "--buildOnly",
+      "--profilingVerbosity=detailed"
+    ],
+    "after": {
+      "boot": "51280481-0986-4322-a37c-824de9e072af",
+      "swap_MiB": 125.58203125,
+      "available_MiB": 2956.5859375,
+      "thermal_C": {
+        "CPU-therm": 28.5,
+        "GPU-therm": 26.0
+      },
+      "SD_errors": "0"
+    },
+    "engine_sha256": "fffdd6a49402070f59a1449cf20f5b364b7852870f17cb3de0a5481c43a3bc19"
+  },
+  "precise": {
+    "returncode": 0,
+    "seconds": 302.4912275830029,
+    "log_sha256": "e7ebaccf80246b014ee9eb83797f27f0eea50f3e3f881edaa65dae385d8d472a",
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--onnx=/home/jetson/nano_run/r167_fused_silu_20261121/precise.onnx",
+      "--saveEngine=/home/jetson/nano_run/r167_fused_silu_20261121/precise.engine",
+      "--fp16",
+      "--workspace=512",
+      "--buildOnly",
+      "--profilingVerbosity=detailed",
+      "--plugins=/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so"
+    ],
+    "after": {
+      "boot": "51280481-0986-4322-a37c-824de9e072af",
+      "swap_MiB": 125.55078125,
+      "available_MiB": 2955.1484375,
+      "thermal_C": {
+        "CPU-therm": 29.0,
+        "GPU-therm": 27.0
+      },
+      "SD_errors": "0"
+    },
+    "engine_sha256": "6516484590ef56e82d60e1d4fe49f8a5b8b1a9d51c36de60ffbc6e5e772a2ca9"
+  },
+  "fast": {
+    "returncode": 0,
+    "seconds": 301.92929616699985,
+    "log_sha256": "8265f19bd74773e79f03c35dc32816b7ef4cba4cacf0056ceefd00cbad10e825",
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--onnx=/home/jetson/nano_run/r167_fused_silu_20261121/fast.onnx",
+      "--saveEngine=/home/jetson/nano_run/r167_fused_silu_20261121/fast.engine",
+      "--fp16",
+      "--workspace=512",
+      "--buildOnly",
+      "--profilingVerbosity=detailed",
+      "--plugins=/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_fast.so"
+    ],
+    "after": {
+      "boot": "51280481-0986-4322-a37c-824de9e072af",
+      "swap_MiB": 125.54296875,
+      "available_MiB": 2952.296875,
+      "thermal_C": {
+        "CPU-therm": 29.5,
+        "GPU-therm": 27.0
+      },
+      "SD_errors": "0"
+    },
+    "engine_sha256": "bc987f14b91037d1cfdca5eab809bd343670822182b4c01e7531a26815accc16"
+  }
+}

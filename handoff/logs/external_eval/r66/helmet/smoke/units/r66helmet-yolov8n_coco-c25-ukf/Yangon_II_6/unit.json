@@ -1,0 +1,70 @@
+{
+ "protocol_hash": "05e3f9592c86e4c162f6860504c9843791209c252944d0104fe80e0112e40f08",
+ "fingerprint": "9b6f1c28d677c37dfa7d9f55fca35f4733489e9c1d741e435eb8501395a2df43",
+ "video": "Yangon_II_6",
+ "seed": null,
+ "settings": {
+  "protocol_hash": "05e3f9592c86e4c162f6860504c9843791209c252944d0104fe80e0112e40f08",
+  "tracker_cfg": {
+   "tracker_type": "bytetrack_ukf_ctrv",
+   "track_high_thresh": 0.25,
+   "track_low_thresh": 0.1,
+   "new_track_thresh": 0.25,
+   "track_buffer": 12,
+   "match_thresh": 0.8,
+   "fuse_score": true
+  },
+  "yaml_sha256": "5d1286e41ebe8f76f94045ea36ba57571efcf73633e7039bb29ab96366b45661",
+  "backend": {
+   "git_commit": "8f3b63d",
+   "modules": {
+    "run_tracking.py": "5bd131fe958bdf04",
+    "run_experiment.py": "9952441194b7e70f",
+    "tracker_ctrv.py": "b22b4688f50058e8",
+    "sort_tracker.py": "a4ab4b26867989eb",
+    "ekf_ctrv.py": "b516781efa01f473",
+    "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+    "ukf_ctrv.py": "2d59daf4794d8039",
+    "pf_ctrv.py": "de141de5aa698735",
+    "lost_recovery.py": "38f30192b492fa80",
+    "lost_association.py": "469c2782cba41e01",
+    "time_units.py": "c13b6e20fe003f6d",
+    "det_cache.py": "17024ddc6afec534",
+    "occlusion_eval.py": "1b892596be674b9e",
+    "boot_stats.py": "e9245f6729659f8f",
+    "run_trackeval.py": "519d3f9165803fde",
+    "trackeval_ext.py": "3dcf6582548adcfa",
+    "assoc_log.py": "0915453e70f75eb2",
+    "ul_backend.py": "7381910281d8a273",
+    "bytetrack_np.py": "8d37ec565230603b",
+    "run_state.py": "2bc38e3a86fbf50b"
+   },
+   "backend": {
+    "backend": "ultralytics",
+    "ultralytics": "8.4.141",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13"
+   }
+  },
+  "detector": "yolov8n_coco",
+  "threshold": 0.25,
+  "classes": [
+   3
+  ],
+  "max_det": 300,
+  "seed": null,
+  "elapsed_mode": "steps",
+  "fps": 10,
+  "max_time_lost_thuc": 12,
+  "track_buffer_frames": 12,
+  "dt_nominal_s": 0.1
+ },
+ "cache_marker_sha256": "acf15f5503c451476cccd3717024e24f1a121780a9f82646226dd32e8ec13881",
+ "sha256": {
+  "data/Yangon_II_6.txt": "308235e3beff788899a123eb8fe1a3417582034f89f93d1460f6c6d7964c31e3",
+  "data_cls/Yangon_II_6.csv": "978158ec19558fcd3cecad29ed10949d73bab6c650fc7f9622cd571667c11ef2",
+  "timing/Yangon_II_6.csv": "6077a2d4d1cd94dc3b1fab450089b42d1cf05ed90aa50be48d85847ed98ebeec"
+ },
+ "seconds": 0.2970000000204891
+}

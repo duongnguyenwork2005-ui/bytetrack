@@ -1,0 +1,208 @@
+{
+ "buoc": "fixture R55A",
+ "lan": "results/phase2/r55_tracking/tests/lan_20261021_053236_257100_pid22868",
+ "luc": "2026-10-21T05:32:53+0700",
+ "tong_giay": 17.5,
+ "so_test": 20,
+ "so_dat": 3,
+ "tat_ca_dat": false,
+ "so_lenh_cli_con": 13,
+ "dieu_phoi_sha256": "0e96b4fb7866cf692eeb46bb25d5dfb100ed5f26c13e244050de7466169f14b3",
+ "test_sha256": "6b4e25ec33e3b1096e390bba6e87783ad3d55ac24a9b2dddf5da7b032c352e72",
+ "hop_dong_sha256": "bed7ba74f18f263758ff7830d13ab14af7bf05321d736aead21a789183672f93",
+ "thiet_ke_sha256": "c2ebfe70d85252810e1872b974dcf5ecf1ee9789956e75815347ff3832585b91",
+ "giao_thuc_r54_sha256": "eb1f8f3087401eaf3641c1bc215a864ad23850ec5ddd6970d7d74280715431ad",
+ "thu_vien": {
+  "python": "3.11.9",
+  "ultralytics": "8.4.141",
+  "torch": "2.6.0+cu124",
+  "torchvision": "0.21.0+cu124",
+  "trackeval": "1.3.0",
+  "numpy": "2.4.6",
+  "pandas": "2.3.3",
+  "opencv-python": "5.0.0.93",
+  "scipy": "1.17.1",
+  "lap": "0.5.13",
+  "fastparquet": "2026.5.0",
+  "filterpy": null
+ },
+ "gioi_han": [
+  "detector GIA LAP (MoHinhGia fixture R54) qua det_cache.build_video_yolo; YOLO/spec.fill_env()/GPU khong chay; khong setup_model/forward checkpoint that",
+  "du lieu tong hop 2 video x 20 anh (co frame khong GT va anh D4); duong that 40 video chua chay",
+  "tracker (CV/EKF/UKF/PF500) va TrackEval THAT tren CPU; mot so ca goi main() trong tien trinh, ngat/backend/chuoi chuan bi dung tien trinh con THAT (cli_log.json)",
+  "khoa fixture ke thua file khoa R54 THAT (bam lai, chi doc); ket qua test dung cho khoa fixture la ban GIA trong vung fixture",
+  "snapshot chi phu cac thu muc liet ke trong snapshot(), khong phai toan bo dia"
+ ],
+ "ket_qua": [
+  {
+   "ten": "A1 import khong chay gi; script khong tham so / buoc la -> exit 2, khong ghi",
+   "dat": true,
+   "chi_tiet": {
+    "import": "ok ('mo-phien', 'cache', 'xac-nhan-cache', 'tracking', 'cham', 'lap-tracker', 'cham-lai', 'hau-kiem')",
+    "khong_tham_so": {
+     "exit": 2,
+     "dong": [
+      "                           [--duyet DUYET]",
+      "dieu_phoi_test40.py: error: the following arguments are required: --buoc"
+     ]
+    },
+    "buoc_la": {
+     "exit": 2,
+     "dong": [
+      "                           [--duyet DUYET]",
+      "dieu_phoi_test40.py: error: argument --buoc: invalid choice: 'full' (choose from 'tien-kiem', 'khoa', 'kiem-khoa', 'thuc-thi')"
+     ]
+    }
+   },
+   "giay": 0.47
+  },
+  {
+   "ten": "A2 duong that: thieu --duyet / --cong-viec / --phien / ten khoa / R55_NGAT / env fixture ngoai tests -> exit 2, khong ghi",
+   "dat": true,
+   "chi_tiet": {
+    "khong_duyet": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi] LoiDauVao: duong that can --duyet <ma plan thuc thi da duoc nguoi dung duyet>; R55 khong cap quyen"
+     ]
+    },
+    "khong_cong_viec": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi] LoiDauVao: --cong-viec bat buoc, mot trong ('mo-phien', 'cache', 'xac-nhan-cache', 'tracking', 'cham', 'lap-tracker', 'cham-lai', 'hau-kiem')"
+     ]
+    },
+    "thieu_phien": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi] LoiDauVao: --cong-viec cham thieu tham so: ['phien']"
+     ]
+    },
+    "khoa_khong_ten": {
+     "exit": 2,
+     "dong": [
+      "[khoa] LoiDauVao: khoa can --tien-kiem <phien> va --tests <phien> TUONG MINH"
+     ]
+    },
+    "kiem_khoa_khong_ten": {
+     "exit": 2,
+     "dong": [
+      "[kiem-khoa] LoiDauVao: can --khoa <ten phien khoa R55> (khong tu chon khoa moi nhat)"
+     ]
+    },
+    "cong_viec_ngoai_thuc_thi": {
+     "exit": 2,
+     "dong": [
+      "[tien-kiem] LoiDauVao: --cong-viec/--phien/--detector/--run/--video chi dung voi --buoc thuc-thi"
+     ]
+    },
+    "ngat_duong_that": {
+     "exit": 2,
+     "dong": [
+      "[kiem-khoa] LoiDauVao: R55_NGAT chi dung trong fixture"
+     ]
+    },
+    "env_ngoai_tests": {
+     "exit": 2,
+     "dong": [
+      "[kiem-khoa] LoiDauVao: R55_FIXTURE=D:\\LABOTARY\\bytetrack\\results\\phase2\\r55_tracking\\fixture.json phai la .../fixture.json ben trong D:\\LABOTARY\\bytetrack\\results\\phase2\\r55_tracking\\tests"
+     ]
+    }
+   },
+   "giay": 1.33
+  },
+  {
+   "ten": "B1 CLI chuan bi fixture: tien-kiem -> khoa (ten tuong minh) -> kiem-khoa (chi doc / --luu)",
+   "dat": false,
+   "loi": "AssertionError: ",
+   "trace": "Traceback (most recent call last):\n  File \"D:\\LABOTARY\\bytetrack\\src\\r55_tracking\\test_dieu_phoi_test40.py\", line 42, in chay\n    ct = fn(*a, **k)\n         ^^^^^^^^^^^\n  File \"D:\\LABOTARY\\bytetrack\\src\\r55_tracking\\test_dieu_phoi_test40.py\", line 221, in ca_chuoi_chuan_bi\n    assert any(r.endswith(\"ultralytics/utils/events.py\") for r in rels)        # ke thua tu khoa R54\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+   "giay": 15.36
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "chay",
+   "dat": false,
+   "loi": "bo qua: chuoi chuan bi/mo-phien loi"
+  },
+  {
+   "ten": "Z1 khong ghi ngoai vung (snapshot thu muc nhay cam)",
+   "dat": true,
+   "chi_tiet": []
+  }
+ ],
+ "exit": 1
+}

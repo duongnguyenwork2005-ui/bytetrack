@@ -1,0 +1,41 @@
+{
+  "id": "UTUAV-Q3-v1",
+  "decision": "D:/LABOTARY/automation/runs_local/hoi_codex_R64_viec_tiep_20261102/answer.json#Q3",
+  "source_fps": "handoff/logs/external_eval/utuav/00_nguon_fps.md",
+  "dataset_version": "UTUAV v2 Sequential_Gap300",
+  "split": "UTUAVSYS-validation",
+  "source_sequences": {
+    "B_validation": [26341, 27078],
+    "C_validation": [20271, 21021]
+  },
+  "source_frames_per_image": 1,
+  "fps_fraction": [30000, 1001],
+  "dt_seconds_fraction": [1001, 30000],
+  "buffer_seconds": 1.2,
+  "buffer_steps": 36,
+  "smoke": {
+    "split": "UTUAVSYS-validation-smoke128",
+    "B_validation": [26341, 26468],
+    "C_validation": [20271, 20398],
+    "gate": "technical correctness, no HOTA or recall threshold"
+  },
+  "gt": {
+    "source": "6-class PascalVOC XML",
+    "moving_classes": ["motorbike", "car", "bus"],
+    "moving_mot_class": 1,
+    "static_classes": ["motorbike_stat", "car_stat", "bus_stat"],
+    "static_distractor_mot_class": 8,
+    "source_box_boundary_policy": "Keep original XML coordinates without clipping; audit found 45 edge boxes up to 4 px beyond image",
+    "occluded_field": "all zero; not used for occlusion stratification"
+  },
+  "detectors": ["yolov8n_coco", "yolov8n_mixed5", "yolo11n_mixed5"],
+  "detector_spec": {"imgsz": 640, "rect": true, "fp32": true, "conf": 0.05, "iou": 0.7, "max_det": 3000},
+  "tracker": {"filters": ["cv", "ekf", "ukf", "pf500"], "pf_seeds": [0, 1, 2],
+    "confidence_conditions": {"c25": 0.25, "c10": 0.10},
+    "coco_classes": [1, 2, 3, 5, 7], "max_detections": 300,
+    "elapsed_mode": "steps", "metric": "mot"},
+  "planned_runs": 36,
+  "planned_run_sequence_units": 72,
+  "scope_limitations": ["no training/evaluation partition", "no tiling or detector tuning",
+    "no occlusion stratification from zero-filled occluded field", "descriptive two-sequence results without CI"]
+}

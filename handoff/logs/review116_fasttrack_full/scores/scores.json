@@ -1,0 +1,558 @@
+{
+  "all12": {
+    "clips": [
+      "task_day_left_turn",
+      "task_day_occlusion",
+      "task_day_pedestrian_crossing",
+      "task_day_right_turn",
+      "task_day_right_turn_occlusion",
+      "task_day_right_turn_pedestrian",
+      "task_night_far_objects",
+      "task_night_occlusion",
+      "task_night_occlusion_far_objects",
+      "task_night_right_turn_pedestrian",
+      "task_night_right_turn_pedestrian_occlusion",
+      "task_tunnel"
+    ],
+    "frames": 19480,
+    "car_ids_per_sequence": 907,
+    "car_boxes": 545151,
+    "results": {
+      "kf": {
+        "metrics": {
+          "HOTA": 0.3122387232033291,
+          "IDF1": 0.31106609866465745,
+          "IDSW": 1099,
+          "FN": 412214,
+          "FP": 16041
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1099,
+            "FN": 412214
+          },
+          "turn25": {
+            "boxes": 2327,
+            "IDSW": 8,
+            "FN": 1092
+          }
+        }
+      },
+      "ekf": {
+        "metrics": {
+          "HOTA": 0.318833925091017,
+          "IDF1": 0.3190053009492129,
+          "IDSW": 1075,
+          "FN": 412495,
+          "FP": 16031
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1075,
+            "FN": 412495
+          },
+          "turn25": {
+            "boxes": 2327,
+            "IDSW": 8,
+            "FN": 1095
+          }
+        },
+        "idsw_delta_vs_kf": {
+          "per_clip": {
+            "task_day_left_turn": -10,
+            "task_day_occlusion": -4,
+            "task_day_pedestrian_crossing": 2,
+            "task_day_right_turn": -17,
+            "task_day_right_turn_occlusion": -15,
+            "task_day_right_turn_pedestrian": 4,
+            "task_night_far_objects": -1,
+            "task_night_occlusion": 2,
+            "task_night_occlusion_far_objects": 3,
+            "task_night_right_turn_pedestrian": 5,
+            "task_night_right_turn_pedestrian_occlusion": 9,
+            "task_tunnel": -2
+          },
+          "bootstrap_clip_95": [
+            -81.0,
+            26.0
+          ]
+        }
+      },
+      "ukf": {
+        "metrics": {
+          "HOTA": 0.3202512190028668,
+          "IDF1": 0.3205228532105464,
+          "IDSW": 1103,
+          "FN": 412415,
+          "FP": 15998
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1103,
+            "FN": 412415
+          },
+          "turn25": {
+            "boxes": 2327,
+            "IDSW": 15,
+            "FN": 1094
+          }
+        },
+        "idsw_delta_vs_kf": {
+          "per_clip": {
+            "task_day_left_turn": 5,
+            "task_day_occlusion": -2,
+            "task_day_pedestrian_crossing": 3,
+            "task_day_right_turn": -16,
+            "task_day_right_turn_occlusion": -7,
+            "task_day_right_turn_pedestrian": 10,
+            "task_night_far_objects": -1,
+            "task_night_occlusion": 6,
+            "task_night_occlusion_far_objects": 5,
+            "task_night_right_turn_pedestrian": 4,
+            "task_night_right_turn_pedestrian_occlusion": 4,
+            "task_tunnel": -7
+          },
+          "bootstrap_clip_95": [
+            -47.0,
+            48.0
+          ]
+        }
+      },
+      "pf-s0": {
+        "metrics": {
+          "HOTA": 0.310754690045736,
+          "IDF1": 0.3034120871270668,
+          "IDSW": 1306,
+          "FN": 414424,
+          "FP": 17041
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1306,
+            "FN": 414424
+          },
+          "turn25": {
+            "boxes": 2327,
+            "IDSW": 12,
+            "FN": 1112
+          }
+        }
+      },
+      "pf-s1": {
+        "metrics": {
+          "HOTA": 0.31133868436205314,
+          "IDF1": 0.30492459235992425,
+          "IDSW": 1284,
+          "FN": 414578,
+          "FP": 17044
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1284,
+            "FN": 414578
+          },
+          "turn25": {
+            "boxes": 2327,
+            "IDSW": 13,
+            "FN": 1108
+          }
+        }
+      },
+      "pf-s2": {
+        "metrics": {
+          "HOTA": 0.3112104374228643,
+          "IDF1": 0.30439777398051077,
+          "IDSW": 1241,
+          "FN": 414477,
+          "FP": 17071
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1241,
+            "FN": 414477
+          },
+          "turn25": {
+            "boxes": 2327,
+            "IDSW": 13,
+            "FN": 1114
+          }
+        }
+      }
+    }
+  },
+  "new9": {
+    "clips": [
+      "task_day_left_turn",
+      "task_day_pedestrian_crossing",
+      "task_day_right_turn",
+      "task_day_right_turn_pedestrian",
+      "task_night_far_objects",
+      "task_night_occlusion",
+      "task_night_occlusion_far_objects",
+      "task_night_right_turn_pedestrian",
+      "task_night_right_turn_pedestrian_occlusion"
+    ],
+    "frames": 14105,
+    "car_ids_per_sequence": 650,
+    "car_boxes": 407671,
+    "results": {
+      "kf": {
+        "metrics": {
+          "HOTA": 0.31487314164845015,
+          "IDF1": 0.309016355103759,
+          "IDSW": 781,
+          "FN": 312099,
+          "FP": 9869
+        },
+        "groups": {
+          "all": {
+            "boxes": 407671,
+            "IDSW": 781,
+            "FN": 312099
+          },
+          "turn25": {
+            "boxes": 1961,
+            "IDSW": 8,
+            "FN": 1014
+          }
+        }
+      },
+      "ekf": {
+        "metrics": {
+          "HOTA": 0.3171008469219821,
+          "IDF1": 0.31117940238204805,
+          "IDSW": 778,
+          "FN": 312363,
+          "FP": 9857
+        },
+        "groups": {
+          "all": {
+            "boxes": 407671,
+            "IDSW": 778,
+            "FN": 312363
+          },
+          "turn25": {
+            "boxes": 1961,
+            "IDSW": 8,
+            "FN": 1017
+          }
+        },
+        "idsw_delta_vs_kf": {
+          "per_clip": {
+            "task_day_left_turn": -10,
+            "task_day_pedestrian_crossing": 2,
+            "task_day_right_turn": -17,
+            "task_day_right_turn_pedestrian": 4,
+            "task_night_far_objects": -1,
+            "task_night_occlusion": 2,
+            "task_night_occlusion_far_objects": 3,
+            "task_night_right_turn_pedestrian": 5,
+            "task_night_right_turn_pedestrian_occlusion": 9
+          },
+          "bootstrap_clip_95": [
+            -52.0,
+            38.0
+          ]
+        }
+      },
+      "ukf": {
+        "metrics": {
+          "HOTA": 0.3194765975647713,
+          "IDF1": 0.31442764343031826,
+          "IDSW": 801,
+          "FN": 312262,
+          "FP": 9852
+        },
+        "groups": {
+          "all": {
+            "boxes": 407671,
+            "IDSW": 801,
+            "FN": 312262
+          },
+          "turn25": {
+            "boxes": 1961,
+            "IDSW": 15,
+            "FN": 1016
+          }
+        },
+        "idsw_delta_vs_kf": {
+          "per_clip": {
+            "task_day_left_turn": 5,
+            "task_day_pedestrian_crossing": 3,
+            "task_day_right_turn": -16,
+            "task_day_right_turn_pedestrian": 10,
+            "task_night_far_objects": -1,
+            "task_night_occlusion": 6,
+            "task_night_occlusion_far_objects": 5,
+            "task_night_right_turn_pedestrian": 4,
+            "task_night_right_turn_pedestrian_occlusion": 4
+          },
+          "bootstrap_clip_95": [
+            -27.0,
+            53.0
+          ]
+        }
+      },
+      "pf-s0": {
+        "metrics": {
+          "HOTA": 0.3094829447566841,
+          "IDF1": 0.2985628295915359,
+          "IDSW": 916,
+          "FN": 313533,
+          "FP": 10378
+        },
+        "groups": {
+          "all": {
+            "boxes": 407671,
+            "IDSW": 916,
+            "FN": 313533
+          },
+          "turn25": {
+            "boxes": 1961,
+            "IDSW": 11,
+            "FN": 1026
+          }
+        }
+      },
+      "pf-s1": {
+        "metrics": {
+          "HOTA": 0.3109262554672771,
+          "IDF1": 0.3012210980119572,
+          "IDSW": 903,
+          "FN": 313540,
+          "FP": 10360
+        },
+        "groups": {
+          "all": {
+            "boxes": 407671,
+            "IDSW": 903,
+            "FN": 313540
+          },
+          "turn25": {
+            "boxes": 1961,
+            "IDSW": 13,
+            "FN": 1024
+          }
+        }
+      },
+      "pf-s2": {
+        "metrics": {
+          "HOTA": 0.308315519104332,
+          "IDF1": 0.29794404201729896,
+          "IDSW": 894,
+          "FN": 313531,
+          "FP": 10359
+        },
+        "groups": {
+          "all": {
+            "boxes": 407671,
+            "IDSW": 894,
+            "FN": 313531
+          },
+          "turn25": {
+            "boxes": 1961,
+            "IDSW": 13,
+            "FN": 1031
+          }
+        }
+      }
+    }
+  },
+  "all12_alternate_fps": {
+    "clips": [
+      "task_day_left_turn",
+      "task_day_occlusion",
+      "task_day_pedestrian_crossing",
+      "task_day_right_turn",
+      "task_day_right_turn_occlusion",
+      "task_day_right_turn_pedestrian",
+      "task_night_far_objects",
+      "task_night_occlusion",
+      "task_night_occlusion_far_objects",
+      "task_night_right_turn_pedestrian",
+      "task_night_right_turn_pedestrian_occlusion",
+      "task_tunnel"
+    ],
+    "frames": 19480,
+    "car_ids_per_sequence": 907,
+    "car_boxes": 545151,
+    "results": {
+      "kf": {
+        "metrics": {
+          "HOTA": 0.31223955012527094,
+          "IDF1": 0.31110592485986316,
+          "IDSW": 1100,
+          "FN": 412212,
+          "FP": 16053
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1100,
+            "FN": 412212
+          },
+          "turn25": {
+            "boxes": 2510,
+            "IDSW": 9,
+            "FN": 1177
+          }
+        }
+      },
+      "ekf": {
+        "metrics": {
+          "HOTA": 0.3188361495479414,
+          "IDF1": 0.3190401383584348,
+          "IDSW": 1076,
+          "FN": 412487,
+          "FP": 16035
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1076,
+            "FN": 412487
+          },
+          "turn25": {
+            "boxes": 2510,
+            "IDSW": 9,
+            "FN": 1180
+          }
+        },
+        "idsw_delta_vs_kf": {
+          "per_clip": {
+            "task_day_left_turn": -10,
+            "task_day_occlusion": -4,
+            "task_day_pedestrian_crossing": 2,
+            "task_day_right_turn": -17,
+            "task_day_right_turn_occlusion": -15,
+            "task_day_right_turn_pedestrian": 4,
+            "task_night_far_objects": -1,
+            "task_night_occlusion": 2,
+            "task_night_occlusion_far_objects": 3,
+            "task_night_right_turn_pedestrian": 5,
+            "task_night_right_turn_pedestrian_occlusion": 9,
+            "task_tunnel": -2
+          },
+          "bootstrap_clip_95": [
+            -81.0,
+            26.0
+          ]
+        }
+      },
+      "ukf": {
+        "metrics": {
+          "HOTA": 0.32022159858471977,
+          "IDF1": 0.3205321834972388,
+          "IDSW": 1105,
+          "FN": 412409,
+          "FP": 16003
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1105,
+            "FN": 412409
+          },
+          "turn25": {
+            "boxes": 2510,
+            "IDSW": 16,
+            "FN": 1179
+          }
+        },
+        "idsw_delta_vs_kf": {
+          "per_clip": {
+            "task_day_left_turn": 5,
+            "task_day_occlusion": -2,
+            "task_day_pedestrian_crossing": 3,
+            "task_day_right_turn": -16,
+            "task_day_right_turn_occlusion": -7,
+            "task_day_right_turn_pedestrian": 10,
+            "task_night_far_objects": -1,
+            "task_night_occlusion": 6,
+            "task_night_occlusion_far_objects": 6,
+            "task_night_right_turn_pedestrian": 4,
+            "task_night_right_turn_pedestrian_occlusion": 4,
+            "task_tunnel": -7
+          },
+          "bootstrap_clip_95": [
+            -46.0,
+            49.0
+          ]
+        }
+      },
+      "pf-s0": {
+        "metrics": {
+          "HOTA": 0.3110818229792146,
+          "IDF1": 0.30396765036533324,
+          "IDSW": 1304,
+          "FN": 414428,
+          "FP": 17055
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1304,
+            "FN": 414428
+          },
+          "turn25": {
+            "boxes": 2510,
+            "IDSW": 13,
+            "FN": 1197
+          }
+        }
+      },
+      "pf-s1": {
+        "metrics": {
+          "HOTA": 0.31152944941775224,
+          "IDF1": 0.3053280196995131,
+          "IDSW": 1290,
+          "FN": 414537,
+          "FP": 17044
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1290,
+            "FN": 414537
+          },
+          "turn25": {
+            "boxes": 2510,
+            "IDSW": 14,
+            "FN": 1195
+          }
+        }
+      },
+      "pf-s2": {
+        "metrics": {
+          "HOTA": 0.3109637006683923,
+          "IDF1": 0.3041028001910763,
+          "IDSW": 1248,
+          "FN": 414470,
+          "FP": 17085
+        },
+        "groups": {
+          "all": {
+            "boxes": 545151,
+            "IDSW": 1248,
+            "FN": 414470
+          },
+          "turn25": {
+            "boxes": 2510,
+            "IDSW": 14,
+            "FN": 1200
+          }
+        }
+      }
+    }
+  },
+  "alternate_clips": [
+    "task_night_far_objects",
+    "task_night_occlusion_far_objects"
+  ]
+}

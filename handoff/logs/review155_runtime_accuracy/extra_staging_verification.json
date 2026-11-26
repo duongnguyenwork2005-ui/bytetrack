@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "trials": [
+    {
+      "root": "/home/jetson/nano_run/r150_pruning_20261120",
+      "source_sha256": "c427cc911e15e3e9b7526a4dd0dca2a448e9fe8ce96eca8c87182a9e19caffbe",
+      "config_sha256": "444021ab7e893ae66fce2288a1a9327b3ce128a464317420bb4b86f93954f4d6",
+      "models": [
+        "original",
+        "anchor",
+        "control",
+        "channel25_KD"
+      ],
+      "status": "PASS"
+    },
+    {
+      "root": "/home/jetson/nano_run/r160_height352_20261120",
+      "source_sha256": "c427cc911e15e3e9b7526a4dd0dca2a448e9fe8ce96eca8c87182a9e19caffbe",
+      "config_sha256": "2397a34629802c227660f75de78cbc48465164cc04ff518bcb20880f4865d96a",
+      "models": [
+        "original",
+        "r352x640"
+      ],
+      "status": "PASS"
+    },
+    {
+      "root": "/home/jetson/nano_run/r162_cuda_pre_20261120",
+      "source_sha256": "d2320415416ba452ee47325f929a82c881124e1fd858e2b61b724f16d47f0fa7",
+      "config_sha256": "5d0df36d83612fb93d69f8380a025f662092cad25c51aa5be0a46dcbcbde83b6",
+      "models": [
+        "original",
+        "gpu_pre"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "candidate_package_entries_verified": 149,
+  "GPU_work_started": false,
+  "source_sha256": "65d029728598a19e94b9496b7fe23e563e3f8ba999898a01fe5ce394d775a0d1"
+}

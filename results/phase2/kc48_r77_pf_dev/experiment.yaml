@@ -1,0 +1,23 @@
+name: kc48_r77_pf_dev
+dataset: detrac
+split_name: DETRAC-all
+part: train
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+elapsed_mode: skip
+conditions:
+  A:
+    conf_min: 0.25
+assoc_log: false
+pf_diag: false
+trackers:
+- name: motion600
+  yaml: configs/phase2/trackers/r77/motion600.yaml
+  seeds: [0, 1, 2]
+- name: motion800
+  yaml: configs/phase2/trackers/r77/motion800.yaml
+  seeds: [0, 1, 2]
+baseline: motion600
+manifest: results/phase2/manifests/detrac_dev.json

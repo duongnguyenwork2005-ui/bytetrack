@@ -1,0 +1,87 @@
+{
+  "baseline": {
+    "HOTA": 0.5700573880778835,
+    "IDF1": 0.6836098794822986,
+    "IDSW": 697.0,
+    "FN": 39395.666666666664,
+    "FP": 13485.0,
+    "MOTA": 0.5414637625344118
+  },
+  "candidate": {
+    "HOTA": 0.5896347053422885,
+    "IDF1": 0.7179563438297857,
+    "IDSW": 469.0,
+    "FN": 37431.333333333336,
+    "FP": 12113.333333333334,
+    "MOTA": 0.5719657095582468
+  },
+  "candidate_seeds": [
+    {
+      "HOTA": 0.5896172834474582,
+      "DetA": 0.520658194602529,
+      "AssA": 0.6774452866884654,
+      "IDF1": 0.7179415801952447,
+      "MOTA": 0.5718772733107964,
+      "IDSW": 480.0,
+      "FP": 12104.0,
+      "FN": 37440.0
+    },
+    {
+      "HOTA": 0.5896435802092007,
+      "DetA": 0.5207025917379078,
+      "AssA": 0.6774667488324196,
+      "IDF1": 0.7180375540445216,
+      "MOTA": 0.5720826736274551,
+      "IDSW": 467.0,
+      "FP": 12118.0,
+      "FN": 37415.0
+    },
+    {
+      "HOTA": 0.5896432523702068,
+      "DetA": 0.5206339256851781,
+      "AssA": 0.6775290107434284,
+      "IDF1": 0.7178898972495908,
+      "MOTA": 0.5719371817364886,
+      "IDSW": 460.0,
+      "FP": 12118.0,
+      "FN": 37439.0
+    }
+  ],
+  "raw_paths": [
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review112_svmot_pf\\dev\\evaluation\\candidate-s0\\raw_fields.json",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review112_svmot_pf\\dev\\evaluation\\candidate-s1\\raw_fields.json",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review112_svmot_pf\\dev\\evaluation\\candidate-s2\\raw_fields.json"
+  ],
+  "limits": {
+    "IDSW_max": 627.3000000000001,
+    "HOTA_min": 0.5650573880778835,
+    "FN_max": 39592.645
+  },
+  "conditions": {
+    "IDSW": true,
+    "HOTA": true,
+    "FN": true,
+    "all_seeds": true,
+    "videos": true
+  },
+  "gate_pass": true,
+  "per_video_IDSW_delta": {
+    "MVI_20052": 5.666666666666664,
+    "MVI_20062": -2.666666666666668,
+    "MVI_39851": -3.0000000000000018,
+    "MVI_39931": -2.666666666666666,
+    "MVI_40213": -70.33333333333333,
+    "MVI_40752": -32.333333333333336,
+    "MVI_40871": -2.3333333333333357,
+    "MVI_40992": -8.0,
+    "MVI_63544": -6.333333333333332,
+    "MVI_63552": -19.0,
+    "MVI_63554": -50.00000000000001,
+    "MVI_63561": -37.0
+  },
+  "bootstrap_video_IDSW_delta95": [
+    -388.66666666666663,
+    -84.65833333333349
+  ],
+  "limits_inference": "Exploratory on repeatedly viewed dev; seed mean of per-seed COMBINED"
+}

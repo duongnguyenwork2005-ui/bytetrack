@@ -1,0 +1,18 @@
+name: kc48_r78_pf_smoke
+dataset: detrac
+split_name: DETRAC-all
+part: train
+cache_id: yolov8n-coco_conf0.05_all
+classes: [2, 3, 5, 7]
+max_det: 300
+fps: 25
+elapsed_mode: skip
+conditions: {A: {conf_min: 0.25}}
+assoc_log: false
+pf_diag: false
+trackers:
+  - {name: nofuse, yaml: configs/phase2/trackers/r72/motion200.yaml, set: {lost_no_fuse: true}, seeds: [0, 1, 2]}
+  - {name: iou3, yaml: configs/phase2/trackers/r72/motion200.yaml, set: {lost_recover: iou, lost_recover_iou: 0.05, lost_recover_max_lost: 3}, seeds: [0, 1, 2]}
+  - {name: maha3, yaml: configs/phase2/trackers/r72/motion200.yaml, set: {lost_recover: maha, lost_recover_maha2: 5.991, lost_recover_max_lost: 3}, seeds: [0, 1, 2]}
+baseline: nofuse
+videos: [MVI_20052, MVI_20062]

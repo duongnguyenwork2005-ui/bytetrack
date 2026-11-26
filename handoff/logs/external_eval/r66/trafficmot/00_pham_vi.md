@@ -1,0 +1,7 @@
+# TrafficMOT — hoãn tracking theo Q2
+
+**Cập nhật R68 03/11/2026:** Người dùng yêu cầu chạy tiếp các tập còn lại. Đã làm phép kiểm **detector thăm dò trên train27**, không mở tracking benchmark Q2. Lấy `frame0/30/58` của 27 clip Fully_annotate: 81 ảnh, 931 GT trong bốn lớp ánh xạ trực tiếp Motor_Bike/Bus/Bike/Truck; 823 GT là xe máy. Dùng ba detector R54, conf >0,05, ghép cùng lớp IoU≥0,5, không điều chỉnh sau khi xem điểm. Recall gộp YOLOv8n COCO / YOLOv8n mixed5 / YOLO11n mixed5 là 203/931 (21,805%) / 37/931 (3,974%) / 33/931 (3,545%). Riêng xe máy: 175/823 / 14/823 / 10/823. File `smoke_det_train27.json` chứa thêm ngưỡng 0,10/0,25 và từng lớp. Đây không phải kết quả test hay điểm tracking; vẫn thiếu 51 clip test, FPS/stride và giao thức lớp cho full.
+
+Gói có 27 chuỗi train gán nhãn đủ, mỗi chuỗi 30 quan sát (810 ảnh). Tên frame nguồn 0, 2, …, 58. Phần FirstFrame_annotate chỉ gán nhãn ảnh đầu. Thiếu 51 chuỗi test chính thức và FPS hiệu dụng đã xác minh. Chứng cứ ở `../00_kiem_ke.md` và Q2 của giao thức R66.
+
+Phạm vi lớp cho lần xem xét sau: Motor_Bike → motorcycle, Bus → bus, Bike → bicycle và Truck → truck. LMV cần xác minh trước khi gộp vào car. Auto, LCV, E-rickshaw, Tractor cần quy ước riêng. Pedestrian ngoài phạm vi chung của ba detector. Khi có FPS nguồn f và xác nhận stride=2, dùng FPS hiệu dụng f/2, một bước trên mỗi ảnh và buffer theo 1,2 giây. Giấy phép nguồn CC BY-NC-ND 4.0. [Bài báo TrafficMOT](https://arxiv.org/html/2311.18839v1).

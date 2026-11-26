@@ -1,0 +1,135 @@
+{
+  "scores": {
+    "anchor": {
+      "checkpoint": "models\\r101_ridesafe_interp50\\yolo11n_mixed5_interp50.pt",
+      "sha256": "d6aad8667ea7d344592c5aa170a7dbcda968c4aa30930cecc08d3541566daa82",
+      "parameters": 2590815,
+      "mAP50": 0.4955842102835776,
+      "mAP50_95": 0.3409165893965201,
+      "classes": {
+        "car": {
+          "AP50": 0.8499462776587545,
+          "AP50_95": 0.5986934306246601,
+          "precision": 0.8560029519489862,
+          "recall": 0.7745470265393579
+        },
+        "truck": {
+          "AP50": 0.4820100648730512,
+          "AP50_95": 0.3597106853461105,
+          "precision": 0.6928143546608272,
+          "recall": 0.3914018230649651
+        },
+        "bus": {
+          "AP50": 0.546327744848761,
+          "AP50_95": 0.4280772635890447,
+          "precision": 0.6660486661149285,
+          "recall": 0.5051055139550715
+        },
+        "motorcycle": {
+          "AP50": 0.37620388819934747,
+          "AP50_95": 0.21933199527582375,
+          "precision": 0.5135876641869291,
+          "recall": 0.4026548672566372
+        },
+        "bicycle": {
+          "AP50": 0.223433075837974,
+          "AP50_95": 0.0987695721469613,
+          "precision": 0.4519882296518192,
+          "recall": 0.20147420147420148
+        }
+      },
+      "split": "mixed5 dev7190"
+    },
+    "control": {
+      "checkpoint": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review145_yolo_recovery\\runs\\control\\weights\\best.pt",
+      "sha256": "0c8f12fb09fc06e0b6cbf98ef62d7ad47fd224a8aba187574b4b6ee46bde8507",
+      "parameters": 2590815,
+      "mAP50": 0.4925494968416276,
+      "mAP50_95": 0.3335607587430464,
+      "classes": {
+        "car": {
+          "AP50": 0.8464405304967034,
+          "AP50_95": 0.5927223819870788,
+          "precision": 0.895599435593484,
+          "recall": 0.7452447184422224
+        },
+        "truck": {
+          "AP50": 0.4810749913733795,
+          "AP50_95": 0.35773656704663254,
+          "precision": 0.7262397060216058,
+          "recall": 0.37177854769936175
+        },
+        "bus": {
+          "AP50": 0.54625839770331,
+          "AP50_95": 0.4264247978106983,
+          "precision": 0.682374289628365,
+          "recall": 0.4948944860449285
+        },
+        "motorcycle": {
+          "AP50": 0.3675561623664706,
+          "AP50_95": 0.19770154334527093,
+          "precision": 0.49273797478489145,
+          "recall": 0.3672566371681416
+        },
+        "bicycle": {
+          "AP50": 0.22141740226827436,
+          "AP50_95": 0.09321850352555164,
+          "precision": 0.45675336799427046,
+          "recall": 0.21375921375921375
+        }
+      },
+      "split": "mixed5 dev7190"
+    },
+    "channel25_KD": {
+      "checkpoint": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review145_yolo_recovery\\runs\\channel25_KD\\weights\\best.pt",
+      "sha256": "5334373890af530c6d0277e3f6bb96e2897533359f48cf1b0a040a74df306bcf",
+      "parameters": 2315551,
+      "mAP50": 0.4802996422152863,
+      "mAP50_95": 0.32006706305004223,
+      "classes": {
+        "car": {
+          "AP50": 0.8398927955543029,
+          "AP50_95": 0.5828089823517252,
+          "precision": 0.9028904432329348,
+          "recall": 0.7295504097436283
+        },
+        "truck": {
+          "AP50": 0.4690714118904653,
+          "AP50_95": 0.3412022308904631,
+          "precision": 0.7328439185685938,
+          "recall": 0.35209796611411814
+        },
+        "bus": {
+          "AP50": 0.5226439014712283,
+          "AP50_95": 0.39608654793563686,
+          "precision": 0.6442254435938223,
+          "recall": 0.4758339006126617
+        },
+        "motorcycle": {
+          "AP50": 0.3844466413473845,
+          "AP50_95": 0.20400016497709786,
+          "precision": 0.5134049328572109,
+          "recall": 0.35398230088495575
+        },
+        "bicycle": {
+          "AP50": 0.18544346081305066,
+          "AP50_95": 0.07623738909528832,
+          "precision": 0.36427545855514903,
+          "recall": 0.21867321867321868
+        }
+      },
+      "split": "mixed5 dev7190"
+    }
+  },
+  "gates": {
+    "anchor_mAP50": false,
+    "anchor_mAP50_95": false,
+    "anchor_per_class": false,
+    "control_mAP50": false,
+    "control_mAP50_95": false,
+    "control_per_class": false
+  },
+  "recommended_quality": false,
+  "Nano_FPS_measured": false,
+  "PC_timing_not_Nano": true
+}

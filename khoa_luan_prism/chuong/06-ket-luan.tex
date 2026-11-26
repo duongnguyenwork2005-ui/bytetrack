@@ -1,0 +1,22 @@
+\chapter{Kết luận và hướng phát triển}
+\section{Mô hình chuyển động và khả năng giữ ID}
+Nghiên cứu phát lại cùng phát hiện cho KF/CV, EKF/CTRV, UKF/CTRV và PF/CTRV trong ByteTrack. Các chỉ số cho thấy lợi ích của bộ lọc phụ thuộc cả loại chuyển động và tập đánh giá. Trên phần mở rộng RoundaboutHD, EKF và UKF cùng giảm IDSW từ 34 xuống 28 ở nhóm đổi hướng từ $25^\circ$ và từ 29 xuống 24 ở nhóm từ $35^\circ$. Trên toàn cửa sổ đánh giá, KF có 716 lần đổi ID, EKF 726 và UKF 725. Bốn góc quay cùng quan sát một vòng xuyến. Số liệu xác lập lợi ích cục bộ trong nhóm được định nghĩa bằng nhãn quỹ đạo trên ảnh.
+
+Trên nhóm khả kiến thấp của 40 đoạn UA-DETRAC, EKF và UKF giảm IDSW từ 53 xuống 50 và 48, với số hộp bỏ sót gần như bằng nhau. Khi tính toàn đoạn, KF có 245 IDSW, EKF 250 và UKF 248. Trên SVMOT test 9 chuỗi, EKF giảm IDSW nhóm khả kiến thấp từ 125 xuống 115 và UKF bằng KF. Nhóm khả kiến thấp của 21 chuỗi bổ sung cho kết quả trái chiều. HELMET test 182 clip cung cấp bằng chứng trực tiếp cho xe máy. EKF và UKF giảm IDSW từ 717 xuống 444 và 452, đồng thời tăng HOTA từ 20,81\% lên 21,66\% và 21,82\%. Điểm HELMET được chấm trên toàn clip.
+
+Khi detector Nano mới được cố định trên 80 đoạn, EKF và UKF đều có ít IDSW hơn KF ở BDD, còn KF ít IDSW nhất ở UA-DETRAC. Phép so từ KF/CV sang EKF/CTRV thay đổi đồng thời mô hình động học và phương pháp xấp xỉ. So EKF với UKF giữ chung hàm trạng thái và phép đo trong thiết kế. Thứ hạng thay đổi theo giao thức, vì cả điều kiện quan sát lẫn nhịp lấy mẫu tham gia vào phép ghép.
+
+\section{Những điều đã kiểm tra với bộ lọc hạt}
+Chẩn đoán RoundaboutHD tìm thấy sai số tâm PF cao hơn KF ngay ở các khung liền kề. Khi quỹ đạo thiếu từ ba đến tám khung, sai số tâm trung vị của PF vượt nửa chiều cao hộp. Số trường hợp có hộp phù hợp với GT nhưng không đủ điều kiện ghép cũng cao hơn, phần lớn ở các quỹ đạo mất dấu. Những điểm này giúp khoanh vùng bài toán vào chất lượng hộp đại diện được dự báo và phép ghép sau mất quan sát.
+
+Trong phép thử trên 12 clip UA-DETRAC phát triển, PF công khai với lấy mẫu SIR làm tăng IDSW trung bình từ 697 lên 1.359,33 so với PF500 K1/K2 motion2. RBPF500 giảm IDSW xuống 469 trong cùng phép so. Khi chuyển sang SVMOT test9, RBPF tăng HOTA từ 50,28\% lên 51,01\% và tăng IDSW từ 434 lên 440. Khi phát lại detection Nano trên PC cho 80 đoạn, RBPF giảm IDSW so với PF500 K1/K2 trên cả hai tập, trong khi mức chênh với KF phụ thuộc tập. Các kết quả này ủng hộ dùng RBPF như một biến thể để đối chiếu theo miền dữ liệu.
+
+\section{Thông lượng và điều kiện triển khai}
+Đổi hình dạng tensor giảm thời gian GPU đo riêng của engine từ 68,11 xuống 41,86 ms. Trên 80 đoạn R109, chọn detector, lọc trước NMS, NMS ma trận và giải mã gối đầu đưa FPS xử lý từ 13,12 lên 18,63, tăng 41,99\%. Cả 80 đoạn đạt 15 FPS với KF. Trung vị p90 tăng từ 90,08 lên 123,88 ms; chất lượng tracking tăng theo HOTA và IDF1 ở cả hai tập, trong khi chiều thay đổi IDSW phụ thuộc tập. Mốc 15 FPS được xác lập cho chuỗi ảnh JPEG trên tmpfs, không bật hiển thị.
+
+Khi cố định detector và chạy bốn bộ lọc trực tiếp trên Nano ở 16 đoạn R114, KF và EKF đạt 15 FPS ở 16/16 đoạn, UKF đạt 14/16 và RBPF500 đạt 6/16. Thông lượng trung bình của KF và EKF đều khoảng 18,8 FPS. EKF là phương án phi tuyến đáp ứng mốc tốc độ ở toàn bộ mẫu này. RBPF500 có cải thiện chất lượng so với PF500 K1/K2 trên cache R113, nhưng chi phí cập nhật trên Nano làm thông lượng giảm ở nhiều đoạn đông xe.
+
+\section{Giới hạn và hướng nghiên cứu tiếp}
+Đánh giá tiếp theo cần thêm các nút giao độc lập với RoundaboutHD và đủ mẫu ô tô, xe máy trong cùng điều kiện. Phép thử cần xác nhận nhịp lấy mẫu và nhãn mức che, rồi khóa danh sách sự kiện rẽ, tái xuất hiện sau che và giao của hai tình huống trước khi chạy tracker. Báo cáo tỷ lệ nối lại cùng ID, thời gian nối và số trường hợp detector không nhìn thấy xe sẽ làm rõ tác động của từng bộ lọc.
+
+Với PF, có thể kiểm giả thuyết về tính tương thích giữa sai số dự đoán, độ bất định của hộp và ngưỡng ghép lại trên tập độc lập. Giao thức cần xác định khoảng mất quan sát theo giây để so hai tập có FPS khác nhau, đồng thời báo IDSW cùng FN và IDF1. Với triển khai, cần đo từ camera hoặc video nén đến đầu ra hiển thị trên Nano, bao gồm thời gian chờ từng ảnh. Phép đo này có thể xác định liệu lợi ích thông lượng đã quan sát giúp đạt yêu cầu thời gian thực của ứng dụng cụ thể.

@@ -1,0 +1,9 @@
+# R94 — giữ vận tốc góc ẩn trong nhánh đi thẳng của PF
+
+Khóa trước khi sửa mã hoặc nhìn điểm R94, ngày 06/11/2026. Phạm vi chính: camera ven đường (UA-DETRAC dev12) và camera gắn xe (BDD100K COCO-video val200). Hai tập đã được dự án dùng nhiều lần, vì vậy đây là **phát triển thăm dò**, không phải kiểm chứng độc lập.
+
+R92 cho hạt PF khi Lost chọn chuyển tiếp thẳng với xác suất 0,5 bằng cách đặt `omega=0` trước bước CTRV. Bước đó cũng ghi đè vận tốc góc ẩn của hạt sau dự đoán. Giả thuyết R94: chỉ dùng `omega=0` để tính **dịch chuyển vị trí và hướng trong một bước**, sau đó giữ lại `omega` cũ (cộng cùng nhiễu quá trình) để hạt có thể quay lại chế độ rẽ ở bước sau. Điều này không thay đổi detector, GT, ByteTrack association, khởi tạo, cập nhật K1, resampling, roughening, số hạt hay số seed. Một khóa opt-in `pf_lost_cv_preserve_omega=true` dùng cùng `pf_lost_cv_fraction=0.5`; mặc định false tái tạo R92 và false với fraction0 tái tạo R72. Đây vẫn là mixture chuyển tiếp một bước, không phải IMM đầy đủ.
+
+Kiểm kỹ thuật: unit cho trạng thái góc sau nhánh thẳng, RNG theo track, `predict` đơn = `multi_predict` kể cả K1 prior, và bản mặc định tạo MOT trùng byte smoke R72/R92. Sau đó chạy cùng cache/GT/cấu hình R72 trên UA dev12 × 3 seed, và R74 trên BDD val200 × 3 seed. Các bước smoke chỉ kiểm vận hành, không dùng chọn tham số. Đối chiếu run metadata, SHA input qua preflight, số video/frame, MOT hữu hạn/không trùng `(frame, ID)`, raw fields TrackEval. Không sửa YAML luận văn hay launcher Nano trong vòng này.
+
+Cổng để **xem xét** ứng viên cho nghiên cứu tiếp: UA IDSW COMBINED trung bình seed ≤627,3 (giảm ≥10% so R72 697), HOTA ≥56,506%, IDF1 ≥67,861%, FP ≤14.159,25. BDD IDSW ≤6.102,59 (giảm ≥3% so R74 6.291,33), HOTA ≥32,451%, IDF1 ≥36,586%, FP ≤19.645,5, và số video giảm IDSW nhiều hơn số video tăng. Cả hai miền phải đạt; nếu trượt, không chọn. So R92/R93 chỉ là chẩn đoán cơ chế, không thay cổng. Không lấy kết quả từ tập đã xem làm tuyên bố tổng quát.

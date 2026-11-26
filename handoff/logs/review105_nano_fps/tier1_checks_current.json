@@ -1,0 +1,53 @@
+{
+  "checks": [
+    {
+      "check": "cpu_tests",
+      "command": [
+        "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+        "-B",
+        "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review105_nano_fps\\test_r105.py"
+      ],
+      "exit_code": 0,
+      "evidence": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review105_nano_fps\\cpu_tests_final_verified.log"
+    },
+    {
+      "check": "real_evidence_audit",
+      "command": [
+        "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+        "-B",
+        "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review105_nano_fps\\audit_benchmark.py",
+        "handoff\\logs\\review105_nano_fps\\host_evidence",
+        "handoff\\logs\\review105_nano_fps\\pc_stage_verified"
+      ],
+      "exit_code": 0,
+      "evidence": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review105_nano_fps\\audit_final_verified.log"
+    },
+    {
+      "check": "syntax",
+      "exit_code": 0,
+      "files": 11,
+      "command": "compile all local R105 sources; ast.parse(feature_version=(3,6)) bench/prepare/cadence"
+    },
+    {
+      "check": "existing_offline_bundle",
+      "exit_code": 0,
+      "files": 7,
+      "command": "verify existing archive and each payload against current files; no rebuild or deployment"
+    }
+  ],
+  "source_sha256": {
+    "audit_benchmark.py": "5c8f8ff1d4c748c08f97828bbe0fcdef53dc3eb2223e8e5b91d5d0d30e238c78",
+    "bench_nano.py": "ddaf102574f3ae392ee6458f13c24688d42f94f06a13bdc3e8b2ed477cd3aac1",
+    "cadence.py": "d24e9a5d4455dab3e06b219469207fe5c6475aa7e37cd60c8e4d7a72229e69f7",
+    "eval_benchmark.py": "e98ef8dbe810e810f31856056dcc5d18c6dafefc2c636ae91c8a8653f7146c69",
+    "make_bundle.py": "7ae43f80efcfcc90a7de0bcb7dd50ac81307309eaf33b94b4d1cdb2e8a79070b",
+    "prepare_nano.py": "0d31d0435220472f8fb4bd5d1205ac575671a5fd630406f97ffcb901e78de077",
+    "run_tier1.py": "14bb8197aff49faf2ff33260335940a08670a637ea9411d868723a0eb291d56c",
+    "test_r105.py": "1ff6e11e483bdab494457c94bbb55ef5d0bcf380f1397278bb0493243c49522a",
+    "drivers\\r101_driver.py": "2467551a15dbf41133b6037be7cfdfb626409c318c6adddf84c7b7af1c235abb",
+    "drivers\\r102_driver.py": "3cfacfbc2b184fe9c553c1bf0f0a8ad5b8ddc61c8b32fe73a7852bf83fa8be3c",
+    "drivers\\r86_driver.py": "ade7b135876e5f090e19c26ad6e2109cb388b668bc7997c77799ce10b319cf17"
+  },
+  "scope": "CPU Tier 1 and collected real Nano evidence only; separate Codex review pending",
+  "benchmark_source": "host_evidence/executed_sources; current offline bundle was not the executed deployment"
+}

@@ -1,0 +1,81 @@
+[trackeval] split=SVMOT-test  tracker=svmot_release_cv  dataset_class=mot
+
+Evaluating 1 tracker(s) on 9 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating svmot_release_cv
+
+
+HOTA: svmot_release_cv-pedestrian  HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+seq_22_morning                     60.715    93.949    39.253    96.41     96.893    39.735    97.352    96.684    61.515    63.364    95.893    60.762    
+seq_23_morning                     74.73     96.941    57.609    98.264    98.459    58.052    98.539    97.474    75.235    76.681    97.165    74.507    
+seq_24_morning                     77.666    96.798    62.323    98.168    98.345    67.117    92.739    97.54     78.217    79.785    97.238    77.581    
+seq_25_morning                     78.204    96.568    63.334    97.989    98.223    63.916    98.546    97.325    78.768    80.746    97.042    78.357    
+seq_26_evening                     77.316    91.855    65.094    94.987    95.384    66.406    96.487    94.939    78.616    83.522    93.981    78.494    
+seq_27_evening                     77.934    88.552    68.646    92.771    93.25     70.659    95.399    93.568    79.779    87.069    91.909    80.025    
+seq_28_evening                     86.451    94.343    79.264    96.748    96.955    83.176    91.251    96.569    87.57     90.439    95.857    86.692    
+seq_29_evening                     77.5      94.764    63.393    96.95     97.268    65.957    95.333    96.788    78.393    81.069    96.173    77.966    
+seq_30_evening                     69.651    94.829    51.162    96.924    97.251    51.729    97.828    96.491    70.412    72.914    95.974    69.979    
+COMBINED                           75.471    94.33     60.395    96.672    96.987    62.291    95.843    96.477    76.407    79.262    95.806    75.937    
+
+CLEAR: svmot_release_cv-pedestrian MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+seq_22_morning                     98.294    96.108    98.654    99.078    99.574    100       0         0         94.437    10744     100       46        39        17        0         0         45        
+seq_23_morning                     99.476    97.207    99.632    99.717    99.915    100       0         0         96.691    7042      20        6         11        13        0         0         15        
+seq_24_morning                     99.534    97.275    99.677    99.749    99.928    100       0         0         96.816    8347      21        6         12        14        0         0         14        
+seq_25_morning                     99.584    97.065    99.673    99.718    99.955    93.75     6.25      0         96.657    6708      19        3         6         15        1         0         9         
+seq_26_evening                     99.152    94.057    99.267    99.425    99.841    100       0         0         93.242    6914      40        11        8         21        0         0         11        
+seq_27_evening                     97.38     92.369    97.5      98.493    99.002    96.552    3.4483    0         89.864    5752      88        58        7         28        1         0         14        
+seq_28_evening                     99.282    95.974    99.335    99.561    99.774    96        4         0         95.273    9288      41        21        5         24        1         0         6         
+seq_29_evening                     99.347    96.232    99.438    99.556    99.882    100       0         0         95.596    7622      34        9         7         18        0         0         9         
+seq_30_evening                     99.368    96.001    99.556    99.61     99.946    100       0         0         95.384    7411      29        4         14        15        0         0         17        
+COMBINED                           99.053    95.923    99.208    99.442    99.766    98.214    1.7857    0         94.999    69828     392       164       109       165       3         0         140       
+
+Identity: svmot_release_cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+seq_22_morning                     54.091    53.956    54.226    5851      4993      4939      
+seq_23_morning                     66.846    66.78     66.913    4716      2346      2332      
+seq_24_morning                     73.847    73.781    73.914    6174      2194      2179      
+seq_25_morning                     72.183    72.098    72.269    4850      1877      1861      
+seq_26_evening                     78.522    78.358    78.686    5449      1505      1476      
+seq_27_evening                     80.052    79.846    80.258    4663      1177      1147      
+seq_28_evening                     89.945    89.849    90.042    8382      947       927       
+seq_29_evening                     74.403    74.282    74.525    5687      1969      1944      
+seq_30_evening                     62.497    62.392    62.603    4642      2798      2773      
+COMBINED                           71.911    71.794    72.028    50414     19806     19578     
+
+Count: svmot_release_cv-pedestrian Dets      GT_Dets   IDs       GT_IDs    
+seq_22_morning                     10790     10844     55        17        
+seq_23_morning                     7048      7062      24        13        
+seq_24_morning                     8353      8368      22        14        
+seq_25_morning                     6711      6727      22        16        
+seq_26_evening                     6925      6954      29        21        
+seq_27_evening                     5810      5840      36        29        
+seq_28_evening                     9309      9329      28        25        
+seq_29_evening                     7631      7656      24        18        
+seq_30_evening                     7415      7440      29        15        
+COMBINED                           69992     70220     269       168       
+
+==============================================================================
+KET QUA THEO TUNG VIDEO - svmot_release_cv
+==============================================================================
+         video   HOTA   DetA   AssA   MOTA   IDF1    IDP    IDR  FP  FN  IDSW
+seq_22_morning 0.6071 0.9395 0.3925 0.9829 0.5409 0.5423 0.5396  46 100    39
+seq_23_morning 0.7473 0.9694 0.5761 0.9948 0.6685 0.6691 0.6678   6  20    11
+seq_24_morning 0.7767 0.9680 0.6232 0.9953 0.7385 0.7391 0.7378   6  21    12
+seq_25_morning 0.7820 0.9657 0.6333 0.9958 0.7218 0.7227 0.7210   3  19     6
+seq_26_evening 0.7732 0.9186 0.6509 0.9915 0.7852 0.7869 0.7836  11  40     8
+seq_27_evening 0.7793 0.8855 0.6865 0.9738 0.8005 0.8026 0.7985  58  88     7
+seq_28_evening 0.8645 0.9434 0.7926 0.9928 0.8995 0.9004 0.8985  21  41     5
+seq_29_evening 0.7750 0.9476 0.6339 0.9935 0.7440 0.7452 0.7428   9  34     7
+seq_30_evening 0.6965 0.9483 0.5116 0.9937 0.6250 0.6260 0.6239   4  29    14
+
+==============================================================================
+KET QUA TONG HOP (COMBINED_SEQ) - svmot_release_cv
+==============================================================================
+  HOTA  = 0.7547   (DetA = 0.9433, AssA = 0.6039)
+  MOTA  = 0.9905   (FP = 164, FN = 392, IDSW = 109)
+  IDF1  = 0.7191   (IDP = 0.7203, IDR = 0.7179)
+  MOTP  = 0.9592
+
+  Da luu:
+    D:\LABOTARY\bytetrack\results\trackeval\SVMOT-test\svmot_release_cv\per_video_metrics.csv
+    D:\LABOTARY\bytetrack\results\trackeval\SVMOT-test\svmot_release_cv\combined_metrics.csv

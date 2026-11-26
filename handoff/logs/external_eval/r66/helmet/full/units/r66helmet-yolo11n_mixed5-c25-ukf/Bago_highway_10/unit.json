@@ -1,0 +1,70 @@
+{
+ "protocol_hash": "6336582ee9b25f3d8c0a91a01e71177469e341033a2660f496c8715248bcdce5",
+ "fingerprint": "382dad6d12cfcfb087e829727faf4e9686ff31a4a0d34f17ed7db8ed3700aad7",
+ "video": "Bago_highway_10",
+ "seed": null,
+ "settings": {
+  "protocol_hash": "6336582ee9b25f3d8c0a91a01e71177469e341033a2660f496c8715248bcdce5",
+  "tracker_cfg": {
+   "tracker_type": "bytetrack_ukf_ctrv",
+   "track_high_thresh": 0.25,
+   "track_low_thresh": 0.1,
+   "new_track_thresh": 0.25,
+   "track_buffer": 12,
+   "match_thresh": 0.8,
+   "fuse_score": true
+  },
+  "yaml_sha256": "5d1286e41ebe8f76f94045ea36ba57571efcf73633e7039bb29ab96366b45661",
+  "backend": {
+   "git_commit": "8f3b63d",
+   "modules": {
+    "run_tracking.py": "5bd131fe958bdf04",
+    "run_experiment.py": "9952441194b7e70f",
+    "tracker_ctrv.py": "b22b4688f50058e8",
+    "sort_tracker.py": "a4ab4b26867989eb",
+    "ekf_ctrv.py": "b516781efa01f473",
+    "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+    "ukf_ctrv.py": "2d59daf4794d8039",
+    "pf_ctrv.py": "de141de5aa698735",
+    "lost_recovery.py": "38f30192b492fa80",
+    "lost_association.py": "469c2782cba41e01",
+    "time_units.py": "c13b6e20fe003f6d",
+    "det_cache.py": "17024ddc6afec534",
+    "occlusion_eval.py": "1b892596be674b9e",
+    "boot_stats.py": "e9245f6729659f8f",
+    "run_trackeval.py": "519d3f9165803fde",
+    "trackeval_ext.py": "3dcf6582548adcfa",
+    "assoc_log.py": "0915453e70f75eb2",
+    "ul_backend.py": "7381910281d8a273",
+    "bytetrack_np.py": "8d37ec565230603b",
+    "run_state.py": "2bc38e3a86fbf50b"
+   },
+   "backend": {
+    "backend": "ultralytics",
+    "ultralytics": "8.4.141",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13"
+   }
+  },
+  "detector": "yolo11n_mixed5",
+  "threshold": 0.25,
+  "classes": [
+   3
+  ],
+  "max_det": 300,
+  "seed": null,
+  "elapsed_mode": "steps",
+  "fps": 10,
+  "max_time_lost_thuc": 12,
+  "track_buffer_frames": 12,
+  "dt_nominal_s": 0.1
+ },
+ "cache_marker_sha256": "8e7c81aab33cefc1d577eeab942c61391d5f9c99a8dc85809ca0815aa8d5098d",
+ "sha256": {
+  "data/Bago_highway_10.txt": "954ae0e22cdde0b6b60513750e3f06914c0119d8d4d4f8d0a9489b89d5a91790",
+  "data_cls/Bago_highway_10.csv": "465b68d03197b89c554dedfb961466dc811c0cfc4c04924d0a5c9cdbd7c95b55",
+  "timing/Bago_highway_10.csv": "d450647d39cd178ff7bea8e9c9523ce23274552379df32bfc2239fd8c0ad6d86"
+ },
+ "seconds": 0.0940000000409782
+}

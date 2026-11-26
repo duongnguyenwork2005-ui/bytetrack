@@ -1,0 +1,196 @@
+{
+  "tao_luc": "2026-10-18T05:47:52",
+  "thoi_gian_s": 10.4,
+  "git_head": "117d62d",
+  "ma_hien_tai": {
+    "git_commit": "117d62d",
+    "modules": {
+      "run_tracking.py": "5bd131fe958bdf04",
+      "run_experiment.py": "9952441194b7e70f",
+      "tracker_ctrv.py": "b22b4688f50058e8",
+      "sort_tracker.py": "a4ab4b26867989eb",
+      "ekf_ctrv.py": "b516781efa01f473",
+      "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+      "ukf_ctrv.py": "2d59daf4794d8039",
+      "pf_ctrv.py": "de141de5aa698735",
+      "lost_recovery.py": "38f30192b492fa80",
+      "lost_association.py": "469c2782cba41e01",
+      "time_units.py": "c13b6e20fe003f6d",
+      "det_cache.py": "d253c2b8063fa15f",
+      "occlusion_eval.py": "1b892596be674b9e",
+      "boot_stats.py": "e9245f6729659f8f",
+      "run_trackeval.py": "519d3f9165803fde",
+      "trackeval_ext.py": "3dcf6582548adcfa",
+      "assoc_log.py": "0915453e70f75eb2",
+      "ul_backend.py": "7381910281d8a273",
+      "bytetrack_np.py": "8d37ec565230603b",
+      "run_state.py": "2bc38e3a86fbf50b"
+    },
+    "backend": {
+      "backend": "ultralytics",
+      "ultralytics": "8.4.141",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "lap": "0.5.13"
+    }
+  },
+  "yaml_sha12_hien_tai": {
+    "bytetrack.yaml": "395701d947a7",
+    "configs/bytetrack_ekf_ctrv.yaml": "2c35f2da40c5",
+    "configs/bytetrack_ukf_ctrv.yaml": "5d1286e41ebe",
+    "configs/phase2/trackers/bytetrack_pf_ctrv_n100.yaml": "9e2e4f88acea",
+    "configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml": "ff43d4934d6e",
+    "configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k1.yaml": "853536a56a5c",
+    "configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n100_k2.yaml": "92a4afe47db8",
+    "configs/phase2/trackers/kc48/bytetrack_pf_ctrv_n500_k1.yaml": "6c2637ee6777",
+    "configs/phase2/trackers/sort_cv_age30.yaml": "8d1ea5b98684",
+    "configs/phase2/trackers/sort_ekf_ctrv_age30.yaml": "e1b055b31cea",
+    "configs/phase2/trackers/sort_orig_age1.yaml": "5a5609b81e36"
+  },
+  "gt_hien_tai": {
+    "gt_sha256": "07de8402ca430b84545844256f121a2fff4f16123f38a626555e769af5f3d31f",
+    "seqinfo_sha256": "024df16d9211ef3dae67765512bd79c83fe7d3e412887914c318fd204ca59732",
+    "seq_lengths": "e98e00439470e803929af4780bf8e74b4057dbcb4de131f0c8848b94e08c721c",
+    "n_missing_gt": 0,
+    "n_missing_seqinfo": 0
+  },
+  "gt_eval_meta_cac_run": [
+    [
+      "07de8402ca430b84545844256f121a2fff4f16123f38a626555e769af5f3d31f",
+      "024df16d9211ef3dae67765512bd79c83fe7d3e412887914c318fd204ca59732"
+    ]
+  ],
+  "run_thieu_dau_van_tay_gt": [
+    "p2-expA_detrac_dev-c25-cv",
+    "p2-expA_detrac_dev-c25-ekf",
+    "p2-expA_detrac_dev-c25-pf100-s0",
+    "p2-expA_detrac_dev-c25-pf100-s1",
+    "p2-expA_detrac_dev-c25-pf100-s2",
+    "p2-expA_detrac_dev-c25-ukf",
+    "p2-expB_detrac_dev_fix1-A-bt-ekf",
+    "p2-expB_detrac_dev_fix1-A-sort-cv30",
+    "p2-expB_detrac_dev_fix1-A-sort-ekf30",
+    "p2-expB_detrac_dev_fix1-A-sort-orig1"
+  ],
+  "gt_hien_tai_trung_eval_meta": true,
+  "pham_vi_gt_hien_tai_trung_eval_meta": "moi run tai_dung_du_dieu_kien (khong bo run nao)",
+  "backend_hien_tai": {
+    "backend": "ultralytics",
+    "ultralytics": "8.4.141",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13"
+  },
+  "cache_hien_tai": {
+    "yolov8n-coco_conf0.05_all": {
+      "cache_id": "yolov8n-coco_conf0.05_all",
+      "meta_sha256": "870cb45fbb006d0e898b3468b698deeee470a9f6aef1ffd4e3e9acc073282211",
+      "npz_sha256": "9d596eb4b6b446a674d3402dfafab287c777d39bf545d993c188916e961405de",
+      "weights_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+      "conf": 0.05,
+      "classes": null,
+      "max_det": 3000
+    }
+  },
+  "config_py": {
+    "cay_lam_viec": "0e3f8b7584b8f90d5c121cf978d8fd74553195e13f6135b3d9b79362f6ff4ad0",
+    "HEAD": "0e3f8b7584b8f90d5c121cf978d8fd74553195e13f6135b3d9b79362f6ff4ad0",
+    "lan_sua_cuoi": "c7713b1 2026-09-08 Them bien the EKF+CTRV chan omega de kiem chung ket qua da bao cao",
+    "khong_nam_trong_run_fingerprint_CODE_FILES": true
+  },
+  "tai_dung": {
+    "n_dat": 16,
+    "dat": [
+      "p2-kc48_pf_dev-A-ekf",
+      "p2-kc48_pf_dev-A-pf100-k1-s0",
+      "p2-kc48_pf_dev-A-pf100-k1-s1",
+      "p2-kc48_pf_dev-A-pf100-k1-s2",
+      "p2-kc48_pf_dev-A-pf100-k2-s0",
+      "p2-kc48_pf_dev-A-pf100-k2-s1",
+      "p2-kc48_pf_dev-A-pf100-k2-s2",
+      "p2-kc48_pf_dev-A-pf100-s0",
+      "p2-kc48_pf_dev-A-pf100-s1",
+      "p2-kc48_pf_dev-A-pf100-s2",
+      "p2-kc48_pf_dev-A-pf500-k1-s0",
+      "p2-kc48_pf_dev-A-pf500-k1-s1",
+      "p2-kc48_pf_dev-A-pf500-k1-s2",
+      "p2-kc48_pf_dev-A-pf500-s0",
+      "p2-kc48_pf_dev-A-pf500-s1",
+      "p2-kc48_pf_dev-A-pf500-s2"
+    ],
+    "khong_dat": {
+      "p2-expA_detrac_dev-c25-cv": "run_meta.status=None | run_meta.videos khac manifest | hash dau ra khong khop eval_meta tren du 12 video | run_meta.code thieu module ['run_tracking.py', 'det_cache.py', 'time_units.py', 'ul_backend.py', 'bytetrack_np.py'] | module luc cham khac luc chay ['run_tracking.py', 'det_cache.py', 'time_units.py'] | run_meta.code.backend thieu ['backend', 'ultralytics', 'numpy', 'scipy', 'lap'] | eval_meta thieu dau van tay GT | eval_meta ghi thieu GT/seqinfo | eval_meta.gt.gt_per_video khac manifest | GT eval_meta khac GT hien tai",
+      "p2-expA_detrac_dev-c25-ukf": "run_meta.status=None | run_meta.videos khac manifest | hash dau ra khong khop eval_meta tren du 12 video | run_meta.code thieu module ['run_tracking.py', 'det_cache.py', 'time_units.py', 'ul_backend.py', 'bytetrack_np.py', 'tracker_ctrv.py', 'ukf_ctrv.py', 'ekf_ctrv.py', 'lost_recovery.py', 'lost_association.py'] | module luc cham khac luc chay ['run_tracking.py', 'det_cache.py', 'time_units.py', 'tracker_ctrv.py', 'ukf_ctrv.py', 'ekf_ctrv.py', 'lost_recovery.py', 'lost_association.py'] | run_meta.code.backend thieu ['backend', 'ultralytics', 'numpy', 'scipy', 'lap'] | eval_meta thieu dau van tay GT | eval_meta ghi thieu GT/seqinfo | eval_meta.gt.gt_per_video khac manifest | GT eval_meta khac GT hien tai",
+      "p2-expA_detrac_dev-c25-ekf": "run_meta.status=None | run_meta.videos khac manifest | hash dau ra khong khop eval_meta tren du 12 video | run_meta.code thieu module ['run_tracking.py', 'det_cache.py', 'time_units.py', 'ul_backend.py', 'bytetrack_np.py', 'tracker_ctrv.py', 'ekf_ctrv.py', 'lost_recovery.py', 'lost_association.py'] | module luc cham khac luc chay ['run_tracking.py', 'det_cache.py', 'time_units.py', 'tracker_ctrv.py', 'ekf_ctrv.py', 'lost_recovery.py', 'lost_association.py'] | run_meta.code.backend thieu ['backend', 'ultralytics', 'numpy', 'scipy', 'lap'] | eval_meta thieu dau van tay GT | eval_meta ghi thieu GT/seqinfo | eval_meta.gt.gt_per_video khac manifest | GT eval_meta khac GT hien tai",
+      "p2-expA_detrac_dev-c25-pf100-s0": "thieu eval_meta | run_meta.status=None | run_meta.videos khac manifest | eval_meta.tracking.per_video thieu ['MVI_20052', 'MVI_20062', 'MVI_39851', 'MVI_39931', 'MVI_40213', 'MVI_40752', 'MVI_40871', 'MVI_40992', 'MVI_63544', 'MVI_63552', 'MVI_63554', 'MVI_63561'] thua [] | eval_meta.tracking.n_missing=None | hash dau ra khong khop eval_meta tren du 12 video | eval_meta.cache thieu ['cache_id', 'meta_sha256', 'npz_sha256', 'weights_sha256'] | cache eval_meta khac cache hien tai | run_meta.cache_id khac eval_meta | run_meta.code thieu module ['run_tracking.py', 'det_cache.py', 'time_units.py', 'ul_backend.py', 'bytetrack_np.py', 'tracker_ctrv.py', 'pf_ctrv.py', 'ekf_ctrv.py', 'lost_recovery.py', 'lost_association.py'] | run_meta.code.backend thieu ['backend', 'ultralytics', 'numpy', 'scipy', 'lap'] | eval_meta thieu dau van tay GT | eval_meta ghi thieu GT/seqinfo | eval_meta.gt.gt_per_video khac manifest | GT eval_meta khac GT hien tai",
+      "p2-expA_detrac_dev-c25-pf100-s1": "run_meta.status=None | run_meta.videos khac manifest | hash dau ra khong khop eval_meta tren du 12 video | run_meta.code thieu module ['run_tracking.py', 'det_cache.py', 'time_units.py', 'ul_backend.py', 'bytetrack_np.py', 'tracker_ctrv.py', 'pf_ctrv.py', 'ekf_ctrv.py', 'lost_recovery.py', 'lost_association.py'] | module luc cham khac luc chay ['run_tracking.py', 'det_cache.py', 'time_units.py', 'tracker_ctrv.py', 'pf_ctrv.py', 'ekf_ctrv.py', 'lost_recovery.py', 'lost_association.py'] | run_meta.code.backend thieu ['backend', 'ultralytics', 'numpy', 'scipy', 'lap'] | eval_meta thieu dau van tay GT | eval_meta ghi thieu GT/seqinfo | eval_meta.gt.gt_per_video khac manifest | GT eval_meta khac GT hien tai",
+      "p2-expA_detrac_dev-c25-pf100-s2": "thieu eval_meta | run_meta.status=None | run_meta.videos khac manifest | eval_meta.tracking.per_video thieu ['MVI_20052', 'MVI_20062', 'MVI_39851', 'MVI_39931', 'MVI_40213', 'MVI_40752', 'MVI_40871', 'MVI_40992', 'MVI_63544', 'MVI_63552', 'MVI_63554', 'MVI_63561'] thua [] | eval_meta.tracking.n_missing=None | hash dau ra khong khop eval_meta tren du 12 video | eval_meta.cache thieu ['cache_id', 'meta_sha256', 'npz_sha256', 'weights_sha256'] | cache eval_meta khac cache hien tai | run_meta.cache_id khac eval_meta | run_meta.code thieu module ['run_tracking.py', 'det_cache.py', 'time_units.py', 'ul_backend.py', 'bytetrack_np.py', 'tracker_ctrv.py', 'pf_ctrv.py', 'ekf_ctrv.py', 'lost_recovery.py', 'lost_association.py'] | run_meta.code.backend thieu ['backend', 'ultralytics', 'numpy', 'scipy', 'lap'] | eval_meta thieu dau van tay GT | eval_meta ghi thieu GT/seqinfo | eval_meta.gt.gt_per_video khac manifest | GT eval_meta khac GT hien tai",
+      "p2-expB_detrac_dev_fix1-A-sort-cv30": "run_meta.status=None | run_meta.videos khac manifest | hash dau ra khong khop eval_meta tren du 12 video | run_meta.code thieu module ['run_tracking.py', 'det_cache.py', 'time_units.py', 'ul_backend.py', 'bytetrack_np.py', 'sort_tracker.py'] | module luc cham khac luc chay ['run_tracking.py', 'det_cache.py', 'time_units.py', 'sort_tracker.py'] | run_meta.code.backend thieu ['backend', 'ultralytics', 'numpy', 'scipy', 'lap'] | eval_meta thieu dau van tay GT | eval_meta ghi thieu GT/seqinfo | eval_meta.gt.gt_per_video khac manifest | GT eval_meta khac GT hien tai",
+      "p2-expB_detrac_dev_fix1-A-sort-ekf30": "run_meta.status=None | run_meta.videos khac manifest | hash dau ra khong khop eval_meta tren du 12 video | run_meta.code thieu module ['run_tracking.py', 'det_cache.py', 'time_units.py', 'ul_backend.py', 'bytetrack_np.py', 'sort_tracker.py', 'tracker_ctrv.py', 'ekf_ctrv.py'] | module luc cham khac luc chay ['run_tracking.py', 'det_cache.py', 'time_units.py', 'sort_tracker.py', 'tracker_ctrv.py', 'ekf_ctrv.py'] | run_meta.code.backend thieu ['backend', 'ultralytics', 'numpy', 'scipy', 'lap'] | eval_meta thieu dau van tay GT | eval_meta ghi thieu GT/seqinfo | eval_meta.gt.gt_per_video khac manifest | GT eval_meta khac GT hien tai",
+      "p2-expB_detrac_dev_fix1-A-bt-ekf": "run_meta.status=None | run_meta.videos khac manifest | hash dau ra khong khop eval_meta tren du 12 video | run_meta.code thieu module ['run_tracking.py', 'det_cache.py', 'time_units.py', 'ul_backend.py', 'bytetrack_np.py', 'tracker_ctrv.py', 'ekf_ctrv.py', 'lost_recovery.py', 'lost_association.py'] | module luc cham khac luc chay ['run_tracking.py', 'det_cache.py', 'time_units.py', 'tracker_ctrv.py', 'ekf_ctrv.py', 'lost_recovery.py', 'lost_association.py'] | run_meta.code.backend thieu ['backend', 'ultralytics', 'numpy', 'scipy', 'lap'] | eval_meta thieu dau van tay GT | eval_meta ghi thieu GT/seqinfo | eval_meta.gt.gt_per_video khac manifest | GT eval_meta khac GT hien tai",
+      "p2-expB_detrac_dev_fix1-A-sort-orig1": "run_meta.status=None | run_meta.videos khac manifest | hash dau ra khong khop eval_meta tren du 12 video | run_meta.code thieu module ['run_tracking.py', 'det_cache.py', 'time_units.py', 'ul_backend.py', 'bytetrack_np.py', 'sort_tracker.py'] | module luc cham khac luc chay ['run_tracking.py', 'det_cache.py', 'time_units.py', 'sort_tracker.py'] | run_meta.code.backend thieu ['backend', 'ultralytics', 'numpy', 'scipy', 'lap'] | eval_meta thieu dau van tay GT | eval_meta ghi thieu GT/seqinfo | eval_meta.gt.gt_per_video khac manifest | GT eval_meta khac GT hien tai"
+    }
+  },
+  "img_root": "D:\\LABOTARY\\bytetrack\\data\\extracted\\DETRAC-Images",
+  "xml_dir": "D:\\LABOTARY\\bytetrack\\data\\extracted\\DETRAC-Train-Annotations-XML",
+  "gt_root": "D:\\LABOTARY\\bytetrack\\data\\processed\\DETRAC-all",
+  "n_video": 12,
+  "tong_anh": 16919,
+  "tong_frame_xml": 16347,
+  "tong_khong_nhan": 572,
+  "tong_doan": 8,
+  "tong_frame_co_xe_xuyen": 0,
+  "doan_theo_vi_tri": {
+    "dau": 0,
+    "giua": 8,
+    "cuoi": 0
+  },
+  "doan_theo_loai": {
+    "khong_nhan_co_xe": 0,
+    "khong_ket_luan_tu_gt": 8
+  },
+  "frame_theo_loai": {
+    "khong_nhan_co_xe": 0,
+    "khong_ket_luan_tu_gt": 572
+  },
+  "seqLength_bang_n_anh_ca_12": true,
+  "frame_xml_ngoai_anh": 0,
+  "frame_gt_ngoai_xml": 0,
+  "frame_xml_khong_target": 0,
+  "doan_gt_truoc_deu_ket_thuc_va_gt_sau_deu_bat_dau": 8,
+  "neo_run": "p2-kc48_pf_dev-A-ekf",
+  "neo_tong_box_trong_doan": 371,
+  "so_khop_dau_ra": [
+    {
+      "run_a": "p2-kc48_pf_dev-A-ekf",
+      "run_b": "p2-expA_detrac_dev-c25-ekf",
+      "n_video_trung_sha256": 12,
+      "n_video": 12
+    },
+    {
+      "run_a": "p2-kc48_pf_dev-A-ekf",
+      "run_b": "p2-expB_detrac_dev_fix1-A-bt-ekf",
+      "n_video_trung_sha256": 12,
+      "n_video": 12
+    },
+    {
+      "run_a": "p2-kc48_pf_dev-A-pf100-s0",
+      "run_b": "p2-expA_detrac_dev-c25-pf100-s0",
+      "n_video_trung_sha256": 12,
+      "n_video": 12
+    },
+    {
+      "run_a": "p2-kc48_pf_dev-A-pf100-s1",
+      "run_b": "p2-expA_detrac_dev-c25-pf100-s1",
+      "n_video_trung_sha256": 12,
+      "n_video": 12
+    },
+    {
+      "run_a": "p2-kc48_pf_dev-A-pf100-s2",
+      "run_b": "p2-expA_detrac_dev-c25-pf100-s2",
+      "n_video_trung_sha256": 12,
+      "n_video": 12
+    }
+  ],
+  "evaluator_detrac": "MotChallenge2DBox goc (run_trackeval.DATASET_EVALUATOR['detrac']='mot')"
+}

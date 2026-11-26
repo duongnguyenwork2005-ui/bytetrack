@@ -1,0 +1,197 @@
+{
+  "scores": {
+    "baseline": {
+      "images": 7190,
+      "input": [
+        384,
+        640
+      ],
+      "checkpoint_sha256": "d6aad8667ea7d344592c5aa170a7dbcda968c4aa30930cecc08d3541566daa82",
+      "mAP50": 0.4705446620651085,
+      "mAP50_95": 0.31978913505296147,
+      "classes": {
+        "car": {
+          "AP50": 0.8446393590803323,
+          "AP50_95": 0.5874552026813935,
+          "GT_boxes": 53204,
+          "detections_c25": 51089,
+          "TP_c25_IoU50": 41917,
+          "precision_c25": 0.8204701599170076,
+          "recall_c25": 0.7878542966694233
+        },
+        "truck": {
+          "AP50": 0.44022896765730957,
+          "AP50_95": 0.328759469405547,
+          "GT_boxes": 3054,
+          "detections_c25": 1732,
+          "TP_c25_IoU50": 1207,
+          "precision_c25": 0.6968822170900693,
+          "recall_c25": 0.39521938441388343
+        },
+        "bus": {
+          "AP50": 0.5142938349479088,
+          "AP50_95": 0.40859279190711195,
+          "GT_boxes": 1469,
+          "detections_c25": 1177,
+          "TP_c25_IoU50": 758,
+          "precision_c25": 0.6440101954120646,
+          "recall_c25": 0.5159972770592239
+        },
+        "motorcycle": {
+          "AP50": 0.34000786587033643,
+          "AP50_95": 0.17852484920273842,
+          "GT_boxes": 226,
+          "detections_c25": 223,
+          "TP_c25_IoU50": 91,
+          "precision_c25": 0.4080717488789238,
+          "recall_c25": 0.4026548672566372
+        },
+        "bicycle": {
+          "AP50": 0.21355328276965546,
+          "AP50_95": 0.09561336206801621,
+          "GT_boxes": 407,
+          "detections_c25": 222,
+          "TP_c25_IoU50": 91,
+          "precision_c25": 0.4099099099099099,
+          "recall_c25": 0.22358722358722358
+        }
+      },
+      "definition": "Deployed Nano argmax/NMS/letterbox + existing Ultralytics matching/AP; FP32 CPU dev",
+      "Nano_FPS": null,
+      "precision_recall_at_fixed_confidence": 0.25
+    },
+    "r352x608": {
+      "images": 7190,
+      "input": [
+        352,
+        608
+      ],
+      "checkpoint_sha256": "d6aad8667ea7d344592c5aa170a7dbcda968c4aa30930cecc08d3541566daa82",
+      "mAP50": 0.46363402995740727,
+      "mAP50_95": 0.3072705701343488,
+      "classes": {
+        "car": {
+          "AP50": 0.8364853611354351,
+          "AP50_95": 0.578729607658609,
+          "GT_boxes": 53204,
+          "detections_c25": 50698,
+          "TP_c25_IoU50": 41537,
+          "precision_c25": 0.8193025365892146,
+          "recall_c25": 0.7807119765431171
+        },
+        "truck": {
+          "AP50": 0.42700834643911334,
+          "AP50_95": 0.31747115299472667,
+          "GT_boxes": 3054,
+          "detections_c25": 1655,
+          "TP_c25_IoU50": 1162,
+          "precision_c25": 0.7021148036253776,
+          "recall_c25": 0.3804846103470858
+        },
+        "bus": {
+          "AP50": 0.49260317680657095,
+          "AP50_95": 0.3906609731861683,
+          "GT_boxes": 1469,
+          "detections_c25": 1173,
+          "TP_c25_IoU50": 724,
+          "precision_c25": 0.6172208013640239,
+          "recall_c25": 0.4928522804628999
+        },
+        "motorcycle": {
+          "AP50": 0.3494682284897366,
+          "AP50_95": 0.16140661023680455,
+          "GT_boxes": 226,
+          "detections_c25": 225,
+          "TP_c25_IoU50": 99,
+          "precision_c25": 0.44,
+          "recall_c25": 0.43805309734513276
+        },
+        "bicycle": {
+          "AP50": 0.2126050369161804,
+          "AP50_95": 0.08808450659543544,
+          "GT_boxes": 407,
+          "detections_c25": 207,
+          "TP_c25_IoU50": 92,
+          "precision_c25": 0.4444444444444444,
+          "recall_c25": 0.22604422604422605
+        }
+      },
+      "definition": "Deployed Nano argmax/NMS/letterbox + existing Ultralytics matching/AP; FP32 CPU dev",
+      "Nano_FPS": null,
+      "precision_recall_at_fixed_confidence": 0.25
+    },
+    "r320x576": {
+      "images": 7190,
+      "input": [
+        320,
+        576
+      ],
+      "checkpoint_sha256": "d6aad8667ea7d344592c5aa170a7dbcda968c4aa30930cecc08d3541566daa82",
+      "mAP50": 0.4597595846896666,
+      "mAP50_95": 0.3094645297077739,
+      "classes": {
+        "car": {
+          "AP50": 0.8287462256413919,
+          "AP50_95": 0.576583848111017,
+          "GT_boxes": 53204,
+          "detections_c25": 49555,
+          "TP_c25_IoU50": 40788,
+          "precision_c25": 0.8230854605993341,
+          "recall_c25": 0.7666340876625818
+        },
+        "truck": {
+          "AP50": 0.42181032299243315,
+          "AP50_95": 0.31474299808394174,
+          "GT_boxes": 3054,
+          "detections_c25": 1618,
+          "TP_c25_IoU50": 1132,
+          "precision_c25": 0.6996291718170581,
+          "recall_c25": 0.3706614276358874
+        },
+        "bus": {
+          "AP50": 0.4859157884040144,
+          "AP50_95": 0.38495289390491966,
+          "GT_boxes": 1469,
+          "detections_c25": 1112,
+          "TP_c25_IoU50": 710,
+          "precision_c25": 0.6384892086330936,
+          "recall_c25": 0.4833219877467665
+        },
+        "motorcycle": {
+          "AP50": 0.371398827650014,
+          "AP50_95": 0.19514988391861438,
+          "GT_boxes": 226,
+          "detections_c25": 183,
+          "TP_c25_IoU50": 95,
+          "precision_c25": 0.5191256830601093,
+          "recall_c25": 0.42035398230088494
+        },
+        "bicycle": {
+          "AP50": 0.19092675876047954,
+          "AP50_95": 0.07589302452037633,
+          "GT_boxes": 407,
+          "detections_c25": 185,
+          "TP_c25_IoU50": 73,
+          "precision_c25": 0.3945945945945946,
+          "recall_c25": 0.17936117936117937
+        }
+      },
+      "definition": "Deployed Nano argmax/NMS/letterbox + existing Ultralytics matching/AP; FP32 CPU dev",
+      "Nano_FPS": null,
+      "precision_recall_at_fixed_confidence": 0.25
+    }
+  },
+  "gates": {
+    "r352x608": {
+      "mAP50": false,
+      "mAP50_95": false,
+      "per_class": false
+    },
+    "r320x576": {
+      "mAP50": false,
+      "mAP50_95": false,
+      "per_class": false
+    }
+  },
+  "Nano_FPS_measured": false
+}

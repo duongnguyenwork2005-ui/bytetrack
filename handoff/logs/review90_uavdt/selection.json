@@ -1,0 +1,27 @@
+{
+  "high_occlusion": [
+    "M1306",
+    "M1005",
+    "M1202",
+    "M0206"
+  ],
+  "direction_change": [
+    "M0204",
+    "M0501"
+  ],
+  "ordinary": [
+    "M0301",
+    "M1008"
+  ],
+  "all": [
+    "M1306",
+    "M1005",
+    "M1202",
+    "M0206",
+    "M0204",
+    "M0501",
+    "M0301",
+    "M1008"
+  ],
+  "rule": "Among train clips with >=300 frames, >=10 IDs and >=1000 eligible GT boxes: top 4 by occlusion fraction, then top 2 remaining by 10-frame turn fraction, then bottom 2 remaining by occlusion fraction; ties by sequence name. Selected before detector/tracker scores."
+}

@@ -1,0 +1,571 @@
+GT: 4 file sao/kiem trung sha256 ban goc; gt.txt khop moc 2: 0/2 (tham chieu KHONG co truong gt_per_video -> khong doi chieu duoc, ghi null)
+[exp] kc48_r70_pf_smoke: split=DETRAC-all cache=yolov8n-coco_conf0.05_all 2 video, 21 lan chay tracker (1 dieu kien)
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-cv
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          68.775    65.944    71.797    75.419    77.726    75.557    86.062    86.825    73.574    81.03     84.603    68.554    
+MVI_20062                          58.552    51.538    66.611    76.907    57.126    73.276    81.567    85.898    71.569    69.198    83.385    57.701    
+COMBINED                           64.778    60.019    69.995    75.937    68.961    74.794    84.539    86.499    72.899    76.374    84.169    64.283    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          74.363    84.814    74.949    85.991    88.62     69.767    27.907    2.3256    61.305    7188      1171      923       49        30        12        1         93        
+MVI_20062                          40.318    84.726    40.856    87.741    65.174    81.481    18.519    0         26.916    3915      547       2092      24        22        5         0         64        
+COMBINED                           62.515    84.783    63.084    86.6      78.644    74.286    24.286    1.4286    49.337    11103     1718      3015      73        52        17        1         157       
+
+Identity: p2-kc48_r70_pf_smoke-A-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          84.542    83.287    85.834    6962      1397      1149      
+MVI_20062                          70.322    82.497    61.279    3681      781       2326      
+COMBINED                           79.016    83.012    75.386    10643     2178      3475      
+
+Count: p2-kc48_r70_pf_smoke-A-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8111      8359      89        43        
+MVI_20062                          6007      4462      74        27        
+COMBINED                           14118     12821     163       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-cv                HOTA 0.6478 IDF1 0.7902 AssA 0.7000 IDSW 73
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-ekf
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          68.569    65.915    71.41     75.374    77.726    74.858    86.332    86.818    73.355    80.674    84.582    68.236    
+MVI_20062                          58.789    51.486    67.212    76.722    57.151    73.946    81.411    85.815    71.806    69.784    83.215    58.071    
+COMBINED                           64.743    59.985    69.964    75.843    68.983    74.583    84.666    86.466    72.838    76.377    84.096    64.23     
+
+CLEAR: p2-kc48_r70_pf_smoke-A-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          74.339    84.797    74.913    85.943    88.626    69.767    27.907    2.3256    61.274    7184      1175      922       48        30        12        1         94        
+MVI_20062                          40.453    84.601    41.058    87.651    65.292    81.481    18.519    0         26.955    3911      551       2079      27        22        5         0         57        
+COMBINED                           62.546    84.728    63.131    86.538    78.71     74.286    24.286    1.4286    49.33     11095     1726      3001      75        52        17        1         151       
+
+Identity: p2-kc48_r70_pf_smoke-A-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          83.936    82.665    85.245    6910      1449      1196      
+MVI_20062                          70.742    82.855    61.72     3697      765       2293      
+COMBINED                           78.813    82.731    75.248    10607     2214      3489      
+
+Count: p2-kc48_r70_pf_smoke-A-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8106      8359      90        43        
+MVI_20062                          5990      4462      78        27        
+COMBINED                           14096     12821     168       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-ekf               HOTA 0.6474 IDF1 0.7881 AssA 0.6996 IDSW 75
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-ukf
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          66.44     65.867    67.078    75.34     77.691    70.635    86.038    86.82     71.076    78.4      84.598    66.326    
+MVI_20062                          58.135    51.485    65.758    76.795    57.062    73.371    80.024    85.775    71.055    68.692    83.254    57.188    
+COMBINED                           63.169    59.952    66.637    75.846    68.912    71.631    83.978    86.453    71.086    74.552    84.12     62.713    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          74.207    84.794    74.818    85.895    88.576    69.767    27.907    2.3256    61.146    7180      1179      926       51        30        12        1         93        
+MVI_20062                          40.363    84.577    40.991    87.786    65.229    81.481    18.519    0         26.824    3917      545       2088      28        22        5         0         68        
+COMBINED                           62.429    84.717    63.045    86.553    78.641    74.286    24.286    1.4286    49.201    11097     1724      3014      79        52        17        1         161       
+
+Identity: p2-kc48_r70_pf_smoke-A-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          80.51     79.292    81.767    6628      1731      1478      
+MVI_20062                          70.679    82.9      61.599    3699      763       2306      
+COMBINED                           76.689    80.548    73.184    10327     2494      3784      
+
+Count: p2-kc48_r70_pf_smoke-A-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8106      8359      89        43        
+MVI_20062                          6005      4462      77        27        
+COMBINED                           14111     12821     166       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-ukf               HOTA 0.6317 IDF1 0.7669 AssA 0.6664 IDSW 79
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-s0
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          63.574    63.233    64.103    73.141    75.61     67.048    85.779    85.552    68.458    76.718    82.294    63.134    
+MVI_20062                          57.348    50.783    64.89     75.592    56.573    71.473    80.065    84.957    70.03     69.267    82.049    56.833    
+COMBINED                           61.129    58.15     64.426    73.994    67.531    68.678    83.829    85.343    69.032    73.747    82.207    60.625    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          69.219    83.657    69.961    83.347    86.161    53.488    44.186    2.3256    55.598    6967      1392      1119      62        23        19        1         109       
+MVI_20062                          40.341    83.55     40.968    87.293    65.33     81.481    18.519    0         25.981    3895      567       2067      28        22        5         0         64        
+COMBINED                           59.169    83.619    59.871    84.72     77.321    64.286    34.286    1.4286    45.291    10862     1959      3186      90        45        24        1         173       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          76.619    75.368    77.912    6300      2059      1786      
+MVI_20062                          68.86     80.435    60.198    3589      873       2373      
+COMBINED                           73.609    77.131    70.394    9889      2932      4159      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8086      8359      96        43        
+MVI_20062                          5962      4462      85        27        
+COMBINED                           14048     12821     181       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-s0          HOTA 0.6113 IDF1 0.7361 AssA 0.6443 IDSW 90
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-s1
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          63.942    63.44     64.59     73.243    75.819    67.789    85.469    85.585    68.772    77.387    82.469    63.82     
+MVI_20062                          57.436    50.91     64.964    75.952    56.615    70.64     81.579    85.186    70.23     68.437    82.458    56.432    
+COMBINED                           61.376    58.31     64.752    74.186    67.644    68.834    84.137    85.444    69.3      73.831    82.465    60.885    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          70.164    83.565    70.738    83.67     86.613    58.14     39.535    2.3256    56.413    6994      1365      1081      48        25        17        1         105       
+MVI_20062                          39.937    83.719    40.789    87.472    65.202    81.481    18.519    0         25.696    3903      559       2083      38        22        5         0         67        
+COMBINED                           59.644    83.62     60.315    84.993    77.498    67.143    31.429    1.4286    45.723    10897     1924      3164      86        47        22        1         172       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          77.413    76.098    78.774    6361      1998      1714      
+MVI_20062                          68.338    80.009    59.639    3570      892       2416      
+COMBINED                           73.886    77.459    70.628    9931      2890      4130      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8075      8359      95        43        
+MVI_20062                          5986      4462      79        27        
+COMBINED                           14061     12821     174       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-s1          HOTA 0.6138 IDF1 0.7389 AssA 0.6475 IDSW 86
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-s2
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          63.198    63.285    63.273    73.126    75.623    66.17     85.334    85.498    68.011    76.363    82.355    62.889    
+MVI_20062                          57.43     50.744    65.149    75.633    56.5      70.691    81.864    85.041    70.183    68.708    82.187    56.469    
+COMBINED                           60.922    58.157    63.977    73.998    67.497    67.817    84.17     85.338    68.795    73.31     82.295    60.331    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          70.032    83.44     70.738    83.718    86.577    60.465    37.209    2.3256    56.169    6998      1361      1085      59        26        16        1         113       
+MVI_20062                          40.991    83.523    41.618    87.741    65.545    81.481    18.519    0         26.534    3915      547       2058      28        22        5         0         64        
+COMBINED                           59.925    83.47     60.604    85.118    77.639    68.571    30        1.4286    45.855    10913     1908      3143      87        48        21        1         177       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          76.317    75.057    77.62     6274      2085      1809      
+MVI_20062                          68.769    80.412    60.07     3588      874       2385      
+COMBINED                           73.386    76.921    70.162    9862      2959      4194      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8083      8359      98        43        
+MVI_20062                          5973      4462      81        27        
+COMBINED                           14056     12821     179       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-s2          HOTA 0.6092 IDF1 0.7339 AssA 0.6398 IDSW 87
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1-s0
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          67.028    64.251    70.039    73.995    76.408    73.474    85.554    85.965    71.983    80.46     83.132    66.888    
+MVI_20062                          56.888    50.964    63.647    76.016    56.701    70.011    80.644    85.299    69.544    67.689    82.464    55.819    
+COMBINED                           63.087    58.808    67.808    74.698    68.033    72.295    83.871    85.73     71.164    75.465    82.894    62.556    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          71.42     83.925    72.102    84.472    87.227    65.116    32.558    2.3256    57.841    7061      1298      1034      57        28        14        1         101       
+MVI_20062                          40.363    83.932    41.147    87.606    65.346    81.481    18.519    0         26.286    3909      553       2073      35        22        5         0         60        
+COMBINED                           60.611    83.928    61.329    85.563    77.929    71.429    27.143    1.4286    46.859    10970     1851      3107      92        50        19        1         161       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          82.46     81.158    83.805    6784      1575      1311      
+MVI_20062                          67.216    78.664    58.676    3510      952       2472      
+COMBINED                           76.541    80.29     73.126    10294     2527      3783      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8095      8359      92        43        
+MVI_20062                          5982      4462      80        27        
+COMBINED                           14077     12821     172       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1-s0       HOTA 0.6309 IDF1 0.7654 AssA 0.6781 IDSW 92
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1-s1
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          66.868    64.155    69.825    73.882    76.442    73.229    85.763    86.034    71.817    80.134    83.174    66.651    
+MVI_20062                          57.357    50.936    64.713    76.106    56.597    70.844    81.186    85.304    70.171    68.392    82.543    56.453    
+COMBINED                           63.159    58.732    68.053    74.656    67.985    72.444    84.22     85.777    71.272    75.514    82.949    62.638    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          71.121    84.074    71.695    84.173    87.09     62.791    34.884    2.3256    57.716    7036      1323      1043      48        27        15        1         99        
+MVI_20062                          39.691    83.996    40.385    87.427    65.017    81.481    18.519    0         25.699    3901      561       2099      31        22        5         0         64        
+COMBINED                           60.183    84.046    60.799    85.305    77.683    70        28.571    1.4286    46.573    10937     1884      3142      79        49        20        1         163       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          81.993    80.62     83.414    6739      1620      1340      
+MVI_20062                          69.279    81.219    60.4      3624      838       2376      
+COMBINED                           77.048    80.828    73.606    10363     2458      3716      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8079      8359      92        43        
+MVI_20062                          6000      4462      79        27        
+COMBINED                           14079     12821     171       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1-s1       HOTA 0.6316 IDF1 0.7705 AssA 0.6805 IDSW 79
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1-s2
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          64.861    64.217    65.612    73.906    76.486    68.93     85.659    86.027    69.627    78.052    83.181    64.925    
+MVI_20062                          58.93     50.982    68.205    76.132    56.626    74.6      81.271    85.255    72.056    70.918    82.445    58.469    
+COMBINED                           62.519    58.788    66.589    74.681    68.022    71.016    84.203    85.757    70.512    75.194    82.919    62.35     
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          71.181    84.075    71.695    84.161    87.099    62.791    34.884    2.3256    57.778    7035      1324      1042      43        27        15        1         98        
+MVI_20062                          40.43     83.9      41.035    87.741    65.261    81.481    18.519    0         26.304    3915      547       2084      27        22        5         0         62        
+COMBINED                           60.479    84.012    61.025    85.407    77.792    70        28.571    1.4286    46.824    10950     1871      3126      70        49        20        1         160       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          78.511    77.186    79.881    6452      1907      1625      
+MVI_20062                          70.949    83.169    61.86     3711      751       2288      
+COMBINED                           75.57     79.268    72.201    10163     2658      3913      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8077      8359      92        43        
+MVI_20062                          5999      4462      80        27        
+COMBINED                           14076     12821     172       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1-s2       HOTA 0.6252 IDF1 0.7557 AssA 0.6659 IDSW 70
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1k2-s0
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          67.871    65.175    70.765    74.71     77.299    74.183    86.13     86.612    72.701    80.38     84.181    67.665    
+MVI_20062                          58.618    51.417    66.915    76.469    57.134    73.458    81.449    85.644    71.53     70.085    82.997    58.168    
+COMBINED                           64.254    59.533    69.44     75.322    68.729    73.979    84.548    86.273    72.316    76.315    83.759    63.92     
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          73.693    84.488    74.279    85.465    88.427    67.442    30.233    2.3256    60.436    7144      1215      935       49        29        13        1         96        
+MVI_20062                          40.834    84.467    41.372    87.606    65.455    81.481    18.519    0         27.226    3909      553       2063      24        22        5         0         65        
+COMBINED                           62.257    84.481    62.827    86.21     78.663    72.857    25.714    1.4286    48.878    11053     1768      2998      73        51        18        1         161       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          83.575    82.175    85.023    6869      1490      1210      
+MVI_20062                          70.059    81.914    61.202    3655      807       2317      
+COMBINED                           78.327    82.084    74.899    10524     2297      3527      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8079      8359      89        43        
+MVI_20062                          5972      4462      82        27        
+COMBINED                           14051     12821     171       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1k2-s0     HOTA 0.6425 IDF1 0.7833 AssA 0.6944 IDSW 73
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1k2-s1
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          65.712    65.405    66.085    74.892    77.45     69.537    85.858    86.638    70.34     77.988    84.265    65.717    
+MVI_20062                          57.935    51.427    65.403    76.599    57.097    71.632    81.851    85.7      70.769    68.417    83.041    56.814    
+COMBINED                           62.649    59.665    65.871    75.486    68.79     70.314    84.502    86.308    70.509    74.197    83.829    62.198    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          73.884    84.52     74.447    85.572    88.494    65.116    32.558    2.3256    60.638    7153      1206      930       47        28        14        1         93        
+MVI_20062                          40.811    84.449    41.372    87.763    65.419    81.481    18.519    0         27.163    3916      546       2070      25        22        5         0         63        
+COMBINED                           62.374    84.495    62.936    86.335    78.677    71.429    27.143    1.4286    48.988    11069     1752      3000      72        50        19        1         156       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          79.662    78.347    81.022    6549      1810      1534      
+MVI_20062                          69.238    81.062    60.424    3617      845       2369      
+COMBINED                           75.612    79.292    72.258    10166     2655      3903      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8083      8359      91        43        
+MVI_20062                          5986      4462      82        27        
+COMBINED                           14069     12821     173       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1k2-s1     HOTA 0.6265 IDF1 0.7561 AssA 0.6587 IDSW 72
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1k2-s2
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          65.054    65.32     64.865    74.873    77.324    68.365    85.509    86.595    69.681    77.212    84.16     64.981    
+MVI_20062                          58.11     51.356    65.84     76.539    57.052    73.19     79.421    85.738    70.984    69.599    83.098    57.835    
+COMBINED                           62.313    59.588    65.244    75.453    68.706    70.113    83.429    86.294    70.158    74.171    83.782    62.142    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          73.454    84.529    74.124    85.477    88.275    67.442    30.233    2.3256    60.23     7145      1214      949       56        29        13        1         102       
+MVI_20062                          40.385    84.649    41.103    87.629    65.319    81.481    18.519    0         26.934    3910      552       2076      32        22        5         0         66        
+COMBINED                           61.945    84.572    62.632    86.226    78.516    72.857    25.714    1.4286    48.642    11055     1766      3025      88        51        18        1         168       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          78.478    77.234    79.763    6456      1903      1638      
+MVI_20062                          69.736    81.645    60.859    3643      819       2343      
+COMBINED                           75.083    78.769    71.726    10099     2722      3981      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1k2-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8094      8359      91        43        
+MVI_20062                          5986      4462      79        27        
+COMBINED                           14080     12821     170       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1k2-s2     HOTA 0.6231 IDF1 0.7508 AssA 0.6524 IDSW 88
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-rpred-s0
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-rpred-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          65.877    63.396    68.61     73.25     75.751    71.992    85.237    85.602    70.883    79.699    82.449    65.711    
+MVI_20062                          57.312    50.545    65.089    75.514    56.335    71.112    80.608    84.963    70.103    69.444    81.985    56.933    
+COMBINED                           62.531    58.134    67.396    74.038    67.494    71.729    83.655    85.373    70.633    75.645    82.283    62.243    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-rpred-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          69.817    83.633    70.427    83.563    86.416    60.465    37.209    2.3256    56.14     6985      1374      1098      51        26        16        1         103       
+MVI_20062                          39.87     83.51     40.542    87.293    65.123    81.481    18.519    0         25.475    3895      567       2086      30        22        5         0         60        
+COMBINED                           59.395    83.589    60.027    84.861    77.361    68.571    30        1.4286    45.468    10880     1941      3184      81        48        21        1         163       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-rpred-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          80.684    79.352    82.061    6633      1726      1450      
+MVI_20062                          68.754    80.457    60.023    3590      872       2391      
+COMBINED                           76.05     79.736    72.689    10223     2598      3841      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-rpred-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8083      8359      92        43        
+MVI_20062                          5981      4462      81        27        
+COMBINED                           14064     12821     173       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-rpred-s0    HOTA 0.6253 IDF1 0.7605 AssA 0.6740 IDSW 81
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-rpred-s1
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-rpred-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          63.879    63.515    64.383    73.334    75.866    67.405    85.649    85.653    68.705    77.251    82.542    63.764    
+MVI_20062                          56.82     50.73     63.806    75.732    56.413    70.623    79.498    85.025    69.497    67.99     82.131    55.841    
+COMBINED                           61.105    58.278    64.217    74.168    67.584    68.593    83.531    85.431    69.004    73.578    82.395    60.625    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-rpred-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          69.709    83.704    70.439    83.551    86.436    55.814    41.86     2.3256    56.094    6984      1375      1096      61        24        18        1         101       
+MVI_20062                          40.229    83.621    41.103    87.674    65.309    81.481    18.519    0         25.868    3912      550       2078      39        22        5         0         64        
+COMBINED                           59.449    83.674    60.229    84.986    77.441    65.714    32.857    1.4286    45.575    10896     1925      3174      100       46        23        1         165       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-rpred-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          76.854    75.571    78.181    6317      2042      1763      
+MVI_20062                          69.154    80.995    60.334    3614      848       2376      
+COMBINED                           73.861    77.459    70.583    9931      2890      4139      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-rpred-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8080      8359      96        43        
+MVI_20062                          5990      4462      75        27        
+COMBINED                           14070     12821     171       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-rpred-s1    HOTA 0.6111 IDF1 0.7386 AssA 0.6422 IDSW 100
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-rpred-s2
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-rpred-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          64.249    63.413    65.239    73.301    75.673    68.328    85.487    85.592    69.144    77.787    82.417    64.11     
+MVI_20062                          57.163    50.644    64.638    75.523    56.38     71.397    79.527    84.9      69.862    69.123    81.994    56.677    
+COMBINED                           61.469    58.191    65.066    74.075    67.48     69.467    83.449    85.348    69.418    74.344    82.266    61.161    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-rpred-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          69.171    83.761    69.829    83.347    86.044    55.814    41.86     2.3256    55.636    6967      1392      1130      55        24        18        1         103       
+MVI_20062                          40.61     83.389    41.349    87.651    65.434    81.481    18.519    0         26.05     3911      551       2066      33        22        5         0         67        
+COMBINED                           59.231    83.627    59.917    84.845    77.291    65.714    32.857    1.4286    45.339    10878     1943      3196      88        46        23        1         170       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-rpred-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          77.358    76.145    78.609    6365      1994      1732      
+MVI_20062                          69.279    81.04     60.499    3616      846       2361      
+COMBINED                           74.222    77.849    70.918    9981      2840      4093      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-rpred-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8097      8359      94        43        
+MVI_20062                          5977      4462      83        27        
+COMBINED                           14074     12821     177       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-rpred-s2    HOTA 0.6147 IDF1 0.7422 AssA 0.6507 IDSW 88
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s0
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          65.134    64.448    65.926    74.173    76.545    69.192    85.629    86.069    69.922    78.235    83.311    65.179    
+MVI_20062                          57.751    50.988    65.533    76.094    56.579    71.146    81.424    85.228    70.609    69.042    82.49     56.953    
+COMBINED                           62.237    58.927    65.846    74.842    68.048    69.959    84.252    85.773    70.194    74.585    83.018    61.919    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          71.599    84.036    72.305    84.603    87.309    65.116    32.558    2.3256    58.094    7072      1287      1028      59        28        14        1         101       
+MVI_20062                          40.61     83.78     41.349    87.92     65.372    81.481    18.519    0         26.349    3923      539       2078      33        22        5         0         61        
+COMBINED                           60.814    83.945    61.532    85.758    77.973    71.429    27.143    1.4286    47.046    10995     1826      3106      92        50        19        1         162       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          78.717    77.497    79.975    6478      1881      1622      
+MVI_20062                          69.636    81.645    60.707    3643      819       2358      
+COMBINED                           75.188    78.941    71.775    10121     2700      3980      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8100      8359      91        43        
+MVI_20062                          6001      4462      81        27        
+COMBINED                           14101     12821     172       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s0 HOTA 0.6224 IDF1 0.7519 AssA 0.6585 IDSW 92
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s1
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          64.797    64.224    65.484    73.926    76.431    68.7      85.782    85.992    69.569    77.819    83.192    64.74     
+MVI_20062                          57.696    50.929    65.464    76.118    56.559    72.87     79.079    85.249    70.585    69.544    82.406    57.309    
+COMBINED                           61.998    58.768    65.511    74.689    67.962    70.218    83.47     85.729    69.944    74.52     82.912    61.786    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          71.791    83.898    72.437    84.579    87.446    65.116    32.558    2.3256    58.172    7070      1289      1015      54        28        14        1         106       
+MVI_20062                          40.206    83.996    40.901    87.741    65.196    81.481    18.519    0         26.164    3915      547       2090      31        22        5         0         56        
+COMBINED                           60.799    83.933    61.462    85.68     77.963    71.429    27.143    1.4286    47.033    10985     1836      3105      85        50        19        1         162       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          78.545    77.258    79.876    6458      1901      1627      
+MVI_20062                          69.991    82.093    60.999    3663      799       2342      
+COMBINED                           75.218    78.941    71.831    10121     2700      3969      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8085      8359      93        43        
+MVI_20062                          6005      4462      77        27        
+COMBINED                           14090     12821     170       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s1 HOTA 0.6200 IDF1 0.7522 AssA 0.6551 IDSW 85
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s2
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          64.803    64.056    65.668    73.781    76.328    68.868    85.773    85.972    69.599    77.884    83.148    64.758    
+MVI_20062                          56.892    50.81     63.814    75.981    56.504    71.027    79.177    85.242    69.625    68.337    82.415    56.321    
+COMBINED                           61.698    58.623    65.048    74.546    67.881    69.684    83.514    85.715    69.629    74.098    82.886    61.417    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          71.085    83.961    71.755    84.209    87.116    67.442    30.233    2.3256    57.579    7039      1320      1041      56        29        13        1         96        
+MVI_20062                          39.937    83.887    40.789    87.629    65.167    81.481    18.519    0         25.817    3910      552       2090      38        22        5         0         65        
+COMBINED                           60.245    83.935    60.978    85.399    77.763    72.857    25.714    1.4286    46.525    10949     1872      3131      94        51        18        1         161       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          78.399    77.091    79.752    6444      1915      1636      
+MVI_20062                          68.648    80.48     59.85     3591      871       2409      
+COMBINED                           74.607    78.27     71.271    10035     2786      4045      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8080      8359      91        43        
+MVI_20062                          6000      4462      81        27        
+COMBINED                           14080     12821     172       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1-rpred-s2 HOTA 0.6170 IDF1 0.7461 AssA 0.6505 IDSW 94
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s0
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          68.033    65.266    71.005    74.811    77.279    74.434    86.143    86.556    72.874    80.577    84.144    67.801    
+MVI_20062                          58.71     51.435    67.083    76.507    57.143    74.945    79.416    85.68     71.638    70.272    83.04     58.354    
+COMBINED                           64.391    59.595    69.656    75.401    68.727    74.665    83.84     86.249    72.467    76.507    83.751    64.076    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          73.298    84.496    73.956    85.381    88.198    67.442    30.233    2.3256    60.061    7137      1222      955       55        29        13        1         98        
+MVI_20062                          40.901    84.454    41.416    87.651    65.467    81.481    18.519    0         27.275    3911      551       2063      23        22        5         0         68        
+COMBINED                           62.023    84.481    62.632    86.171    78.544    72.857    25.714    1.4286    48.651    11048     1773      3018      78        51        18        1         166       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          83.533    82.199    84.911    6871      1488      1221      
+MVI_20062                          71.253    83.326    62.236    3718      744       2256      
+COMBINED                           78.767    82.591    75.281    10589     2232      3477      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8092      8359      89        43        
+MVI_20062                          5974      4462      80        27        
+COMBINED                           14066     12821     169       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s0 HOTA 0.6439 IDF1 0.7877 AssA 0.6966 IDSW 78
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s1
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          67.897    65.246    70.743    74.816    77.303    74.543    85.435    86.601    72.741    80.472    84.123    67.695    
+MVI_20062                          57.516    51.401    64.514    76.488    57.043    71.001    80.951    85.586    70.232    67.959    82.961    56.379    
+COMBINED                           63.861    59.566    68.582    75.398    68.69     73.357    83.933    86.246    71.903    75.573    83.709    63.261    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          73.573    84.541    74.148    85.465    88.307    67.442    30.233    2.3256    60.362    7144      1215      946       48        29        13        1         101       
+MVI_20062                          40.766    84.362    41.349    87.719    65.419    81.481    18.519    0         27.049    3914      548       2069      26        22        5         0         62        
+COMBINED                           62.156    84.478    62.733    86.249    78.576    72.857    25.714    1.4286    48.768    11058     1763      3015      74        51        18        1         163       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          83.555    82.211    84.944    6872      1487      1218      
+MVI_20062                          68.013    79.606    59.368    3552      910       2431      
+COMBINED                           77.519    81.304    74.071    10424     2397      3649      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8090      8359      87        43        
+MVI_20062                          5983      4462      79        27        
+COMBINED                           14073     12821     166       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s1 HOTA 0.6386 IDF1 0.7752 AssA 0.6858 IDSW 74
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s2
+
+
+HOTA: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MVI_20052                          68.253    65.392    71.329    74.955    77.352    74.783    86.25     86.619    73.109    80.779    84.206    68.021    
+MVI_20062                          57.768    51.357    65.093    76.639    56.965    72.573    80.086    85.625    70.622    68.474    82.983    56.821    
+COMBINED                           64.168    59.625    69.16     75.541    68.674    74.056    84.143    86.271    72.273    75.95     83.77     63.623    
+
+CLEAR: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MVI_20052                          73.418    84.569    74.076    85.489    88.222    65.116    32.558    2.3256    60.226    7146      1213      954       55        28        14        1         98        
+MVI_20062                          40.677    84.459    41.215    87.875    65.317    81.481    18.519    0         27.02     3921      541       2082      24        22        5         0         66        
+COMBINED                           62.023    84.53     62.639    86.319    78.473    71.429    27.143    1.4286    48.669    11067     1754      3036      79        50        19        1         164       
+
+Identity: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MVI_20052                          83.845    82.546    85.185    6900      1459      1200      
+MVI_20062                          69.164    81.107    60.287    3619      843       2384      
+COMBINED                           78.138    82.045    74.587    10519     2302      3584      
+
+Count: p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MVI_20052                          8100      8359      89        43        
+MVI_20062                          6003      4462      75        27        
+COMBINED                           14103     12821     164       70        
+  [eval ] p2-kc48_r70_pf_smoke-A-pf500-k1k2-rpred-s2 HOTA 0.6417 IDF1 0.7814 AssA 0.6916 IDSW 79
+  [occl ] bo qua: thi nghiem khong khai bao muc `occlusion` (nguon nhan khong co du lieu che khuat)
+[wrapper] buoc eval: exit 0, 36.0 s; thu muc p2-kc48_r70_pf_smoke-* trong data/processed: truoc 0, sau 0

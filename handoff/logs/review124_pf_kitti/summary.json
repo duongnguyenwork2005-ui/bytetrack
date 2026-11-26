@@ -1,0 +1,262 @@
+{
+  "results": {
+    "kf": {
+      "metrics": {
+        "HOTA": 0.4976402214249025,
+        "IDF1": 0.651567429022082,
+        "IDSW": 280,
+        "FN": 9416,
+        "FP": 1852
+      },
+      "groups": {
+        "all": {
+          "boxes": 24070,
+          "IDSW": 280,
+          "FN": 9416
+        },
+        "turn25": {
+          "boxes": 399,
+          "IDSW": 8,
+          "FN": 96
+        },
+        "occlusion2": {
+          "boxes": 4259,
+          "IDSW": 43,
+          "FN": 3384
+        },
+        "turn25_occlusion2": {
+          "boxes": 50,
+          "IDSW": 3,
+          "FN": 30
+        }
+      },
+      "recovery": {
+        "after_missing": 19,
+        "before_missing": 125,
+        "same_id": 21,
+        "different_id": 12
+      }
+    },
+    "ekf": {
+      "metrics": {
+        "HOTA": 0.4967950754319626,
+        "IDF1": 0.651048210282561,
+        "IDSW": 260,
+        "FN": 9422,
+        "FP": 1875
+      },
+      "groups": {
+        "all": {
+          "boxes": 24070,
+          "IDSW": 260,
+          "FN": 9422
+        },
+        "turn25": {
+          "boxes": 399,
+          "IDSW": 8,
+          "FN": 106
+        },
+        "occlusion2": {
+          "boxes": 4259,
+          "IDSW": 42,
+          "FN": 3415
+        },
+        "turn25_occlusion2": {
+          "boxes": 50,
+          "IDSW": 2,
+          "FN": 37
+        }
+      },
+      "recovery": {
+        "after_missing": 18,
+        "before_missing": 126,
+        "same_id": 21,
+        "different_id": 12
+      }
+    },
+    "ukf": {
+      "metrics": {
+        "HOTA": 0.497166617487746,
+        "IDF1": 0.652229613205223,
+        "IDSW": 260,
+        "FN": 9416,
+        "FP": 1866
+      },
+      "groups": {
+        "all": {
+          "boxes": 24070,
+          "IDSW": 260,
+          "FN": 9416
+        },
+        "turn25": {
+          "boxes": 399,
+          "IDSW": 8,
+          "FN": 104
+        },
+        "occlusion2": {
+          "boxes": 4259,
+          "IDSW": 42,
+          "FN": 3411
+        },
+        "turn25_occlusion2": {
+          "boxes": 50,
+          "IDSW": 2,
+          "FN": 37
+        }
+      },
+      "recovery": {
+        "after_missing": 18,
+        "before_missing": 126,
+        "same_id": 21,
+        "different_id": 12
+      }
+    },
+    "rbpf100_mean": {
+      "metrics": {
+        "HOTA": 0.49486657048330285,
+        "IDF1": 0.6502100101647653,
+        "IDSW": 247.66666666666666,
+        "FN": 9477.333333333334,
+        "FP": 1929.3333333333333
+      },
+      "groups": {
+        "all": {
+          "boxes": 24070.0,
+          "IDSW": 247.66666666666666,
+          "FN": 9477.333333333334
+        },
+        "turn25": {
+          "boxes": 399.0,
+          "IDSW": 7.666666666666667,
+          "FN": 106.33333333333333
+        },
+        "occlusion2": {
+          "boxes": 4259.0,
+          "IDSW": 43.333333333333336,
+          "FN": 3413.6666666666665
+        },
+        "turn25_occlusion2": {
+          "boxes": 50.0,
+          "IDSW": 1.0,
+          "FN": 38.0
+        }
+      }
+    }
+  },
+  "PF_seeds": {
+    "0": {
+      "metrics": {
+        "HOTA": 0.4954920870728095,
+        "IDF1": 0.6514308230310791,
+        "IDSW": 248,
+        "FN": 9460,
+        "FP": 1926
+      },
+      "groups": {
+        "all": {
+          "boxes": 24070,
+          "IDSW": 248,
+          "FN": 9460
+        },
+        "turn25": {
+          "boxes": 399,
+          "IDSW": 8,
+          "FN": 107
+        },
+        "occlusion2": {
+          "boxes": 4259,
+          "IDSW": 45,
+          "FN": 3408
+        },
+        "turn25_occlusion2": {
+          "boxes": 50,
+          "IDSW": 1,
+          "FN": 38
+        }
+      },
+      "recovery": {
+        "after_missing": 18,
+        "before_missing": 127,
+        "same_id": 21,
+        "different_id": 11
+      }
+    },
+    "1": {
+      "metrics": {
+        "HOTA": 0.49436403043130256,
+        "IDF1": 0.6495170510546028,
+        "IDSW": 250,
+        "FN": 9479,
+        "FP": 1923
+      },
+      "groups": {
+        "all": {
+          "boxes": 24070,
+          "IDSW": 250,
+          "FN": 9479
+        },
+        "turn25": {
+          "boxes": 399,
+          "IDSW": 7,
+          "FN": 106
+        },
+        "occlusion2": {
+          "boxes": 4259,
+          "IDSW": 42,
+          "FN": 3415
+        },
+        "turn25_occlusion2": {
+          "boxes": 50,
+          "IDSW": 1,
+          "FN": 38
+        }
+      },
+      "recovery": {
+        "after_missing": 19,
+        "before_missing": 126,
+        "same_id": 20,
+        "different_id": 12
+      }
+    },
+    "2": {
+      "metrics": {
+        "HOTA": 0.4947435939457964,
+        "IDF1": 0.6496821564086138,
+        "IDSW": 245,
+        "FN": 9493,
+        "FP": 1939
+      },
+      "groups": {
+        "all": {
+          "boxes": 24070,
+          "IDSW": 245,
+          "FN": 9493
+        },
+        "turn25": {
+          "boxes": 399,
+          "IDSW": 8,
+          "FN": 106
+        },
+        "occlusion2": {
+          "boxes": 4259,
+          "IDSW": 43,
+          "FN": 3418
+        },
+        "turn25_occlusion2": {
+          "boxes": 50,
+          "IDSW": 1,
+          "FN": 38
+        }
+      },
+      "recovery": {
+        "after_missing": 19,
+        "before_missing": 127,
+        "same_id": 20,
+        "different_id": 11
+      }
+    }
+  },
+  "frames": 7863,
+  "gt_boxes": 24070,
+  "units": 60
+}

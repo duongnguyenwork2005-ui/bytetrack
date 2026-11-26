@@ -1,0 +1,428 @@
+{
+ "buoc": "fixture R55A",
+ "lan": "results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844",
+ "luc": "2026-10-21T05:44:22+0700",
+ "tong_giay": 194.2,
+ "so_test": 20,
+ "so_dat": 20,
+ "tat_ca_dat": true,
+ "so_lenh_cli_con": 27,
+ "dieu_phoi_sha256": "74b9cb6df9b8d7804634646ce4647b64b19965696aa8b13f4e40807477fd6d68",
+ "test_sha256": "bdba2f7b09a2c0761967aced4dbadf21f48de7143349d7908cbb39d2ab65666c",
+ "hop_dong_sha256": "bed7ba74f18f263758ff7830d13ab14af7bf05321d736aead21a789183672f93",
+ "thiet_ke_sha256": "c2ebfe70d85252810e1872b974dcf5ecf1ee9789956e75815347ff3832585b91",
+ "giao_thuc_r54_sha256": "eb1f8f3087401eaf3641c1bc215a864ad23850ec5ddd6970d7d74280715431ad",
+ "thu_vien": {
+  "python": "3.11.9",
+  "ultralytics": "8.4.141",
+  "torch": "2.6.0+cu124",
+  "torchvision": "0.21.0+cu124",
+  "trackeval": "1.3.0",
+  "numpy": "2.4.6",
+  "pandas": "2.3.3",
+  "opencv-python": "5.0.0.93",
+  "scipy": "1.17.1",
+  "lap": "0.5.13",
+  "fastparquet": "2026.5.0",
+  "filterpy": null
+ },
+ "gioi_han": [
+  "detector GIA LAP (MoHinhGia fixture R54) qua det_cache.build_video_yolo; YOLO/spec.fill_env()/GPU khong chay; khong setup_model/forward checkpoint that",
+  "du lieu tong hop 2 video x 20 anh (co frame khong GT va anh D4); duong that 40 video chua chay",
+  "tracker (CV/EKF/UKF/PF500) va TrackEval THAT tren CPU; mot so ca goi main() trong tien trinh, ngat/backend/chuoi chuan bi dung tien trinh con THAT (cli_log.json)",
+  "khoa fixture ke thua file khoa R54 THAT (bam lai, chi doc); ket qua test dung cho khoa fixture la ban GIA trong vung fixture",
+  "snapshot chi phu cac thu muc liet ke trong snapshot(), khong phai toan bo dia"
+ ],
+ "ket_qua": [
+  {
+   "ten": "A1 import khong chay gi; script khong tham so / buoc la -> exit 2, khong ghi",
+   "dat": true,
+   "chi_tiet": {
+    "import": "ok ('mo-phien', 'cache', 'xac-nhan-cache', 'tracking', 'cham', 'lap-tracker', 'cham-lai', 'hau-kiem')",
+    "khong_tham_so": {
+     "exit": 2,
+     "dong": [
+      "                           [--duyet DUYET]",
+      "dieu_phoi_test40.py: error: the following arguments are required: --buoc"
+     ]
+    },
+    "buoc_la": {
+     "exit": 2,
+     "dong": [
+      "                           [--duyet DUYET]",
+      "dieu_phoi_test40.py: error: argument --buoc: invalid choice: 'full' (choose from 'tien-kiem', 'khoa', 'kiem-khoa', 'thuc-thi')"
+     ]
+    }
+   },
+   "giay": 0.45
+  },
+  {
+   "ten": "A2 duong that: thieu --duyet / --cong-viec / --phien / ten khoa / R55_NGAT / env fixture ngoai tests -> exit 2, khong ghi",
+   "dat": true,
+   "chi_tiet": {
+    "khong_duyet": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi] LoiDauVao: duong that can --duyet <ma plan thuc thi da duoc nguoi dung duyet>; R55 khong cap quyen"
+     ]
+    },
+    "khong_cong_viec": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi] LoiDauVao: --cong-viec bat buoc, mot trong ('mo-phien', 'cache', 'xac-nhan-cache', 'tracking', 'cham', 'lap-tracker', 'cham-lai', 'hau-kiem')"
+     ]
+    },
+    "thieu_phien": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi] LoiDauVao: --cong-viec cham thieu tham so: ['phien']"
+     ]
+    },
+    "khoa_khong_ten": {
+     "exit": 2,
+     "dong": [
+      "[khoa] LoiDauVao: khoa can --tien-kiem <phien> va --tests <phien> TUONG MINH"
+     ]
+    },
+    "kiem_khoa_khong_ten": {
+     "exit": 2,
+     "dong": [
+      "[kiem-khoa] LoiDauVao: can --khoa <ten phien khoa R55> (khong tu chon khoa moi nhat)"
+     ]
+    },
+    "cong_viec_ngoai_thuc_thi": {
+     "exit": 2,
+     "dong": [
+      "[tien-kiem] LoiDauVao: --cong-viec/--phien/--detector/--run/--video chi dung voi --buoc thuc-thi"
+     ]
+    },
+    "ngat_duong_that": {
+     "exit": 2,
+     "dong": [
+      "[kiem-khoa] LoiDauVao: R55_NGAT chi dung trong fixture"
+     ]
+    },
+    "env_ngoai_tests": {
+     "exit": 2,
+     "dong": [
+      "[kiem-khoa] LoiDauVao: R55_FIXTURE=D:\\LABOTARY\\bytetrack\\results\\phase2\\r55_tracking\\fixture.json phai la .../fixture.json ben trong D:\\LABOTARY\\bytetrack\\results\\phase2\\r55_tracking\\tests"
+     ]
+    }
+   },
+   "giay": 1.21
+  },
+  {
+   "ten": "B1 CLI chuan bi fixture: tien-kiem -> khoa (ten tuong minh) -> kiem-khoa (chi doc / --luu)",
+   "dat": true,
+   "chi_tiet": {
+    "tien_kiem": {
+     "exit": 0,
+     "dong": [
+      "[tien-kiem] dat (0 lech) -> results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/chuan_bi/tien_kiem_20261021_054110_414900_pid17204  exit 0"
+     ]
+    },
+    "khoa_thieu_tests": {
+     "exit": 2,
+     "dong": [
+      "[khoa] LoiDauVao: khoa can --tien-kiem <phien> va --tests <phien> TUONG MINH"
+     ]
+    },
+    "khoa": {
+     "exit": 0,
+     "dong": [
+      "[khoa] 393 file -> results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/chuan_bi/khoa_20261021_054116_796600_pid10692  khoa.json cc66b757fe8f1f8746bee43cd16ae24d7d88aa9bb9b7dc0115598ad60ba03ac8"
+     ]
+    },
+    "so_file_khoa": 393,
+    "kiem_khoa": {
+     "exit": 0,
+     "dong": [
+      "[kiem-khoa] results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/chuan_bi/khoa_20261021_054116_796600_pid10692 (khoa.json cc66b757fe8f1f8746bee43cd16ae24d7d88aa9bb9b7dc0115598ad60ba03ac8): 393 file; khoa R54 368 file; 0 lech -> exit 0"
+     ]
+    },
+    "kiem_khoa_luu": {
+     "exit": 0,
+     "dong": [
+      "[kiem-khoa] results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/chuan_bi/khoa_20261021_054116_796600_pid10692 (khoa.json cc66b757fe8f1f8746bee43cd16ae24d7d88aa9bb9b7dc0115598ad60ba03ac8): 393 file; khoa R54 368 file; 0 lech -> exit 0",
+      "   ket qua -> results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/chuan_bi/kiem_khoa_20261021_054127_961500_pid21052/ket_qua.json"
+     ]
+    }
+   },
+   "giay": 17.34
+  },
+  {
+   "ten": "C1 mo-phien; trung ten -> exit 1 (tu choi ghi de); ten thoat vung -> exit 2; tracking khi chua co cache -> exit 2",
+   "dat": true,
+   "chi_tiet": {
+    "mo_phien": {
+     "exit": 0,
+     "dong": [
+      "[mo-phien] results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/thuc_thi/p1 (khoa khoa_20261021_054116_796600_pid10692)"
+     ]
+    },
+    "trung_ten": {
+     "exit": 1,
+     "dong": [
+      "[thuc-thi] LoiGhiDe: phien D:\\LABOTARY\\bytetrack\\results\\phase2\\r55_tracking\\tests\\lan_20261021_054108_288700_pid25844\\fx\\thuc_thi\\p1 da ton tai - tu choi ghi de"
+     ]
+    },
+    "ten_thoat": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi] LoiDauVao: ten phien '..\\\\thoat' khong hop le (chi [A-Za-z0-9_.-], khong '..')"
+     ]
+    },
+    "phien_thoat": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi] LoiDauVao: --phien '..' khong hop le / thieu"
+     ]
+    }
+   },
+   "giay": 6.05
+  },
+  {
+   "ten": "C2 cache bi ngat SAU marker video 1 -> thieu 1 video: xac-nhan tu choi, tracking tu choi (truoc tracking)",
+   "dat": true,
+   "chi_tiet": {
+    "ngat": 9,
+    "xac_nhan": "LoiDauVao: yolov8n_coco: thieu cache hoan tat cho 1/2 video: ['MVI_39051'] - khong xac nhan, khong tracking"
+   },
+   "giay": 12.91
+  },
+  {
+   "ten": "C3 cache bi ngat TRUOC marker video 2 -> lan do dang giu nguyen; tiep tuc: tai su dung video 1, lan moi video 2",
+   "dat": true,
+   "chi_tiet": {
+    "tiep_tuc": {
+     "exit": 0,
+     "dong": [
+      "[cache] yolov8n_coco/MVI_39051: 60 box, 3.4 s -> results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/thuc_thi/p1/cache/yolov8n_coco/MVI_39051/lan_20261021_054206_955937800_0002_pid11632",
+      "[thuc-thi cache] moi 1, tai su dung 1 -> results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/thuc_thi/p1/nhat_ky/cache/lan_20261021_054158_779563400_0001_pid11632  exit 0"
+     ]
+    },
+    "lan_v2": [
+     "lan_20261021_054155_097191500_0002_pid11312",
+     "lan_20261021_054206_955937800_0002_pid11632"
+    ]
+   },
+   "giay": 24.54
+  },
+  {
+   "ten": "C4 xac-nhan-cache: manifest BAT BIEN (lan 2 -> exit 1); cache sau manifest -> exit 2, KHONG goi detector",
+   "dat": true,
+   "chi_tiet": {
+    "manifest": {
+     "lan": "results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/thuc_thi/p1/cache/yolov8n_coco/MVI_39031/lan_20261021_054142_251247000_0002_pid7672",
+     "npz_sha256": "4d157abb34fdfe5d720f3848f172eeea7f5a64048ce63fe173fd054e3071b1b8",
+     "json_sha256": "f212f9d221207c14d871d5d0728d8087ddde66640a8e2d777ddbc415fff6ec81",
+     "meta_sha256": "b1c158b60a22026a2e50a4fe719d66d4bad0b9205c2e50e43745ac68f8a09682",
+     "marker_sha256": "c4d4ce1a03a5ff253fdd8ed4d0d83dcd70f8cecae951cc0a646eb2e397e6f5af",
+     "n_frames": 20,
+     "n_boxes": 60
+    },
+    "spec": "9ca12d47cfa549913c624ed93bd8b91a279079f6025c5c55bfcf6e7ff2a9d48d"
+   },
+   "giay": 16.35
+  },
+  {
+   "ten": "C5 kiem_npz bat schema / timeline / anh xa / unreadable sai (ham xac nhan, ban sao trong vung test)",
+   "dat": true,
+   "chi_tiet": {
+    "time_s": [
+     "MVI_39031: time_s khac (i-1)*dt"
+    ],
+    "frame_idx": [
+     "MVI_39031: frame_idx khac 1..20"
+    ],
+    "unreadable": [
+     "MVI_39031: unreadable/truncated"
+    ],
+    "cls": [
+     "MVI_39031: cls coco != anh xa(cls_goc)"
+    ],
+    "thieu_khoa": [
+     "MVI_39031: khoa npz ['data', 'frame_idx', 'n_per_frame', 'orig_shape', 'time_s', 'truncated', 'unreadable'] != ['cls_goc', 'data', 'frame_idx', 'n_per_frame', 'orig_shape', 'time_s', 'truncated', 'unreadable']"
+    ]
+   },
+   "giay": 0.55
+  },
+  {
+   "ten": "D1 cache / meta.json sai hash sau xac nhan -> tracking bi chan TRUOC tracking, khong lan tracking nao",
+   "dat": true,
+   "chi_tiet": {
+    "npz": "LoiDauVao: cache yolov8n_mixed5 khong khop manifest (1): ['yolov8n_mixed5/MVI_39051: MVI_39051.npz sha256 lech manifest']",
+    "meta": "LoiDauVao: cache yolov8n_mixed5 khong khop manifest (1): ['yolov8n_mixed5/MVI_39031: meta.json sha256 lech manifest']",
+    "json": "LoiDauVao: cache yolov8n_mixed5 khong khop manifest (1): ['yolov8n_mixed5/MVI_39031: MVI_39031.json sha256 lech manifest']"
+   },
+   "giay": 1.63
+  },
+  {
+   "ten": "E1 tracking ngat TRUOC marker -> cham tu choi (chua du video); tiep tuc tai su dung video 1, lan dang giu nguyen",
+   "dat": true,
+   "chi_tiet": {
+    "ngat": 9,
+    "tiep_tuc": {
+     "moi": [
+      "results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/thuc_thi/p1/tracking/r54-yolov8n_coco-c25-cv/MVI_39051/lan_20261021_054250_568225700_0024_pid25844"
+     ],
+     "tai_su_dung": [
+      "results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/thuc_thi/p1/tracking/r54-yolov8n_coco-c25-cv/MVI_39031/lan_20261021_054238_608618800_0002_pid18488"
+     ]
+    }
+   },
+   "giay": 20.85
+  },
+  {
+   "ten": "E2 tracking ngat SAU marker -> lan co marker duoc tai su dung (khong chay lai)",
+   "dat": true,
+   "chi_tiet": {
+    "tai_su_dung": [
+     "results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/thuc_thi/p1/tracking/r54-yolov8n_coco-c25-ekf/MVI_39031/lan_20261021_054259_088373000_0002_pid11944"
+    ]
+   },
+   "giay": 16.31
+  },
+  {
+   "ten": "E3 doi backend (BYTETRACK_BACKEND=np) -> exit 2 truoc tracking; doi khoa (phien.json / file da khoa) -> exit 2",
+   "dat": true,
+   "chi_tiet": {
+    "backend": {
+     "exit": 2,
+     "dong": [
+      "[thuc-thi tracking] moi 0, tai su dung 0 -> results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/thuc_thi/p1/nhat_ky/tracking/lan_20261021_054307_246038400_0001_pid13144  exit 2",
+      "   - LoiDauVao: BYTETRACK_BACKEND='np' != backend da khoa 'ultralytics'"
+     ]
+    },
+    "phien_doi_khoa": "LoiDauVao: kiem-khoa / rang buoc phien lech: ['khoa.json khac khoa da gan voi phien']",
+    "file_khoa_doi": {
+     "exit": 2,
+     "dong": [
+      "[kiem-khoa] results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/chuan_bi/khoa_20261021_054116_796600_pid10692 (khoa.json cc66b757fe8f1f8746bee43cd16ae24d7d88aa9bb9b7dc0115598ad60ba03ac8): 393 file; khoa R54 368 file; 1 lech -> exit 2",
+      "   - results/phase2/r55_tracking/tests/lan_20261021_054108_288700_pid25844/fx/nguon/data/interim/hash_tap_danh_gia/detrac_test_loai_D4.csv: f7a77df5618f9fac4740be1400f5023df2933dc0a3be6028fc04438e3f8a3ef0 != 263854c17144363d5153d14b7939f658d60d2933c9c97e1e47522a2444aa28b0"
+     ]
+    }
+   },
+   "giay": 3.17
+  },
+  {
+   "ten": "E4 doi cau hinh / seed trong rang buoc -> lan cu KHONG duoc tai su dung, giu nguyen; lan moi duoc tao",
+   "dat": true,
+   "chi_tiet": {
+    "danh_gia": {
+     "seed": [
+      "khong_khop",
+      "rang buoc khac: ['seed']"
+     ],
+     "cfg_sha256": [
+      "khong_khop",
+      "rang buoc khac: ['cfg_sha256']"
+     ],
+     "backend": [
+      "khong_khop",
+      "rang buoc khac: ['backend']"
+     ],
+     "khoa_sha256": [
+      "khong_khop",
+      "rang buoc khac: ['khoa_sha256']"
+     ],
+     "npz_sha256": [
+      "khong_khop",
+      "rang buoc khac: ['npz_sha256']"
+     ]
+    },
+    "mot_trung": true
+   },
+   "giay": 8.84
+  },
+  {
+   "ten": "F1 tracking 36 run tu cache da xac nhan; frame khong GT / D4 van qua tracker; PF seed/N/K1/K2",
+   "dat": true,
+   "chi_tiet": {
+    "so_run": 36,
+    "info_pf": {
+     "video": "MVI_39051",
+     "n_frames": 20,
+     "n_buoc_timing": 20,
+     "n_steps": [
+      1
+     ],
+     "n_boxes": 40,
+     "n_tracks": 2,
+     "seed_truyen": 2,
+     "seed_thuc_dung": 2,
+     "tracker_lop": "LoggedElapsedPFByteTracker",
+     "track_buffer": 30,
+     "giay": 0.034,
+     "data_sha256": "ef2478532f13bbec3b7761513457e7f7654310b93e8da9c8d93dcce4789d4ac5",
+     "num_particles": 500,
+     "k1_optimal_proposal": false,
+     "k2_roughening": 0.0
+    }
+   },
+   "giay": 14.22
+  },
+  {
+   "ten": "F2 cham loi (gia lap TrackEval) -> exit 4, lan loi giu nguyen; cham lai -> lan moi; cham 36 run",
+   "dat": true,
+   "chi_tiet": {
+    "loi_gia_lap": 4,
+    "so_run": 36,
+    "hota_vi_du": 0.85
+   },
+   "giay": 21.26
+  },
+  {
+   "ten": "G1 lap tracker tu CUNG cache/seed (cv, pf500 s0/s1) -> MOT trung byte, khong goi detector",
+   "dat": true,
+   "chi_tiet": {
+    "r54-yolov8n_mixed5-c25-cv": "8f7742dee9fe7a1b",
+    "r54-yolov8n_mixed5-c25-pf500-s0": "0d162397174223c3",
+    "r54-yolo11n_mixed5-c10-pf500-s1": "e9e6a09ab4bd57e3"
+   },
+   "giay": 12.52
+  },
+  {
+   "ten": "G2 cham lai tu CUNG bo MOT da bam -> 3 file metric trung byte; MOT ban sao bi sua -> chan",
+   "dat": true,
+   "chi_tiet": {
+    "r54-yolov8n_coco-c25-cv": "1866b4f3b9930e51",
+    "r54-yolo11n_mixed5-c10-ukf": "c9ba3b6b712f3fc0",
+    "r54-yolov8n_mixed5-c25-pf500-s2": "b5bf91ac77cd8593",
+    "mot_sua": "LoiDauVao: r54-yolov8n_coco-c10-cv: chua co lan cham hoan tat khop bo MOT hien tai"
+   },
+   "giay": 13.08
+  },
+  {
+   "ten": "G3 hau-kiem: du 36 run; lan do dang / loi duoc liet ke va giu nguyen byte",
+   "dat": true,
+   "chi_tiet": {
+    "dem": {
+     "cache": 6,
+     "tracking": 72,
+     "cham": 36
+    },
+    "lan_khong_marker": 3
+   },
+   "giay": 2.67
+  },
+  {
+   "ten": "H1 duong dan thoat vung / fixture.json sai / phien khong ton tai -> LoiDauVao, khong ghi",
+   "dat": true,
+   "chi_tiet": {
+    "lan_moi": "duong dan ghi D:\\LABOTARY\\bytetrack\\results\\thoat nam ngoai vung cho phep ['D:\\\\LABOTARY\\\\bytetrack\\\\results\\\\phase2\\\\r5",
+    "..": "--phien '..' khong hop le / thieu",
+    "a/b": "--phien 'a/b' khong hop le / thieu",
+    "khong_co": "khong co phien.json: D:\\LABOTARY\\bytetrack\\results\\phase2\\r55_tracking\\tests\\lan_20261021_054108_288",
+    "giao_thuc_thoat": "duong dan ghi D:\\LABOTARY\\bytetrack\\results\\phase2\\r55_tracking\\x.json nam ngoai vung cho phep ['D:\\\\LABOTARY\\\\bytetrack"
+   },
+   "giay": 0.01
+  },
+  {
+   "ten": "Z1 khong ghi ngoai vung (snapshot thu muc nhay cam)",
+   "dat": true,
+   "chi_tiet": []
+  }
+ ],
+ "exit": 0
+}

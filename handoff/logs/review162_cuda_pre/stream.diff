@@ -1,0 +1,16 @@
+--- R108/src/nano_detect_stream.py
++++ R162/src/nano_detect_stream.py
+@@ -324,9 +324,11 @@
+         else:
+             if not a.engine or not os.path.isfile(a.engine):
+                 raise ValueError("khong co engine: %s" % a.engine)
+-            eng = nd.TRTEngine(a.engine, bo_dem=a.bo_dem)
++            from gpu_pre import GpuTRTEngine
++            from gpu_detector import GpuNanoDetector
++            eng = GpuTRTEngine(a.engine, bo_dem=a.bo_dem)
+             lb_hw = nd.imgsz_hieu_luc(a.imgsz, eng.hw)       # R63 v17-C: (H,W) tu binding neu engine khong vuong
+-            det = nd.NanoDetector(eng, lb_hw, a.conf, a.iou, a.max_det, None, False)
++            det = GpuNanoDetector(eng, lb_hw, a.conf, a.iou, a.max_det, None, False)
+             e_info = eng.info()
+             ver.update({k: v for k, v in e_info.items() if k != "bindings"})
+             info = {"detector": "tensorrt", "engine": os.path.abspath(a.engine), "engine_sha256": sha256_file(a.engine),

@@ -1,0 +1,644 @@
+{
+  "status": "PASS",
+  "original_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+  "fused": "D:\\LABOTARY\\bytetrack\\models\\r167_fused_silu\\fused.onnx",
+  "fused_sha256": "1f610365c8a7e917c8c4fe01fb360d0dc934cafde55b428a1c67456f43376c6d",
+  "initializers_byte_equal": true,
+  "replaced_pairs": [
+    {
+      "sigmoid": "/model.0/act/Sigmoid",
+      "mul": "/model.0/act/Mul",
+      "input": "/model.0/conv/Conv_output_0",
+      "output": [
+        "/model.0/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.1/act/Sigmoid",
+      "mul": "/model.1/act/Mul",
+      "input": "/model.1/conv/Conv_output_0",
+      "output": [
+        "/model.1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.2/cv1/act/Sigmoid",
+      "mul": "/model.2/cv1/act/Mul",
+      "input": "/model.2/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.2/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.2/m.0/cv1/act/Sigmoid",
+      "mul": "/model.2/m.0/cv1/act/Mul",
+      "input": "/model.2/m.0/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.2/m.0/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.2/m.0/cv2/act/Sigmoid",
+      "mul": "/model.2/m.0/cv2/act/Mul",
+      "input": "/model.2/m.0/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.2/m.0/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.2/cv2/act/Sigmoid",
+      "mul": "/model.2/cv2/act/Mul",
+      "input": "/model.2/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.2/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.3/act/Sigmoid",
+      "mul": "/model.3/act/Mul",
+      "input": "/model.3/conv/Conv_output_0",
+      "output": [
+        "/model.3/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.4/cv1/act/Sigmoid",
+      "mul": "/model.4/cv1/act/Mul",
+      "input": "/model.4/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.4/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.4/m.0/cv1/act/Sigmoid",
+      "mul": "/model.4/m.0/cv1/act/Mul",
+      "input": "/model.4/m.0/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.4/m.0/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.4/m.0/cv2/act/Sigmoid",
+      "mul": "/model.4/m.0/cv2/act/Mul",
+      "input": "/model.4/m.0/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.4/m.0/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.4/cv2/act/Sigmoid",
+      "mul": "/model.4/cv2/act/Mul",
+      "input": "/model.4/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.4/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.5/act/Sigmoid",
+      "mul": "/model.5/act/Mul",
+      "input": "/model.5/conv/Conv_output_0",
+      "output": [
+        "/model.5/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.6/cv1/act/Sigmoid",
+      "mul": "/model.6/cv1/act/Mul",
+      "input": "/model.6/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.6/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.6/m.0/cv1/act/Sigmoid",
+      "mul": "/model.6/m.0/cv1/act/Mul",
+      "input": "/model.6/m.0/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.6/m.0/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.6/m.0/m/m.0/cv1/act/Sigmoid",
+      "mul": "/model.6/m.0/m/m.0/cv1/act/Mul",
+      "input": "/model.6/m.0/m/m.0/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.6/m.0/m/m.0/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.6/m.0/m/m.0/cv2/act/Sigmoid",
+      "mul": "/model.6/m.0/m/m.0/cv2/act/Mul",
+      "input": "/model.6/m.0/m/m.0/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.6/m.0/m/m.0/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.6/m.0/m/m.1/cv1/act/Sigmoid",
+      "mul": "/model.6/m.0/m/m.1/cv1/act/Mul",
+      "input": "/model.6/m.0/m/m.1/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.6/m.0/m/m.1/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.6/m.0/m/m.1/cv2/act/Sigmoid",
+      "mul": "/model.6/m.0/m/m.1/cv2/act/Mul",
+      "input": "/model.6/m.0/m/m.1/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.6/m.0/m/m.1/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.6/m.0/cv2/act/Sigmoid",
+      "mul": "/model.6/m.0/cv2/act/Mul",
+      "input": "/model.6/m.0/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.6/m.0/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.6/m.0/cv3/act/Sigmoid",
+      "mul": "/model.6/m.0/cv3/act/Mul",
+      "input": "/model.6/m.0/cv3/conv/Conv_output_0",
+      "output": [
+        "/model.6/m.0/cv3/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.6/cv2/act/Sigmoid",
+      "mul": "/model.6/cv2/act/Mul",
+      "input": "/model.6/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.6/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.7/act/Sigmoid",
+      "mul": "/model.7/act/Mul",
+      "input": "/model.7/conv/Conv_output_0",
+      "output": [
+        "/model.7/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.8/cv1/act/Sigmoid",
+      "mul": "/model.8/cv1/act/Mul",
+      "input": "/model.8/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.8/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.8/m.0/cv1/act/Sigmoid",
+      "mul": "/model.8/m.0/cv1/act/Mul",
+      "input": "/model.8/m.0/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.8/m.0/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.8/m.0/m/m.0/cv1/act/Sigmoid",
+      "mul": "/model.8/m.0/m/m.0/cv1/act/Mul",
+      "input": "/model.8/m.0/m/m.0/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.8/m.0/m/m.0/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.8/m.0/m/m.0/cv2/act/Sigmoid",
+      "mul": "/model.8/m.0/m/m.0/cv2/act/Mul",
+      "input": "/model.8/m.0/m/m.0/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.8/m.0/m/m.0/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.8/m.0/m/m.1/cv1/act/Sigmoid",
+      "mul": "/model.8/m.0/m/m.1/cv1/act/Mul",
+      "input": "/model.8/m.0/m/m.1/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.8/m.0/m/m.1/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.8/m.0/m/m.1/cv2/act/Sigmoid",
+      "mul": "/model.8/m.0/m/m.1/cv2/act/Mul",
+      "input": "/model.8/m.0/m/m.1/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.8/m.0/m/m.1/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.8/m.0/cv2/act/Sigmoid",
+      "mul": "/model.8/m.0/cv2/act/Mul",
+      "input": "/model.8/m.0/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.8/m.0/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.8/m.0/cv3/act/Sigmoid",
+      "mul": "/model.8/m.0/cv3/act/Mul",
+      "input": "/model.8/m.0/cv3/conv/Conv_output_0",
+      "output": [
+        "/model.8/m.0/cv3/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.8/cv2/act/Sigmoid",
+      "mul": "/model.8/cv2/act/Mul",
+      "input": "/model.8/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.8/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.9/cv1/act/Sigmoid",
+      "mul": "/model.9/cv1/act/Mul",
+      "input": "/model.9/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.9/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.9/cv2/act/Sigmoid",
+      "mul": "/model.9/cv2/act/Mul",
+      "input": "/model.9/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.9/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.10/cv1/act/Sigmoid",
+      "mul": "/model.10/cv1/act/Mul",
+      "input": "/model.10/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.10/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.10/m/m.0/ffn/ffn.0/act/Sigmoid",
+      "mul": "/model.10/m/m.0/ffn/ffn.0/act/Mul",
+      "input": "/model.10/m/m.0/ffn/ffn.0/conv/Conv_output_0",
+      "output": [
+        "/model.10/m/m.0/ffn/ffn.0/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.10/cv2/act/Sigmoid",
+      "mul": "/model.10/cv2/act/Mul",
+      "input": "/model.10/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.10/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.13/cv1/act/Sigmoid",
+      "mul": "/model.13/cv1/act/Mul",
+      "input": "/model.13/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.13/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.13/m.0/cv1/act/Sigmoid",
+      "mul": "/model.13/m.0/cv1/act/Mul",
+      "input": "/model.13/m.0/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.13/m.0/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.13/m.0/cv2/act/Sigmoid",
+      "mul": "/model.13/m.0/cv2/act/Mul",
+      "input": "/model.13/m.0/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.13/m.0/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.13/cv2/act/Sigmoid",
+      "mul": "/model.13/cv2/act/Mul",
+      "input": "/model.13/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.13/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.16/cv1/act/Sigmoid",
+      "mul": "/model.16/cv1/act/Mul",
+      "input": "/model.16/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.16/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.16/m.0/cv1/act/Sigmoid",
+      "mul": "/model.16/m.0/cv1/act/Mul",
+      "input": "/model.16/m.0/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.16/m.0/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.16/m.0/cv2/act/Sigmoid",
+      "mul": "/model.16/m.0/cv2/act/Mul",
+      "input": "/model.16/m.0/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.16/m.0/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.16/cv2/act/Sigmoid",
+      "mul": "/model.16/cv2/act/Mul",
+      "input": "/model.16/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.16/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.17/act/Sigmoid",
+      "mul": "/model.17/act/Mul",
+      "input": "/model.17/conv/Conv_output_0",
+      "output": [
+        "/model.17/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.19/cv1/act/Sigmoid",
+      "mul": "/model.19/cv1/act/Mul",
+      "input": "/model.19/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.19/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.19/m.0/cv1/act/Sigmoid",
+      "mul": "/model.19/m.0/cv1/act/Mul",
+      "input": "/model.19/m.0/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.19/m.0/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.19/m.0/cv2/act/Sigmoid",
+      "mul": "/model.19/m.0/cv2/act/Mul",
+      "input": "/model.19/m.0/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.19/m.0/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.19/cv2/act/Sigmoid",
+      "mul": "/model.19/cv2/act/Mul",
+      "input": "/model.19/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.19/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.20/act/Sigmoid",
+      "mul": "/model.20/act/Mul",
+      "input": "/model.20/conv/Conv_output_0",
+      "output": [
+        "/model.20/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.22/cv1/act/Sigmoid",
+      "mul": "/model.22/cv1/act/Mul",
+      "input": "/model.22/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.22/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.22/m.0/cv1/act/Sigmoid",
+      "mul": "/model.22/m.0/cv1/act/Mul",
+      "input": "/model.22/m.0/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.22/m.0/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.22/m.0/m/m.0/cv1/act/Sigmoid",
+      "mul": "/model.22/m.0/m/m.0/cv1/act/Mul",
+      "input": "/model.22/m.0/m/m.0/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.22/m.0/m/m.0/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.22/m.0/m/m.0/cv2/act/Sigmoid",
+      "mul": "/model.22/m.0/m/m.0/cv2/act/Mul",
+      "input": "/model.22/m.0/m/m.0/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.22/m.0/m/m.0/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.22/m.0/m/m.1/cv1/act/Sigmoid",
+      "mul": "/model.22/m.0/m/m.1/cv1/act/Mul",
+      "input": "/model.22/m.0/m/m.1/cv1/conv/Conv_output_0",
+      "output": [
+        "/model.22/m.0/m/m.1/cv1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.22/m.0/m/m.1/cv2/act/Sigmoid",
+      "mul": "/model.22/m.0/m/m.1/cv2/act/Mul",
+      "input": "/model.22/m.0/m/m.1/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.22/m.0/m/m.1/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.22/m.0/cv2/act/Sigmoid",
+      "mul": "/model.22/m.0/cv2/act/Mul",
+      "input": "/model.22/m.0/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.22/m.0/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.22/m.0/cv3/act/Sigmoid",
+      "mul": "/model.22/m.0/cv3/act/Mul",
+      "input": "/model.22/m.0/cv3/conv/Conv_output_0",
+      "output": [
+        "/model.22/m.0/cv3/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.22/cv2/act/Sigmoid",
+      "mul": "/model.22/cv2/act/Mul",
+      "input": "/model.22/cv2/conv/Conv_output_0",
+      "output": [
+        "/model.22/cv2/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv2.0/cv2.0.0/act/Sigmoid",
+      "mul": "/model.23/cv2.0/cv2.0.0/act/Mul",
+      "input": "/model.23/cv2.0/cv2.0.0/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv2.0/cv2.0.0/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv2.0/cv2.0.1/act/Sigmoid",
+      "mul": "/model.23/cv2.0/cv2.0.1/act/Mul",
+      "input": "/model.23/cv2.0/cv2.0.1/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv2.0/cv2.0.1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv2.1/cv2.1.0/act/Sigmoid",
+      "mul": "/model.23/cv2.1/cv2.1.0/act/Mul",
+      "input": "/model.23/cv2.1/cv2.1.0/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv2.1/cv2.1.0/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv2.1/cv2.1.1/act/Sigmoid",
+      "mul": "/model.23/cv2.1/cv2.1.1/act/Mul",
+      "input": "/model.23/cv2.1/cv2.1.1/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv2.1/cv2.1.1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv2.2/cv2.2.0/act/Sigmoid",
+      "mul": "/model.23/cv2.2/cv2.2.0/act/Mul",
+      "input": "/model.23/cv2.2/cv2.2.0/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv2.2/cv2.2.0/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv2.2/cv2.2.1/act/Sigmoid",
+      "mul": "/model.23/cv2.2/cv2.2.1/act/Mul",
+      "input": "/model.23/cv2.2/cv2.2.1/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv2.2/cv2.2.1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.0/cv3.0.0/cv3.0.0.0/act/Sigmoid",
+      "mul": "/model.23/cv3.0/cv3.0.0/cv3.0.0.0/act/Mul",
+      "input": "/model.23/cv3.0/cv3.0.0/cv3.0.0.0/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.0/cv3.0.0/cv3.0.0.0/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.0/cv3.0.0/cv3.0.0.1/act/Sigmoid",
+      "mul": "/model.23/cv3.0/cv3.0.0/cv3.0.0.1/act/Mul",
+      "input": "/model.23/cv3.0/cv3.0.0/cv3.0.0.1/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.0/cv3.0.0/cv3.0.0.1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.0/cv3.0.1/cv3.0.1.0/act/Sigmoid",
+      "mul": "/model.23/cv3.0/cv3.0.1/cv3.0.1.0/act/Mul",
+      "input": "/model.23/cv3.0/cv3.0.1/cv3.0.1.0/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.0/cv3.0.1/cv3.0.1.0/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.0/cv3.0.1/cv3.0.1.1/act/Sigmoid",
+      "mul": "/model.23/cv3.0/cv3.0.1/cv3.0.1.1/act/Mul",
+      "input": "/model.23/cv3.0/cv3.0.1/cv3.0.1.1/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.0/cv3.0.1/cv3.0.1.1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.1/cv3.1.0/cv3.1.0.0/act/Sigmoid",
+      "mul": "/model.23/cv3.1/cv3.1.0/cv3.1.0.0/act/Mul",
+      "input": "/model.23/cv3.1/cv3.1.0/cv3.1.0.0/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.1/cv3.1.0/cv3.1.0.0/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.1/cv3.1.0/cv3.1.0.1/act/Sigmoid",
+      "mul": "/model.23/cv3.1/cv3.1.0/cv3.1.0.1/act/Mul",
+      "input": "/model.23/cv3.1/cv3.1.0/cv3.1.0.1/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.1/cv3.1.0/cv3.1.0.1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.1/cv3.1.1/cv3.1.1.0/act/Sigmoid",
+      "mul": "/model.23/cv3.1/cv3.1.1/cv3.1.1.0/act/Mul",
+      "input": "/model.23/cv3.1/cv3.1.1/cv3.1.1.0/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.1/cv3.1.1/cv3.1.1.0/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.1/cv3.1.1/cv3.1.1.1/act/Sigmoid",
+      "mul": "/model.23/cv3.1/cv3.1.1/cv3.1.1.1/act/Mul",
+      "input": "/model.23/cv3.1/cv3.1.1/cv3.1.1.1/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.1/cv3.1.1/cv3.1.1.1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.2/cv3.2.0/cv3.2.0.0/act/Sigmoid",
+      "mul": "/model.23/cv3.2/cv3.2.0/cv3.2.0.0/act/Mul",
+      "input": "/model.23/cv3.2/cv3.2.0/cv3.2.0.0/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.2/cv3.2.0/cv3.2.0.0/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.2/cv3.2.0/cv3.2.0.1/act/Sigmoid",
+      "mul": "/model.23/cv3.2/cv3.2.0/cv3.2.0.1/act/Mul",
+      "input": "/model.23/cv3.2/cv3.2.0/cv3.2.0.1/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.2/cv3.2.0/cv3.2.0.1/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.2/cv3.2.1/cv3.2.1.0/act/Sigmoid",
+      "mul": "/model.23/cv3.2/cv3.2.1/cv3.2.1.0/act/Mul",
+      "input": "/model.23/cv3.2/cv3.2.1/cv3.2.1.0/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.2/cv3.2.1/cv3.2.1.0/act/Mul_output_0"
+      ]
+    },
+    {
+      "sigmoid": "/model.23/cv3.2/cv3.2.1/cv3.2.1.1/act/Sigmoid",
+      "mul": "/model.23/cv3.2/cv3.2.1/cv3.2.1.1/act/Mul",
+      "input": "/model.23/cv3.2/cv3.2.1/cv3.2.1.1/conv/Conv_output_0",
+      "output": [
+        "/model.23/cv3.2/cv3.2.1/cv3.2.1.1/act/Mul_output_0"
+      ]
+    }
+  ],
+  "remaining_class_sigmoid": 1,
+  "parity_sha256": {
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\00.npz": "75ec4482dd232e912930adb3215376705d34b6ab8269cb2e1b9bfa58ff2f9df2",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\01.npz": "6a2de58c14000a2f51321fb8cfe1efa4dd2a7a519bbac2a16a21d5ea1e47ccac",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\02.npz": "3c330ff6936c1cf628c3a00049d549bcb8f91e3c452ace08d48fbfda8eb28922",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\03.npz": "18cca4d196f572fce4e4e1124e4899bd655585bc09d17185baa17b68d4cf9189",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\04.npz": "bbec50b257ed7ddd29b8580dcba7840529522dbb1c3f264d79f16ea2476a0c3a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\05.npz": "1aaab1353231d56925076931c9dbc291db0fdf5e1440ab63a88e09beb659224a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\06.npz": "a0e082fe3d3fa34bd2c14b924fa6dbdef701e17e6f4e86621f5127d63b446cbc",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\07.npz": "4c769f7efde84368b9c1fcef424d6ed1c64830cc34a877435781ad39dc58b77e",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\08.npz": "45b1b579ea328c2fe9329f0732c446e9679211355668ad512337a138a917659c",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\09.npz": "02762bf2e816d37beab4f9b29681f5b534320b3274cc746fecb23509a3f4e8d0"
+  },
+  "source_sha256": {
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\transform.py": "29be3e2cc84485699fd2f26e928197975024bc511278a819b1bdcc2040c52591",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\00_protocol.md": "83c2de69e040514b1bb715fb83419d539656f31f964b8d4959d5149e7fded9f0",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\fused_silu.cu": "ebfa2dc23c9db94e8790f62c2fb1544af2bc72771db7a4c38c10d66bccfaa96a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\kernel_oracle.py": "bda40f46a38236c9066bab7742d5627c4a59618cc64f991676c51004d0eee4c8"
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "original": {
+    "total_profile_ms": 41.66426134799999,
+    "layers": 348,
+    "overlapping_name_groups_ms": {
+      "HardSigmoid": 0,
+      "Sigmoid": 12.6930733,
+      "act/Mul": 4.737942739999999,
+      "Reformat": 1.9228370899999996
+    },
+    "top10": [
+      {
+        "name": "PWN(/model.0/act/Sigmoid)",
+        "timeMs": 195.534,
+        "averageMs": 1.25342,
+        "percentage": 3.00839
+      },
+      {
+        "name": "PWN(/model.2/cv2/act/Sigmoid)",
+        "timeMs": 194.676,
+        "averageMs": 1.24792,
+        "percentage": 2.99518
+      },
+      {
+        "name": "/model.23/dfl/Softmax",
+        "timeMs": 190.593,
+        "averageMs": 1.22175,
+        "percentage": 2.93238
+      },
+      {
+        "name": "/model.0/conv/Conv",
+        "timeMs": 188.416,
+        "averageMs": 1.20779,
+        "percentage": 2.89887
+      },
+      {
+        "name": "(Unnamed Layer* 323) [Shuffle] + /model.23/dfl/Transpose_1",
+        "timeMs": 171.705,
+        "averageMs": 1.10067,
+        "percentage": 2.64177
+      },
+      {
+        "name": "Reformatting CopyNode for Input Tensor 0 to /model.0/conv/Conv",
+        "timeMs": 124.217,
+        "averageMs": 0.796263,
+        "percentage": 1.91114
+      },
+      {
+        "name": "/model.3/conv/Conv",
+        "timeMs": 120.919,
+        "averageMs": 0.775123,
+        "percentage": 1.8604
+      },
+      {
+        "name": "/model.5/conv/Conv",
+        "timeMs": 119.739,
+        "averageMs": 0.767556,
+        "percentage": 1.84224
+      },
+      {
+        "name": "PWN(/model.4/cv2/act/Sigmoid)",
+        "timeMs": 97.9632,
+        "averageMs": 0.627969,
+        "percentage": 1.50721
+      },
+      {
+        "name": "PWN(/model.1/act/Sigmoid)",
+        "timeMs": 97.9139,
+        "averageMs": 0.627653,
+        "percentage": 1.50646
+      }
+    ]
+  },
+  "hswish": {
+    "total_profile_ms": 55.000212898999976,
+    "layers": 348,
+    "overlapping_name_groups_ms": {
+      "HardSigmoid": 25.946813600000013,
+      "Sigmoid": 26.029157200000014,
+      "act/Mul": 4.847801479999999,
+      "Reformat": 1.9214645
+    },
+    "top10": [
+      {
+        "name": "PWN(/model.0/act/HardSigmoid)",
+        "timeMs": 316.153,
+        "averageMs": 2.65675,
+        "percentage": 4.83044
+      },
+      {
+        "name": "PWN(/model.2/cv2/act/HardSigmoid)",
+        "timeMs": 315.746,
+        "averageMs": 2.65333,
+        "percentage": 4.82421
+      },
+      {
+        "name": "PWN(/model.1/act/HardSigmoid)",
+        "timeMs": 158.541,
+        "averageMs": 1.33227,
+        "percentage": 2.42231
+      },
+      {
+        "name": "PWN(/model.4/cv2/act/HardSigmoid)",
+        "timeMs": 158.387,
+        "averageMs": 1.33098,
+        "percentage": 2.41996
+      },
+      {
+        "name": "PWN(/model.2/cv1/act/HardSigmoid)",
+        "timeMs": 158.073,
+        "averageMs": 1.32835,
+        "percentage": 2.41516
+      },
+      {
+        "name": "/model.23/dfl/Softmax",
+        "timeMs": 145.362,
+        "averageMs": 1.22153,
+        "percentage": 2.22095
+      },
+      {
+        "name": "/model.0/conv/Conv",
+        "timeMs": 143.362,
+        "averageMs": 1.20472,
+        "percentage": 2.19039
+      },
+      {
+        "name": "(Unnamed Layer* 323) [Shuffle] + /model.23/dfl/Transpose_1",
+        "timeMs": 130.589,
+        "averageMs": 1.09739,
+        "percentage": 1.99524
+      },
+      {
+        "name": "Reformatting CopyNode for Input Tensor 0 to /model.0/conv/Conv",
+        "timeMs": 94.6805,
+        "averageMs": 0.795635,
+        "percentage": 1.4466
+      },
+      {
+        "name": "/model.3/conv/Conv",
+        "timeMs": 92.2346,
+        "averageMs": 0.775081,
+        "percentage": 1.40923
+      }
+    ]
+  },
+  "head50_ONNX_operators": {
+    "Conv": 88,
+    "Sigmoid": 78,
+    "Mul": 81,
+    "Split": 10,
+    "Add": 17,
+    "Concat": 21,
+    "MaxPool": 3,
+    "Constant": 26,
+    "Reshape": 11,
+    "Transpose": 4,
+    "MatMul": 2,
+    "Softmax": 2,
+    "Resize": 2,
+    "Shape": 1,
+    "Gather": 1,
+    "Div": 2,
+    "Slice": 2,
+    "Sub": 2
+  },
+  "hswish_ONNX_operators": {
+    "Conv": 88,
+    "HardSigmoid": 77,
+    "Mul": 81,
+    "Split": 10,
+    "Add": 17,
+    "Concat": 21,
+    "MaxPool": 3,
+    "Constant": 26,
+    "Reshape": 11,
+    "Transpose": 4,
+    "MatMul": 2,
+    "Softmax": 2,
+    "Resize": 2,
+    "Shape": 1,
+    "Gather": 1,
+    "Div": 2,
+    "Slice": 2,
+    "Sub": 2,
+    "Sigmoid": 1
+  },
+  "note": "Profile attribution only; name groups overlap, no additive causal attribution and no pipeline FPS.",
+  "sha256": {
+    "handoff\\logs\\review164_latency_pruning\\profile.json": "850e0e82bd4f1548fdd3c4f2f458bdf1d5db8bd8c2056c4c8fa1e6aa93e0e04f",
+    "handoff\\logs\\review164_latency_pruning\\hswish_profile.json": "52386d03b1de3756b567166f7fe2210d1bbe887b2918f3e55cf6dff35bc8d6f9",
+    "handoff\\logs\\review164_latency_pruning\\hswish_profile.log": "1862006db390175ab4d9be75644ce153cc10066a1619f91878844d60a5c9042b",
+    "handoff\\logs\\review164_latency_pruning\\stage\\hswish\\model.onnx": "49e52bda905af65d2cf899b07fa50461e19c1e89f08853976020765d9d1987a1",
+    "handoff\\logs\\review164_latency_pruning\\stage\\head50\\model.onnx": "e12baded3825c75683d47ed87b288cafb0798212ed2879d5942db79a9173290f"
+  }
+}

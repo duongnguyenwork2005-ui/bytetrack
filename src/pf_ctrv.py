@@ -59,6 +59,7 @@ pf_ctrv.py -- Particle Filter (bootstrap / SIR) voi mo hinh chuyen dong CTRV.
 from __future__ import annotations
 
 import hashlib
+import math
 import sys
 from pathlib import Path
 
@@ -69,10 +70,10 @@ from ekf_ctrv import EKFTrackerCTRV, normalize_angle  # noqa: E402
 
 
 def _logsumexp(a: np.ndarray) -> float:
-    m = float(np.max(a))
-    if not np.isfinite(m):
+    m = float(a.max())
+    if not math.isfinite(m):
         return m
-    return m + float(np.log(np.sum(np.exp(a - m))))
+    return m + float(np.log(np.exp(a - m).sum()))
 
 
 def systematic_resample(weights: np.ndarray, u: float) -> np.ndarray:
@@ -90,19 +91,46 @@ class PFCTRV(EKFTrackerCTRV):
 
     def __init__(self, num_particles: int = 300, seed: int = 0, resample_ess_ratio: float = 0.5,
                  estimate: str = "mean", roughening: float = 0.0, degenerate_maha2: float = 1e4,
-                 optimal_proposal: bool = False, **ctrv_kwargs):
+                 optimal_proposal: bool = False, measurement_height: str = "observation",
+                 roughening_box_scale: float = 1.0, roughening_motion_scale: float = 1.0,
+                 recenter_resample: bool = False, allow_high_motion_roughening: bool = False,
+                 antithetic_process_noise: bool = False, rb_observed_estimate: bool = False,
+                 lost_cv_fraction: float = 0.0, lost_cv_preserve_omega: bool = False,
+                 **ctrv_kwargs):
         super().__init__(**ctrv_kwargs)
         if num_particles < 2:
             raise ValueError("num_particles phai >= 2")
         if estimate not in ("mean", "map"):
             raise ValueError("estimate phai la 'mean' hoac 'map'")
+        if measurement_height not in ("observation", "prediction"):
+            raise ValueError("measurement_height phai la 'observation' hoac 'prediction'")
+        if not np.isfinite(roughening_box_scale) or not 0.0 <= roughening_box_scale <= 1.0:
+            raise ValueError("roughening_box_scale phai nam trong [0, 1]")
+        motion_max = 8.0 if allow_high_motion_roughening else 2.0
+        if not np.isfinite(roughening_motion_scale) or not 0.0 <= roughening_motion_scale <= motion_max:
+            raise ValueError(f"roughening_motion_scale phai nam trong [0, {motion_max:g}]")
+        if recenter_resample and estimate != "mean":
+            raise ValueError("recenter_resample requires pf_estimate=mean")
+        if rb_observed_estimate and (not optimal_proposal or estimate != "mean"):
+            raise ValueError("rb_observed_estimate requires optimal_proposal=True and estimate=mean")
+        if not np.isfinite(lost_cv_fraction) or not 0.0 <= lost_cv_fraction <= 1.0:
+            raise ValueError("lost_cv_fraction must be in [0, 1]")
         self.num_particles = int(num_particles)
         self.seed = int(seed)
         self.resample_ess_ratio = float(resample_ess_ratio)
         self.estimate = estimate
         self.roughening = float(roughening)
+        self.roughening_box_scale = float(roughening_box_scale)
+        self.roughening_motion_scale = float(roughening_motion_scale)
+        self.allow_high_motion_roughening = bool(allow_high_motion_roughening)
+        self.recenter_resample = bool(recenter_resample)
+        self.antithetic_process_noise = bool(antithetic_process_noise)
+        self.rb_observed_estimate = bool(rb_observed_estimate)
+        self.lost_cv_fraction = float(lost_cv_fraction)
+        self.lost_cv_preserve_omega = bool(lost_cv_preserve_omega)
         self.degenerate_maha2 = float(degenerate_maha2)
         self.optimal_proposal = bool(optimal_proposal)
+        self.measurement_height = measurement_height
         self.video_salt = 0
         # R48D: hook chan doan CHI DOC - chi so to tien cua lan resample gan nhat (None neu update gan nhat khong
         # resample). Chi gan thuoc tinh, khong rut so ngau nhien -> khong doi ket qua.
@@ -139,7 +167,7 @@ class PFCTRV(EKFTrackerCTRV):
     def diag_frame(self):
         import pandas as pd
         cols = ["track_id", "frame", "kind", "ess_ratio", "resampled", "n_unique", "spread_xy", "spread_theta",
-                "spread_v", "degenerate", "maha2_best", "n_lost"]
+                "spread_v", "degenerate", "maha2_best", "n_lost", "n_ancestors"]
         return pd.DataFrame(self.diag_rows or [], columns=cols)
 
     def _diag_spread(self, X: np.ndarray, logw: np.ndarray) -> tuple[float, float, float]:
@@ -162,6 +190,19 @@ class PFCTRV(EKFTrackerCTRV):
 
     def make_rng(self, track_id: int) -> np.random.Generator:
         return np.random.default_rng(np.random.SeedSequence([self.seed, self.video_salt, int(track_id)]))
+
+    def lost_transition_input(self, X: np.ndarray, rng: np.random.Generator) -> np.ndarray:
+        """R92 opt-in: sample straight/CTRV transition modes for a Lost track.
+
+        The original particles are untouched. With fraction zero, also consume
+        no random draws, preserving the previously locked PF trajectory.
+        """
+        if self.lost_cv_fraction == 0.0:
+            return X
+        straight = rng.random(len(X)) < self.lost_cv_fraction
+        mixed = X.copy()
+        mixed[straight, self.OMEGA] = 0.0
+        return mixed
 
     # ------------------------------------------------------------------
     # Ham chuyen trang thai vector hoa
@@ -214,13 +255,26 @@ class PFCTRV(EKFTrackerCTRV):
         X[:, self.H] = np.maximum(X[:, self.H], 1e-3)      # chieu cao phai duong
         return X
 
+    def sample_process_noise(self, std: np.ndarray, rng: np.random.Generator) -> np.ndarray:
+        """Optional antithetic process draws; each row still has marginal N(0, Q_i)."""
+        if not self.antithetic_process_noise:
+            return rng.standard_normal(std.shape) * std
+        n, d = std.shape
+        half = n // 2
+        z = rng.standard_normal((half, d))
+        if n % 2:
+            z = np.concatenate((z, -z, rng.standard_normal((1, d))), axis=0)
+        else:
+            z = np.concatenate((z, -z), axis=0)
+        return z * std
+
     def propagate(self, X: np.ndarray, rng: np.random.Generator, return_prior: bool = False):
         """Mot buoc du doan: f(X) + N(0, Q(h)). h lay cua TUNG particle (truoc khi du doan).
 
         return_prior (K1): tra them (f(X), std Q) de update dung proposal toi uu; cung phep tinh, cung so rut."""
         std = self.process_noise_std_batch(np.maximum(X[:, self.H], 1e-3))
         fX = self.f_batch(X)
-        Xn = fX + rng.standard_normal(X.shape) * std
+        Xn = fX + self.sample_process_noise(std, rng)
         Xn[:, self.THETA] = normalize_angle(Xn[:, self.THETA])
         Xn[:, self.H] = np.maximum(Xn[:, self.H], 1e-3)
         if return_prior:
@@ -228,7 +282,7 @@ class PFCTRV(EKFTrackerCTRV):
         return Xn
 
     def optimal_proposal_step(self, X: np.ndarray, prior: tuple, z: np.ndarray, R_diag: np.ndarray,
-                              rng: np.random.Generator):
+                              rng: np.random.Generator, return_moments: bool = False):
         """K1: rut lai toa do do tu N(m_ij, s_j^2) va tra ve (X moi, log p(z | x_{k-1}^i)) (N,).
 
         q_ij^2 = Q cua particle i tai predict, r_j^2 = R. log p(z | x_{k-1}) = sum_j log N(z_j; f_j, q^2 + r^2)
@@ -246,6 +300,8 @@ class PFCTRV(EKFTrackerCTRV):
         tot = q2 + r2
         d = z[None, :] - fz
         ll = -0.5 * np.sum(d * d / tot + np.log(tot), axis=1)
+        if return_moments:
+            return X, ll, m, s2
         return X, ll
 
     def log_likelihood(self, X: np.ndarray, z: np.ndarray, R_diag: np.ndarray) -> np.ndarray:
@@ -280,13 +336,28 @@ class PFCTRV(EKFTrackerCTRV):
         self.last_resample_idx = None
         if 1.0 / float(np.sum(w * w)) >= self.resample_ess_ratio * n:
             return X, logw, False
+        if self.recenter_resample:
+            target = w @ X
+            target[self.THETA] = np.arctan2(w @ np.sin(X[:, self.THETA]),
+                                               w @ np.cos(X[:, self.THETA]))
         idx = systematic_resample(w, float(rng.random()))
         self.last_resample_idx = idx
         Xr = X[idx].copy()
         if self.roughening > 0.0:
             std = self.process_noise_std_batch(np.maximum(Xr[:, self.H], 1e-3)) * self.roughening
+            if self.roughening_box_scale != 1.0:
+                std[:, [self.CX, self.CY, self.A, self.H]] *= self.roughening_box_scale
+            if self.roughening_motion_scale != 1.0:
+                std[:, [self.V, self.THETA, self.OMEGA, self.VA, self.VH]] *= self.roughening_motion_scale
             Xr += rng.standard_normal(Xr.shape) * std
             Xr[:, self.THETA] = normalize_angle(Xr[:, self.THETA])
+        if self.recenter_resample:
+            center = Xr.mean(axis=0)
+            center[self.THETA] = np.arctan2(np.sin(Xr[:, self.THETA]).mean(),
+                                               np.cos(Xr[:, self.THETA]).mean())
+            Xr += target - center
+            Xr[:, self.THETA] = normalize_angle(Xr[:, self.THETA])
+            Xr[:, self.H] = np.maximum(Xr[:, self.H], 1e-3)
         self.n_resample += 1
         return Xr, np.full(n, -np.log(n)), True
 
@@ -296,11 +367,20 @@ class PFCTRV(EKFTrackerCTRV):
 
         diag_key (Moc 2): (track_id, frame, n_lost) de ghi chan doan khi enable_diag() - khong doi ket qua.
         prior (K1): (f(x_{k-1}), std Q) cua predict ngay truoc; chi dung khi optimal_proposal bat. Luat suy bien
-        giu nguyen (xet tren particle prior, nhu bootstrap)."""
+        giu nguyen (xet tren particle prior, nhu bootstrap).
+        measurement_height: 'observation' dung z[3] nhu mac dinh cu; 'prediction' dung trung binh h co
+        trong so cua particle DA predict, truoc cap nhat. Cung R dung cho likelihood, suy bien va K1."""
         self.n_update += 1
         self.last_resample_idx = None
         z = np.asarray(z, dtype=np.float64)
-        h_ref = float(max(z[3], 1e-3))              # R theo chieu cao quan sat (~ mean[H] cua EKF)
+        h_ref = float(max(z[3], 1e-3))
+        if self.measurement_height == "prediction":
+            # R70: weighted predicted height, before likelihood/K1 changes the particles or weights.
+            weights = np.exp(logw - _logsumexp(logw))
+            predicted_height = float(weights @ X[:, self.H])
+            if not np.isfinite(predicted_height):
+                raise ValueError("prediction measurement_height requires a finite weighted particle height")
+            h_ref = max(predicted_height, 1e-3)
         R_diag = np.diag(self._measurement_noise(h_ref, conf))
         ll = self.log_likelihood(X, z, R_diag)
         best = float(np.max(ll)) if len(ll) else -np.inf
@@ -318,24 +398,43 @@ class PFCTRV(EKFTrackerCTRV):
             if self.diag_rows is not None and diag_key is not None:
                 sxy, sth, sv = self._diag_spread(X, logw)
                 self.diag_rows.append([diag_key[0], diag_key[1], "update", 0.0, True, len(X), sxy, sth, sv,
-                                       True, maha2_best, diag_key[2]])
+                                       True, maha2_best, diag_key[2], np.nan])
             return X, logw, mean, cov
+        conditional_moments = None
         if self.optimal_proposal:
             if prior is not None and prior[0].shape == X.shape:
-                X, ll = self.optimal_proposal_step(X, prior, z, R_diag, rng)
+                if self.rb_observed_estimate:
+                    X, ll, cond_mean, cond_var = self.optimal_proposal_step(
+                        X, prior, z, R_diag, rng, return_moments=True)
+                    conditional_moments = (cond_mean, cond_var)
+                else:
+                    X, ll = self.optimal_proposal_step(X, prior, z, R_diag, rng)
                 self.n_k1_update += 1
             else:
                 self.n_k1_fallback += 1
         logw = logw + ll
         logw -= _logsumexp(logw)
         ess_ratio = self.ess(logw) / len(logw) if self.diag_rows is not None else None
-        mean, cov = self.estimate_state(X, logw)       # uoc luong TRUOC khi resample ('map' co nghia)
+        if conditional_moments is None:
+            mean, cov = self.estimate_state(X, logw)   # uoc luong TRUOC khi resample ('map' co nghia)
+        else:
+            # Rao-Blackwellize the reported box moments. The particles and weights stay
+            # unchanged for resampling/next prediction; association sees the conditional
+            # expectation instead of Monte Carlo noise from the four observed coordinates.
+            cond_mean, cond_var = conditional_moments
+            observed = [self.CX, self.CY, self.A, self.H]
+            conditional_particles = X.copy()
+            conditional_particles[:, observed] = cond_mean
+            mean, cov = self.estimate_state(conditional_particles, logw)
+            w = np.exp(logw)
+            cov[observed, observed] += w @ cond_var
         X, logw, resampled = self.resample_if_needed(X, logw, rng)
         if self.diag_rows is not None and diag_key is not None:
             sxy, sth, sv = self._diag_spread(X, logw)
             n_unique = int(len(np.unique(X[:, self.CX])))          # so particle khac nhau sau resample
+            n_ancestors = (int(len(np.unique(self.last_resample_idx))) if resampled else np.nan)
             self.diag_rows.append([diag_key[0], diag_key[1], "update", float(ess_ratio), bool(resampled), n_unique,
-                                   sxy, sth, sv, False, maha2_best, diag_key[2]])
+                                   sxy, sth, sv, False, maha2_best, diag_key[2], n_ancestors])
         return X, logw, mean, cov
 
     def reseed_motion(self, X: np.ndarray, speed: float, heading: float, h: float,
@@ -379,10 +478,19 @@ class PFTrackView:
         if lost and np.any(X[:, self.pf.VH] != 0.0):
             X = X.copy()
             X[:, self.pf.VH] = 0.0
+        if lost:
+            X = self.pf.lost_transition_input(X, t.rng)
+        omega_offset = None
+        if lost and self.pf.lost_cv_preserve_omega:
+            omega_offset = t.particles[:, self.pf.OMEGA] - X[:, self.pf.OMEGA]
         if self.pf.optimal_proposal:
             t.particles, t._k1_prior = self.pf.propagate(X, t.rng, return_prior=True)
         else:
             t.particles = self.pf.propagate(X, t.rng)
+        if omega_offset is not None:
+            t.particles[:, self.pf.OMEGA] += omega_offset
+            if self.pf.optimal_proposal:
+                t._k1_prior[0][:, self.pf.OMEGA] += omega_offset
         return self.pf.estimate_state(t.particles, t.logw)
 
     def update(self, mean, covariance, measurement, confidence=None):
@@ -415,7 +523,7 @@ class PFTrackView:
             sxy, sth, sv = self.pf._diag_spread(t.particles, t.logw)
             self.pf.diag_rows.append([int(t.track_id), int(getattr(t, "_pending_frame_id", getattr(t, "frame_id", -1))),
                                       "init_motion", 1.0, False,
-                                      len(t.particles), sxy, sth, sv, False, 0.0, 0])
+                                      len(t.particles), sxy, sth, sv, False, 0.0, 0, np.nan])
         return m, P, True
 
     def initiate_from_motion(self, mean, covariance, measurement, n_frames=1.0, ref_pos=None):

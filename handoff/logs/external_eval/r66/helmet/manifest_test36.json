@@ -1,0 +1,645 @@
+{
+  "protocol": "R66 HELMET-test36-motorcycle-v1",
+  "rule": "12 scene groups; first 3 clips per group ordered by sha256(UTF-8 'r66-helmet-v1|' + video_id), tie by video_id",
+  "source": {
+    "data_split_csv_sha256": "d9cdaa6a03c5b34d68f6c500554b0f6b4ef939015f1cfff8aeeff6d98fcfe8f7",
+    "annotation_zip_sha256": "6b7f2245dc09e6da3bbe1699c0ce87e4777f32080570b967f4f93c894af9e55c"
+  },
+  "all_split_counts": {
+    "validation": 92,
+    "test": 182,
+    "training": 636
+  },
+  "groups": 12,
+  "selected_clips": 36,
+  "selected_frames": 3600,
+  "videos": [
+    {
+      "group": "Bago_highway",
+      "video_id": "Bago_highway_10",
+      "rank_in_group": 1,
+      "annotation_sha256": "82d2bfcd8eb0601eb99419378df75804f3ac199d6b19d8a79159f770a79502d9",
+      "rows": 332,
+      "unique_track_frame": 332,
+      "duplicate_equal_box": 0,
+      "track_count": 8,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 122,
+        "DHelmetP1Helmet": 4,
+        "DNoHelmet": 200,
+        "DNoHelmetP0NoHelmetP1NoHelmet": 6
+      }
+    },
+    {
+      "group": "Bago_highway",
+      "video_id": "Bago_highway_26",
+      "rank_in_group": 2,
+      "annotation_sha256": "1168a8c7d3a988c762358503b498853bad050e406c7b2918a2fc48183bcb4043",
+      "rows": 160,
+      "unique_track_frame": 160,
+      "duplicate_equal_box": 0,
+      "track_count": 6,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 141,
+        "DHelmetP1Helmet": 19
+      }
+    },
+    {
+      "group": "Bago_highway",
+      "video_id": "Bago_highway_29",
+      "rank_in_group": 3,
+      "annotation_sha256": "e2ad0d7cfdcf6d98bd7d1961ce0a2786d8512d88a618cf0f91e123c5c036e165",
+      "rows": 302,
+      "unique_track_frame": 302,
+      "duplicate_equal_box": 0,
+      "track_count": 9,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 164,
+        "DHelmetP1Helmet": 64,
+        "DNoHelmetP0NoHelmetP1NoHelmet": 41,
+        "DNoHelmetP1Helmet": 25,
+        "DNoHelmetP1NoHelmet": 8
+      }
+    },
+    {
+      "group": "Bago_rural",
+      "video_id": "Bago_rural_49",
+      "rank_in_group": 1,
+      "annotation_sha256": "88408f1a701bac7fe25563bd05479a03e66d343e4a7a434784857893ba1b5b00",
+      "rows": 469,
+      "unique_track_frame": 469,
+      "duplicate_equal_box": 0,
+      "track_count": 9,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 198,
+        "DHelmetP1Helmet": 37,
+        "DNoHelmet": 60,
+        "DNoHelmetP1NoHelmet": 174
+      }
+    },
+    {
+      "group": "Bago_rural",
+      "video_id": "Bago_rural_43",
+      "rank_in_group": 2,
+      "annotation_sha256": "d205be894cbef87cfefa2b2d26bae1d4c8cb48f6d2d807ffcaa4ff9d2b7ebaa6",
+      "rows": 186,
+      "unique_track_frame": 186,
+      "duplicate_equal_box": 0,
+      "track_count": 4,
+      "frame_min": 23,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 51,
+        "DHelmetP1Helmet": 35,
+        "DNoHelmet": 47,
+        "DNoHelmetP1NoHelmet": 53
+      }
+    },
+    {
+      "group": "Bago_rural",
+      "video_id": "Bago_rural_3",
+      "rank_in_group": 3,
+      "annotation_sha256": "d0aea64f1e62a73acb170a453482a37f7a81f3846f35f46ab7d2185bd5723376",
+      "rows": 212,
+      "unique_track_frame": 212,
+      "duplicate_equal_box": 0,
+      "track_count": 6,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 73,
+        "DHelmetP1NoHelmet": 71,
+        "DNoHelmetP1NoHelmet": 68
+      }
+    },
+    {
+      "group": "Bago_urban",
+      "video_id": "Bago_urban_50",
+      "rank_in_group": 1,
+      "annotation_sha256": "def25eb4002d671db1a1158d6c00542f387630d11e54b8ce0adcef0449f3bc93",
+      "rows": 258,
+      "unique_track_frame": 258,
+      "duplicate_equal_box": 0,
+      "track_count": 8,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 34,
+        "DHelmetP1Helmet": 60,
+        "DNoHelmet": 141,
+        "DNoHelmetP1NoHelmet": 23
+      }
+    },
+    {
+      "group": "Bago_urban",
+      "video_id": "Bago_urban_56",
+      "rank_in_group": 2,
+      "annotation_sha256": "8f4d13a63d39824521e2776792ccf89a7c42d110521ba7eb2c86a2a98c5a1049",
+      "rows": 204,
+      "unique_track_frame": 204,
+      "duplicate_equal_box": 0,
+      "track_count": 4,
+      "frame_min": 7,
+      "frame_max": 95,
+      "labels": {
+        "DHelmetP1Helmet": 51,
+        "DHelmetP1NoHelmet": 44,
+        "DNoHelmet": 61,
+        "DNoHelmetP0NoHelmetP1NoHelmet": 48
+      }
+    },
+    {
+      "group": "Bago_urban",
+      "video_id": "Bago_urban_1",
+      "rank_in_group": 3,
+      "annotation_sha256": "02d0a3f16f7a1abf11e42569c8f4e2008ba4d23d7a482894cb67e4f57bf7a5ad",
+      "rows": 201,
+      "unique_track_frame": 201,
+      "duplicate_equal_box": 0,
+      "track_count": 7,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 56,
+        "DHelmetP1Helmet": 27,
+        "DNoHelmet": 118
+      }
+    },
+    {
+      "group": "Mandalay_1",
+      "video_id": "Mandalay_1_173",
+      "rank_in_group": 1,
+      "annotation_sha256": "5e05524a5878fbea3e1e21e7f8adc39351e7302c11252aff1c7c07d595bccb4f",
+      "rows": 427,
+      "unique_track_frame": 427,
+      "duplicate_equal_box": 0,
+      "track_count": 11,
+      "frame_min": 1,
+      "frame_max": 93,
+      "labels": {
+        "DHelmet": 207,
+        "DHelmetP1Helmet": 121,
+        "DHelmetP1NoHelmetP2Helmet": 40,
+        "DNoHelmet": 29,
+        "DNoHelmetP0NoHelmetP1NoHelmet": 30
+      }
+    },
+    {
+      "group": "Mandalay_1",
+      "video_id": "Mandalay_1_207",
+      "rank_in_group": 2,
+      "annotation_sha256": "e1d592f5bee810ed1be698b7a50fb28f1465512b137afc3446e89e9a4d9b61d4",
+      "rows": 44,
+      "unique_track_frame": 44,
+      "duplicate_equal_box": 0,
+      "track_count": 1,
+      "frame_min": 22,
+      "frame_max": 65,
+      "labels": {
+        "DHelmet": 44
+      }
+    },
+    {
+      "group": "Mandalay_1",
+      "video_id": "Mandalay_1_166",
+      "rank_in_group": 3,
+      "annotation_sha256": "4532e64137d5dfda17c3a447c30fc0895759142c859d1e9abd826ca003053d4c",
+      "rows": 174,
+      "unique_track_frame": 174,
+      "duplicate_equal_box": 0,
+      "track_count": 3,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 167,
+        "DNoHelmetP1NoHelmet": 7
+      }
+    },
+    {
+      "group": "Mandalay_2",
+      "video_id": "Mandalay_2_67",
+      "rank_in_group": 1,
+      "annotation_sha256": "7b99be5152d384876c258de4d60c37acba9832fd68535460be26eddd3370ee83",
+      "rows": 423,
+      "unique_track_frame": 423,
+      "duplicate_equal_box": 0,
+      "track_count": 21,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 180,
+        "DHelmetP0NoHelmetP1Helmet": 6,
+        "DHelmetP0NoHelmetP1NoHelmetP2NoHelmetP3Helmet": 49,
+        "DHelmetP1Helmet": 50,
+        "DHelmetP1NoHelmetP2Helmet": 16,
+        "DNoHelmet": 28,
+        "DNoHelmetP0NoHelmetP1NoHelmet": 12,
+        "DNoHelmetP0NoHelmetP1NoHelmetP2Helmet": 14,
+        "DNoHelmetP0NoHelmetP1NoHelmetP2NoHelmet": 47,
+        "DNoHelmetP1NoHelmet": 16,
+        "DNoHelmetP1NoHelmetP2NoHelmet": 5
+      }
+    },
+    {
+      "group": "Mandalay_2",
+      "video_id": "Mandalay_2_130",
+      "rank_in_group": 2,
+      "annotation_sha256": "5104659695150ffaae9198f92cff1fd876500290d6df3d04711f9a71e4e22c4e",
+      "rows": 335,
+      "unique_track_frame": 335,
+      "duplicate_equal_box": 0,
+      "track_count": 29,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 208,
+        "DHelmetP0NoHelmetP1Helmet": 11,
+        "DHelmetP1Helmet": 111,
+        "DNoHelmet": 5
+      }
+    },
+    {
+      "group": "Mandalay_2",
+      "video_id": "Mandalay_2_148",
+      "rank_in_group": 3,
+      "annotation_sha256": "d0074d816318cd7e82af47a4a5ea0a187d11fee35131bad4ee601feec1ac82cb",
+      "rows": 371,
+      "unique_track_frame": 371,
+      "duplicate_equal_box": 0,
+      "track_count": 27,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 237,
+        "DHelmetP1Helmet": 122,
+        "DHelmetP1NoHelmet": 12
+      }
+    },
+    {
+      "group": "Naypyitaw_1",
+      "video_id": "Naypyitaw_1_43",
+      "rank_in_group": 1,
+      "annotation_sha256": "b48776e7ad2b7abbe9b18ecddd7e10c778bc47785c27bffa7c57898b36c3f00d",
+      "rows": 114,
+      "unique_track_frame": 114,
+      "duplicate_equal_box": 0,
+      "track_count": 2,
+      "frame_min": 1,
+      "frame_max": 99,
+      "labels": {
+        "DHelmetP1Helmet": 92,
+        "DNoHelmet": 22
+      }
+    },
+    {
+      "group": "Naypyitaw_1",
+      "video_id": "Naypyitaw_1_3",
+      "rank_in_group": 2,
+      "annotation_sha256": "0188d18939de236a16171b4599713756a77da09397d0c0c1002e26bf9cac6585",
+      "rows": 163,
+      "unique_track_frame": 163,
+      "duplicate_equal_box": 0,
+      "track_count": 4,
+      "frame_min": 1,
+      "frame_max": 80,
+      "labels": {
+        "DHelmet": 103,
+        "DNoHelmet": 60
+      }
+    },
+    {
+      "group": "Naypyitaw_1",
+      "video_id": "Naypyitaw_1_36",
+      "rank_in_group": 3,
+      "annotation_sha256": "de0fa6930a7436ffbdf248a5d18a1becb482121ebedc39839b61b377d2656d46",
+      "rows": 135,
+      "unique_track_frame": 135,
+      "duplicate_equal_box": 0,
+      "track_count": 3,
+      "frame_min": 9,
+      "frame_max": 85,
+      "labels": {
+        "DHelmet": 85,
+        "DNoHelmetP1NoHelmet": 50
+      }
+    },
+    {
+      "group": "Naypyitaw_2",
+      "video_id": "Naypyitaw_2_5",
+      "rank_in_group": 1,
+      "annotation_sha256": "72ff86d492b4ab210e2b1a12116f2067dd66d26dca657443fdc0e8e094886210",
+      "rows": 201,
+      "unique_track_frame": 201,
+      "duplicate_equal_box": 0,
+      "track_count": 4,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 101,
+        "DHelmetP1Helmet": 100
+      }
+    },
+    {
+      "group": "Naypyitaw_2",
+      "video_id": "Naypyitaw_2_10",
+      "rank_in_group": 2,
+      "annotation_sha256": "647222c0cc26120df60d9c10e2dfe98d1906a609da0c8cd0d54c2535a6666c7e",
+      "rows": 255,
+      "unique_track_frame": 255,
+      "duplicate_equal_box": 0,
+      "track_count": 6,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 109,
+        "DHelmetP1Helmet": 67,
+        "DNoHelmet": 79
+      }
+    },
+    {
+      "group": "Naypyitaw_2",
+      "video_id": "Naypyitaw_2_1",
+      "rank_in_group": 3,
+      "annotation_sha256": "7bc75b54f54cf7aa589f2aad95143a9e460c635cb6da25f311fbcb32bbbf625a",
+      "rows": 298,
+      "unique_track_frame": 298,
+      "duplicate_equal_box": 0,
+      "track_count": 4,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 198,
+        "DNoHelmet": 100
+      }
+    },
+    {
+      "group": "NyaungU_rural",
+      "video_id": "NyaungU_rural_58",
+      "rank_in_group": 1,
+      "annotation_sha256": "ddf3654dfc1a3332ad91189fae3e7b54fda3aabab0b90431ed65565af58fc6d1",
+      "rows": 138,
+      "unique_track_frame": 138,
+      "duplicate_equal_box": 0,
+      "track_count": 3,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmetP1Helmet": 81,
+        "DNoHelmetP1Helmet": 57
+      }
+    },
+    {
+      "group": "NyaungU_rural",
+      "video_id": "NyaungU_rural_7",
+      "rank_in_group": 2,
+      "annotation_sha256": "2598008c4b2b73fe9da673ecf251ad4efb98ad1a1912f5c9182d870e346837cc",
+      "rows": 267,
+      "unique_track_frame": 267,
+      "duplicate_equal_box": 0,
+      "track_count": 8,
+      "frame_min": 4,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 209,
+        "DNoHelmetP1Helmet": 42,
+        "DNoHelmetP1NoHelmet": 16
+      }
+    },
+    {
+      "group": "NyaungU_rural",
+      "video_id": "NyaungU_rural_82",
+      "rank_in_group": 3,
+      "annotation_sha256": "5901ddfedcfc7160f14431b1edd2da3dbacdf9bbab86619e88cc79c8fb196462",
+      "rows": 80,
+      "unique_track_frame": 80,
+      "duplicate_equal_box": 0,
+      "track_count": 3,
+      "frame_min": 1,
+      "frame_max": 75,
+      "labels": {
+        "DHelmet": 41,
+        "DHelmetP1Helmet": 39
+      }
+    },
+    {
+      "group": "NyaungU_urban",
+      "video_id": "NyaungU_urban_61",
+      "rank_in_group": 1,
+      "annotation_sha256": "d423eafcc742816bbfc8560596e7eb5e399a86c9892d9df9f3876ae9ccc54143",
+      "rows": 230,
+      "unique_track_frame": 230,
+      "duplicate_equal_box": 0,
+      "track_count": 7,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 119,
+        "DHelmetP0NoHelmet": 28,
+        "DNoHelmet": 83
+      }
+    },
+    {
+      "group": "NyaungU_urban",
+      "video_id": "NyaungU_urban_15",
+      "rank_in_group": 2,
+      "annotation_sha256": "a9a4591726aa30bf6377b725a2d6db87e1545344f984f2563b04db2367053830",
+      "rows": 253,
+      "unique_track_frame": 253,
+      "duplicate_equal_box": 0,
+      "track_count": 6,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 113,
+        "DNoHelmet": 140
+      }
+    },
+    {
+      "group": "NyaungU_urban",
+      "video_id": "NyaungU_urban_23",
+      "rank_in_group": 3,
+      "annotation_sha256": "edd42ad3e8f0396d266491e34cad1f4d983a832709a2e6c093ed2abc0c38ab45",
+      "rows": 648,
+      "unique_track_frame": 648,
+      "duplicate_equal_box": 0,
+      "track_count": 11,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 123,
+        "DHelmetP1Helmet": 62,
+        "DHelmetP1NoHelmetP2Helmet": 18,
+        "DNoHelmet": 400,
+        "DNoHelmetP1NoHelmet": 45
+      }
+    },
+    {
+      "group": "Pakokku_urban",
+      "video_id": "Pakokku_urban_59",
+      "rank_in_group": 1,
+      "annotation_sha256": "2dc98b3afe5760063a2148f095160bb65b2025eef17bfcb175ffeb3771e87b02",
+      "rows": 368,
+      "unique_track_frame": 368,
+      "duplicate_equal_box": 0,
+      "track_count": 19,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 130,
+        "DHelmetP1Helmet": 47,
+        "DHelmetP1NoHelmet": 52,
+        "DNoHelmet": 105,
+        "DNoHelmetP1NoHelmet": 34
+      }
+    },
+    {
+      "group": "Pakokku_urban",
+      "video_id": "Pakokku_urban_62",
+      "rank_in_group": 2,
+      "annotation_sha256": "6cc61f9fc287b58a5e2de4c1bf5f28dff683cf4eb4d77b92547ecc299f40c83e",
+      "rows": 187,
+      "unique_track_frame": 187,
+      "duplicate_equal_box": 0,
+      "track_count": 8,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 6,
+        "DHelmetP1NoHelmet": 48,
+        "DNoHelmet": 59,
+        "DNoHelmetP1NoHelmet": 74
+      }
+    },
+    {
+      "group": "Pakokku_urban",
+      "video_id": "Pakokku_urban_71",
+      "rank_in_group": 3,
+      "annotation_sha256": "9272fa5d4c8b67f61302a2ba2f763be69f548540950f9746aad3325c40793cc6",
+      "rows": 373,
+      "unique_track_frame": 373,
+      "duplicate_equal_box": 0,
+      "track_count": 11,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 209,
+        "DNoHelmet": 41,
+        "DNoHelmetP1NoHelmet": 79,
+        "DNoHelmetP1NoHelmetP2NoHelmet": 44
+      }
+    },
+    {
+      "group": "Pathein_rural",
+      "video_id": "Pathein_rural_6",
+      "rank_in_group": 1,
+      "annotation_sha256": "15397da25b67ad937c7355c88f13d3fe77d8576aab20a0c76829bb9e3619b95d",
+      "rows": 242,
+      "unique_track_frame": 242,
+      "duplicate_equal_box": 0,
+      "track_count": 9,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 59,
+        "DHelmetP1Helmet": 108,
+        "DNoHelmet": 71,
+        "DNoHelmetP0NoHelmet": 4
+      }
+    },
+    {
+      "group": "Pathein_rural",
+      "video_id": "Pathein_rural_7",
+      "rank_in_group": 2,
+      "annotation_sha256": "1fcb5a030187376f3eed436114924ff07f3b8ccb98cd43b4ddebae650043a427",
+      "rows": 153,
+      "unique_track_frame": 153,
+      "duplicate_equal_box": 0,
+      "track_count": 6,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 12,
+        "DHelmetP1Helmet": 12,
+        "DNoHelmet": 97,
+        "DNoHelmetP1NoHelmet": 32
+      }
+    },
+    {
+      "group": "Pathein_rural",
+      "video_id": "Pathein_rural_2",
+      "rank_in_group": 3,
+      "annotation_sha256": "5926286f724ac80697facc834b71ea560da821d88ee581b036ae74f5f6118d4a",
+      "rows": 197,
+      "unique_track_frame": 197,
+      "duplicate_equal_box": 0,
+      "track_count": 6,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 38,
+        "DHelmetP1Helmet": 26,
+        "DHelmetP1NoHelmet": 33,
+        "DNoHelmet": 100
+      }
+    },
+    {
+      "group": "Yangon_II",
+      "video_id": "Yangon_II_6",
+      "rank_in_group": 1,
+      "annotation_sha256": "64857ed050e9180799c8b609ff75783fef4dc594ea71e2b7fab6c6dfa0dd098b",
+      "rows": 333,
+      "unique_track_frame": 333,
+      "duplicate_equal_box": 0,
+      "track_count": 5,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 46,
+        "DNoHelmet": 200,
+        "DNoHelmetP0NoHelmetP1NoHelmet": 87
+      }
+    },
+    {
+      "group": "Yangon_II",
+      "video_id": "Yangon_II_29",
+      "rank_in_group": 2,
+      "annotation_sha256": "8f99431579ccb175358decc06fd880aa1320a7e656611d6e8179a6deafd3cc4a",
+      "rows": 437,
+      "unique_track_frame": 437,
+      "duplicate_equal_box": 0,
+      "track_count": 6,
+      "frame_min": 1,
+      "frame_max": 100,
+      "labels": {
+        "DHelmet": 137,
+        "DHelmetP1Helmet": 100,
+        "DNoHelmet": 200
+      }
+    },
+    {
+      "group": "Yangon_II",
+      "video_id": "Yangon_II_28",
+      "rank_in_group": 3,
+      "annotation_sha256": "1a0b412f86dcdf1987d38c33a514c773029f08595a108792296065d4f0c668eb",
+      "rows": 201,
+      "unique_track_frame": 201,
+      "duplicate_equal_box": 0,
+      "track_count": 3,
+      "frame_min": 1,
+      "frame_max": 96,
+      "labels": {
+        "DHelmet": 70,
+        "DNoHelmetP1NoHelmet": 96,
+        "DNoHelmetP1NoHelmetP2NoHelmet": 35
+      }
+    }
+  ]
+}

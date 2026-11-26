@@ -1,0 +1,3069 @@
+{
+  "status": "PASS",
+  "meaning": "Evidence and comparison verified; quality/raw failures remain failures.",
+  "common7_training_checkpoints": {
+    "control": {
+      "accepted_epochs": 7,
+      "checkpoint_was_resumed": false,
+      "selected": {
+        "checkpoint": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review172_common7_pruning\\checkpoints\\control_epoch6.pt",
+        "checkpoint_sha256": "2c09787c82e585e694e4e940df2c0196a9b947f5a9e5327b474e9e27264dcd62",
+        "epoch_zero_based": 6
+      },
+      "parameters": 2590815,
+      "ConvMAC": 1894456320,
+      "ONNX_bytes": 10500936
+    },
+    "joint50": {
+      "accepted_epochs": 7,
+      "checkpoint_was_resumed": false,
+      "selected": {
+        "checkpoint": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review172_common7_pruning\\checkpoints\\joint50_epoch6.pt",
+        "checkpoint_sha256": "754b71d10ab3d92c66ae7f3ea53e087fe752baf5ce946faafcabd6bc58122720",
+        "epoch_zero_based": 6
+      },
+      "parameters": 2019391,
+      "ConvMAC": 1438033920,
+      "ONNX_bytes": 8218728
+    }
+  },
+  "primary10_complete": false,
+  "secondary_analysis": true,
+  "new_training_performed": false,
+  "control_tail7_9_and_all_resumed_tails_excluded": true,
+  "compression": {
+    "parameters_reduction_pct": 22.0557623759319,
+    "ConvMAC_reduction_pct": 24.09252697892765,
+    "ONNX_bytes_reduction_pct": 21.733376910401127
+  },
+  "comparisons": {
+    "original": {
+      "AP_gates": {
+        "mAP50": false,
+        "mAP50_95": false,
+        "car_AP50": false,
+        "truck_AP50": false,
+        "bus_AP50": false,
+        "motorcycle_AP50": false,
+        "bicycle_AP50": false
+      },
+      "all_AP_gates_pass": false,
+      "mAP50_delta_pp": -6.2387599283137805,
+      "mAP50_95_delta_pp": -5.311212986203623,
+      "class_AP50_delta_pp": {
+        "car": -2.5017057215884764,
+        "truck": -6.00757499651563,
+        "bus": -6.970230541594836,
+        "motorcycle": -8.058178074825067,
+        "bicycle": -7.656110307044919
+      },
+      "tracking": {
+        "bdd": {
+          "reference": {
+            "hota": 0.4371883772445088,
+            "deta": 0.37773102974893114,
+            "assa": 0.5207659961358551,
+            "idf1": 0.5296834008001045,
+            "idsw": 1534,
+            "fn": 28539,
+            "fp": 2194
+          },
+          "candidate": {
+            "hota": 0.42333369979500535,
+            "deta": 0.36371863399321275,
+            "assa": 0.507497887912837,
+            "idf1": 0.516048353480617,
+            "idsw": 1643,
+            "fn": 29136,
+            "fp": 2517
+          },
+          "IDSW_delta": 109,
+          "FN_delta": 597,
+          "FP_delta": 323,
+          "HOTA_delta_pp": -1.3854677449503472
+        },
+        "ua": {
+          "reference": {
+            "hota": 0.6657319586581798,
+            "deta": 0.5758456146049444,
+            "assa": 0.7819217892015725,
+            "idf1": 0.7837332991116625,
+            "idsw": 245,
+            "fn": 17590,
+            "fp": 9144
+          },
+          "candidate": {
+            "hota": 0.6363511268958301,
+            "deta": 0.5493721295747457,
+            "assa": 0.7509803820941225,
+            "idf1": 0.7574885207202798,
+            "idsw": 401,
+            "fn": 19168,
+            "fp": 9406
+          },
+          "IDSW_delta": 156,
+          "FN_delta": 1578,
+          "FP_delta": 262,
+          "HOTA_delta_pp": -2.9380831762349735
+        }
+      },
+      "mean_FPS_gain_pct": {
+        "bdd": 8.864982533074773,
+        "ua": 8.62302594917075,
+        "all": 8.746484263176658
+      }
+    },
+    "control": {
+      "AP_gates": {
+        "mAP50": false,
+        "mAP50_95": false,
+        "car_AP50": false,
+        "truck_AP50": false,
+        "bus_AP50": false,
+        "motorcycle_AP50": false,
+        "bicycle_AP50": false
+      },
+      "all_AP_gates_pass": false,
+      "mAP50_delta_pp": -5.569945722769376,
+      "mAP50_95_delta_pp": -4.549194009111584,
+      "class_AP50_delta_pp": {
+        "car": -2.102190585643937,
+        "truck": -4.926830476395655,
+        "bus": -5.5972150331479735,
+        "motorcycle": -4.821497158375198,
+        "bicycle": -10.401995360284147
+      },
+      "tracking": {
+        "bdd": {
+          "reference": {
+            "hota": 0.43944644579850217,
+            "deta": 0.3842419558800209,
+            "assa": 0.5169450330460144,
+            "idf1": 0.5340109368962166,
+            "idsw": 1657,
+            "fn": 27848,
+            "fp": 2663
+          },
+          "candidate": {
+            "hota": 0.42333369979500535,
+            "deta": 0.36371863399321275,
+            "assa": 0.507497887912837,
+            "idf1": 0.516048353480617,
+            "idsw": 1643,
+            "fn": 29136,
+            "fp": 2517
+          },
+          "IDSW_delta": -14,
+          "FN_delta": 1288,
+          "FP_delta": -146,
+          "HOTA_delta_pp": -1.6112746003496825
+        },
+        "ua": {
+          "reference": {
+            "hota": 0.6563048672981245,
+            "deta": 0.5641595936583301,
+            "assa": 0.7759027971803555,
+            "idf1": 0.7708813568968952,
+            "idsw": 305,
+            "fn": 18297,
+            "fp": 10145
+          },
+          "candidate": {
+            "hota": 0.6363511268958301,
+            "deta": 0.5493721295747457,
+            "assa": 0.7509803820941225,
+            "idf1": 0.7574885207202798,
+            "idsw": 401,
+            "fn": 19168,
+            "fp": 9406
+          },
+          "IDSW_delta": 96,
+          "FN_delta": 871,
+          "FP_delta": -739,
+          "HOTA_delta_pp": -1.9953740402294473
+        }
+      },
+      "mean_FPS_gain_pct": {
+        "bdd": 10.117390754724376,
+        "ua": 9.727367635129625,
+        "all": 9.926247915512999
+      }
+    }
+  },
+  "raw_parity": {
+    "original": "PASS",
+    "control": "FAIL",
+    "joint50": "FAIL"
+  },
+  "clips": 80,
+  "runs": 240,
+  "inference_frames": 36000,
+  "speed": {
+    "bdd": {
+      "modes": {
+        "original": {
+          "clips": 40,
+          "mean_FPS": 20.89610971427766,
+          "median_FPS": 20.91014069715657,
+          "aggregate_FPS": 20.89518432271416,
+          "min_FPS": 20.63872223907032,
+          "max_FPS": 21.285285582991552,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 110.4206924992468
+        },
+        "control": {
+          "clips": 40,
+          "mean_FPS": 20.658450072805174,
+          "median_FPS": 20.66381773550718,
+          "aggregate_FPS": 20.657510799401564,
+          "min_FPS": 20.35679797231981,
+          "max_FPS": 21.040696193978427,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 111.73512999994273
+        },
+        "joint50": {
+          "clips": 40,
+          "mean_FPS": 22.748546190540516,
+          "median_FPS": 22.760573411888082,
+          "aggregate_FPS": 22.7473594446118,
+          "min_FPS": 22.50583153281779,
+          "max_FPS": 23.23859403425529,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 102.69044800224947
+        }
+      },
+      "paired_vs_original": {
+        "control": {
+          "mean_FPS_gain_pct": -1.1373391732820815,
+          "median_paired_FPS_gain_pct": -1.0896285000562056,
+          "CI95_median_paired_gain_pct": [
+            -1.2086542677906043,
+            -0.9842881242578705
+          ],
+          "videos_faster": 0,
+          "videos_total": 40
+        },
+        "joint50": {
+          "mean_FPS_gain_pct": 8.864982533074794,
+          "median_paired_FPS_gain_pct": 8.9112660731405,
+          "CI95_median_paired_gain_pct": [
+            8.76151033384751,
+            9.044912271789496
+          ],
+          "videos_faster": 40,
+          "videos_total": 40
+        }
+      }
+    },
+    "ua": {
+      "modes": {
+        "original": {
+          "clips": 40,
+          "mean_FPS": 20.056590507340278,
+          "median_FPS": 20.136343617550608,
+          "aggregate_FPS": 20.037603870588665,
+          "min_FPS": 18.457170716671826,
+          "max_FPS": 21.038311092021445,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 113.25545399813564
+        },
+        "control": {
+          "clips": 40,
+          "mean_FPS": 19.85473267138895,
+          "median_FPS": 19.952931685933045,
+          "aggregate_FPS": 19.836303786328973,
+          "min_FPS": 18.51581354194724,
+          "max_FPS": 20.820234577693274,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 114.19106899847975
+        },
+        "joint50": {
+          "clips": 40,
+          "mean_FPS": 21.786075511307146,
+          "median_FPS": 21.80285441905152,
+          "aggregate_FPS": 21.765542513512184,
+          "min_FPS": 20.21917591218199,
+          "max_FPS": 22.984302238448514,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 105.41777850085055
+        }
+      },
+      "paired_vs_original": {
+        "control": {
+          "mean_FPS_gain_pct": -1.0064414282051293,
+          "median_paired_FPS_gain_pct": -1.0419964857801,
+          "CI95_median_paired_gain_pct": [
+            -1.1309998590824155,
+            -0.9534363702662141
+          ],
+          "videos_faster": 1,
+          "videos_total": 40
+        },
+        "joint50": {
+          "mean_FPS_gain_pct": 8.62302594917075,
+          "median_paired_FPS_gain_pct": 8.704116306685739,
+          "CI95_median_paired_gain_pct": [
+            8.443725063269834,
+            8.748006513693399
+          ],
+          "videos_faster": 40,
+          "videos_total": 40
+        }
+      }
+    },
+    "all": {
+      "modes": {
+        "original": {
+          "clips": 80,
+          "mean_FPS": 20.47635011080897,
+          "median_FPS": 20.720515586599877,
+          "aggregate_FPS": 20.457410537696248,
+          "min_FPS": 18.457170716671826,
+          "max_FPS": 21.285285582991552,
+          "clips_at_least_15": 80,
+          "median_clip_p90_latency_ms": 111.9771085013781
+        },
+        "control": {
+          "clips": 80,
+          "mean_FPS": 20.25659137209706,
+          "median_FPS": 20.47484255846983,
+          "aggregate_FPS": 20.23858033027581,
+          "min_FPS": 18.51581354194724,
+          "max_FPS": 21.040696193978427,
+          "clips_at_least_15": 80,
+          "median_clip_p90_latency_ms": 113.36929500066617
+        },
+        "joint50": {
+          "clips": 80,
+          "mean_FPS": 22.26731085092383,
+          "median_FPS": 22.529401477857864,
+          "aggregate_FPS": 22.245623056776665,
+          "min_FPS": 20.21917591218199,
+          "max_FPS": 23.23859403425529,
+          "clips_at_least_15": 80,
+          "median_clip_p90_latency_ms": 104.16352399988682
+        }
+      },
+      "paired_vs_original": {
+        "control": {
+          "mean_FPS_gain_pct": -1.0732319848150262,
+          "median_paired_FPS_gain_pct": -1.068583431622816,
+          "CI95_median_paired_gain_pct": [
+            -1.1382447493849923,
+            -0.9842881242578705
+          ],
+          "videos_faster": 1,
+          "videos_total": 80
+        },
+        "joint50": {
+          "mean_FPS_gain_pct": 8.746484263176635,
+          "median_paired_FPS_gain_pct": 8.756589831812345,
+          "CI95_median_paired_gain_pct": [
+            8.707336185663406,
+            8.871928875740346
+          ],
+          "videos_faster": 80,
+          "videos_total": 80
+        }
+      }
+    }
+  },
+  "detection": {
+    "original": {
+      "images": 7190,
+      "mAP50": 0.47146726996306293,
+      "mAP50_95": 0.31984831508791156,
+      "classes": {
+        "car": {
+          "AP50": 0.8445772932098297,
+          "AP50_95": 0.5871142885959562,
+          "GT_boxes": 53204,
+          "detections_c25": 51100,
+          "TP_c25_IoU50": 41910,
+          "precision_c25": 0.8201565557729942,
+          "recall_c25": 0.787722727614465
+        },
+        "truck": {
+          "AP50": 0.44042237004268936,
+          "AP50_95": 0.3288746997145493,
+          "GT_boxes": 3054,
+          "detections_c25": 1732,
+          "TP_c25_IoU50": 1208,
+          "precision_c25": 0.6974595842956121,
+          "recall_c25": 0.39554682383759004
+        },
+        "bus": {
+          "AP50": 0.5140628132579861,
+          "AP50_95": 0.4083830116147594,
+          "GT_boxes": 1469,
+          "detections_c25": 1178,
+          "TP_c25_IoU50": 759,
+          "precision_c25": 0.6443123938879457,
+          "recall_c25": 0.5166780122532335
+        },
+        "motorcycle": {
+          "AP50": 0.34417362878117774,
+          "AP50_95": 0.17953535438880208,
+          "GT_boxes": 226,
+          "detections_c25": 223,
+          "TP_c25_IoU50": 92,
+          "precision_c25": 0.4125560538116592,
+          "recall_c25": 0.40707964601769914
+        },
+        "bicycle": {
+          "AP50": 0.2141002445236318,
+          "AP50_95": 0.09533422112549125,
+          "GT_boxes": 407,
+          "detections_c25": 221,
+          "TP_c25_IoU50": 90,
+          "precision_c25": 0.4072398190045249,
+          "recall_c25": 0.22113022113022113
+        }
+      },
+      "engine": {
+        "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+        "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+        "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+        "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+        "hw": [
+          384,
+          640
+        ],
+        "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity"
+      },
+      "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+      "runtime": "actual Nano TensorRT",
+      "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+      "precision_recall_at_fixed_confidence": 0.25,
+      "Nano_pipeline_FPS_measured": false
+    },
+    "control": {
+      "images": 7190,
+      "mAP50": 0.4647791279076189,
+      "mAP50_95": 0.3122281253169912,
+      "classes": {
+        "car": {
+          "AP50": 0.8405821418503843,
+          "AP50_95": 0.5821847090867284,
+          "GT_boxes": 53204,
+          "detections_c25": 53109,
+          "TP_c25_IoU50": 42180,
+          "precision_c25": 0.7942156696605095,
+          "recall_c25": 0.7927975340199985
+        },
+        "truck": {
+          "AP50": 0.4296149248414896,
+          "AP50_95": 0.31960335279144186,
+          "GT_boxes": 3054,
+          "detections_c25": 2057,
+          "TP_c25_IoU50": 1261,
+          "precision_c25": 0.6130286825473992,
+          "recall_c25": 0.4129011132940406
+        },
+        "bus": {
+          "AP50": 0.5003326581735175,
+          "AP50_95": 0.3941179687131039,
+          "GT_boxes": 1469,
+          "detections_c25": 1377,
+          "TP_c25_IoU50": 773,
+          "precision_c25": 0.5613652868554829,
+          "recall_c25": 0.5262083049693669
+        },
+        "motorcycle": {
+          "AP50": 0.31180681961667905,
+          "AP50_95": 0.15857534781849217,
+          "GT_boxes": 226,
+          "detections_c25": 300,
+          "TP_c25_IoU50": 92,
+          "precision_c25": 0.30666666666666664,
+          "recall_c25": 0.40707964601769914
+        },
+        "bicycle": {
+          "AP50": 0.24155909505602408,
+          "AP50_95": 0.10665924817518975,
+          "GT_boxes": 407,
+          "detections_c25": 352,
+          "TP_c25_IoU50": 113,
+          "precision_c25": 0.3210227272727273,
+          "recall_c25": 0.27764127764127766
+        }
+      },
+      "engine": {
+        "onnx": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/model.onnx",
+        "onnx_sha256": "15a708828053f103d4c172351acfe00890abedc2b5e61017db5a7fc30f42e91d",
+        "engine": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/model.engine",
+        "hw": [
+          384,
+          640
+        ],
+        "parity": [
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/parity/00.npz",
+            "sha256": "d4791a8eadf1dccaa8b1c2e39ea9fe7b7427636e597a86eac0ff4527e1d57757"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/parity/01.npz",
+            "sha256": "6154857aad9e579937ff421b7c8ada67f8514ff615d381096a3a6b9fcbc7b2f7"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/parity/02.npz",
+            "sha256": "248a33b9a7a9e9778f320c20ff978c492ddc2657fd8b126a87f1dc0601b4c00a"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/parity/03.npz",
+            "sha256": "e064993df93fdba2776ebda7fffcb4226789d15cfc71028885405323c8b0e438"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/parity/04.npz",
+            "sha256": "5bf78f4bd1287f7dd266838e63385861f72fed11c03ba1efdc528883a2ddd6af"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/parity/05.npz",
+            "sha256": "a0e652b37ec8eccd6cb0e6d6e393f76ab2a820d33bd047791c0f1739f9616a2c"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/parity/06.npz",
+            "sha256": "1d364a6aaccb5c11f6352970f453384a31ebac5035efc1ca3793eab41be713f5"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/parity/07.npz",
+            "sha256": "a33498aec04d7cf656a1af31a3f3f990f83042389d64bcd2c9666f2d2c1ad5b8"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/parity/08.npz",
+            "sha256": "80c77c6bface9de6b8792b5a152f877d02229e9d1fe26f358b016a2657a1a5bf"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/parity/09.npz",
+            "sha256": "33da8eb4d05e3fa210e31b4ac22606fb970f19a5e7a95d3196813de5ab3bbf02"
+          }
+        ],
+        "parameters": 2590815,
+        "checkpoint_sha256": "2c09787c82e585e694e4e940df2c0196a9b947f5a9e5327b474e9e27264dcd62",
+        "epoch_zero_based": 6,
+        "engine_sha256": "f4369da0c6e0296b7cb6a0f2d00e857a33a2bc351f7668182c4bdc3df7a71dd8"
+      },
+      "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+      "runtime": "actual Nano TensorRT",
+      "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+      "precision_recall_at_fixed_confidence": 0.25,
+      "Nano_pipeline_FPS_measured": false
+    },
+    "joint50": {
+      "images": 7190,
+      "mAP50": 0.4090796706799251,
+      "mAP50_95": 0.26673618522587533,
+      "classes": {
+        "car": {
+          "AP50": 0.8195602359939449,
+          "AP50_95": 0.5521115777536543,
+          "GT_boxes": 53204,
+          "detections_c25": 52962,
+          "TP_c25_IoU50": 41004,
+          "precision_c25": 0.7742154752464031,
+          "recall_c25": 0.7706939327870085
+        },
+        "truck": {
+          "AP50": 0.38034662007753306,
+          "AP50_95": 0.2731147072385718,
+          "GT_boxes": 3054,
+          "detections_c25": 1990,
+          "TP_c25_IoU50": 1139,
+          "precision_c25": 0.5723618090452262,
+          "recall_c25": 0.37295350360183366
+        },
+        "bus": {
+          "AP50": 0.44436050784203773,
+          "AP50_95": 0.3387024092698378,
+          "GT_boxes": 1469,
+          "detections_c25": 1445,
+          "TP_c25_IoU50": 742,
+          "precision_c25": 0.5134948096885813,
+          "recall_c25": 0.5051055139550715
+        },
+        "motorcycle": {
+          "AP50": 0.26359184803292707,
+          "AP50_95": 0.11369212407607901,
+          "GT_boxes": 226,
+          "detections_c25": 243,
+          "TP_c25_IoU50": 78,
+          "precision_c25": 0.32098765432098764,
+          "recall_c25": 0.34513274336283184
+        },
+        "bicycle": {
+          "AP50": 0.1375391414531826,
+          "AP50_95": 0.05606010779123356,
+          "GT_boxes": 407,
+          "detections_c25": 424,
+          "TP_c25_IoU50": 97,
+          "precision_c25": 0.22877358490566038,
+          "recall_c25": 0.23832923832923833
+        }
+      },
+      "engine": {
+        "onnx": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/model.onnx",
+        "onnx_sha256": "e453b048a4769daf7e123e9bc85a4caa3ab1704d5c5d9276a2bbda4b98262362",
+        "engine": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/model.engine",
+        "hw": [
+          384,
+          640
+        ],
+        "parity": [
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/parity/00.npz",
+            "sha256": "8158b126a16f17e2bd2baf2f6ec199e4eb841155e93c099aef6fcf85663942be"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/parity/01.npz",
+            "sha256": "bb89617fe85f5c9260883bda49ae3c80aaeaa5747909087e0f5d2dec33eaeadf"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/parity/02.npz",
+            "sha256": "68a72b59edd6802609db6f2604f3bf9f38e0bc34fdad8e03e693fa84a791083b"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/parity/03.npz",
+            "sha256": "99c14ecc607ff16cda9c43f825af3d9080d2c5612de399274238e7aabe1e8918"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/parity/04.npz",
+            "sha256": "f920517a75fa4b6a1eb4871ca02848de8155a9e877fde436de49fd68d5499035"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/parity/05.npz",
+            "sha256": "7e2df4f06f699e465439973688b85790c093c679fe3d7dd5c6e3916dd5426313"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/parity/06.npz",
+            "sha256": "5ab228c3013d34849a057a4607fba7f57fa6679ba70b4892c35a2ce896bdf9a8"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/parity/07.npz",
+            "sha256": "eb7dea5e297ce9edd9c8a23d387e22f705d6c85ffa0974bb6d14c5a3a59af3a6"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/parity/08.npz",
+            "sha256": "2477c1619807f26a10e30c69ea3771e0f57d63abfeca0067f6d94d3d6bff6308"
+          },
+          {
+            "path": "/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/parity/09.npz",
+            "sha256": "6a5ac84d857e19b931dcf092723cbd76834e0a49f0a2f4e3c4d445e577e69b13"
+          }
+        ],
+        "parameters": 2019391,
+        "checkpoint_sha256": "754b71d10ab3d92c66ae7f3ea53e087fe752baf5ce946faafcabd6bc58122720",
+        "epoch_zero_based": 6,
+        "engine_sha256": "61d4211fc6b66620615673a81be6ad95b95d5e20d7481b7dfef5e5618690561b"
+      },
+      "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+      "runtime": "actual Nano TensorRT",
+      "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+      "precision_recall_at_fixed_confidence": 0.25,
+      "Nano_pipeline_FPS_measured": false
+    }
+  },
+  "quality": {
+    "bdd": {
+      "original": {
+        "combined": {
+          "hota": 0.4371883772445088,
+          "deta": 0.37773102974893114,
+          "assa": 0.5207659961358551,
+          "idf1": 0.5296834008001045,
+          "idsw": 1534,
+          "fn": 28539,
+          "fp": 2194
+        },
+        "videos": {
+          "b1c81faa-c80764c5": {
+            "hota": 0.6052780137959218,
+            "deta": 0.511229333810227,
+            "assa": 0.7181187799337414,
+            "idf1": 0.7636700648748842,
+            "idsw": 3,
+            "fn": 238,
+            "fp": 11
+          },
+          "b1ceb32e-3f481b43": {
+            "hota": 0.28392565372728956,
+            "deta": 0.3043674826714471,
+            "assa": 0.2662017789788926,
+            "idf1": 0.4,
+            "idsw": 25,
+            "fn": 212,
+            "fp": 10
+          },
+          "b1d0a191-03dcecc2": {
+            "hota": 0.41273179654362246,
+            "deta": 0.45047057624907383,
+            "assa": 0.3835840237677527,
+            "idf1": 0.4816484224082421,
+            "idsw": 53,
+            "fn": 804,
+            "fp": 90
+          },
+          "b1d0a191-65deaeef": {
+            "hota": 0.5163613135350396,
+            "deta": 0.4351638225099782,
+            "assa": 0.6235105374778908,
+            "idf1": 0.6729356450191007,
+            "idsw": 11,
+            "fn": 964,
+            "fp": 75
+          },
+          "b1d10d08-da110fcb": {
+            "hota": 0.42356194379252143,
+            "deta": 0.39653906813225426,
+            "assa": 0.47224836355743005,
+            "idf1": 0.5331702843167228,
+            "idsw": 104,
+            "fn": 1029,
+            "fp": 78
+          },
+          "b1d3907b-2278601b": {
+            "hota": 0.42697159636594995,
+            "deta": 0.38862457335204176,
+            "assa": 0.47532902876584954,
+            "idf1": 0.5043478260869565,
+            "idsw": 13,
+            "fn": 297,
+            "fp": 41
+          },
+          "b1d7b3ac-5744370e": {
+            "hota": 0.33922510718462806,
+            "deta": 0.20268746412753566,
+            "assa": 0.5754414054037832,
+            "idf1": 0.3564356435643564,
+            "idsw": 5,
+            "fn": 424,
+            "fp": 9
+          },
+          "b1d968b9-ce42734f": {
+            "hota": 0.47502640124399587,
+            "deta": 0.46013831972768504,
+            "assa": 0.4991719008416096,
+            "idf1": 0.5994538006372326,
+            "idsw": 107,
+            "fn": 989,
+            "fp": 149
+          },
+          "b1db7e22-cfa74dc3": {
+            "hota": 0.426469153333919,
+            "deta": 0.3666098649702996,
+            "assa": 0.5152325054843407,
+            "idf1": 0.5287356321839081,
+            "idsw": 33,
+            "fn": 596,
+            "fp": 56
+          },
+          "b1e0c01d-dd9e6e2f": {
+            "hota": 0.41205635381439976,
+            "deta": 0.38026125442381103,
+            "assa": 0.45484627397817906,
+            "idf1": 0.5421020282728949,
+            "idsw": 9,
+            "fn": 554,
+            "fp": 37
+          },
+          "b1e2346e-c5f98707": {
+            "hota": 0.21860396592844425,
+            "deta": 0.1720191019513165,
+            "assa": 0.2780937692146472,
+            "idf1": 0.2914285714285714,
+            "idsw": 6,
+            "fn": 216,
+            "fp": 4
+          },
+          "b1e8ad72-c3c79240": {
+            "hota": 0.607607917397506,
+            "deta": 0.5371102279456236,
+            "assa": 0.6977299717359626,
+            "idf1": 0.6930193439865433,
+            "idsw": 3,
+            "fn": 249,
+            "fp": 72
+          },
+          "b1ebfc3c-cc9c2bb8": {
+            "hota": 0.5563485076559909,
+            "deta": 0.4775445497874888,
+            "assa": 0.676511620505383,
+            "idf1": 0.6885245901639344,
+            "idsw": 6,
+            "fn": 363,
+            "fp": 36
+          },
+          "b1f0efd9-e900c6e5": {
+            "hota": 0.3702227621173037,
+            "deta": 0.36410428698604524,
+            "assa": 0.38459758609965405,
+            "idf1": 0.529168580615526,
+            "idsw": 77,
+            "fn": 699,
+            "fp": 54
+          },
+          "b1f4491b-07b32e8c": {
+            "hota": 0.3093008433143645,
+            "deta": 0.2795982706104297,
+            "assa": 0.37100897753718476,
+            "idf1": 0.39575289575289574,
+            "idsw": 60,
+            "fn": 949,
+            "fp": 51
+          },
+          "b1f4491b-97465266": {
+            "hota": 0.5913566082284856,
+            "deta": 0.5014604889655051,
+            "assa": 0.7059756624135506,
+            "idf1": 0.6598569969356486,
+            "idsw": 10,
+            "fn": 427,
+            "fp": 115
+          },
+          "b1f4491b-dd8dfed5": {
+            "hota": 0.360212685473288,
+            "deta": 0.27601868402232854,
+            "assa": 0.4729916128002749,
+            "idf1": 0.4118457300275482,
+            "idsw": 18,
+            "fn": 1429,
+            "fp": 41
+          },
+          "b1fbaab8-68db7df7": {
+            "hota": 0.5888741167156079,
+            "deta": 0.5660563421746032,
+            "assa": 0.6151619779519736,
+            "idf1": 0.672106824925816,
+            "idsw": 15,
+            "fn": 243,
+            "fp": 19
+          },
+          "b1ff4656-94ee8536": {
+            "hota": 0.7002855174290442,
+            "deta": 0.6354854610018805,
+            "assa": 0.78798076484615,
+            "idf1": 0.7956600361663653,
+            "idsw": 10,
+            "fn": 211,
+            "fp": 78
+          },
+          "b202cae2-672e61c5": {
+            "hota": 0.45033548478759206,
+            "deta": 0.46733663258687363,
+            "assa": 0.45497912556740255,
+            "idf1": 0.4892593780057711,
+            "idsw": 145,
+            "fn": 787,
+            "fp": 68
+          },
+          "b204a5c1-fa3d5b88": {
+            "hota": 0.43346530355904295,
+            "deta": 0.431990668053061,
+            "assa": 0.44455982481575296,
+            "idf1": 0.6169772256728778,
+            "idsw": 26,
+            "fn": 767,
+            "fp": 71
+          },
+          "b20841f9-cef732d5": {
+            "hota": 0.4449335802778693,
+            "deta": 0.37481813668959585,
+            "assa": 0.5541224034197821,
+            "idf1": 0.5692152239811384,
+            "idsw": 50,
+            "fn": 964,
+            "fp": 77
+          },
+          "b20b69d2-bd242bf0": {
+            "hota": 0.22172064568340746,
+            "deta": 0.21746926421298887,
+            "assa": 0.2370952861431681,
+            "idf1": 0.2747688243064729,
+            "idsw": 110,
+            "fn": 803,
+            "fp": 37
+          },
+          "b20d494a-cdebe83e": {
+            "hota": 0.39738018386202517,
+            "deta": 0.3084663524577031,
+            "assa": 0.5168765146160306,
+            "idf1": 0.4711191335740072,
+            "idsw": 16,
+            "fn": 495,
+            "fp": 5
+          },
+          "b20eae11-6817ba7a": {
+            "hota": 0.4017842265290831,
+            "deta": 0.2664571624563989,
+            "assa": 0.6183034135156347,
+            "idf1": 0.43444730077120824,
+            "idsw": 8,
+            "fn": 726,
+            "fp": 86
+          },
+          "b213e4eb-09c01a17": {
+            "hota": 0.5348603216372062,
+            "deta": 0.4879523534349026,
+            "assa": 0.5954321460737958,
+            "idf1": 0.6795959595959596,
+            "idsw": 13,
+            "fn": 534,
+            "fp": 77
+          },
+          "b215943a-10e44587": {
+            "hota": 0.262626059510592,
+            "deta": 0.2727426217308498,
+            "assa": 0.2553690718278132,
+            "idf1": 0.3638676844783715,
+            "idsw": 15,
+            "fn": 367,
+            "fp": 7
+          },
+          "b21742c2-18d3463a": {
+            "hota": 0.40465289046103475,
+            "deta": 0.3154929270041019,
+            "assa": 0.5251614424621215,
+            "idf1": 0.4333050127442651,
+            "idsw": 20,
+            "fn": 982,
+            "fp": 104
+          },
+          "b21c86ac-2eb7ba16": {
+            "hota": 0.4288586450517857,
+            "deta": 0.42797123072352367,
+            "assa": 0.44209059396587375,
+            "idf1": 0.5570750767513257,
+            "idsw": 103,
+            "fn": 926,
+            "fp": 105
+          },
+          "b22a4d9f-48b2e986": {
+            "hota": 0.4871397682322975,
+            "deta": 0.4384730528780689,
+            "assa": 0.5466208918059074,
+            "idf1": 0.6276595744680851,
+            "idsw": 14,
+            "fn": 449,
+            "fp": 49
+          },
+          "b230a7b2-c881c382": {
+            "hota": 0.4242250282358427,
+            "deta": 0.35675754660329234,
+            "assa": 0.5157753774368329,
+            "idf1": 0.5490519373454246,
+            "idsw": 10,
+            "fn": 448,
+            "fp": 7
+          },
+          "b23493b1-3200de1c": {
+            "hota": 0.43273577254479356,
+            "deta": 0.32755219364601856,
+            "assa": 0.5754823327540215,
+            "idf1": 0.5133425034387895,
+            "idsw": 50,
+            "fn": 1528,
+            "fp": 37
+          },
+          "b23adb0d-8a7aaced": {
+            "hota": 0.3444426175660661,
+            "deta": 0.40677133018379974,
+            "assa": 0.301420677930601,
+            "idf1": 0.47948511665325827,
+            "idsw": 160,
+            "fn": 680,
+            "fp": 56
+          },
+          "b23c9e00-b425de1b": {
+            "hota": 0.39204301918930395,
+            "deta": 0.286403736348337,
+            "assa": 0.5419501079207447,
+            "idf1": 0.45541472092506113,
+            "idsw": 58,
+            "fn": 2112,
+            "fp": 79
+          },
+          "b2408e45-984ba5aa": {
+            "hota": 0.3734790924809909,
+            "deta": 0.315296115304043,
+            "assa": 0.44740236819312795,
+            "idf1": 0.43313131313131314,
+            "idsw": 61,
+            "fn": 1037,
+            "fp": 90
+          },
+          "b242f6b2-f5da110f": {
+            "hota": 0.3595357101503625,
+            "deta": 0.3273293761662669,
+            "assa": 0.4031723065595034,
+            "idf1": 0.45738485971413445,
+            "idsw": 38,
+            "fn": 709,
+            "fp": 48
+          },
+          "b24d283f-33783d1b": {
+            "hota": 0.4379139972608902,
+            "deta": 0.3530284436156989,
+            "assa": 0.5539591134082096,
+            "idf1": 0.5333333333333333,
+            "idsw": 27,
+            "fn": 1658,
+            "fp": 108
+          },
+          "b2505382-2905b23c": {
+            "hota": 0.5131427254604568,
+            "deta": 0.5033865830240125,
+            "assa": 0.5387264386818917,
+            "idf1": 0.6881188118811881,
+            "idsw": 18,
+            "fn": 230,
+            "fp": 40
+          },
+          "b251064f-4696b75e": {
+            "hota": 0.1702346162527217,
+            "deta": 0.11570306884917998,
+            "assa": 0.250990160186117,
+            "idf1": 0.1609375,
+            "idsw": 11,
+            "fn": 958,
+            "fp": 2
+          },
+          "b255cd6c-0bdf0ac7": {
+            "hota": 0.3931131151684757,
+            "deta": 0.3541285162909495,
+            "assa": 0.4371684813778879,
+            "idf1": 0.4238856181665265,
+            "idsw": 13,
+            "fn": 486,
+            "fp": 15
+          }
+        }
+      },
+      "control": {
+        "combined": {
+          "hota": 0.43944644579850217,
+          "deta": 0.3842419558800209,
+          "assa": 0.5169450330460144,
+          "idf1": 0.5340109368962166,
+          "idsw": 1657,
+          "fn": 27848,
+          "fp": 2663
+        },
+        "videos": {
+          "b1c81faa-c80764c5": {
+            "hota": 0.6029326705677991,
+            "deta": 0.5042116958065214,
+            "assa": 0.7225178377187175,
+            "idf1": 0.7455731593662628,
+            "idsw": 2,
+            "fn": 251,
+            "fp": 18
+          },
+          "b1ceb32e-3f481b43": {
+            "hota": 0.27537712192692654,
+            "deta": 0.3146643262838704,
+            "assa": 0.24264116556149717,
+            "idf1": 0.4,
+            "idsw": 28,
+            "fn": 206,
+            "fp": 9
+          },
+          "b1d0a191-03dcecc2": {
+            "hota": 0.4439664764932026,
+            "deta": 0.47276302143009835,
+            "assa": 0.4212092114761962,
+            "idf1": 0.519912198181248,
+            "idsw": 52,
+            "fn": 740,
+            "fp": 109
+          },
+          "b1d0a191-65deaeef": {
+            "hota": 0.5163342562347583,
+            "deta": 0.4454294804729874,
+            "assa": 0.6081376117687541,
+            "idf1": 0.6662810873337189,
+            "idsw": 23,
+            "fn": 922,
+            "fp": 88
+          },
+          "b1d10d08-da110fcb": {
+            "hota": 0.42555369256781006,
+            "deta": 0.39889580007113035,
+            "assa": 0.47610842043468177,
+            "idf1": 0.5346654556463821,
+            "idsw": 114,
+            "fn": 1001,
+            "fp": 82
+          },
+          "b1d3907b-2278601b": {
+            "hota": 0.4551432993201925,
+            "deta": 0.3922991162846299,
+            "assa": 0.5327567046157773,
+            "idf1": 0.5705059203444564,
+            "idsw": 13,
+            "fn": 289,
+            "fp": 42
+          },
+          "b1d7b3ac-5744370e": {
+            "hota": 0.34227911543395545,
+            "deta": 0.21048127809184763,
+            "assa": 0.5665276550753987,
+            "idf1": 0.3788300835654596,
+            "idsw": 4,
+            "fn": 417,
+            "fp": 13
+          },
+          "b1d968b9-ce42734f": {
+            "hota": 0.49060076013171444,
+            "deta": 0.48276121045973963,
+            "assa": 0.5076977043796704,
+            "idf1": 0.623198048347749,
+            "idsw": 101,
+            "fn": 893,
+            "fp": 168
+          },
+          "b1db7e22-cfa74dc3": {
+            "hota": 0.412338672425334,
+            "deta": 0.33987922948722116,
+            "assa": 0.5177606133677483,
+            "idf1": 0.5195246179966044,
+            "idsw": 22,
+            "fn": 613,
+            "fp": 100
+          },
+          "b1e0c01d-dd9e6e2f": {
+            "hota": 0.4044807604280879,
+            "deta": 0.3924880535105223,
+            "assa": 0.4263375896273021,
+            "idf1": 0.5232974910394266,
+            "idsw": 13,
+            "fn": 527,
+            "fp": 57
+          },
+          "b1e2346e-c5f98707": {
+            "hota": 0.22296231083964008,
+            "deta": 0.19436615416143815,
+            "assa": 0.2572969246799934,
+            "idf1": 0.3016759776536313,
+            "idsw": 9,
+            "fn": 208,
+            "fp": 4
+          },
+          "b1e8ad72-c3c79240": {
+            "hota": 0.6091713514791719,
+            "deta": 0.5403540151487999,
+            "assa": 0.6979486947004934,
+            "idf1": 0.7007544006705784,
+            "idsw": 3,
+            "fn": 244,
+            "fp": 71
+          },
+          "b1ebfc3c-cc9c2bb8": {
+            "hota": 0.5549342346292093,
+            "deta": 0.47477871835062413,
+            "assa": 0.674512624127931,
+            "idf1": 0.6771653543307087,
+            "idsw": 5,
+            "fn": 373,
+            "fp": 45
+          },
+          "b1f0efd9-e900c6e5": {
+            "hota": 0.38429303819399313,
+            "deta": 0.36469214833416186,
+            "assa": 0.414386804093313,
+            "idf1": 0.555858310626703,
+            "idsw": 60,
+            "fn": 691,
+            "fp": 71
+          },
+          "b1f4491b-07b32e8c": {
+            "hota": 0.3188992296535395,
+            "deta": 0.290435324626212,
+            "assa": 0.3788087015773888,
+            "idf1": 0.4167062173706692,
+            "idsw": 64,
+            "fn": 924,
+            "fp": 61
+          },
+          "b1f4491b-97465266": {
+            "hota": 0.5886904335951612,
+            "deta": 0.5049090479627136,
+            "assa": 0.6951833283797497,
+            "idf1": 0.6524541398116014,
+            "idsw": 11,
+            "fn": 415,
+            "fp": 162
+          },
+          "b1f4491b-dd8dfed5": {
+            "hota": 0.3672222114376586,
+            "deta": 0.28915671411316196,
+            "assa": 0.47098260938367764,
+            "idf1": 0.4241810199257008,
+            "idsw": 25,
+            "fn": 1392,
+            "fp": 61
+          },
+          "b1fbaab8-68db7df7": {
+            "hota": 0.5837935694122858,
+            "deta": 0.5638294989484528,
+            "assa": 0.606989950475198,
+            "idf1": 0.6646884272997032,
+            "idsw": 10,
+            "fn": 245,
+            "fp": 21
+          },
+          "b1ff4656-94ee8536": {
+            "hota": 0.7005871945819517,
+            "deta": 0.6485250812589276,
+            "assa": 0.7707858910537118,
+            "idf1": 0.7974010632014176,
+            "idsw": 12,
+            "fn": 182,
+            "fp": 83
+          },
+          "b202cae2-672e61c5": {
+            "hota": 0.4342395321976281,
+            "deta": 0.4665409733660657,
+            "assa": 0.4244179884548972,
+            "idf1": 0.46006389776357826,
+            "idsw": 158,
+            "fn": 795,
+            "fp": 87
+          },
+          "b204a5c1-fa3d5b88": {
+            "hota": 0.4409654196416039,
+            "deta": 0.43536206582635906,
+            "assa": 0.4572773986524842,
+            "idf1": 0.6314353903852711,
+            "idsw": 35,
+            "fn": 737,
+            "fp": 76
+          },
+          "b20841f9-cef732d5": {
+            "hota": 0.4375446488099216,
+            "deta": 0.3836670716490338,
+            "assa": 0.5209162649055428,
+            "idf1": 0.5681216931216931,
+            "idsw": 56,
+            "fn": 924,
+            "fp": 92
+          },
+          "b20b69d2-bd242bf0": {
+            "hota": 0.2337339348039739,
+            "deta": 0.24236258308589037,
+            "assa": 0.23929426810880483,
+            "idf1": 0.30121250797702614,
+            "idsw": 132,
+            "fn": 757,
+            "fp": 44
+          },
+          "b20d494a-cdebe83e": {
+            "hota": 0.3918583584299319,
+            "deta": 0.31098697233051303,
+            "assa": 0.49950127158096924,
+            "idf1": 0.4635879218472469,
+            "idsw": 28,
+            "fn": 482,
+            "fp": 10
+          },
+          "b20eae11-6817ba7a": {
+            "hota": 0.4148624076067866,
+            "deta": 0.2893289845290627,
+            "assa": 0.6090852196637586,
+            "idf1": 0.4757817290006131,
+            "idsw": 14,
+            "fn": 685,
+            "fp": 120
+          },
+          "b213e4eb-09c01a17": {
+            "hota": 0.5358019509564297,
+            "deta": 0.489572376378893,
+            "assa": 0.593606674094617,
+            "idf1": 0.6774960380348652,
+            "idsw": 16,
+            "fn": 518,
+            "fp": 110
+          },
+          "b215943a-10e44587": {
+            "hota": 0.26551620491608796,
+            "deta": 0.27698457697112927,
+            "assa": 0.2580799934230412,
+            "idf1": 0.34005037783375314,
+            "idsw": 15,
+            "fn": 363,
+            "fp": 11
+          },
+          "b21742c2-18d3463a": {
+            "hota": 0.4091188188699922,
+            "deta": 0.3168957647419907,
+            "assa": 0.5349302085692355,
+            "idf1": 0.4400684931506849,
+            "idsw": 21,
+            "fn": 987,
+            "fp": 91
+          },
+          "b21c86ac-2eb7ba16": {
+            "hota": 0.44612743508045927,
+            "deta": 0.4387436567881881,
+            "assa": 0.4662397548846972,
+            "idf1": 0.5776312173674086,
+            "idsw": 111,
+            "fn": 897,
+            "fp": 132
+          },
+          "b22a4d9f-48b2e986": {
+            "hota": 0.4854068713699793,
+            "deta": 0.456762139891087,
+            "assa": 0.518643515144828,
+            "idf1": 0.6185446009389671,
+            "idsw": 14,
+            "fn": 432,
+            "fp": 44
+          },
+          "b230a7b2-c881c382": {
+            "hota": 0.4262387897464898,
+            "deta": 0.3575369431010877,
+            "assa": 0.521558635025027,
+            "idf1": 0.5504885993485342,
+            "idsw": 14,
+            "fn": 441,
+            "fp": 15
+          },
+          "b23493b1-3200de1c": {
+            "hota": 0.4348861603290761,
+            "deta": 0.3360993026086019,
+            "assa": 0.5668176549583883,
+            "idf1": 0.5222131370945762,
+            "idsw": 47,
+            "fn": 1496,
+            "fp": 39
+          },
+          "b23adb0d-8a7aaced": {
+            "hota": 0.3358532936607698,
+            "deta": 0.407448011896713,
+            "assa": 0.2838964078847806,
+            "idf1": 0.4680511182108626,
+            "idsw": 193,
+            "fn": 657,
+            "fp": 51
+          },
+          "b23c9e00-b425de1b": {
+            "hota": 0.37488848642320843,
+            "deta": 0.2700441590723564,
+            "assa": 0.525312094080466,
+            "idf1": 0.43268797838811346,
+            "idsw": 48,
+            "fn": 2182,
+            "fp": 94
+          },
+          "b2408e45-984ba5aa": {
+            "hota": 0.37638865661351817,
+            "deta": 0.32042498413807685,
+            "assa": 0.4476170887460544,
+            "idf1": 0.43990384615384615,
+            "idsw": 57,
+            "fn": 1025,
+            "fp": 99
+          },
+          "b242f6b2-f5da110f": {
+            "hota": 0.3564019779667413,
+            "deta": 0.3249092360011381,
+            "assa": 0.3975788189299121,
+            "idf1": 0.4676145339652449,
+            "idsw": 37,
+            "fn": 715,
+            "fp": 64
+          },
+          "b24d283f-33783d1b": {
+            "hota": 0.4445572998861339,
+            "deta": 0.3763664146567933,
+            "assa": 0.538009918186229,
+            "idf1": 0.5360688285903376,
+            "idsw": 42,
+            "fn": 1557,
+            "fp": 160
+          },
+          "b2505382-2905b23c": {
+            "hota": 0.5087545758321904,
+            "deta": 0.5049023836546157,
+            "assa": 0.5284511948466429,
+            "idf1": 0.6898839137645107,
+            "idsw": 20,
+            "fn": 229,
+            "fp": 33
+          },
+          "b251064f-4696b75e": {
+            "hota": 0.16903181816414622,
+            "deta": 0.12439336704861066,
+            "assa": 0.23120621385755366,
+            "idf1": 0.15562403697996918,
+            "idsw": 16,
+            "fn": 945,
+            "fp": 7
+          },
+          "b255cd6c-0bdf0ac7": {
+            "hota": 0.3850879803278316,
+            "deta": 0.34559407308592255,
+            "assa": 0.4299563836438354,
+            "idf1": 0.41414141414141414,
+            "idsw": 12,
+            "fn": 491,
+            "fp": 19
+          }
+        }
+      },
+      "joint50": {
+        "combined": {
+          "hota": 0.42333369979500535,
+          "deta": 0.36371863399321275,
+          "assa": 0.507497887912837,
+          "idf1": 0.516048353480617,
+          "idsw": 1643,
+          "fn": 29136,
+          "fp": 2517
+        },
+        "videos": {
+          "b1c81faa-c80764c5": {
+            "hota": 0.582541103960443,
+            "deta": 0.4822832152773347,
+            "assa": 0.704891948526595,
+            "idf1": 0.7404651162790697,
+            "idsw": 2,
+            "fn": 253,
+            "fp": 22
+          },
+          "b1ceb32e-3f481b43": {
+            "hota": 0.23842922403854291,
+            "deta": 0.2952255686704744,
+            "assa": 0.19504756477651808,
+            "idf1": 0.3473053892215569,
+            "idsw": 33,
+            "fn": 209,
+            "fp": 8
+          },
+          "b1d0a191-03dcecc2": {
+            "hota": 0.4117777161323806,
+            "deta": 0.4496768443219826,
+            "assa": 0.3811617604862681,
+            "idf1": 0.5012836970474968,
+            "idsw": 59,
+            "fn": 786,
+            "fp": 82
+          },
+          "b1d0a191-65deaeef": {
+            "hota": 0.4931676048897648,
+            "deta": 0.4241247998582229,
+            "assa": 0.5826493155329112,
+            "idf1": 0.6451798561151079,
+            "idsw": 19,
+            "fn": 953,
+            "fp": 136
+          },
+          "b1d10d08-da110fcb": {
+            "hota": 0.40947990944438084,
+            "deta": 0.3733824546488201,
+            "assa": 0.471768313769886,
+            "idf1": 0.5077112893275756,
+            "idsw": 117,
+            "fn": 1067,
+            "fp": 87
+          },
+          "b1d3907b-2278601b": {
+            "hota": 0.44858285055061814,
+            "deta": 0.37317341351384437,
+            "assa": 0.5424563987924035,
+            "idf1": 0.5695364238410596,
+            "idsw": 10,
+            "fn": 301,
+            "fp": 31
+          },
+          "b1d7b3ac-5744370e": {
+            "hota": 0.3268764046454454,
+            "deta": 0.19679461655395203,
+            "assa": 0.5535298624998723,
+            "idf1": 0.3464788732394366,
+            "idsw": 3,
+            "fn": 425,
+            "fp": 13
+          },
+          "b1d968b9-ce42734f": {
+            "hota": 0.47284781008556837,
+            "deta": 0.44920370470687704,
+            "assa": 0.5085240576029961,
+            "idf1": 0.6162310866574966,
+            "idsw": 115,
+            "fn": 1000,
+            "fp": 128
+          },
+          "b1db7e22-cfa74dc3": {
+            "hota": 0.40190986405541,
+            "deta": 0.3381213573074708,
+            "assa": 0.49365386736119293,
+            "idf1": 0.4927367809413132,
+            "idsw": 21,
+            "fn": 642,
+            "fp": 83
+          },
+          "b1e0c01d-dd9e6e2f": {
+            "hota": 0.3843821666442528,
+            "deta": 0.38000942499141055,
+            "assa": 0.39647971357013906,
+            "idf1": 0.5147783251231527,
+            "idsw": 13,
+            "fn": 543,
+            "fp": 23
+          },
+          "b1e2346e-c5f98707": {
+            "hota": 0.19730472519182554,
+            "deta": 0.1626913343368879,
+            "assa": 0.2397760854415078,
+            "idf1": 0.2824207492795389,
+            "idsw": 7,
+            "fn": 219,
+            "fp": 4
+          },
+          "b1e8ad72-c3c79240": {
+            "hota": 0.6217252717671984,
+            "deta": 0.5429980664299592,
+            "assa": 0.7234555386342403,
+            "idf1": 0.7312186978297162,
+            "idsw": 3,
+            "fn": 237,
+            "fp": 69
+          },
+          "b1ebfc3c-cc9c2bb8": {
+            "hota": 0.5345786515346093,
+            "deta": 0.4517867435246184,
+            "assa": 0.6628956539067317,
+            "idf1": 0.6543046357615894,
+            "idsw": 14,
+            "fn": 389,
+            "fp": 47
+          },
+          "b1f0efd9-e900c6e5": {
+            "hota": 0.362950117554699,
+            "deta": 0.35349805843207305,
+            "assa": 0.38317663898001353,
+            "idf1": 0.5190980211688909,
+            "idsw": 70,
+            "fn": 718,
+            "fp": 69
+          },
+          "b1f4491b-07b32e8c": {
+            "hota": 0.2947094282942156,
+            "deta": 0.26921448492368605,
+            "assa": 0.34033045142297785,
+            "idf1": 0.38072289156626504,
+            "idsw": 74,
+            "fn": 959,
+            "fp": 64
+          },
+          "b1f4491b-97465266": {
+            "hota": 0.5724664511611894,
+            "deta": 0.4892907756826465,
+            "assa": 0.6780314317305212,
+            "idf1": 0.6496751624187906,
+            "idsw": 16,
+            "fn": 417,
+            "fp": 148
+          },
+          "b1f4491b-dd8dfed5": {
+            "hota": 0.33927819959070993,
+            "deta": 0.2596478476915818,
+            "assa": 0.44622068090789363,
+            "idf1": 0.39277024678484534,
+            "idsw": 35,
+            "fn": 1455,
+            "fp": 40
+          },
+          "b1fbaab8-68db7df7": {
+            "hota": 0.5652907577240732,
+            "deta": 0.5398348969109732,
+            "assa": 0.5948066406706323,
+            "idf1": 0.6460377358490565,
+            "idsw": 10,
+            "fn": 262,
+            "fp": 15
+          },
+          "b1ff4656-94ee8536": {
+            "hota": 0.6839354837610662,
+            "deta": 0.6164800385367003,
+            "assa": 0.7716880951593253,
+            "idf1": 0.7694145758661888,
+            "idsw": 12,
+            "fn": 223,
+            "fp": 105
+          },
+          "b202cae2-672e61c5": {
+            "hota": 0.4234792745265871,
+            "deta": 0.44060193304845113,
+            "assa": 0.4269158439486507,
+            "idf1": 0.44051130776794495,
+            "idsw": 152,
+            "fn": 859,
+            "fp": 72
+          },
+          "b204a5c1-fa3d5b88": {
+            "hota": 0.4088875206272975,
+            "deta": 0.41146942076628834,
+            "assa": 0.4179209120492121,
+            "idf1": 0.5856545961002786,
+            "idsw": 31,
+            "fn": 794,
+            "fp": 72
+          },
+          "b20841f9-cef732d5": {
+            "hota": 0.42579651741681207,
+            "deta": 0.3707721607673243,
+            "assa": 0.5086589486549263,
+            "idf1": 0.5599194360523666,
+            "idsw": 54,
+            "fn": 952,
+            "fp": 75
+          },
+          "b20b69d2-bd242bf0": {
+            "hota": 0.21541063127094737,
+            "deta": 0.20712107872632185,
+            "assa": 0.23813061151451495,
+            "idf1": 0.26871657754010697,
+            "idsw": 99,
+            "fn": 823,
+            "fp": 39
+          },
+          "b20d494a-cdebe83e": {
+            "hota": 0.356411580070676,
+            "deta": 0.27176980942414525,
+            "assa": 0.4745277022751991,
+            "idf1": 0.41856232939035487,
+            "idsw": 21,
+            "fn": 520,
+            "fp": 21
+          },
+          "b20eae11-6817ba7a": {
+            "hota": 0.424103158881395,
+            "deta": 0.28650294663183484,
+            "assa": 0.6422793347921015,
+            "idf1": 0.49436795994993743,
+            "idsw": 3,
+            "fn": 697,
+            "fp": 99
+          },
+          "b213e4eb-09c01a17": {
+            "hota": 0.5195008470544346,
+            "deta": 0.46952163411232684,
+            "assa": 0.5859119623114651,
+            "idf1": 0.6479873717442778,
+            "idsw": 29,
+            "fn": 526,
+            "fp": 128
+          },
+          "b215943a-10e44587": {
+            "hota": 0.2505202308338487,
+            "deta": 0.2591665371191144,
+            "assa": 0.2439939891637298,
+            "idf1": 0.3227445997458704,
+            "idsw": 14,
+            "fn": 377,
+            "fp": 18
+          },
+          "b21742c2-18d3463a": {
+            "hota": 0.3923031176691761,
+            "deta": 0.3004400254023447,
+            "assa": 0.5172277998798979,
+            "idf1": 0.4316916488222698,
+            "idsw": 19,
+            "fn": 1001,
+            "fp": 104
+          },
+          "b21c86ac-2eb7ba16": {
+            "hota": 0.43536763992629707,
+            "deta": 0.41500712684540975,
+            "assa": 0.4687839858878765,
+            "idf1": 0.5690780141843972,
+            "idsw": 102,
+            "fn": 978,
+            "fp": 99
+          },
+          "b22a4d9f-48b2e986": {
+            "hota": 0.4597296071980099,
+            "deta": 0.41577389910705864,
+            "assa": 0.5101684345524379,
+            "idf1": 0.5973715651135006,
+            "idsw": 16,
+            "fn": 467,
+            "fp": 49
+          },
+          "b230a7b2-c881c382": {
+            "hota": 0.39786535231980186,
+            "deta": 0.33730971304151913,
+            "assa": 0.49141138018610353,
+            "idf1": 0.5129924559932942,
+            "idsw": 18,
+            "fn": 466,
+            "fp": 5
+          },
+          "b23493b1-3200de1c": {
+            "hota": 0.4189532581990397,
+            "deta": 0.31011523262291507,
+            "assa": 0.5716260756342418,
+            "idf1": 0.5051346100471829,
+            "idsw": 38,
+            "fn": 1558,
+            "fp": 35
+          },
+          "b23adb0d-8a7aaced": {
+            "hota": 0.31496177909818496,
+            "deta": 0.3790261908171346,
+            "assa": 0.27156085365001503,
+            "idf1": 0.433931484502447,
+            "idsw": 189,
+            "fn": 723,
+            "fp": 65
+          },
+          "b23c9e00-b425de1b": {
+            "hota": 0.3684587923322428,
+            "deta": 0.26084873318869234,
+            "assa": 0.5257193216878336,
+            "idf1": 0.43948613928329955,
+            "idsw": 41,
+            "fn": 2208,
+            "fp": 115
+          },
+          "b2408e45-984ba5aa": {
+            "hota": 0.3611583325827067,
+            "deta": 0.30299808269074563,
+            "assa": 0.43491848312976356,
+            "idf1": 0.41278834479967624,
+            "idsw": 60,
+            "fn": 1058,
+            "fp": 107
+          },
+          "b242f6b2-f5da110f": {
+            "hota": 0.3509748715506711,
+            "deta": 0.32024886686707305,
+            "assa": 0.39179160824384124,
+            "idf1": 0.4470588235294118,
+            "idsw": 46,
+            "fn": 727,
+            "fp": 47
+          },
+          "b24d283f-33783d1b": {
+            "hota": 0.42154296636185234,
+            "deta": 0.3467498994198334,
+            "assa": 0.524856292364388,
+            "idf1": 0.5089427213040525,
+            "idsw": 40,
+            "fn": 1654,
+            "fp": 141
+          },
+          "b2505382-2905b23c": {
+            "hota": 0.5064341973916535,
+            "deta": 0.4958784287202901,
+            "assa": 0.5313517994373562,
+            "idf1": 0.6912133891213389,
+            "idsw": 12,
+            "fn": 238,
+            "fp": 31
+          },
+          "b251064f-4696b75e": {
+            "hota": 0.1616442910306049,
+            "deta": 0.11321939182865928,
+            "assa": 0.2314631606968739,
+            "idf1": 0.1544461778471139,
+            "idsw": 14,
+            "fn": 959,
+            "fp": 5
+          },
+          "b255cd6c-0bdf0ac7": {
+            "hota": 0.3845784255991443,
+            "deta": 0.3446617462412282,
+            "assa": 0.43005679988167217,
+            "idf1": 0.4158918005071851,
+            "idsw": 12,
+            "fn": 493,
+            "fp": 16
+          }
+        }
+      }
+    },
+    "ua": {
+      "original": {
+        "combined": {
+          "hota": 0.6657319586581798,
+          "deta": 0.5758456146049444,
+          "assa": 0.7819217892015725,
+          "idf1": 0.7837332991116625,
+          "idsw": 245,
+          "fn": 17590,
+          "fp": 9144
+        },
+        "videos": {
+          "MVI_39031": {
+            "hota": 0.36872638551770764,
+            "deta": 0.27897711096939964,
+            "assa": 0.4979667870431026,
+            "idf1": 0.5136986301369864,
+            "idsw": 0,
+            "fn": 282,
+            "fp": 2
+          },
+          "MVI_39051": {
+            "hota": 0.6961743307058079,
+            "deta": 0.6445199710604049,
+            "assa": 0.75240083750112,
+            "idf1": 0.8665955176093917,
+            "idsw": 0,
+            "fn": 29,
+            "fp": 96
+          },
+          "MVI_39211": {
+            "hota": 0.6529520532795757,
+            "deta": 0.559802939401073,
+            "assa": 0.7861255949324178,
+            "idf1": 0.6735751295336787,
+            "idsw": 2,
+            "fn": 113,
+            "fp": 113
+          },
+          "MVI_39271": {
+            "hota": 0.6454156725229161,
+            "deta": 0.5540735150493719,
+            "assa": 0.7590979976012185,
+            "idf1": 0.7280248190279214,
+            "idsw": 3,
+            "fn": 262,
+            "fp": 238
+          },
+          "MVI_39311": {
+            "hota": 0.6503395583686343,
+            "deta": 0.5994906188770912,
+            "assa": 0.7085698951127982,
+            "idf1": 0.8408969567538708,
+            "idsw": 6,
+            "fn": 372,
+            "fp": 126
+          },
+          "MVI_39361": {
+            "hota": 0.7362801968856669,
+            "deta": 0.668946367051109,
+            "assa": 0.8136975649339043,
+            "idf1": 0.8838323353293414,
+            "idsw": 0,
+            "fn": 47,
+            "fp": 50
+          },
+          "MVI_39371": {
+            "hota": 0.7539288382567563,
+            "deta": 0.7356703166961475,
+            "assa": 0.7738791925829706,
+            "idf1": 0.8989976869699307,
+            "idsw": 2,
+            "fn": 67,
+            "fp": 50
+          },
+          "MVI_39401": {
+            "hota": 0.6558943588545408,
+            "deta": 0.6202680136104952,
+            "assa": 0.6980582606140071,
+            "idf1": 0.8065463701216954,
+            "idsw": 5,
+            "fn": 159,
+            "fp": 218
+          },
+          "MVI_39501": {
+            "hota": 0.5503817763651139,
+            "deta": 0.41987625585725896,
+            "assa": 0.7322178529263051,
+            "idf1": 0.6563354603463992,
+            "idsw": 7,
+            "fn": 781,
+            "fp": 238
+          },
+          "MVI_39511": {
+            "hota": 0.5998871128336556,
+            "deta": 0.6161511606067279,
+            "assa": 0.5866385799032706,
+            "idf1": 0.803030303030303,
+            "idsw": 7,
+            "fn": 74,
+            "fp": 120
+          },
+          "MVI_40701": {
+            "hota": 0.6469652527397826,
+            "deta": 0.5726945307696841,
+            "assa": 0.739208198022867,
+            "idf1": 0.7234398527689476,
+            "idsw": 15,
+            "fn": 632,
+            "fp": 703
+          },
+          "MVI_40711": {
+            "hota": 0.7013047986498357,
+            "deta": 0.6232260781162747,
+            "assa": 0.7921916616501188,
+            "idf1": 0.826461259628455,
+            "idsw": 0,
+            "fn": 198,
+            "fp": 185
+          },
+          "MVI_40712": {
+            "hota": 0.8982631406547932,
+            "deta": 0.8858538370191632,
+            "assa": 0.9145613949287124,
+            "idf1": 0.9861475102957694,
+            "idsw": 0,
+            "fn": 14,
+            "fp": 23
+          },
+          "MVI_40714": {
+            "hota": 0.6688663689385663,
+            "deta": 0.5525733239842213,
+            "assa": 0.8218594929910705,
+            "idf1": 0.785617509119333,
+            "idsw": 23,
+            "fn": 1013,
+            "fp": 914
+          },
+          "MVI_40742": {
+            "hota": 0.7823475847965206,
+            "deta": 0.6871880712125201,
+            "assa": 0.9593463280033727,
+            "idf1": 0.947741782927406,
+            "idsw": 2,
+            "fn": 61,
+            "fp": 244
+          },
+          "MVI_40743": {
+            "hota": 0.8193167983353187,
+            "deta": 0.7832487709103484,
+            "assa": 0.8583935282736167,
+            "idf1": 0.9275862068965517,
+            "idsw": 0,
+            "fn": 110,
+            "fp": 58
+          },
+          "MVI_40761": {
+            "hota": 0.3187515440126288,
+            "deta": 0.22957407284585193,
+            "assa": 0.446504237639655,
+            "idf1": 0.4228571428571429,
+            "idsw": 8,
+            "fn": 1123,
+            "fp": 67
+          },
+          "MVI_40762": {
+            "hota": 0.6617855139643721,
+            "deta": 0.6547326547404402,
+            "assa": 0.6738498020929171,
+            "idf1": 0.8270440251572327,
+            "idsw": 5,
+            "fn": 196,
+            "fp": 100
+          },
+          "MVI_40763": {
+            "hota": 0.5773536641773371,
+            "deta": 0.5720415878641484,
+            "assa": 0.5841494836476621,
+            "idf1": 0.6896551724137931,
+            "idsw": 5,
+            "fn": 197,
+            "fp": 43
+          },
+          "MVI_40771": {
+            "hota": 0.6559400759151089,
+            "deta": 0.5994377427803151,
+            "assa": 0.732273670938534,
+            "idf1": 0.8257016248153619,
+            "idsw": 2,
+            "fn": 101,
+            "fp": 117
+          },
+          "MVI_40772": {
+            "hota": 0.8539120132437567,
+            "deta": 0.8363717163941802,
+            "assa": 0.8742398779248208,
+            "idf1": 0.9175097276264591,
+            "idsw": 3,
+            "fn": 69,
+            "fp": 27
+          },
+          "MVI_40773": {
+            "hota": 0.7351576173091248,
+            "deta": 0.6627202543238261,
+            "assa": 0.8311019621352965,
+            "idf1": 0.858274647887324,
+            "idsw": 4,
+            "fn": 36,
+            "fp": 198
+          },
+          "MVI_40774": {
+            "hota": 0.7276595903926545,
+            "deta": 0.6516772294521954,
+            "assa": 0.8141138943749929,
+            "idf1": 0.8669487541137753,
+            "idsw": 0,
+            "fn": 168,
+            "fp": 115
+          },
+          "MVI_40775": {
+            "hota": 0.6749306038292904,
+            "deta": 0.6051931236966144,
+            "assa": 0.7720167120783483,
+            "idf1": 0.8552397868561279,
+            "idsw": 3,
+            "fn": 222,
+            "fp": 80
+          },
+          "MVI_40792": {
+            "hota": 0.5402584945203596,
+            "deta": 0.39026413660744097,
+            "assa": 0.7506130574305094,
+            "idf1": 0.6014350945857795,
+            "idsw": 0,
+            "fn": 555,
+            "fp": 56
+          },
+          "MVI_40793": {
+            "hota": 0.5643246515353955,
+            "deta": 0.5526591328752797,
+            "assa": 0.5860212768212009,
+            "idf1": 0.6279503105590062,
+            "idsw": 13,
+            "fn": 378,
+            "fp": 404
+          },
+          "MVI_40851": {
+            "hota": 0.6013856732216645,
+            "deta": 0.5160696560688505,
+            "assa": 0.7047828270445782,
+            "idf1": 0.7284768211920529,
+            "idsw": 12,
+            "fn": 565,
+            "fp": 440
+          },
+          "MVI_40852": {
+            "hota": 0.617456591906418,
+            "deta": 0.5381119704496918,
+            "assa": 0.7132496185905117,
+            "idf1": 0.7403860541672901,
+            "idsw": 15,
+            "fn": 866,
+            "fp": 611
+          },
+          "MVI_40853": {
+            "hota": 0.6822394788079155,
+            "deta": 0.6155192314088049,
+            "assa": 0.759948802637675,
+            "idf1": 0.7775756573507524,
+            "idsw": 5,
+            "fn": 808,
+            "fp": 233
+          },
+          "MVI_40854": {
+            "hota": 0.7250837092375062,
+            "deta": 0.6827967580477324,
+            "assa": 0.7762520014696663,
+            "idf1": 0.8878803160194991,
+            "idsw": 3,
+            "fn": 404,
+            "fp": 215
+          },
+          "MVI_40855": {
+            "hota": 0.683906057356891,
+            "deta": 0.6278240567040948,
+            "assa": 0.7505162466589117,
+            "idf1": 0.8065462753950339,
+            "idsw": 31,
+            "fn": 827,
+            "fp": 511
+          },
+          "MVI_40863": {
+            "hota": 0.7023452641428979,
+            "deta": 0.5505312387190705,
+            "assa": 0.9306646461837109,
+            "idf1": 0.8040632936120335,
+            "idsw": 1,
+            "fn": 792,
+            "fp": 211
+          },
+          "MVI_40864": {
+            "hota": 0.6712997307494242,
+            "deta": 0.5297837297127848,
+            "assa": 0.861053781932133,
+            "idf1": 0.7569748674198755,
+            "idsw": 7,
+            "fn": 1662,
+            "fp": 396
+          },
+          "MVI_40891": {
+            "hota": 0.6699345353791815,
+            "deta": 0.6063754941720828,
+            "assa": 0.7562245016179424,
+            "idf1": 0.821257815373299,
+            "idsw": 6,
+            "fn": 587,
+            "fp": 239
+          },
+          "MVI_40892": {
+            "hota": 0.44713365870712174,
+            "deta": 0.290555367989553,
+            "assa": 0.6960672019502354,
+            "idf1": 0.5152758777929777,
+            "idsw": 1,
+            "fn": 2072,
+            "fp": 54
+          },
+          "MVI_40901": {
+            "hota": 0.6648178730794315,
+            "deta": 0.5780737833643329,
+            "assa": 0.7721284450839259,
+            "idf1": 0.7959807776321538,
+            "idsw": 6,
+            "fn": 239,
+            "fp": 214
+          },
+          "MVI_40902": {
+            "hota": 0.6120249720015473,
+            "deta": 0.5301411287340487,
+            "assa": 0.7106176056087954,
+            "idf1": 0.7343465045592705,
+            "idsw": 14,
+            "fn": 405,
+            "fp": 417
+          },
+          "MVI_40903": {
+            "hota": 0.6390935798399983,
+            "deta": 0.5512871498003324,
+            "assa": 0.7452575029795967,
+            "idf1": 0.7706317586795675,
+            "idsw": 19,
+            "fn": 805,
+            "fp": 731
+          },
+          "MVI_40904": {
+            "hota": 0.675702467811249,
+            "deta": 0.629910045274422,
+            "assa": 0.7263379997295233,
+            "idf1": 0.7944514501891551,
+            "idsw": 6,
+            "fn": 194,
+            "fp": 181
+          },
+          "MVI_40905": {
+            "hota": 0.817052638746999,
+            "deta": 0.7700370522344553,
+            "assa": 0.8835671518161786,
+            "idf1": 0.9370055669498975,
+            "idsw": 4,
+            "fn": 105,
+            "fp": 106
+          }
+        }
+      },
+      "control": {
+        "combined": {
+          "hota": 0.6563048672981245,
+          "deta": 0.5641595936583301,
+          "assa": 0.7759027971803555,
+          "idf1": 0.7708813568968952,
+          "idsw": 305,
+          "fn": 18297,
+          "fp": 10145
+        },
+        "videos": {
+          "MVI_39031": {
+            "hota": 0.3655239961643909,
+            "deta": 0.2766867581704407,
+            "assa": 0.49364495551419496,
+            "idf1": 0.5085910652920962,
+            "idsw": 0,
+            "fn": 284,
+            "fp": 2
+          },
+          "MVI_39051": {
+            "hota": 0.6817012834353983,
+            "deta": 0.6298021446433837,
+            "assa": 0.7382096774773033,
+            "idf1": 0.8365180467091295,
+            "idsw": 0,
+            "fn": 41,
+            "fp": 113
+          },
+          "MVI_39211": {
+            "hota": 0.6898328218569761,
+            "deta": 0.587884070856686,
+            "assa": 0.8312641841904934,
+            "idf1": 0.71334214002642,
+            "idsw": 0,
+            "fn": 116,
+            "fp": 101
+          },
+          "MVI_39271": {
+            "hota": 0.6369998971009782,
+            "deta": 0.5660292556116384,
+            "assa": 0.727079527607418,
+            "idf1": 0.706618030224075,
+            "idsw": 7,
+            "fn": 268,
+            "fp": 229
+          },
+          "MVI_39311": {
+            "hota": 0.6188702405387568,
+            "deta": 0.5703554975906936,
+            "assa": 0.6758222143902954,
+            "idf1": 0.7824427480916031,
+            "idsw": 20,
+            "fn": 477,
+            "fp": 153
+          },
+          "MVI_39361": {
+            "hota": 0.6514597571146581,
+            "deta": 0.531927568375891,
+            "assa": 0.8004724861564095,
+            "idf1": 0.7729672650475184,
+            "idsw": 0,
+            "fn": 50,
+            "fp": 165
+          },
+          "MVI_39371": {
+            "hota": 0.7034559293131111,
+            "deta": 0.6621214620438385,
+            "assa": 0.7491285890730898,
+            "idf1": 0.8407923697725606,
+            "idsw": 6,
+            "fn": 76,
+            "fp": 125
+          },
+          "MVI_39401": {
+            "hota": 0.6733161651723244,
+            "deta": 0.6339521914737664,
+            "assa": 0.7200094585828288,
+            "idf1": 0.8133445945945946,
+            "idsw": 3,
+            "fn": 156,
+            "fp": 200
+          },
+          "MVI_39501": {
+            "hota": 0.5626057193276143,
+            "deta": 0.43234230896752307,
+            "assa": 0.7420734988360674,
+            "idf1": 0.6645943425551756,
+            "idsw": 8,
+            "fn": 787,
+            "fp": 170
+          },
+          "MVI_39511": {
+            "hota": 0.6019749956477739,
+            "deta": 0.6158053046685389,
+            "assa": 0.5924143235963283,
+            "idf1": 0.8204659661946094,
+            "idsw": 12,
+            "fn": 94,
+            "fp": 85
+          },
+          "MVI_40701": {
+            "hota": 0.6271118312268045,
+            "deta": 0.5308767894374351,
+            "assa": 0.7477524281558393,
+            "idf1": 0.708873216335903,
+            "idsw": 13,
+            "fn": 682,
+            "fp": 873
+          },
+          "MVI_40711": {
+            "hota": 0.7106167245987599,
+            "deta": 0.645014004737816,
+            "assa": 0.7861044265160195,
+            "idf1": 0.8506069094304388,
+            "idsw": 0,
+            "fn": 199,
+            "fp": 121
+          },
+          "MVI_40712": {
+            "hota": 0.8922379222409206,
+            "deta": 0.8759448464125438,
+            "assa": 0.9150798066251049,
+            "idf1": 0.9854096520763187,
+            "idsw": 0,
+            "fn": 14,
+            "fp": 25
+          },
+          "MVI_40714": {
+            "hota": 0.6595130055962201,
+            "deta": 0.5620059086737609,
+            "assa": 0.7852361582348826,
+            "idf1": 0.7837051406401552,
+            "idsw": 15,
+            "fn": 1082,
+            "fp": 667
+          },
+          "MVI_40742": {
+            "hota": 0.7863165376751069,
+            "deta": 0.7156696661521017,
+            "assa": 0.9243156465622874,
+            "idf1": 0.9415458937198068,
+            "idsw": 28,
+            "fn": 89,
+            "fp": 183
+          },
+          "MVI_40743": {
+            "hota": 0.7884054489235163,
+            "deta": 0.744410330986145,
+            "assa": 0.8372143350444812,
+            "idf1": 0.8858947368421053,
+            "idsw": 1,
+            "fn": 114,
+            "fp": 117
+          },
+          "MVI_40761": {
+            "hota": 0.314810487970917,
+            "deta": 0.2162479275378919,
+            "assa": 0.46245129299240517,
+            "idf1": 0.4001892147587512,
+            "idsw": 6,
+            "fn": 1146,
+            "fp": 104
+          },
+          "MVI_40762": {
+            "hota": 0.6342447072970693,
+            "deta": 0.6227713339605356,
+            "assa": 0.6511720376550235,
+            "idf1": 0.792391744233104,
+            "idsw": 8,
+            "fn": 251,
+            "fp": 82
+          },
+          "MVI_40763": {
+            "hota": 0.5388174711722589,
+            "deta": 0.5596193270490011,
+            "assa": 0.5198779212032213,
+            "idf1": 0.6546003016591252,
+            "idsw": 6,
+            "fn": 206,
+            "fp": 44
+          },
+          "MVI_40771": {
+            "hota": 0.6092975715754505,
+            "deta": 0.5050949804727105,
+            "assa": 0.7470243655240288,
+            "idf1": 0.7578806170355467,
+            "idsw": 1,
+            "fn": 103,
+            "fp": 256
+          },
+          "MVI_40772": {
+            "hota": 0.8728898620140747,
+            "deta": 0.8318922118285214,
+            "assa": 0.9205739779551885,
+            "idf1": 0.9619159795838241,
+            "idsw": 2,
+            "fn": 78,
+            "fp": 13
+          },
+          "MVI_40773": {
+            "hota": 0.7091487795125716,
+            "deta": 0.6427508166491528,
+            "assa": 0.7992258324812932,
+            "idf1": 0.8246958089229383,
+            "idsw": 10,
+            "fn": 74,
+            "fp": 183
+          },
+          "MVI_40774": {
+            "hota": 0.7546159122648923,
+            "deta": 0.6913111295957691,
+            "assa": 0.8267016596145428,
+            "idf1": 0.8929273084479371,
+            "idsw": 0,
+            "fn": 181,
+            "fp": 37
+          },
+          "MVI_40775": {
+            "hota": 0.6737097243795378,
+            "deta": 0.6081232726802724,
+            "assa": 0.7589469878883637,
+            "idf1": 0.8452696728558797,
+            "idsw": 4,
+            "fn": 231,
+            "fp": 99
+          },
+          "MVI_40792": {
+            "hota": 0.5250270304832835,
+            "deta": 0.37342249880059547,
+            "assa": 0.7404633003538302,
+            "idf1": 0.5733244857332449,
+            "idsw": 2,
+            "fn": 579,
+            "fp": 54
+          },
+          "MVI_40793": {
+            "hota": 0.5874420530722821,
+            "deta": 0.5362940411139056,
+            "assa": 0.6563217643728446,
+            "idf1": 0.6689462231893069,
+            "idsw": 15,
+            "fn": 438,
+            "fp": 461
+          },
+          "MVI_40851": {
+            "hota": 0.5725619951301708,
+            "deta": 0.503951418019031,
+            "assa": 0.6565243022235815,
+            "idf1": 0.6681735985533453,
+            "idsw": 22,
+            "fn": 591,
+            "fp": 511
+          },
+          "MVI_40852": {
+            "hota": 0.6250540146590421,
+            "deta": 0.5355315558590749,
+            "assa": 0.7343901184158386,
+            "idf1": 0.7608241266049567,
+            "idsw": 15,
+            "fn": 854,
+            "fp": 614
+          },
+          "MVI_40853": {
+            "hota": 0.6769176191901747,
+            "deta": 0.617401164714618,
+            "assa": 0.7484792542368848,
+            "idf1": 0.7674943566591422,
+            "idsw": 9,
+            "fn": 750,
+            "fp": 330
+          },
+          "MVI_40854": {
+            "hota": 0.7290036270299952,
+            "deta": 0.6891372841601611,
+            "assa": 0.7764321243614568,
+            "idf1": 0.8945859335469725,
+            "idsw": 3,
+            "fn": 395,
+            "fp": 186
+          },
+          "MVI_40855": {
+            "hota": 0.6905345922766533,
+            "deta": 0.6325796115602716,
+            "assa": 0.7594485558926231,
+            "idf1": 0.8190562408057033,
+            "idsw": 20,
+            "fn": 803,
+            "fp": 464
+          },
+          "MVI_40863": {
+            "hota": 0.6900882910147118,
+            "deta": 0.5262703489643336,
+            "assa": 0.9436897235974488,
+            "idf1": 0.7503869969040248,
+            "idsw": 0,
+            "fn": 911,
+            "fp": 379
+          },
+          "MVI_40864": {
+            "hota": 0.6679322932498027,
+            "deta": 0.5214377610677114,
+            "assa": 0.8679907609071712,
+            "idf1": 0.754454987271465,
+            "idsw": 6,
+            "fn": 1696,
+            "fp": 398
+          },
+          "MVI_40891": {
+            "hota": 0.6770232806821471,
+            "deta": 0.6120690727204687,
+            "assa": 0.7629765267383205,
+            "idf1": 0.8276487663280117,
+            "idsw": 13,
+            "fn": 548,
+            "fp": 274
+          },
+          "MVI_40892": {
+            "hota": 0.4454607373612561,
+            "deta": 0.28831404463510585,
+            "assa": 0.7012369329125796,
+            "idf1": 0.5075706214689265,
+            "idsw": 2,
+            "fn": 2076,
+            "fp": 97
+          },
+          "MVI_40901": {
+            "hota": 0.6510492095530697,
+            "deta": 0.5559229472503479,
+            "assa": 0.7677517729641377,
+            "idf1": 0.7691008864499789,
+            "idsw": 4,
+            "fn": 237,
+            "fp": 292
+          },
+          "MVI_40902": {
+            "hota": 0.5841769098419679,
+            "deta": 0.4911041054809592,
+            "assa": 0.6992918529638371,
+            "idf1": 0.7057134654033879,
+            "idsw": 19,
+            "fn": 377,
+            "fp": 582
+          },
+          "MVI_40903": {
+            "hota": 0.6209564487883709,
+            "deta": 0.5279182873930479,
+            "assa": 0.7347674533596994,
+            "idf1": 0.7484267934554608,
+            "idsw": 15,
+            "fn": 817,
+            "fp": 866
+          },
+          "MVI_40904": {
+            "hota": 0.5726794583897663,
+            "deta": 0.5394604581755853,
+            "assa": 0.6088148544956901,
+            "idf1": 0.6693227091633466,
+            "idsw": 7,
+            "fn": 234,
+            "fp": 352
+          },
+          "MVI_40905": {
+            "hota": 0.7747123713391446,
+            "deta": 0.6993884922903787,
+            "assa": 0.8688421337573677,
+            "idf1": 0.8969624776652769,
+            "idsw": 3,
+            "fn": 192,
+            "fp": 138
+          }
+        }
+      },
+      "joint50": {
+        "combined": {
+          "hota": 0.6363511268958301,
+          "deta": 0.5493721295747457,
+          "assa": 0.7509803820941225,
+          "idf1": 0.7574885207202798,
+          "idsw": 401,
+          "fn": 19168,
+          "fp": 9406
+        },
+        "videos": {
+          "MVI_39031": {
+            "hota": 0.3734755771158666,
+            "deta": 0.29477653091322215,
+            "assa": 0.48210358580879903,
+            "idf1": 0.55,
+            "idsw": 0,
+            "fn": 267,
+            "fp": 3
+          },
+          "MVI_39051": {
+            "hota": 0.7023719621249424,
+            "deta": 0.6707283810355138,
+            "assa": 0.736255894621436,
+            "idf1": 0.8971098265895954,
+            "idsw": 0,
+            "fn": 47,
+            "fp": 42
+          },
+          "MVI_39211": {
+            "hota": 0.6846274140514006,
+            "deta": 0.5829347995718844,
+            "assa": 0.8334800702181265,
+            "idf1": 0.7253044654939107,
+            "idsw": 5,
+            "fn": 110,
+            "fp": 77
+          },
+          "MVI_39271": {
+            "hota": 0.6305901686645297,
+            "deta": 0.5600410916096337,
+            "assa": 0.7196145023871513,
+            "idf1": 0.6962025316455697,
+            "idsw": 9,
+            "fn": 273,
+            "fp": 211
+          },
+          "MVI_39311": {
+            "hota": 0.5916997487608073,
+            "deta": 0.5338575443261366,
+            "assa": 0.6597031054078714,
+            "idf1": 0.7646586345381526,
+            "idsw": 15,
+            "fn": 511,
+            "fp": 254
+          },
+          "MVI_39361": {
+            "hota": 0.6146075432820947,
+            "deta": 0.4782315597344424,
+            "assa": 0.7919688064522644,
+            "idf1": 0.7254098360655737,
+            "idsw": 0,
+            "fn": 62,
+            "fp": 206
+          },
+          "MVI_39371": {
+            "hota": 0.690701696971356,
+            "deta": 0.6402959107532857,
+            "assa": 0.7467130372374496,
+            "idf1": 0.8384279475982532,
+            "idsw": 6,
+            "fn": 72,
+            "fp": 132
+          },
+          "MVI_39401": {
+            "hota": 0.626053081246106,
+            "deta": 0.5788182577639198,
+            "assa": 0.6835389937219049,
+            "idf1": 0.7638149815800246,
+            "idsw": 6,
+            "fn": 170,
+            "fp": 289
+          },
+          "MVI_39501": {
+            "hota": 0.5468376898669073,
+            "deta": 0.42066014067909974,
+            "assa": 0.7211103109440739,
+            "idf1": 0.656840756167895,
+            "idsw": 11,
+            "fn": 822,
+            "fp": 109
+          },
+          "MVI_39511": {
+            "hota": 0.6019300124763124,
+            "deta": 0.6018513573932239,
+            "assa": 0.6040055717329926,
+            "idf1": 0.7939743021710235,
+            "idsw": 11,
+            "fn": 92,
+            "fp": 151
+          },
+          "MVI_40701": {
+            "hota": 0.650555976990553,
+            "deta": 0.5784983283549137,
+            "assa": 0.7378958496021367,
+            "idf1": 0.7598870056497176,
+            "idsw": 12,
+            "fn": 706,
+            "fp": 464
+          },
+          "MVI_40711": {
+            "hota": 0.6863493664203995,
+            "deta": 0.6138824213212035,
+            "assa": 0.7725907528167005,
+            "idf1": 0.8204895738893926,
+            "idsw": 0,
+            "fn": 205,
+            "fp": 191
+          },
+          "MVI_40712": {
+            "hota": 0.8348134902354957,
+            "deta": 0.7811186733623025,
+            "assa": 0.8968727349245074,
+            "idf1": 0.9339488636363636,
+            "idsw": 0,
+            "fn": 16,
+            "fp": 170
+          },
+          "MVI_40714": {
+            "hota": 0.6297342779792305,
+            "deta": 0.5242913373273383,
+            "assa": 0.775668786267047,
+            "idf1": 0.7581445523193096,
+            "idsw": 23,
+            "fn": 1265,
+            "fp": 841
+          },
+          "MVI_40742": {
+            "hota": 0.7688865404993663,
+            "deta": 0.6945653476311503,
+            "assa": 0.9232784078884898,
+            "idf1": 0.9405772495755518,
+            "idsw": 3,
+            "fn": 72,
+            "fp": 149
+          },
+          "MVI_40743": {
+            "hota": 0.8046498461108701,
+            "deta": 0.7653613030764705,
+            "assa": 0.848251618710527,
+            "idf1": 0.9184805804524114,
+            "idsw": 5,
+            "fn": 104,
+            "fp": 75
+          },
+          "MVI_40761": {
+            "hota": 0.2622481593213391,
+            "deta": 0.1619556290918027,
+            "assa": 0.42627934746417545,
+            "idf1": 0.3465045592705167,
+            "idsw": 3,
+            "fn": 1233,
+            "fp": 51
+          },
+          "MVI_40762": {
+            "hota": 0.6285170093976838,
+            "deta": 0.6242605648115399,
+            "assa": 0.6357527342508466,
+            "idf1": 0.8012743926722421,
+            "idsw": 8,
+            "fn": 210,
+            "fp": 81
+          },
+          "MVI_40763": {
+            "hota": 0.5559458354473772,
+            "deta": 0.5252702052413847,
+            "assa": 0.5894668876698789,
+            "idf1": 0.7151898734177216,
+            "idsw": 7,
+            "fn": 250,
+            "fp": 26
+          },
+          "MVI_40771": {
+            "hota": 0.5942658397893145,
+            "deta": 0.5004368303234913,
+            "assa": 0.7220714821532549,
+            "idf1": 0.7281355932203389,
+            "idsw": 2,
+            "fn": 106,
+            "fp": 243
+          },
+          "MVI_40772": {
+            "hota": 0.8625308036094542,
+            "deta": 0.8149741291355304,
+            "assa": 0.9167900980494179,
+            "idf1": 0.9464701318851824,
+            "idsw": 2,
+            "fn": 80,
+            "fp": 46
+          },
+          "MVI_40773": {
+            "hota": 0.6922162343738465,
+            "deta": 0.6287612242917373,
+            "assa": 0.7727196987190391,
+            "idf1": 0.8627264061010487,
+            "idsw": 4,
+            "fn": 128,
+            "fp": 116
+          },
+          "MVI_40774": {
+            "hota": 0.6836132190548171,
+            "deta": 0.5896211271419004,
+            "assa": 0.7938965010385692,
+            "idf1": 0.8194317140238313,
+            "idsw": 1,
+            "fn": 191,
+            "fp": 193
+          },
+          "MVI_40775": {
+            "hota": 0.6479122054982074,
+            "deta": 0.5940379005491017,
+            "assa": 0.7168269290864592,
+            "idf1": 0.8070953436807096,
+            "idsw": 5,
+            "fn": 234,
+            "fp": 95
+          },
+          "MVI_40792": {
+            "hota": 0.5369106224074734,
+            "deta": 0.38335553659839317,
+            "assa": 0.7559807222723279,
+            "idf1": 0.5905511811023622,
+            "idsw": 0,
+            "fn": 566,
+            "fp": 58
+          },
+          "MVI_40793": {
+            "hota": 0.5687875515034824,
+            "deta": 0.5337724091755348,
+            "assa": 0.6158887033759987,
+            "idf1": 0.6503807106598984,
+            "idsw": 20,
+            "fn": 412,
+            "fp": 370
+          },
+          "MVI_40851": {
+            "hota": 0.5579159037797351,
+            "deta": 0.4987882862492762,
+            "assa": 0.6303059561390739,
+            "idf1": 0.6650876361913785,
+            "idsw": 25,
+            "fn": 660,
+            "fp": 378
+          },
+          "MVI_40852": {
+            "hota": 0.6104933245994119,
+            "deta": 0.5371606049677888,
+            "assa": 0.6993933303918971,
+            "idf1": 0.7351742870076958,
+            "idsw": 16,
+            "fn": 880,
+            "fp": 569
+          },
+          "MVI_40853": {
+            "hota": 0.636306996293488,
+            "deta": 0.5864857662449521,
+            "assa": 0.6986470114353136,
+            "idf1": 0.7263914946841776,
+            "idsw": 18,
+            "fn": 731,
+            "fp": 505
+          },
+          "MVI_40854": {
+            "hota": 0.7253833031054736,
+            "deta": 0.6881912987093245,
+            "assa": 0.7698904060024994,
+            "idf1": 0.9037235826903723,
+            "idsw": 3,
+            "fn": 366,
+            "fp": 190
+          },
+          "MVI_40855": {
+            "hota": 0.6203875849216737,
+            "deta": 0.5702876469129731,
+            "assa": 0.6858307433719386,
+            "idf1": 0.7388284325075248,
+            "idsw": 46,
+            "fn": 1063,
+            "fp": 525
+          },
+          "MVI_40863": {
+            "hota": 0.6490575418689651,
+            "deta": 0.47815158278414044,
+            "assa": 0.9031810363298747,
+            "idf1": 0.730949948927477,
+            "idsw": 7,
+            "fn": 1050,
+            "fp": 245
+          },
+          "MVI_40864": {
+            "hota": 0.6531657685304356,
+            "deta": 0.5110794870175697,
+            "assa": 0.8445836294958466,
+            "idf1": 0.7505413105413106,
+            "idsw": 20,
+            "fn": 1596,
+            "fp": 431
+          },
+          "MVI_40891": {
+            "hota": 0.6553409486260299,
+            "deta": 0.5894857501007289,
+            "assa": 0.7416214910129376,
+            "idf1": 0.8079148777300728,
+            "idsw": 17,
+            "fn": 658,
+            "fp": 229
+          },
+          "MVI_40892": {
+            "hota": 0.44459943093031656,
+            "deta": 0.29391578174613975,
+            "assa": 0.6779519150289705,
+            "idf1": 0.5167528671014167,
+            "idsw": 1,
+            "fn": 2047,
+            "fp": 90
+          },
+          "MVI_40901": {
+            "hota": 0.6318802812718738,
+            "deta": 0.5783037339463619,
+            "assa": 0.6967165156560275,
+            "idf1": 0.7688966116420504,
+            "idsw": 6,
+            "fn": 227,
+            "fp": 215
+          },
+          "MVI_40902": {
+            "hota": 0.5889504915707499,
+            "deta": 0.51435853009605,
+            "assa": 0.6799857800418804,
+            "idf1": 0.7302651630600426,
+            "idsw": 21,
+            "fn": 400,
+            "fp": 403
+          },
+          "MVI_40903": {
+            "hota": 0.5706563705307296,
+            "deta": 0.5083309530188079,
+            "assa": 0.6480721229616094,
+            "idf1": 0.7012687427912342,
+            "idsw": 40,
+            "fn": 906,
+            "fp": 740
+          },
+          "MVI_40904": {
+            "hota": 0.5777102276476916,
+            "deta": 0.586628269410966,
+            "assa": 0.570511211209007,
+            "idf1": 0.6758383490971626,
+            "idsw": 11,
+            "fn": 248,
+            "fp": 182
+          },
+          "MVI_40905": {
+            "hota": 0.7749018936453794,
+            "deta": 0.732285072260952,
+            "assa": 0.8365991203496629,
+            "idf1": 0.9254714157437893,
+            "idsw": 12,
+            "fn": 132,
+            "fp": 61
+          }
+        }
+      }
+    }
+  },
+  "stage_median_of_clip_medians_ms": {
+    "bdd": {
+      "original": {
+        "decode_ms": 19.9871205004456,
+        "mask_ms": 0.0009374998626299202,
+        "pre_ms": 0.0,
+        "h2d_ms": 1.7260699987673433,
+        "exec_ms": 41.927328498786665,
+        "d2h_ms": 0.3409689998079557,
+        "infer_ms": 44.98855500060017,
+        "post_ms": 2.1866130009584595,
+        "loc_ms": 0.8603520000178833,
+        "xu_ly_ms": 10.149846499189152,
+        "t_predict_ms": 0.982281500910176,
+        "t_assoc_ms": 8.440080002401373,
+        "t_update_ms": 9.420616001079907
+      },
+      "control": {
+        "decode_ms": 20.213056997818057,
+        "mask_ms": 0.0009379982657264918,
+        "pre_ms": 0.0,
+        "h2d_ms": 1.7417460003343876,
+        "exec_ms": 42.416026000864804,
+        "d2h_ms": 0.34623000101419166,
+        "infer_ms": 45.50076550185622,
+        "post_ms": 2.2252434991969494,
+        "loc_ms": 0.87850999989314,
+        "xu_ly_ms": 9.905728500598343,
+        "t_predict_ms": 0.9738955013744999,
+        "t_assoc_ms": 8.328050998898107,
+        "t_update_ms": 9.303921500759316
+      },
+      "joint50": {
+        "decode_ms": 20.357770501505,
+        "mask_ms": 0.0008850001904647797,
+        "pre_ms": 0.0,
+        "h2d_ms": 1.6989854993880726,
+        "exec_ms": 38.15115650104417,
+        "d2h_ms": 0.34047400004055817,
+        "infer_ms": 41.19279200131132,
+        "post_ms": 2.068965000944445,
+        "loc_ms": 0.8412374991166871,
+        "xu_ly_ms": 10.253571499561076,
+        "t_predict_ms": 0.9836615008680383,
+        "t_assoc_ms": 8.568050499889068,
+        "t_update_ms": 9.535878498354577
+      }
+    },
+    "ua": {
+      "original": {
+        "decode_ms": 11.675375999402604,
+        "mask_ms": 1.4577110014215577,
+        "pre_ms": 0.0,
+        "h2d_ms": 1.0633045003487496,
+        "exec_ms": 41.9103959993663,
+        "d2h_ms": 0.3522990009514615,
+        "infer_ms": 44.31941899747471,
+        "post_ms": 2.73877600011474,
+        "loc_ms": 0.7461599998350721,
+        "xu_ly_ms": 10.903622500336496,
+        "t_predict_ms": 1.157105500169564,
+        "t_assoc_ms": 9.198068999467068,
+        "t_update_ms": 10.21926100111159
+      },
+      "control": {
+        "decode_ms": 11.644262000118033,
+        "mask_ms": 1.4831249973212834,
+        "pre_ms": 0.0,
+        "h2d_ms": 1.0657020011421992,
+        "exec_ms": 42.4160775000928,
+        "d2h_ms": 0.3555274997779634,
+        "infer_ms": 44.842362998679164,
+        "post_ms": 2.714717998969718,
+        "loc_ms": 0.7518625006923685,
+        "xu_ly_ms": 10.76494899825775,
+        "t_predict_ms": 1.153695000539301,
+        "t_assoc_ms": 8.94788199912,
+        "t_update_ms": 10.07050850057567
+      },
+      "joint50": {
+        "decode_ms": 11.671234500681749,
+        "mask_ms": 1.4702669977850746,
+        "pre_ms": 0.0,
+        "h2d_ms": 1.0558585017861333,
+        "exec_ms": 38.13233350047085,
+        "d2h_ms": 0.3469855000730604,
+        "infer_ms": 40.54585349877016,
+        "post_ms": 2.587449498605565,
+        "loc_ms": 0.7489995023206575,
+        "xu_ly_ms": 11.075355998400482,
+        "t_predict_ms": 1.1670804997265805,
+        "t_assoc_ms": 9.23854750180908,
+        "t_update_ms": 10.356799999499344
+      }
+    },
+    "all": {
+      "original": {
+        "decode_ms": 15.708038501543342,
+        "mask_ms": 0.19698449796123896,
+        "pre_ms": 0.0,
+        "h2d_ms": 1.3724184991588118,
+        "exec_ms": 41.91915199953655,
+        "d2h_ms": 0.3434959980950225,
+        "infer_ms": 44.65785200045502,
+        "post_ms": 2.4626955018902663,
+        "loc_ms": 0.8113690000755014,
+        "xu_ly_ms": 10.69134950012085,
+        "t_predict_ms": 1.052932500897441,
+        "t_assoc_ms": 8.875535502738785,
+        "t_update_ms": 9.949624000000767
+      },
+      "control": {
+        "decode_ms": 15.5563650005206,
+        "mask_ms": 0.18240049939777236,
+        "pre_ms": 0.0,
+        "h2d_ms": 1.3791904984827852,
+        "exec_ms": 42.4160775000928,
+        "d2h_ms": 0.3533394992700778,
+        "infer_ms": 45.14262799966673,
+        "post_ms": 2.4432794998574536,
+        "loc_ms": 0.8151224992616335,
+        "xu_ly_ms": 10.630990998834022,
+        "t_predict_ms": 1.0549400012678234,
+        "t_assoc_ms": 8.784962998106494,
+        "t_update_ms": 9.77759099987452
+      },
+      "joint50": {
+        "decode_ms": 15.509493501667748,
+        "mask_ms": 0.16573350148973987,
+        "pre_ms": 0.0,
+        "h2d_ms": 1.3619285000459058,
+        "exec_ms": 38.1429080007365,
+        "d2h_ms": 0.3428959989832947,
+        "infer_ms": 40.87326250009937,
+        "post_ms": 2.3950784998305608,
+        "loc_ms": 0.8150394987751497,
+        "xu_ly_ms": 10.670791001757607,
+        "t_predict_ms": 1.0524914996494772,
+        "t_assoc_ms": 8.92049250069249,
+        "t_update_ms": 10.034581997388159
+      }
+    }
+  },
+  "launcher_or_defaults_changed": false,
+  "limitations": [
+    "150 JPEG/clip, 40 BDD + 40 UA, warm25, KF, display off; not full-video/camera FPS.",
+    "Development data and repeated monitoring, not blind detection/tracking evaluation.",
+    "Only uninterrupted R164 epoch6 per arm; the planned primary10 study remains incomplete.",
+    "Both arms use R162 CUDA preprocessing; SiLU fusion is a separate R167 experiment."
+  ],
+  "sha256": {
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review172_common7_pruning\\summarize.py": "f781c06d4dd09dc9e26b569b7c9136b8e511f6b5b807f17d0b308fd65aed0a53",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review172_common7_pruning\\training_inputs.json": "c927fc307ee591b24659668d22d4d94ce49682738890d574bf9d5e2a0439f57a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review172_common7_pruning\\common_checkpoint_proof.json": "2281ec933bf3eb2aacf81ed7e102cb48b12c71e14de35ef5c11103e729750ee1",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review172_common7_pruning\\monitor\\control\\selection.json": "01334faf4655d874dfefca356e2da2d941bd5a76f66b9474356df46fb0fbec0f",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review172_common7_pruning\\monitor\\joint50\\selection.json": "7f90c5c458f73898127a182e851a0c8beb3be407ac3542563b1bd68add854f2f",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review172_common7_pruning\\recovered_exports.json": "4a760f6d90c81e5eb77e110004a5e3e0cf2697456231f363b9bfeac23d2b87a0",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review172_common7_pruning\\speed_preflight.json": "7fd4b74fa33480a2027bd677367cf4138d6f8b755396c0e825809836b1bb35f0",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review172_common7_pruning\\full80_evidence\\runs_absolute\\full\\score_verified.json": "79f13a9a08ec95b1316caac8941f5175f22e4f80854e3042bbf171cdb355fc86"
+  }
+}

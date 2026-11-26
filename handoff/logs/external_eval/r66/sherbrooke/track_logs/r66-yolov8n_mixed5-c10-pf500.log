@@ -1,0 +1,12 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\run_tracking.py', '--cache-id', 'r66_sherbrooke_00c7363e_yolov8n_mixed5_c0.05', '--split-name', 'Sherbrooke-cars-f2754-3754-roi-v1', '--tracker-yaml', 'configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml', '--tracker-name', 'r66-yolov8n_mixed5-c10-pf500', '--videos', 'sherbrooke', '--conf-min', '0.1', '--classes', '2', '--max-det', '300', '--fps', '30.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps', '--seeds', '0', '1', '2']
+exit: 0
+--- stdout
+[run_tracking] cache=r66_sherbrooke_00c7363e_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r66-yolov8n_mixed5-c10-pf500-s0 sherbrooke      1001 frame ->  12,551 bbox   84 track  predict 4.47 ms/frame  assoc 6.11  (11.1s, 91 fps)
+  r66-yolov8n_mixed5-c10-pf500-s0   1 video moi,   0 tai su dung
+  r66-yolov8n_mixed5-c10-pf500-s1 sherbrooke      1001 frame ->  12,439 bbox   86 track  predict 4.64 ms/frame  assoc 6.39  (11.5s, 87 fps)
+  r66-yolov8n_mixed5-c10-pf500-s1   1 video moi,   0 tai su dung
+  r66-yolov8n_mixed5-c10-pf500-s2 sherbrooke      1001 frame ->  12,546 bbox   85 track  predict 4.68 ms/frame  assoc 6.28  (11.3s, 89 fps)
+  r66-yolov8n_mixed5-c10-pf500-s2   1 video moi,   0 tai su dung
+
+--- stderr

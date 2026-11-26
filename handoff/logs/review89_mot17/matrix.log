@@ -1,0 +1,1801 @@
+START f30/c25/cv 2026-11-06T07:45:03.230304
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[0] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r89-f30-c25-cv               MOT17-02-FRCNN   600 frame ->   5,341 bbox   98 track  predict 0.16 ms/frame  assoc 1.44  (1.1s, 544 fps)
+  r89-f30-c25-cv               MOT17-04-FRCNN  1050 frame ->  21,081 bbox  158 track  predict 0.20 ms/frame  assoc 2.26  (2.9s, 356 fps)
+  r89-f30-c25-cv               MOT17-09-FRCNN   525 frame ->   4,590 bbox   89 track  predict 0.20 ms/frame  assoc 1.71  (1.1s, 458 fps)
+  r89-f30-c25-cv               MOT17-10-FRCNN   654 frame ->   5,783 bbox  156 track  predict 0.18 ms/frame  assoc 1.60  (1.3s, 492 fps)
+  r89-f30-c25-cv               MOT17-11-FRCNN   900 frame ->   6,528 bbox  121 track  predict 0.16 ms/frame  assoc 1.36  (1.6s, 563 fps)
+  r89-f30-c25-cv                 5 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c25-cv
+
+
+HOTA: r89-f30-c25-cv-pedestrian    HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     26.077    17.741    38.513    18.744    69.505    40.18     82.296    82.935    26.831    31.995    78.487    25.112    
+MOT17-04-FRCNN                     39.018    32.308    47.412    34.129    77.524    49.926    84.799    83.639    40.17     48.652    78.918    38.395    
+MOT17-09-FRCNN                     44.962    50.22     40.471    55.743    74.301    45.179    73.134    82.548    47.473    58.366    77.066    44.98     
+MOT17-10-FRCNN                     28.716    29.909    27.781    31.435    73.142    31.621    72.625    79.456    29.503    37.995    73.643    27.981    
+MOT17-11-FRCNN                     46.948    49.012    45.289    53.446    77.887    49.181    80.873    84.452    49.151    58.339    79.407    46.325    
+COMBINED                           36.932    31.875    43.138    33.883    75.739    46.196    81.675    83.049    38.157    46.228    78.06     36.086    
+
+CLEAR: r89-f30-c25-cv-pedestrian   MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     17.469    80.464    17.722    22.345    82.858    11.29     22.581    66.129    13.104    4152      14429     859       47        7         14        41        123       
+MOT17-04-FRCNN                     34.468    81.853    34.653    39.338    89.358    13.253    39.759    46.988    27.329    18708     28849     2228      88        11        33        39        454       
+MOT17-09-FRCNN                     57.484    80.63     58.836    66.93     89.212    38.462    50        11.538    44.519    3564      1761      431       72        10        13        3         89        
+MOT17-10-FRCNN                     33.671    76.405    34.691    38.835    90.359    17.544    29.825    52.632    24.508    4986      7853      532       131       10        17        30        223       
+MOT17-11-FRCNN                     52.586    83.165    53.042    60.831    88.649    21.333    32        46.667    42.345    5740      3696      735       43        16        24        35        56        
+COMBINED                           34.121    81.052    34.527    39.632    88.589    17.822    33.333    48.845    26.611    37150     56588     4785      381       54        101       148       945       
+
+Identity: r89-f30-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     26.789    17.007    63.061    3160      15421     1851      
+MOT17-04-FRCNN                     47.027    33.865    76.925    16105     31452     4831      
+MOT17-09-FRCNN                     53.906    47.174    62.879    2512      2813      1483      
+MOT17-10-FRCNN                     35.017    25.033    58.246    3214      9625      2304      
+MOT17-11-FRCNN                     51.21     43.175    62.919    4074      5362      2401      
+COMBINED                           42.846    31.007    69.31     29065     64673     12870     
+
+Count: r89-f30-c25-cv-pedestrian   Dets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5011      18581     91        62        
+MOT17-04-FRCNN                     20936     47557     156       83        
+MOT17-09-FRCNN                     3995      5325      83        26        
+MOT17-10-FRCNN                     5518      12839     147       57        
+MOT17-11-FRCNN                     6475      9436      117       75        
+COMBINED                           41935     93738     594       303       
+EVAL r89-f30-c25-cv {'HOTA': 0.3693211667425042, 'IDF1': 0.42845665681454675, 'IDSW': 381, 'MOTA': 0.3412063410783247}
+DONE f30/c25/cv
+START f30/c25/ekf 2026-11-06T07:45:23.438402
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[0] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r89-f30-c25-ekf              MOT17-02-FRCNN   600 frame ->   5,349 bbox  100 track  predict 0.60 ms/frame  assoc 1.71  (1.5s, 393 fps)
+  r89-f30-c25-ekf              MOT17-04-FRCNN  1050 frame ->  21,045 bbox  160 track  predict 0.88 ms/frame  assoc 2.56  (4.0s, 263 fps)
+  r89-f30-c25-ekf              MOT17-09-FRCNN   525 frame ->   4,572 bbox   92 track  predict 0.52 ms/frame  assoc 1.34  (1.1s, 476 fps)
+  r89-f30-c25-ekf              MOT17-10-FRCNN   654 frame ->   5,778 bbox  156 track  predict 0.74 ms/frame  assoc 1.95  (2.0s, 335 fps)
+  r89-f30-c25-ekf              MOT17-11-FRCNN   900 frame ->   6,541 bbox  127 track  predict 0.55 ms/frame  assoc 1.53  (2.1s, 424 fps)
+  r89-f30-c25-ekf                5 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c25-ekf
+
+
+HOTA: r89-f30-c25-ekf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     26.189    17.717    38.89     18.725    69.377    40.594    82.492    82.929    26.95     32.164    78.484    25.244    
+MOT17-04-FRCNN                     38.876    32.288    47.132    34.108    77.518    49.519    84.994    83.638    40.03     48.275    78.922    38.1      
+MOT17-09-FRCNN                     43.968    49.514    39.302    55.079    73.729    44.214    71.761    82.288    46.491    57.255    76.517    43.81     
+MOT17-10-FRCNN                     30.145    29.918    30.617    31.451    73.179    33.125    71.303    79.463    30.977    39.924    73.608    29.387    
+MOT17-11-FRCNN                     46.577    49.245    44.366    53.637    78.08     49.591    76.234    84.491    48.735    57.756    79.526    45.931    
+COMBINED                           36.91     31.843    43.147    33.852    75.7      46.206    80.75     83.032    38.139    46.117    78.024    35.982    
+
+CLEAR: r89-f30-c25-ekf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     17.464    80.43     17.712    22.351    82.812    11.29     22.581    66.129    13.09     4153      14428     862       46        7         14        41        120       
+MOT17-04-FRCNN                     34.462    81.846    34.651    39.325    89.376    13.253    39.759    46.988    27.323    18702     28855     2223      90        11        33        39        462       
+MOT17-09-FRCNN                     56.695    80.686    57.991    66.347    88.813    34.615    53.846    11.538    43.88     3533      1792      445       69        9         14        3         86        
+MOT17-10-FRCNN                     33.663    76.465    34.644    38.811    90.304    17.544    29.825    52.632    24.529    4983      7856      535       126       10        17        30        226       
+MOT17-11-FRCNN                     52.565    83.276    53.01     60.852    88.584    21.333    32        46.667    42.388    5742      3694      740       42        16        24        35        61        
+COMBINED                           34.068    81.076    34.466    39.592    88.537    17.492    33.663    48.845    26.576    37113     56625     4805      373       53        102       148       955       
+
+Identity: r89-f30-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     26.92     17.093    63.33     3176      15405     1839      
+MOT17-04-FRCNN                     46.456    33.448    76.019    15907     31650     5018      
+MOT17-09-FRCNN                     51.833    45.277    60.608    2411      2914      1567      
+MOT17-10-FRCNN                     36.989    26.443    61.526    3395      9444      2123      
+MOT17-11-FRCNN                     51.212    43.196    62.882    4076      5360      2406      
+COMBINED                           42.704    30.9      69.099    28965     64773     12953     
+
+Count: r89-f30-c25-ekf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5015      18581     92        62        
+MOT17-04-FRCNN                     20925     47557     157       83        
+MOT17-09-FRCNN                     3978      5325      86        26        
+MOT17-10-FRCNN                     5518      12839     150       57        
+MOT17-11-FRCNN                     6482      9436      120       75        
+COMBINED                           41918     93738     605       303       
+EVAL r89-f30-c25-ekf {'HOTA': 0.36909768101921153, 'IDF1': 0.4270360323170372, 'IDSW': 373, 'MOTA': 0.34068360750176024}
+DONE f30/c25/ekf
+START f30/c25/ukf 2026-11-06T07:45:45.180997
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.25 classes=[0] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r89-f30-c25-ukf              MOT17-02-FRCNN   600 frame ->   5,359 bbox   96 track  predict 4.19 ms/frame  assoc 2.63  (4.3s, 141 fps)
+  r89-f30-c25-ukf              MOT17-04-FRCNN  1050 frame ->  21,026 bbox  166 track  predict 6.40 ms/frame  assoc 3.93  (11.2s, 94 fps)
+  r89-f30-c25-ukf              MOT17-09-FRCNN   525 frame ->   4,568 bbox   97 track  predict 4.06 ms/frame  assoc 2.21  (3.4s, 153 fps)
+  r89-f30-c25-ukf              MOT17-10-FRCNN   654 frame ->   5,775 bbox  159 track  predict 5.19 ms/frame  assoc 2.61  (5.3s, 124 fps)
+  r89-f30-c25-ukf              MOT17-11-FRCNN   900 frame ->   6,529 bbox  124 track  predict 3.41 ms/frame  assoc 2.09  (5.2s, 174 fps)
+  r89-f30-c25-ukf                5 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c25-ukf
+
+
+HOTA: r89-f30-c25-ukf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     25.428    17.732    36.629    18.745    69.326    39.81     77.539    82.89     26.169    31.262    78.446    24.524    
+MOT17-04-FRCNN                     38.782    32.262    46.915    34.073    77.51     49.387    84.844    83.61     39.924    48.379    78.912    38.177    
+MOT17-09-FRCNN                     40.831    49.492    33.97     55.016    73.737    38.549    71.611    82.279    43.176    53.267    76.521    40.76     
+MOT17-10-FRCNN                     30.536    29.835    31.512    31.359    73.057    33.609    73.535    79.344    31.379    40.404    73.438    29.672    
+MOT17-11-FRCNN                     46.683    49.156    44.643    53.521    78.056    49.601    78.867    84.44     48.835    57.94     79.475    46.047    
+COMBINED                           36.594    31.809    42.452    33.81     75.669    45.592    80.828    82.989    37.808    45.849    77.984    35.754    
+
+CLEAR: r89-f30-c25-ukf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     17.416    80.393    17.674    22.356    82.683    11.29     22.581    66.129    13.032    4154      14427     870       48        7         14        41        120       
+MOT17-04-FRCNN                     34.468    81.789    34.662    39.311    89.424    13.253    39.759    46.988    27.309    18695     28862     2211      92        11        33        39        454       
+MOT17-09-FRCNN                     56.826    80.378    58.385    66.498    89.127    34.615    53.846    11.538    43.778    3541      1784      432       83        9         14        3         91        
+MOT17-10-FRCNN                     33.523    76.349    34.605    38.765    90.31     17.544    29.825    52.632    24.355    4977      7862      534       139       10        17        30        224       
+MOT17-11-FRCNN                     52.543    83.189    52.967    60.767    88.624    21.333    32        46.667    42.328    5734      3702      736       40        16        24        35        59        
+COMBINED                           34.048    80.985    34.477    39.579    88.58     17.492    33.663    48.845    26.522    37101     56637     4783      402       53        102       148       948       
+
+Identity: r89-f30-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     26.749    16.99     62.838    3157      15424     1867      
+MOT17-04-FRCNN                     45.905    33.042    75.165    15714     31843     5192      
+MOT17-09-FRCNN                     48.527    42.366    56.783    2256      3069      1717      
+MOT17-10-FRCNN                     37.569    26.848    62.548    3447      9392      2064      
+MOT17-11-FRCNN                     52.006    43.832    63.926    4136      5300      2334      
+COMBINED                           42.338    30.628    68.546    28710     65028     13174     
+
+Count: r89-f30-c25-ukf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5024      18581     89        62        
+MOT17-04-FRCNN                     20906     47557     163       83        
+MOT17-09-FRCNN                     3973      5325      91        26        
+MOT17-10-FRCNN                     5511      12839     152       57        
+MOT17-11-FRCNN                     6470      9436      117       75        
+COMBINED                           41884     93738     612       303       
+EVAL r89-f30-c25-ukf {'HOTA': 0.36594481271383633, 'IDF1': 0.4233826370352893, 'IDSW': 402, 'MOTA': 0.3404809148904393}
+DONE f30/c25/ukf
+START f30/c25/pf_default 2026-11-06T07:46:25.316173
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[0] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r89-f30-c25-pf_default-s0    MOT17-02-FRCNN   600 frame ->   5,316 bbox  109 track  predict 4.48 ms/frame  assoc 4.36  (5.5s, 110 fps)
+  r89-f30-c25-pf_default-s0    MOT17-04-FRCNN  1050 frame ->  20,954 bbox  187 track  predict 7.37 ms/frame  assoc 8.10  (16.6s, 63 fps)
+  r89-f30-c25-pf_default-s0    MOT17-09-FRCNN   525 frame ->   4,539 bbox   94 track  predict 4.97 ms/frame  assoc 4.47  (5.1s, 103 fps)
+  r89-f30-c25-pf_default-s0    MOT17-10-FRCNN   654 frame ->   5,771 bbox  152 track  predict 5.68 ms/frame  assoc 4.82  (7.1s, 93 fps)
+  r89-f30-c25-pf_default-s0    MOT17-11-FRCNN   900 frame ->   6,514 bbox  125 track  predict 3.83 ms/frame  assoc 3.68  (7.0s, 129 fps)
+  r89-f30-c25-pf_default-s0      5 video moi,   0 tai su dung
+  r89-f30-c25-pf_default-s1    MOT17-02-FRCNN   600 frame ->   5,323 bbox   99 track  predict 5.07 ms/frame  assoc 4.48  (5.9s, 102 fps)
+  r89-f30-c25-pf_default-s1    MOT17-04-FRCNN  1050 frame ->  20,927 bbox  190 track  predict 7.79 ms/frame  assoc 7.99  (16.9s, 62 fps)
+  r89-f30-c25-pf_default-s1    MOT17-09-FRCNN   525 frame ->   4,545 bbox   99 track  predict 5.46 ms/frame  assoc 4.42  (5.3s, 99 fps)
+  r89-f30-c25-pf_default-s1    MOT17-10-FRCNN   654 frame ->   5,774 bbox  158 track  predict 6.60 ms/frame  assoc 5.13  (7.8s, 83 fps)
+  r89-f30-c25-pf_default-s1    MOT17-11-FRCNN   900 frame ->   6,510 bbox  124 track  predict 4.55 ms/frame  assoc 3.86  (7.8s, 116 fps)
+  r89-f30-c25-pf_default-s1      5 video moi,   0 tai su dung
+  r89-f30-c25-pf_default-s2    MOT17-02-FRCNN   600 frame ->   5,278 bbox  112 track  predict 5.39 ms/frame  assoc 4.70  (6.2s, 97 fps)
+  r89-f30-c25-pf_default-s2    MOT17-04-FRCNN  1050 frame ->  20,913 bbox  188 track  predict 7.15 ms/frame  assoc 7.66  (15.9s, 66 fps)
+  r89-f30-c25-pf_default-s2    MOT17-09-FRCNN   525 frame ->   4,541 bbox  104 track  predict 4.79 ms/frame  assoc 4.16  (4.8s, 109 fps)
+  r89-f30-c25-pf_default-s2    MOT17-10-FRCNN   654 frame ->   5,768 bbox  157 track  predict 5.69 ms/frame  assoc 4.79  (7.0s, 93 fps)
+  r89-f30-c25-pf_default-s2    MOT17-11-FRCNN   900 frame ->   6,520 bbox  121 track  predict 4.35 ms/frame  assoc 4.13  (7.8s, 115 fps)
+  r89-f30-c25-pf_default-s2      5 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c25-pf_default-s0
+
+
+HOTA: r89-f30-c25-pf_default-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     26.125    17.538    39.138    18.534    69.071    41.019    81.422    82.584    26.887    32.265    78.011    25.17     
+MOT17-04-FRCNN                     37.68     31.872    44.917    33.702    76.942    47.19     84.622    83.323    38.823    47.276    78.34     37.036    
+MOT17-09-FRCNN                     37.804    48.805    29.465    54.256    73.069    37.541    62.099    81.7      39.957    49.814    75.567    37.643    
+MOT17-10-FRCNN                     30.283    29.738    31.082    31.28     72.74     33.39     72.873    79.22     31.127    40.118    73.259    29.39     
+MOT17-11-FRCNN                     51.462    48.868    54.56     53.216    77.791    59.852    80.15     84.261    53.836    64.142    79.195    50.797    
+COMBINED                           36.552    31.492    42.848    33.496    75.211    46.176    80.385    82.709    37.784    45.983    77.487    35.631    
+
+CLEAR: r89-f30-c25-pf_default-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     17.211    80.023    17.48     22.157    82.571    11.29     22.581    66.129    12.785    4117      14464     869       50        7         14        41        125       
+MOT17-04-FRCNN                     33.921    81.45     34.159    38.981    88.992    14.458    38.554    46.988    26.69     18538     29019     2293      113       12        32        39        458       
+MOT17-09-FRCNN                     56.676    79.71     58.103    66.178    89.125    38.462    50        11.538    43.248    3524      1801      430       76        10        13        3         91        
+MOT17-10-FRCNN                     33.32     76.079    34.403    38.702    90.002    15.789    31.579    52.632    24.062    4969      7870      552       139       9         18        30        232       
+MOT17-11-FRCNN                     52.713    82.907    53.148    60.778    88.846    22.667    30.667    46.667    42.324    5735      3701      720       41        17        23        35        68        
+COMBINED                           33.711    80.627    34.158    39.347    88.349    18.152    33.003    48.845    26.088    36883     56855     4864      419       55        100       148       974       
+
+Identity: r89-f30-c25-pf_default-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     27.53     17.459    65.062    3244      15337     1742      
+MOT17-04-FRCNN                     43.587    31.339    71.547    14904     32653     5927      
+MOT17-09-FRCNN                     43.906    38.254    51.517    2037      3288      1917      
+MOT17-10-FRCNN                     37.298    26.669    62.018    3424      9415      2097      
+MOT17-11-FRCNN                     59.191    49.841    72.858    4703      4733      1752      
+COMBINED                           41.794    30.203    67.818    28312     65426     13435     
+
+Count: r89-f30-c25-pf_default-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     4986      18581     103       62        
+MOT17-04-FRCNN                     20831     47557     184       83        
+MOT17-09-FRCNN                     3954      5325      87        26        
+MOT17-10-FRCNN                     5521      12839     144       57        
+MOT17-11-FRCNN                     6455      9436      118       75        
+COMBINED                           41747     93738     636       303       
+EVAL r89-f30-c25-pf_default-s0 {'HOTA': 0.3655157731795359, 'IDF1': 0.4179355648226741, 'IDSW': 419, 'MOTA': 0.3371098167232072}
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c25-pf_default-s1
+
+
+HOTA: r89-f30-c25-pf_default-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     25.867    17.544    38.39     18.538    69.029    40.131    81.531    82.517    26.621    31.723    77.94     24.725    
+MOT17-04-FRCNN                     37.577    31.881    44.565    33.699    77.016    46.774    84.691    83.334    38.699    47.46     78.409    37.213    
+MOT17-09-FRCNN                     39.468    49.748    31.59     55.021    74.098    37.845    68.145    82.132    41.634    51.329    76.757    39.398    
+MOT17-10-FRCNN                     28.785    29.758    28.061    31.291    72.832    32.304    67.261    79.251    29.581    38.314    73.301    28.085    
+MOT17-11-FRCNN                     46.289    48.955    44.06     53.242    77.818    50.104    77.476    84.144    48.39     57.828    79.133    45.761    
+COMBINED                           35.669    31.558    40.657    33.542    75.355    44.103    79.805    82.732    36.852    45.034    77.623    34.957    
+
+CLEAR: r89-f30-c25-pf_default-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     17.335    79.925    17.62     22.238    82.806    11.29     22.581    66.129    12.871    4132      14449     858       53        7         14        41        119       
+MOT17-04-FRCNN                     34.033    81.472    34.268    39.012    89.159    12.048    40.964    46.988    26.805    18553     29004     2256      112       10        34        39        456       
+MOT17-09-FRCNN                     56.432    79.79     57.878    66.066    88.973    38.462    50        11.538    43.08     3518      1807      436       77        10        13        3         94        
+MOT17-10-FRCNN                     32.939    76.125    34.146    38.554    89.739    15.789    31.579    52.632    23.734    4950      7889      566       155       9         18        30        240       
+MOT17-11-FRCNN                     52.554    82.856    52.946    60.682    88.693    21.333    32        46.667    42.151    5726      3710      730       37        16        24        35        59        
+COMBINED                           33.71     80.636    34.173    39.343    88.386    17.162    33.993    48.845    26.091    36879     56859     4846      434       52        103       148       968       
+
+Identity: r89-f30-c25-pf_default-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     27.203    17.254    64.248    3206      15375     1784      
+MOT17-04-FRCNN                     43.864    31.528    72.055    14994     32563     5815      
+MOT17-09-FRCNN                     48.346    42.122    56.727    2243      3082      1711      
+MOT17-10-FRCNN                     35.38     25.29     58.865    3247      9592      2269      
+MOT17-11-FRCNN                     51.472    43.345    63.352    4090      5346      2366      
+COMBINED                           41.015    29.636    66.579    27780     65958     13945     
+
+Count: r89-f30-c25-pf_default-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     4990      18581     93        62        
+MOT17-04-FRCNN                     20809     47557     188       83        
+MOT17-09-FRCNN                     3954      5325      92        26        
+MOT17-10-FRCNN                     5516      12839     148       57        
+MOT17-11-FRCNN                     6456      9436      118       75        
+COMBINED                           41725     93738     639       303       
+EVAL r89-f30-c25-pf_default-s1 {'HOTA': 0.3566877467381088, 'IDF1': 0.4101488967467131, 'IDSW': 434, 'MOTA': 0.33709914869103247}
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c25-pf_default-s2
+
+
+HOTA: r89-f30-c25-pf_default-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     25.555    17.505    37.496    18.476    69.381    39.175    81.042    82.597    26.281    31.571    77.949    24.609    
+MOT17-04-FRCNN                     37.567    31.925    44.548    33.727    77.101    47.03     83.966    83.334    38.684    47.197    78.483    37.042    
+MOT17-09-FRCNN                     40.36     49.856    32.885    55.048    74.286    39.843    65.44     82.185    42.517    52.742    76.774    40.492    
+MOT17-10-FRCNN                     29.903    29.842    30.203    31.349    73.007    32.527    73.497    79.261    30.717    39.637    73.425    29.103    
+MOT17-11-FRCNN                     48.504    48.844    48.421    53.195    77.702    53.272    79.125    84.201    50.727    60.539    79.163    47.924    
+COMBINED                           36.109    31.583    41.637    33.549    75.469    44.851    80.18     82.755    37.295    45.485    77.684    35.334    
+
+CLEAR: r89-f30-c25-pf_default-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     17.432    80.027    17.717    22.173    83.266    11.29     22.581    66.129    13.003    4120      14461     828       53        7         14        41        127       
+MOT17-04-FRCNN                     34.216    81.436    34.462    39.103    89.391    13.253    39.759    46.988    26.957    18596     28961     2207      117       11        33        39        443       
+MOT17-09-FRCNN                     56.338    80.081    57.915    66.009    89.078    38.462    50        11.538    43.189    3515      1810      431       84        10        13        3         91        
+MOT17-10-FRCNN                     33.492    76.196    34.605    38.772    90.296    17.544    29.825    52.632    24.262    4978      7861      535       143       10        17        30        228       
+MOT17-11-FRCNN                     52.289    82.903    52.734    60.598    88.514    21.333    32        46.667    41.929    5718      3718      742       42        16        24        35        61        
+COMBINED                           33.866    80.67     34.334    39.394    88.618    17.822    33.333    48.845    26.251    36927     56811     4743      439       54        101       148       950       
+
+Identity: r89-f30-c25-pf_default-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     26.69     16.899    63.46     3140      15441     1808      
+MOT17-04-FRCNN                     43.628    31.356    71.682    14912     32645     5891      
+MOT17-09-FRCNN                     49.056    42.704    57.628    2274      3051      1672      
+MOT17-10-FRCNN                     36.443    26.046    60.657    3344      9495      2169      
+MOT17-11-FRCNN                     54.051    45.528    66.502    4296      5140      2164      
+COMBINED                           41.306    29.834    67.113    27966     65772     13704     
+
+Count: r89-f30-c25-pf_default-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     4948      18581     104       62        
+MOT17-04-FRCNN                     20803     47557     184       83        
+MOT17-09-FRCNN                     3946      5325      97        26        
+MOT17-10-FRCNN                     5513      12839     147       57        
+MOT17-11-FRCNN                     6460      9436      114       75        
+COMBINED                           41670     93738     646       303       
+EVAL r89-f30-c25-pf_default-s2 {'HOTA': 0.3610906517384676, 'IDF1': 0.413062743707905, 'IDSW': 439, 'MOTA': 0.3386566813885511}
+DONE f30/c25/pf_default
+START f30/c25/pf_motion100 2026-11-06T07:48:51.618168
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.25 classes=[0] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r89-f30-c25-pf_motion100-s0  MOT17-02-FRCNN   600 frame ->   5,322 bbox   98 track  predict 4.30 ms/frame  assoc 5.61  (6.1s, 99 fps)
+  r89-f30-c25-pf_motion100-s0  MOT17-04-FRCNN  1050 frame ->  20,997 bbox  171 track  predict 7.14 ms/frame  assoc 10.64  (19.0s, 55 fps)
+  r89-f30-c25-pf_motion100-s0  MOT17-09-FRCNN   525 frame ->   4,553 bbox   87 track  predict 4.80 ms/frame  assoc 6.03  (5.8s, 90 fps)
+  r89-f30-c25-pf_motion100-s0  MOT17-10-FRCNN   654 frame ->   5,777 bbox  152 track  predict 5.45 ms/frame  assoc 5.95  (7.6s, 86 fps)
+  r89-f30-c25-pf_motion100-s0  MOT17-11-FRCNN   900 frame ->   6,529 bbox  122 track  predict 4.09 ms/frame  assoc 4.99  (8.4s, 108 fps)
+  r89-f30-c25-pf_motion100-s0    5 video moi,   0 tai su dung
+  r89-f30-c25-pf_motion100-s1  MOT17-02-FRCNN   600 frame ->   5,333 bbox  103 track  predict 5.75 ms/frame  assoc 6.53  (7.5s, 80 fps)
+  r89-f30-c25-pf_motion100-s1  MOT17-04-FRCNN  1050 frame ->  21,013 bbox  166 track  predict 8.98 ms/frame  assoc 11.97  (22.3s, 47 fps)
+  r89-f30-c25-pf_motion100-s1  MOT17-09-FRCNN   525 frame ->   4,555 bbox   89 track  predict 6.08 ms/frame  assoc 6.54  (6.8s, 77 fps)
+  r89-f30-c25-pf_motion100-s1  MOT17-10-FRCNN   654 frame ->   5,801 bbox  156 track  predict 7.41 ms/frame  assoc 7.22  (9.7s, 67 fps)
+  r89-f30-c25-pf_motion100-s1  MOT17-11-FRCNN   900 frame ->   6,533 bbox  118 track  predict 5.53 ms/frame  assoc 5.88  (10.5s, 86 fps)
+  r89-f30-c25-pf_motion100-s1    5 video moi,   0 tai su dung
+  r89-f30-c25-pf_motion100-s2  MOT17-02-FRCNN   600 frame ->   5,343 bbox  101 track  predict 6.54 ms/frame  assoc 7.54  (8.6s, 70 fps)
+  r89-f30-c25-pf_motion100-s2  MOT17-04-FRCNN  1050 frame ->  20,982 bbox  174 track  predict 7.02 ms/frame  assoc 10.22  (18.5s, 57 fps)
+  r89-f30-c25-pf_motion100-s2  MOT17-09-FRCNN   525 frame ->   4,555 bbox   91 track  predict 5.14 ms/frame  assoc 6.22  (6.1s, 86 fps)
+  r89-f30-c25-pf_motion100-s2  MOT17-10-FRCNN   654 frame ->   5,791 bbox  155 track  predict 6.04 ms/frame  assoc 6.42  (8.3s, 79 fps)
+  r89-f30-c25-pf_motion100-s2  MOT17-11-FRCNN   900 frame ->   6,516 bbox  124 track  predict 5.15 ms/frame  assoc 6.15  (10.4s, 87 fps)
+  r89-f30-c25-pf_motion100-s2    5 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c25-pf_motion100-s0
+
+
+HOTA: r89-f30-c25-pf_motion100-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     24.564    17.66     34.408    18.653    69.485    36.034    80.879    82.83     25.276    29.869    78.365    23.407    
+MOT17-04-FRCNN                     38.599    32.169    46.66     33.972    77.432    48.988    84.674    83.548    39.743    47.837    78.794    37.693    
+MOT17-09-FRCNN                     40.044    49.638    32.506    55.06     74.058    40.856    63.354    82.397    42.273    52.607    76.751    40.376    
+MOT17-10-FRCNN                     29.725    29.962    29.712    31.478    73.321    33.553    72.166    79.563    30.533    39.206    73.78     28.926    
+MOT17-11-FRCNN                     48.605    49.315    48.179    53.689    78.289    52.957    79.606    84.638    50.828    60.067    79.695    47.87     
+COMBINED                           36.492    31.79     42.267    33.777    75.754    45.709    80.275    83.02     37.7      45.466    78.018    35.472    
+
+CLEAR: r89-f30-c25-pf_motion100-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     17.362    80.198    17.631    22.238    82.839    11.29     22.581    66.129    12.958    4132      14449     856       50        7         14        41        124       
+MOT17-04-FRCNN                     34.298    81.778    34.504    39.189    89.322    13.253    39.759    46.988    27.157    18637     28920     2228      98        11        33        39        452       
+MOT17-09-FRCNN                     57.258    80.53     58.685    66.516    89.467    38.462    50        11.538    44.307    3542      1783      417       76        10        13        3         96        
+MOT17-10-FRCNN                     33.476    76.645    34.52     38.726    90.203    17.544    29.825    52.632    24.432    4972      7867      540       134       10        17        30        233       
+MOT17-11-FRCNN                     52.406    83.506    52.851    60.714    88.533    22.667    30.667    46.667    42.392    5729      3707      742       42        17        23        35        64        
+COMBINED                           33.955    81.06     34.382    39.485    88.556    18.152    33.003    48.845    26.477    37012     56726     4783      400       55        100       148       969       
+
+Identity: r89-f30-c25-pf_motion100-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     25.22     15.995    59.583    2972      15609     2016      
+MOT17-04-FRCNN                     45.339    32.616    74.34     15511     32046     5354      
+MOT17-09-FRCNN                     46.747    40.751    54.812    2170      3155      1789      
+MOT17-10-FRCNN                     36.379    25.999    60.559    3338      9501      2174      
+MOT17-11-FRCNN                     53.498    45.093    65.755    4255      5181      2216      
+COMBINED                           41.681    30.133    67.582    28246     65492     13549     
+
+Count: r89-f30-c25-pf_motion100-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     4988      18581     92        62        
+MOT17-04-FRCNN                     20865     47557     169       83        
+MOT17-09-FRCNN                     3959      5325      81        26        
+MOT17-10-FRCNN                     5512      12839     144       57        
+MOT17-11-FRCNN                     6471      9436      115       75        
+COMBINED                           41795     93738     601       303       
+EVAL r89-f30-c25-pf_motion100-s0 {'HOTA': 0.3649235852943293, 'IDF1': 0.4168136173478046, 'IDSW': 400, 'MOTA': 0.339552796091233}
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c25-pf_motion100-s1
+
+
+HOTA: r89-f30-c25-pf_motion100-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     24.484    17.705    34.083    18.708    69.454    35.55     80.859    82.888    25.198    29.768    78.462    23.357    
+MOT17-04-FRCNN                     38.074    32.144    45.41     33.968    77.301    47.697    84.302    83.506    39.214    47.31     78.672    37.22     
+MOT17-09-FRCNN                     41.749    50.143    35.018    55.462    74.561    40.273    70.155    82.567    44.018    54.137    77.131    41.756    
+MOT17-10-FRCNN                     30.902    30.087    31.98     31.617    73.353    34.274    74.495    79.597    31.746    40.749    73.873    30.102    
+MOT17-11-FRCNN                     50.672    49.179    52.584    53.578    78.079    58.476    77.596    84.592    53.025    62.815    79.592    49.995    
+COMBINED                           36.746    31.817    42.827    33.816    75.702    45.953    80.666    83.015    37.968    45.835    77.997    35.75     
+
+CLEAR: r89-f30-c25-pf_motion100-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     17.41     80.332    17.701    22.318    82.857    11.29     22.581    66.129    13.021    4147      14434     858       54        7         14        41        120       
+MOT17-04-FRCNN                     34.361    81.725    34.561    39.252    89.324    13.253    39.759    46.988    27.188    18667     28890     2231      95        11        33        39        461       
+MOT17-09-FRCNN                     57.54     80.488    58.836    66.61     89.548    34.615    53.846    11.538    44.543    3547      1778      414       69        9         14        3         91        
+MOT17-10-FRCNN                     33.585    76.716    34.598    38.85     90.134    17.544    29.825    52.632    24.539    4988      7851      546       130       10        17        30        228       
+MOT17-11-FRCNN                     52.204    83.528    52.639    60.63     88.355    21.333    32        46.667    42.217    5721      3715      754       41        16        24        35        60        
+COMBINED                           34.008    81.055    34.423    39.546    88.53     17.492    33.663    48.845    26.516    37070     56668     4803      389       53        102       148       960       
+
+Identity: r89-f30-c25-pf_motion100-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     25.074    15.914    59.081    2957      15624     2048      
+MOT17-04-FRCNN                     44.38     31.941    72.686    15190     32367     5708      
+MOT17-09-FRCNN                     50.549    44.075    59.253    2347      2978      1614      
+MOT17-10-FRCNN                     37.893    27.113    62.902    3481      9358      2053      
+MOT17-11-FRCNN                     56.552    47.679    69.483    4499      4937      1976      
+COMBINED                           41.994    30.376    68.001    28474     65264     13399     
+
+Count: r89-f30-c25-pf_motion100-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5005      18581     97        62        
+MOT17-04-FRCNN                     20898     47557     163       83        
+MOT17-09-FRCNN                     3961      5325      84        26        
+MOT17-10-FRCNN                     5534      12839     148       57        
+MOT17-11-FRCNN                     6475      9436      111       75        
+COMBINED                           41873     93738     603       303       
+EVAL r89-f30-c25-pf_motion100-s1 {'HOTA': 0.3674636248269308, 'IDF1': 0.41993643583485113, 'IDSW': 389, 'MOTA': 0.34007552966779747}
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c25-pf_motion100-s2
+
+
+HOTA: r89-f30-c25-pf_motion100-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     26.172    17.688    38.933    18.696    69.326    40.803    81.387    82.943    26.936    32.053    78.547    25.177    
+MOT17-04-FRCNN                     37.724    32.2      44.533    33.994    77.479    46.741    84.917    83.544    38.837    46.799    78.837    36.895    
+MOT17-09-FRCNN                     40.15     50.27     32.297    55.467    74.757    39.035    64.294    82.465    42.282    52.358    77.108    40.372    
+MOT17-10-FRCNN                     29.875    29.848    30.167    31.406    72.929    32.743    72.606    79.48     30.718    39.538    73.581    29.092    
+MOT17-11-FRCNN                     48.144    49.216    47.501    53.603    78.212    54.712    76.305    84.666    50.386    59.6      79.748    47.53     
+COMBINED                           36.216    31.815    41.637    33.801    75.757    45.157    80.067    83.029    37.416    45.176    78.073    35.27     
+
+CLEAR: r89-f30-c25-pf_motion100-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     17.394    80.541    17.658    22.313    82.738    11.29     22.581    66.129    13.052    4146      14435     865       49        7         14        41        119       
+MOT17-04-FRCNN                     34.552    81.651    34.758    39.317    89.61     13.253    39.759    46.988    27.338    18698     28859     2168      98        11        33        39        453       
+MOT17-09-FRCNN                     57.653    80.389    59.061    66.629    89.8      38.462    50        11.538    44.586    3548      1777      403       75        10        13        3         92        
+MOT17-10-FRCNN                     33.297    76.54     34.387    38.726    89.926    15.789    31.579    52.632    24.212    4972      7867      557       140       9         18        30        229       
+MOT17-11-FRCNN                     52.289    83.522    52.745    60.64     88.48     22.667    30.667    46.667    42.297    5722      3714      745       43        17        23        35        62        
+COMBINED                           34.077    81.01     34.509    39.563    88.672    17.822    33.333    48.845    26.564    37086     56652     4738      405       54        101       148       955       
+
+Identity: r89-f30-c25-pf_motion100-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     27.238    17.292    64.119    3213      15368     1798      
+MOT17-04-FRCNN                     43.906    31.585    71.988    15021     32536     5845      
+MOT17-09-FRCNN                     47.909    41.728    56.239    2222      3103      1729      
+MOT17-10-FRCNN                     36.585    26.17     60.77     3360      9479      2169      
+MOT17-11-FRCNN                     54.329    45.782    66.801    4320      5116      2147      
+COMBINED                           41.51     30.016    67.272    28136     65602     13688     
+
+Count: r89-f30-c25-pf_motion100-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5011      18581     95        62        
+MOT17-04-FRCNN                     20866     47557     171       83        
+MOT17-09-FRCNN                     3951      5325      86        26        
+MOT17-10-FRCNN                     5529      12839     148       57        
+MOT17-11-FRCNN                     6467      9436      118       75        
+COMBINED                           41824     93738     618       303       
+EVAL r89-f30-c25-pf_motion100-s2 {'HOTA': 0.3621563533656113, 'IDF1': 0.41510157713813606, 'IDSW': 405, 'MOTA': 0.3407689517591585}
+DONE f30/c25/pf_motion100
+START f30/c10/cv 2026-11-06T07:51:49.013070
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack yaml=bytetrack.yaml conf>0.1 classes=[0] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r89-f30-c10-cv               MOT17-02-FRCNN   600 frame ->   6,120 bbox  103 track  predict 0.21 ms/frame  assoc 2.27  (1.7s, 360 fps)
+  r89-f30-c10-cv               MOT17-04-FRCNN  1050 frame ->  23,562 bbox  155 track  predict 0.29 ms/frame  assoc 3.58  (4.5s, 231 fps)
+  r89-f30-c10-cv               MOT17-09-FRCNN   525 frame ->   4,896 bbox   95 track  predict 0.15 ms/frame  assoc 1.38  (0.9s, 569 fps)
+  r89-f30-c10-cv               MOT17-10-FRCNN   654 frame ->   6,204 bbox  152 track  predict 0.22 ms/frame  assoc 2.21  (1.8s, 355 fps)
+  r89-f30-c10-cv               MOT17-11-FRCNN   900 frame ->   6,757 bbox  119 track  predict 0.19 ms/frame  assoc 1.63  (1.9s, 480 fps)
+  r89-f30-c10-cv                 5 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c10-cv
+
+
+HOTA: r89-f30-c10-cv-pedestrian    HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     26.048    18.341    37.237    19.797    64.715    38.911    81.634    82.33     27.096    32.226    77.188    24.875    
+MOT17-04-FRCNN                     39.427    34.417    45.51     36.837    75.554    47.994    84.015    83.109    40.874    49.688    77.773    38.644    
+MOT17-09-FRCNN                     41.847    50.497    34.935    57.23     72.061    39.181    70.245    82.17     44.674    54.605    76.412    41.725    
+MOT17-10-FRCNN                     30.158    30.704    29.88     32.627    71.156    31.668    74.51     78.96     31.166    40.544    72.472    29.383    
+MOT17-11-FRCNN                     46.905    49.251    45.018    54.278    76.615    49.155    81.173    84.253    49.377    58.435    78.998    46.163    
+COMBINED                           37.067    33.185    41.795    35.797    73.47     44.559    81.286    82.586    38.591    46.832    77.061    36.09     
+
+CLEAR: r89-f30-c10-cv-pedestrian   MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     16.156    79.989    16.393    23.492    76.795    11.29     22.581    66.129    11.455    4365      14216     1319      44        7         14        41        72        
+MOT17-04-FRCNN                     36.266    81.314    36.443    42.599    87.372    13.253    44.578    42.169    28.306    20259     27298     2928      84        11        37        35        168       
+MOT17-09-FRCNN                     56.376    80.087    57.709    68.563    86.332    38.462    50        11.538    42.723    3651      1674      578       71        10        13        3         72        
+MOT17-10-FRCNN                     33.725    75.821    34.715    40.284    87.855    17.544    31.579    50.877    23.985    5172      7667      715       127       10        18        29        168       
+MOT17-11-FRCNN                     52.12     82.985    52.533    61.689    87.076    22.667    30.667    46.667    41.623    5821      3615      864       39        17        23        35        52        
+COMBINED                           34.67     80.577    35.059    41.891    85.978    18.152    34.653    47.195    26.533    39268     54470     6404      365       55        105       143       532       
+
+Identity: r89-f30-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     27.249    17.792    58.163    3306      15275     2378      
+MOT17-04-FRCNN                     46.879    34.868    71.514    16582     30975     6605      
+MOT17-09-FRCNN                     48.587    43.587    54.883    2321      3004      1908      
+MOT17-10-FRCNN                     36.708    26.77     58.383    3437      9402      2450      
+MOT17-11-FRCNN                     51.101    43.652    61.616    4119      5317      2566      
+COMBINED                           42.701    31.753    65.171    29765     63973     15907     
+
+Count: r89-f30-c10-cv-pedestrian   Dets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5684      18581     99        62        
+MOT17-04-FRCNN                     23187     47557     153       83        
+MOT17-09-FRCNN                     4229      5325      90        26        
+MOT17-10-FRCNN                     5887      12839     147       57        
+MOT17-11-FRCNN                     6685      9436      115       75        
+COMBINED                           45672     93738     604       303       
+EVAL r89-f30-c10-cv {'HOTA': 0.3706692068820569, 'IDF1': 0.42701384405709775, 'IDSW': 365, 'MOTA': 0.346700377648339}
+DONE f30/c10/cv
+START f30/c10/ekf 2026-11-06T07:52:13.384697
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.1 classes=[0] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r89-f30-c10-ekf              MOT17-02-FRCNN   600 frame ->   6,107 bbox  102 track  predict 0.58 ms/frame  assoc 2.14  (1.8s, 331 fps)
+  r89-f30-c10-ekf              MOT17-04-FRCNN  1050 frame ->  23,588 bbox  153 track  predict 1.08 ms/frame  assoc 3.73  (5.5s, 192 fps)
+  r89-f30-c10-ekf              MOT17-09-FRCNN   525 frame ->   4,905 bbox   94 track  predict 0.48 ms/frame  assoc 1.37  (1.1s, 488 fps)
+  r89-f30-c10-ekf              MOT17-10-FRCNN   654 frame ->   6,177 bbox  142 track  predict 0.76 ms/frame  assoc 2.34  (2.2s, 296 fps)
+  r89-f30-c10-ekf              MOT17-11-FRCNN   900 frame ->   6,754 bbox  123 track  predict 0.58 ms/frame  assoc 1.83  (2.4s, 371 fps)
+  r89-f30-c10-ekf                5 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c10-ekf
+
+
+HOTA: r89-f30-c10-ekf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     25.774    18.371    36.427    19.808    64.902    37.911    82.057    82.263    26.8      31.794    77.031    24.491    
+MOT17-04-FRCNN                     39.882    34.459    46.539    36.887    75.558    49.028    84.288    83.12     41.355    50.055    77.791    38.938    
+MOT17-09-FRCNN                     42.952    50.338    36.98     57.144    71.817    40.995    70.476    82.152    45.909    55.687    76.286    42.482    
+MOT17-10-FRCNN                     30.425    30.896    30.268    32.756    71.719    32.682    71.84     79.104    31.415    40.416    72.846    29.442    
+MOT17-11-FRCNN                     48.365    49.252    47.963    54.285    76.624    54.04     76.729    84.293    50.938    60.188    79.048    47.577    
+COMBINED                           37.579    33.236    42.956    35.838    73.551    46.093    80.474    82.608    39.126    47.256    77.1      36.434    
+
+CLEAR: r89-f30-c10-ekf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     16.302    79.909    16.538    23.529    77.094    11.29     22.581    66.129    11.574    4372      14209     1299      44        7         14        41        71        
+MOT17-04-FRCNN                     36.394    81.319    36.556    42.688    87.44     13.253    44.578    42.169    28.42     20301     27256     2916      77        11        37        35        175       
+MOT17-09-FRCNN                     55.906    79.989    57.371    68.469    86.051    38.462    50        11.538    42.205    3646      1679      591       78        10        13        3         67        
+MOT17-10-FRCNN                     34.099    75.969    35.081    40.377    88.404    17.544    33.333    49.123    24.396    5184      7655      680       126       10        19        28        181       
+MOT17-11-FRCNN                     52.003    83.046    52.448    61.647    87.016    22.667    30.667    46.667    41.551    5817      3619      868       42        17        23        35        49        
+COMBINED                           34.777    80.589    35.168    41.947    86.088    18.152    34.983    46.865    26.634    39320     54418     6354      367       55        106       142       543       
+
+Identity: r89-f30-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     26.736    17.448    57.168    3242      15339     2429      
+MOT17-04-FRCNN                     48.006    35.721    73.171    16988     30569     6229      
+MOT17-09-FRCNN                     50.178    45.052    56.62     2399      2926      1838      
+MOT17-10-FRCNN                     37.085    27.011    59.141    3468      9371      2396      
+MOT17-11-FRCNN                     53.905    46.047    64.996    4345      5091      2340      
+COMBINED                           43.672    32.476    66.651    30442     63296     15232     
+
+Count: r89-f30-c10-ekf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5671      18581     98        62        
+MOT17-04-FRCNN                     23217     47557     151       83        
+MOT17-09-FRCNN                     4237      5325      89        26        
+MOT17-10-FRCNN                     5864      12839     137       57        
+MOT17-11-FRCNN                     6685      9436      118       75        
+COMBINED                           45674     93738     593       303       
+EVAL r89-f30-c10-ekf {'HOTA': 0.37578511314364055, 'IDF1': 0.43671993802542103, 'IDSW': 367, 'MOTA': 0.3477671808658175}
+DONE f30/c10/ekf
+START f30/c10/ukf 2026-11-06T07:52:37.796843
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.1 classes=[0] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r89-f30-c10-ukf              MOT17-02-FRCNN   600 frame ->   6,109 bbox   98 track  predict 3.85 ms/frame  assoc 2.65  (4.1s, 148 fps)
+  r89-f30-c10-ukf              MOT17-04-FRCNN  1050 frame ->  23,555 bbox  153 track  predict 6.77 ms/frame  assoc 4.70  (12.6s, 84 fps)
+  r89-f30-c10-ukf              MOT17-09-FRCNN   525 frame ->   4,884 bbox   97 track  predict 4.41 ms/frame  assoc 2.55  (3.8s, 139 fps)
+  r89-f30-c10-ukf              MOT17-10-FRCNN   654 frame ->   6,183 bbox  147 track  predict 4.32 ms/frame  assoc 2.51  (4.6s, 141 fps)
+  r89-f30-c10-ukf              MOT17-11-FRCNN   900 frame ->   6,747 bbox  118 track  predict 3.94 ms/frame  assoc 2.53  (6.1s, 148 fps)
+  r89-f30-c10-ukf                5 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c10-ukf
+
+
+HOTA: r89-f30-c10-ukf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     25.36     18.373    35.234    19.811    64.887    38.372    77.154    82.239    26.368    31.468    77.058    24.249    
+MOT17-04-FRCNN                     40.47     34.473    47.853    36.871    75.643    50.452    84.132    83.086    41.939    50.959    77.808    39.65     
+MOT17-09-FRCNN                     39.027    49.516    31.018    56.369    71.196    39.429    65.64     81.857    41.764    51.653    75.47     38.982    
+MOT17-10-FRCNN                     30.234    30.923    29.875    32.769    71.672    31.787    72.533    78.988    31.212    40.23     72.702    29.248    
+MOT17-11-FRCNN                     47.083    49.238    45.352    54.231    76.64     50.7      78.439    84.221    49.545    58.677    78.961    46.332    
+COMBINED                           37.383    33.196    42.496    35.783    73.53     46.055    79.791    82.534    38.907    47.215    77.004    36.357    
+
+CLEAR: r89-f30-c10-ukf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     16.302    79.869    16.538    23.535    77.084    11.29     22.581    66.129    11.564    4373      14208     1300      44        7         14        41        73        
+MOT17-04-FRCNN                     36.483    81.261    36.657    42.7      87.602    13.253    44.578    42.169    28.481    20307     27250     2874      83        11        37        35        175       
+MOT17-09-FRCNN                     56.113    80.132    57.465    68.319    86.29     38.462    50        11.538    42.539    3638      1687      578       72        10        13        3         77        
+MOT17-10-FRCNN                     34.247    75.819    35.268    40.494    88.569    17.544    33.333    49.123    24.455    5199      7640      671       131       10        19        28        182       
+MOT17-11-FRCNN                     52.088    82.999    52.49     61.626    87.09     22.667    30.667    46.667    41.611    5815      3621      862       38        17        23        35        50        
+COMBINED                           34.862    80.54     35.255    41.96     86.222    18.152    34.983    46.865    26.697    39332     54406     6285      368       55        106       142       557       
+
+Identity: r89-f30-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     26.791    17.486    57.271    3249      15332     2424      
+MOT17-04-FRCNN                     48.35     35.959    73.772    17101     30456     6080      
+MOT17-09-FRCNN                     45.152    40.451    51.091    2154      3171      2062      
+MOT17-10-FRCNN                     36.496    26.591    58.16     3414      9425      2456      
+MOT17-11-FRCNN                     52.268    44.627    63.067    4211      5225      2466      
+COMBINED                           43.241    32.142    66.048    30129     63609     15488     
+
+Count: r89-f30-c10-ukf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5673      18581     94        62        
+MOT17-04-FRCNN                     23181     47557     151       83        
+MOT17-09-FRCNN                     4216      5325      92        26        
+MOT17-10-FRCNN                     5870      12839     142       57        
+MOT17-11-FRCNN                     6677      9436      113       75        
+COMBINED                           45617     93738     592       303       
+EVAL r89-f30-c10-ukf {'HOTA': 0.3738282684520238, 'IDF1': 0.43240644397402317, 'IDSW': 368, 'MOTA': 0.34862062343980027}
+DONE f30/c10/ukf
+START f30/c10/pf_default 2026-11-06T07:53:19.700749
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[0] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r89-f30-c10-pf_default-s0    MOT17-02-FRCNN   600 frame ->   6,055 bbox  106 track  predict 4.55 ms/frame  assoc 5.20  (6.0s, 100 fps)
+  r89-f30-c10-pf_default-s0    MOT17-04-FRCNN  1050 frame ->  23,446 bbox  166 track  predict 7.07 ms/frame  assoc 8.68  (16.9s, 62 fps)
+  r89-f30-c10-pf_default-s0    MOT17-09-FRCNN   525 frame ->   4,891 bbox   99 track  predict 4.54 ms/frame  assoc 4.48  (4.9s, 107 fps)
+  r89-f30-c10-pf_default-s0    MOT17-10-FRCNN   654 frame ->   6,175 bbox  149 track  predict 5.44 ms/frame  assoc 5.17  (7.1s, 92 fps)
+  r89-f30-c10-pf_default-s0    MOT17-11-FRCNN   900 frame ->   6,751 bbox  121 track  predict 3.61 ms/frame  assoc 3.68  (6.7s, 133 fps)
+  r89-f30-c10-pf_default-s0      5 video moi,   0 tai su dung
+  r89-f30-c10-pf_default-s1    MOT17-02-FRCNN   600 frame ->   6,074 bbox  106 track  predict 5.51 ms/frame  assoc 5.74  (6.9s, 87 fps)
+  r89-f30-c10-pf_default-s1    MOT17-04-FRCNN  1050 frame ->  23,430 bbox  163 track  predict 7.68 ms/frame  assoc 8.85  (17.7s, 59 fps)
+  r89-f30-c10-pf_default-s1    MOT17-09-FRCNN   525 frame ->   4,852 bbox  101 track  predict 5.19 ms/frame  assoc 4.68  (5.3s, 99 fps)
+  r89-f30-c10-pf_default-s1    MOT17-10-FRCNN   654 frame ->   6,193 bbox  156 track  predict 5.84 ms/frame  assoc 4.96  (7.2s, 91 fps)
+  r89-f30-c10-pf_default-s1    MOT17-11-FRCNN   900 frame ->   6,727 bbox  120 track  predict 4.27 ms/frame  assoc 4.07  (7.7s, 117 fps)
+  r89-f30-c10-pf_default-s1      5 video moi,   0 tai su dung
+  r89-f30-c10-pf_default-s2    MOT17-02-FRCNN   600 frame ->   6,060 bbox  103 track  predict 5.09 ms/frame  assoc 5.41  (6.4s, 93 fps)
+  r89-f30-c10-pf_default-s2    MOT17-04-FRCNN  1050 frame ->  23,486 bbox  165 track  predict 7.13 ms/frame  assoc 8.50  (16.8s, 63 fps)
+  r89-f30-c10-pf_default-s2    MOT17-09-FRCNN   525 frame ->   4,888 bbox   95 track  predict 4.58 ms/frame  assoc 4.48  (4.9s, 107 fps)
+  r89-f30-c10-pf_default-s2    MOT17-10-FRCNN   654 frame ->   6,176 bbox  154 track  predict 5.52 ms/frame  assoc 5.10  (7.1s, 92 fps)
+  r89-f30-c10-pf_default-s2    MOT17-11-FRCNN   900 frame ->   6,745 bbox  123 track  predict 3.64 ms/frame  assoc 3.70  (6.8s, 132 fps)
+  r89-f30-c10-pf_default-s2      5 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c10-pf_default-s0
+
+
+HOTA: r89-f30-c10-pf_default-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     25.74     18.052    37.037    19.468    64.434    38.746    80.108    81.959    26.771    31.811    76.658    24.386    
+MOT17-04-FRCNN                     39.37     34.159    45.776    36.55     75.326    48.323    84.077    82.907    40.812    50.086    77.475    38.804    
+MOT17-09-FRCNN                     38.794    49.865    30.395    56.623    71.382    37.982    67.814    81.847    41.452    50.542    75.842    38.332    
+MOT17-10-FRCNN                     30.211    30.554    30.124    32.453    71.078    32.873    70.914    78.846    31.212    40.708    72.304    29.434    
+MOT17-11-FRCNN                     51.176    49.111    53.744    54.101    76.467    58.271    80.026    84.061    53.863    63.926    78.734    50.332    
+COMBINED                           37.382    32.93     42.898    35.51     73.234    46.219    80.28     82.367    38.919    47.463    76.736    36.421    
+
+CLEAR: r89-f30-c10-pf_default-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     15.876    79.511    16.156    23.185    76.737    11.29     22.581    66.129    11.126    4308      14273     1306      52        7         14        41        75        
+MOT17-04-FRCNN                     36.142    80.945    36.331    42.427    87.437    14.458    40.964    44.578    28.057    20177     27380     2899      90        12        34        37        192       
+MOT17-09-FRCNN                     55.23     79.75     56.676    68        85.724    38.462    50        11.538    41.46     3621      1704      603       77        10        13        3         77        
+MOT17-10-FRCNN                     33.99     75.65     35.065    40.361    88.4      17.544    31.579    50.877    24.162    5182      7657      680       138       10        18        29        168       
+MOT17-11-FRCNN                     52.045    82.738    52.501    61.626    87.103    22.667    30.667    46.667    41.407    5815      3621      861       43        17        23        35        51        
+COMBINED                           34.515    80.241    34.942    41.715    86.031    18.482    33.663    47.855    26.273    39103     54635     6349      400       56        102       145       563       
+
+Identity: r89-f30-c10-pf_default-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     27.006    17.582    58.194    3267      15314     2347      
+MOT17-04-FRCNN                     46.61     34.613    71.334    16461     31096     6615      
+MOT17-09-FRCNN                     45.073    40.413    50.947    2152      3173      2072      
+MOT17-10-FRCNN                     37.271    27.144    59.451    3485      9354      2377      
+MOT17-11-FRCNN                     58.429    49.883    70.506    4707      4729      1969      
+COMBINED                           43.21     32.081    66.162    30072     63666     15380     
+
+Count: r89-f30-c10-pf_default-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5614      18581     102       62        
+MOT17-04-FRCNN                     23076     47557     164       83        
+MOT17-09-FRCNN                     4224      5325      94        26        
+MOT17-10-FRCNN                     5862      12839     143       57        
+MOT17-11-FRCNN                     6676      9436      116       75        
+COMBINED                           45452     93738     619       303       
+EVAL r89-f30-c10-pf_default-s0 {'HOTA': 0.3738221822352603, 'IDF1': 0.43210000718442415, 'IDSW': 400, 'MOTA': 0.3451535129829952}
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c10-pf_default-s1
+
+
+HOTA: r89-f30-c10-pf_default-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     25.606    18.223    36.283    19.648    64.65     38.037    79.96     81.966    26.628    31.648    76.593    24.24     
+MOT17-04-FRCNN                     39.012    34.063    44.986    36.459    75.197    47.356    83.727    82.842    40.438    49.799    77.359    38.524    
+MOT17-09-FRCNN                     40.286    49.526    33.092    56.127    71.467    38.465    68.396    81.828    43.03     52.346    75.693    39.623    
+MOT17-10-FRCNN                     29.532    30.633    28.77     32.541    71.018    31.753    70.224    78.847    30.523    39.318    72.47     28.494    
+MOT17-11-FRCNN                     47.546    48.773    46.802    53.708    76.197    53.88     75.836    83.873    50.052    59.588    78.49     46.771    
+COMBINED                           36.693    32.87     41.372    35.444    73.147    44.808    79.369    82.3      38.198    46.667    76.64     35.766    
+
+CLEAR: r89-f30-c10-pf_default-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     15.963    79.649    16.215    23.303    76.678    11.29     22.581    66.129    11.22     4330      14251     1317      47        7         14        41        83        
+MOT17-04-FRCNN                     35.98     81.006    36.184    42.334    87.315    13.253    42.169    44.578    27.939    20133     27424     2925      97        11        35        37        179       
+MOT17-09-FRCNN                     55.192    79.682    56.638    67.587    86.059    38.462    46.154    15.385    41.46     3599      1726      583       77        10        12        4         77        
+MOT17-10-FRCNN                     33.624    75.602    34.652    40.237    87.812    15.789    35.088    49.123    23.807    5166      7673      717       132       9         20        28        177       
+MOT17-11-FRCNN                     51.95     82.501    52.321    61.403    87.115    21.333    32        46.667    41.205    5794      3642      857       35        16        24        35        51        
+COMBINED                           34.388    80.24     34.802    41.629    85.912    17.492    34.653    47.855    26.163    39022     54716     6399      388       53        105       145       567       
+
+Identity: r89-f30-c10-pf_default-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     26.895    17.534    57.694    3258      15323     2389      
+MOT17-04-FRCNN                     46.5      34.523    71.203    16418     31139     6640      
+MOT17-09-FRCNN                     48.554    43.343    55.189    2308      3017      1874      
+MOT17-10-FRCNN                     35.83     26.124    57.012    3354      9485      2529      
+MOT17-11-FRCNN                     53.696    45.772    64.938    4319      5117      2332      
+COMBINED                           42.623    31.638    65.294    29657     64081     15764     
+
+Count: r89-f30-c10-pf_default-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5647      18581     102       62        
+MOT17-04-FRCNN                     23058     47557     162       83        
+MOT17-09-FRCNN                     4182      5325      95        26        
+MOT17-10-FRCNN                     5883      12839     153       57        
+MOT17-11-FRCNN                     6651      9436      115       75        
+COMBINED                           45421     93738     627       303       
+EVAL r89-f30-c10-pf_default-s1 {'HOTA': 0.3669344315816537, 'IDF1': 0.42623186427036697, 'IDSW': 388, 'MOTA': 0.34388401715419575}
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c10-pf_default-s2
+
+
+HOTA: r89-f30-c10-pf_default-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     25.775    18.109    36.982    19.523    64.514    38.68     81.052    81.979    26.802    31.928    76.707    24.491    
+MOT17-04-FRCNN                     39.371    34.214    45.694    36.607    75.321    47.946    84.347    82.871    40.815    49.841    77.462    38.608    
+MOT17-09-FRCNN                     41.17     50.191    34.101    56.815    71.76     40.714    65.395    81.863    43.947    54.079    75.959    41.078    
+MOT17-10-FRCNN                     29.26     30.657    28.212    32.52     71.201    32.128    70.071    78.8      30.219    39.193    72.422    28.384    
+MOT17-11-FRCNN                     47.964    48.979    47.297    53.904    76.419    52.248    77.395    83.965    50.45     59.965    78.673    47.176    
+COMBINED                           36.99     32.985    41.912    35.55     73.284    45.163    79.789    82.331    38.5      46.877    76.751    35.979    
+
+CLEAR: r89-f30-c10-pf_default-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     16        79.509    16.226    23.244    76.81     11.29     22.581    66.129    11.237    4319      14262     1304      42        7         14        41        78        
+MOT17-04-FRCNN                     36.144    80.997    36.333    42.467    87.379    13.253    43.373    43.373    28.074    20196     27361     2917      90        11        36        36        190       
+MOT17-09-FRCNN                     55.305    79.772    56.826    68        85.887    38.462    50        11.538    41.55     3621      1704      595       81        10        13        3         70        
+MOT17-10-FRCNN                     33.959    75.528    35.096    40.385    88.421    15.789    35.088    49.123    24.076    5185      7654      679       146       9         20        28        175       
+MOT17-11-FRCNN                     51.929    82.692    52.374    61.456    87.124    22.667    30.667    46.667    41.292    5799      3637      857       42        17        23        35        54        
+COMBINED                           34.529    80.246    34.957    41.733    86.031    17.822    34.983    47.195    26.285    39120     54618     6352      401       54        106       143       567       
+
+Identity: r89-f30-c10-pf_default-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     27.194    17.712    58.527    3291      15290     2332      
+MOT17-04-FRCNN                     47.18     35.055    72.128    16671     30886     6442      
+MOT17-09-FRCNN                     48.842    43.756    55.266    2330      2995      1886      
+MOT17-10-FRCNN                     35.641    25.96     56.838    3333      9506      2531      
+MOT17-11-FRCNN                     51.951    44.298    62.8      4180      5256      2476      
+COMBINED                           42.82     31.796    65.546    29805     63933     15667     
+
+Count: r89-f30-c10-pf_default-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5623      18581     98        62        
+MOT17-04-FRCNN                     23113     47557     164       83        
+MOT17-09-FRCNN                     4216      5325      87        26        
+MOT17-10-FRCNN                     5864      12839     148       57        
+MOT17-11-FRCNN                     6656      9436      118       75        
+COMBINED                           45472     93738     615       303       
+EVAL r89-f30-c10-pf_default-s2 {'HOTA': 0.36989846610417354, 'IDF1': 0.42820199698297534, 'IDSW': 401, 'MOTA': 0.3452921974012674}
+DONE f30/c10/pf_default
+START f30/c10/pf_motion100 2026-11-06T07:55:47.950995
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.1 classes=[0] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r89-f30-c10-pf_motion100-s0  MOT17-02-FRCNN   600 frame ->   6,137 bbox  103 track  predict 4.54 ms/frame  assoc 6.64  (6.9s, 87 fps)
+  r89-f30-c10-pf_motion100-s0  MOT17-04-FRCNN  1050 frame ->  23,485 bbox  161 track  predict 7.58 ms/frame  assoc 12.40  (21.4s, 49 fps)
+  r89-f30-c10-pf_motion100-s0  MOT17-09-FRCNN   525 frame ->   4,902 bbox   94 track  predict 4.58 ms/frame  assoc 6.00  (5.7s, 92 fps)
+  r89-f30-c10-pf_motion100-s0  MOT17-10-FRCNN   654 frame ->   6,195 bbox  145 track  predict 5.33 ms/frame  assoc 6.34  (7.8s, 84 fps)
+  r89-f30-c10-pf_motion100-s0  MOT17-11-FRCNN   900 frame ->   6,770 bbox  114 track  predict 3.87 ms/frame  assoc 4.94  (8.1s, 111 fps)
+  r89-f30-c10-pf_motion100-s0    5 video moi,   0 tai su dung
+  r89-f30-c10-pf_motion100-s1  MOT17-02-FRCNN   600 frame ->   6,149 bbox  102 track  predict 5.24 ms/frame  assoc 6.88  (7.4s, 81 fps)
+  r89-f30-c10-pf_motion100-s1  MOT17-04-FRCNN  1050 frame ->  23,502 bbox  161 track  predict 8.69 ms/frame  assoc 12.76  (22.9s, 46 fps)
+  r89-f30-c10-pf_motion100-s1  MOT17-09-FRCNN   525 frame ->   4,870 bbox   95 track  predict 6.34 ms/frame  assoc 7.40  (7.3s, 71 fps)
+  r89-f30-c10-pf_motion100-s1  MOT17-10-FRCNN   654 frame ->   6,181 bbox  146 track  predict 6.81 ms/frame  assoc 7.27  (9.4s, 70 fps)
+  r89-f30-c10-pf_motion100-s1  MOT17-11-FRCNN   900 frame ->   6,769 bbox  114 track  predict 4.95 ms/frame  assoc 5.52  (9.6s, 94 fps)
+  r89-f30-c10-pf_motion100-s1    5 video moi,   0 tai su dung
+  r89-f30-c10-pf_motion100-s2  MOT17-02-FRCNN   600 frame ->   6,126 bbox  101 track  predict 6.90 ms/frame  assoc 8.06  (9.1s, 66 fps)
+  r89-f30-c10-pf_motion100-s2  MOT17-04-FRCNN  1050 frame ->  23,522 bbox  161 track  predict 7.39 ms/frame  assoc 12.08  (20.8s, 50 fps)
+  r89-f30-c10-pf_motion100-s2  MOT17-09-FRCNN   525 frame ->   4,877 bbox   93 track  predict 4.56 ms/frame  assoc 5.83  (5.6s, 94 fps)
+  r89-f30-c10-pf_motion100-s2  MOT17-10-FRCNN   654 frame ->   6,206 bbox  137 track  predict 6.06 ms/frame  assoc 7.41  (9.0s, 73 fps)
+  r89-f30-c10-pf_motion100-s2  MOT17-11-FRCNN   900 frame ->   6,751 bbox  116 track  predict 3.74 ms/frame  assoc 4.95  (8.0s, 112 fps)
+  r89-f30-c10-pf_motion100-s2    5 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c10-pf_motion100-s0
+
+
+HOTA: r89-f30-c10-pf_motion100-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     25.356    18.23     35.564    19.713    64.259    37.062    81.481    82.337    26.406    31.105    77.192    24.01     
+MOT17-04-FRCNN                     38.704    34.336    44.017    36.721    75.575    46.311    84.126    83.039    40.119    48.614    77.732    37.789    
+MOT17-09-FRCNN                     39.403    50.03     31.296    56.783    71.685    36.954    66.495    82.055    42.099    51.748    76.021    39.34     
+MOT17-10-FRCNN                     30.392    30.797    30.315    32.692    71.358    32.493    72.381    78.948    31.401    40.6      72.52     29.443    
+MOT17-11-FRCNN                     48.468    49.413    47.848    54.44     76.797    53.005    77.971    84.418    50.999    60.187    79.126    47.624    
+COMBINED                           36.65     33.119    40.98     35.721    73.436    43.963    80.195    82.563    38.161    46.141    77.03     35.543    
+
+CLEAR: r89-f30-c10-pf_motion100-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     15.817    79.962    16.07     23.373    76.193    11.29     22.581    66.129    11.134    4343      14238     1357      47        7         14        41        73        
+MOT17-04-FRCNN                     36.268    81.161    36.434    42.511    87.493    13.253    43.373    43.373    28.259    20217     27340     2890      79        11        36        36        178       
+MOT17-09-FRCNN                     55.286    80.203    56.714    67.962    85.799    34.615    53.846    11.538    41.832    3619      1706      599       76        9         14        3         73        
+MOT17-10-FRCNN                     34.099    75.86     35.174    40.494    88.388    14.035    35.088    50.877    24.324    5199      7640      683       138       8         20        29        190       
+MOT17-11-FRCNN                     52.12     83.249    52.554    61.721    87.068    24        29.333    46.667    41.78     5824      3612      865       41        18        22        35        54        
+COMBINED                           34.593    80.547    35        41.821    85.977    17.492    34.983    47.525    26.458    39202     54536     6394      381       53        106       144       568       
+
+Identity: r89-f30-c10-pf_motion100-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     26.094    17.05     55.579    3168      15413     2532      
+MOT17-04-FRCNN                     46.117    34.262    70.515    16294     31263     6813      
+MOT17-09-FRCNN                     47.7      42.742    53.959    2276      3049      1942      
+MOT17-10-FRCNN                     36.601    26.684    58.245    3426      9413      2456      
+MOT17-11-FRCNN                     53.16     45.422    64.075    4286      5150      2403      
+COMBINED                           42.273    31.417    64.589    29450     64288     16146     
+
+Count: r89-f30-c10-pf_motion100-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5700      18581     100       62        
+MOT17-04-FRCNN                     23107     47557     160       83        
+MOT17-09-FRCNN                     4218      5325      87        26        
+MOT17-10-FRCNN                     5882      12839     139       57        
+MOT17-11-FRCNN                     6689      9436      110       75        
+COMBINED                           45596     93738     596       303       
+EVAL r89-f30-c10-pf_motion100-s0 {'HOTA': 0.3664992363130121, 'IDF1': 0.4227252501184205, 'IDSW': 381, 'MOTA': 0.34593227933175447}
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c10-pf_motion100-s1
+
+
+HOTA: r89-f30-c10-pf_motion100-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     25.318    18.313    35.309    19.789    64.418    36.835    80.86     82.218    26.359    31.088    76.944    23.92     
+MOT17-04-FRCNN                     38.58     34.348    43.71     36.745    75.551    45.955    84.153    83.064    39.997    48.457    77.724    37.663    
+MOT17-09-FRCNN                     42.201    49.854    36.001    56.601    71.779    40.93     69.24     82.193    45.09     55.394    75.965    42.08     
+MOT17-10-FRCNN                     29.631    30.98     28.608    32.81     71.849    32.733    69.472    79.102    30.573    39.426    72.911    28.746    
+MOT17-11-FRCNN                     50.645    49.348    52.371    54.365    76.76     58.118    78.402    84.393    53.302    62.916    79.147    49.796    
+COMBINED                           36.99     33.153    41.721    35.747    73.511    44.976    80.103    82.591    38.512    46.536    77.049    35.855    
+
+CLEAR: r89-f30-c10-pf_motion100-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     15.957    79.908    16.189    23.454    76.349    11.29     22.581    66.129    11.245    4358      14223     1350      43        7         14        41        77        
+MOT17-04-FRCNN                     36.367    81.22     36.55     42.593    87.575    13.253    43.373    43.373    28.368    20256     27301     2874      87        11        36        36        178       
+MOT17-09-FRCNN                     56.15     80.242    57.521    68.188    86.473    34.615    53.846    11.538    42.678    3631      1694      568       73        9         14        3         76        
+MOT17-10-FRCNN                     34.076    75.833    35.088    40.377    88.419    17.544    31.579    50.877    24.318    5184      7655      679       130       10        18        29        177       
+MOT17-11-FRCNN                     51.696    83.309    52.088    61.456    86.772    24        29.333    46.667    41.438    5799      3637      884       37        18        22        35        55        
+COMBINED                           34.674    80.581    35.069    41.849    86.058    18.152    34.323    47.525    26.548    39228     54510     6355      370       55        104       144       563       
+
+Identity: r89-f30-c10-pf_motion100-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     26.292    17.184    55.939    3193      15388     2515      
+MOT17-04-FRCNN                     45.143    33.549    68.98     15955     31602     7175      
+MOT17-09-FRCNN                     50.756    45.39     57.561    2417      2908      1782      
+MOT17-10-FRCNN                     36.499    26.583    58.213    3413      9426      2450      
+MOT17-11-FRCNN                     56.778    48.495    68.472    4576      4860      2107      
+COMBINED                           42.426    31.528    64.836    29554     64184     16029     
+
+Count: r89-f30-c10-pf_motion100-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5708      18581     98        62        
+MOT17-04-FRCNN                     23130     47557     159       83        
+MOT17-09-FRCNN                     4199      5325      89        26        
+MOT17-10-FRCNN                     5863      12839     141       57        
+MOT17-11-FRCNN                     6683      9436      110       75        
+COMBINED                           45583     93738     597       303       
+EVAL r89-f30-c10-pf_motion100-s1 {'HOTA': 0.36989672213489394, 'IDF1': 0.4242576496005627, 'IDSW': 370, 'MOTA': 0.3467430497770381}
+
+Evaluating 1 tracker(s) on 5 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f30-c10-pf_motion100-s2
+
+
+HOTA: r89-f30-c10-pf_motion100-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-02-FRCNN                     24.929    18.318    34.231    19.777    64.583    35.542    81.494    82.229    25.943    30.508    77.094    23.52     
+MOT17-04-FRCNN                     39.237    34.361    45.172    36.755    75.522    47.54     84.082    83.017    40.67     49.376    77.717    38.374    
+MOT17-09-FRCNN                     40.005    50.139    32.2      56.735    72.001    38.393    62.95     82.023    42.687    52.477    75.882    39.821    
+MOT17-10-FRCNN                     29.866    30.994    29.086    32.857    71.657    33.086    70.356    79.038    30.837    39.649    72.758    28.848    
+MOT17-11-FRCNN                     48.591    49.343    48.297    54.332    76.863    54.3      77.518    84.41     51.143    60.423    79.173    47.838    
+COMBINED                           36.884    33.176    41.472    35.76     73.53     44.917    79.576    82.544    38.396    46.437    77.035    35.773    
+
+CLEAR: r89-f30-c10-pf_motion100-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-02-FRCNN                     16.194    79.828    16.425    23.524    76.819    11.29     22.581    66.129    11.449    4371      14210     1319      43        7         14        41        75        
+MOT17-04-FRCNN                     36.464    81.099    36.636    42.652    87.639    13.253    43.373    43.373    28.402    20284     27273     2861      82        11        36        36        178       
+MOT17-09-FRCNN                     56.056    80.162    57.427    68.113    86.439    38.462    46.154    15.385    42.544    3627      1698      569       73        10        12        4         77        
+MOT17-10-FRCNN                     34.302    75.725    35.322    40.587    88.517    17.544    33.333    49.123    24.449    5211      7628      676       131       10        19        28        183       
+MOT17-11-FRCNN                     51.897    83.254    52.374    61.53     87.046    24        29.333    46.667    41.593    5806      3630      864       45        18        22        35        60        
+COMBINED                           34.816    80.477    35.215    41.924    86.205    18.482    33.993    47.525    26.631    39299     54439     6289      374       56        103       144       573       
+
+Identity: r89-f30-c10-pf_motion100-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-02-FRCNN                     25.668    16.764    54.745    3115      15466     2575      
+MOT17-04-FRCNN                     46.655    34.68     71.259    16493     31064     6652      
+MOT17-09-FRCNN                     47.579    42.535    53.98     2265      3060      1931      
+MOT17-10-FRCNN                     36.238    26.427    57.635    3393      9446      2494      
+MOT17-11-FRCNN                     54.663    46.651    65.997    4402      5034      2268      
+COMBINED                           42.588    31.65     65.079    29668     64070     15920     
+
+Count: r89-f30-c10-pf_motion100-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-02-FRCNN                     5690      18581     97        62        
+MOT17-04-FRCNN                     23145     47557     160       83        
+MOT17-09-FRCNN                     4196      5325      88        26        
+MOT17-10-FRCNN                     5887      12839     132       57        
+MOT17-11-FRCNN                     6670      9436      111       75        
+COMBINED                           45588     93738     588       303       
+EVAL r89-f30-c10-pf_motion100-s2 {'HOTA': 0.3688416086824687, 'IDF1': 0.4258788740077229, 'IDSW': 374, 'MOTA': 0.34816189805628456}
+DONE f30/c10/pf_motion100
+START f14/c25/cv 2026-11-06T07:58:47.252347
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[0] max_det=300 fps=14.0 track_buffer=17 elapsed=steps seeds=[None]
+  r89-f14-c25-cv               MOT17-05-FRCNN   837 frame ->   4,899 bbox  191 track  predict 0.11 ms/frame  assoc 1.00  (1.1s, 776 fps)
+  r89-f14-c25-cv                 1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c25-cv
+
+
+HOTA: r89-f14-c25-cv-pedestrian    HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     42.599    42.449    43.014    47.591    67.277    49.051    67.06     78.304    45.22     60.401    70.799    42.764    
+COMBINED                           42.599    42.449    43.014    47.591    67.277    49.051    67.06     78.304    45.22     60.401    70.799    42.764    
+
+CLEAR: r89-f14-c25-cv-pedestrian   MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     47.362    74.905    48.851    59.795    84.529    20.301    53.383    26.316    32.356    4136      2781      757       103       27        71        35        135       
+COMBINED                           47.362    74.905    48.851    59.795    84.529    20.301    53.383    26.316    32.356    4136      2781      757       103       27        71        35        135       
+
+Identity: r89-f14-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     58.476    49.92     70.57     3453      3464      1440      
+COMBINED                           58.476    49.92     70.57     3453      3464      1440      
+
+Count: r89-f14-c25-cv-pedestrian   Dets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     4893      6917      190       133       
+COMBINED                           4893      6917      190       133       
+EVAL r89-f14-c25-cv {'HOTA': 0.425990679000506, 'IDF1': 0.5847586790855207, 'IDSW': 103, 'MOTA': 0.47361572936244034}
+DONE f14/c25/cv
+START f14/c25/ekf 2026-11-06T07:58:55.543618
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[0] max_det=300 fps=14.0 track_buffer=17 elapsed=steps seeds=[None]
+  r89-f14-c25-ekf              MOT17-05-FRCNN   837 frame ->   4,893 bbox  196 track  predict 0.37 ms/frame  assoc 1.18  (1.5s, 571 fps)
+  r89-f14-c25-ekf                1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c25-ekf
+
+
+HOTA: r89-f14-c25-ekf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     42.121    42.512    42.061    47.569    67.369    48.041    66.484    78.24     44.691    59.499    70.812    42.132    
+COMBINED                           42.121    42.512    42.061    47.569    67.369    48.041    66.484    78.24     44.691    59.499    70.812    42.132    
+
+CLEAR: r89-f14-c25-ekf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     47.492    74.78     49.068    59.838    84.746    20.301    54.135    25.564    32.4      4139      2778      745       109       27        72        34        143       
+COMBINED                           47.492    74.78     49.068    59.838    84.746    20.301    54.135    25.564    32.4      4139      2778      745       109       27        72        34        143       
+
+Identity: r89-f14-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     57.571    49.111    69.554    3397      3520      1487      
+COMBINED                           57.571    49.111    69.554    3397      3520      1487      
+
+Count: r89-f14-c25-ekf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     4884      6917      195       133       
+COMBINED                           4884      6917      195       133       
+EVAL r89-f14-c25-ekf {'HOTA': 0.42121333114852627, 'IDF1': 0.5757139225489365, 'IDSW': 109, 'MOTA': 0.4749168714760734}
+DONE f14/c25/ekf
+START f14/c25/ukf 2026-11-06T07:59:04.656354
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.25 classes=[0] max_det=300 fps=14.0 track_buffer=17 elapsed=steps seeds=[None]
+  r89-f14-c25-ukf              MOT17-05-FRCNN   837 frame ->   4,906 bbox  193 track  predict 5.02 ms/frame  assoc 3.40  (7.4s, 114 fps)
+  r89-f14-c25-ukf                1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c25-ukf
+
+
+HOTA: r89-f14-c25-ukf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     41.209    42.319    40.462    47.457    67.034    47.368    64.843    78.151    43.776    58.424    70.472    41.173    
+COMBINED                           41.209    42.319    40.462    47.457    67.034    47.368    64.843    78.151    43.776    58.424    70.472    41.173    
+
+CLEAR: r89-f14-c25-ukf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     46.971    74.743    48.619    59.708    84.337    20.301    53.383    26.316    31.891    4130      2787      767       114       27        71        35        140       
+COMBINED                           46.971    74.743    48.619    59.708    84.337    20.301    53.383    26.316    31.891    4130      2787      767       114       27        71        35        140       
+
+Identity: r89-f14-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     56.086    47.896    67.654    3313      3604      1584      
+COMBINED                           56.086    47.896    67.654    3313      3604      1584      
+
+Count: r89-f14-c25-ukf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     4897      6917      192       133       
+COMBINED                           4897      6917      192       133       
+EVAL r89-f14-c25-ukf {'HOTA': 0.4120880868835831, 'IDF1': 0.5608599966141865, 'IDSW': 114, 'MOTA': 0.46971230302154116}
+DONE f14/c25/ukf
+START f14/c25/pf_default 2026-11-06T07:59:22.503368
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[0] max_det=300 fps=14.0 track_buffer=17 elapsed=steps seeds=[0, 1, 2]
+  r89-f14-c25-pf_default-s0    MOT17-05-FRCNN   837 frame ->   4,867 bbox  200 track  predict 3.09 ms/frame  assoc 3.54  (5.7s, 146 fps)
+  r89-f14-c25-pf_default-s0      1 video moi,   0 tai su dung
+  r89-f14-c25-pf_default-s1    MOT17-05-FRCNN   837 frame ->   4,882 bbox  192 track  predict 3.41 ms/frame  assoc 3.66  (6.1s, 137 fps)
+  r89-f14-c25-pf_default-s1      1 video moi,   0 tai su dung
+  r89-f14-c25-pf_default-s2    MOT17-05-FRCNN   837 frame ->   4,888 bbox  193 track  predict 3.67 ms/frame  assoc 3.73  (6.4s, 131 fps)
+  r89-f14-c25-pf_default-s2      1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c25-pf_default-s0
+
+
+HOTA: r89-f14-c25-pf_default-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     41.494    41.596    41.711    46.649    66.406    48.3      65.43     77.714    44.073    59.711    69.611    41.565    
+COMBINED                           41.494    41.596    41.711    46.649    66.406    48.3      65.43     77.714    44.073    59.711    69.611    41.565    
+
+CLEAR: r89-f14-c25-pf_default-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     46.465    74.332    47.954    59.101    84.133    19.549    54.135    26.316    31.295    4088      2829      771       103       26        72        35        134       
+COMBINED                           46.465    74.332    47.954    59.101    84.133    19.549    54.135    26.316    31.295    4088      2829      771       103       26        72        35        134       
+
+Identity: r89-f14-c25-pf_default-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     56.793    48.345    68.821    3344      3573      1515      
+COMBINED                           56.793    48.345    68.821    3344      3573      1515      
+
+Count: r89-f14-c25-pf_default-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     4859      6917      199       133       
+COMBINED                           4859      6917      199       133       
+EVAL r89-f14-c25-pf_default-s0 {'HOTA': 0.4149358917814091, 'IDF1': 0.5679347826086957, 'IDSW': 103, 'MOTA': 0.464652305912968}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c25-pf_default-s1
+
+
+HOTA: r89-f14-c25-pf_default-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     41.162    42.073    40.632    47.133    66.861    48.855    64.289    77.912    43.712    58.318    70.204    40.942    
+COMBINED                           41.162    42.073    40.632    47.133    66.861    48.855    64.289    77.912    43.712    58.318    70.204    40.942    
+
+CLEAR: r89-f14-c25-pf_default-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     46.827    74.396    48.345    59.419    84.29     18.797    54.135    27.068    31.613    4110      2807      766       105       25        72        36        147       
+COMBINED                           46.827    74.396    48.345    59.419    84.29     18.797    54.135    27.068    31.613    4110      2807      766       105       25        72        36        147       
+
+Identity: r89-f14-c25-pf_default-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     55.847    47.607    67.535    3293      3624      1583      
+COMBINED                           55.847    47.607    67.535    3293      3624      1583      
+
+Count: r89-f14-c25-pf_default-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     4876      6917      191       133       
+COMBINED                           4876      6917      191       133       
+EVAL r89-f14-c25-pf_default-s1 {'HOTA': 0.41162257546190145, 'IDF1': 0.5584668871364369, 'IDSW': 105, 'MOTA': 0.46826658956194883}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c25-pf_default-s2
+
+
+HOTA: r89-f14-c25-pf_default-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     42.25     42.02     42.802    47.024    66.694    50.161    65.629    77.705    44.828    60.715    69.843    42.405    
+COMBINED                           42.25     42.02     42.802    47.024    66.694    50.161    65.629    77.705    44.828    60.715    69.843    42.405    
+
+CLEAR: r89-f14-c25-pf_default-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     47.159    74.126    48.504    59.506    84.396    18.797    56.391    24.812    31.763    4116      2801      761       93        25        75        33        135       
+COMBINED                           47.159    74.126    48.504    59.506    84.396    18.797    56.391    24.812    31.763    4116      2801      761       93        25        75        33        135       
+
+Identity: r89-f14-c25-pf_default-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     57.741    49.227    69.818    3405      3512      1472      
+COMBINED                           57.741    49.227    69.818    3405      3512      1472      
+
+Count: r89-f14-c25-pf_default-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     4877      6917      192       133       
+COMBINED                           4877      6917      192       133       
+EVAL r89-f14-c25-pf_default-s2 {'HOTA': 0.42249915638772634, 'IDF1': 0.5774122435136511, 'IDSW': 93, 'MOTA': 0.47159173051901115}
+DONE f14/c25/pf_default
+START f14/c25/pf_motion100 2026-11-06T07:59:53.706517
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.25 classes=[0] max_det=300 fps=14.0 track_buffer=17 elapsed=steps seeds=[0, 1, 2]
+  r89-f14-c25-pf_motion100-s0  MOT17-05-FRCNN   837 frame ->   4,888 bbox  198 track  predict 3.07 ms/frame  assoc 4.26  (6.3s, 133 fps)
+  r89-f14-c25-pf_motion100-s0    1 video moi,   0 tai su dung
+  r89-f14-c25-pf_motion100-s1  MOT17-05-FRCNN   837 frame ->   4,894 bbox  200 track  predict 3.64 ms/frame  assoc 4.71  (7.2s, 117 fps)
+  r89-f14-c25-pf_motion100-s1    1 video moi,   0 tai su dung
+  r89-f14-c25-pf_motion100-s2  MOT17-05-FRCNN   837 frame ->   4,896 bbox  195 track  predict 3.70 ms/frame  assoc 4.52  (7.0s, 119 fps)
+  r89-f14-c25-pf_motion100-s2    1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c25-pf_motion100-s0
+
+
+HOTA: r89-f14-c25-pf_motion100-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     41.994    42.388    41.989    47.521    67.399    48.962    64.642    78.404    44.616    58.907    70.862    41.743    
+COMBINED                           41.994    42.388    41.989    47.521    67.399    48.962    64.642    78.404    44.616    58.907    70.862    41.743    
+
+CLEAR: r89-f14-c25-pf_motion100-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     47.477    74.923    48.937    59.722    84.704    20.301    53.383    26.316    32.501    4131      2786      746       101       27        71        35        135       
+COMBINED                           47.477    74.923    48.937    59.722    84.704    20.301    53.383    26.316    32.501    4131      2786      746       101       27        71        35        135       
+
+Identity: r89-f14-c25-pf_motion100-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     57.47     48.995    69.489    3389      3528      1488      
+COMBINED                           57.47     48.995    69.489    3389      3528      1488      
+
+Count: r89-f14-c25-pf_motion100-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     4877      6917      197       133       
+COMBINED                           4877      6917      197       133       
+EVAL r89-f14-c25-pf_motion100-s0 {'HOTA': 0.41994445653322976, 'IDF1': 0.5746989994912668, 'IDSW': 101, 'MOTA': 0.47477230013011423}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c25-pf_motion100-s1
+
+
+HOTA: r89-f14-c25-pf_motion100-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     43.034    42.475    43.882    47.575    67.461    50.655    67.871    78.392    45.665    61.103    70.84     43.285    
+COMBINED                           43.034    42.475    43.882    47.575    67.461    50.655    67.871    78.392    45.665    61.103    70.84     43.285    
+
+CLEAR: r89-f14-c25-pf_motion100-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     46.971    75.084    48.518    59.52     84.399    20.301    54.135    25.564    32.141    4117      2800      761       107       27        72        34        141       
+COMBINED                           46.971    75.084    48.518    59.52     84.399    20.301    54.135    25.564    32.141    4117      2800      761       107       27        72        34        141       
+
+Identity: r89-f14-c25-pf_motion100-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     58.296    49.704    70.48     3438      3479      1440      
+COMBINED                           58.296    49.704    70.48     3438      3479      1440      
+
+Count: r89-f14-c25-pf_motion100-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     4878      6917      199       133       
+COMBINED                           4878      6917      199       133       
+EVAL r89-f14-c25-pf_motion100-s1 {'HOTA': 0.4303379368055696, 'IDF1': 0.5829588808817295, 'IDSW': 107, 'MOTA': 0.46971230302154116}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c25-pf_motion100-s2
+
+
+HOTA: r89-f14-c25-pf_motion100-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     42.285    42.615    42.26     47.706    67.564    48.14     67.585    78.352    44.869    59.473    70.86     42.142    
+COMBINED                           42.285    42.615    42.26     47.706    67.564    48.14     67.585    78.352    44.869    59.473    70.86     42.142    
+
+CLEAR: r89-f14-c25-pf_motion100-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     47.824    75.002    49.183    59.896    84.828    18.797    55.639    25.564    32.851    4143      2774      741       94        25        74        34        141       
+COMBINED                           47.824    75.002    49.183    59.896    84.828    18.797    55.639    25.564    32.851    4143      2774      741       94        25        74        34        141       
+
+Identity: r89-f14-c25-pf_motion100-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     57.029    48.648    68.898    3365      3552      1519      
+COMBINED                           57.029    48.648    68.898    3365      3552      1519      
+
+Count: r89-f14-c25-pf_motion100-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     4884      6917      194       133       
+COMBINED                           4884      6917      194       133       
+EVAL r89-f14-c25-pf_motion100-s2 {'HOTA': 0.42284771539826593, 'IDF1': 0.5702906533344632, 'IDSW': 94, 'MOTA': 0.47824201243313574}
+DONE f14/c25/pf_motion100
+START f14/c10/cv 2026-11-06T08:00:22.725896
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack yaml=bytetrack.yaml conf>0.1 classes=[0] max_det=300 fps=14.0 track_buffer=17 elapsed=steps seeds=[None]
+  r89-f14-c10-cv               MOT17-05-FRCNN   837 frame ->   5,122 bbox  189 track  predict 0.11 ms/frame  assoc 1.10  (1.1s, 730 fps)
+  r89-f14-c10-cv                 1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c10-cv
+
+
+HOTA: r89-f14-c10-cv-pedestrian    HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     42.704    42.361    43.326    48.338    65.444    49.118    67.475    78.121    45.737    60.961    70.492    42.973    
+COMBINED                           42.704    42.361    43.326    48.338    65.444    49.118    67.475    78.121    45.737    60.961    70.492    42.973    
+
+CLEAR: r89-f14-c10-cv-pedestrian   MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     46.06     74.699    47.55     60.706    82.188    21.053    54.135    24.812    30.701    4199      2718      910       103       28        72        33        126       
+COMBINED                           46.06     74.699    47.55     60.706    82.188    21.053    54.135    24.812    30.701    4199      2718      910       103       28        72        33        126       
+
+Identity: r89-f14-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     58.29     50.672    68.604    3505      3412      1604      
+COMBINED                           58.29     50.672    68.604    3505      3412      1604      
+
+Count: r89-f14-c10-cv-pedestrian   Dets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     5109      6917      188       133       
+COMBINED                           5109      6917      188       133       
+EVAL r89-f14-c10-cv {'HOTA': 0.4270441102090703, 'IDF1': 0.5829037086312988, 'IDSW': 103, 'MOTA': 0.4606043082261096}
+DONE f14/c10/cv
+START f14/c10/ekf 2026-11-06T08:00:30.770926
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.1 classes=[0] max_det=300 fps=14.0 track_buffer=17 elapsed=steps seeds=[None]
+  r89-f14-c10-ekf              MOT17-05-FRCNN   837 frame ->   5,124 bbox  196 track  predict 0.42 ms/frame  assoc 1.49  (1.8s, 472 fps)
+  r89-f14-c10-ekf                1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c10-ekf
+
+
+HOTA: r89-f14-c10-ekf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     42.225    42.021    42.76     48.098    65.005    48.437    67.582    78.082    45.312    60.088    70.346    42.269    
+COMBINED                           42.225    42.021    42.76     48.098    65.005    48.437    67.582    78.082    45.312    60.088    70.346    42.269    
+
+CLEAR: r89-f14-c10-ekf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     45.742    74.596    47.246    60.619    81.927    20.301    54.887    24.812    30.343    4193      2724      925       104       27        73        33        135       
+COMBINED                           45.742    74.596    47.246    60.619    81.927    20.301    54.887    24.812    30.343    4193      2724      925       104       27        73        33        135       
+
+Identity: r89-f14-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     57.283    49.834    67.351    3447      3470      1671      
+COMBINED                           57.283    49.834    67.351    3447      3470      1671      
+
+Count: r89-f14-c10-ekf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     5118      6917      195       133       
+COMBINED                           5118      6917      195       133       
+EVAL r89-f14-c10-ekf {'HOTA': 0.4222498540695774, 'IDF1': 0.5728292480265891, 'IDSW': 104, 'MOTA': 0.4574237386150065}
+DONE f14/c10/ekf
+START f14/c10/ukf 2026-11-06T08:00:41.062488
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.1 classes=[0] max_det=300 fps=14.0 track_buffer=17 elapsed=steps seeds=[None]
+  r89-f14-c10-ukf              MOT17-05-FRCNN   837 frame ->   5,124 bbox  195 track  predict 2.76 ms/frame  assoc 1.95  (4.1s, 203 fps)
+  r89-f14-c10-ukf                1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c10-ukf
+
+
+HOTA: r89-f14-c10-ukf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     41.204    42.177    40.607    48.159    65.227    47.152    65.223    78.02     44.173    58.699    70.167    41.187    
+COMBINED                           41.204    42.177    40.607    48.159    65.227    47.152    65.223    78.02     44.173    58.699    70.167    41.187    
+
+CLEAR: r89-f14-c10-ukf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     45.598    74.657    47.203    60.518    81.966    19.549    55.639    24.812    30.261    4186      2731      921       111       26        74        33        133       
+COMBINED                           45.598    74.657    47.203    60.518    81.966    19.549    55.639    24.812    30.261    4186      2731      921       111       26        74        33        133       
+
+Identity: r89-f14-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     55.522    48.258    65.361    3338      3579      1769      
+COMBINED                           55.522    48.258    65.361    3338      3579      1769      
+
+Count: r89-f14-c10-ukf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     5107      6917      194       133       
+COMBINED                           5107      6917      194       133       
+EVAL r89-f14-c10-ukf {'HOTA': 0.41204192004777984, 'IDF1': 0.5552228875582169, 'IDSW': 111, 'MOTA': 0.4559780251554142}
+DONE f14/c10/ukf
+START f14/c10/pf_default 2026-11-06T08:00:51.894369
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[0] max_det=300 fps=14.0 track_buffer=17 elapsed=steps seeds=[0, 1, 2]
+  r89-f14-c10-pf_default-s0    MOT17-05-FRCNN   837 frame ->   5,092 bbox  190 track  predict 2.96 ms/frame  assoc 3.54  (5.6s, 149 fps)
+  r89-f14-c10-pf_default-s0      1 video moi,   0 tai su dung
+  r89-f14-c10-pf_default-s1    MOT17-05-FRCNN   837 frame ->   5,079 bbox  197 track  predict 3.04 ms/frame  assoc 3.33  (5.5s, 152 fps)
+  r89-f14-c10-pf_default-s1      1 video moi,   0 tai su dung
+  r89-f14-c10-pf_default-s2    MOT17-05-FRCNN   837 frame ->   5,064 bbox  205 track  predict 3.33 ms/frame  assoc 3.53  (5.9s, 142 fps)
+  r89-f14-c10-pf_default-s2      1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c10-pf_default-s0
+
+
+HOTA: r89-f14-c10-pf_default-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     41.449    41.864    41.41     47.728    64.935    48.772    65.103    77.684    44.405    59.321    69.692    41.342    
+COMBINED                           41.449    41.864    41.41     47.728    64.935    48.772    65.103    77.684    44.405    59.321    69.692    41.342    
+
+CLEAR: r89-f14-c10-pf_default-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     45.685    74.117    47.188    60.344    82.101    21.805    53.383    24.812    30.066    4174      2743      910       104       29        71        33        121       
+COMBINED                           45.685    74.117    47.188    60.344    82.101    21.805    53.383    24.812    30.066    4174      2743      910       104       29        71        33        121       
+
+Identity: r89-f14-c10-pf_default-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     56.412    48.937    66.581    3385      3532      1699      
+COMBINED                           56.412    48.937    66.581    3385      3532      1699      
+
+Count: r89-f14-c10-pf_default-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     5084      6917      189       133       
+COMBINED                           5084      6917      189       133       
+EVAL r89-f14-c10-pf_default-s0 {'HOTA': 0.414487243189392, 'IDF1': 0.5641196566952754, 'IDSW': 104, 'MOTA': 0.4568454532311696}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c10-pf_default-s1
+
+
+HOTA: r89-f14-c10-pf_default-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     42.018    41.784    42.605    47.639    64.955    49.882    64.762    77.7      45.009    60.706    69.493    42.186    
+COMBINED                           42.018    41.784    42.605    47.639    64.955    49.882    64.762    77.7      45.009    60.706    69.493    42.186    
+
+CLEAR: r89-f14-c10-pf_default-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     44.774    74.318    46.393    59.867    81.628    18.797    54.887    26.316    29.399    4141      2776      932       112       25        73        35        127       
+COMBINED                           44.774    74.318    46.393    59.867    81.628    18.797    54.887    26.316    29.399    4141      2776      932       112       25        73        35        127       
+
+Identity: r89-f14-c10-pf_default-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     56.881    49.299    67.219    3410      3507      1663      
+COMBINED                           56.881    49.299    67.219    3410      3507      1663      
+
+Count: r89-f14-c10-pf_default-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     5073      6917      196       133       
+COMBINED                           5073      6917      196       133       
+EVAL r89-f14-c10-pf_default-s1 {'HOTA': 0.4201762221395292, 'IDF1': 0.5688073394495413, 'IDSW': 112, 'MOTA': 0.44773745843573803}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c10-pf_default-s2
+
+
+HOTA: r89-f14-c10-pf_default-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     41.941    41.309    43.017    47.134    64.534    49.274    66.811    77.505    44.964    60.292    69.27     41.764    
+COMBINED                           41.941    41.309    43.017    47.134    64.534    49.274    66.811    77.505    44.964    60.292    69.27     41.764    
+
+CLEAR: r89-f14-c10-pf_default-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     44.354    73.942    46.032    59.534    81.512    18.797    55.639    25.564    28.841    4118      2799      934       116       25        74        34        135       
+COMBINED                           44.354    73.942    46.032    59.534    81.512    18.797    55.639    25.564    28.841    4118      2799      934       116       25        74        34        135       
+
+Identity: r89-f14-c10-pf_default-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     57.298    49.574    67.874    3429      3488      1623      
+COMBINED                           57.298    49.574    67.874    3429      3488      1623      
+
+Count: r89-f14-c10-pf_default-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     5052      6917      204       133       
+COMBINED                           5052      6917      204       133       
+EVAL r89-f14-c10-pf_default-s2 {'HOTA': 0.4194120325851685, 'IDF1': 0.5729801988470214, 'IDSW': 116, 'MOTA': 0.44354488940292036}
+DONE f14/c10/pf_default
+START f14/c10/pf_motion100 2026-11-06T08:01:17.517211
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.1 classes=[0] max_det=300 fps=14.0 track_buffer=17 elapsed=steps seeds=[0, 1, 2]
+  r89-f14-c10-pf_motion100-s0  MOT17-05-FRCNN   837 frame ->   5,104 bbox  191 track  predict 2.97 ms/frame  assoc 4.40  (6.3s, 132 fps)
+  r89-f14-c10-pf_motion100-s0    1 video moi,   0 tai su dung
+  r89-f14-c10-pf_motion100-s1  MOT17-05-FRCNN   837 frame ->   5,121 bbox  185 track  predict 3.18 ms/frame  assoc 4.42  (6.5s, 128 fps)
+  r89-f14-c10-pf_motion100-s1    1 video moi,   0 tai su dung
+  r89-f14-c10-pf_motion100-s2  MOT17-05-FRCNN   837 frame ->   5,105 bbox  186 track  predict 3.76 ms/frame  assoc 4.85  (7.4s, 113 fps)
+  r89-f14-c10-pf_motion100-s2    1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c10-pf_motion100-s0
+
+
+HOTA: r89-f14-c10-pf_motion100-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     41.401    42.052    41.098    48.059    65.257    48.677    63.869    78.069    44.401    59.017    70.084    41.361    
+COMBINED                           41.401    42.052    41.098    48.059    65.257    48.677    63.869    78.069    44.401    59.017    70.084    41.361    
+
+CLEAR: r89-f14-c10-pf_motion100-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     46.032    74.836    47.506    60.575    82.254    19.549    53.383    27.068    30.788    4190      2727      904       102       26        71        36        130       
+COMBINED                           46.032    74.836    47.506    60.575    82.254    19.549    53.383    27.068    30.788    4190      2727      904       102       26        71        36        130       
+
+Identity: r89-f14-c10-pf_motion100-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     55.532    48.215    65.469    3335      3582      1759      
+COMBINED                           55.532    48.215    65.469    3335      3582      1759      
+
+Count: r89-f14-c10-pf_motion100-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     5094      6917      190       133       
+COMBINED                           5094      6917      190       133       
+EVAL r89-f14-c10-pf_motion100-s0 {'HOTA': 0.41400902702287795, 'IDF1': 0.5553242860711015, 'IDSW': 102, 'MOTA': 0.4603151655341911}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c10-pf_motion100-s1
+
+
+HOTA: r89-f14-c10-pf_motion100-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     42.852    42.284    43.804    48.351    65.423    50.003    67.845    78.244    45.974    60.763    70.391    42.771    
+COMBINED                           42.852    42.284    43.804    48.351    65.423    50.003    67.845    78.244    45.974    60.763    70.391    42.771    
+
+CLEAR: r89-f14-c10-pf_motion100-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     45.554    74.996    46.87     60.387    81.71     19.549    57.143    23.308    30.455    4177      2740      935       91        26        76        31        119       
+COMBINED                           45.554    74.996    46.87     60.387    81.71     19.549    57.143    23.308    30.455    4177      2740      935       91        26        76        31        119       
+
+Identity: r89-f14-c10-pf_motion100-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     57.777    50.239    67.977    3475      3442      1637      
+COMBINED                           57.777    50.239    67.977    3475      3442      1637      
+
+Count: r89-f14-c10-pf_motion100-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     5112      6917      184       133       
+COMBINED                           5112      6917      184       133       
+EVAL r89-f14-c10-pf_motion100-s1 {'HOTA': 0.4285248953096616, 'IDF1': 0.577770388228448, 'IDSW': 91, 'MOTA': 0.4555443111175365}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f14-c10-pf_motion100-s2
+
+
+HOTA: r89-f14-c10-pf_motion100-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-05-FRCNN                     41.292    42.428    40.489    48.374    65.685    47.983    64.559    78.261    44.222    58.518    70.522    41.268    
+COMBINED                           41.292    42.428    40.489    48.374    65.685    47.983    64.559    78.261    44.222    58.518    70.522    41.268    
+
+CLEAR: r89-f14-c10-pf_motion100-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-05-FRCNN                     45.945    74.894    47.419    60.532    82.195    19.549    54.135    26.316    30.748    4187      2730      907       102       26        72        35        124       
+COMBINED                           45.945    74.894    47.419    60.532    82.195    19.549    54.135    26.316    30.748    4187      2730      907       102       26        72        35        124       
+
+Identity: r89-f14-c10-pf_motion100-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-05-FRCNN                     55.915    48.547    65.921    3358      3559      1736      
+COMBINED                           55.915    48.547    65.921    3358      3559      1736      
+
+Count: r89-f14-c10-pf_motion100-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-05-FRCNN                     5094      6917      185       133       
+COMBINED                           5094      6917      185       133       
+EVAL r89-f14-c10-pf_motion100-s2 {'HOTA': 0.41292183861948717, 'IDF1': 0.5591541087336608, 'IDSW': 102, 'MOTA': 0.45944773745843576}
+DONE f14/c10/pf_motion100
+START f25/c25/cv 2026-11-06T08:01:46.441162
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[0] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  r89-f25-c25-cv               MOT17-13-FRCNN   750 frame ->   3,317 bbox  142 track  predict 0.12 ms/frame  assoc 1.00  (1.0s, 785 fps)
+  r89-f25-c25-cv                 1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c25-cv
+
+
+HOTA: r89-f25-c25-cv-pedestrian    HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     26.744    19.549    37.334    20.312    71.855    40.168    72.884    79.429    27.338    34.46     73.178    25.217    
+COMBINED                           26.744    19.549    37.334    20.312    71.855    40.168    72.884    79.429    27.338    34.46     73.178    25.217    
+
+CLEAR: r89-f25-c25-cv-pedestrian   MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     22.024    75.798    22.977    25.623    90.641    9.0909    31.818    59.091    15.822    2983      8659      308       111       10        35        65        166       
+COMBINED                           22.024    75.798    22.977    25.623    90.641    9.0909    31.818    59.091    15.822    2983      8659      308       111       10        35        65        166       
+
+Identity: r89-f25-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     31.568    20.246    71.62     2357      9285      934       
+COMBINED                           31.568    20.246    71.62     2357      9285      934       
+
+Count: r89-f25-c25-cv-pedestrian   Dets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3291      11642     140       110       
+COMBINED                           3291      11642     140       110       
+EVAL r89-f25-c25-cv {'HOTA': 0.26744484034475835, 'IDF1': 0.31567668921181274, 'IDSW': 111, 'MOTA': 0.22023707266792647}
+DONE f25/c25/cv
+START f25/c25/ekf 2026-11-06T08:01:54.200164
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[0] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  r89-f25-c25-ekf              MOT17-13-FRCNN   750 frame ->   3,392 bbox  135 track  predict 0.38 ms/frame  assoc 1.16  (1.3s, 579 fps)
+  r89-f25-c25-ekf                1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c25-ekf
+
+
+HOTA: r89-f25-c25-ekf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     26.731    19.953    36.616    20.743    71.745    39.101    73.726    79.305    27.338    34.434    72.99     25.133    
+COMBINED                           26.731    19.953    36.616    20.743    71.745    39.101    73.726    79.305    27.338    34.434    72.99     25.133    
+
+CLEAR: r89-f25-c25-ekf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     22.677    75.611    23.57     26.241    90.761    10        30.909    59.091    16.276    3055      8587      311       104       11        34        65        168       
+COMBINED                           22.677    75.611    23.57     26.241    90.761    10        30.909    59.091    16.276    3055      8587      311       104       11        34        65        168       
+
+Identity: r89-f25-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     32.076    20.675    71.509    2407      9235      959       
+COMBINED                           32.076    20.675    71.509    2407      9235      959       
+
+Count: r89-f25-c25-ekf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3366      11642     131       110       
+COMBINED                           3366      11642     131       110       
+EVAL r89-f25-c25-ekf {'HOTA': 0.26730944509410176, 'IDF1': 0.32076226012793174, 'IDSW': 104, 'MOTA': 0.22676516062532212}
+DONE f25/c25/ekf
+START f25/c25/ukf 2026-11-06T08:02:02.607235
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.25 classes=[0] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  r89-f25-c25-ukf              MOT17-13-FRCNN   750 frame ->   3,398 bbox  150 track  predict 2.82 ms/frame  assoc 1.65  (3.5s, 214 fps)
+  r89-f25-c25-ukf                1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c25-ukf
+
+
+HOTA: r89-f25-c25-ukf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     26.342    19.862    35.651    20.667    71.352    38.121    73.446    79.126    26.947    34.127    72.651    24.794    
+COMBINED                           26.342    19.862    35.651    20.667    71.352    38.121    73.446    79.126    26.947    34.127    72.651    24.794    
+
+CLEAR: r89-f25-c25-ukf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     22.376    75.429    23.518    26.241    90.599    10        30.909    59.091    15.928    3055      8587      317       133       11        34        65        172       
+COMBINED                           22.376    75.429    23.518    26.241    90.599    10        30.909    59.091    15.928    3055      8587      317       133       11        34        65        172       
+
+Identity: r89-f25-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     31.304    20.186    69.692    2350      9292      1022      
+COMBINED                           31.304    20.186    69.692    2350      9292      1022      
+
+Count: r89-f25-c25-ukf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3372      11642     146       110       
+COMBINED                           3372      11642     146       110       
+EVAL r89-f25-c25-ukf {'HOTA': 0.2634189119959177, 'IDF1': 0.313041161582523, 'IDSW': 133, 'MOTA': 0.22375880432915307}
+DONE f25/c25/ukf
+START f25/c25/pf_default 2026-11-06T08:02:12.748520
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[0] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[0, 1, 2]
+  r89-f25-c25-pf_default-s0    MOT17-13-FRCNN   750 frame ->   3,325 bbox  146 track  predict 3.13 ms/frame  assoc 2.82  (4.6s, 163 fps)
+  r89-f25-c25-pf_default-s0      1 video moi,   0 tai su dung
+  r89-f25-c25-pf_default-s1    MOT17-13-FRCNN   750 frame ->   3,330 bbox  144 track  predict 3.18 ms/frame  assoc 2.84  (4.7s, 161 fps)
+  r89-f25-c25-pf_default-s1      1 video moi,   0 tai su dung
+  r89-f25-c25-pf_default-s2    MOT17-13-FRCNN   750 frame ->   3,298 bbox  156 track  predict 3.65 ms/frame  assoc 3.05  (5.2s, 145 fps)
+  r89-f25-c25-pf_default-s2      1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c25-pf_default-s0
+
+
+HOTA: r89-f25-c25-pf_default-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     25.547    19.33     34.556    20.083    70.829    37.499    70.672    78.557    26.119    33.189    72.105    23.931    
+COMBINED                           25.547    19.33     34.556    20.083    70.829    37.499    70.672    78.557    26.119    33.189    72.105    23.931    
+
+CLEAR: r89-f25-c25-pf_default-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     21.835    74.759    23.012    25.683    90.579    10        29.091    60.909    15.352    2990      8652      311       137       11        32        67        171       
+COMBINED                           21.835    74.759    23.012    25.683    90.579    10        29.091    60.909    15.352    2990      8652      311       137       11        32        67        171       
+
+Identity: r89-f25-c25-pf_default-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     29.646    19.026    67.101    2215      9427      1086      
+COMBINED                           29.646    19.026    67.101    2215      9427      1086      
+
+Count: r89-f25-c25-pf_default-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3301      11642     143       110       
+COMBINED                           3301      11642     143       110       
+EVAL r89-f25-c25-pf_default-s0 {'HOTA': 0.25546595481863255, 'IDF1': 0.2964598808806799, 'IDSW': 137, 'MOTA': 0.2183473629960488}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c25-pf_default-s1
+
+
+HOTA: r89-f25-c25-pf_default-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     26.477    19.447    36.828    20.202    71.142    39.617    73.965    78.817    27.063    34.399    72.46     24.925    
+COMBINED                           26.477    19.447    36.828    20.202    71.142    39.617    73.965    78.817    27.063    34.399    72.46     24.925    
+
+CLEAR: r89-f25-c25-pf_default-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     21.783    74.988    22.728    25.563    90.018    9.0909    31.818    59.091    15.389    2976      8666      330       110       10        35        65        159       
+COMBINED                           21.783    74.988    22.728    25.563    90.018    9.0909    31.818    59.091    15.389    2976      8666      330       110       10        35        65        159       
+
+Identity: r89-f25-c25-pf_default-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     30.88     19.825    69.812    2308      9334      998       
+COMBINED                           30.88     19.825    69.812    2308      9334      998       
+
+Count: r89-f25-c25-pf_default-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3306      11642     140       110       
+COMBINED                           3306      11642     140       110       
+EVAL r89-f25-c25-pf_default-s1 {'HOTA': 0.2647665187693744, 'IDF1': 0.3088038533583088, 'IDSW': 110, 'MOTA': 0.21783198763099124}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c25-pf_default-s2
+
+
+HOTA: r89-f25-c25-pf_default-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     24.959    19.142    33.321    19.883    70.724    36.244    71.463    78.544    25.516    32.398    71.983    23.321    
+COMBINED                           24.959    19.142    33.321    19.883    70.724    36.244    71.463    78.544    25.516    32.398    71.983    23.321    
+
+CLEAR: r89-f25-c25-pf_default-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     21.646    74.542    22.788    25.451    90.529    9.0909    30        60.909    15.166    2963      8679      310       133       10        33        67        174       
+COMBINED                           21.646    74.542    22.788    25.451    90.529    9.0909    30        60.909    15.166    2963      8679      310       133       10        33        67        174       
+
+Identity: r89-f25-c25-pf_default-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     29.299    18.768    66.758    2185      9457      1088      
+COMBINED                           29.299    18.768    66.758    2185      9457      1088      
+
+Count: r89-f25-c25-pf_default-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3273      11642     152       110       
+COMBINED                           3273      11642     152       110       
+EVAL r89-f25-c25-pf_default-s2 {'HOTA': 0.24958564074615328, 'IDF1': 0.2929936305732484, 'IDSW': 133, 'MOTA': 0.2164576533241711}
+DONE f25/c25/pf_default
+START f25/c25/pf_motion100 2026-11-06T08:02:36.052540
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.25 classes=[0] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[0, 1, 2]
+  r89-f25-c25-pf_motion100-s0  MOT17-13-FRCNN   750 frame ->   3,329 bbox  149 track  predict 3.83 ms/frame  assoc 4.48  (6.4s, 117 fps)
+  r89-f25-c25-pf_motion100-s0    1 video moi,   0 tai su dung
+  r89-f25-c25-pf_motion100-s1  MOT17-13-FRCNN   750 frame ->   3,317 bbox  151 track  predict 3.42 ms/frame  assoc 3.70  (5.5s, 137 fps)
+  r89-f25-c25-pf_motion100-s1    1 video moi,   0 tai su dung
+  r89-f25-c25-pf_motion100-s2  MOT17-13-FRCNN   750 frame ->   3,365 bbox  136 track  predict 3.56 ms/frame  assoc 3.91  (5.7s, 131 fps)
+  r89-f25-c25-pf_motion100-s2    1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c25-pf_motion100-s0
+
+
+HOTA: r89-f25-c25-pf_motion100-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     26.441    19.556    36.425    20.317    71.589    39.189    73.537    79.156    27.024    34.216    72.845    24.925    
+COMBINED                           26.441    19.556    36.425    20.317    71.589    39.189    73.537    79.156    27.024    34.216    72.845    24.925    
+
+CLEAR: r89-f25-c25-pf_motion100-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     21.946    75.538    23.106    25.743    90.708    10        30        60        15.649    2997      8645      307       135       11        33        66        170       
+COMBINED                           21.946    75.538    23.106    25.743    90.708    10        30        60        15.649    2997      8645      307       135       11        33        66        170       
+
+Identity: r89-f25-c25-pf_motion100-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     31.005    19.902    70.127    2317      9325      987       
+COMBINED                           31.005    19.902    70.127    2317      9325      987       
+
+Count: r89-f25-c25-pf_motion100-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3304      11642     145       110       
+COMBINED                           3304      11642     145       110       
+EVAL r89-f25-c25-pf_motion100-s0 {'HOTA': 0.2644123073656153, 'IDF1': 0.3100495115750033, 'IDSW': 135, 'MOTA': 0.21946400962034016}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c25-pf_motion100-s1
+
+
+HOTA: r89-f25-c25-pf_motion100-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     26.403    19.473    36.542    20.238    71.569    39.243    72.542    79.226    26.993    34.003    72.918    24.795    
+COMBINED                           26.403    19.473    36.542    20.238    71.569    39.243    72.542    79.226    26.993    34.003    72.918    24.795    
+
+CLEAR: r89-f25-c25-pf_motion100-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     21.895    75.533    23.003    25.64     90.674    10        30.909    59.091    15.621    2985      8657      307       129       11        34        65        169       
+COMBINED                           21.895    75.533    23.003    25.64     90.674    10        30.909    59.091    15.621    2985      8657      307       129       11        34        65        169       
+
+Identity: r89-f25-c25-pf_motion100-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     31.11     19.954    70.565    2323      9319      969       
+COMBINED                           31.11     19.954    70.565    2323      9319      969       
+
+Count: r89-f25-c25-pf_motion100-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3292      11642     148       110       
+COMBINED                           3292      11642     148       110       
+EVAL r89-f25-c25-pf_motion100-s1 {'HOTA': 0.26403038877236384, 'IDF1': 0.3111021829382617, 'IDSW': 129, 'MOTA': 0.2189486342552826}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c25-pf_motion100-s2
+
+
+HOTA: r89-f25-c25-pf_motion100-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     26.826    19.787    37.162    20.568    71.715    40.328    72.085    79.331    27.43     34.625    73.073    25.302    
+COMBINED                           26.826    19.787    37.162    20.568    71.715    40.328    72.085    79.331    27.43     34.625    73.073    25.302    
+
+CLEAR: r89-f25-c25-pf_motion100-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     22.513    75.625    23.424    26.052    90.836    10        30.909    59.091    16.163    3033      8609      306       106       11        34        65        177       
+COMBINED                           22.513    75.625    23.424    26.052    90.836    10        30.909    59.091    16.163    3033      8609      306       106       11        34        65        177       
+
+Identity: r89-f25-c25-pf_motion100-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     31.507    20.271    70.68     2360      9282      979       
+COMBINED                           31.507    20.271    70.68     2360      9282      979       
+
+Count: r89-f25-c25-pf_motion100-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3339      11642     132       110       
+COMBINED                           3339      11642     132       110       
+EVAL r89-f25-c25-pf_motion100-s2 {'HOTA': 0.26826007339700686, 'IDF1': 0.3150657499499366, 'IDSW': 106, 'MOTA': 0.2251331386359732}
+DONE f25/c25/pf_motion100
+START f25/c10/cv 2026-11-06T08:03:02.544779
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack yaml=bytetrack.yaml conf>0.1 classes=[0] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  r89-f25-c10-cv               MOT17-13-FRCNN   750 frame ->   3,673 bbox  147 track  predict 0.11 ms/frame  assoc 1.08  (1.0s, 742 fps)
+  r89-f25-c10-cv                 1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c10-cv
+
+
+HOTA: r89-f25-c10-cv-pedestrian    HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     27.39     20.924    36.644    21.911    70.136    39.549    71.999    78.825    28.118    35.764    72.067    25.774    
+COMBINED                           27.39     20.924    36.644    21.911    70.136    39.549    71.999    78.825    28.118    35.764    72.067    25.774    
+
+CLEAR: r89-f25-c10-cv-pedestrian   MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     23.054    75.164    24.111    27.676    88.589    10        32.727    57.273    16.181    3222      8420      415       123       11        36        63        131       
+COMBINED                           23.054    75.164    24.111    27.676    88.589    10        32.727    57.273    16.181    3222      8420      415       123       11        36        63        131       
+
+Identity: r89-f25-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     32.934    21.611    69.178    2516      9126      1121      
+COMBINED                           32.934    21.611    69.178    2516      9126      1121      
+
+Count: r89-f25-c10-cv-pedestrian   Dets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3637      11642     146       110       
+COMBINED                           3637      11642     146       110       
+EVAL r89-f25-c10-cv {'HOTA': 0.2738986788114622, 'IDF1': 0.32934092545323645, 'IDSW': 123, 'MOTA': 0.23054457996907748}
+DONE f25/c10/cv
+START f25/c10/ekf 2026-11-06T08:03:10.577857
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.1 classes=[0] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  r89-f25-c10-ekf              MOT17-13-FRCNN   750 frame ->   3,751 bbox  140 track  predict 0.43 ms/frame  assoc 1.44  (1.5s, 488 fps)
+  r89-f25-c10-ekf                1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c10-ekf
+
+
+HOTA: r89-f25-c10-ekf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     27.697    21.311    36.828    22.342    69.883    39.788    72.666    78.689    28.454    36.338    71.874    26.117    
+COMBINED                           27.697    21.311    36.828    22.342    69.883    39.788    72.666    78.689    28.454    36.338    71.874    26.117    
+
+CLEAR: r89-f25-c10-ekf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     23.578    74.933    24.669    28.32     88.581    10        32.727    57.273    16.479    3297      8345      425       127       11        36        63        125       
+COMBINED                           23.578    74.933    24.669    28.32     88.581    10        32.727    57.273    16.479    3297      8345      425       127       11        36        63        125       
+
+Identity: r89-f25-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     33.064    21.818    68.243    2540      9102      1182      
+COMBINED                           33.064    21.818    68.243    2540      9102      1182      
+
+Count: r89-f25-c10-ekf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3722      11642     137       110       
+COMBINED                           3722      11642     137       110       
+EVAL r89-f25-c10-ekf {'HOTA': 0.27697260424487286, 'IDF1': 0.3306430617026816, 'IDSW': 127, 'MOTA': 0.23578422951382924}
+DONE f25/c10/ekf
+START f25/c10/ukf 2026-11-06T08:03:19.719894
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.1 classes=[0] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[None]
+  r89-f25-c10-ukf              MOT17-13-FRCNN   750 frame ->   3,744 bbox  140 track  predict 2.90 ms/frame  assoc 1.91  (3.8s, 200 fps)
+  r89-f25-c10-ukf                1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c10-ukf
+
+
+HOTA: r89-f25-c10-ukf-pedestrian   HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     27.226    21.286    35.49     22.321    69.95     38.531    70.07     78.816    27.962    35.723    72.056    25.741    
+COMBINED                           27.226    21.286    35.49     22.321    69.95     38.531    70.07     78.816    27.962    35.723    72.056    25.741    
+
+CLEAR: r89-f25-c10-ukf-pedestrian  MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     23.553    75.113    24.661    28.286    88.641    10        32.727    57.273    16.513    3293      8349      422       129       11        36        63        124       
+COMBINED                           23.553    75.113    24.661    28.286    88.641    10        32.727    57.273    16.513    3293      8349      422       129       11        36        63        124       
+
+Identity: r89-f25-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     31.907    21.044    65.949    2450      9192      1265      
+COMBINED                           31.907    21.044    65.949    2450      9192      1265      
+
+Count: r89-f25-c10-ukf-pedestrian  Dets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3715      11642     137       110       
+COMBINED                           3715      11642     137       110       
+EVAL r89-f25-c10-ukf {'HOTA': 0.2722570476488243, 'IDF1': 0.3190727355603308, 'IDSW': 129, 'MOTA': 0.23552654183130045}
+DONE f25/c10/ukf
+START f25/c10/pf_default 2026-11-06T08:03:30.600734
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[0] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[0, 1, 2]
+  r89-f25-c10-pf_default-s0    MOT17-13-FRCNN   750 frame ->   3,590 bbox  147 track  predict 3.05 ms/frame  assoc 3.10  (4.8s, 158 fps)
+  r89-f25-c10-pf_default-s0      1 video moi,   0 tai su dung
+  r89-f25-c10-pf_default-s1    MOT17-13-FRCNN   750 frame ->   3,621 bbox  155 track  predict 3.44 ms/frame  assoc 3.26  (5.2s, 145 fps)
+  r89-f25-c10-pf_default-s1      1 video moi,   0 tai su dung
+  r89-f25-c10-pf_default-s2    MOT17-13-FRCNN   750 frame ->   3,692 bbox  146 track  predict 3.63 ms/frame  assoc 3.47  (5.5s, 137 fps)
+  r89-f25-c10-pf_default-s2      1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c10-pf_default-s0
+
+
+HOTA: r89-f25-c10-pf_default-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     26.132    20.193    34.664    21.133    69.089    37.787    69.23     78.072    26.822    34.196    71.006    24.281    
+COMBINED                           26.132    20.193    34.664    21.133    69.089    37.787    69.23     78.072    26.822    34.196    71.006    24.281    
+
+CLEAR: r89-f25-c10-pf_default-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     21.895    74.298    23.08     26.834    87.728    10.909    29.091    60        14.998    3124      8518      437       138       12        32        66        135       
+COMBINED                           21.895    74.298    23.08     26.834    87.728    10.909    29.091    60        14.998    3124      8518      437       138       12        32        66        135       
+
+Identity: r89-f25-c10-pf_default-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     29.836    19.481    63.69     2268      9374      1293      
+COMBINED                           29.836    19.481    63.69     2268      9374      1293      
+
+Count: r89-f25-c10-pf_default-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3561      11642     144       110       
+COMBINED                           3561      11642     144       110       
+EVAL r89-f25-c10-pf_default-s0 {'HOTA': 0.2613166143438846, 'IDF1': 0.2983621653620996, 'IDSW': 138, 'MOTA': 0.2189486342552826}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c10-pf_default-s1
+
+
+HOTA: r89-f25-c10-pf_default-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     25.009    20.288    31.67     21.251    68.837    34.743    67.996    77.964    25.683    33.045    70.817    23.401    
+COMBINED                           25.009    20.288    31.67     21.251    68.837    34.743    67.996    77.964    25.683    33.045    70.817    23.401    
+
+CLEAR: r89-f25-c10-pf_default-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     21.955    74.204    23.278    27.074    87.702    10.909    30.909    58.182    14.971    3152      8490      442       154       12        34        64        142       
+COMBINED                           21.955    74.204    23.278    27.074    87.702    10.909    30.909    58.182    14.971    3152      8490      442       154       12        34        64        142       
+
+Identity: r89-f25-c10-pf_default-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     29.023    18.992    61.519    2211      9431      1383      
+COMBINED                           29.023    18.992    61.519    2211      9431      1383      
+
+Count: r89-f25-c10-pf_default-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3594      11642     152       110       
+COMBINED                           3594      11642     152       110       
+EVAL r89-f25-c10-pf_default-s1 {'HOTA': 0.25008595110920134, 'IDF1': 0.2902336571278551, 'IDSW': 154, 'MOTA': 0.21954990551451642}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c10-pf_default-s2
+
+
+HOTA: r89-f25-c10-pf_default-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     26.032    20.66     33.683    21.656    68.828    36.833    69.279    77.991    26.747    34.377    70.741    24.319    
+COMBINED                           26.032    20.66     33.683    21.656    68.828    36.833    69.279    77.991    26.747    34.377    70.741    24.319    
+
+CLEAR: r89-f25-c10-pf_default-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     22.865    74.026    24.042    27.753    88.206    10        31.818    58.182    15.657    3231      8411      432       137       11        35        64        138       
+COMBINED                           22.865    74.026    24.042    27.753    88.206    10        31.818    58.182    15.657    3231      8411      432       137       11        35        64        138       
+
+Identity: r89-f25-c10-pf_default-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     31.127    20.46     65.029    2382      9260      1281      
+COMBINED                           31.127    20.46     65.029    2382      9260      1281      
+
+Count: r89-f25-c10-pf_default-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3663      11642     143       110       
+COMBINED                           3663      11642     143       110       
+EVAL r89-f25-c10-pf_default-s2 {'HOTA': 0.260323657181498, 'IDF1': 0.31127082652727867, 'IDSW': 137, 'MOTA': 0.2286548702971998}
+DONE f25/c10/pf_default
+START f25/c10/pf_motion100 2026-11-06T08:03:54.288558
+[run_tracking] cache=r89_mot17_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.1 classes=[0] max_det=300 fps=25.0 track_buffer=30 elapsed=steps seeds=[0, 1, 2]
+  r89-f25-c10-pf_motion100-s0  MOT17-13-FRCNN   750 frame ->   3,681 bbox  144 track  predict 3.14 ms/frame  assoc 4.10  (5.6s, 135 fps)
+  r89-f25-c10-pf_motion100-s0    1 video moi,   0 tai su dung
+  r89-f25-c10-pf_motion100-s1  MOT17-13-FRCNN   750 frame ->   3,664 bbox  134 track  predict 3.22 ms/frame  assoc 4.00  (5.6s, 135 fps)
+  r89-f25-c10-pf_motion100-s1    1 video moi,   0 tai su dung
+  r89-f25-c10-pf_motion100-s2  MOT17-13-FRCNN   750 frame ->   3,660 bbox  146 track  predict 3.79 ms/frame  assoc 4.23  (6.2s, 122 fps)
+  r89-f25-c10-pf_motion100-s2    1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c10-pf_motion100-s0
+
+
+HOTA: r89-f25-c10-pf_motion100-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     26.767    21.043    34.766    22.019    70.192    37.586    69.818    78.718    27.466    34.83     72.023    25.085    
+COMBINED                           26.767    21.043    34.766    22.019    70.192    37.586    69.818    78.718    27.466    34.83     72.023    25.085    
+
+CLEAR: r89-f25-c10-pf_motion100-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     23.252    74.995    24.394    27.882    88.883    10.909    32.727    56.364    16.28     3246      8396      406       133       12        36        62        127       
+COMBINED                           23.252    74.995    24.394    27.882    88.883    10.909    32.727    56.364    16.28     3246      8396      406       133       12        36        62        127       
+
+Identity: r89-f25-c10-pf_motion100-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     31.476    20.675    65.909    2407      9235      1245      
+COMBINED                           31.476    20.675    65.909    2407      9235      1245      
+
+Count: r89-f25-c10-pf_motion100-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3652      11642     141       110       
+COMBINED                           3652      11642     141       110       
+EVAL r89-f25-c10-pf_motion100-s0 {'HOTA': 0.267673265160487, 'IDF1': 0.3147639597227671, 'IDSW': 133, 'MOTA': 0.23252018553513143}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c10-pf_motion100-s1
+
+
+HOTA: r89-f25-c10-pf_motion100-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     27.263    20.863    36.376    21.854    69.993    39.436    70.81     78.8      27.989    35.549    72.016    25.601    
+COMBINED                           27.263    20.863    36.376    21.854    69.993    39.436    70.81     78.8      27.989    35.549    72.016    25.601    
+
+CLEAR: r89-f25-c10-pf_motion100-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     22.883    75.122    23.939    27.581    88.336    10.909    30        59.091    16.021    3211      8431      424       123       12        33        65        135       
+COMBINED                           22.883    75.122    23.939    27.581    88.336    10.909    30        59.091    16.021    3211      8431      424       123       12        33        65        135       
+
+Identity: r89-f25-c10-pf_motion100-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     31.616    20.744    66.437    2415      9227      1220      
+COMBINED                           31.616    20.744    66.437    2415      9227      1220      
+
+Count: r89-f25-c10-pf_motion100-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3635      11642     131       110       
+COMBINED                           3635      11642     131       110       
+EVAL r89-f25-c10-pf_motion100-s1 {'HOTA': 0.27263373344683894, 'IDF1': 0.31616155004254765, 'IDSW': 123, 'MOTA': 0.2288266620855523}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r89-f25-c10-pf_motion100-s2
+
+
+HOTA: r89-f25-c10-pf_motion100-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+MOT17-13-FRCNN                     27.202    20.847    36.336    21.838    70.018    39.6      70.963    78.823    27.933    35.374    72.055    25.489    
+COMBINED                           27.202    20.847    36.336    21.838    70.018    39.6      70.963    78.823    27.933    35.374    72.055    25.489    
+
+CLEAR: r89-f25-c10-pf_motion100-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+MOT17-13-FRCNN                     22.479    75.37     23.681    27.435    87.965    10.909    30.909    58.182    15.722    3194      8448      437       140       12        34        64        138       
+COMBINED                           22.479    75.37     23.681    27.435    87.965    10.909    30.909    58.182    15.722    3194      8448      437       140       12        34        64        138       
+
+Identity: r89-f25-c10-pf_motion100-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+MOT17-13-FRCNN                     31.559    20.701    66.373    2410      9232      1221      
+COMBINED                           31.559    20.701    66.373    2410      9232      1221      
+
+Count: r89-f25-c10-pf_motion100-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+MOT17-13-FRCNN                     3631      11642     143       110       
+COMBINED                           3631      11642     143       110       
+EVAL r89-f25-c10-pf_motion100-s2 {'HOTA': 0.2720192220897594, 'IDF1': 0.31558960256662083, 'IDSW': 140, 'MOTA': 0.22478955505926818}
+DONE f25/c10/pf_motion100
+ALL DONE 30

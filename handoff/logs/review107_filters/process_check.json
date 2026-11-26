@@ -1,0 +1,8 @@
+{
+  "command": "Get-CimInstance Win32_Process -Filter \"Name = 'python.exe'\" | Where-Object { $_.CommandLine -match 'review107_filters' }",
+  "status": "unavailable",
+  "error": "Access denied, HRESULT 0x80041003, PermissionDenied",
+  "empty_count_after_error_is_not_evidence": true,
+  "own_jobs_completion_evidence": "All opened exec sessions returned completion; tier1 subprocess.run records have child_waited=true. Tracking session 47544 and evaluation session 82701 returned exit0; smoke session 98952 returned exit0. No remaining yielded exec cell.",
+  "limit": "No machine-wide process inventory was available. No background job was deliberately detached."
+}

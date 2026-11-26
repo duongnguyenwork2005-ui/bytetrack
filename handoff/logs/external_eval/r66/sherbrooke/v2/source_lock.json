@@ -1,0 +1,243 @@
+{
+ "protocol": "Sherbrooke R66 v2",
+ "geometry": "continuous xyxy difference, floor in-frame center mask=1",
+ "inputs": {
+  "ds": "sherbrooke",
+  "split": "Sherbrooke-cars-f2754-3754-roi-v1",
+  "fps": 30.0,
+  "hw": [
+   600,
+   800
+  ],
+  "videos": [
+   "sherbrooke"
+  ],
+  "n_goc": {
+   "sherbrooke": 1001
+  },
+  "lop_tracker": [
+   2
+  ],
+  "frame_dau_nguon": 2754,
+  "gt_sqlite_sha256": "e541e697d9551004e99f47d485bbc2b8f24a924b0492f923f4f6c91310949e5c",
+  "mask_sha256": "674f360b6341a3e34e5e03f3974c140bd105d8ed86b10e8fda886e3d5ae5944f"
+ },
+ "splits": {
+  "Sherbrooke-cars-f2754-3754-roi-v1-smoke128": {
+   "gt": "07cda49402809b1afb1b2683a389da176186f28f838e86724979b4fbdeaf5cb4",
+   "ini": "3b1fa5397b18cb56d1206f54ed80a345e9d6ad48e1ecaf12827885c3ca2091f4",
+   "map": "d3ce833cf10adf08df23f53f03a5275af2b758e052b5ffd0e6e296a3d2d27206",
+   "images": {
+    "loai": "anh_jpg",
+    "thu_muc": "F:\\LABOTARY_data\\sherbrooke\\sherbrooke_frames",
+    "frame": [
+     1,
+     128
+    ],
+    "ten_dau": "00002754.jpg",
+    "ten_cuoi": "00002881.jpg",
+    "sha256_gop_tung_anh": "355b62c77851e95dbb3331246147d1180554c79bb1d44926a95d49a884d269a4",
+    "fps": 30.0
+   }
+  },
+  "Sherbrooke-cars-f2754-3754-roi-v1": {
+   "gt": "29850d6f3c2c996822dcc410d438d62a41231df5f6d3bee1297f43151032c217",
+   "ini": "9526854737772ae7e519a84257bbad20ec5b34b067071454583ce33953fed5ab",
+   "map": "d3ce833cf10adf08df23f53f03a5275af2b758e052b5ffd0e6e296a3d2d27206",
+   "images": {
+    "loai": "anh_jpg",
+    "thu_muc": "F:\\LABOTARY_data\\sherbrooke\\sherbrooke_frames",
+    "frame": [
+     1,
+     1001
+    ],
+    "ten_dau": "00002754.jpg",
+    "ten_cuoi": "00003754.jpg",
+    "sha256_gop_tung_anh": "944ca04ffb173a37a199f05b81b48dc9c621855e8d507363052b662b995ae3f6",
+    "fps": 30.0
+   }
+  }
+ },
+ "detectors": {
+  "yolov8n_coco": {
+   "weights": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+   "names": {
+    "0": "person",
+    "1": "bicycle",
+    "2": "car",
+    "3": "motorcycle",
+    "4": "airplane",
+    "5": "bus",
+    "6": "train",
+    "7": "truck",
+    "8": "boat",
+    "9": "traffic light",
+    "10": "fire hydrant",
+    "11": "stop sign",
+    "12": "parking meter",
+    "13": "bench",
+    "14": "bird",
+    "15": "cat",
+    "16": "dog",
+    "17": "horse",
+    "18": "sheep",
+    "19": "cow",
+    "20": "elephant",
+    "21": "bear",
+    "22": "zebra",
+    "23": "giraffe",
+    "24": "backpack",
+    "25": "umbrella",
+    "26": "handbag",
+    "27": "tie",
+    "28": "suitcase",
+    "29": "frisbee",
+    "30": "skis",
+    "31": "snowboard",
+    "32": "sports ball",
+    "33": "kite",
+    "34": "baseball bat",
+    "35": "baseball glove",
+    "36": "skateboard",
+    "37": "surfboard",
+    "38": "tennis racket",
+    "39": "bottle",
+    "40": "wine glass",
+    "41": "cup",
+    "42": "fork",
+    "43": "knife",
+    "44": "spoon",
+    "45": "bowl",
+    "46": "banana",
+    "47": "apple",
+    "48": "sandwich",
+    "49": "orange",
+    "50": "broccoli",
+    "51": "carrot",
+    "52": "hot dog",
+    "53": "pizza",
+    "54": "donut",
+    "55": "cake",
+    "56": "chair",
+    "57": "couch",
+    "58": "potted plant",
+    "59": "bed",
+    "60": "dining table",
+    "61": "toilet",
+    "62": "tv",
+    "63": "laptop",
+    "64": "mouse",
+    "65": "remote",
+    "66": "keyboard",
+    "67": "cell phone",
+    "68": "microwave",
+    "69": "oven",
+    "70": "toaster",
+    "71": "sink",
+    "72": "refrigerator",
+    "73": "book",
+    "74": "clock",
+    "75": "vase",
+    "76": "scissors",
+    "77": "teddy bear",
+    "78": "hair drier",
+    "79": "toothbrush"
+   },
+   "mapping": null
+  },
+  "yolov8n_mixed5": {
+   "weights": "542b1381c33a673531bccdbca769f26408a16e9ba6ed89e49238a0f16b9b0694",
+   "names": {
+    "0": "car",
+    "1": "truck",
+    "2": "bus",
+    "3": "motorcycle",
+    "4": "bicycle"
+   },
+   "mapping": {
+    "0": 2,
+    "1": 7,
+    "2": 5,
+    "3": 3,
+    "4": 1
+   }
+  },
+  "yolo11n_mixed5": {
+   "weights": "9a5e34a12c1d97cd1b0e49325d2eadbd443a965633b464461980df91fea386fb",
+   "names": {
+    "0": "car",
+    "1": "truck",
+    "2": "bus",
+    "3": "motorcycle",
+    "4": "bicycle"
+   },
+   "mapping": {
+    "0": 2,
+    "1": 7,
+    "2": 5,
+    "3": 3,
+    "4": 1
+   }
+  }
+ },
+ "tracker": {
+  "git_commit": "8f3b63d",
+  "modules": {
+   "run_tracking.py": "5bd131fe958bdf04",
+   "run_experiment.py": "9952441194b7e70f",
+   "tracker_ctrv.py": "b22b4688f50058e8",
+   "sort_tracker.py": "a4ab4b26867989eb",
+   "ekf_ctrv.py": "b516781efa01f473",
+   "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+   "ukf_ctrv.py": "2d59daf4794d8039",
+   "pf_ctrv.py": "de141de5aa698735",
+   "lost_recovery.py": "38f30192b492fa80",
+   "lost_association.py": "469c2782cba41e01",
+   "time_units.py": "c13b6e20fe003f6d",
+   "det_cache.py": "17024ddc6afec534",
+   "occlusion_eval.py": "1b892596be674b9e",
+   "boot_stats.py": "e9245f6729659f8f",
+   "run_trackeval.py": "519d3f9165803fde",
+   "trackeval_ext.py": "3dcf6582548adcfa",
+   "assoc_log.py": "0915453e70f75eb2",
+   "ul_backend.py": "7381910281d8a273",
+   "bytetrack_np.py": "8d37ec565230603b",
+   "run_state.py": "2bc38e3a86fbf50b"
+  },
+  "backend": {
+   "backend": "ultralytics",
+   "ultralytics": "8.4.141",
+   "numpy": "2.4.6",
+   "scipy": "1.17.1",
+   "lap": "0.5.13"
+  }
+ },
+ "cache_code": {
+  "src/r66_ngoai/danh_gia_r66.py": "ec98c8509d6fc50a1777aa294b27a8c70fac0feaa8c319140141b4ab3f207829",
+  "src/r64_ngoai/danh_gia_ngoai.py": "4be5e531767fd8ff8e1f9bbbef31cf71c3588ab8c861e945f96a4b4929da913d",
+  "src/det_cache.py": "17024ddc6afec5340cc008e19dc49588b4f61d7339337d5afbf469f9392dc059",
+  "src/detector_classes.py": "7bba3439987377cb2f161eb31e2cf0afafae3e814f165279087b7a3780699c3e",
+  "src/run_tracking.py": "5bd131fe958bdf04ed59f704c85919aec43049df1922cb552dced98324910629",
+  "src/run_trackeval.py": "519d3f9165803fde65d0185faf7afe4952f46d572db32f6a61ad7aeb37440aa1",
+  "src/boot_stats.py": "e9245f6729659f8f8488bab3b54c136925a935a9d65ecb263dc176e5d13c7b72"
+ },
+ "driver": {
+  "sher_matrix.py": "b9a72015b2cbe53c165f3227959955e92a6ed565bd44ef4a3645eeeb1b80dba5",
+  "sher_metric.py": "446bcd158d07506f0e2e99cbae14fd462217f001e3dc8baa9bcafebe9ee33c63"
+ },
+ "evaluator": {
+  "trackeval.eval": "0176e10fbc372983ee84a0f230420452460e33b66723d57a7aa96cbe30ef4356",
+  "trackeval.datasets.mot_challenge_2d_box": "c3965aa67bc0a290849e71ba5e3bb733500b84bdd7cddd89c49b3a1063e3c9fc",
+  "trackeval.datasets._base_dataset": "6a13deab92654e8afcf3780346b51074660769ed6a99649611c8773ee3feb5ff",
+  "trackeval.metrics.hota": "eec3a9e822435477c04ee5b82b27c7d70977ffb94baf838afe54b5db960362bb",
+  "trackeval.metrics.clear": "35789c3cfc39825fb0905ee51b0dd0fb8f4b66fca9fdfc7fc875faac1af56c40",
+  "trackeval.metrics.identity": "6e0d4832aa021a326a6bb51b4c403e50bd4b409f59c18271a6c2bc9bd0dee47c",
+  "trackeval.metrics.count": "2075308900ecba13a67ceb9a1f4f6123aea886537e79d23ca578bee4eda236a8"
+ },
+ "configs": {
+  "cv": "395701d947a749179dee3e327b1181b730c4ca98e7cac5a2ab05280aae573b8b",
+  "ekf": "2c35f2da40c56d1d85125db927dd8f0c7296d3cd4408fba3b24d945c6504ab69",
+  "ukf": "5d1286e41ebe8f76f94045ea36ba57571efcf73633e7039bb29ab96366b45661",
+  "pf500": "ff43d4934d6ec72744ada9bb2a87dea7b10b3d0ac8764e8c1ec5a20ef8fa880b"
+ }
+}

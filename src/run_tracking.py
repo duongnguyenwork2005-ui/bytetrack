@@ -63,26 +63,29 @@ else:
 _BACKEND_NP = ul_backend.backend_name() == "np"
 
 #: tracker_type ma output phu thuoc seed (chay moi seed mot lan)
-STOCHASTIC_TRACKERS = {"bytetrack_pf_ctrv"}
+STOCHASTIC_TRACKERS = {"bytetrack_pf_ctrv", "bytetrack_rbpf_ctrv"}
 TRK_COLS = ["frame", "id", "bb_left", "bb_top", "bb_width", "bb_height", "conf"]
 
 
 def tracker_registry() -> dict:
     """tracker_type -> lop tracker. Gom ultralytics TRACKER_MAP + CTRV + SORT (neu co).
 
-    Backend `np`: chi CV + EKF-CTRV (pham vi da chot), lay tu `bytetrack_np.tracker_registry_np()`.
+    The optional RBPF research backend is registered for both implementations.
     """
     if ul_backend.backend_name() == "np":
         import bytetrack_np
-        return bytetrack_np.tracker_registry_np()
-    tracker_ctrv.register()
-    from ultralytics.trackers.track import TRACKER_MAP
-    reg = dict(TRACKER_MAP)
-    try:
-        import sort_tracker
-        reg.update(sort_tracker.SORT_TRACKERS)
-    except ImportError:
-        pass
+        reg = bytetrack_np.tracker_registry_np()
+    else:
+        tracker_ctrv.register()
+        from ultralytics.trackers.track import TRACKER_MAP
+        reg = dict(TRACKER_MAP)
+        try:
+            import sort_tracker
+            reg.update(sort_tracker.SORT_TRACKERS)
+        except ImportError:
+            pass
+    from rbpf_ctrv import RBPFByteTracker
+    reg["bytetrack_rbpf_ctrv"] = RBPFByteTracker
     return reg
 
 

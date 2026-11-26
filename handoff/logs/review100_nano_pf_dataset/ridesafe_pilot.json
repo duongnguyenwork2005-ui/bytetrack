@@ -1,0 +1,157 @@
+{
+  "clip": "20211125083549_0060",
+  "decoded_frames": 1500,
+  "source_fps": 25.0,
+  "stride": 5,
+  "effective_fps": 5.0,
+  "timestamp_max_abs_error_ms": 7.275957614183426e-12,
+  "shape_hw": [
+    1440,
+    2560
+  ],
+  "labeled_frames": 300,
+  "motorcycle_boxes": 1799,
+  "motorcycle_ids": 57,
+  "occluded_boxes": 0,
+  "checkpoints": {
+    "yolov8n_coco": {
+      "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+      "motorcycle_class": 3
+    },
+    "yolov8n_mixed5": {
+      "sha256": "542b1381c33a673531bccdbca769f26408a16e9ba6ed89e49238a0f16b9b0694",
+      "motorcycle_class": 3
+    },
+    "yolo11n_mixed5": {
+      "sha256": "9a5e34a12c1d97cd1b0e49325d2eadbd443a965633b464461980df91fea386fb",
+      "motorcycle_class": 3
+    }
+  },
+  "recall": {
+    "yolov8n_coco": {
+      "0.05": {
+        "matches": 964,
+        "gt": 1799,
+        "detections": 2867,
+        "recall": 0.5358532518065592
+      },
+      "0.25": {
+        "matches": 540,
+        "gt": 1799,
+        "detections": 740,
+        "recall": 0.30016675931072817
+      }
+    },
+    "yolov8n_mixed5": {
+      "0.05": {
+        "matches": 331,
+        "gt": 1799,
+        "detections": 614,
+        "recall": 0.1839911061700945
+      },
+      "0.25": {
+        "matches": 120,
+        "gt": 1799,
+        "detections": 145,
+        "recall": 0.06670372429127293
+      }
+    },
+    "yolo11n_mixed5": {
+      "0.05": {
+        "matches": 563,
+        "gt": 1799,
+        "detections": 1497,
+        "recall": 0.3129516397998888
+      },
+      "0.25": {
+        "matches": 190,
+        "gt": 1799,
+        "detections": 378,
+        "recall": 0.1056142301278488
+      }
+    }
+  },
+  "tracking": [
+    {
+      "tracker": "kf",
+      "seed": null,
+      "hota": 0.2341944393052601,
+      "idf1": 0.2885876694359423,
+      "idsw": 7,
+      "fn": 1438,
+      "fp": 127
+    },
+    {
+      "tracker": "ekf",
+      "seed": null,
+      "hota": 0.23061665812541327,
+      "idf1": 0.2824561403508772,
+      "idsw": 12,
+      "fn": 1440,
+      "fp": 122
+    },
+    {
+      "tracker": "ukf",
+      "seed": null,
+      "hota": 0.2312699133476924,
+      "idf1": 0.28471309680245294,
+      "idsw": 10,
+      "fn": 1438,
+      "fp": 123
+    },
+    {
+      "tracker": "pf_motion2",
+      "seed": 0,
+      "hota": 0.23488073053283104,
+      "idf1": 0.28771316134674246,
+      "idsw": 7,
+      "fn": 1434,
+      "fp": 123
+    },
+    {
+      "tracker": "pf_motion2",
+      "seed": 1,
+      "hota": 0.23275727357560277,
+      "idf1": 0.28458844133099825,
+      "idsw": 7,
+      "fn": 1441,
+      "fp": 127
+    },
+    {
+      "tracker": "pf_motion2",
+      "seed": 2,
+      "hota": 0.23595418409193852,
+      "idf1": 0.2859641451683428,
+      "idsw": 6,
+      "fn": 1439,
+      "fp": 128
+    },
+    {
+      "tracker": "pf_r95",
+      "seed": 0,
+      "hota": 0.2288260601348017,
+      "idf1": 0.2778264680105171,
+      "idsw": 10,
+      "fn": 1446,
+      "fp": 130
+    },
+    {
+      "tracker": "pf_r95",
+      "seed": 1,
+      "hota": 0.23127460817933373,
+      "idf1": 0.28433945756780404,
+      "idsw": 10,
+      "fn": 1440,
+      "fp": 128
+    },
+    {
+      "tracker": "pf_r95",
+      "seed": 2,
+      "hota": 0.23173153116623735,
+      "idf1": 0.29368191721132897,
+      "idsw": 8,
+      "fn": 1439,
+      "fp": 136
+    }
+  ]
+}

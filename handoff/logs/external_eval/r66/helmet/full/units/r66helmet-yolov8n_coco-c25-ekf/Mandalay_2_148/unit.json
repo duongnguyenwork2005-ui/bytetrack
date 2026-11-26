@@ -1,0 +1,70 @@
+{
+ "protocol_hash": "6336582ee9b25f3d8c0a91a01e71177469e341033a2660f496c8715248bcdce5",
+ "fingerprint": "6cebe58abedff7e0d752cef807b4b822ab6f89ac3d0a0597bc081092b9de95d6",
+ "video": "Mandalay_2_148",
+ "seed": null,
+ "settings": {
+  "protocol_hash": "6336582ee9b25f3d8c0a91a01e71177469e341033a2660f496c8715248bcdce5",
+  "tracker_cfg": {
+   "tracker_type": "bytetrack_ekf_ctrv",
+   "track_high_thresh": 0.25,
+   "track_low_thresh": 0.1,
+   "new_track_thresh": 0.25,
+   "track_buffer": 12,
+   "match_thresh": 0.8,
+   "fuse_score": true
+  },
+  "yaml_sha256": "2c35f2da40c56d1d85125db927dd8f0c7296d3cd4408fba3b24d945c6504ab69",
+  "backend": {
+   "git_commit": "8f3b63d",
+   "modules": {
+    "run_tracking.py": "5bd131fe958bdf04",
+    "run_experiment.py": "9952441194b7e70f",
+    "tracker_ctrv.py": "b22b4688f50058e8",
+    "sort_tracker.py": "a4ab4b26867989eb",
+    "ekf_ctrv.py": "b516781efa01f473",
+    "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+    "ukf_ctrv.py": "2d59daf4794d8039",
+    "pf_ctrv.py": "de141de5aa698735",
+    "lost_recovery.py": "38f30192b492fa80",
+    "lost_association.py": "469c2782cba41e01",
+    "time_units.py": "c13b6e20fe003f6d",
+    "det_cache.py": "17024ddc6afec534",
+    "occlusion_eval.py": "1b892596be674b9e",
+    "boot_stats.py": "e9245f6729659f8f",
+    "run_trackeval.py": "519d3f9165803fde",
+    "trackeval_ext.py": "3dcf6582548adcfa",
+    "assoc_log.py": "0915453e70f75eb2",
+    "ul_backend.py": "7381910281d8a273",
+    "bytetrack_np.py": "8d37ec565230603b",
+    "run_state.py": "2bc38e3a86fbf50b"
+   },
+   "backend": {
+    "backend": "ultralytics",
+    "ultralytics": "8.4.141",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13"
+   }
+  },
+  "detector": "yolov8n_coco",
+  "threshold": 0.25,
+  "classes": [
+   3
+  ],
+  "max_det": 300,
+  "seed": null,
+  "elapsed_mode": "steps",
+  "fps": 10,
+  "max_time_lost_thuc": 12,
+  "track_buffer_frames": 12,
+  "dt_nominal_s": 0.1
+ },
+ "cache_marker_sha256": "a076a8e509adea33a50d1b11e9ef6202d44b38b409b25ceb98009b15659a0678",
+ "sha256": {
+  "data/Mandalay_2_148.txt": "080b5ea1b5cb7e306bdf695399841fc0ce6b15c21e62b88b25c77cf93d9025a9",
+  "data_cls/Mandalay_2_148.csv": "a93700975dfda371d8df3279e7c54de6e9f0031948184fb4c912ca9fc5c07b5c",
+  "timing/Mandalay_2_148.csv": "8e6fde2d689f74a63268e42c368c80201e1aab64d65a4b95d93ac42659d0a9ee"
+ },
+ "seconds": 0.1720000000204891
+}

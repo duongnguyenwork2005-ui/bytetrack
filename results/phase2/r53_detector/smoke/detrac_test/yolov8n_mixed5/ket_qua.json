@@ -1,0 +1,249 @@
+{
+ "canh_bao": "SMOKE KY THUAT tren toi da 64 anh: chi kiem duong chay; KHONG dung AP smoke de xep hang detector hay chinh tham so",
+ "tap": "detrac_test",
+ "mo_hinh_ten": "yolov8n_mixed5",
+ "tao_luc": "2026-10-20T04:17:41",
+ "lenh": [
+  "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+  "--buoc",
+  "smoke",
+  "--tap",
+  "detrac_test",
+  "--model",
+  "yolov8n_mixed5"
+ ],
+ "khoa": {
+  "thoi_diem_khoa": "2026-10-20T04:14:32",
+  "sha256sums_sha256": "e1442ea6b02f74440cb5a3b1903ac897cde7dcdccc536bdaab8a979ac8a4250d"
+ },
+ "quy_tac": {
+  "du_doan": {
+   "imgsz": 640,
+   "conf": 0.001,
+   "iou_nms": 0.7,
+   "max_det": 300,
+   "agnostic_nms": false,
+   "half": false,
+   "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS"
+  },
+  "ghep": "COCO (pycocotools evaluateImg): conf giam dan (mergesort) trong (anh, lop); GT chua ghep co IoU cao nhat >= nguong, HOA IoU -> GT SAU trong thu tu duyet; IoU tinh nhu bbIou cua pycocotools (tu xywh)",
+  "bo_qua": "detection khong ghep ma IoA voi vung to xam >= nguong -> bo qua (nhu crowd cua COCO)",
+  "ap": "10 nguong IoU 0.50:0.05:0.95, noi suy 101 diem recall (COCO); lop khong co GT -> null",
+  "van_hanh": {
+   "conf": 0.25,
+   "iou": 0.5
+  },
+  "gop_lop": "KHONG -- moi so lieu theo lop; macro = trung binh cac lop co GT"
+ },
+ "batch": 16,
+ "device": "0",
+ "dataset": {
+  "ten": "detrac_test",
+  "n_anh": 64,
+  "mau_smoke": true,
+  "danh_tinh_khoa": {
+   "so_video": 40,
+   "dem.anh_tren_dia": 56340,
+   "dem.anh_loai_D4": 173,
+   "dem.anh_danh_gia": 56167,
+   "dem.gt_theo_lop": {
+    "car": 548555,
+    "truck": 0,
+    "bus": 71785,
+    "motorcycle": 0,
+    "bicycle": 0
+   },
+   "manifest_sha256": "ff2b4b9c658aced54567247c16b5a0fc43ae1e9836af70e7ea656fce3077f47c",
+   "fingerprint_sha256": "dd0f2a0e9dcaf11f26fe397ff4c4eb7ef8a8ecfd248d4682aa652b3af156343a",
+   "bang_hash_sha256": "3cea34881d90031a5ed2161a774154e87691228da9b25b1ac0b07dbe8717b166",
+   "loai_D4_sha256": "4d7312530505651b92da414b2dcf82c4ec74486dc408fa37dc9f927d85723551",
+   "danh_sach_anh_co_thu_tu_sha256": "46204978758016cb16627b2035d34a40c9b31c5eb477db6dd442afab3eba92d7",
+   "noi_dung_anh_sha256_tong_hop": "e4fff621ae775ad7d571d67e23c5f75db100434b4905c1e405fea24dec696cb6"
+  }
+ },
+ "mo_hinh": {
+  "yolov8n_mixed5": {
+   "checkpoint": "models/finetune_mixed5/train_mixed5_v1_yolov8n_day_du/weights/best.pt",
+   "sha256": "542b1381c33a673531bccdbca769f26408a16e9ba6ed89e49238a0f16b9b0694",
+   "anh_xa_lop": {
+    "loai_checkpoint": "lop5",
+    "so_lop_model": 5,
+    "model_id_sang_lop5": {
+     "0": 0,
+     "1": 1,
+     "2": 2,
+     "3": 3,
+     "4": 4
+    },
+    "ten": {
+     "0": "car",
+     "1": "truck",
+     "2": "bus",
+     "3": "motorcycle",
+     "4": "bicycle"
+    },
+    "lop5": [
+     "car",
+     "truck",
+     "bus",
+     "motorcycle",
+     "bicycle"
+    ]
+   },
+   "so_anh_da_du_doan": 64,
+   "npz": "du_doan_yolov8n_mixed5.npz",
+   "npz_sha256": "f3eeeb07d68c8c38e5a3355fae72d582c35259affdc3239db731b4a0a5654c48",
+   "thoi_gian_du_doan_s": 8.5,
+   "chan_doan_tho": {
+    "so_anh_khong_gt_5_lop": 0,
+    "so_det_conf_ge_0.25_tren_anh_khong_gt": 0
+   },
+   "ket_qua_D3": {
+    "lop_danh_gia": [
+     "car",
+     "bus"
+    ],
+    "lop_ngoai_tap": [
+     "truck",
+     "motorcycle",
+     "bicycle"
+    ],
+    "mAP (car, bus)": {
+     "mAP50": 0.995049504950495,
+     "mAP50_95": 0.8405661165169808,
+     "mAP75": 0.9801980198019802,
+     "precision_vh": 0.9858490566037736,
+     "recall_vh": 0.9951923076923077
+    },
+    "theo_lop": {
+     "car": {
+      "n_gt": 104,
+      "n_anh_co_lop": 64,
+      "n_det_conf_thap": 2359,
+      "AP50": 0.9900990099009901,
+      "AP75": 0.9603960396039604,
+      "AP50_95": 0.7811322330339615,
+      "van_hanh": {
+       "TP": 103,
+       "FP": 3,
+       "FN": 1,
+       "precision": 0.9716981132075472,
+       "recall": 0.9903846153846154,
+       "f1": 0.9809523809523809
+      }
+     },
+     "truck": "N/A",
+     "bus": {
+      "n_gt": 1,
+      "n_anh_co_lop": 1,
+      "n_det_conf_thap": 8,
+      "AP50": 1.0,
+      "AP75": 1.0,
+      "AP50_95": 0.9,
+      "van_hanh": {
+       "TP": 1,
+       "FP": 0,
+       "FN": 0,
+       "precision": 1.0,
+       "recall": 1.0,
+       "f1": 1.0
+      }
+     },
+     "motorcycle": "N/A",
+     "bicycle": "N/A"
+    },
+    "so_lieu_tho_khong_phai_metric": {
+     "ghi_chu": "tho, khong phai metric: bo dem cua scorer cho lop khong thuoc tap danh gia D3 (UA-DETRAC test khong co GT lop nay); khong trinh bay nhu chat luong detector",
+     "theo_lop": {
+      "truck": {
+       "n_gt": 0,
+       "n_anh_co_lop": 0,
+       "n_det_conf_thap": 3,
+       "AP50": null,
+       "AP75": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      },
+      "motorcycle": {
+       "n_gt": 0,
+       "n_anh_co_lop": 0,
+       "n_det_conf_thap": 8,
+       "AP50": null,
+       "AP75": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      },
+      "bicycle": {
+       "n_gt": 0,
+       "n_anh_co_lop": 0,
+       "n_det_conf_thap": 17,
+       "AP50": null,
+       "AP75": null,
+       "AP50_95": null,
+       "van_hanh": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null
+       }
+      }
+     }
+    },
+    "n_anh": 64,
+    "van_hanh": {
+     "conf": 0.25,
+     "iou": 0.5
+    }
+   }
+  }
+ },
+ "thoi_gian_kiem_du_lieu_s": 55.7,
+ "kiem": {
+  "khoa": true,
+  "checkpoint_sha256": true,
+  "danh_tinh_du_lieu": true,
+  "mau_bang_khoa": true,
+  "so_anh_du_doan": true,
+  "loai_checkpoint": true,
+  "npz_ten_anh": true,
+  "cham_lai_tu_npz_trung": true,
+  "chuan_hoa_D3": true
+ },
+ "moi_truong": {
+  "python": "3.11.9",
+  "python_exe": "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "goi": {
+   "ultralytics": "8.4.141",
+   "torch": "2.6.0+cu124",
+   "torchvision": "0.21.0+cu124",
+   "numpy": "2.4.6",
+   "pillow": "12.3.0",
+   "opencv-python": "5.0.0.93"
+  },
+  "torch": "2.6.0+cu124",
+  "cuda": "12.4",
+  "cudnn": 90100,
+  "gpu": "NVIDIA GeForce GTX 1650"
+ },
+ "cau_hinh_thu_vien": {
+  "YOLO_CONFIG_DIR": "results/phase2/r53_detector/smoke/_cau_hinh_thu_vien",
+  "YOLO_OFFLINE": "1"
+ }
+}

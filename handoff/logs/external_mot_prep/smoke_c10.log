@@ -1,0 +1,9 @@
+[track_video] nguon=image_dir:data\extracted\utuav_pilot\frames\C_turn_20901_21020  3840x2160 @ 30 fps  (120 frame khai bao); thu tu: sap theo GIA TRI SO o cuoi ten file (cung tien to)
+[track_video] detector=best.pt det_conf=0.05 det_max_det=3000 device=0 allow_truncated=False
+[track_video] loc: conf>0.25 (NGUONG HIEU LUC vao tracker) classes=[0, 1, 2, 3] max_det=300 class_map=None
+[track_video] tracker=bytetrack_cv yaml=configs/phase2/trackers/bytetrack_cv.yaml track_buffer=36 buoc (1.2s) elapsed=steps seed=None backend=ultralytics
+[track_video] 10 frame (0 unreadable, 0 cham tran), 13 hang tracking, 2 track
+[track_video] sau warm-up (10 frame): decode 92.48 | mask 0.01 | detect 820.95 | tracker 3.50 | ve 0.00 | ghi 0.00 | show 0.00 | overhead 3.35 = frame_total 920.28 ms  -> 1.1 fps theo stage
+[track_video] wall: khoi tao 3.7s | vong lap 9.2s (1.1 fps, ke ca warm-up) | ghi 0.1s
+[track_video] -> results\phase2\utuav_pilot\smoke_c10
+[track_video] det cache -> D:\LABOTARY\bytetrack\data\interim\det_cache\utuav_pilot_smoke_c10  (san dung: cau hinh da qua check_compatible; khong frame nao cham tran)

@@ -1,0 +1,157 @@
+{
+  "status": "PASS",
+  "post_hoc": true,
+  "videos": [
+    "MVI_20052",
+    "MVI_20062",
+    "MVI_39851",
+    "MVI_39931",
+    "MVI_40213",
+    "MVI_40752",
+    "MVI_40871",
+    "MVI_40992",
+    "MVI_63544",
+    "MVI_63552",
+    "MVI_63554",
+    "MVI_63561"
+  ],
+  "bootstrap_replicates": 5000,
+  "bootstrap_seed": 159,
+  "mean_seed_IDSW": {
+    "guided": 437.66666666666663,
+    "lost_shape": 441.66666666666674,
+    "init_transport": 440.33333333333337,
+    "auxiliary": 438.00000000000006,
+    "R142": 440.66666666666663,
+    "KF": 449.0,
+    "E144": 439.0,
+    "U144": 439.0,
+    "E154": 435.0,
+    "U154": 430.0
+  },
+  "comparisons": {
+    "guided minus R142": {
+      "IDSW_delta": -2.9999999999999964,
+      "paired_video_CI95": [
+        -8.33333333333335,
+        2.000000000000007
+      ],
+      "videos_lower": 5,
+      "videos_equal": 3,
+      "videos_higher": 4
+    },
+    "guided minus KF": {
+      "IDSW_delta": -11.333333333333332,
+      "paired_video_CI95": [
+        -37.00833333333335,
+        15.67499999999989
+      ],
+      "videos_lower": 7,
+      "videos_equal": 0,
+      "videos_higher": 5
+    },
+    "guided minus E144": {
+      "IDSW_delta": -1.3333333333333321,
+      "paired_video_CI95": [
+        -14.666666666666666,
+        13.333333333333329
+      ],
+      "videos_lower": 7,
+      "videos_equal": 1,
+      "videos_higher": 4
+    },
+    "guided minus U144": {
+      "IDSW_delta": -1.3333333333333321,
+      "paired_video_CI95": [
+        -17.0,
+        11.666666666666679
+      ],
+      "videos_lower": 3,
+      "videos_equal": 3,
+      "videos_higher": 6
+    },
+    "guided minus E154": {
+      "IDSW_delta": 2.666666666666668,
+      "paired_video_CI95": [
+        -8.666666666666675,
+        14.33333333333333
+      ],
+      "videos_lower": 6,
+      "videos_equal": 1,
+      "videos_higher": 5
+    },
+    "guided minus U154": {
+      "IDSW_delta": 7.666666666666668,
+      "paired_video_CI95": [
+        -10.333333333333336,
+        24.66666666666667
+      ],
+      "videos_lower": 3,
+      "videos_equal": 2,
+      "videos_higher": 7
+    },
+    "lost_shape minus guided": {
+      "IDSW_delta": 3.9999999999999876,
+      "paired_video_CI95": [
+        -4.333333333333355,
+        10.666666666666664
+      ],
+      "videos_lower": 2,
+      "videos_equal": 4,
+      "videos_higher": 6
+    },
+    "init_transport minus guided": {
+      "IDSW_delta": 2.6666666666666714,
+      "paired_video_CI95": [
+        -0.3333333333333375,
+        6.666666666666677
+      ],
+      "videos_lower": 2,
+      "videos_equal": 6,
+      "videos_higher": 4
+    },
+    "auxiliary minus guided": {
+      "IDSW_delta": 0.33333333333334103,
+      "paired_video_CI95": [
+        -3.333333333333332,
+        5.000000000000016
+      ],
+      "videos_lower": 5,
+      "videos_equal": 4,
+      "videos_higher": 3
+    }
+  },
+  "limitation": "Conditional on already-observed dev and model search; unadjusted multiple CIs, not blind-test or selection-bias correction.",
+  "scenario_gate_changed": false,
+  "sha256": {
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review159_guided_auxiliary\\compare_dev.py": "ff6db2bf9e15c6428ffd1cf791cc4b03e8f96fad840a4e82ac763d8109e6971e",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review153_guided_turn\\dev\\evaluation\\pf-s0\\raw_fields.json": "398b404c8c8b789814eb632a126e0d8b38e467785948d2840dacf3b15affbf2a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review153_guided_turn\\dev\\evaluation\\pf-s1\\raw_fields.json": "cfcb87454be4123869f6ff2f2c5369b67ce65300139a8fde2dcd1239fd0c63ba",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review153_guided_turn\\dev\\evaluation\\pf-s2\\raw_fields.json": "848f1a498d08a73ce4e21cbe0c6d2b5793819f092692565d7332905430bf4867",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review153_guided_turn\\dev\\summary.json": "d8cafaf6d80b48bd77f7ee8ccee2351cce5e4b85ffad9228beebb5967f8528a0",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review153_guided_turn\\dev\\verification.json": "2c4c9eb67b6c2d99e037aa5765c3b89b94af4d798f8e3c320813bfdd6bea1346",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review156_guided_shape\\dev\\evaluation\\pf-s0\\raw_fields.json": "8be21a916a84ddea8826871ad427a4d912ed58e9a50a0966e7162df15ada43ce",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review156_guided_shape\\dev\\evaluation\\pf-s1\\raw_fields.json": "c2d309d9d24af10792271ec4f6dae818e60ad4f683d7db486c1f66df48341275",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review156_guided_shape\\dev\\evaluation\\pf-s2\\raw_fields.json": "1fe0f7cc4067cf4a2f0e05c1d9480a5027afe81cc71392db9eff7107491ae15b",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review156_guided_shape\\dev\\summary.json": "1da05adc22a38080df3bb892755fb9ad552b121a4c96e6700821587bdd1b6ace",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review156_guided_shape\\dev\\verification.json": "0bdc3c5e2bccddbdb6907374e946ab5bf506009830246d4248ea76f5498ee731",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review157_pf_init_transport\\dev\\evaluation\\pf-s0\\raw_fields.json": "f7febe1b4b6ab2155bad332a819215d49546f90ba699f7ec550b76e96f0a3d5a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review157_pf_init_transport\\dev\\evaluation\\pf-s1\\raw_fields.json": "e929cf8f77b099139f53fb964580822241cad33ad0b9e46033e2032f5f320582",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review157_pf_init_transport\\dev\\evaluation\\pf-s2\\raw_fields.json": "18d888d0cd2dc06fe7162fb2f8db453d04826e15d46fc4d7f0519c65b8cb6345",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review157_pf_init_transport\\dev\\summary.json": "4c32f6bdecdfd4540cc9be5545c308bd2cf79cd203ff661e8f8ac47dca579363",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review157_pf_init_transport\\dev\\verification.json": "5bb98723eb8c251f651593ca972c3c16ea78ae12dcb4a45d2564508a3f101020",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review159_guided_auxiliary\\dev\\evaluation\\pf-s0\\raw_fields.json": "3903f6b9f8fe2688a3dc69916155aad157e59d98cee46e57fd8fd8dc78f7bb04",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review159_guided_auxiliary\\dev\\evaluation\\pf-s1\\raw_fields.json": "5c99e08d9b306de0f2a1814e4e02dda682f8033807bd25590ade54ce37121ce0",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review159_guided_auxiliary\\dev\\evaluation\\pf-s2\\raw_fields.json": "910906ad77b36dea2971da68c3b4a3dce7f2d3672ea4025376fa6c4e8d09162b",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review159_guided_auxiliary\\dev\\summary.json": "cee1fcdd8ca926aa9405f6a13823fbf078c1316f15cbac6e099cf6f063db2d81",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review159_guided_auxiliary\\dev\\verification.json": "94f274d4ac35a81845bcec26025fe3f1730a08944dea3ba9ec70c0ed32d46cfe",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review142_pf_confidence\\dev\\evaluation\\cartesian-s0\\raw_fields.json": "d31fbe8d342ad931701c9e26fba9533dc7593991febd9018c5baf7e7c1e84792",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review142_pf_confidence\\dev\\evaluation\\cartesian-s1\\raw_fields.json": "e784a5624c8a05d634cb0195eab8671ffdb183dd68c9ae42d92325af51aea323",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review142_pf_confidence\\dev\\evaluation\\cartesian-s2\\raw_fields.json": "1ed40dd2fe87807e9279fa4359aba529294bbe06e0bb1b0df35f6afe81834399",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review144_shared_confidence\\dev\\evaluation\\kf\\raw_fields.json": "381cbb41e210faa8d311b5a4fa3143d083a060cdf575be0d8c02c7bcda2643cf",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review144_shared_confidence\\dev\\evaluation\\ekf\\raw_fields.json": "11ca24f8bb199cae2f2c370b81d9d4dc38b1c15e245398bbe43abf7a16e0d32d",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review144_shared_confidence\\dev\\evaluation\\ukf\\raw_fields.json": "73fa1266192f1a025b151605044869a380f0de99541765a96cddaf6ecdc60665",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review154_velocity_noise\\dev\\evaluation\\ekf\\raw_fields.json": "b1690b83b949c060d804da3fdc5983ebae812d724f6abb46332dc618058e87e6",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review154_velocity_noise\\dev\\evaluation\\ukf\\raw_fields.json": "392193037a66c0ff3b44833e2280053a58fc642054cebda52992f68750ac11a1"
+  }
+}

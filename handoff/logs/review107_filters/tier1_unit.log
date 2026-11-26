@@ -1,0 +1,28 @@
+WARNING user config directory 'D:\LABOTARY\bytetrack\handoff\logs\review107_filters\ultralytics_settings\Ultralytics' is not writable, using 'D:\LABOTARY\bytetrack\Ultralytics'. Set YOLO_CONFIG_DIR to override.
+Creating new Ultralytics Settings v0.0.8 file  
+View Ultralytics Settings with 'yolo settings' or at 'D:\LABOTARY\bytetrack\Ultralytics\settings.json'
+Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/quickstart#ultralytics-settings.
+.E..
+======================================================================
+ERROR: test_real_tracker_fixture_and_reproducibility (__main__.PostGapTests.test_real_tracker_fixture_and_reproducibility)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review107_filters\test_postgap.py", line 108, in test_real_tracker_fixture_and_reproducibility
+    b1, _ = run(False)
+            ^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review107_filters\test_postgap.py", line 102, in run
+    result = rt.track_video(Synthetic(), cfg, .04, "skip", 0, "r107_fixture", log_sink=sink)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\src\run_tracking.py", line 209, in track_video
+    _vong_lap_tracker(gen, vd, tr, timer, elapsed_mode, dt_nominal, rows, cls_rows, timing, on_frame)
+  File "D:\LABOTARY\bytetrack\src\run_tracking.py", line 230, in _vong_lap_tracker
+    for frame_idx, t_s, unreadable, arr in gen:
+  File "D:\LABOTARY\bytetrack\handoff\logs\review107_filters\test_postgap.py", line 97, in iter_frames
+    yield f, (f - 1) / 25., False, old.scene(f).data.numpy()
+                                   ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'numpy.ndarray' object has no attribute 'numpy'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.551s
+
+FAILED (errors=1)

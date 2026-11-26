@@ -1,0 +1,16 @@
+VERIFIED prior scores task_tunnel 1800
+VERIFIED prior scores task_day_occlusion 1780
+VERIFIED prior scores task_day_right_turn_occlusion 1795
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review116_fasttrack_full\run.py", line 163, in <module>
+    evaluate()
+  File "D:\LABOTARY\bytetrack\handoff\logs\review116_fasttrack_full\run.py", line 94, in evaluate
+    info = prepare(name, item)
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review116_fasttrack_full\run.py", line 40, in prepare
+    files, fps, shape = detect.fasttrack_info(archive, name)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review115_new_datasets\detect.py", line 42, in fasttrack_info
+    assert (int(secondary["num_frames"]), int(secondary["fps"])) == (frames, fps)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

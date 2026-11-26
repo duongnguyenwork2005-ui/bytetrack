@@ -1,0 +1,970 @@
+{
+  "coverage": {
+    "release_train_descriptive/0.25": {
+      "low_gt": 22221,
+      "other_gt": 151021,
+      "low_hits": 10310,
+      "other_hits": 117622
+    },
+    "release_train_descriptive/0.1": {
+      "low_gt": 22221,
+      "other_gt": 151021,
+      "low_hits": 15417,
+      "other_hits": 129604
+    },
+    "release_train_descriptive/0.05": {
+      "low_gt": 22221,
+      "other_gt": 151021,
+      "low_hits": 17262,
+      "other_hits": 133308
+    },
+    "official_test/0.25": {
+      "low_gt": 12051,
+      "other_gt": 58169,
+      "low_hits": 5908,
+      "other_hits": 51131
+    },
+    "official_test/0.1": {
+      "low_gt": 12051,
+      "other_gt": 58169,
+      "low_hits": 8125,
+      "other_hits": 53937
+    },
+    "official_test/0.05": {
+      "low_gt": 12051,
+      "other_gt": 58169,
+      "low_hits": 8870,
+      "other_hits": 55120
+    }
+  },
+  "tracking_test9": {
+    "c25/cv": {
+      "IDSW": 435,
+      "FN": 14665,
+      "FP": 21964,
+      "low_IDSW": 125,
+      "low_FN": 6515,
+      "recent_IDSW": 192,
+      "recent_FN": 7900
+    },
+    "c25/ekf": {
+      "IDSW": 407,
+      "FN": 14668,
+      "FP": 22043,
+      "low_IDSW": 115,
+      "low_FN": 6517,
+      "recent_IDSW": 183,
+      "recent_FN": 7892
+    },
+    "c25/ukf": {
+      "IDSW": 418,
+      "FN": 14672,
+      "FP": 22061,
+      "low_IDSW": 125,
+      "low_FN": 6497,
+      "recent_IDSW": 192,
+      "recent_FN": 7871
+    },
+    "c10/cv": {
+      "IDSW": 311,
+      "FN": 12924,
+      "FP": 29836,
+      "low_IDSW": 105,
+      "low_FN": 5685,
+      "recent_IDSW": 167,
+      "recent_FN": 6915
+    },
+    "c10/ekf": {
+      "IDSW": 308,
+      "FN": 12874,
+      "FP": 30180,
+      "low_IDSW": 107,
+      "low_FN": 5635,
+      "recent_IDSW": 168,
+      "recent_FN": 6849
+    },
+    "c10/ukf": {
+      "IDSW": 306,
+      "FN": 12823,
+      "FP": 30555,
+      "low_IDSW": 106,
+      "low_FN": 5597,
+      "recent_IDSW": 168,
+      "recent_FN": 6812
+    }
+  },
+  "coverage_by_video": [
+    {
+      "video": "seq_01_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 1104,
+      "other_gt": 8922,
+      "low_hits": 191,
+      "other_hits": 6529
+    },
+    {
+      "video": "seq_01_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 1104,
+      "other_gt": 8922,
+      "low_hits": 275,
+      "other_hits": 6738
+    },
+    {
+      "video": "seq_01_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 1104,
+      "other_gt": 8922,
+      "low_hits": 304,
+      "other_hits": 6957
+    },
+    {
+      "video": "seq_02_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 2808,
+      "other_gt": 8600,
+      "low_hits": 1317,
+      "other_hits": 6489
+    },
+    {
+      "video": "seq_02_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 2808,
+      "other_gt": 8600,
+      "low_hits": 2407,
+      "other_hits": 7454
+    },
+    {
+      "video": "seq_02_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 2808,
+      "other_gt": 8600,
+      "low_hits": 2537,
+      "other_hits": 7723
+    },
+    {
+      "video": "seq_03_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 2306,
+      "other_gt": 8515,
+      "low_hits": 233,
+      "other_hits": 6369
+    },
+    {
+      "video": "seq_03_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 2306,
+      "other_gt": 8515,
+      "low_hits": 1562,
+      "other_hits": 6674
+    },
+    {
+      "video": "seq_03_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 2306,
+      "other_gt": 8515,
+      "low_hits": 2042,
+      "other_hits": 6988
+    },
+    {
+      "video": "seq_04_morning",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 362,
+      "other_gt": 5276,
+      "low_hits": 181,
+      "other_hits": 3937
+    },
+    {
+      "video": "seq_04_morning",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 362,
+      "other_gt": 5276,
+      "low_hits": 242,
+      "other_hits": 4382
+    },
+    {
+      "video": "seq_04_morning",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 362,
+      "other_gt": 5276,
+      "low_hits": 267,
+      "other_hits": 4538
+    },
+    {
+      "video": "seq_05_morning",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 574,
+      "other_gt": 5647,
+      "low_hits": 258,
+      "other_hits": 4147
+    },
+    {
+      "video": "seq_05_morning",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 574,
+      "other_gt": 5647,
+      "low_hits": 330,
+      "other_hits": 4826
+    },
+    {
+      "video": "seq_05_morning",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 574,
+      "other_gt": 5647,
+      "low_hits": 392,
+      "other_hits": 4988
+    },
+    {
+      "video": "seq_06_morning",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 2200,
+      "other_gt": 7446,
+      "low_hits": 1030,
+      "other_hits": 4447
+    },
+    {
+      "video": "seq_06_morning",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 2200,
+      "other_gt": 7446,
+      "low_hits": 1298,
+      "other_hits": 5879
+    },
+    {
+      "video": "seq_06_morning",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 2200,
+      "other_gt": 7446,
+      "low_hits": 1647,
+      "other_hits": 6103
+    },
+    {
+      "video": "seq_07_morning",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 839,
+      "other_gt": 5825,
+      "low_hits": 690,
+      "other_hits": 3852
+    },
+    {
+      "video": "seq_07_morning",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 839,
+      "other_gt": 5825,
+      "low_hits": 716,
+      "other_hits": 4653
+    },
+    {
+      "video": "seq_07_morning",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 839,
+      "other_gt": 5825,
+      "low_hits": 749,
+      "other_hits": 4890
+    },
+    {
+      "video": "seq_08_morning",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 2877,
+      "other_gt": 5543,
+      "low_hits": 1542,
+      "other_hits": 3321
+    },
+    {
+      "video": "seq_08_morning",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 2877,
+      "other_gt": 5543,
+      "low_hits": 2037,
+      "other_hits": 4295
+    },
+    {
+      "video": "seq_08_morning",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 2877,
+      "other_gt": 5543,
+      "low_hits": 2103,
+      "other_hits": 4606
+    },
+    {
+      "video": "seq_09_morning",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 1374,
+      "other_gt": 3566,
+      "low_hits": 608,
+      "other_hits": 2541
+    },
+    {
+      "video": "seq_09_morning",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 1374,
+      "other_gt": 3566,
+      "low_hits": 975,
+      "other_hits": 2938
+    },
+    {
+      "video": "seq_09_morning",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 1374,
+      "other_gt": 3566,
+      "low_hits": 1025,
+      "other_hits": 3058
+    },
+    {
+      "video": "seq_10_morning",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 548,
+      "other_gt": 5761,
+      "low_hits": 407,
+      "other_hits": 4534
+    },
+    {
+      "video": "seq_10_morning",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 548,
+      "other_gt": 5761,
+      "low_hits": 476,
+      "other_hits": 5163
+    },
+    {
+      "video": "seq_10_morning",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 548,
+      "other_gt": 5761,
+      "low_hits": 503,
+      "other_hits": 5305
+    },
+    {
+      "video": "seq_11_morning",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 774,
+      "other_gt": 6008,
+      "low_hits": 543,
+      "other_hits": 3971
+    },
+    {
+      "video": "seq_11_morning",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 774,
+      "other_gt": 6008,
+      "low_hits": 616,
+      "other_hits": 4864
+    },
+    {
+      "video": "seq_11_morning",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 774,
+      "other_gt": 6008,
+      "low_hits": 667,
+      "other_hits": 5107
+    },
+    {
+      "video": "seq_12_morning",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 434,
+      "other_gt": 6293,
+      "low_hits": 184,
+      "other_hits": 3387
+    },
+    {
+      "video": "seq_12_morning",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 434,
+      "other_gt": 6293,
+      "low_hits": 277,
+      "other_hits": 4735
+    },
+    {
+      "video": "seq_12_morning",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 434,
+      "other_gt": 6293,
+      "low_hits": 315,
+      "other_hits": 5064
+    },
+    {
+      "video": "seq_13_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 963,
+      "other_gt": 7041,
+      "low_hits": 919,
+      "other_hits": 6546
+    },
+    {
+      "video": "seq_13_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 963,
+      "other_gt": 7041,
+      "low_hits": 937,
+      "other_hits": 6681
+    },
+    {
+      "video": "seq_13_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 963,
+      "other_gt": 7041,
+      "low_hits": 949,
+      "other_hits": 6733
+    },
+    {
+      "video": "seq_14_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 342,
+      "other_gt": 9106,
+      "low_hits": 293,
+      "other_hits": 7724
+    },
+    {
+      "video": "seq_14_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 342,
+      "other_gt": 9106,
+      "low_hits": 308,
+      "other_hits": 7905
+    },
+    {
+      "video": "seq_14_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 342,
+      "other_gt": 9106,
+      "low_hits": 311,
+      "other_hits": 8139
+    },
+    {
+      "video": "seq_15_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 1196,
+      "other_gt": 7119,
+      "low_hits": 608,
+      "other_hits": 6169
+    },
+    {
+      "video": "seq_15_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 1196,
+      "other_gt": 7119,
+      "low_hits": 944,
+      "other_hits": 6551
+    },
+    {
+      "video": "seq_15_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 1196,
+      "other_gt": 7119,
+      "low_hits": 1028,
+      "other_hits": 6667
+    },
+    {
+      "video": "seq_16_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 868,
+      "other_gt": 7756,
+      "low_hits": 156,
+      "other_hits": 7055
+    },
+    {
+      "video": "seq_16_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 868,
+      "other_gt": 7756,
+      "low_hits": 412,
+      "other_hits": 7182
+    },
+    {
+      "video": "seq_16_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 868,
+      "other_gt": 7756,
+      "low_hits": 594,
+      "other_hits": 7231
+    },
+    {
+      "video": "seq_17_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 395,
+      "other_gt": 6699,
+      "low_hits": 207,
+      "other_hits": 6220
+    },
+    {
+      "video": "seq_17_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 395,
+      "other_gt": 6699,
+      "low_hits": 271,
+      "other_hits": 6358
+    },
+    {
+      "video": "seq_17_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 395,
+      "other_gt": 6699,
+      "low_hits": 295,
+      "other_hits": 6381
+    },
+    {
+      "video": "seq_18_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 549,
+      "other_gt": 8005,
+      "low_hits": 206,
+      "other_hits": 7057
+    },
+    {
+      "video": "seq_18_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 549,
+      "other_gt": 8005,
+      "low_hits": 312,
+      "other_hits": 7362
+    },
+    {
+      "video": "seq_18_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 549,
+      "other_gt": 8005,
+      "low_hits": 347,
+      "other_hits": 7436
+    },
+    {
+      "video": "seq_19_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 461,
+      "other_gt": 10127,
+      "low_hits": 273,
+      "other_hits": 8763
+    },
+    {
+      "video": "seq_19_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 461,
+      "other_gt": 10127,
+      "low_hits": 335,
+      "other_hits": 9233
+    },
+    {
+      "video": "seq_19_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 461,
+      "other_gt": 10127,
+      "low_hits": 357,
+      "other_hits": 9348
+    },
+    {
+      "video": "seq_20_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 597,
+      "other_gt": 8173,
+      "low_hits": 190,
+      "other_hits": 6851
+    },
+    {
+      "video": "seq_20_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 597,
+      "other_gt": 8173,
+      "low_hits": 310,
+      "other_hits": 7295
+    },
+    {
+      "video": "seq_20_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 597,
+      "other_gt": 8173,
+      "low_hits": 368,
+      "other_hits": 7434
+    },
+    {
+      "video": "seq_21_evening",
+      "cutoff": 0.25,
+      "split": "release_train_descriptive",
+      "low_gt": 650,
+      "other_gt": 9593,
+      "low_hits": 274,
+      "other_hits": 7713
+    },
+    {
+      "video": "seq_21_evening",
+      "cutoff": 0.1,
+      "split": "release_train_descriptive",
+      "low_gt": 650,
+      "other_gt": 9593,
+      "low_hits": 377,
+      "other_hits": 8436
+    },
+    {
+      "video": "seq_21_evening",
+      "cutoff": 0.05,
+      "split": "release_train_descriptive",
+      "low_gt": 650,
+      "other_gt": 9593,
+      "low_hits": 462,
+      "other_hits": 8612
+    },
+    {
+      "video": "seq_22_morning",
+      "cutoff": 0.25,
+      "split": "official_test",
+      "low_gt": 2277,
+      "other_gt": 8567,
+      "low_hits": 2017,
+      "other_hits": 8096
+    },
+    {
+      "video": "seq_22_morning",
+      "cutoff": 0.1,
+      "split": "official_test",
+      "low_gt": 2277,
+      "other_gt": 8567,
+      "low_hits": 2140,
+      "other_hits": 8262
+    },
+    {
+      "video": "seq_22_morning",
+      "cutoff": 0.05,
+      "split": "official_test",
+      "low_gt": 2277,
+      "other_gt": 8567,
+      "low_hits": 2184,
+      "other_hits": 8318
+    },
+    {
+      "video": "seq_23_morning",
+      "cutoff": 0.25,
+      "split": "official_test",
+      "low_gt": 1842,
+      "other_gt": 5220,
+      "low_hits": 607,
+      "other_hits": 4503
+    },
+    {
+      "video": "seq_23_morning",
+      "cutoff": 0.1,
+      "split": "official_test",
+      "low_gt": 1842,
+      "other_gt": 5220,
+      "low_hits": 1314,
+      "other_hits": 4637
+    },
+    {
+      "video": "seq_23_morning",
+      "cutoff": 0.05,
+      "split": "official_test",
+      "low_gt": 1842,
+      "other_gt": 5220,
+      "low_hits": 1525,
+      "other_hits": 4953
+    },
+    {
+      "video": "seq_24_morning",
+      "cutoff": 0.25,
+      "split": "official_test",
+      "low_gt": 1928,
+      "other_gt": 6440,
+      "low_hits": 869,
+      "other_hits": 4579
+    },
+    {
+      "video": "seq_24_morning",
+      "cutoff": 0.1,
+      "split": "official_test",
+      "low_gt": 1928,
+      "other_gt": 6440,
+      "low_hits": 1401,
+      "other_hits": 5341
+    },
+    {
+      "video": "seq_24_morning",
+      "cutoff": 0.05,
+      "split": "official_test",
+      "low_gt": 1928,
+      "other_gt": 6440,
+      "low_hits": 1512,
+      "other_hits": 5872
+    },
+    {
+      "video": "seq_25_morning",
+      "cutoff": 0.25,
+      "split": "official_test",
+      "low_gt": 748,
+      "other_gt": 5979,
+      "low_hits": 678,
+      "other_hits": 5599
+    },
+    {
+      "video": "seq_25_morning",
+      "cutoff": 0.1,
+      "split": "official_test",
+      "low_gt": 748,
+      "other_gt": 5979,
+      "low_hits": 705,
+      "other_hits": 5783
+    },
+    {
+      "video": "seq_25_morning",
+      "cutoff": 0.05,
+      "split": "official_test",
+      "low_gt": 748,
+      "other_gt": 5979,
+      "low_hits": 707,
+      "other_hits": 5805
+    },
+    {
+      "video": "seq_26_evening",
+      "cutoff": 0.25,
+      "split": "official_test",
+      "low_gt": 448,
+      "other_gt": 6506,
+      "low_hits": 203,
+      "other_hits": 5341
+    },
+    {
+      "video": "seq_26_evening",
+      "cutoff": 0.1,
+      "split": "official_test",
+      "low_gt": 448,
+      "other_gt": 6506,
+      "low_hits": 303,
+      "other_hits": 6017
+    },
+    {
+      "video": "seq_26_evening",
+      "cutoff": 0.05,
+      "split": "official_test",
+      "low_gt": 448,
+      "other_gt": 6506,
+      "low_hits": 344,
+      "other_hits": 6148
+    },
+    {
+      "video": "seq_27_evening",
+      "cutoff": 0.25,
+      "split": "official_test",
+      "low_gt": 644,
+      "other_gt": 5196,
+      "low_hits": 182,
+      "other_hits": 4573
+    },
+    {
+      "video": "seq_27_evening",
+      "cutoff": 0.1,
+      "split": "official_test",
+      "low_gt": 644,
+      "other_gt": 5196,
+      "low_hits": 240,
+      "other_hits": 4695
+    },
+    {
+      "video": "seq_27_evening",
+      "cutoff": 0.05,
+      "split": "official_test",
+      "low_gt": 644,
+      "other_gt": 5196,
+      "low_hits": 294,
+      "other_hits": 4760
+    },
+    {
+      "video": "seq_28_evening",
+      "cutoff": 0.25,
+      "split": "official_test",
+      "low_gt": 1320,
+      "other_gt": 8009,
+      "low_hits": 319,
+      "other_hits": 6961
+    },
+    {
+      "video": "seq_28_evening",
+      "cutoff": 0.1,
+      "split": "official_test",
+      "low_gt": 1320,
+      "other_gt": 8009,
+      "low_hits": 444,
+      "other_hits": 7517
+    },
+    {
+      "video": "seq_28_evening",
+      "cutoff": 0.05,
+      "split": "official_test",
+      "low_gt": 1320,
+      "other_gt": 8009,
+      "low_hits": 490,
+      "other_hits": 7563
+    },
+    {
+      "video": "seq_29_evening",
+      "cutoff": 0.25,
+      "split": "official_test",
+      "low_gt": 603,
+      "other_gt": 7053,
+      "low_hits": 188,
+      "other_hits": 6745
+    },
+    {
+      "video": "seq_29_evening",
+      "cutoff": 0.1,
+      "split": "official_test",
+      "low_gt": 603,
+      "other_gt": 7053,
+      "low_hits": 503,
+      "other_hits": 6780
+    },
+    {
+      "video": "seq_29_evening",
+      "cutoff": 0.05,
+      "split": "official_test",
+      "low_gt": 603,
+      "other_gt": 7053,
+      "low_hits": 544,
+      "other_hits": 6787
+    },
+    {
+      "video": "seq_30_evening",
+      "cutoff": 0.25,
+      "split": "official_test",
+      "low_gt": 2241,
+      "other_gt": 5199,
+      "low_hits": 845,
+      "other_hits": 4734
+    },
+    {
+      "video": "seq_30_evening",
+      "cutoff": 0.1,
+      "split": "official_test",
+      "low_gt": 2241,
+      "other_gt": 5199,
+      "low_hits": 1075,
+      "other_hits": 4905
+    },
+    {
+      "video": "seq_30_evening",
+      "cutoff": 0.05,
+      "split": "official_test",
+      "low_gt": 2241,
+      "other_gt": 5199,
+      "low_hits": 1270,
+      "other_hits": 4914
+    }
+  ],
+  "gt_cache_sha256": {
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_01_evening\\gt\\gt.txt": "414057d53f866199ad820c65138c428e31c2079fdd4c3b5e45567140f84861b4",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_01_evening.npz": "45cd56b0d6d4d4080c8afa269958f3cca7debebe7f579ed376f66e1776f37bc2",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_02_evening\\gt\\gt.txt": "ac787e3e9eb066f739fa7246700e8d996389d1207e9fba3b7f6f04e8f1aca790",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_02_evening.npz": "f5276b832fe7271fbbfc49181bbf4285da35b29816cd5871c3458ed29d4c2fc8",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_03_evening\\gt\\gt.txt": "ca29c0d6d61bfd35a93d32cb9415815acf237f47a17ee64b426f4d70f5371014",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_03_evening.npz": "bfda2c3289e236654bb70e287c51cbf3bb9879e1bf805757d1c4aaa6cf7a95d1",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_04_morning\\gt\\gt.txt": "96243044b4eed1f41b4aa4f5c41e08641a4e540b3870956ec538db6acf6e1d00",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_04_morning.npz": "273eabb6f9610bfdbdfb57ddb078c59547d0fe4f392ee39130425e955be7c22b",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_05_morning\\gt\\gt.txt": "5a98bb1c27a6e30d852fc5c3155be264f9e14c221d650db0858718bc3b423294",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_05_morning.npz": "40f6c3d88bd947c6e18f7ee52bf4d8a79e1d35730aaab44f0c7426198083faee",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_06_morning\\gt\\gt.txt": "cf2eed33312d80348feabc063d9687a03cb382d07d50c0aaf11d5f03fefd2a7e",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_06_morning.npz": "f0b84ed8cd94e92716c7ff0cd5b8b2ab7f1338af61e5a666289afac07db2cc6d",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_07_morning\\gt\\gt.txt": "aa114dc4aaec2c6d11ad932b83d3f7696c7c16592bf09263c5638c1664c05ef6",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_07_morning.npz": "5c7a0d41c5b4cf1a82ebda0bb13783526ccd4aa43ba8b59349a2eb742e3ad76f",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_08_morning\\gt\\gt.txt": "d37239b0a8eb4241146e20c14f9348d3c614b2ba6650c46b290c76b9e9bea264",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_08_morning.npz": "e1d202a825fc20d1c093f5b5e02c4bc567fb28c98f9c97e0faec0f9bc7d0e13e",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_09_morning\\gt\\gt.txt": "0c57a6666bcdf3b95aa0413df6782e25d57bd6588550a6c3990501fed0900a76",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_09_morning.npz": "92d67f6c0419e8954c97015417caabbfdad2b3f51c8ed892b7e2dce0ea1c74a2",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_10_morning\\gt\\gt.txt": "39f1e55aa96d56eb610b52e3a2343d2898fec32efe469053c68e515e4fc7cd30",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_10_morning.npz": "74eef24f34fc2eab1c5a405c4c7afe3417cd055a6bf73e78759dfbddf5008f9e",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_11_morning\\gt\\gt.txt": "2aaf0db96f3e32d46720b60a14bfa4541d38eac3a902c644aa17a0de80975f31",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_11_morning.npz": "14998c06dde6e0b1c0f78ff89acb7b1cee32ac0ce8a5dcf1fb7b6f88adda0db2",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_12_morning\\gt\\gt.txt": "cb853d441518965c009cc5b9bb9bff76981ff3f967abcff8856b93f739daeadd",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_12_morning.npz": "cce3b9b6b8b27477f3870591bb8b4b937187d1e09338939282e69c43944f2576",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_13_evening\\gt\\gt.txt": "45862746c7601183163b613d2e1543b2ae0592e5a30f6f8a8575ba1d9d94410f",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_13_evening.npz": "d6d54c6673db6ea734139563edfd35cc2208e8d19488d1fa6d1888c4f54140ca",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_14_evening\\gt\\gt.txt": "0de6cd4c759b80bf631b1b12bc9ff4b719f3e131c07dc2d206cbdc6e52b46ced",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_14_evening.npz": "964066f00a0ea58977ed59fc2ea859acbb887f88f7b5578df0845d082c7d36c9",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_15_evening\\gt\\gt.txt": "5d51dfd0b3910786bcf101a72aa9febf6fe3fb1ab98e42ecf29d272087bb8109",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_15_evening.npz": "f6597a4735e4ca50cec1ce62dbe5e5cb4077fa61e7c34092c8d68af00f531bfd",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_16_evening\\gt\\gt.txt": "2fe0c4cf29d2ff96738fb00e8eaf19a04cc9bc7df4dac4e1acf61656ce8fc1e2",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_16_evening.npz": "05e04b565cf704be38545442e2e2d213a051c414e7c136f07e399b2ec9a45ae9",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_17_evening\\gt\\gt.txt": "9d77641cbbb40e2a1607e200bfabcce7ff380d6a790f24f6d246883b5922fd56",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_17_evening.npz": "513ffdb627534256eb5d8d34bcfdd79fd94dfedd5997a52775c2f7c3b4f6ab85",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_18_evening\\gt\\gt.txt": "9e37d4f21f3391d073d1d8d3c43f16988ea5e8ad3206b916217aa9ef32d87b42",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_18_evening.npz": "b5eb145036a27c6b8ce0f584481e29a90810208b15a3aceab6f827323052e191",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_19_evening\\gt\\gt.txt": "9f68f67171707cc54bf07e23b92d3e6c4d8e7d4e60d00e81fce70affc515c02e",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_19_evening.npz": "458ca41aeec3286f25850fc48a005030785e08af301ebecde8acd74859877840",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_20_evening\\gt\\gt.txt": "01df0a577e331167b0c699eafac052b6002dce847b7171e8cbe04f88ff1ff8a8",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_20_evening.npz": "6c203cbb971d8c3c490f303e8b8de32a5df86787b8ee841f96d49374059cd3ec",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\ground_truth\\SVMOT-release21\\seq_21_evening\\gt\\gt.txt": "a6ac4b67b7c298a38915db0376525f4a2e3d6ed62a169cc63913bc2c5a81c2fc",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review108_followup\\svmot30\\cache\\seq_21_evening.npz": "00c200a84683d69f79f89c0cf88c8505906c98567edcca5094c6382bf69a8a64",
+    "D:\\LABOTARY\\bytetrack\\data\\processed\\SVMOTSYS-test\\seq_22_morning\\gt\\gt.txt": "292dd327fd3161379c3a870d68540dcd2a8ef35f16cd6586998615db5a7a197b",
+    "D:\\LABOTARY\\bytetrack\\data\\interim\\det_cache\\r64_svmot_yolov8n_coco_c0.05\\seq_22_morning.npz": "c783b9f4357566fb2d9872c9f7a1ad4dc54c38030f8ac8392d0cbbbf2abb6c9d",
+    "D:\\LABOTARY\\bytetrack\\data\\processed\\SVMOTSYS-test\\seq_23_morning\\gt\\gt.txt": "e5d4d0c6f47966c4716a8f02ef1f16b05d6a4765a372f3cf0630e8513cb00d35",
+    "D:\\LABOTARY\\bytetrack\\data\\interim\\det_cache\\r64_svmot_yolov8n_coco_c0.05\\seq_23_morning.npz": "fc3fd14f35a9d752afef4179b05c6735becca2ee55aa8fd80be17613da81fc81",
+    "D:\\LABOTARY\\bytetrack\\data\\processed\\SVMOTSYS-test\\seq_24_morning\\gt\\gt.txt": "c903c22da7ea5a6114434daa570bf61f7c6b0727aba3090bf173c6efa55d6105",
+    "D:\\LABOTARY\\bytetrack\\data\\interim\\det_cache\\r64_svmot_yolov8n_coco_c0.05\\seq_24_morning.npz": "b5b8d1c0b0e2da8d04626ff701d3c39c2f782483235c32453de46436a00e3319",
+    "D:\\LABOTARY\\bytetrack\\data\\processed\\SVMOTSYS-test\\seq_25_morning\\gt\\gt.txt": "d5eb895d3ac64806f625617a775c3be794037de77a08c4d26d734598ebcd821e",
+    "D:\\LABOTARY\\bytetrack\\data\\interim\\det_cache\\r64_svmot_yolov8n_coco_c0.05\\seq_25_morning.npz": "707e5873c5489121117f83b1ef23b5ae67958b2e43a0924921d82b461acaef14",
+    "D:\\LABOTARY\\bytetrack\\data\\processed\\SVMOTSYS-test\\seq_26_evening\\gt\\gt.txt": "7608a8a2f80437629ed5b35bc4f2e0486194270b9eb4f818ce751f1d087d326b",
+    "D:\\LABOTARY\\bytetrack\\data\\interim\\det_cache\\r64_svmot_yolov8n_coco_c0.05\\seq_26_evening.npz": "d116b3f0e5bbe171f1ac96dbde76418ff95ff278013144adbecaafb02de4e830",
+    "D:\\LABOTARY\\bytetrack\\data\\processed\\SVMOTSYS-test\\seq_27_evening\\gt\\gt.txt": "a74569b97561200b0ad1ed2fb54ad3c681138b3454fb973d1273bee1efa84fbf",
+    "D:\\LABOTARY\\bytetrack\\data\\interim\\det_cache\\r64_svmot_yolov8n_coco_c0.05\\seq_27_evening.npz": "c8f1f9f89ccd2cc4160848d4d6c67c1f6def095ae706477afb97207d8eba82f9",
+    "D:\\LABOTARY\\bytetrack\\data\\processed\\SVMOTSYS-test\\seq_28_evening\\gt\\gt.txt": "c9f7d635c18bdfac4d2c5faac7d4fce2f88ec137cba2bd348eea10bd64123582",
+    "D:\\LABOTARY\\bytetrack\\data\\interim\\det_cache\\r64_svmot_yolov8n_coco_c0.05\\seq_28_evening.npz": "ddd9ace9b6e4bb91e1faf23dd31e4b2e52de639b20906cb3b68a2941d79395f7",
+    "D:\\LABOTARY\\bytetrack\\data\\processed\\SVMOTSYS-test\\seq_29_evening\\gt\\gt.txt": "4e4aa3dfd1974a247210343f518a114a8a91b4eb4d450e65510034d525eec94a",
+    "D:\\LABOTARY\\bytetrack\\data\\interim\\det_cache\\r64_svmot_yolov8n_coco_c0.05\\seq_29_evening.npz": "e2f5ccbf9fa2f00642e05478bff99f2712a9647e0b640115f7983ca85106fedb",
+    "D:\\LABOTARY\\bytetrack\\data\\processed\\SVMOTSYS-test\\seq_30_evening\\gt\\gt.txt": "28e2bb2fc1c9453dc18810eddd6538e47da84d95e29455e0150a9e0690f6cd23",
+    "D:\\LABOTARY\\bytetrack\\data\\interim\\det_cache\\r64_svmot_yolov8n_coco_c0.05\\seq_30_evening.npz": "abbe7d0be0f25115090c26481c8a2e746428cbd2a73064f1687812718a7b465c"
+  }
+}

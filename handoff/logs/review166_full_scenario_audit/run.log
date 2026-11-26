@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review166_full_scenario_audit\run.py", line 112, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review166_full_scenario_audit\run.py", line 94, in main
+    assert changed.sum()==expected['IDSW'] and miss.sum()==expected['FN'],(stage,video,name,int(changed.sum()),expected['IDSW'])
+                                                           ~~~~~~~~^^^^^^
+KeyError: 'FN'

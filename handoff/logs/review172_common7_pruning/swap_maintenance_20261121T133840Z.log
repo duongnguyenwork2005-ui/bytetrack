@@ -1,0 +1,18 @@
+Before: clock, network, swap configuration files and services will not be changed.
+Filename				Type		Size	Used	Priority
+/swapfile                               file		4194300	0	-1
+/dev/zram0                              partition	507368	78960	5
+/dev/zram1                              partition	507368	78956	5
+/dev/zram2                              partition	507368	78948	5
+/dev/zram3                              partition	507368	79016	5
+After:
+Filename				Type		Size	Used	Priority
+/swapfile                               file		4194300	0	-1
+/dev/zram0                              partition	507368	0	5
+/dev/zram1                              partition	507368	0	5
+/dev/zram2                              partition	507368	0	5
+/dev/zram3                              partition	507368	0	5
+MemAvailable:    2863636 kB
+SwapTotal:       6223772 kB
+SwapFree:        6223772 kB
+Original swap devices restored; timing swap guard now passes.

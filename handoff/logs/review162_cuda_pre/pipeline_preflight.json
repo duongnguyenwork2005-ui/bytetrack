@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "original_package": "/home/jetson/nano_run/r108_15fps_20261117/overlap_package",
+  "candidate_package": "/home/jetson/nano_run/r162_cuda_pre_20261120/package",
+  "baseline_stream_sha256": "f583be199edbcbe410be5d3092b79bfe198e400f3a2f7aa13b2609127bbeed36",
+  "baseline_detector_sha256": "71bd3f922a0d9c59378e02b7425dd210d742131bbebe54e99e0ba4bd4acad173",
+  "source_sha256": {
+    "nano_detect_stream.py": "78d0dae6ef5ec32fa9cbc9a92950e4404f27ab81a352d9cb4806195609ccac0e",
+    "gpu_pre.py": "d753e2522601dfe1b1dce1c4b1fbb737482c5c7a6c845df570c64480481e838b",
+    "gpu_detector.py": "6827efe0822e4d81bb4a8d7c9a1385d4190e1c0601cf76e2fef49276b5b7e02e",
+    "fused_pre.cu": "0065db9f1a520c48332b6a1f50f485d9768cd71ecee35e1af1ce383021ee89fd",
+    "run_models_v3.py": "310c0e2f99460e72c444aa975b3c2aae2e251506fe57a66662bcc1a6204ab9e4",
+    "timing_v3.py": "d2320415416ba452ee47325f929a82c881124e1fd858e2b61b724f16d47f0fa7",
+    "select_full.py": "1a0e95701fb014125e2d9f35932e10dd71b73e53350d8da2d517768b0965755f",
+    "00_protocol.md": "23a7ed09578400c6535d27d493da1e585d2aec50b6cf47bf002e714105f8cea1"
+  },
+  "timing_note": "infer_ms includes CUDA preprocessing and uint8 upload; pre_ms only measures remaining CPU preparation."
+}

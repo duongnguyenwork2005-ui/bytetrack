@@ -1,0 +1,20 @@
+Creating new Ultralytics Settings v0.0.8 file  
+View Ultralytics Settings with 'yolo settings' or at 'D:\LABOTARY\bytetrack\handoff\logs\review107_filters\ultralytics_settings\Ultralytics\settings.json'
+Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/quickstart#ultralytics-settings.
+.F..
+======================================================================
+FAIL: test_real_tracker_fixture_and_reproducibility (__main__.PostGapTests.test_real_tracker_fixture_and_reproducibility)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review107_filters\test_postgap.py", line 108, in test_real_tracker_fixture_and_reproducibility
+    b1, _ = run(False)
+            ^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review107_filters\test_postgap.py", line 106, in run
+    assert track._k1_prior is None
+           ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.624s
+
+FAILED (failures=1)

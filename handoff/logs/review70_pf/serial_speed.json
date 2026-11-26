@@ -1,0 +1,328 @@
+{
+  "video": "MVI_20052",
+  "cache": "yolov8n-coco_conf0.05_all",
+  "seed_pf": 0,
+  "backend": "ultralytics",
+  "python": "3.11.9",
+  "cpu": "Intel64 Family 6 Model 165 Stepping 2, GenuineIntel",
+  "opencv_threads": 1,
+  "thread_env": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "BLIS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "torch_threads": 1,
+  "torch_interop_threads": 1,
+  "warmup_readable_frames": 32,
+  "measured_readable_frames": 128,
+  "first_measured_frame": 33,
+  "last_measured_frame": 160,
+  "repeats": 4,
+  "statistic": "Median of four replay means of tracker.update ms per frame",
+  "scope": "One CPU process, one thread per numerical library, no PF/association diagnostic logs. Time around tracker.update includes predict/association/update. Detector, detection conversion, cache reads, MOT serialization and file I/O are excluded.",
+  "summary": {
+    "cv": {
+      "median_ms_per_frame": 1.5271171878339374,
+      "min_ms_per_frame": 1.4918820288585266,
+      "max_ms_per_frame": 1.6052773407864152
+    },
+    "ekf": {
+      "median_ms_per_frame": 2.186259762765985,
+      "min_ms_per_frame": 2.066753903818608,
+      "max_ms_per_frame": 2.2712859354214743
+    },
+    "ukf": {
+      "median_ms_per_frame": 6.154894532755861,
+      "min_ms_per_frame": 6.074582025576092,
+      "max_ms_per_frame": 7.656771087567904
+    },
+    "pf500": {
+      "median_ms_per_frame": 9.839540241046052,
+      "min_ms_per_frame": 8.503550780005753,
+      "max_ms_per_frame": 11.383282811038953
+    },
+    "pf500-k1": {
+      "median_ms_per_frame": 10.26020390827398,
+      "min_ms_per_frame": 9.974462494938052,
+      "max_ms_per_frame": 11.811292968559428
+    },
+    "pf500-k1k2": {
+      "median_ms_per_frame": 11.270679689914687,
+      "min_ms_per_frame": 10.8396757805167,
+      "max_ms_per_frame": 12.940278125824989
+    },
+    "pf500-rpred": {
+      "median_ms_per_frame": 9.588378130501951,
+      "min_ms_per_frame": 9.167418747892953,
+      "max_ms_per_frame": 11.466871871562034
+    },
+    "pf500-k1-rpred": {
+      "median_ms_per_frame": 10.550700390467682,
+      "min_ms_per_frame": 10.465182810548868,
+      "max_ms_per_frame": 11.360138286363508
+    },
+    "pf500-k1k2-rpred": {
+      "median_ms_per_frame": 11.476340228000481,
+      "min_ms_per_frame": 11.214293745979376,
+      "max_ms_per_frame": 13.261637501273071
+    }
+  },
+  "runs": [
+    {
+      "recipe": "cv",
+      "repeat": 1,
+      "order": 1,
+      "ms_per_frame": 1.4980062542235828,
+      "detections": 1876
+    },
+    {
+      "recipe": "ekf",
+      "repeat": 1,
+      "order": 2,
+      "ms_per_frame": 2.103402336615545,
+      "detections": 1876
+    },
+    {
+      "recipe": "ukf",
+      "repeat": 1,
+      "order": 3,
+      "ms_per_frame": 6.180155469337478,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500",
+      "repeat": 1,
+      "order": 4,
+      "ms_per_frame": 8.503550780005753,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1",
+      "repeat": 1,
+      "order": 5,
+      "ms_per_frame": 9.974462494938052,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1k2",
+      "repeat": 1,
+      "order": 6,
+      "ms_per_frame": 11.280734380306967,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-rpred",
+      "repeat": 1,
+      "order": 7,
+      "ms_per_frame": 9.167418747892953,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1-rpred",
+      "repeat": 1,
+      "order": 8,
+      "ms_per_frame": 10.494041401216236,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1k2-rpred",
+      "repeat": 1,
+      "order": 9,
+      "ms_per_frame": 11.412420304623083,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1k2-rpred",
+      "repeat": 2,
+      "order": 1,
+      "ms_per_frame": 11.540260151377879,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1-rpred",
+      "repeat": 2,
+      "order": 2,
+      "ms_per_frame": 11.360138286363508,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-rpred",
+      "repeat": 2,
+      "order": 3,
+      "ms_per_frame": 10.007878909163992,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1k2",
+      "repeat": 2,
+      "order": 4,
+      "ms_per_frame": 12.940278125824989,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1",
+      "repeat": 2,
+      "order": 5,
+      "ms_per_frame": 11.811292968559428,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500",
+      "repeat": 2,
+      "order": 6,
+      "ms_per_frame": 8.773925792411319,
+      "detections": 1876
+    },
+    {
+      "recipe": "ukf",
+      "repeat": 2,
+      "order": 7,
+      "ms_per_frame": 6.129633596174244,
+      "detections": 1876
+    },
+    {
+      "recipe": "ekf",
+      "repeat": 2,
+      "order": 8,
+      "ms_per_frame": 2.269117188916425,
+      "detections": 1876
+    },
+    {
+      "recipe": "cv",
+      "repeat": 2,
+      "order": 9,
+      "ms_per_frame": 1.6052773407864152,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1",
+      "repeat": 3,
+      "order": 1,
+      "ms_per_frame": 10.363803121435922,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1k2",
+      "repeat": 3,
+      "order": 2,
+      "ms_per_frame": 10.8396757805167,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-rpred",
+      "repeat": 3,
+      "order": 3,
+      "ms_per_frame": 11.466871871562034,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1-rpred",
+      "repeat": 3,
+      "order": 4,
+      "ms_per_frame": 10.607359379719128,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1k2-rpred",
+      "repeat": 3,
+      "order": 5,
+      "ms_per_frame": 13.261637501273071,
+      "detections": 1876
+    },
+    {
+      "recipe": "cv",
+      "repeat": 3,
+      "order": 6,
+      "ms_per_frame": 1.556228121444292,
+      "detections": 1876
+    },
+    {
+      "recipe": "ekf",
+      "repeat": 3,
+      "order": 7,
+      "ms_per_frame": 2.2712859354214743,
+      "detections": 1876
+    },
+    {
+      "recipe": "ukf",
+      "repeat": 3,
+      "order": 8,
+      "ms_per_frame": 7.656771087567904,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500",
+      "repeat": 3,
+      "order": 9,
+      "ms_per_frame": 11.383282811038953,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500",
+      "repeat": 4,
+      "order": 1,
+      "ms_per_frame": 10.905154689680785,
+      "detections": 1876
+    },
+    {
+      "recipe": "ukf",
+      "repeat": 4,
+      "order": 2,
+      "ms_per_frame": 6.074582025576092,
+      "detections": 1876
+    },
+    {
+      "recipe": "ekf",
+      "repeat": 4,
+      "order": 3,
+      "ms_per_frame": 2.066753903818608,
+      "detections": 1876
+    },
+    {
+      "recipe": "cv",
+      "repeat": 4,
+      "order": 4,
+      "ms_per_frame": 1.4918820288585266,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1k2-rpred",
+      "repeat": 4,
+      "order": 5,
+      "ms_per_frame": 11.214293745979376,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1-rpred",
+      "repeat": 4,
+      "order": 6,
+      "ms_per_frame": 10.465182810548868,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-rpred",
+      "repeat": 4,
+      "order": 7,
+      "ms_per_frame": 9.16887735183991,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1k2",
+      "repeat": 4,
+      "order": 8,
+      "ms_per_frame": 11.260624999522406,
+      "detections": 1876
+    },
+    {
+      "recipe": "pf500-k1",
+      "repeat": 4,
+      "order": 9,
+      "ms_per_frame": 10.156604695112037,
+      "detections": 1876
+    }
+  ],
+  "experiment_sha256": "0a47d2c8d91cb631c599c87e502c7d736196a22ac004bbbd85d4db7eef511035"
+}

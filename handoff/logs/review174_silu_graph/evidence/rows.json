@@ -1,0 +1,710 @@
+[
+  {
+    "mode": "original",
+    "repeat": 0,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 41.5918,
+      "Enqueue Time": 15.8076,
+      "End-to-End Host Latency": 41.9111
+    },
+    "warnings": [],
+    "log": "00_original.log",
+    "log_sha256": "68b752f5903f9c50a89d26e77c1396d99829aeef5f17ed2ecc04ff2cd9f671f4",
+    "wall_s": 56.040767431259155,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2902.96875,
+      "temperatures_C": {
+        "thermal_zone3": 24.0,
+        "thermal_zone1": 27.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 26.0,
+        "thermal_zone0": 34.5,
+        "thermal_zone5": 26.25
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2897.17578125,
+      "temperatures_C": {
+        "thermal_zone3": 25.0,
+        "thermal_zone1": 28.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 25.0,
+        "thermal_zone0": 36.0,
+        "thermal_zone5": 27.75
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  },
+  {
+    "mode": "original_graph",
+    "repeat": 0,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100",
+      "--useCudaGraph"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 41.3484,
+      "Enqueue Time": 1.27539,
+      "End-to-End Host Latency": 41.673
+    },
+    "warnings": [],
+    "log": "00_original_graph.log",
+    "log_sha256": "81df00d911cf5057799d57d06fdd0fbe72c9416ebcf4f687f7da7bf83479bc59",
+    "wall_s": 11.465730905532837,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2897.16015625,
+      "temperatures_C": {
+        "thermal_zone3": 25.0,
+        "thermal_zone1": 28.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 25.0,
+        "thermal_zone0": 36.0,
+        "thermal_zone5": 27.75
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2894.16015625,
+      "temperatures_C": {
+        "thermal_zone3": 26.0,
+        "thermal_zone1": 28.5,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 26.0,
+        "thermal_zone0": 36.0,
+        "thermal_zone5": 27.25
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  },
+  {
+    "mode": "precise",
+    "repeat": 0,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r167_fused_silu_20261121/precise.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100",
+      "--plugins=/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 30.2659,
+      "Enqueue Time": 11.4634,
+      "End-to-End Host Latency": 30.5803
+    },
+    "warnings": [],
+    "log": "00_precise.log",
+    "log_sha256": "c519e8e39277f9044a056196cbf3341e84e426ccba9d11f2f3f8871cb54d04f9",
+    "wall_s": 11.357826709747314,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2894.16015625,
+      "temperatures_C": {
+        "thermal_zone3": 26.0,
+        "thermal_zone1": 28.5,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 26.0,
+        "thermal_zone0": 36.5,
+        "thermal_zone5": 27.25
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2893.56640625,
+      "temperatures_C": {
+        "thermal_zone3": 26.0,
+        "thermal_zone1": 29.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 26.5,
+        "thermal_zone0": 37.0,
+        "thermal_zone5": 27.5
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  },
+  {
+    "mode": "precise_graph",
+    "repeat": 0,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r167_fused_silu_20261121/precise.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100",
+      "--plugins=/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so",
+      "--useCudaGraph"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 30.1429,
+      "Enqueue Time": 1.50549,
+      "End-to-End Host Latency": 30.4634
+    },
+    "warnings": [],
+    "log": "00_precise_graph.log",
+    "log_sha256": "741ebc583163df219b4bdf091c16483116f4514e7faa8c74825cece132a2a97f",
+    "wall_s": 11.395963907241821,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2896.59375,
+      "temperatures_C": {
+        "thermal_zone3": 26.5,
+        "thermal_zone1": 29.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 26.5,
+        "thermal_zone0": 37.0,
+        "thermal_zone5": 27.5
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2894.3984375,
+      "temperatures_C": {
+        "thermal_zone3": 27.0,
+        "thermal_zone1": 29.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 26.5,
+        "thermal_zone0": 37.5,
+        "thermal_zone5": 27.25
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  },
+  {
+    "mode": "precise_graph",
+    "repeat": 1,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r167_fused_silu_20261121/precise.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100",
+      "--plugins=/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so",
+      "--useCudaGraph"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 30.1398,
+      "Enqueue Time": 1.54175,
+      "End-to-End Host Latency": 30.4609
+    },
+    "warnings": [],
+    "log": "01_precise_graph.log",
+    "log_sha256": "18f9727330a2bf541b1d82b20af0ef50a146e796f38e040149b9ebb925498e25",
+    "wall_s": 11.332066297531128,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2897.546875,
+      "temperatures_C": {
+        "thermal_zone3": 27.0,
+        "thermal_zone1": 28.5,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 26.5,
+        "thermal_zone0": 37.0,
+        "thermal_zone5": 27.25
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2898.76171875,
+      "temperatures_C": {
+        "thermal_zone3": 27.5,
+        "thermal_zone1": 29.5,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 27.0,
+        "thermal_zone0": 37.5,
+        "thermal_zone5": 28.5
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  },
+  {
+    "mode": "precise",
+    "repeat": 1,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r167_fused_silu_20261121/precise.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100",
+      "--plugins=/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 30.2848,
+      "Enqueue Time": 10.9426,
+      "End-to-End Host Latency": 30.6028
+    },
+    "warnings": [],
+    "log": "01_precise.log",
+    "log_sha256": "4ae3a3c9fd720cbee8ade3212a3529a629c9477da044fbfc0c464a3ebd207606",
+    "wall_s": 11.35577917098999,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2901.8203125,
+      "temperatures_C": {
+        "thermal_zone3": 27.5,
+        "thermal_zone1": 29.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 27.0,
+        "thermal_zone0": 37.5,
+        "thermal_zone5": 28.5
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2899.48828125,
+      "temperatures_C": {
+        "thermal_zone3": 27.0,
+        "thermal_zone1": 29.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 27.5,
+        "thermal_zone0": 38.0,
+        "thermal_zone5": 30.0
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  },
+  {
+    "mode": "original_graph",
+    "repeat": 1,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100",
+      "--useCudaGraph"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 41.3646,
+      "Enqueue Time": 1.2558,
+      "End-to-End Host Latency": 41.6891
+    },
+    "warnings": [],
+    "log": "01_original_graph.log",
+    "log_sha256": "7d698f1f1afece76d84dde4ff37b278e817e1a2fd08257d5849a1d10df9a5356",
+    "wall_s": 11.180062532424927,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2902.63671875,
+      "temperatures_C": {
+        "thermal_zone3": 27.0,
+        "thermal_zone1": 29.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 27.5,
+        "thermal_zone0": 38.0,
+        "thermal_zone5": 30.0
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2903.12109375,
+      "temperatures_C": {
+        "thermal_zone3": 28.0,
+        "thermal_zone1": 30.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 27.5,
+        "thermal_zone0": 38.0,
+        "thermal_zone5": 29.5
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  },
+  {
+    "mode": "original",
+    "repeat": 1,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 41.6436,
+      "Enqueue Time": 15.8054,
+      "End-to-End Host Latency": 41.9614
+    },
+    "warnings": [],
+    "log": "01_original.log",
+    "log_sha256": "f5365f6c7ff52f56069e104a0946f476548db3482bb3a2a21344e08ad2520970",
+    "wall_s": 11.28745412826538,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2903.12109375,
+      "temperatures_C": {
+        "thermal_zone3": 28.0,
+        "thermal_zone1": 29.5,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 27.5,
+        "thermal_zone0": 38.0,
+        "thermal_zone5": 29.5
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2899.40234375,
+      "temperatures_C": {
+        "thermal_zone3": 28.0,
+        "thermal_zone1": 30.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 27.5,
+        "thermal_zone0": 38.5,
+        "thermal_zone5": 30.25
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  },
+  {
+    "mode": "precise_graph",
+    "repeat": 2,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r167_fused_silu_20261121/precise.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100",
+      "--plugins=/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so",
+      "--useCudaGraph"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 30.1667,
+      "Enqueue Time": 1.45679,
+      "End-to-End Host Latency": 30.4871
+    },
+    "warnings": [],
+    "log": "02_precise_graph.log",
+    "log_sha256": "3c3343e4f1f2b0c8c86d491206c013c48e890193d0e1fb6d8fb939707bc692a9",
+    "wall_s": 11.27930498123169,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2902.55078125,
+      "temperatures_C": {
+        "thermal_zone3": 28.0,
+        "thermal_zone1": 30.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 27.5,
+        "thermal_zone0": 38.5,
+        "thermal_zone5": 30.25
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2900.0234375,
+      "temperatures_C": {
+        "thermal_zone3": 28.0,
+        "thermal_zone1": 29.5,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 28.5,
+        "thermal_zone0": 39.5,
+        "thermal_zone5": 30.5
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  },
+  {
+    "mode": "precise",
+    "repeat": 2,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r167_fused_silu_20261121/precise.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100",
+      "--plugins=/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 30.2894,
+      "Enqueue Time": 10.8883,
+      "End-to-End Host Latency": 30.6064
+    },
+    "warnings": [],
+    "log": "02_precise.log",
+    "log_sha256": "3d038072d7bbe911232cf04dee6e34d8deaced9a3c71f97d4525d72123078c40",
+    "wall_s": 11.175976276397705,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2901.9609375,
+      "temperatures_C": {
+        "thermal_zone3": 28.5,
+        "thermal_zone1": 29.5,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 28.5,
+        "thermal_zone0": 39.0,
+        "thermal_zone5": 30.5
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2901.85546875,
+      "temperatures_C": {
+        "thermal_zone3": 28.0,
+        "thermal_zone1": 30.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 28.5,
+        "thermal_zone0": 39.5,
+        "thermal_zone5": 31.0
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  },
+  {
+    "mode": "original_graph",
+    "repeat": 2,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100",
+      "--useCudaGraph"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 41.3038,
+      "Enqueue Time": 1.2699,
+      "End-to-End Host Latency": 41.6281
+    },
+    "warnings": [],
+    "log": "02_original_graph.log",
+    "log_sha256": "f2c5a0c0e22413c129f294b824f6a52e4ce9b3b0659af96a7c7fd134d6048fee",
+    "wall_s": 11.16325330734253,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2901.9765625,
+      "temperatures_C": {
+        "thermal_zone3": 28.0,
+        "thermal_zone1": 30.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 28.5,
+        "thermal_zone0": 39.0,
+        "thermal_zone5": 31.0
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2900.75390625,
+      "temperatures_C": {
+        "thermal_zone3": 28.5,
+        "thermal_zone1": 29.5,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 29.0,
+        "thermal_zone0": 39.0,
+        "thermal_zone5": 31.0
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  },
+  {
+    "mode": "original",
+    "repeat": 2,
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--loadEngine=/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "--warmUp=500",
+      "--duration=6",
+      "--iterations=100"
+    ],
+    "timings_ms": {
+      "GPU Compute Time": 41.6768,
+      "Enqueue Time": 15.8379,
+      "End-to-End Host Latency": 41.9932
+    },
+    "warnings": [],
+    "log": "02_original.log",
+    "log_sha256": "b60bd8b01b6d76e3f8f34559a27a67fecbaf2d995799bec9d10ac2d043490429",
+    "wall_s": 11.51826024055481,
+    "before": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2900.75390625,
+      "temperatures_C": {
+        "thermal_zone3": 28.5,
+        "thermal_zone1": 29.5,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 29.0,
+        "thermal_zone0": 39.5,
+        "thermal_zone5": 31.0
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    },
+    "after": {
+      "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+      "SD_errors": "0",
+      "swap_MiB": 0.0,
+      "MemAvailable_MiB": 2901.68359375,
+      "temperatures_C": {
+        "thermal_zone3": 29.0,
+        "thermal_zone1": 31.0,
+        "thermal_zone4": 50.0,
+        "thermal_zone2": 28.5,
+        "thermal_zone0": 39.5,
+        "thermal_zone5": 29.25
+      },
+      "cpu_governor": "schedutil",
+      "cpu_min": "1200000",
+      "cpu_max": "1479000",
+      "gpu_min": "76800000",
+      "gpu_max": "921600000"
+    }
+  }
+]

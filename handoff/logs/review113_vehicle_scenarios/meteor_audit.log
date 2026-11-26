@@ -1,0 +1,11 @@
+REC_2020_07_12_02_55_27_F {'car': {'boxes': 3225, 'ids': 3, 'occ': 0, 'turn_frames': 65, 'turns': 3, 'turn_occ': 0, 'gt': 'D:\\LABOTARY\\bytetrack\\handoff\\logs\\review113_vehicle_scenarios\\meteor_labels\\REC_2020_07_12_02_55_27_F_car.txt', 'gt_sha256': 'ba40f54ed92cc86b4653884211c7317a1c58119d44d34c354ee8c328c3c3c689'}, 'motorcycle': {'boxes': 2023, 'ids': 10, 'occ': 0, 'turn_frames': 81, 'turns': 4, 'turn_occ': 0, 'gt': 'D:\\LABOTARY\\bytetrack\\handoff\\logs\\review113_vehicle_scenarios\\meteor_labels\\REC_2020_07_12_02_55_27_F_motorcycle.txt', 'gt_sha256': '1ad8e0bed33b98f578649c271476e29446bcafe18fe8f3e5994176e0add00e84'}}
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review113_vehicle_scenarios\meteor_audit.py", line 135, in <module>
+    {"audit": audit, "download": download}[sys.argv[1]]()
+  File "D:\LABOTARY\bytetrack\handoff\logs\review113_vehicle_scenarios\meteor_audit.py", line 86, in audit
+    row = inspect(archive, name, content)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review113_vehicle_scenarios\meteor_audit.py", line 30, in inspect
+    assert len(xml) == 1800, (name, len(xml))
+           ^^^^^^^^^^^^^^^^
+AssertionError: ('REC_2020_09_08_05_24_09_F', 150)

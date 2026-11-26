@@ -1,0 +1,588 @@
+{
+  "status": "PASS",
+  "images": 7190,
+  "models": {
+    "anchor": {
+      "standard_validation": {
+        "checkpoint": "models\\r101_ridesafe_interp50\\yolo11n_mixed5_interp50.pt",
+        "sha256": "d6aad8667ea7d344592c5aa170a7dbcda968c4aa30930cecc08d3541566daa82",
+        "parameters": 2590815,
+        "mAP50": 0.4955842102835776,
+        "mAP50_95": 0.3409165893965201,
+        "classes": {
+          "car": {
+            "AP50": 0.8499462776587545,
+            "AP50_95": 0.5986934306246601,
+            "precision": 0.8560029519489862,
+            "recall": 0.7745470265393579
+          },
+          "truck": {
+            "AP50": 0.4820100648730512,
+            "AP50_95": 0.3597106853461105,
+            "precision": 0.6928143546608272,
+            "recall": 0.3914018230649651
+          },
+          "bus": {
+            "AP50": 0.546327744848761,
+            "AP50_95": 0.4280772635890447,
+            "precision": 0.6660486661149285,
+            "recall": 0.5051055139550715
+          },
+          "motorcycle": {
+            "AP50": 0.37620388819934747,
+            "AP50_95": 0.21933199527582375,
+            "precision": 0.5135876641869291,
+            "recall": 0.4026548672566372
+          },
+          "bicycle": {
+            "AP50": 0.223433075837974,
+            "AP50_95": 0.0987695721469613,
+            "precision": 0.4519882296518192,
+            "recall": 0.20147420147420148
+          }
+        },
+        "split": "mixed5 dev7190"
+      },
+      "FP32_CPU": {
+        "images": 7190,
+        "input": [
+          384,
+          640
+        ],
+        "checkpoint_sha256": "d6aad8667ea7d344592c5aa170a7dbcda968c4aa30930cecc08d3541566daa82",
+        "mAP50": 0.4705446620651085,
+        "mAP50_95": 0.31978913505296147,
+        "classes": {
+          "car": {
+            "AP50": 0.8446393590803323,
+            "AP50_95": 0.5874552026813935,
+            "GT_boxes": 53204,
+            "detections_c25": 51089,
+            "TP_c25_IoU50": 41917,
+            "precision_c25": 0.8204701599170076,
+            "recall_c25": 0.7878542966694233
+          },
+          "truck": {
+            "AP50": 0.44022896765730957,
+            "AP50_95": 0.328759469405547,
+            "GT_boxes": 3054,
+            "detections_c25": 1732,
+            "TP_c25_IoU50": 1207,
+            "precision_c25": 0.6968822170900693,
+            "recall_c25": 0.39521938441388343
+          },
+          "bus": {
+            "AP50": 0.5142938349479088,
+            "AP50_95": 0.40859279190711195,
+            "GT_boxes": 1469,
+            "detections_c25": 1177,
+            "TP_c25_IoU50": 758,
+            "precision_c25": 0.6440101954120646,
+            "recall_c25": 0.5159972770592239
+          },
+          "motorcycle": {
+            "AP50": 0.34000786587033643,
+            "AP50_95": 0.17852484920273842,
+            "GT_boxes": 226,
+            "detections_c25": 223,
+            "TP_c25_IoU50": 91,
+            "precision_c25": 0.4080717488789238,
+            "recall_c25": 0.4026548672566372
+          },
+          "bicycle": {
+            "AP50": 0.21355328276965546,
+            "AP50_95": 0.09561336206801621,
+            "GT_boxes": 407,
+            "detections_c25": 222,
+            "TP_c25_IoU50": 91,
+            "precision_c25": 0.4099099099099099,
+            "recall_c25": 0.22358722358722358
+          }
+        },
+        "definition": "Deployed Nano argmax/NMS/letterbox + existing Ultralytics matching/AP; FP32 CPU dev",
+        "Nano_FPS": null,
+        "precision_recall_at_fixed_confidence": 0.25
+      },
+      "FP16_TensorRT_Nano": {
+        "images": 7190,
+        "mAP50": 0.47146726996306293,
+        "mAP50_95": 0.31984831508791156,
+        "classes": {
+          "car": {
+            "AP50": 0.8445772932098297,
+            "AP50_95": 0.5871142885959562,
+            "GT_boxes": 53204,
+            "detections_c25": 51100,
+            "TP_c25_IoU50": 41910,
+            "precision_c25": 0.8201565557729942,
+            "recall_c25": 0.787722727614465
+          },
+          "truck": {
+            "AP50": 0.44042237004268936,
+            "AP50_95": 0.3288746997145493,
+            "GT_boxes": 3054,
+            "detections_c25": 1732,
+            "TP_c25_IoU50": 1208,
+            "precision_c25": 0.6974595842956121,
+            "recall_c25": 0.39554682383759004
+          },
+          "bus": {
+            "AP50": 0.5140628132579861,
+            "AP50_95": 0.4083830116147594,
+            "GT_boxes": 1469,
+            "detections_c25": 1178,
+            "TP_c25_IoU50": 759,
+            "precision_c25": 0.6443123938879457,
+            "recall_c25": 0.5166780122532335
+          },
+          "motorcycle": {
+            "AP50": 0.34417362878117774,
+            "AP50_95": 0.17953535438880208,
+            "GT_boxes": 226,
+            "detections_c25": 223,
+            "TP_c25_IoU50": 92,
+            "precision_c25": 0.4125560538116592,
+            "recall_c25": 0.40707964601769914
+          },
+          "bicycle": {
+            "AP50": 0.2141002445236318,
+            "AP50_95": 0.09533422112549125,
+            "GT_boxes": 407,
+            "detections_c25": 221,
+            "TP_c25_IoU50": 90,
+            "precision_c25": 0.4072398190045249,
+            "recall_c25": 0.22113022113022113
+          }
+        },
+        "engine": {
+          "onnx": "/home/jetson/nano_run/r150_pruning_20261120/anchor/model.onnx",
+          "onnx_sha256": "3a04752f2aae983f0a7b4c08480c2330be379242b6b925d999431d7c3a59b741",
+          "engine": "/home/jetson/nano_run/r150_pruning_20261120/anchor/model.engine",
+          "hw": [
+            384,
+            640
+          ],
+          "parity": "/home/jetson/nano_run/r150_pruning_20261120/anchor/parity",
+          "engine_sha256": "c2448c7bf6067b281b3c7909bfa575dc3d9c745791524425648d8489dcc8ab6c"
+        },
+        "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+        "runtime": "actual Nano TensorRT",
+        "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+        "precision_recall_at_fixed_confidence": 0.25,
+        "Nano_pipeline_FPS_measured": false
+      },
+      "Nano_minus_CPU_pp": {
+        "mAP50": 0.09226078979544527,
+        "mAP50_95": 0.005918003495009039
+      },
+      "Nano_minus_CPU_class_AP50_pp": {
+        "car": -0.006206587050261447,
+        "truck": 0.019340238537979282,
+        "bus": -0.023102168992272798,
+        "motorcycle": 0.41657629108413086,
+        "bicycle": 0.05469617539763383
+      }
+    },
+    "control": {
+      "standard_validation": {
+        "checkpoint": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review145_yolo_recovery\\runs\\control\\weights\\best.pt",
+        "sha256": "0c8f12fb09fc06e0b6cbf98ef62d7ad47fd224a8aba187574b4b6ee46bde8507",
+        "parameters": 2590815,
+        "mAP50": 0.4925494968416276,
+        "mAP50_95": 0.3335607587430464,
+        "classes": {
+          "car": {
+            "AP50": 0.8464405304967034,
+            "AP50_95": 0.5927223819870788,
+            "precision": 0.895599435593484,
+            "recall": 0.7452447184422224
+          },
+          "truck": {
+            "AP50": 0.4810749913733795,
+            "AP50_95": 0.35773656704663254,
+            "precision": 0.7262397060216058,
+            "recall": 0.37177854769936175
+          },
+          "bus": {
+            "AP50": 0.54625839770331,
+            "AP50_95": 0.4264247978106983,
+            "precision": 0.682374289628365,
+            "recall": 0.4948944860449285
+          },
+          "motorcycle": {
+            "AP50": 0.3675561623664706,
+            "AP50_95": 0.19770154334527093,
+            "precision": 0.49273797478489145,
+            "recall": 0.3672566371681416
+          },
+          "bicycle": {
+            "AP50": 0.22141740226827436,
+            "AP50_95": 0.09321850352555164,
+            "precision": 0.45675336799427046,
+            "recall": 0.21375921375921375
+          }
+        },
+        "split": "mixed5 dev7190"
+      },
+      "FP32_CPU": {
+        "images": 7190,
+        "input": [
+          384,
+          640
+        ],
+        "checkpoint_sha256": "0c8f12fb09fc06e0b6cbf98ef62d7ad47fd224a8aba187574b4b6ee46bde8507",
+        "mAP50": 0.461340280869849,
+        "mAP50_95": 0.3112986417371823,
+        "classes": {
+          "car": {
+            "AP50": 0.8433127739259236,
+            "AP50_95": 0.5842666946331715,
+            "GT_boxes": 53204,
+            "detections_c25": 53054,
+            "TP_c25_IoU50": 42380,
+            "precision_c25": 0.7988087608851359,
+            "recall_c25": 0.7965566498759492
+          },
+          "truck": {
+            "AP50": 0.4368356533921667,
+            "AP50_95": 0.32657333437368247,
+            "GT_boxes": 3054,
+            "detections_c25": 1902,
+            "TP_c25_IoU50": 1249,
+            "precision_c25": 0.656677181913775,
+            "recall_c25": 0.40897184020956123
+          },
+          "bus": {
+            "AP50": 0.5219515746612873,
+            "AP50_95": 0.4114978356524161,
+            "GT_boxes": 1469,
+            "detections_c25": 1277,
+            "TP_c25_IoU50": 776,
+            "precision_c25": 0.6076742364917777,
+            "recall_c25": 0.5282505105513955
+          },
+          "motorcycle": {
+            "AP50": 0.2959211884096231,
+            "AP50_95": 0.14781897384325765,
+            "GT_boxes": 226,
+            "detections_c25": 331,
+            "TP_c25_IoU50": 87,
+            "precision_c25": 0.2628398791540785,
+            "recall_c25": 0.38495575221238937
+          },
+          "bicycle": {
+            "AP50": 0.2086802139602446,
+            "AP50_95": 0.08633637018338382,
+            "GT_boxes": 407,
+            "detections_c25": 346,
+            "TP_c25_IoU50": 107,
+            "precision_c25": 0.3092485549132948,
+            "recall_c25": 0.2628992628992629
+          }
+        },
+        "definition": "Deployed Nano argmax/NMS/letterbox + existing Ultralytics matching/AP; FP32 CPU dev",
+        "Nano_FPS": null,
+        "precision_recall_at_fixed_confidence": 0.25
+      },
+      "FP16_TensorRT_Nano": {
+        "images": 7190,
+        "mAP50": 0.46171508022765256,
+        "mAP50_95": 0.31124976879190425,
+        "classes": {
+          "car": {
+            "AP50": 0.8430537848956248,
+            "AP50_95": 0.5839088719705996,
+            "GT_boxes": 53204,
+            "detections_c25": 53092,
+            "TP_c25_IoU50": 42368,
+            "precision_c25": 0.7980109997739773,
+            "recall_c25": 0.7963311029245921
+          },
+          "truck": {
+            "AP50": 0.43721660360543113,
+            "AP50_95": 0.3263947545605733,
+            "GT_boxes": 3054,
+            "detections_c25": 1900,
+            "TP_c25_IoU50": 1250,
+            "precision_c25": 0.6578947368421053,
+            "recall_c25": 0.40929927963326784
+          },
+          "bus": {
+            "AP50": 0.5222421826821875,
+            "AP50_95": 0.41064628624106003,
+            "GT_boxes": 1469,
+            "detections_c25": 1275,
+            "TP_c25_IoU50": 777,
+            "precision_c25": 0.6094117647058823,
+            "recall_c25": 0.5289312457454051
+          },
+          "motorcycle": {
+            "AP50": 0.29811186325192085,
+            "AP50_95": 0.14879634811367143,
+            "GT_boxes": 226,
+            "detections_c25": 330,
+            "TP_c25_IoU50": 88,
+            "precision_c25": 0.26666666666666666,
+            "recall_c25": 0.3893805309734513
+          },
+          "bicycle": {
+            "AP50": 0.20795096670309887,
+            "AP50_95": 0.08650258307361691,
+            "GT_boxes": 407,
+            "detections_c25": 345,
+            "TP_c25_IoU50": 107,
+            "precision_c25": 0.3101449275362319,
+            "recall_c25": 0.2628992628992629
+          }
+        },
+        "engine": {
+          "onnx": "/home/jetson/nano_run/r150_pruning_20261120/control/model.onnx",
+          "onnx_sha256": "aab58937fc4c226411a20dcb88f221f1cd8c6373a28c728cd0e7564ff64bdddf",
+          "engine": "/home/jetson/nano_run/r150_pruning_20261120/control/model.engine",
+          "hw": [
+            384,
+            640
+          ],
+          "parity": "/home/jetson/nano_run/r150_pruning_20261120/control/parity",
+          "engine_sha256": "9335edba3a08373bc91ed057b79fdac6142697c97cdde40ac76b939a45f8d42f"
+        },
+        "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+        "runtime": "actual Nano TensorRT",
+        "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+        "precision_recall_at_fixed_confidence": 0.25,
+        "Nano_pipeline_FPS_measured": false
+      },
+      "Nano_minus_CPU_pp": {
+        "mAP50": 0.03747993578035458,
+        "mAP50_95": -0.0048872945278055635
+      },
+      "Nano_minus_CPU_class_AP50_pp": {
+        "car": -0.025898903029886178,
+        "truck": 0.038095021326445266,
+        "bus": 0.0290608020900196,
+        "motorcycle": 0.2190674842297735,
+        "bicycle": -0.07292472571457376
+      }
+    },
+    "channel25_KD": {
+      "standard_validation": {
+        "checkpoint": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review145_yolo_recovery\\runs\\channel25_KD\\weights\\best.pt",
+        "sha256": "5334373890af530c6d0277e3f6bb96e2897533359f48cf1b0a040a74df306bcf",
+        "parameters": 2315551,
+        "mAP50": 0.4802996422152863,
+        "mAP50_95": 0.32006706305004223,
+        "classes": {
+          "car": {
+            "AP50": 0.8398927955543029,
+            "AP50_95": 0.5828089823517252,
+            "precision": 0.9028904432329348,
+            "recall": 0.7295504097436283
+          },
+          "truck": {
+            "AP50": 0.4690714118904653,
+            "AP50_95": 0.3412022308904631,
+            "precision": 0.7328439185685938,
+            "recall": 0.35209796611411814
+          },
+          "bus": {
+            "AP50": 0.5226439014712283,
+            "AP50_95": 0.39608654793563686,
+            "precision": 0.6442254435938223,
+            "recall": 0.4758339006126617
+          },
+          "motorcycle": {
+            "AP50": 0.3844466413473845,
+            "AP50_95": 0.20400016497709786,
+            "precision": 0.5134049328572109,
+            "recall": 0.35398230088495575
+          },
+          "bicycle": {
+            "AP50": 0.18544346081305066,
+            "AP50_95": 0.07623738909528832,
+            "precision": 0.36427545855514903,
+            "recall": 0.21867321867321868
+          }
+        },
+        "split": "mixed5 dev7190"
+      },
+      "FP32_CPU": {
+        "images": 7190,
+        "input": [
+          384,
+          640
+        ],
+        "checkpoint_sha256": "5334373890af530c6d0277e3f6bb96e2897533359f48cf1b0a040a74df306bcf",
+        "mAP50": 0.43878841532439267,
+        "mAP50_95": 0.293151494254016,
+        "classes": {
+          "car": {
+            "AP50": 0.836219827761784,
+            "AP50_95": 0.5745243111425264,
+            "GT_boxes": 53204,
+            "detections_c25": 51890,
+            "TP_c25_IoU50": 41707,
+            "precision_c25": 0.8037579495085758,
+            "recall_c25": 0.7839072250206751
+          },
+          "truck": {
+            "AP50": 0.4207699946720056,
+            "AP50_95": 0.3090381589554395,
+            "GT_boxes": 3054,
+            "detections_c25": 1789,
+            "TP_c25_IoU50": 1190,
+            "precision_c25": 0.665176076020123,
+            "recall_c25": 0.389652914210871
+          },
+          "bus": {
+            "AP50": 0.4988535706904406,
+            "AP50_95": 0.3793408422528405,
+            "GT_boxes": 1469,
+            "detections_c25": 1258,
+            "TP_c25_IoU50": 748,
+            "precision_c25": 0.5945945945945946,
+            "recall_c25": 0.5091899251191286
+          },
+          "motorcycle": {
+            "AP50": 0.27412132206120066,
+            "AP50_95": 0.13379545066298928,
+            "GT_boxes": 226,
+            "detections_c25": 338,
+            "TP_c25_IoU50": 83,
+            "precision_c25": 0.2455621301775148,
+            "recall_c25": 0.3672566371681416
+          },
+          "bicycle": {
+            "AP50": 0.1639773614365323,
+            "AP50_95": 0.06905870825628432,
+            "GT_boxes": 407,
+            "detections_c25": 443,
+            "TP_c25_IoU50": 104,
+            "precision_c25": 0.23476297968397292,
+            "recall_c25": 0.25552825552825553
+          }
+        },
+        "definition": "Deployed Nano argmax/NMS/letterbox + existing Ultralytics matching/AP; FP32 CPU dev",
+        "Nano_FPS": null,
+        "precision_recall_at_fixed_confidence": 0.25
+      },
+      "FP16_TensorRT_Nano": {
+        "images": 7190,
+        "mAP50": 0.4386807315285063,
+        "mAP50_95": 0.29283907601148257,
+        "classes": {
+          "car": {
+            "AP50": 0.8361712089136554,
+            "AP50_95": 0.5739761489460229,
+            "GT_boxes": 53204,
+            "detections_c25": 51952,
+            "TP_c25_IoU50": 41706,
+            "precision_c25": 0.8027794887588543,
+            "recall_c25": 0.7838884294413954
+          },
+          "truck": {
+            "AP50": 0.4212209278113845,
+            "AP50_95": 0.30873816749499716,
+            "GT_boxes": 3054,
+            "detections_c25": 1795,
+            "TP_c25_IoU50": 1194,
+            "precision_c25": 0.6651810584958218,
+            "recall_c25": 0.39096267190569745
+          },
+          "bus": {
+            "AP50": 0.4982036840972045,
+            "AP50_95": 0.37874501600352145,
+            "GT_boxes": 1469,
+            "detections_c25": 1261,
+            "TP_c25_IoU50": 750,
+            "precision_c25": 0.5947660586835845,
+            "recall_c25": 0.5105513955071477
+          },
+          "motorcycle": {
+            "AP50": 0.2739579114556142,
+            "AP50_95": 0.13402464556589902,
+            "GT_boxes": 226,
+            "detections_c25": 339,
+            "TP_c25_IoU50": 83,
+            "precision_c25": 0.2448377581120944,
+            "recall_c25": 0.3672566371681416
+          },
+          "bicycle": {
+            "AP50": 0.16384992536467274,
+            "AP50_95": 0.06871140204697235,
+            "GT_boxes": 407,
+            "detections_c25": 445,
+            "TP_c25_IoU50": 104,
+            "precision_c25": 0.23370786516853934,
+            "recall_c25": 0.25552825552825553
+          }
+        },
+        "engine": {
+          "onnx": "/home/jetson/nano_run/r150_pruning_20261120/channel25_KD/model.onnx",
+          "onnx_sha256": "651cb42ca48ec154b3deee45f85986de96404c17ae158cbab79cc7c42e528517",
+          "engine": "/home/jetson/nano_run/r150_pruning_20261120/channel25_KD/model.engine",
+          "hw": [
+            384,
+            640
+          ],
+          "parity": "/home/jetson/nano_run/r150_pruning_20261120/channel25_KD/parity",
+          "engine_sha256": "e940cdb9010e5f48fb661e6365ad2ab11baae2f07afd2e83f623ea2b7d91e17a"
+        },
+        "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+        "runtime": "actual Nano TensorRT",
+        "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+        "precision_recall_at_fixed_confidence": 0.25,
+        "Nano_pipeline_FPS_measured": false
+      },
+      "Nano_minus_CPU_pp": {
+        "mAP50": -0.010768379588638188,
+        "mAP50_95": -0.031241824253341877
+      },
+      "Nano_minus_CPU_class_AP50_pp": {
+        "car": -0.004861884812867867,
+        "truck": 0.0450933139378884,
+        "bus": -0.06498865932361153,
+        "motorcycle": -0.016341060558644482,
+        "bicycle": -0.012743607185955463
+      }
+    }
+  },
+  "pruned_minus_reference_pp": {
+    "FP32_CPU": {
+      "anchor": {
+        "mAP50": -3.1756246740715808,
+        "mAP50_95": -2.6637640798945483
+      },
+      "control": {
+        "mAP50": -2.2551865545456353,
+        "mAP50_95": -1.8147147483166315
+      }
+    },
+    "FP16_TensorRT_Nano": {
+      "anchor": {
+        "mAP50": -3.2786538434556647,
+        "mAP50_95": -2.700923907642899
+      },
+      "control": {
+        "mAP50": -2.3034348699146276,
+        "mAP50_95": -1.8410692780421678
+      }
+    }
+  },
+  "pure_precision_ablation": false,
+  "Nano_FPS_measured": false,
+  "limitation": "CPU PyTorch/OpenCV and Nano TensorRT/OpenCV differ; standard validation also differs in geometry/multi-label postprocessing. No causal FP16-only claim.",
+  "source_sha256": {
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review163_pruning_precision_audit\\inputs.json": "ac49392226a8f623e56b5bd9c493b1228ddb7d9167d2a1a07126110de9f8a6da",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review163_pruning_precision_audit\\compare.py": "fd3cb913f58cd5861c82c2c6bc472aeae97aac9597c7b08d47e18e1fb0c4c9d4",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review145_yolo_recovery\\quality.json": "5d348579e9788f9bfee533979a26d07ea8bc673fad674cbb9933928775359c53",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review151_resolution_tradeoff\\quality\\baseline\\summary.json": "a1d8ff2db6d2e743499bba28c49fbace590806ba796ffccaf767a63dda0f69c8",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review150_nano_pruning\\cache\\anchor\\quality.json": "e4adf4a175514ee353a7e5f83056629da6548456d0f131028d0074bf7c1368bc",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review150_nano_pruning\\cache\\anchor\\quality_verification.json": "df1d8fb359e9f7d1d61eccca52c79043660c8e274320662a9f3130f36a5dfbe2",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review163_pruning_precision_audit\\quality\\control\\summary.json": "a0b950ad6edbbe7aabbba2b3fe7672fec82dda740b5732f118b4ed2e02d93dbd",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review150_nano_pruning\\cache\\control\\quality.json": "6c54289a18e188529cdba84b53bc58d3d4cdbc77593a9efe0279f08392e49177",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review150_nano_pruning\\cache\\control\\quality_verification.json": "f504887bfb9c7f9c9331cc1390d281a1db728c4c4ccee8e105e3620a0c503607",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review163_pruning_precision_audit\\quality\\channel25_KD\\summary.json": "092d54b9c224bbf2bdc1f8e67a3512eb62d9e97da0c9218c5983f31fca0e6ad1",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review150_nano_pruning\\cache\\channel25_KD\\quality.json": "fc68bd359369acd2c97f9d0520d1b27361fc7d2e2af463a157d33c70f922463d",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review150_nano_pruning\\cache\\channel25_KD\\quality_verification.json": "68e331514a9f9e1ac2ccb27bbcb672efbe9b2f612505f60124a74983fb08cd43"
+  }
+}

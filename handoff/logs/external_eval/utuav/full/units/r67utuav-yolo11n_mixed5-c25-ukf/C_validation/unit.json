@@ -1,0 +1,72 @@
+{
+  "fingerprint": "a3a061187eec102f57866199b466c35de0abd6ffeb503876802ad57ed885d33a",
+  "settings": {
+    "protocol_hash": "2778f9ddb7b0b1dae941ff2d8f90ec09111e4a489b6d20c403ee904a8e6a10a9",
+    "tracker_cfg": {
+      "tracker_type": "bytetrack_ukf_ctrv",
+      "track_high_thresh": 0.25,
+      "track_low_thresh": 0.1,
+      "new_track_thresh": 0.25,
+      "track_buffer": 36,
+      "match_thresh": 0.8,
+      "fuse_score": true
+    },
+    "yaml_sha256": "5d1286e41ebe8f76f94045ea36ba57571efcf73633e7039bb29ab96366b45661",
+    "backend": {
+      "git_commit": "8f3b63d",
+      "modules": {
+        "run_tracking.py": "5bd131fe958bdf04",
+        "run_experiment.py": "9952441194b7e70f",
+        "tracker_ctrv.py": "b22b4688f50058e8",
+        "sort_tracker.py": "a4ab4b26867989eb",
+        "ekf_ctrv.py": "b516781efa01f473",
+        "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+        "ukf_ctrv.py": "2d59daf4794d8039",
+        "pf_ctrv.py": "de141de5aa698735",
+        "lost_recovery.py": "38f30192b492fa80",
+        "lost_association.py": "469c2782cba41e01",
+        "time_units.py": "c13b6e20fe003f6d",
+        "det_cache.py": "17024ddc6afec534",
+        "occlusion_eval.py": "1b892596be674b9e",
+        "boot_stats.py": "e9245f6729659f8f",
+        "run_trackeval.py": "519d3f9165803fde",
+        "trackeval_ext.py": "3dcf6582548adcfa",
+        "assoc_log.py": "0915453e70f75eb2",
+        "ul_backend.py": "7381910281d8a273",
+        "bytetrack_np.py": "8d37ec565230603b",
+        "run_state.py": "2bc38e3a86fbf50b"
+      },
+      "backend": {
+        "backend": "ultralytics",
+        "ultralytics": "8.4.141",
+        "numpy": "2.4.6",
+        "scipy": "1.17.1",
+        "lap": "0.5.13"
+      }
+    },
+    "detector": "yolo11n_mixed5",
+    "condition": "c25",
+    "conf_min": 0.25,
+    "classes": [
+      1,
+      2,
+      3,
+      5,
+      7
+    ],
+    "max_det": 300,
+    "seed": null,
+    "fps": 29.97002997002997,
+    "dt_nominal_s": 0.03336666666666667,
+    "elapsed": "steps",
+    "buffer": 36
+  },
+  "video": "C_validation",
+  "cache_marker_sha256": "77c36b3f7efe163ba14f031487eba38e8e7b618d998d2b8fb2c30bdb2e23be82",
+  "seconds": 0.9380000000819564,
+  "sha256": {
+    "data/C_validation.txt": "742ad280e7ad5b4b367287f17059649155ba51a1c7b403649f790825acd5bee3",
+    "data_cls/C_validation.csv": "de418d97f4be32f2d67d786eca3bcc4846b011d87ab9441457342525b604a9f3",
+    "timing/C_validation.csv": "89207fdddb67a295aa50d6c4b3f7bd063f70bd6a35c4248d305e2cf3c9d341bf"
+  }
+}

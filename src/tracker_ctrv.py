@@ -304,19 +304,28 @@ class PFSTrack(CTRVSTrack):
         cls.n_multi_predict_calls = getattr(cls, "n_multi_predict_calls", 0) + 1
         VH, H = pf.VH, pf.H
         Xs = []
+        omega_offsets = []
         for st in stracks:
             X = st.particles
             if st.state != TrackState.Tracked and np.any(X[:, VH] != 0.0):
                 X = X.copy()
                 X[:, VH] = 0.0
+            if st.state != TrackState.Tracked:
+                X = pf.lost_transition_input(X, st.rng)
             Xs.append(X)
+            omega_offsets.append(
+                st.particles[:, pf.OMEGA] - X[:, pf.OMEGA]
+                if st.state != TrackState.Tracked and pf.lost_cv_preserve_omega else None
+            )
         allX = np.concatenate(Xs, axis=0)
         allF = pf.f_batch(allX)
         std = pf.process_noise_std_batch(np.maximum(allX[:, H], 1e-3))
         off = 0
-        for st in stracks:
+        for st, omega_offset in zip(stracks, omega_offsets):
             n = len(st.particles)
-            Xn = allF[off:off + n] + st.rng.standard_normal((n, pf.NDIM)) * std[off:off + n]
+            if omega_offset is not None:
+                allF[off:off + n, pf.OMEGA] += omega_offset
+            Xn = allF[off:off + n] + pf.sample_process_noise(std[off:off + n], st.rng)
             Xn[:, pf.THETA] = normalize_angle(Xn[:, pf.THETA])
             Xn[:, H] = np.maximum(Xn[:, H], 1e-3)
             st.particles = Xn
@@ -399,8 +408,17 @@ PF_YAML_KEYS = {
     "pf_resample_ess_ratio": ("resample_ess_ratio", float),
     "pf_estimate": ("estimate", str),
     "pf_roughening": ("roughening", float),
+    "pf_roughening_box_scale": ("roughening_box_scale", float),
+    "pf_roughening_motion_scale": ("roughening_motion_scale", float),
+    "pf_allow_high_motion_roughening": ("allow_high_motion_roughening", lambda v: str(v).strip().lower() in ("1", "true", "yes")),
+    "pf_recenter_resample": ("recenter_resample", lambda v: str(v).strip().lower() in ("1", "true", "yes")),
+    "pf_antithetic_process_noise": ("antithetic_process_noise", lambda v: str(v).strip().lower() in ("1", "true", "yes")),
+    "pf_rb_observed_estimate": ("rb_observed_estimate", lambda v: str(v).strip().lower() in ("1", "true", "yes")),
+    "pf_lost_cv_fraction": ("lost_cv_fraction", float),
+    "pf_lost_cv_preserve_omega": ("lost_cv_preserve_omega", bool),
     "pf_degenerate_maha2": ("degenerate_maha2", float),
     "pf_optimal_proposal": ("optimal_proposal", lambda v: str(v).strip().lower() in ("1", "true", "yes")),  # R48D K1
+    "pf_measurement_height": ("measurement_height", str),
 }
 
 
@@ -412,6 +430,35 @@ class PFByteTracker(CTRVByteTracker):
     """
 
     track_class = PFSTrack
+
+    def get_dists(self, tracks, detections):
+        dists = super().get_dists(tracks, detections)
+        if getattr(self.args, "pf_assoc_particle_rescue", False):
+            if getattr(self.args, "pf_assoc_expected_iou_lost", False):
+                raise ValueError("PF association experiments R91 and R95 cannot be enabled together")
+            from r95_pf_reacquire.cost import rescue_costs
+            dists, rescued = rescue_costs(tracks, detections, dists, self.frame_id,
+                                          match_thresh=float(self.args.match_thresh))
+            self.r95_rescue_candidates = getattr(self, "r95_rescue_candidates", 0) + len(rescued)
+            return dists
+        if not getattr(self.args, "pf_assoc_expected_iou_lost", False) or not tracks or not detections:
+            return dists
+        # R91 experimental association: leave tracked rows and all defaults intact.
+        from r91_pf_assoc.cost import expected_particle_iou
+        from ul_backend import matching
+
+        baseline = matching.iou_distance(tracks, detections)
+        candidate = baseline.copy()
+        for i, track in enumerate(tracks):
+            if track.state == TrackState.Lost:
+                expected = expected_particle_iou(track, detections)
+                candidate[i, :] = 0.5 * baseline[i, :] + 0.5 * (1.0 - expected)
+        if self.args.fuse_score:
+            candidate = matching.fuse_score(candidate, detections)
+        for i, track in enumerate(tracks):
+            if track.state == TrackState.Lost:
+                dists[i, :] = candidate[i, :]
+        return dists
 
     def get_kalmanfilter(self):
         kw = {}

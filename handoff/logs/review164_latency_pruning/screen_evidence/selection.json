@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "GPU_only": true,
+  "Nano_pipeline_FPS_measured": false,
+  "models": {
+    "original": {
+      "mean_of_two_medians_ms": 41.645300000000006,
+      "repeat_difference_pct": 0.13014673924789008
+    },
+    "head50": {
+      "mean_of_two_medians_ms": 38.3943,
+      "repeat_difference_pct": 0.24795347226020112,
+      "GPU_time_reduction_pct": 7.806403123521754
+    },
+    "body50": {
+      "mean_of_two_medians_ms": 40.9552,
+      "repeat_difference_pct": 0.04590381685353464,
+      "GPU_time_reduction_pct": 1.6570897556267061
+    },
+    "joint50": {
+      "mean_of_two_medians_ms": 37.889799999999994,
+      "repeat_difference_pct": 0.0015835396333541,
+      "GPU_time_reduction_pct": 9.017824340321745
+    },
+    "depth2": {
+      "mean_of_two_medians_ms": 38.959,
+      "repeat_difference_pct": 0.48615210862701586,
+      "GPU_time_reduction_pct": 6.450427779365264
+    },
+    "hswish": {
+      "mean_of_two_medians_ms": 54.7608,
+      "repeat_difference_pct": 0.004382697111805364,
+      "GPU_time_reduction_pct": -31.493349789772186
+    }
+  },
+  "eligible": [
+    "joint50"
+  ],
+  "selected_for_training": [
+    "joint50"
+  ],
+  "negative_screen": false,
+  "build_failures": [],
+  "config_sha256": "6d9e01823a2fbb54a66195c927032a074cf36145f9d63a188549f23fdbd897a4",
+  "runtime_models_sha256": "21985883813a58ec8ca5ddfefabebc61f2d92d5d356bf96aa7a6daf5d3dc98e0",
+  "GPU_rows_sha256": "1e8d5d13b06c97bc1a0223deddfd2040c0adf7e0cfe5f4a9071f4b2543a8288a",
+  "after": {
+    "boot": "51280481-0986-4322-a37c-824de9e072af",
+    "swap_MiB": 134.23828125,
+    "available_MiB": 1813.453125,
+    "thermal_C": {
+      "CPU-therm": 29.0,
+      "GPU-therm": 29.0
+    },
+    "SD_errors": "0"
+  }
+}

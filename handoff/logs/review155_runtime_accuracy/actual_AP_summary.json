@@ -1,0 +1,159 @@
+{
+  "status": "PASS",
+  "images_per_model": 7190,
+  "models": {
+    "original": {
+      "mAP50": 0.47146726996306293,
+      "mAP50_95": 0.31984831508791156,
+      "delta_AP50_pp": 0.0,
+      "delta_AP50_95_pp": 0.0,
+      "per_class_AP50": {
+        "car": 0.8445772932098297,
+        "truck": 0.44042237004268936,
+        "bus": 0.5140628132579861,
+        "motorcycle": 0.34417362878117774,
+        "bicycle": 0.2141002445236318
+      },
+      "gates": {
+        "mAP50": true,
+        "mAP50_95": true,
+        "car": true,
+        "truck": true,
+        "bus": true,
+        "motorcycle": true,
+        "bicycle": true
+      },
+      "quality_recommended": true,
+      "historical_raw_parity": "PASS"
+    },
+    "anchor_rebuilt": {
+      "mAP50": 0.4703258731815718,
+      "mAP50_95": 0.3196108632554858,
+      "delta_AP50_pp": -0.11413967814911108,
+      "delta_AP50_95_pp": -0.02374518324257391,
+      "per_class_AP50": {
+        "car": 0.8443360061155236,
+        "truck": 0.4396678342929417,
+        "bus": 0.5140066728480388,
+        "motorcycle": 0.33956979808986576,
+        "bicycle": 0.21404905456148912
+      },
+      "gates": {
+        "mAP50": true,
+        "mAP50_95": true,
+        "car": true,
+        "truck": true,
+        "bus": true,
+        "motorcycle": true,
+        "bicycle": true
+      },
+      "quality_recommended": true,
+      "historical_raw_parity": "PASS"
+    },
+    "r352x608": {
+      "mAP50": 0.4640370641169662,
+      "mAP50_95": 0.3066387621633257,
+      "delta_AP50_pp": -0.7430205846096716,
+      "delta_AP50_95_pp": -1.3209552924585866,
+      "per_class_AP50": {
+        "car": 0.8363583876815591,
+        "truck": 0.42718274300711195,
+        "bus": 0.4931304885734541,
+        "motorcycle": 0.3474818400808629,
+        "bicycle": 0.21603186124184337
+      },
+      "gates": {
+        "mAP50": false,
+        "mAP50_95": false,
+        "car": true,
+        "truck": true,
+        "bus": false,
+        "motorcycle": true,
+        "bicycle": true
+      },
+      "quality_recommended": false,
+      "historical_raw_parity": "FAIL"
+    },
+    "r320x576": {
+      "mAP50": 0.45984376818871314,
+      "mAP50_95": 0.30997341171277465,
+      "delta_AP50_pp": -1.1623501774349787,
+      "delta_AP50_95_pp": -0.9874903375136912,
+      "per_class_AP50": {
+        "car": 0.8290293528104534,
+        "truck": 0.42249839598000616,
+        "bus": 0.4869693620284923,
+        "motorcycle": 0.37059854958186533,
+        "bicycle": 0.19012318054274813
+      },
+      "gates": {
+        "mAP50": false,
+        "mAP50_95": false,
+        "car": true,
+        "truck": true,
+        "bus": false,
+        "motorcycle": true,
+        "bicycle": false
+      },
+      "quality_recommended": false,
+      "historical_raw_parity": "FAIL"
+    },
+    "r352x608_psa32": {
+      "mAP50": 0.4639617316104485,
+      "mAP50_95": 0.30658568797936236,
+      "delta_AP50_pp": -0.7505538352614416,
+      "delta_AP50_95_pp": -1.3262627108549196,
+      "per_class_AP50": {
+        "car": 0.8364456342168458,
+        "truck": 0.42755532566706966,
+        "bus": 0.49259402800846025,
+        "motorcycle": 0.34766951750232794,
+        "bicycle": 0.21554415265753912
+      },
+      "gates": {
+        "mAP50": false,
+        "mAP50_95": false,
+        "car": true,
+        "truck": true,
+        "bus": false,
+        "motorcycle": true,
+        "bicycle": true
+      },
+      "quality_recommended": false,
+      "historical_raw_parity": "FAIL"
+    },
+    "r320x576_psa32": {
+      "mAP50": 0.4585683965962356,
+      "mAP50_95": 0.3092972834718773,
+      "delta_AP50_pp": -1.2898873366827324,
+      "delta_AP50_95_pp": -1.0551031616034268,
+      "per_class_AP50": {
+        "car": 0.8287246089137974,
+        "truck": 0.4222419737900056,
+        "bus": 0.4853759377731134,
+        "motorcycle": 0.3692897867895424,
+        "bicycle": 0.18720967571471936
+      },
+      "gates": {
+        "mAP50": false,
+        "mAP50_95": false,
+        "car": true,
+        "truck": true,
+        "bus": false,
+        "motorcycle": true,
+        "bicycle": false
+      },
+      "quality_recommended": false,
+      "historical_raw_parity": "FAIL"
+    }
+  },
+  "Nano_pipeline_FPS_measured": false,
+  "definition": "Actual TensorRT + deployed argmax/NMS on internal dev",
+  "GT_counts": {
+    "car": 53204,
+    "truck": 3054,
+    "bus": 1469,
+    "motorcycle": 226,
+    "bicycle": 407
+  }
+}
