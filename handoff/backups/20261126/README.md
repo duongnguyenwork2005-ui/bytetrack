@@ -19,12 +19,17 @@ tại, không phải tuyên bố mọi nhánh nghiên cứu đã đạt yêu c�
 
 ## Tình trạng
 
-Source20940tệp đã được đối chiếu byte và push tới GitHub. Payload160391tệp,
-gồm145model local bịignore bổ sung, đã đóng thành30ZIP; đang tải các mảnh
-48MiB lên Release nháp459160982. Không coi payload đã đầy đủ cho đến khi
-`BACKUP_STATUS.json` ghi COMPLETE và mọi mảnh có SHA256 phía GitHub đạt.
-Engine/ONNX/plugin15tệp được chọn trên Nano đã sao lưu riêng, không phải
-toàn bộ filesystem Nano. Release nháp cần đăng nhập bằng tài khoản có quyền.
+**Đã hoàn tất.** Source20940tệp đã đối chiếu byte và push tới GitHub.
+Payload160391tệp, gồm145model local bịignore bổ sung, đã sao lưu bằng30ZIP
+và các mảnh48MiB. Tổng204asset/9.510.266.459byte trên Release nháp459160982
+đã khớp SHA256 phía GitHub;31archive ghép lại đúng hash gốc.
+`BACKUP_STATUS.json` ghi COMPLETE; `final_verification.json` giữ danh sách
+asset/hash và phạm vi. Tag `backup-20261126` là mốc đóng sao lưu.
+
+Engine/ONNX/plugin15tệp được chọn trên Nano đã sao lưu riêng và đã kiểm
+khôi phục bằng tải thật từ GitHub, không chỉ đọc lại bản local. Đây không
+phải toàn bộ filesystem Nano. Release nháp cần tài khoản có quyền truy cập;
+giữ ở dạng nháp để tránh phân phối công khai dữ liệu thô.
 
 ## Khôi phục sau khi bản sao lưu hoàn tất
 
