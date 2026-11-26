@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review143_pf_scenarios\run.py", line 301, in <module>
+    else:{'preflight':preflight,'smoke':smoke,'summary':summary}[sys.argv[1]]()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review143_pf_scenarios\run.py", line 146, in preflight
+    info=read(cr/f'{video}.json');assert info['gt_luc_sinh_sha256']==sha(gtpath)
+                                         ~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'gt_luc_sinh_sha256'

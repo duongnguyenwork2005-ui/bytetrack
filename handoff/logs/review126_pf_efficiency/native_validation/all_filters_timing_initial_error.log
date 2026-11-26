@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review126_pf_efficiency\native_validation\measure_all_filters.py", line 57, in <module>
+    main()
+  File "D:\LABOTARY\bytetrack\handoff\logs\review126_pf_efficiency\native_validation\measure_all_filters.py", line 31, in main
+    reference = job.array(job.BASE/f'tracking/{job.bdd.SPLIT}/{tag}-s0/data/{video}.txt')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review126_pf_efficiency\runner.py", line 19, in array
+    return np.loadtxt(path, delimiter=',', ndmin=2) if path.stat().st_size else np.empty((0,7))
+                                                       ^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\pathlib.py", line 1013, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'D:\\LABOTARY\\bytetrack\\handoff\\logs\\review125_pf_bdd\\tracking\\BDDCOCOVID-val\\kf-s0\\data\\b1f4491b-846d8cb2.txt'

@@ -1,0 +1,43 @@
+         394453 function calls (392851 primitive calls) in 0.680 seconds
+
+   Ordered by: cumulative time
+   List reduced from 758 to 35 due to restriction <35>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        2    0.000    0.000    0.680    0.340 run.py:132(replay)
+        2    0.000    0.000    0.629    0.314 run_tracking.py:179(track_video)
+        2    0.013    0.007    0.622    0.311 run_tracking.py:229(_vong_lap_tracker)
+      400    0.002    0.000    0.564    0.001 time_units.py:189(update)
+      400    0.009    0.000    0.562    0.001 byte_tracker.py:266(update)
+      400    0.001    0.000    0.234    0.001 byte_tracker.py:367(_first_association)
+      400    0.002    0.000    0.156    0.000 byte_tracker.py:396(_apply_matches)
+     1923    0.003    0.000    0.154    0.000 byte_tracker.py:408(_apply_match)
+     1907    0.007    0.000    0.150    0.000 byte_tracker.py:129(update)
+     1998    0.026    0.000    0.133    0.000 kalman_filter.py:201(update)
+     1099    0.008    0.000    0.105    0.000 matching.py:62(iou_distance)
+      699    0.002    0.000    0.077    0.000 byte_tracker.py:507(get_dists)
+    12684    0.021    0.000    0.064    0.000 byte_tracker.py:172(xyxy)
+      400    0.003    0.000    0.062    0.000 stracks.py:18(merge_track_pools)
+      800    0.002    0.000    0.059    0.000 byte_tracker.py:500(init_track)
+     1998    0.025    0.000    0.054    0.000 _linalg.py:362(solve)
+      400    0.001    0.000    0.052    0.000 run_tracking.py:168(timed)
+      400    0.001    0.000    0.050    0.000 time_units.py:201(multi_predict)
+      400    0.000    0.000    0.049    0.000 byte_tracker.py:514(multi_predict)
+      400    0.006    0.000    0.049    0.000 byte_tracker.py:85(multi_predict)
+      400    0.003    0.000    0.046    0.000 byte_tracker.py:442(_unconfirmed_association)
+    14682    0.039    0.000    0.046    0.000 byte_tracker.py:162(tlwh)
+      400    0.002    0.000    0.045    0.000 byte_tracker.py:470(_init_new_tracks)
+      400    0.005    0.000    0.043    0.000 byte_tracker.py:505(<listcomp>)
+     1099    0.004    0.000    0.043    0.000 matching.py:82(<listcomp>)
+      400    0.005    0.000    0.043    0.000 stracks.py:109(remove_duplicate_stracks)
+      846    0.003    0.000    0.042    0.000 byte_tracker.py:100(activate)
+      398    0.022    0.000    0.039    0.000 kalman_filter.py:161(multi_predict)
+     2844    0.010    0.000    0.038    0.000 byte_tracker.py:55(__init__)
+        2    0.000    0.000    0.036    0.018 run.py:52(config)
+        2    0.000    0.000    0.036    0.018 run_tracking.py:105(load_tracker_cfg)
+      699    0.027    0.000    0.036    0.000 matching.py:18(linear_assignment)
+      402    0.001    0.000    0.035    0.000 det_cache.py:474(iter_frames)
+      400    0.001    0.000    0.034    0.000 det_cache.py:470(frame)
+        2    0.000    0.000    0.034    0.017 run_tracking.py:92(resolve_tracker_yaml)
+
+

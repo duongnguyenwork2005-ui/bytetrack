@@ -1,0 +1,40 @@
+         848465 function calls (847411 primitive calls) in 2.848 seconds
+
+   Ordered by: cumulative time
+   List reduced from 934 to 32 due to restriction <32>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        2    0.000    0.000    2.848    1.424 runner.py:22(replay)
+        2    0.000    0.000    2.848    1.424 run.py:132(replay)
+        2    0.000    0.000    2.832    1.416 run_tracking.py:179(track_video)
+        2    0.015    0.007    2.825    1.412 run_tracking.py:229(_vong_lap_tracker)
+      400    0.003    0.000    2.754    0.007 time_units.py:189(update)
+      400    0.011    0.000    2.752    0.007 byte_tracker.py:266(update)
+      400    0.002    0.000    1.127    0.003 byte_tracker.py:367(_first_association)
+     1913    0.007    0.000    1.042    0.001 tracker_ctrv.py:220(update)
+      400    0.003    0.000    1.031    0.003 byte_tracker.py:396(_apply_matches)
+     1919    0.004    0.000    1.029    0.001 byte_tracker.py:408(_apply_match)
+     2003    0.005    0.000    1.012    0.001 rbpf_ctrv.py:143(update)
+     2003    0.322    0.000    0.995    0.000 fast.py:85(update)
+     1913    0.008    0.000    0.987    0.001 byte_tracker.py:129(update)
+      400    0.001    0.000    0.978    0.002 run_tracking.py:168(timed)
+      400    0.001    0.000    0.976    0.002 time_units.py:201(multi_predict)
+      400    0.001    0.000    0.975    0.002 tracker_ctrv.py:385(multi_predict)
+      400    0.007    0.000    0.974    0.002 rbpf_ctrv.py:168(multi_predict)
+     2750    0.005    0.000    0.968    0.000 rbpf_ctrv.py:136(predict)
+     2750    0.005    0.000    0.948    0.000 fast.py:81(predict)
+     2750    0.255    0.000    0.943    0.000 cartesian.py:67(predict)
+     4847    0.374    0.000    0.811    0.000 fast.py:65(estimate)
+      400    0.003    0.000    0.311    0.001 byte_tracker.py:470(_init_new_tracks)
+      841    0.005    0.000    0.308    0.000 rbpf_ctrv.py:162(activate)
+     4847    0.185    0.000    0.292    0.000 pf_ctrv.py:313(estimate_state)
+     2003    0.133    0.000    0.172    0.000 fast.py:13(solve2)
+     2750    0.067    0.000    0.164    0.000 cartesian.py:10(transition)
+      841    0.009    0.000    0.144    0.000 tracker_ctrv.py:278(activate)
+      841    0.012    0.000    0.137    0.000 fast.py:43(__init__)
+      400    0.003    0.000    0.121    0.000 byte_tracker.py:442(_unconfirmed_association)
+    10542    0.010    0.000    0.121    0.000 fast.py:55(_points)
+     5764    0.102    0.000    0.111    0.000 cartesian.py:37(full_particles)
+     1099    0.010    0.000    0.105    0.000 matching.py:62(iou_distance)
+
+

@@ -1,0 +1,63 @@
+{
+  "status": "paused_by_user",
+  "timestamp_utc": "2026-11-19T02:59:37.861392+00:00",
+  "remaining_task_processes": 0,
+  "stop_verified": true,
+  "progress": [
+    {
+      "mode": "kf",
+      "seed": 0,
+      "video_markers": 0,
+      "scored": false
+    },
+    {
+      "mode": "ekf",
+      "seed": 0,
+      "video_markers": 0,
+      "scored": false
+    },
+    {
+      "mode": "ukf",
+      "seed": 0,
+      "video_markers": 40,
+      "scored": true
+    },
+    {
+      "mode": "native100",
+      "seed": 0,
+      "video_markers": 40,
+      "scored": true
+    },
+    {
+      "mode": "native100",
+      "seed": 1,
+      "video_markers": 28,
+      "scored": false
+    },
+    {
+      "mode": "native100",
+      "seed": 2,
+      "video_markers": 14,
+      "scored": false
+    },
+    {
+      "mode": "candidate100",
+      "seed": 0,
+      "video_markers": 40,
+      "scored": true
+    },
+    {
+      "mode": "candidate100",
+      "seed": 1,
+      "video_markers": 17,
+      "scored": false
+    },
+    {
+      "mode": "candidate100",
+      "seed": 2,
+      "video_markers": 0,
+      "scored": false
+    }
+  ],
+  "resume_note": "Validate existing marker JSON/MOT hashes, then replay only incomplete videos using the frozen sources; do not resume until the user asks. Any in-flight unmarked CSV can be overwritten by that video replay."
+}

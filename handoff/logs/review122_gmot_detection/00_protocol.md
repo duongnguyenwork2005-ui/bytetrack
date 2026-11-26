@@ -1,0 +1,5 @@
+# R122 — kiểm khả thi detector trên xe nhỏ ở vòng xuyến GMOT car-0
+
+R121 COCO640 bỏ sót toàn bộ nhóm turn25 ở car-0, không thể so sức mạnh motion model. Thử cố định hai cách tăng chi tiết: YOLOv8n COCO full1280rect; sliced640, các ô640×640 stride512, bổ sung ô bám biên, mergeNMS theo class IoU.7. Vẫn cùng weights/conf.05/NMS.7/max3000, không huấn luyện hoặc chỉnh score từ tracking. Khóa mã, GT và ảnh trước sinh detection.
+
+Kiểm candidate IoU>=.5 cho GT chung và turn25, ở c25 và c05. Candidate là cận trên không ghép một-một, không phải AP. Hai mask turn25 dùng giả định24/30Hz của R121, chưa xác nhận cadence. Chỉ mở tracking nếu một detector có candidate c25 >=25% trong nhóm rẽ ở cả hai giả định; chọn cao hơn theo giá trị nhỏ nhất giữa hai độ phủ. Nếu cả hai trượt, dừng; không dò thêm kích thước hay conf. Nếu đạt, cùng một cache chọn cho ba bộ lọc tại24/30Hz, mọi điểm đều báo, không chọn bộ lọc theo kết quả. Dữ liệu đã dùng chọn detector nên đây là phát triển/pilot, không phải test độc lập. Không suy ra tốc độ Nano từ phép thử PC.
