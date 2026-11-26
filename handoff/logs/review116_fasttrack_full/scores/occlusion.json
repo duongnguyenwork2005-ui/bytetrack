@@ -1,0 +1,1525 @@
+{
+  "new9": {
+    "all_events": 67,
+    "blocker_ids_per_sequence": 14,
+    "counts": {
+      "kf": {
+        "same_id": 4,
+        "different_id": 16,
+        "before_missing": 42,
+        "after_missing": 5
+      },
+      "ekf": {
+        "same_id": 5,
+        "different_id": 15,
+        "before_missing": 42,
+        "after_missing": 5
+      },
+      "ukf": {
+        "same_id": 6,
+        "different_id": 14,
+        "before_missing": 42,
+        "after_missing": 5
+      },
+      "pf-s0": {
+        "different_id": 16,
+        "before_missing": 42,
+        "after_missing": 5,
+        "same_id": 4
+      },
+      "pf-s1": {
+        "different_id": 14,
+        "before_missing": 42,
+        "after_missing": 5,
+        "same_id": 6
+      },
+      "pf-s2": {
+        "different_id": 13,
+        "before_missing": 42,
+        "after_missing": 6,
+        "same_id": 6
+      }
+    },
+    "jointly_matched": 19,
+    "same_id_on_joint": {
+      "kf": 4,
+      "ekf": 5,
+      "ukf": 6,
+      "pf-s0": 4,
+      "pf-s1": 6,
+      "pf-s2": 6
+    }
+  },
+  "all12": {
+    "all_events": 82,
+    "blocker_ids_per_sequence": 21,
+    "counts": {
+      "kf": {
+        "different_id": 24,
+        "before_missing": 47,
+        "after_missing": 7,
+        "same_id": 4
+      },
+      "ekf": {
+        "different_id": 19,
+        "before_missing": 47,
+        "same_id": 9,
+        "after_missing": 7
+      },
+      "ukf": {
+        "same_id": 11,
+        "before_missing": 47,
+        "different_id": 17,
+        "after_missing": 7
+      },
+      "pf-s0": {
+        "same_id": 9,
+        "before_missing": 47,
+        "different_id": 19,
+        "after_missing": 7
+      },
+      "pf-s1": {
+        "same_id": 11,
+        "before_missing": 47,
+        "different_id": 17,
+        "after_missing": 7
+      },
+      "pf-s2": {
+        "same_id": 12,
+        "before_missing": 47,
+        "different_id": 15,
+        "after_missing": 8
+      }
+    },
+    "jointly_matched": 27,
+    "same_id_on_joint": {
+      "kf": 4,
+      "ekf": 9,
+      "ukf": 11,
+      "pf-s0": 9,
+      "pf-s1": 11,
+      "pf-s2": 12
+    }
+  },
+  "clips": {
+    "task_day_occlusion": [
+      {
+        "gt_car": 7,
+        "gt_blocker": 54,
+        "before": 124,
+        "peak": 156,
+        "after": 170,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "same_id",
+          "pf-s0": "same_id",
+          "pf-s1": "same_id",
+          "pf-s2": "same_id"
+        }
+      },
+      {
+        "gt_car": 8,
+        "gt_blocker": 69,
+        "before": 265,
+        "peak": 295,
+        "after": 306,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 7,
+        "gt_blocker": 69,
+        "before": 269,
+        "peak": 286,
+        "after": 315,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 22,
+        "gt_blocker": 74,
+        "before": 336,
+        "peak": 377,
+        "after": 390,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "same_id",
+          "pf-s1": "same_id",
+          "pf-s2": "same_id"
+        }
+      },
+      {
+        "gt_car": 19,
+        "gt_blocker": 74,
+        "before": 343,
+        "peak": 381,
+        "after": 396,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "same_id",
+          "ukf": "same_id",
+          "pf-s0": "same_id",
+          "pf-s1": "same_id",
+          "pf-s2": "same_id"
+        }
+      },
+      {
+        "gt_car": 9,
+        "gt_blocker": 74,
+        "before": 350,
+        "peak": 367,
+        "after": 404,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 8,
+        "gt_blocker": 74,
+        "before": 351,
+        "peak": 365,
+        "after": 408,
+        "filters": {
+          "kf": "after_missing",
+          "ekf": "after_missing",
+          "ukf": "after_missing",
+          "pf-s0": "after_missing",
+          "pf-s1": "after_missing",
+          "pf-s2": "after_missing"
+        }
+      },
+      {
+        "gt_car": 22,
+        "gt_blocker": 104,
+        "before": 693,
+        "peak": 720,
+        "after": 744,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "same_id",
+          "ukf": "same_id",
+          "pf-s0": "same_id",
+          "pf-s1": "different_id",
+          "pf-s2": "same_id"
+        }
+      },
+      {
+        "gt_car": 19,
+        "gt_blocker": 104,
+        "before": 698,
+        "peak": 720,
+        "after": 749,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "same_id",
+          "ukf": "same_id",
+          "pf-s0": "different_id",
+          "pf-s1": "same_id",
+          "pf-s2": "same_id"
+        }
+      },
+      {
+        "gt_car": 10,
+        "gt_blocker": 104,
+        "before": 710,
+        "peak": 730,
+        "after": 762,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 12,
+        "gt_blocker": 184,
+        "before": 1672,
+        "peak": 1688,
+        "after": 1712,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "same_id",
+          "ukf": "same_id",
+          "pf-s0": "same_id",
+          "pf-s1": "same_id",
+          "pf-s2": "same_id"
+        }
+      }
+    ],
+    "task_day_right_turn_occlusion": [
+      {
+        "gt_car": 2,
+        "gt_blocker": 23,
+        "before": 73,
+        "peak": 89,
+        "after": 146,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 19,
+        "gt_blocker": 65,
+        "before": 1253,
+        "peak": 1270,
+        "after": 1336,
+        "filters": {
+          "kf": "after_missing",
+          "ekf": "after_missing",
+          "ukf": "after_missing",
+          "pf-s0": "after_missing",
+          "pf-s1": "after_missing",
+          "pf-s2": "after_missing"
+        }
+      },
+      {
+        "gt_car": 18,
+        "gt_blocker": 65,
+        "before": 1260,
+        "peak": 1292,
+        "after": 1350,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 21,
+        "gt_blocker": 65,
+        "before": 1394,
+        "peak": 1416,
+        "after": 1489,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      }
+    ],
+    "task_tunnel": [],
+    "task_day_left_turn": [
+      {
+        "gt_car": 20,
+        "gt_blocker": 17,
+        "before": 480,
+        "peak": 528,
+        "after": 561,
+        "filters": {
+          "kf": "same_id",
+          "ekf": "same_id",
+          "ukf": "same_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 62,
+        "gt_blocker": 32,
+        "before": 585,
+        "peak": 614,
+        "after": 687,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 34,
+        "gt_blocker": 32,
+        "before": 630,
+        "peak": 649,
+        "after": 739,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 41,
+        "gt_blocker": 60,
+        "before": 728,
+        "peak": 748,
+        "after": 811,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 34,
+        "gt_blocker": 55,
+        "before": 752,
+        "peak": 785,
+        "after": 828,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 36,
+        "gt_blocker": 60,
+        "before": 754,
+        "peak": 770,
+        "after": 832,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      }
+    ],
+    "task_day_pedestrian_crossing": [],
+    "task_day_right_turn": [
+      {
+        "gt_car": 25,
+        "gt_blocker": 46,
+        "before": 113,
+        "peak": 126,
+        "after": 182,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 24,
+        "gt_blocker": 46,
+        "before": 116,
+        "peak": 137,
+        "after": 185,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 23,
+        "gt_blocker": 46,
+        "before": 118,
+        "peak": 139,
+        "after": 187,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 22,
+        "gt_blocker": 46,
+        "before": 121,
+        "peak": 134,
+        "after": 190,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 21,
+        "gt_blocker": 46,
+        "before": 124,
+        "peak": 136,
+        "after": 192,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 20,
+        "gt_blocker": 46,
+        "before": 126,
+        "peak": 155,
+        "after": 193,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 18,
+        "gt_blocker": 46,
+        "before": 129,
+        "peak": 142,
+        "after": 197,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 17,
+        "gt_blocker": 46,
+        "before": 130,
+        "peak": 143,
+        "after": 198,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 15,
+        "gt_blocker": 46,
+        "before": 132,
+        "peak": 158,
+        "after": 200,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 16,
+        "gt_blocker": 46,
+        "before": 132,
+        "peak": 153,
+        "after": 200,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 14,
+        "gt_blocker": 46,
+        "before": 134,
+        "peak": 166,
+        "after": 201,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 10,
+        "gt_blocker": 46,
+        "before": 138,
+        "peak": 155,
+        "after": 206,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 11,
+        "gt_blocker": 46,
+        "before": 138,
+        "peak": 151,
+        "after": 205,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 9,
+        "gt_blocker": 46,
+        "before": 139,
+        "peak": 159,
+        "after": 206,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 13,
+        "gt_blocker": 46,
+        "before": 144,
+        "peak": 177,
+        "after": 201,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 26,
+        "gt_blocker": 46,
+        "before": 144,
+        "peak": 157,
+        "after": 211,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 8,
+        "gt_blocker": 46,
+        "before": 145,
+        "peak": 178,
+        "after": 210,
+        "filters": {
+          "kf": "after_missing",
+          "ekf": "after_missing",
+          "ukf": "after_missing",
+          "pf-s0": "after_missing",
+          "pf-s1": "after_missing",
+          "pf-s2": "after_missing"
+        }
+      },
+      {
+        "gt_car": 28,
+        "gt_blocker": 46,
+        "before": 145,
+        "peak": 158,
+        "after": 213,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 29,
+        "gt_blocker": 46,
+        "before": 145,
+        "peak": 158,
+        "after": 215,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 32,
+        "gt_blocker": 46,
+        "before": 145,
+        "peak": 157,
+        "after": 213,
+        "filters": {
+          "kf": "after_missing",
+          "ekf": "after_missing",
+          "ukf": "after_missing",
+          "pf-s0": "after_missing",
+          "pf-s1": "after_missing",
+          "pf-s2": "after_missing"
+        }
+      },
+      {
+        "gt_car": 34,
+        "gt_blocker": 46,
+        "before": 145,
+        "peak": 158,
+        "after": 213,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 28,
+        "gt_blocker": 79,
+        "before": 671,
+        "peak": 687,
+        "after": 700,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 28,
+        "gt_blocker": 83,
+        "before": 721,
+        "peak": 737,
+        "after": 754,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "same_id",
+          "pf-s0": "different_id",
+          "pf-s1": "same_id",
+          "pf-s2": "same_id"
+        }
+      },
+      {
+        "gt_car": 72,
+        "gt_blocker": 19,
+        "before": 760,
+        "peak": 792,
+        "after": 887,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 82,
+        "gt_blocker": 89,
+        "before": 770,
+        "peak": 806,
+        "after": 822,
+        "filters": {
+          "kf": "after_missing",
+          "ekf": "after_missing",
+          "ukf": "after_missing",
+          "pf-s0": "after_missing",
+          "pf-s1": "after_missing",
+          "pf-s2": "after_missing"
+        }
+      },
+      {
+        "gt_car": 24,
+        "gt_blocker": 89,
+        "before": 773,
+        "peak": 795,
+        "after": 823,
+        "filters": {
+          "kf": "same_id",
+          "ekf": "same_id",
+          "ukf": "same_id",
+          "pf-s0": "same_id",
+          "pf-s1": "same_id",
+          "pf-s2": "same_id"
+        }
+      },
+      {
+        "gt_car": 23,
+        "gt_blocker": 89,
+        "before": 775,
+        "peak": 800,
+        "after": 825,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 20,
+        "gt_blocker": 89,
+        "before": 780,
+        "peak": 806,
+        "after": 828,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 15,
+        "gt_blocker": 89,
+        "before": 784,
+        "peak": 811,
+        "after": 833,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 16,
+        "gt_blocker": 89,
+        "before": 784,
+        "peak": 804,
+        "after": 833,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 9,
+        "gt_blocker": 89,
+        "before": 788,
+        "peak": 812,
+        "after": 836,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 10,
+        "gt_blocker": 89,
+        "before": 788,
+        "peak": 805,
+        "after": 836,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 3,
+        "gt_blocker": 89,
+        "before": 792,
+        "peak": 819,
+        "after": 839,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 32,
+        "gt_blocker": 89,
+        "before": 792,
+        "peak": 804,
+        "after": 840,
+        "filters": {
+          "kf": "after_missing",
+          "ekf": "after_missing",
+          "ukf": "after_missing",
+          "pf-s0": "after_missing",
+          "pf-s1": "after_missing",
+          "pf-s2": "after_missing"
+        }
+      },
+      {
+        "gt_car": 7,
+        "gt_blocker": 89,
+        "before": 794,
+        "peak": 828,
+        "after": 839,
+        "filters": {
+          "kf": "after_missing",
+          "ekf": "after_missing",
+          "ukf": "after_missing",
+          "pf-s0": "after_missing",
+          "pf-s1": "after_missing",
+          "pf-s2": "after_missing"
+        }
+      },
+      {
+        "gt_car": 14,
+        "gt_blocker": 89,
+        "before": 794,
+        "peak": 819,
+        "after": 833,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 13,
+        "gt_blocker": 89,
+        "before": 795,
+        "peak": 819,
+        "after": 834,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 6,
+        "gt_blocker": 89,
+        "before": 802,
+        "peak": 819,
+        "after": 839,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 4,
+        "gt_blocker": 89,
+        "before": 803,
+        "peak": 826,
+        "after": 838,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 82,
+        "gt_blocker": 19,
+        "before": 856,
+        "peak": 888,
+        "after": 987,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 18,
+        "gt_blocker": 94,
+        "before": 872,
+        "peak": 893,
+        "after": 904,
+        "filters": {
+          "kf": "same_id",
+          "ekf": "same_id",
+          "ukf": "same_id",
+          "pf-s0": "same_id",
+          "pf-s1": "same_id",
+          "pf-s2": "same_id"
+        }
+      },
+      {
+        "gt_car": 11,
+        "gt_blocker": 94,
+        "before": 878,
+        "peak": 898,
+        "after": 909,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "same_id",
+          "ukf": "same_id",
+          "pf-s0": "same_id",
+          "pf-s1": "same_id",
+          "pf-s2": "same_id"
+        }
+      },
+      {
+        "gt_car": 26,
+        "gt_blocker": 94,
+        "before": 881,
+        "peak": 893,
+        "after": 914,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 8,
+        "gt_blocker": 94,
+        "before": 882,
+        "peak": 902,
+        "after": 914,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 32,
+        "gt_blocker": 94,
+        "before": 883,
+        "peak": 897,
+        "after": 917,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "same_id",
+          "pf-s2": "same_id"
+        }
+      },
+      {
+        "gt_car": 101,
+        "gt_blocker": 19,
+        "before": 1207,
+        "peak": 1233,
+        "after": 1279,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 104,
+        "gt_blocker": 19,
+        "before": 1321,
+        "peak": 1349,
+        "after": 1423,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 105,
+        "gt_blocker": 19,
+        "before": 1387,
+        "peak": 1416,
+        "after": 1476,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 106,
+        "gt_blocker": 19,
+        "before": 1394,
+        "peak": 1421,
+        "after": 1525,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 108,
+        "gt_blocker": 19,
+        "before": 1440,
+        "peak": 1468,
+        "after": 1564,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 111,
+        "gt_blocker": 19,
+        "before": 1555,
+        "peak": 1583,
+        "after": 1681,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      }
+    ],
+    "task_day_right_turn_pedestrian": [],
+    "task_night_far_objects": [],
+    "task_night_occlusion": [
+      {
+        "gt_car": 5,
+        "gt_blocker": 48,
+        "before": 351,
+        "peak": 370,
+        "after": 415,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      },
+      {
+        "gt_car": 20,
+        "gt_blocker": 48,
+        "before": 359,
+        "peak": 404,
+        "after": 422,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "after_missing"
+        }
+      },
+      {
+        "gt_car": 8,
+        "gt_blocker": 48,
+        "before": 377,
+        "peak": 388,
+        "after": 439,
+        "filters": {
+          "kf": "different_id",
+          "ekf": "different_id",
+          "ukf": "different_id",
+          "pf-s0": "different_id",
+          "pf-s1": "different_id",
+          "pf-s2": "different_id"
+        }
+      }
+    ],
+    "task_night_occlusion_far_objects": [
+      {
+        "gt_car": 35,
+        "gt_blocker": 36,
+        "before": 712,
+        "peak": 735,
+        "after": 748,
+        "filters": {
+          "kf": "same_id",
+          "ekf": "same_id",
+          "ukf": "same_id",
+          "pf-s0": "same_id",
+          "pf-s1": "same_id",
+          "pf-s2": "same_id"
+        }
+      }
+    ],
+    "task_night_right_turn_pedestrian": [],
+    "task_night_right_turn_pedestrian_occlusion": [
+      {
+        "gt_car": 24,
+        "gt_blocker": 34,
+        "before": 315,
+        "peak": 339,
+        "after": 413,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 25,
+        "gt_blocker": 34,
+        "before": 326,
+        "peak": 343,
+        "after": 431,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 23,
+        "gt_blocker": 34,
+        "before": 418,
+        "peak": 438,
+        "after": 515,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 24,
+        "gt_blocker": 37,
+        "before": 421,
+        "peak": 445,
+        "after": 506,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 25,
+        "gt_blocker": 37,
+        "before": 430,
+        "peak": 465,
+        "after": 521,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      },
+      {
+        "gt_car": 23,
+        "gt_blocker": 37,
+        "before": 505,
+        "peak": 532,
+        "after": 604,
+        "filters": {
+          "kf": "before_missing",
+          "ekf": "before_missing",
+          "ukf": "before_missing",
+          "pf-s0": "before_missing",
+          "pf-s1": "before_missing",
+          "pf-s2": "before_missing"
+        }
+      }
+    ]
+  },
+  "candidate_coverage": {
+    "task_day_left_turn": {
+      "all": [
+        16755,
+        56402
+      ],
+      "height_lt25px": [
+        1,
+        2723
+      ],
+      "height_ge25px": [
+        16754,
+        53679
+      ]
+    },
+    "task_day_pedestrian_crossing": {
+      "all": [
+        5232,
+        33447
+      ],
+      "height_lt25px": [
+        6,
+        9374
+      ],
+      "height_ge25px": [
+        5226,
+        24073
+      ]
+    },
+    "task_day_right_turn": {
+      "all": [
+        19330,
+        54276
+      ],
+      "height_lt25px": [
+        0,
+        3543
+      ],
+      "height_ge25px": [
+        19330,
+        50733
+      ]
+    },
+    "task_day_right_turn_pedestrian": {
+      "all": [
+        22191,
+        87612
+      ],
+      "height_lt25px": [
+        0,
+        14354
+      ],
+      "height_ge25px": [
+        22191,
+        73258
+      ]
+    },
+    "task_night_far_objects": {
+      "all": [
+        2219,
+        6058
+      ],
+      "height_lt25px": [
+        0,
+        342
+      ],
+      "height_ge25px": [
+        2219,
+        5716
+      ]
+    },
+    "task_night_occlusion": {
+      "all": [
+        7046,
+        15810
+      ],
+      "height_lt25px": [
+        37,
+        1470
+      ],
+      "height_ge25px": [
+        7009,
+        14340
+      ]
+    },
+    "task_night_occlusion_far_objects": {
+      "all": [
+        3932,
+        7149
+      ],
+      "height_lt25px": [
+        0,
+        486
+      ],
+      "height_ge25px": [
+        3932,
+        6663
+      ]
+    },
+    "task_night_right_turn_pedestrian": {
+      "all": [
+        15652,
+        83894
+      ],
+      "height_lt25px": [
+        0,
+        7314
+      ],
+      "height_ge25px": [
+        15652,
+        76580
+      ]
+    },
+    "task_night_right_turn_pedestrian_occlusion": {
+      "all": [
+        12618,
+        63023
+      ],
+      "height_lt25px": [
+        0,
+        2398
+      ],
+      "height_ge25px": [
+        12618,
+        60625
+      ]
+    },
+    "task_day_occlusion": {
+      "all": [
+        15734,
+        70514
+      ],
+      "height_lt25px": [
+        8,
+        19434
+      ],
+      "height_ge25px": [
+        15726,
+        51080
+      ]
+    },
+    "task_day_right_turn_occlusion": {
+      "all": [
+        15191,
+        48997
+      ],
+      "height_lt25px": [
+        0,
+        501
+      ],
+      "height_ge25px": [
+        15191,
+        48496
+      ]
+    },
+    "task_tunnel": {
+      "all": [
+        9651,
+        17969
+      ],
+      "height_lt25px": [
+        15,
+        1212
+      ],
+      "height_ge25px": [
+        9636,
+        16757
+      ]
+    }
+  }
+}

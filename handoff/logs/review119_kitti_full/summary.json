@@ -1,0 +1,353 @@
+{
+  "all": {
+    "sequences": [
+      "kitti-0000",
+      "kitti-0001",
+      "kitti-0002",
+      "kitti-0003",
+      "kitti-0004",
+      "kitti-0005",
+      "kitti-0006",
+      "kitti-0007",
+      "kitti-0008",
+      "kitti-0009",
+      "kitti-0010",
+      "kitti-0011",
+      "kitti-0012",
+      "kitti-0013",
+      "kitti-0014",
+      "kitti-0015",
+      "kitti-0016",
+      "kitti-0018",
+      "kitti-0019",
+      "kitti-0020"
+    ],
+    "frames": 7863,
+    "gt_boxes": 24070,
+    "results": {
+      "kf": {
+        "metrics": {
+          "HOTA": 0.4976402214249025,
+          "IDF1": 0.651567429022082,
+          "IDSW": 280,
+          "FN": 9416,
+          "FP": 1852
+        },
+        "groups": {
+          "all": {
+            "boxes": 24070,
+            "IDSW": 280,
+            "FN": 9416
+          },
+          "turn25": {
+            "boxes": 399,
+            "IDSW": 8,
+            "FN": 96
+          },
+          "occlusion2": {
+            "boxes": 4259,
+            "IDSW": 43,
+            "FN": 3384
+          },
+          "turn25_occlusion2": {
+            "boxes": 50,
+            "IDSW": 3,
+            "FN": 30
+          }
+        },
+        "recovery": {
+          "after_missing": 19,
+          "before_missing": 125,
+          "same_id": 21,
+          "different_id": 12
+        }
+      },
+      "ekf": {
+        "metrics": {
+          "HOTA": 0.4967950754319626,
+          "IDF1": 0.651048210282561,
+          "IDSW": 260,
+          "FN": 9422,
+          "FP": 1875
+        },
+        "groups": {
+          "all": {
+            "boxes": 24070,
+            "IDSW": 260,
+            "FN": 9422
+          },
+          "turn25": {
+            "boxes": 399,
+            "IDSW": 8,
+            "FN": 106
+          },
+          "occlusion2": {
+            "boxes": 4259,
+            "IDSW": 42,
+            "FN": 3415
+          },
+          "turn25_occlusion2": {
+            "boxes": 50,
+            "IDSW": 2,
+            "FN": 37
+          }
+        },
+        "recovery": {
+          "after_missing": 18,
+          "before_missing": 126,
+          "same_id": 21,
+          "different_id": 12
+        }
+      },
+      "ukf": {
+        "metrics": {
+          "HOTA": 0.497166617487746,
+          "IDF1": 0.652229613205223,
+          "IDSW": 260,
+          "FN": 9416,
+          "FP": 1866
+        },
+        "groups": {
+          "all": {
+            "boxes": 24070,
+            "IDSW": 260,
+            "FN": 9416
+          },
+          "turn25": {
+            "boxes": 399,
+            "IDSW": 8,
+            "FN": 104
+          },
+          "occlusion2": {
+            "boxes": 4259,
+            "IDSW": 42,
+            "FN": 3411
+          },
+          "turn25_occlusion2": {
+            "boxes": 50,
+            "IDSW": 2,
+            "FN": 37
+          }
+        },
+        "recovery": {
+          "after_missing": 18,
+          "before_missing": 126,
+          "same_id": 21,
+          "different_id": 12
+        }
+      }
+    },
+    "IDSW_delta_bootstrap95": {
+      "ekf": {
+        "all": [
+          -52.0,
+          5.0
+        ],
+        "occlusion2": [
+          -13.0,
+          8.0
+        ],
+        "turn25": [
+          -3.0,
+          3.0
+        ],
+        "turn25_occlusion2": [
+          -3.0,
+          0.0
+        ]
+      },
+      "ukf": {
+        "all": [
+          -47.0,
+          3.0
+        ],
+        "occlusion2": [
+          -12.0,
+          8.0
+        ],
+        "turn25": [
+          0.0,
+          0.0
+        ],
+        "turn25_occlusion2": [
+          -3.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "new18": {
+    "sequences": [
+      "kitti-0000",
+      "kitti-0002",
+      "kitti-0003",
+      "kitti-0004",
+      "kitti-0005",
+      "kitti-0006",
+      "kitti-0007",
+      "kitti-0008",
+      "kitti-0009",
+      "kitti-0010",
+      "kitti-0012",
+      "kitti-0013",
+      "kitti-0014",
+      "kitti-0015",
+      "kitti-0016",
+      "kitti-0018",
+      "kitti-0019"
+    ],
+    "frames": 6206,
+    "gt_boxes": 14046,
+    "results": {
+      "kf": {
+        "metrics": {
+          "HOTA": 0.5006873114619078,
+          "IDF1": 0.6548358473824313,
+          "IDSW": 169,
+          "FN": 5431,
+          "FP": 1006
+        },
+        "groups": {
+          "all": {
+            "boxes": 14046,
+            "IDSW": 169,
+            "FN": 5431
+          },
+          "turn25": {
+            "boxes": 287,
+            "IDSW": 3,
+            "FN": 44
+          },
+          "occlusion2": {
+            "boxes": 2054,
+            "IDSW": 23,
+            "FN": 1632
+          },
+          "turn25_occlusion2": {
+            "boxes": 31,
+            "IDSW": 2,
+            "FN": 12
+          }
+        },
+        "recovery": {
+          "after_missing": 10,
+          "before_missing": 80,
+          "same_id": 6,
+          "different_id": 10
+        }
+      },
+      "ekf": {
+        "metrics": {
+          "HOTA": 0.5029476700947549,
+          "IDF1": 0.6573320399814432,
+          "IDSW": 151,
+          "FN": 5413,
+          "FP": 1032
+        },
+        "groups": {
+          "all": {
+            "boxes": 14046,
+            "IDSW": 151,
+            "FN": 5413
+          },
+          "turn25": {
+            "boxes": 287,
+            "IDSW": 4,
+            "FN": 52
+          },
+          "occlusion2": {
+            "boxes": 2054,
+            "IDSW": 26,
+            "FN": 1648
+          },
+          "turn25_occlusion2": {
+            "boxes": 31,
+            "IDSW": 2,
+            "FN": 18
+          }
+        },
+        "recovery": {
+          "after_missing": 9,
+          "before_missing": 81,
+          "same_id": 6,
+          "different_id": 10
+        }
+      },
+      "ukf": {
+        "metrics": {
+          "HOTA": 0.5025631047582467,
+          "IDF1": 0.6553367351241934,
+          "IDSW": 152,
+          "FN": 5413,
+          "FP": 1034
+        },
+        "groups": {
+          "all": {
+            "boxes": 14046,
+            "IDSW": 152,
+            "FN": 5413
+          },
+          "turn25": {
+            "boxes": 287,
+            "IDSW": 3,
+            "FN": 52
+          },
+          "occlusion2": {
+            "boxes": 2054,
+            "IDSW": 25,
+            "FN": 1647
+          },
+          "turn25_occlusion2": {
+            "boxes": 31,
+            "IDSW": 1,
+            "FN": 19
+          }
+        },
+        "recovery": {
+          "after_missing": 9,
+          "before_missing": 81,
+          "same_id": 6,
+          "different_id": 10
+        }
+      }
+    },
+    "IDSW_delta_bootstrap95": {
+      "ekf": {
+        "all": [
+          -48.0,
+          6.0
+        ],
+        "occlusion2": [
+          -1.0,
+          7.0
+        ],
+        "turn25": [
+          0.0,
+          3.0
+        ],
+        "turn25_occlusion2": [
+          0.0,
+          0.0
+        ]
+      },
+      "ukf": {
+        "all": [
+          -43.0,
+          5.0
+        ],
+        "occlusion2": [
+          -4.0,
+          8.0
+        ],
+        "turn25": [
+          0.0,
+          0.0
+        ],
+        "turn25_occlusion2": [
+          -3.0,
+          0.0
+        ]
+      }
+    }
+  }
+}

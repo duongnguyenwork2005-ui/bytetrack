@@ -1,0 +1,376 @@
+{
+  "FastTrack": {
+    "frames": 5375,
+    "clips": [
+      "task_day_occlusion",
+      "task_day_right_turn_occlusion",
+      "task_tunnel"
+    ],
+    "results": {
+      "kf": {
+        "metrics": {
+          "HOTA": 0.3035089125114655,
+          "IDF1": 0.31687631548418105,
+          "IDSW": 318,
+          "FN": 100115,
+          "FP": 6172
+        },
+        "groups": {
+          "all": {
+            "boxes": 137480,
+            "IDSW": 318,
+            "FN": 100115
+          },
+          "turn25": {
+            "boxes": 366,
+            "IDSW": 0,
+            "FN": 78
+          }
+        },
+        "recovery": {}
+      },
+      "ekf": {
+        "metrics": {
+          "HOTA": 0.32289285612494384,
+          "IDF1": 0.341178550513254,
+          "IDSW": 297,
+          "FN": 100132,
+          "FP": 6174
+        },
+        "groups": {
+          "all": {
+            "boxes": 137480,
+            "IDSW": 297,
+            "FN": 100132
+          },
+          "turn25": {
+            "boxes": 366,
+            "IDSW": 0,
+            "FN": 78
+          }
+        },
+        "recovery": {}
+      },
+      "ukf": {
+        "metrics": {
+          "HOTA": 0.32165153717900674,
+          "IDF1": 0.3378004233143413,
+          "IDSW": 302,
+          "FN": 100153,
+          "FP": 6146
+        },
+        "groups": {
+          "all": {
+            "boxes": 137480,
+            "IDSW": 302,
+            "FN": 100153
+          },
+          "turn25": {
+            "boxes": 366,
+            "IDSW": 0,
+            "FN": 78
+          }
+        },
+        "recovery": {}
+      },
+      "pf-s0": {
+        "metrics": {
+          "HOTA": 0.3138460647303674,
+          "IDF1": 0.3171546820706903,
+          "IDSW": 390,
+          "FN": 100891,
+          "FP": 6663
+        },
+        "groups": {
+          "all": {
+            "boxes": 137480,
+            "IDSW": 390,
+            "FN": 100891
+          },
+          "turn25": {
+            "boxes": 366,
+            "IDSW": 1,
+            "FN": 86
+          }
+        },
+        "recovery": {}
+      },
+      "pf-s1": {
+        "metrics": {
+          "HOTA": 0.31159826578540567,
+          "IDF1": 0.31542695148555416,
+          "IDSW": 381,
+          "FN": 101038,
+          "FP": 6684
+        },
+        "groups": {
+          "all": {
+            "boxes": 137480,
+            "IDSW": 381,
+            "FN": 101038
+          },
+          "turn25": {
+            "boxes": 366,
+            "IDSW": 0,
+            "FN": 84
+          }
+        },
+        "recovery": {}
+      },
+      "pf-s2": {
+        "metrics": {
+          "HOTA": 0.3188723236928239,
+          "IDF1": 0.32268738311034384,
+          "IDSW": 347,
+          "FN": 100946,
+          "FP": 6712
+        },
+        "groups": {
+          "all": {
+            "boxes": 137480,
+            "IDSW": 347,
+            "FN": 100946
+          },
+          "turn25": {
+            "boxes": 366,
+            "IDSW": 0,
+            "FN": 83
+          }
+        },
+        "recovery": {}
+      }
+    }
+  },
+  "KITTI": {
+    "frames": 1657,
+    "clips": [
+      "kitti-0001",
+      "kitti-0011",
+      "kitti-0020"
+    ],
+    "results": {
+      "kf": {
+        "metrics": {
+          "HOTA": 0.4932152206687593,
+          "IDF1": 0.6469927257673428,
+          "IDSW": 111,
+          "FN": 3985,
+          "FP": 846
+        },
+        "groups": {
+          "all": {
+            "boxes": 10024,
+            "IDSW": 111,
+            "FN": 3985
+          },
+          "turn25": {
+            "boxes": 112,
+            "IDSW": 5,
+            "FN": 52
+          },
+          "occlusion2": {
+            "boxes": 2205,
+            "IDSW": 20,
+            "FN": 1752
+          },
+          "turn25_occlusion2": {
+            "boxes": 19,
+            "IDSW": 1,
+            "FN": 18
+          }
+        },
+        "recovery": {
+          "before_missing": 45,
+          "same_id": 15,
+          "after_missing": 9,
+          "different_id": 2
+        }
+      },
+      "ekf": {
+        "metrics": {
+          "HOTA": 0.4879003259903804,
+          "IDF1": 0.6422224854875015,
+          "IDSW": 109,
+          "FN": 4009,
+          "FP": 843
+        },
+        "groups": {
+          "all": {
+            "boxes": 10024,
+            "IDSW": 109,
+            "FN": 4009
+          },
+          "turn25": {
+            "boxes": 112,
+            "IDSW": 4,
+            "FN": 54
+          },
+          "occlusion2": {
+            "boxes": 2205,
+            "IDSW": 16,
+            "FN": 1767
+          },
+          "turn25_occlusion2": {
+            "boxes": 19,
+            "IDSW": 0,
+            "FN": 19
+          }
+        },
+        "recovery": {
+          "before_missing": 45,
+          "same_id": 15,
+          "after_missing": 9,
+          "different_id": 2
+        }
+      },
+      "ukf": {
+        "metrics": {
+          "HOTA": 0.4893512381178138,
+          "IDF1": 0.6478639568643716,
+          "IDSW": 108,
+          "FN": 4003,
+          "FP": 832
+        },
+        "groups": {
+          "all": {
+            "boxes": 10024,
+            "IDSW": 108,
+            "FN": 4003
+          },
+          "turn25": {
+            "boxes": 112,
+            "IDSW": 5,
+            "FN": 52
+          },
+          "occlusion2": {
+            "boxes": 2205,
+            "IDSW": 17,
+            "FN": 1764
+          },
+          "turn25_occlusion2": {
+            "boxes": 19,
+            "IDSW": 1,
+            "FN": 18
+          }
+        },
+        "recovery": {
+          "before_missing": 45,
+          "same_id": 15,
+          "after_missing": 9,
+          "different_id": 2
+        }
+      },
+      "pf-s0": {
+        "metrics": {
+          "HOTA": 0.48594583360520116,
+          "IDF1": 0.6387539973942912,
+          "IDSW": 128,
+          "FN": 4107,
+          "FP": 945
+        },
+        "groups": {
+          "all": {
+            "boxes": 10024,
+            "IDSW": 128,
+            "FN": 4107
+          },
+          "turn25": {
+            "boxes": 112,
+            "IDSW": 5,
+            "FN": 54
+          },
+          "occlusion2": {
+            "boxes": 2205,
+            "IDSW": 18,
+            "FN": 1770
+          },
+          "turn25_occlusion2": {
+            "boxes": 19,
+            "IDSW": 0,
+            "FN": 19
+          }
+        },
+        "recovery": {
+          "before_missing": 45,
+          "same_id": 15,
+          "after_missing": 10,
+          "different_id": 1
+        }
+      },
+      "pf-s1": {
+        "metrics": {
+          "HOTA": 0.4797521355924883,
+          "IDF1": 0.6261704397297617,
+          "IDSW": 135,
+          "FN": 4109,
+          "FP": 935
+        },
+        "groups": {
+          "all": {
+            "boxes": 10024,
+            "IDSW": 135,
+            "FN": 4109
+          },
+          "turn25": {
+            "boxes": 112,
+            "IDSW": 5,
+            "FN": 55
+          },
+          "occlusion2": {
+            "boxes": 2205,
+            "IDSW": 21,
+            "FN": 1759
+          },
+          "turn25_occlusion2": {
+            "boxes": 19,
+            "IDSW": 0,
+            "FN": 19
+          }
+        },
+        "recovery": {
+          "before_missing": 45,
+          "same_id": 13,
+          "after_missing": 12,
+          "different_id": 1
+        }
+      },
+      "pf-s2": {
+        "metrics": {
+          "HOTA": 0.48359850395904297,
+          "IDF1": 0.6281656804733727,
+          "IDSW": 124,
+          "FN": 4061,
+          "FP": 913
+        },
+        "groups": {
+          "all": {
+            "boxes": 10024,
+            "IDSW": 124,
+            "FN": 4061
+          },
+          "turn25": {
+            "boxes": 112,
+            "IDSW": 3,
+            "FN": 54
+          },
+          "occlusion2": {
+            "boxes": 2205,
+            "IDSW": 19,
+            "FN": 1758
+          },
+          "turn25_occlusion2": {
+            "boxes": 19,
+            "IDSW": 0,
+            "FN": 19
+          }
+        },
+        "recovery": {
+          "before_missing": 45,
+          "same_id": 15,
+          "after_missing": 9,
+          "different_id": 2
+        }
+      }
+    }
+  }
+}
