@@ -1,0 +1,53 @@
+<section id="nano-model-tradeoff-20261126" data-viz-composition>
+  <div data-viz-container></div>
+  <script type="application/json" data-viz-chart>
+    {
+      "id": "nano-model-tradeoff-20261126",
+      "title": "Nano: tốc độ và chất lượng detection",
+      "description": "FPS trung bình 80 đoạn: 40 BDD + 40 UA, KF, display off; 150 JPEG/đoạn, 25 warmup, 125 khung đo. mAP50 trung bình 5 lớp trên cùng 7.190 ảnh phát triển. Các điểm thuộc những lượt đo ghép cặp riêng, không phải một lượt chung.",
+      "summary": "CUDA preprocessing và SiLU fusion đạt khoảng 26,9 FPS với mAP50 gần bản gốc. Pruning joint50 R172 đạt 22,27 FPS nhưng mAP50 giảm còn 40,91%; cấu hình này không đạt cổng chất lượng.",
+      "height": 380,
+      "spec": {
+        "type": "scatter",
+        "x": "fps",
+        "y": "ap50",
+        "rowId": "id",
+        "xLabel": "FPS trung bình — cao hơn tốt hơn",
+        "yLabel": "mAP50 (%) — cao hơn tốt hơn",
+        "startAtZero": false,
+        "xDomain": [14, 29],
+        "yDomain": [0.40, 0.48],
+        "valueFormat": {"style": "percent", "minimumFractionDigits": 2, "maximumFractionDigits": 2},
+        "referenceLines": [{"axis": "x", "value": 15, "label": "Mục tiêu 15 FPS"}],
+        "annotations": [
+          {"kind": "point", "id": "silu-label", "field": "ap50", "rowId": "r167-precise", "label": "CUDA + SiLU precise: 26,91 FPS"},
+          {"kind": "point", "id": "baseline-label", "field": "ap50", "rowId": "r162-original", "label": "Tiền xử lý CPU: 18,82 FPS"},
+          {"kind": "point", "id": "pruning-label", "field": "ap50", "rowId": "r150-channel25", "label": "Pruning R150: AP50 43,87%"},
+          {"kind": "point", "id": "common7-label", "field": "ap50", "rowId": "r172-joint50", "label": "Pruning R172: 22,27 FPS · AP50 40,91%"}
+        ]
+      },
+      "columns": ["id", "name", "fps", "ap50"],
+      "rows": [
+        ["r162-original", "CPU preprocessing · 384×640 · R162 original", 18.81982565701535, 0.47146726996306293],
+        ["r162-cuda", "CUDA preprocessing · 384×640 · R162", 20.4762264832416, 0.47146726996306293],
+        ["r167-precise", "CUDA preprocessing + SiLU precise · R167", 26.906044585451493, 0.47048391711898774],
+        ["r167-fast", "CUDA preprocessing + SiLU fast · R167", 26.813616345728754, 0.4713933620151266],
+        ["r150-channel25", "Pruning channel25 + KD · CPU preprocessing · R150", 18.938087457261993, 0.4386807315285063],
+        ["r160-height352", "Đầu vào 352×640 · CPU preprocessing · R160", 19.035623783949696, 0.46190079503183173],
+        ["r155-shape", "Đầu vào 320×576 · CPU preprocessing · R155", 22.35410355673345, 0.45984376818871314],
+        ["r172-joint50", "Pruning joint50 + KD, common7 · CUDA preprocessing · R172", 22.26731085092383, 0.4090796706799251]
+      ]
+    }
+  </script>
+  <details>
+    <summary>Nguồn và giới hạn phép đo</summary>
+    <p>R162/R150/R160: extra_final_summary.json; R155: score_verified.json; R167/R172: final_summary.json. Kết quả đo ngày 21/11/2026, đối chiếu tệp trên PC ngày 26/11/2026. Mean FPS là trung bình 80 tốc độ theo đoạn, không suy ra từ một thời gian tổng. AP dùng 5 lớp và 58.360 hộp GT: car 53.204, truck 3.054, bus 1.469, motorcycle 226, bicycle 407.</p>
+    <p>Các lượt có baseline và boot riêng; không cộng phần trăm giữa các lượt. Chưa đo camera/HDMI, chưa phải toàn bộ 80 video. R172 là phân tích phụ common7, hai nhánh cùng bảy epoch hoàn tất liên tục; primary huấn luyện 10 epoch chưa hoàn tất. R167 cũng có sai khác tracking và raw tensor parity FAIL đã báo riêng. Không suy kết quả KF sang EKF/UKF/PF.</p>
+  </details>
+</section>
+<script type="module">
+  import { mountChart } from "https://persistent.oaistatic.com/plugins/visualize/charts/1.8.1/element.js";
+  const root = document.getElementById("nano-model-tradeoff-20261126");
+  const config = JSON.parse(root.querySelector("[data-viz-chart]").textContent);
+  mountChart(root.querySelector("[data-viz-container]"), config);
+</script>

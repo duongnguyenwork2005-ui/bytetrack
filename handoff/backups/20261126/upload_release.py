@@ -98,11 +98,12 @@ def main():
                 return {r['name']: r for r in all_assets}
             page += 1
 
+    known_assets = remote_assets()
     for asset in package['assets']:
         path = args.assets / asset['name']
         assert path.stat().st_size == asset['bytes'] and sha(path) == asset['sha256'], path
         expected = 'sha256:' + asset['sha256']
-        remote = remote_assets().get(path.name)
+        remote = known_assets.get(path.name)
         if remote is not None and remote['state'] == 'starter':
             # Only remove our incomplete asset in this exact still-draft backup.
             request(remote['url'], 'DELETE')
@@ -112,6 +113,7 @@ def main():
             remote = request(upload_url, 'POST', file=path)
         assert remote['state'] == 'uploaded' and remote['size'] == asset['bytes'], remote['name']
         assert remote.get('digest') == expected, 'Server SHA256 digest unavailable or mismatched: ' + path.name
+        known_assets[path.name] = remote
         state['uploaded'][path.name] = {'id': remote['id'], 'bytes': remote['size'], 'sha256': asset['sha256'],
                                        'server_digest': remote['digest'], 'browser_download_url': remote['browser_download_url']}
         args.state.write_text(json.dumps(state, indent=2) + '\n')
