@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "timing_v2.py", line 43, in <module>
+    if __name__=='__main__':main()
+  File "timing_v2.py", line 41, in main
+    else:bench.pipeline(config,args.action,args.output)
+  File "/home/jetson/nano_run/r155_runtime_accuracy_20261120/run_models_v2.py", line 94, in pipeline
+    mot,cls,folder,item=benchmark.run_mode(root,'full',row,copied,live,guard,onnx_sha)
+  File "/home/jetson/nano_run/r105_nano_fps/bench_nano.py", line 71, in run_mode
+    mot, details = live.run_one(row, version, source, onnx_hash)
+  File "/home/jetson/nano_run/r155_runtime_accuracy_20261120/run_models_v2.py", line 76, in run_overlap
+    return original_run(*args)
+  File "/home/jetson/nano_run/r105_nano_fps/r102_driver.py", line 50, in run_one
+    meta = json.loads((dest / "run_meta.json").read_text())
+  File "/home/jetson/miniforge3/envs/nano/lib/python3.8/pathlib.py", line 1236, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/home/jetson/miniforge3/envs/nano/lib/python3.8/pathlib.py", line 1222, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "/home/jetson/miniforge3/envs/nano/lib/python3.8/pathlib.py", line 1078, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: 'runs_v2/pilot/original/runs/full/pipeline/bdd/b1c81faa-c80764c5/B/run_meta.json'
