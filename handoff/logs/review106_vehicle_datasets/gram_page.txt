@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>GRAM Road-Traffic Monitoring</title>
+<meta name="keywords" content="GRAM Road-Traffic Monitoring roberto lópez sastre computer vision research university alcalá GRAM" />
+<meta name="description" content="GRAM Road-Traffic Monitoring" />
+<style type="text/css">
+body { font-family: verdana, sans-serif; }
+p { text-align: justify; }
+table { border-collapse: collapse; border-color: gray; }
+th { padding: 4px; }
+td { padding: 4px; }
+h2 { padding-top: 8px; }
+img.center {   display: block;   margin-left: auto;   margin-right: auto; }
+iframe.center {   display: block;   margin-left: auto;   margin-right: auto; }
+</style>
+</head>
+
+<body>
+<table border="0" width="100%">
+<tr><td colspan="3" height="64">&nbsp;</td></tr>
+<tr><td>&nbsp;</td><td width="640">
+
+<h1>GRAM Road-Traffic Monitoring</h1>
+
+<h2>Introduction</h2>
+<p> Here we release the GRAM Road-Traffic Monitoring (GRAM-RTM) dataset, a novel benchmark for multi-vehicle tracking in real-time. It consists of 3 challenging video sequences, recorded under different conditions and with different platforms. The first video, called M-30 (7520 frames), has been recorded in a sunny day with a Nikon Coolpix L20 camera,  with a resolution of 800x480 @30 fps. The second sequence, called M-30-HD (9390 frames), has been recorded in a similar location but during a cloudy day, and with a high resolution camera: a Nikon DX3100 at 1200x720 @30 fps. The third video sequence, called Urban1 (23435 frames), has been recorded in a busy intersection with video surveillance traffic camera with a resolution of 600x360 @25fps.</p>
+
+<img src="gram-rtm-examples.jpg" alt="GRAM RTM Examples" class="center"  width="500" />
+
+<p>All the vehicles in the GRAM-RTM dataset have been manually annotated. The following categories are provided: car, truck, van, and big-truck. The total number of different objects in each sequence is: 256 for M-30, 235 for M-30-HD and 237 for Urban1. We provide a unique identifier for each vehicle.  All the annotations included in the GRAM-RTM are created in a XML format PASCAL VOC compatible.</p>
+
+<p>For a detailed description of the experimental setup proposed to evaluate your detection and tracking results, please, download our <a href="../../publications/iwinac13-guerrero.pdf">paper</a>.</p>
+
+
+<h2>Downloads</h2>
+<ul>
+	<li><a href="GRAM-RTMv4.zip">GRAM-RTM (development kit: code + annotations)</a>  - <font size="+1" color="red">Last Update: 20-December-2013</font>.</li>
+	<li>Image sequences:<a href="https://universidaddealcala-my.sharepoint.com/:u:/g/personal/gram_uah_es/EZueCuaiFVZKlZZGRcJxpasB2xnaxDPm2MIKi9LQHROSMA?&Download=1">M-30</a>, <a href="https://universidaddealcala-my.sharepoint.com/:u:/g/personal/gram_uah_es/ERVzfHbeq6JEplBycRHF6akBj4_9j6_hAKzCNVT6fKO0ug?&Download=1">M-30-HD</a>, <a href="https://universidaddealcala-my.sharepoint.com/:u:/g/personal/gram_uah_es/ERLovJRNvDBIpGihNS_5jWcBRioD8ib_mTTPFDXqyc84PA?&Download=1">Urban1</a>  - <font size="+1" color="red">Last Update: 20-December-2013</font>.</li>	
+</ul>
+
+<h2>Best practice: Recommendations on using the dataset</h2>
+<p>The GRAM-RTM images must be used only for testing, <i>never</i> for training. Therefore, we propose the following experimental setup. Any approach reporting results in the GRAM-RTM database must be trained using any data <i>except</i> the provided test images. Furthermore, the test data must be used strictly for reporting of results alone - it must not be used in any way to train or tune systems, for example by running multiple parameter choices and reporting the best results obtained. For training, we suggest the use of other datasets providing vehicles, e.g. the <a href="http://host.robots.ox.ac.uk/pascal/VOC/">PASCAL VOC</a>.</p>
+
+<h2>Database Rights</h2>
+
+<p>
+The database has been made publicly available for scientific research purposes.
+</p>
+
+<h2>Acknowledgements</h2>
+<p>This work was partially supported by projects TIN2010-20845-C03-01,TIN2010-20845-C03-03, IPT-2011-1366-390000 and IPT-2012-0808-370000.</p>
+
+<h2>Citing</h2>
+<p>If you make use of this data and software, please cite the following reference in any publications:</p>
+<pre>
+@INPROCEEDINGS{guerrero2013iwinac,
+  author = {Guerrero-Gomez-Olmedo, R. and Lopez-Sastre, R.~J. and Maldonado-Bascon, S. and Fernandez-Caballero, A.},
+  title = {Vehicle Tracking by Simultaneous Detection and Viewpoint Estimation},
+  booktitle = {IWINAC 2013, Part II, LNCS 7931},
+  pages = {306--316}, 
+  year = {2013}  
+}
+</pre>
+
+</td><td>&nbsp;</td></tr>
+<tr><td colspan="3" height="64">&nbsp;</td></tr>
+</table>
+
+<!-- Default Statcounter code for GRAM
+https://gram.web.uah.es/ -->
+<script type="text/javascript">
+var sc_project=4359217; 
+var sc_invisible=1; 
+var sc_security="9812d2c2"; 
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="Web Analytics"
+href="https://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/4359217/0/9812d2c2/1/"
+alt="Web Analytics"></a></div></noscript>
+<!-- End of Statcounter Code -->
+</body>
+</html>

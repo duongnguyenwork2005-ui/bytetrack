@@ -1,0 +1,90 @@
+[14:54:04] cache sherbrooke yolov8n_coco
+[cache] r66smoke_sherbrooke_00c7363e_yolov8n_coco_c0.05/sherbrooke: 128 frame, 3698 box, 13 s (9.7 fps)
+[14:54:49] cache sherbrooke yolov8n_mixed5
+[cache] r66smoke_sherbrooke_00c7363e_yolov8n_mixed5_c0.05/sherbrooke: 128 frame, 3914 box, 10 s (12.4 fps)
+[14:55:14] cache sherbrooke yolo11n_mixed5
+[cache] r66smoke_sherbrooke_00c7363e_yolo11n_mixed5_c0.05/sherbrooke: 128 frame, 4178 box, 12 s (10.8 fps)
+[14:55:39] track sherbrooke yolov8n_coco c25 cv
+Traceback (most recent call last):
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\mot_challenge_2d_box.py", line 230, in _load_raw_file
+    time_data = np.asarray(read_data[time_key], dtype=float)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: 'np.float64(0.02729814685881138)'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\eval.py", line 115, in evaluate
+    res[curr_seq] = eval_sequence(curr_seq, dataset, tracker, class_list, metrics_list,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\_timing.py", line 66, in wrap
+    return f(*args, **kw)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\eval.py", line 220, in eval_sequence
+    raw_data = dataset.get_raw_seq_data(tracker, seq)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\_timing.py", line 66, in wrap
+    return f(*args, **kw)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\_base_dataset.py", line 96, in get_raw_seq_data
+    raw_tracker_data = self._load_raw_file(tracker, seq, is_gt=False)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\mot_challenge_2d_box.py", line 236, in _load_raw_file
+    raise TrackEvalException(
+trackeval.utils.TrackEvalException: Cannot convert tracking data from tracker r66smoke-yolov8n_coco-c25-cv, sequence sherbrooke to float. Is data corrupted?
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66smoke-yolov8n_coco-c25-cv
+
+Tracker r66smoke-yolov8n_coco-c25-cv was unable to be evaluated.
+Cannot convert tracking data from tracker r66smoke-yolov8n_coco-c25-cv, sequence sherbrooke to float. Is data corrupted?
+Traceback (most recent call last):
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\mot_challenge_2d_box.py", line 230, in _load_raw_file
+    time_data = np.asarray(read_data[time_key], dtype=float)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: 'np.float64(0.02729814685881138)'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\src\r66_ngoai\danh_gia_r66.py", line 519, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "D:\LABOTARY\bytetrack\src\r66_ngoai\danh_gia_r66.py", line 506, in main
+    return buoc_track(a.ds, a.rest[0], a.rest[1], a.rest[2], a.smoke, a.het_han)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\src\r66_ngoai\danh_gia_r66.py", line 431, in buoc_track
+    kq = r64.cham(t["split"], nm, t["videos"])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\src\r64_ngoai\danh_gia_ngoai.py", line 552, in cham
+    results, _ = rte.run(split, tracker, videos, "mot")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\src\run_trackeval.py", line 183, in run
+    results, _ = evaluator.evaluate([dataset], metrics_list)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\_timing.py", line 66, in wrap
+    return f(*args, **kw)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\eval.py", line 209, in evaluate
+    raise err
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\eval.py", line 115, in evaluate
+    res[curr_seq] = eval_sequence(curr_seq, dataset, tracker, class_list, metrics_list,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\_timing.py", line 66, in wrap
+    return f(*args, **kw)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\eval.py", line 220, in eval_sequence
+    raw_data = dataset.get_raw_seq_data(tracker, seq)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\_timing.py", line 66, in wrap
+    return f(*args, **kw)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\_base_dataset.py", line 96, in get_raw_seq_data
+    raw_tracker_data = self._load_raw_file(tracker, seq, is_gt=False)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\trackeval\datasets\mot_challenge_2d_box.py", line 236, in _load_raw_file
+    raise TrackEvalException(
+trackeval.utils.TrackEvalException: Cannot convert tracking data from tracker r66smoke-yolov8n_coco-c25-cv, sequence sherbrooke to float. Is data corrupted?
+[DUNG rc=1] C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe -B src/r66_ngoai/danh_gia_r66.py track sherbrooke yolov8n_coco c25 cv --smoke

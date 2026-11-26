@@ -1,0 +1,168 @@
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>The KITTI Vision Benchmark Suite</title>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+</head>
+<body>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:600" rel="stylesheet">
+<div id="restore-notice" style="box-sizing:border-box;width:100%;margin:0;padding:8px 15px;background:#c00;color:#fff;text-align:center;font:600 14px/1.3 'Open Sans',Arial,Helvetica,sans-serif;">
+Important note: On September 7, 2026, the KITTI and KITTI-360 servers had to be restored to the backed-up state of August 7, 2026. Results within this period have to be resubmitted.
+</div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div id="wrapper">
+<div id="header" class="container">
+<div id="logo">
+<h1><a href="https://www.cvlibs.net/datasets/kitti">The KITTI Vision Benchmark Suite</a></h1>
+<h2>A project of <a href="http://www.kit.edu/english" target="_blank">Karlsruhe Institute of Technology</a><br>and
+<a href="http://www.ttic.edu" target="_blank">Toyota Technological Institute at Chicago</a></h2>
+</div>
+<div id="banner">
+<a href="https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/autonomous-vision/home/" target="_blank"><img src="images/unitue.jpg"></a>
+<a href="http://www.ttic.edu" target="_blank"><img src="images/ttic.jpg"></a>
+<a href="http://www.kit.edu/english" target="_blank"><img src="images/kit.jpg"></a>
+</div>
+</div>
+<div id="menu" class="container">
+<ul id="navigation">
+<li ><a href="index.php">home</a></li>
+<li class="active"><a href="setup.php">setup</a></li>
+<li ><a href="eval_stereo.php">stereo</a>
+<ul>
+<li><a href="eval_stereo_flow.php?benchmark=stereo"">Stereo 2012</a></li>
+<li><a href="eval_scene_flow.php?benchmark=stereo">Stereo 2015</a></li>
+</ul>
+</li>
+<li ><a href="eval_flow.php">flow</a>
+<ul>
+<li><a href="eval_stereo_flow.php?benchmark=flow"">Flow 2012</a></li>
+<li><a href="eval_scene_flow.php?benchmark=flow">Flow 2015</a></li>
+</ul>
+</li>
+<li ><a href="eval_scene_flow.php">sceneflow</a></li>
+
+<li ><a href="eval_depth_all.php">depth</a>
+<ul>
+<li><a href="eval_depth.php?benchmark=depth_completion">Depth Completion</a></li>
+<li><a href="eval_depth.php?benchmark=depth_prediction">Depth Prediction</a></li>
+</ul>
+</li>
+
+<li ><a href="eval_odometry.php">odometry</a></li>
+<li ><a href="eval_3dobject.php">object</a>
+<ul>
+<li><a href="eval_object.php?obj_benchmark=2d"">2d object</a></li>
+<li><a href="eval_object.php?obj_benchmark=3d"">3d object</a></li>
+<li><a href="eval_object.php?obj_benchmark=bev">bird's eye view</a></li>
+</ul>
+</li>
+<li ><a href="eval_tracking_overview.php">tracking</a>
+<ul>
+<li><a href="eval_tracking.php"">multi-object tracking</a></li>
+<li><a href="eval_mots.php"">multi-object tracking and segmentation</a></li>
+<li><a href="eval_step.php"">segmenting and tracking every pixel</a></li>
+</ul>
+</li>
+<li ><a href="eval_road.php">road</a></li>
+<li ><a href="eval_semantics.php">semantics</a>
+<ul>
+<li><a href="eval_semseg.php?benchmark=semantics2015"">pixel-level</a></li>
+<li><a href="eval_instance_seg.php?benchmark=instanceSeg2015"">instance-level</a></li>
+</ul>
+</li>
+<li ><a href="raw_data.php">raw data</a></li>
+<li ><a href="user_submit.php">submit results</a></li>
+</ul>
+</div>
+<div id="top-bar" class="container">
+<div class="bar"><div class="text">
+  <div style="width:900px">
+<div style="float:left;">
+  <a href="https://www.cvlibs.net" target="_blank">A. Geiger</a> |
+  <a href="http://www.mrt.kit.edu/mitarbeiter_lenz.php" target="_blank">P. Lenz</a> |
+  <a href="http://www.mrt.kit.edu/mitarbeiter_stiller.php" target="_blank">C. Stiller</a> |
+  <a href="http://ttic.uchicago.edu/~rurtasun/" target="_blank">R. Urtasun</a>
+</div>
+<div style="float:right;">
+<a href="user_login.php">Log in</a>
+</div>
+</div>
+</div></div>
+</div>
+<div id="page" class="container">
+<div id="content">
+
+
+<div class="section">
+<h2 class="title">Sensor Setup</h2>
+<div class="entry"><p>
+This page provides additional information about the recording platform and sensor setup we have used to record this dataset. Our recording platform is a <a href="http://en.wikipedia.org/wiki/Volkswagen_Passat_%28B6%29" target="_blank">Volkswagen Passat B6</a>, which has been modified with actuators for the pedals (acceleration and brake) and the steering wheel. The data is recorded using an eight core i7 computer equipped with a RAID system, running Ubuntu Linux and a <a href="http://www.kogmo-rtdb.de/" target="_blank">real-time database</a>. We use the following sensors:<br>
+</p>
+<ul>
+<li>1 Inertial Navigation System (GPS/IMU): <a href="http://www.oxts.com/default.asp?pageRef=21" target="_blank">OXTS RT 3003</a></li>
+<li>1 Laserscanner: <a href="http://velodynelidar.com/lidar/hdlproducts/hdl64e.aspx" target="_blank">Velodyne HDL-64E</a></li>
+<li>2 Grayscale cameras, 1.4 Megapixels: <a href="http://www.ptgrey.com/products/flea2/flea2_firewire_camera.asp" target="_blank">Point Grey Flea 2 (FL2-14S3M-C)</a></li>
+<li>2 Color cameras, 1.4 Megapixels: <a href="http://www.ptgrey.com/products/flea2/flea2_firewire_camera.asp" target="_blank">Point Grey Flea 2 (FL2-14S3C-C)</a></li>
+<li>4 Varifocal lenses, 4-8 mm: <a href="http://www.edmundoptics.com/imaging/imaging-lenses/zoom-lenses/varifocal-imaging-lenses/1620" target="_blank">Edmund Optics NT59-917</a></li>
+</ul>
+<p>
+The laser scanner spins at 10 frames per second, capturing approximately 100k points per cycle. The vertical resolution of the laser scanner is 64. The cameras are mounted approximately level with the ground plane. The camera images are cropped to a size of 1382 x 512 pixels using <a href="http://damien.douxchamps.net/ieee1394/libdc1394/" target="_blank">libdc's</a> format 7 mode. After rectification, the images get slightly smaller. The cameras are triggered at 10 frames per second by the laser scanner (when facing forward) with shutter time adjusted dynamically (maximum shutter time: 2 ms). Our sensor setup with respect to the vehicle is illustrated in the following figure. Note that more information on calibration parameters is given in the calibration files and the development kit (see <a href="raw_data.php">raw data</a> section).<br>
+</p>
+<img src="images/setup_top_view.png" style="float:center;">
+<br><br>
+<p>
+This figure shows our fully equipped vehicle:
+</p>
+<img src="images/passat_sensors_920.png" style="float:center;">
+
+</p></div></div>
+  <div class="clearfix"></div>
+  <div class="tracker">
+  <div id="eXTReMe"><br><br><a href="http://extremetracking.com/open?login=votec">
+  <img src="http://t1.extreme-dm.com/i.gif" style="border: 0;"
+  height="38" width="41" id="EXim" alt="eXTReMe Tracker" /></a>
+  <script type="text/javascript"><!--
+  var EXlogin='votec' // Login
+  var EXvsrv='s10' // VServer
+  EXs=screen;EXw=EXs.width;navigator.appName!="Netscape"?
+  EXb=EXs.colorDepth:EXb=EXs.pixelDepth;
+  navigator.javaEnabled()==1?EXjv="y":EXjv="n";
+  EXd=document;EXw?"":EXw="na";EXb?"":EXb="na";
+  EXd.write("<img src=http://e1.extreme-dm.com",
+  "/"+EXvsrv+".g?login="+EXlogin+"&amp;",
+  "jv="+EXjv+"&amp;j=y&amp;srw="+EXw+"&amp;srb="+EXb+"&amp;",
+  "l="+escape(EXd.referrer)+" height=1 width=1>");//-->
+  </script><noscript><div id="neXTReMe"><img height="1" width="1" alt=""
+  src="http://e1.extreme-dm.com/s10.g?login=votec&amp;j=n&amp;jv=n" />
+  </div></noscript></div>
+  </div>
+
+</div>
+<div class="clearfix">&nbsp;</div>
+</div>
+</div>
+
+<div id="footer" class="container">
+	<p>© 2026 | <a href="privacy_policy.php">Privacy Policy</a> | <a href="terms_of_service.php">Terms of Service</a> | <a href="imprint.php">Imprint</a> | <a href="http://www.freecsstemplates.org/" target="_blank">csstemplates</a></p>
+</div>
+
+</body>
+</html>
+
+

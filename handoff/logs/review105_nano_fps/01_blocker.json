@@ -1,0 +1,41 @@
+{
+  "status": "blocked",
+  "nano_runs": 0,
+  "deployment_attempted": false,
+  "observed_probes": [
+    {
+      "command": "ssh -o BatchMode=yes -o ConnectTimeout=5 -o HostName=192.168.1.4 nano \"printf 'R105_CONNECTION_OK\\n'; ls -ld ~/nano_run/r103_optimization/nano_transfer ~/nano_run/r105_nano_fps 2>/dev/null; pgrep -af 'nano_detect|trt_worker|r105'\"",
+      "exit_code": 1,
+      "output": "Host key verification failed.",
+      "interpretation": "SSH failed before the remote command ran."
+    },
+    {
+      "command": "ssh -G -o HostName=192.168.1.4 nano",
+      "observation": "hostname 192.168.1.4; stricthostkeychecking ask; userknownhostsfile C:\\WINDOWS/.ssh/known_hosts C:\\WINDOWS/.ssh/known_hosts2",
+      "exit_code": null,
+      "note": "Configuration output was filtered inside a multi-command shell; no separate exit code was recorded."
+    },
+    {
+      "command": "ssh-keygen -F 192.168.1.4 -f C:/Users/Mikuno/.ssh/known_hosts",
+      "output": "Cannot stat C:/Users/Mikuno/.ssh/known_hosts: Permission denied",
+      "exit_code": null,
+      "note": "Observed in a multi-command shell; no separate exit code was recorded."
+    },
+    {
+      "command": "ssh -G -F C:/Users/Mikuno/.ssh/config -o HostName=192.168.1.4 nano",
+      "output": "Can't open user config file C:/Users/Mikuno/.ssh/config: Permission denied",
+      "exit_code": null,
+      "note": "Observed in a multi-command shell; no separate exit code was recorded."
+    }
+  ],
+  "not_performed": [
+    "host-key acceptance/bypass",
+    "credential/config changes",
+    "scp/deployment",
+    "Nano smoke/full benchmark",
+    "R105 real HOTA/IDSW/FN/FP and FPS",
+    "optional NMS/decode experiment",
+    "independent reviewer session"
+  ],
+  "continuation_requirement": "An already authorized execution environment able to read the existing SSH configuration and known_hosts for nano; verify the existing trusted host and run the prepared package. No SSH configuration or permissions were changed."
+}

@@ -1,0 +1,102 @@
+--- executed/bench_nano.py
++++ current/bench_nano.py
+@@ -96,6 +96,10 @@
+     parser.add_argument("phase", choices=("smoke", "full"))
+     args = parser.parse_args()
+     # These are byte-identical local copies of previously reviewed drivers.
++    import sys
++    sys.path.insert(0, str(HERE / "drivers"))
++    driver_manifest = json.loads((HERE / "driver_manifest.json").read_text())
++    assert all(sha(HERE / "drivers" / name) == info["sha256"] for name, info in driver_manifest.items())
+     import r86_driver as guard
+     import r101_driver as tools
+     import r102_driver as live
+@@ -103,6 +107,7 @@
+     if not (OUT / "nano_transfer").exists():
+         OUT.mkdir(exist_ok=True)
+         prepare_nano.main()
++    prepare_nano.validate_package()
+     live.ENGINES = {"A": guard.ENGINES["B"], "B": ANCHOR / "yolo11n_interp50_fp16.engine"}
+     onnx = {"A": guard.ONNX["B"], "B": ANCHOR / "yolo11n_interp50.onnx"}
+     onnx_hash = {k: sha(p) for k, p in onnx.items()}
+@@ -116,11 +121,17 @@
+         assert len(group) == 40
+         videos.extend(group[i] for i in (0, 10, 20, 30))
+     assert all(r["n_frames"] == r["last"]-r["first"]+1 == 150 for r in videos)
++    baseline_package_hash = {p.name: sha(p) for p in (guard.PACKAGES["B"] / "src").glob("*.py")}
++    assert baseline_package_hash
++    package_hash = {p.name: sha(p) for p in (OUT / "nano_transfer/src").glob("*.py")}
+     root = OUT / args.phase
+     if args.phase == "full":
+         smoke = json.loads((OUT / "smoke" / "complete.json").read_text())
+         assert smoke["runs"] == 8 and smoke["engine_sha256"] == engine_hash
+         assert smoke["code_sha256"] == {p.name: sha(p) for p in HERE.glob("*.py")}
++        assert smoke["package_sha256"] == package_hash
++        assert smoke["baseline_package_sha256"] == baseline_package_hash
++        assert smoke["driver_manifest_sha256"] == sha(HERE / "driver_manifest.json")
+     root.mkdir(exist_ok=False)
+     boot = guard.read("/proc/sys/kernel/random/boot_id")
+     swap = guard.swap_mb()
+@@ -130,7 +141,9 @@
+           "swap_activity": tools.swap_activity(), "engine_sha256": engine_hash, "onnx_sha256": onnx_hash,
+           "classes": live.CLASSES, "class_map_B": live.COCO_MAP,
+           "code_sha256": {p.name: sha(p) for p in HERE.glob("*.py")},
+-          "package_sources": json.loads((OUT / "package_sources.json").read_text())})
++          "package_sources": json.loads((OUT / "package_sources.json").read_text()),
++          "package_sha256": package_hash, "baseline_package_sha256": baseline_package_hash,
++          "driver_manifest_sha256": sha(HERE / "driver_manifest.json")})
+     selected = videos if args.phase == "full" else [videos[0], videos[4]]
+     write(root, "videos.json", selected)
+     results, files = [], []
+@@ -168,12 +181,16 @@
+                     assert base["cls_sha256"] == fallback["cls_sha256"]
+         assert len(results) == (30 if args.phase == "full" else 8)
+         assert {k: sha(p) for k, p in live.ENGINES.items()} == engine_hash
++        assert {p.name: sha(p) for p in (OUT / "nano_transfer/src").glob("*.py")} == package_hash
++        assert {p.name: sha(p) for p in (guard.PACKAGES["B"] / "src").glob("*.py")} == baseline_package_hash
+         with tarfile.open(root / "evidence.tar.gz", "w:gz") as archive:
+             for path, name in files:
+                 archive.add(path, arcname=name, recursive=False)
+         write(root, "complete.json", {"runs": len(results), "engine_sha256": engine_hash,
+               "code_sha256": {p.name: sha(p) for p in HERE.glob("*.py")},
+-              "archive_sha256": sha(root / "evidence.tar.gz")})
++              "archive_sha256": sha(root / "evidence.tar.gz"), "package_sha256": package_hash,
++              "baseline_package_sha256": baseline_package_hash,
++              "driver_manifest_sha256": sha(HERE / "driver_manifest.json")})
+         print("R105_BENCH_COMPLETE", args.phase, flush=True)
+     finally:
+         for key in ENV_KEYS:
+--- executed/prepare_nano.py
++++ current/prepare_nano.py
+@@ -55,8 +55,22 @@
+                    '        raise ValueError("Adaptive scheduling cannot export a dense detection cache")\n')
+ 
+ 
++def validate_package():
++    expected = {"nano_detect_stream.py": patch_stream, "nano_live.py": patch_live}
++    for source in (BASE / "src").glob("*.py"):
++        destination = PACKAGE / "src" / source.name
++        if source.name in expected:
++            valid = destination.read_text() == expected[source.name](source.read_text())
++        else:
++            valid = destination.read_bytes() == source.read_bytes()
++        if not valid:
++            raise ValueError("Experiment package differs from intended copy: " + source.name)
++    if (PACKAGE / "src/r105_cadence.py").read_bytes() != Path(__file__).with_name("cadence.py").read_bytes():
++        raise ValueError("Stale adaptive scheduler in experiment package")
++
++
+ def main():
+-    # Validate every anchor and Python 3.6 syntax before creating the package.
++    # Validate every anchor and compile the patches before creating the package.
+     import ast
+     import hashlib
+     import json
+@@ -76,6 +90,7 @@
+     manifest = {p.name: {"base": sha(p), "copy": sha(PACKAGE / "src" / p.name)}
+                 for p in (BASE / "src").iterdir() if p.is_file()}
+     (PACKAGE.parent / "package_sources.json").write_text(json.dumps(manifest, indent=2))
++    validate_package()
+     print(PACKAGE, flush=True)
+ 
+ 

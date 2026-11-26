@@ -1,0 +1,12 @@
+argv: ['C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe', '-B', 'D:\\LABOTARY\\bytetrack\\src\\run_tracking.py', '--cache-id', 'r66smoke_sherbrooke_00c7363e_yolov8n_coco_c0.05', '--split-name', 'Sherbrooke-cars-f2754-3754-roi-v1-smoke128', '--tracker-yaml', 'configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml', '--tracker-name', 'r66smoke-yolov8n_coco-c10-pf500', '--videos', 'sherbrooke', '--conf-min', '0.1', '--classes', '2', '--max-det', '300', '--fps', '30.0', '--track-buffer-sec', '1.2', '--elapsed-mode', 'steps', '--seeds', '0', '1', '2']
+exit: 0
+--- stdout
+[run_tracking] cache=r66smoke_sherbrooke_00c7363e_yolov8n_coco_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r66smoke-yolov8n_coco-c10-pf500-s0 sherbrooke       128 frame ->     921 bbox   12 track  predict 2.77 ms/frame  assoc 5.32  (1.1s, 117 fps)
+  r66smoke-yolov8n_coco-c10-pf500-s0   1 video moi,   0 tai su dung
+  r66smoke-yolov8n_coco-c10-pf500-s1 sherbrooke       128 frame ->     919 bbox   14 track  predict 2.89 ms/frame  assoc 4.78  (1.0s, 125 fps)
+  r66smoke-yolov8n_coco-c10-pf500-s1   1 video moi,   0 tai su dung
+  r66smoke-yolov8n_coco-c10-pf500-s2 sherbrooke       128 frame ->     919 bbox   14 track  predict 3.03 ms/frame  assoc 5.04  (1.1s, 118 fps)
+  r66smoke-yolov8n_coco-c10-pf500-s2   1 video moi,   0 tai su dung
+
+--- stderr

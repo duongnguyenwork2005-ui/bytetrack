@@ -1,0 +1,159 @@
+{
+  "smoke_runs": 8,
+  "full_runs": 30,
+  "frame_rows_checked": 5700,
+  "timing_recalculated_runs": 38,
+  "bdd_fallback_equal": 2,
+  "host_exit_record": {
+    "smoke_exit": 0,
+    "ssh_probe_exit": 0,
+    "full_exit": 0,
+    "after": {
+      "boot": "e3b2e7e1-ccab-4486-8aae-a59b19de2b49",
+      "swap_mb": 239.71875,
+      "swap_activity": {
+        "pswpin": 2629,
+        "pswpout": 63622
+      },
+      "errors": "0"
+    },
+    "observed_at": "2026-11-12T04:07:37.9648725+07:00",
+    "active_r105_jobs": [],
+    "collection_exit": 0
+  },
+  "provenance": {
+    "missing_sources": [],
+    "schema": "early_r105_bridge",
+    "runner_sha256": "94be03b3e12ca8d3da1f9f16db0c136a2a6ee16b92ff333554155ae271f96ef1",
+    "verified_source_files": 10,
+    "verified_source_references": 13,
+    "limitation": "No full baseline-package hash was recorded by the early runner."
+  },
+  "r102_regression": {
+    "available": true,
+    "r102_mot_hash_equal": 16,
+    "compared": 16,
+    "source_sha256": "67eeb397a3de233b9fd763caac3b56d1c0d73d18f8b008b1fd795be6970560ee"
+  },
+  "per_version_six_source_hashes_lf": {
+    "A": {
+      "nano_live.py": "4ae7d58015f5bfd83451e0ae67f67730bc3138dcc0e434ee83ed8f09f47c3054",
+      "nano_detect_stream.py": "e3f3ab43318f74041a4714fe49c6b786691cf883cd3b66533725ec05ba1f7f39",
+      "nano_stream_proto.py": "187c5f3709c9c79e95cce23042425a5fb10cd563493806a75835f976290592cd",
+      "nano_detector.py": "3d0dc515f23f5ffc7a0d26b7760f64b9e9457df980545b3351aaffafa10bbf47",
+      "run_tracking.py": "1b9da78e2c8a38f9a61c8a06b88a4302d6806b9a352121c806d30aa9566140f0",
+      "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+    },
+    "B": {
+      "nano_live.py": "d9e0219bef33c27ca2e330dcaabc34fd5312a1db1c25a570c723aed772fe3c30",
+      "nano_detect_stream.py": "974a19bb0f165de1356a5b5a4288e15e093aea5ad625079338560e9ffa53dcfb",
+      "nano_stream_proto.py": "0b69a1eabaeafd787bdea6ae858e4f59634b0922ebd07a5506b764482d6bd4ca",
+      "nano_detector.py": "5bdc456d6df37d7a92054e8b2987939fa7398d3fad93a4e388b3ddde61021575",
+      "run_tracking.py": "51fbccb0792fcfda8a959cc521f3dc65b2e4b29bb9882979d1453787abb1834a",
+      "det_cache.py": "32c7107c42ffd16ab16fa197834b93ffd4a6692c1ae7df7c23dbf7ae25a34a2a"
+    }
+  },
+  "gt_and_images": [
+    {
+      "dataset": "bdd",
+      "name": "b1c81faa-c80764c5",
+      "first": 27,
+      "last": 176,
+      "gt_source": "data\\processed\\BDDCOCOVID-val\\b1c81faa-c80764c5\\gt\\gt.txt",
+      "gt_sha256": "a3fba28a2561aee44abc3078e5fefe26700ac979f48b970759b3938f8699da17",
+      "images_manifest_sha256": "c358649ec8d846173c151f91e4798c08d7071232487ac2777481a97a0dd78204"
+    },
+    {
+      "dataset": "bdd",
+      "name": "b1e2346e-c5f98707",
+      "first": 27,
+      "last": 176,
+      "gt_source": "data\\processed\\BDDCOCOVID-val\\b1e2346e-c5f98707\\gt\\gt.txt",
+      "gt_sha256": "9aaf28759c403a0ed92475001f0ea61336f7c5cc7aece5c0d6521f1e254446de",
+      "images_manifest_sha256": "c340e80f7b603f86ab8d74ba7a6086dd0b715ed0400ad2f965cdaec64a3f049a"
+    },
+    {
+      "dataset": "bdd",
+      "name": "b204a5c1-fa3d5b88",
+      "first": 27,
+      "last": 176,
+      "gt_source": "data\\processed\\BDDCOCOVID-val\\b204a5c1-fa3d5b88\\gt\\gt.txt",
+      "gt_sha256": "a0ec6fd555ef0e12a3906b3653c09940512f9bb2db7541e936645e79a3a490b5",
+      "images_manifest_sha256": "405e982319ede71ec2c310253866657335f5c06cef50d247d37e06786194a596"
+    },
+    {
+      "dataset": "bdd",
+      "name": "b230a7b2-c881c382",
+      "first": 27,
+      "last": 176,
+      "gt_source": "data\\processed\\BDDCOCOVID-val\\b230a7b2-c881c382\\gt\\gt.txt",
+      "gt_sha256": "216cec7c1e88fef2d99dbec979f964122d3f4772c33fe454d6beae613f5f0fe3",
+      "images_manifest_sha256": "b1d44a31bbd461abb47820e92c38e69b2da9db3bfabba9785a257be20177bcb4"
+    },
+    {
+      "dataset": "ua",
+      "name": "MVI_39031",
+      "first": 661,
+      "last": 810,
+      "gt_source": "data\\processed\\DETRAC-test\\MVI_39031\\gt\\gt.txt",
+      "gt_sha256": "0af37f8ac8a37181f661362cd1b16ffb418451eb085a89cc6431c404ccfe7430",
+      "images_manifest_sha256": "18d33f3bf2618afb8282255fa813a88a83d395aaf094a08c3ae2fae8854d90d8"
+    },
+    {
+      "dataset": "ua",
+      "name": "MVI_40701",
+      "first": 491,
+      "last": 640,
+      "gt_source": "data\\processed\\DETRAC-test\\MVI_40701\\gt\\gt.txt",
+      "gt_sha256": "b6d4337b2dd4c8543312f9b64e409584215b57db5b6086700b26c32485cfd4e6",
+      "images_manifest_sha256": "ac5c550dbc99036ae8a64a318a1f6c84d5132326e00feca21b60e5039c849442"
+    },
+    {
+      "dataset": "ua",
+      "name": "MVI_40772",
+      "first": 526,
+      "last": 675,
+      "gt_source": "data\\processed\\DETRAC-test\\MVI_40772\\gt\\gt.txt",
+      "gt_sha256": "6083ea236ff0a57d2b85502a29b376dbfcc6f2e370e99883fa6432961f44d8d6",
+      "images_manifest_sha256": "4ec6d9354665efae7c84d58a3e6479d98658ab8e77d5be40385992e12101addd"
+    },
+    {
+      "dataset": "ua",
+      "name": "MVI_40855",
+      "first": 471,
+      "last": 620,
+      "gt_source": "data\\processed\\DETRAC-test\\MVI_40855\\gt\\gt.txt",
+      "gt_sha256": "8f73e333f1b7287937da7c6211493e012a30591e330381d46a9f23b90023513f",
+      "images_manifest_sha256": "72d05723c56b131156cc3c56ee3e40c8bbb76c7ea1c9156a18997ec3196bfbcc"
+    }
+  ],
+  "evaluator_sha256": {
+    "handoff\\logs\\review103_nano_optimization\\eval_benchmark.py": "60f007174e26e64af9253a43e34747275661cd10b2d9a74fe119b0eb3019e1d7",
+    "handoff\\logs\\review102_ridesafe_pf_nano\\eval_nano.py": "28d8618fec82d124db6f363caf932e1e84aaaa38994aeedccead964052d3a4a8",
+    "src\\run_trackeval.py": "519d3f9165803fde65d0185faf7afe4952f46d572db32f6a61ad7aeb37440aa1",
+    "src\\trackeval_ext.py": "3dcf6582548adcfae56a40ce0dc4674103eb2167c96eb771190150b7aab30439",
+    "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\Lib\\site-packages\\trackeval\\datasets\\mot_challenge_2d_box.py": "c3965aa67bc0a290849e71ba5e3bb733500b84bdd7cddd89c49b3a1063e3c9fc"
+  },
+  "artifact_sha256": {
+    "per_run_verified.csv": "ce32491edd076c8e386975b525717ce4e14a2ad937ec025cf1e53153aa1303ee",
+    "first_match_verified.csv": "adf4041652878df0ff01b66e3865a9317306ad9e7b917b113b20e5a067f2ab85",
+    "host_evidence/full/assessment.json": "32dd5310a4b729e8f6c30f0bbb0ad26d857340eed2040a574b52fbb36dcdf77b"
+  },
+  "files": {
+    "audit_benchmark.py": "5c8f8ff1d4c748c08f97828bbe0fcdef53dc3eb2223e8e5b91d5d0d30e238c78",
+    "bench_nano.py": "ddaf102574f3ae392ee6458f13c24688d42f94f06a13bdc3e8b2ed477cd3aac1",
+    "cadence.py": "d24e9a5d4455dab3e06b219469207fe5c6475aa7e37cd60c8e4d7a72229e69f7",
+    "eval_benchmark.py": "e98ef8dbe810e810f31856056dcc5d18c6dafefc2c636ae91c8a8653f7146c69",
+    "make_bundle.py": "7ae43f80efcfcc90a7de0bcb7dd50ac81307309eaf33b94b4d1cdb2e8a79070b",
+    "prepare_nano.py": "0d31d0435220472f8fb4bd5d1205ac575671a5fd630406f97ffcb901e78de077",
+    "run_tier1.py": "14bb8197aff49faf2ff33260335940a08670a637ea9411d868723a0eb291d56c",
+    "test_r105.py": "1ff6e11e483bdab494457c94bbb55ef5d0bcf380f1397278bb0493243c49522a"
+  },
+  "limitations": [
+    "Tier 1 implementation audit, not the required separate Codex review.",
+    "Host exit/process status is preserved bridge evidence; this audit does not open SSH.",
+    "Early deployment did not record complete baseline/experimental package hashes.",
+    "JPEGs are represented by recorded per-file hashes, not retained in the archive.",
+    "No additional NMS/decode measurement is present in the completed bridge evidence."
+  ]
+}

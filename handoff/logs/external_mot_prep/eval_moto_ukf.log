@@ -1,0 +1,46 @@
+[trackeval] split=UTUAV-pilot-moto  tracker=utuav_diag_ukf  dataset_class=mot
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating utuav_diag_ukf
+
+
+HOTA: utuav_diag_ukf-pedestrian    HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_straight_26401_26520             75.689    76.701    74.696    78.137    92.36     76.013    92.635    90.776    76.372    83.279    90.194    75.112    
+C_turn_20901_21020                 76.868    77.246    76.496    78.535    92.47     77.764    92.661    90.839    77.48     84.421    90.321    76.25     
+COMBINED                           76.692    77.163    76.228    78.475    92.454    77.503    92.659    90.83     77.315    84.25     90.301    76.079    
+
+CLEAR: utuav_diag_ukf-pedestrian   MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_straight_26401_26520             84.205    90.194    84.6      84.6      100       61.538    38.462    0         75.909    857       156       0         4         8         5         0         123       
+C_turn_20901_21020                 84.86     90.321    84.93     84.93     100       88.889    11.111    0         76.639    4858      862       0         4         48        6         0         684       
+COMBINED                           84.762    90.301    84.88     84.88     100       83.582    16.418    0         76.529    5715      1018      0         8         56        11        0         807       
+
+Identity: utuav_diag_ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_straight_26401_26520             89.626    82.725    97.783    838       175       19        
+C_turn_20901_21020                 90.943    84.091    99.012    4810      910       48        
+COMBINED                           90.746    83.885    98.828    5648      1085      67        
+
+Count: utuav_diag_ukf-pedestrian   Dets      GT_Dets   IDs       GT_IDs    
+B_straight_26401_26520             857       1013      17        13        
+C_turn_20901_21020                 4858      5720      58        54        
+COMBINED                           5715      6733      75        67        
+
+==============================================================================
+KET QUA THEO TUNG VIDEO - utuav_diag_ukf
+==============================================================================
+                 video   HOTA   DetA   AssA   MOTA   IDF1    IDP    IDR  FP  FN  IDSW
+B_straight_26401_26520 0.7569 0.7670 0.7470 0.8421 0.8963 0.9778 0.8272   0 156     4
+    C_turn_20901_21020 0.7687 0.7725 0.7650 0.8486 0.9094 0.9901 0.8409   0 862     4
+
+==============================================================================
+KET QUA TONG HOP (COMBINED_SEQ) - utuav_diag_ukf
+==============================================================================
+  HOTA  = 0.7669   (DetA = 0.7716, AssA = 0.7623)
+  MOTA  = 0.8476   (FP = 0, FN = 1,018, IDSW = 8)
+  IDF1  = 0.9075   (IDP = 0.9883, IDR = 0.8389)
+  MOTP  = 0.9030
+
+  Da luu:
+    D:\LABOTARY\bytetrack\results\trackeval\UTUAV-pilot-moto\utuav_diag_ukf\per_video_metrics.csv
+    D:\LABOTARY\bytetrack\results\trackeval\UTUAV-pilot-moto\utuav_diag_ukf\combined_metrics.csv

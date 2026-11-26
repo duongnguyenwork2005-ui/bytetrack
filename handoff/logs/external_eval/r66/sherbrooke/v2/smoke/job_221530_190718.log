@@ -1,0 +1,990 @@
+[cache] r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05/sherbrooke: 128 frame, 3698 box, 15 s (8.4 fps)
+[cache] r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05/sherbrooke: 128 frame, 3914 box, 3 s (40.8 fps)
+[cache] r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05/sherbrooke: 128 frame, 4178 box, 4 s (36.3 fps)
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_coco-c25-cv sherbrooke       128 frame ->     876 bbox   11 track  predict 0.16 ms/frame  assoc 1.06  (0.2s, 626 fps)
+  r66v2smoke-yolov8n_coco-c25-cv   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c25-cv
+
+
+HOTA: r66v2smoke-yolov8n_coco-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.359    28.585    59.856    62.822    32.164    65.553    74.439    79.186    61.268    60.173    71.397    42.962    
+COMBINED                           41.359    28.585    59.856    62.822    32.164    65.553    74.439    79.186    61.268    60.173    71.397    42.962    
+
+CLEAR: r66v2smoke-yolov8n_coco-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -59.149   78.419    -59.149   68.085    34.858    25        75        0         -73.842   160       75        299       0         1         3         0         3         
+COMBINED                           -59.149   78.419    -59.149   68.085    34.858    25        75        0         -73.842   160       75        299       0         1         3         0         3         
+
+Identity: r66v2smoke-yolov8n_coco-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         46.11     68.085    34.858    160       75        299       
+COMBINED                           46.11     68.085    34.858    160       75        299       
+
+Count: r66v2smoke-yolov8n_coco-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         459       235       6         4         
+COMBINED                           459       235       6         4         
+1/36 yolov8n_coco c25 cv None HOTA 41.36
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_coco-c25-ekf sherbrooke       128 frame ->     876 bbox   11 track  predict 0.29 ms/frame  assoc 1.15  (0.2s, 587 fps)
+  r66v2smoke-yolov8n_coco-c25-ekf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c25-ekf
+
+
+HOTA: r66v2smoke-yolov8n_coco-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.215    28.497    59.625    62.62     32.061    65.331    74.2      79.053    61.049    60.173    71.263    42.881    
+COMBINED                           41.215    28.497    59.625    62.62     32.061    65.331    74.2      79.053    61.049    60.173    71.263    42.881    
+
+CLEAR: r66v2smoke-yolov8n_coco-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -59.149   78.23     -59.149   68.085    34.858    25        75        0         -73.971   160       75        299       0         1         3         0         3         
+COMBINED                           -59.149   78.23     -59.149   68.085    34.858    25        75        0         -73.971   160       75        299       0         1         3         0         3         
+
+Identity: r66v2smoke-yolov8n_coco-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         46.11     68.085    34.858    160       75        299       
+COMBINED                           46.11     68.085    34.858    160       75        299       
+
+Count: r66v2smoke-yolov8n_coco-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         459       235       6         4         
+COMBINED                           459       235       6         4         
+2/36 yolov8n_coco c25 ekf None HOTA 41.21
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_coco-c25-ukf sherbrooke       128 frame ->     876 bbox   11 track  predict 1.99 ms/frame  assoc 1.93  (0.5s, 237 fps)
+  r66v2smoke-yolov8n_coco-c25-ukf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c25-ukf
+
+
+HOTA: r66v2smoke-yolov8n_coco-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.215    28.497    59.625    62.62     32.061    65.331    74.2      79.097    61.049    60.173    71.3      42.903    
+COMBINED                           41.215    28.497    59.625    62.62     32.061    65.331    74.2      79.097    61.049    60.173    71.3      42.903    
+
+CLEAR: r66v2smoke-yolov8n_coco-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -59.149   78.278    -59.149   68.085    34.858    25        75        0         -73.938   160       75        299       0         1         3         0         3         
+COMBINED                           -59.149   78.278    -59.149   68.085    34.858    25        75        0         -73.938   160       75        299       0         1         3         0         3         
+
+Identity: r66v2smoke-yolov8n_coco-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         46.11     68.085    34.858    160       75        299       
+COMBINED                           46.11     68.085    34.858    160       75        299       
+
+Count: r66v2smoke-yolov8n_coco-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         459       235       6         4         
+COMBINED                           459       235       6         4         
+3/36 yolov8n_coco c25 ukf None HOTA 41.21
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0]
+  r66v2smoke-yolov8n_coco-c25-pf500-s0 sherbrooke       128 frame ->     875 bbox   12 track  predict 2.26 ms/frame  assoc 3.79  (0.8s, 151 fps)
+  r66v2smoke-yolov8n_coco-c25-pf500-s0   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c25-pf500-s0
+
+
+HOTA: r66v2smoke-yolov8n_coco-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         28.648    20.217    41.645    44.658    22.914    44.659    67.839    68.784    42.79     55.395    51.923    28.762    
+COMBINED                           28.648    20.217    41.645    44.658    22.914    44.659    67.839    68.784    42.79     55.395    51.923    28.762    
+
+CLEAR: r66v2smoke-yolov8n_coco-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -126.38   66.846    -125.96   34.468    17.686    0         75        25        -137.81   81        154       377       1         0         3         1         5         
+COMBINED                           -126.38   66.846    -125.96   34.468    17.686    0         75        25        -137.81   81        154       377       1         0         3         1         5         
+
+Identity: r66v2smoke-yolov8n_coco-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         23.088    34.043    17.467    80        155       378       
+COMBINED                           23.088    34.043    17.467    80        155       378       
+
+Count: r66v2smoke-yolov8n_coco-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         458       235       7         4         
+COMBINED                           458       235       7         4         
+4/36 yolov8n_coco c25 pf500 0 HOTA 28.65
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[1]
+  r66v2smoke-yolov8n_coco-c25-pf500-s1 sherbrooke       128 frame ->     873 bbox   14 track  predict 2.33 ms/frame  assoc 3.48  (0.8s, 163 fps)
+  r66v2smoke-yolov8n_coco-c25-pf500-s1   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c25-pf500-s1
+
+
+HOTA: r66v2smoke-yolov8n_coco-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         32.465    24.344    44.039    53.931    27.432    46.697    78.128    72.927    48.522    52.712    60.882    32.093    
+COMBINED                           32.465    24.344    44.039    53.931    27.432    46.697    78.128    72.927    48.522    52.712    60.882    32.093    
+
+CLEAR: r66v2smoke-yolov8n_coco-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -81.702   70.283    -80.851   57.872    29.437    25        75        0         -98.9     136       99        326       2         1         3         0         4         
+COMBINED                           -81.702   70.283    -80.851   57.872    29.437    25        75        0         -98.9     136       99        326       2         1         3         0         4         
+
+Identity: r66v2smoke-yolov8n_coco-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         33.859    50.213    25.541    118       117       344       
+COMBINED                           33.859    50.213    25.541    118       117       344       
+
+Count: r66v2smoke-yolov8n_coco-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         462       235       9         4         
+COMBINED                           462       235       9         4         
+5/36 yolov8n_coco c25 pf500 1 HOTA 32.47
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[2]
+  r66v2smoke-yolov8n_coco-c25-pf500-s2 sherbrooke       128 frame ->     873 bbox   14 track  predict 2.33 ms/frame  assoc 3.39  (0.8s, 166 fps)
+  r66v2smoke-yolov8n_coco-c25-pf500-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c25-pf500-s2
+
+
+HOTA: r66v2smoke-yolov8n_coco-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         32.841    24.508    45.349    54.625    28.151    46.498    79.214    75.988    49.322    48.243    63.398    30.585    
+COMBINED                           32.841    24.508    45.349    54.625    28.151    46.498    79.214    75.988    49.322    48.243    63.398    30.585    
+
+CLEAR: r66v2smoke-yolov8n_coco-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -86.809   76.289    -85.957   54.043    27.851    0         100       0         -99.623   127       108       329       2         0         4         0         3         
+COMBINED                           -86.809   76.289    -85.957   54.043    27.851    0         100       0         -99.623   127       108       329       2         0         4         0         3         
+
+Identity: r66v2smoke-yolov8n_coco-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         30.101    44.255    22.807    104       131       352       
+COMBINED                           30.101    44.255    22.807    104       131       352       
+
+Count: r66v2smoke-yolov8n_coco-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         456       235       9         4         
+COMBINED                           456       235       9         4         
+6/36 yolov8n_coco c25 pf500 2 HOTA 32.84
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack yaml=bytetrack.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_coco-c10-cv sherbrooke       128 frame ->     922 bbox   11 track  predict 0.11 ms/frame  assoc 1.00  (0.2s, 574 fps)
+  r66v2smoke-yolov8n_coco-c10-cv   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c10-cv
+
+
+HOTA: r66v2smoke-yolov8n_coco-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.359    28.585    59.856    62.822    32.164    65.553    74.439    79.186    61.268    60.173    71.397    42.962    
+COMBINED                           41.359    28.585    59.856    62.822    32.164    65.553    74.439    79.186    61.268    60.173    71.397    42.962    
+
+CLEAR: r66v2smoke-yolov8n_coco-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -59.149   78.419    -59.149   68.085    34.858    25        75        0         -73.842   160       75        299       0         1         3         0         3         
+COMBINED                           -59.149   78.419    -59.149   68.085    34.858    25        75        0         -73.842   160       75        299       0         1         3         0         3         
+
+Identity: r66v2smoke-yolov8n_coco-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         46.11     68.085    34.858    160       75        299       
+COMBINED                           46.11     68.085    34.858    160       75        299       
+
+Count: r66v2smoke-yolov8n_coco-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         459       235       6         4         
+COMBINED                           459       235       6         4         
+7/36 yolov8n_coco c10 cv None HOTA 41.36
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_coco-c10-ekf sherbrooke       128 frame ->     922 bbox   11 track  predict 0.28 ms/frame  assoc 1.21  (0.2s, 574 fps)
+  r66v2smoke-yolov8n_coco-c10-ekf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c10-ekf
+
+
+HOTA: r66v2smoke-yolov8n_coco-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.215    28.497    59.625    62.62     32.061    65.331    74.2      79.053    61.049    60.173    71.263    42.881    
+COMBINED                           41.215    28.497    59.625    62.62     32.061    65.331    74.2      79.053    61.049    60.173    71.263    42.881    
+
+CLEAR: r66v2smoke-yolov8n_coco-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -59.149   78.23     -59.149   68.085    34.858    25        75        0         -73.971   160       75        299       0         1         3         0         3         
+COMBINED                           -59.149   78.23     -59.149   68.085    34.858    25        75        0         -73.971   160       75        299       0         1         3         0         3         
+
+Identity: r66v2smoke-yolov8n_coco-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         46.11     68.085    34.858    160       75        299       
+COMBINED                           46.11     68.085    34.858    160       75        299       
+
+Count: r66v2smoke-yolov8n_coco-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         459       235       6         4         
+COMBINED                           459       235       6         4         
+8/36 yolov8n_coco c10 ekf None HOTA 41.21
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_coco-c10-ukf sherbrooke       128 frame ->     922 bbox   11 track  predict 1.76 ms/frame  assoc 1.77  (0.5s, 261 fps)
+  r66v2smoke-yolov8n_coco-c10-ukf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c10-ukf
+
+
+HOTA: r66v2smoke-yolov8n_coco-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.215    28.497    59.625    62.62     32.061    65.331    74.2      79.097    61.049    60.173    71.3      42.903    
+COMBINED                           41.215    28.497    59.625    62.62     32.061    65.331    74.2      79.097    61.049    60.173    71.3      42.903    
+
+CLEAR: r66v2smoke-yolov8n_coco-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -59.149   78.278    -59.149   68.085    34.858    25        75        0         -73.938   160       75        299       0         1         3         0         3         
+COMBINED                           -59.149   78.278    -59.149   68.085    34.858    25        75        0         -73.938   160       75        299       0         1         3         0         3         
+
+Identity: r66v2smoke-yolov8n_coco-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         46.11     68.085    34.858    160       75        299       
+COMBINED                           46.11     68.085    34.858    160       75        299       
+
+Count: r66v2smoke-yolov8n_coco-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         459       235       6         4         
+COMBINED                           459       235       6         4         
+9/36 yolov8n_coco c10 ukf None HOTA 41.21
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0]
+  r66v2smoke-yolov8n_coco-c10-pf500-s0 sherbrooke       128 frame ->     921 bbox   12 track  predict 1.96 ms/frame  assoc 3.31  (0.7s, 179 fps)
+  r66v2smoke-yolov8n_coco-c10-pf500-s0   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c10-pf500-s0
+
+
+HOTA: r66v2smoke-yolov8n_coco-c10-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         28.501    20.154    41.353    44.546    22.857    44.393    67.537    68.774    42.578    55.395    51.816    28.703    
+COMBINED                           28.501    20.154    41.353    44.546    22.857    44.393    67.537    68.774    42.578    55.395    51.816    28.703    
+
+CLEAR: r66v2smoke-yolov8n_coco-c10-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -125.53   66.716    -125.11   34.894    17.904    0         75        25        -137.15   82        153       376       1         0         3         1         3         
+COMBINED                           -125.53   66.716    -125.11   34.894    17.904    0         75        25        -137.15   82        153       376       1         0         3         1         3         
+
+Identity: r66v2smoke-yolov8n_coco-c10-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         23.377    34.468    17.686    81        154       377       
+COMBINED                           23.377    34.468    17.686    81        154       377       
+
+Count: r66v2smoke-yolov8n_coco-c10-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         458       235       7         4         
+COMBINED                           458       235       7         4         
+10/36 yolov8n_coco c10 pf500 0 HOTA 28.50
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[1]
+  r66v2smoke-yolov8n_coco-c10-pf500-s1 sherbrooke       128 frame ->     919 bbox   14 track  predict 2.44 ms/frame  assoc 3.95  (0.9s, 139 fps)
+  r66v2smoke-yolov8n_coco-c10-pf500-s1   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c10-pf500-s1
+
+
+HOTA: r66v2smoke-yolov8n_coco-c10-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         32.914    24.883    44.206    54.961    27.956    46.865    77.649    73.118    49.09     52.712    61.929    32.644    
+COMBINED                           32.914    24.883    44.206    54.961    27.956    46.865    77.649    73.118    49.09     52.712    61.929    32.644    
+
+CLEAR: r66v2smoke-yolov8n_coco-c10-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -74.894   70.097    -74.043   61.277    31.169    25        75        0         -93.217   144       91        318       2         1         3         0         3         
+COMBINED                           -74.894   70.097    -74.043   61.277    31.169    25        75        0         -93.217   144       91        318       2         1         3         0         3         
+
+Identity: r66v2smoke-yolov8n_coco-c10-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         36.155    53.617    27.273    126       109       336       
+COMBINED                           36.155    53.617    27.273    126       109       336       
+
+Count: r66v2smoke-yolov8n_coco-c10-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         462       235       9         4         
+COMBINED                           462       235       9         4         
+11/36 yolov8n_coco c10 pf500 1 HOTA 32.91
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_coco_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[2]
+  r66v2smoke-yolov8n_coco-c10-pf500-s2 sherbrooke       128 frame ->     919 bbox   14 track  predict 2.32 ms/frame  assoc 3.74  (0.8s, 158 fps)
+  r66v2smoke-yolov8n_coco-c10-pf500-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_coco-c10-pf500-s2
+
+
+HOTA: r66v2smoke-yolov8n_coco-c10-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         31.273    23.806    41.898    52.9      27.262    43.171    75.323    74.069    46.838    48.243    61.608    29.721    
+COMBINED                           31.273    23.806    41.898    52.9      27.262    43.171    75.323    74.069    46.838    48.243    61.608    29.721    
+
+CLEAR: r66v2smoke-yolov8n_coco-c10-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -85.106   73.082    -84.255   54.894    28.289    0         100       0         -99.883   129       106       327       2         0         4         0         3         
+COMBINED                           -85.106   73.082    -84.255   54.894    28.289    0         100       0         -99.883   129       106       327       2         0         4         0         3         
+
+Identity: r66v2smoke-yolov8n_coco-c10-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         30.68     45.106    23.246    106       129       350       
+COMBINED                           30.68     45.106    23.246    106       129       350       
+
+Count: r66v2smoke-yolov8n_coco-c10-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         456       235       9         4         
+COMBINED                           456       235       9         4         
+12/36 yolov8n_coco c10 pf500 2 HOTA 31.27
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_mixed5-c25-cv sherbrooke       128 frame ->   1,352 bbox   20 track  predict 0.22 ms/frame  assoc 2.04  (0.3s, 370 fps)
+  r66v2smoke-yolov8n_mixed5-c25-cv   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c25-cv
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         40.888    29.865    55.993    59.037    34.598    62.264    70.773    78.019    57.452    63.932    67.536    43.177    
+COMBINED                           40.888    29.865    55.993    59.037    34.598    62.264    70.773    78.019    57.452    63.932    67.536    43.177    
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -48.936   79.31     -48.936   60.851    35.661    25        50        25        -61.526   143       92        258       0         1         2         1         3         
+COMBINED                           -48.936   79.31     -48.936   60.851    35.661    25        50        25        -61.526   143       92        258       0         1         2         1         3         
+
+Identity: r66v2smoke-yolov8n_mixed5-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         44.969    60.851    35.661    143       92        258       
+COMBINED                           44.969    60.851    35.661    143       92        258       
+
+Count: r66v2smoke-yolov8n_mixed5-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         401       235       8         4         
+COMBINED                           401       235       8         4         
+13/36 yolov8n_mixed5 c25 cv None HOTA 40.89
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_mixed5-c25-ekf sherbrooke       128 frame ->   1,340 bbox   21 track  predict 0.87 ms/frame  assoc 2.69  (0.5s, 243 fps)
+  r66v2smoke-yolov8n_mixed5-c25-ekf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c25-ekf
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         40.843    29.892    55.818    58.835    34.652    62.046    70.539    77.949    57.263    64.08     67.42     43.203    
+COMBINED                           40.843    29.892    55.818    58.835    34.652    62.046    70.539    77.949    57.263    64.08     67.42     43.203    
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -48.085   79.15     -48.085   60.851    35.84     25        50        25        -60.773   143       92        256       0         1         2         1         3         
+COMBINED                           -48.085   79.15     -48.085   60.851    35.84     25        50        25        -60.773   143       92        256       0         1         2         1         3         
+
+Identity: r66v2smoke-yolov8n_mixed5-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         45.11     60.851    35.84     143       92        256       
+COMBINED                           45.11     60.851    35.84     143       92        256       
+
+Count: r66v2smoke-yolov8n_mixed5-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         399       235       8         4         
+COMBINED                           399       235       8         4         
+14/36 yolov8n_mixed5 c25 ekf None HOTA 40.84
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_mixed5-c25-ukf sherbrooke       128 frame ->   1,342 bbox   21 track  predict 5.54 ms/frame  assoc 3.94  (1.3s, 100 fps)
+  r66v2smoke-yolov8n_mixed5-c25-ukf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c25-ukf
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         40.719    29.734    55.769    58.768    34.44     61.915    70.41     77.693    57.207    63.932    67.196    42.96     
+COMBINED                           40.719    29.734    55.769    58.768    34.44     61.915    70.41     77.693    57.207    63.932    67.196    42.96     
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -48.936   78.84     -48.936   60.851    35.661    25        50        25        -61.812   143       92        258       0         1         2         1         3         
+COMBINED                           -48.936   78.84     -48.936   60.851    35.661    25        50        25        -61.812   143       92        258       0         1         2         1         3         
+
+Identity: r66v2smoke-yolov8n_mixed5-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         44.969    60.851    35.661    143       92        258       
+COMBINED                           44.969    60.851    35.661    143       92        258       
+
+Count: r66v2smoke-yolov8n_mixed5-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         401       235       8         4         
+COMBINED                           401       235       8         4         
+15/36 yolov8n_mixed5 c25 ukf None HOTA 40.72
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0]
+  r66v2smoke-yolov8n_mixed5-c25-pf500-s0 sherbrooke       128 frame ->   1,339 bbox   23 track  predict 6.54 ms/frame  assoc 8.18  (1.9s, 66 fps)
+  r66v2smoke-yolov8n_mixed5-c25-pf500-s0   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c25-pf500-s0
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         28.142    20.467    38.791    40.806    24.034    43.864    52.594    67.315    39.777    61.859    47.854    29.602    
+COMBINED                           28.142    20.467    38.791    40.806    24.034    43.864    52.594    67.315    39.777    61.859    47.854    29.602    
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -104.26   66.134    -104.26   32.766    19.298    0         50        50        -115.35   77        158       322       0         0         2         2         3         
+COMBINED                           -104.26   66.134    -104.26   32.766    19.298    0         50        50        -115.35   77        158       322       0         0         2         2         3         
+
+Identity: r66v2smoke-yolov8n_mixed5-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         24.29     32.766    19.298    77        158       322       
+COMBINED                           24.29     32.766    19.298    77        158       322       
+
+Count: r66v2smoke-yolov8n_mixed5-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         399       235       9         4         
+COMBINED                           399       235       9         4         
+16/36 yolov8n_mixed5 c25 pf500 0 HOTA 28.14
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[1]
+  r66v2smoke-yolov8n_mixed5-c25-pf500-s1 sherbrooke       128 frame ->   1,339 bbox   25 track  predict 4.57 ms/frame  assoc 5.20  (1.3s, 98 fps)
+  r66v2smoke-yolov8n_mixed5-c25-pf500-s1   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c25-pf500-s1
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         25.674    21.454    31.289    43.83     25.622    33.626    69.517    70.93     36.859    51.652    50.777    26.227    
+COMBINED                           25.674    21.454    31.289    43.83     25.622    33.626    69.517    70.93     36.859    51.652    50.777    26.227    
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -100.43   74.031    -99.574   35.745    20.896    0         50        50        -109.71   84        151       318       2         0         2         2         4         
+COMBINED                           -100.43   74.031    -99.574   35.745    20.896    0         50        50        -109.71   84        151       318       2         0         2         2         4         
+
+Identity: r66v2smoke-yolov8n_mixed5-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         18.838    25.532    14.925    60        175       342       
+COMBINED                           18.838    25.532    14.925    60        175       342       
+
+Count: r66v2smoke-yolov8n_mixed5-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         402       235       11        4         
+COMBINED                           402       235       11        4         
+17/36 yolov8n_mixed5 c25 pf500 1 HOTA 25.67
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[2]
+  r66v2smoke-yolov8n_mixed5-c25-pf500-s2 sherbrooke       128 frame ->   1,338 bbox   23 track  predict 4.16 ms/frame  assoc 5.31  (1.3s, 102 fps)
+  r66v2smoke-yolov8n_mixed5-c25-pf500-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c25-pf500-s2
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         32.802    23.118    48.553    46.293    26.928    51.361    70.368    70.252    46.817    59.265    52.919    31.363    
+COMBINED                           32.802    23.118    48.553    46.293    26.928    51.361    70.368    70.252    46.817    59.265    52.919    31.363    
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -98.723   71.696    -98.723   36.596    21.287    0         50        50        -109.08   86        149       318       0         0         2         2         5         
+COMBINED                           -98.723   71.696    -98.723   36.596    21.287    0         50        50        -109.08   86        149       318       0         0         2         2         5         
+
+Identity: r66v2smoke-yolov8n_mixed5-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         26.917    36.596    21.287    86        149       318       
+COMBINED                           26.917    36.596    21.287    86        149       318       
+
+Count: r66v2smoke-yolov8n_mixed5-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         404       235       10        4         
+COMBINED                           404       235       10        4         
+18/36 yolov8n_mixed5 c25 pf500 2 HOTA 32.80
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack yaml=bytetrack.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_mixed5-c10-cv sherbrooke       128 frame ->   1,513 bbox   19 track  predict 0.21 ms/frame  assoc 2.29  (0.4s, 322 fps)
+  r66v2smoke-yolov8n_mixed5-c10-cv   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c10-cv
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         38.032    25.839    55.993    59.037    29.331    62.264    70.773    78.019    57.452    59.199    67.536    39.981    
+COMBINED                           38.032    25.839    55.993    59.037    29.331    62.264    70.773    78.019    57.452    59.199    67.536    39.981    
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -79.574   79.31     -79.574   60.851    30.233    25        50        25        -92.165   143       92        330       0         1         2         1         3         
+COMBINED                           -79.574   79.31     -79.574   60.851    30.233    25        50        25        -92.165   143       92        330       0         1         2         1         3         
+
+Identity: r66v2smoke-yolov8n_mixed5-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         40.395    60.851    30.233    143       92        330       
+COMBINED                           40.395    60.851    30.233    143       92        330       
+
+Count: r66v2smoke-yolov8n_mixed5-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         473       235       7         4         
+COMBINED                           473       235       7         4         
+19/36 yolov8n_mixed5 c10 cv None HOTA 38.03
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_mixed5-c10-ekf sherbrooke       128 frame ->   1,513 bbox   19 track  predict 0.49 ms/frame  assoc 1.85  (0.3s, 375 fps)
+  r66v2smoke-yolov8n_mixed5-c10-ekf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c10-ekf
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         37.908    25.75     55.818    58.835    29.231    62.046    70.539    77.949    57.263    59.199    67.42     39.912    
+COMBINED                           37.908    25.75     55.818    58.835    29.231    62.046    70.539    77.949    57.263    59.199    67.42     39.912    
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -79.574   79.15     -79.574   60.851    30.233    25        50        25        -92.262   143       92        330       0         1         2         1         3         
+COMBINED                           -79.574   79.15     -79.574   60.851    30.233    25        50        25        -92.262   143       92        330       0         1         2         1         3         
+
+Identity: r66v2smoke-yolov8n_mixed5-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         40.395    60.851    30.233    143       92        330       
+COMBINED                           40.395    60.851    30.233    143       92        330       
+
+Count: r66v2smoke-yolov8n_mixed5-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         473       235       7         4         
+COMBINED                           473       235       7         4         
+20/36 yolov8n_mixed5 c10 ekf None HOTA 37.91
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolov8n_mixed5-c10-ukf sherbrooke       128 frame ->   1,513 bbox   19 track  predict 3.18 ms/frame  assoc 2.68  (0.8s, 162 fps)
+  r66v2smoke-yolov8n_mixed5-c10-ukf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c10-ukf
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         37.875    25.725    55.769    58.768    29.198    61.915    70.41     77.693    57.207    59.199    67.196    39.779    
+COMBINED                           37.875    25.725    55.769    58.768    29.198    61.915    70.41     77.693    57.207    59.199    67.196    39.779    
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -79.574   78.84     -79.574   60.851    30.233    25        50        25        -92.451   143       92        330       0         1         2         1         3         
+COMBINED                           -79.574   78.84     -79.574   60.851    30.233    25        50        25        -92.451   143       92        330       0         1         2         1         3         
+
+Identity: r66v2smoke-yolov8n_mixed5-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         40.395    60.851    30.233    143       92        330       
+COMBINED                           40.395    60.851    30.233    143       92        330       
+
+Count: r66v2smoke-yolov8n_mixed5-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         473       235       7         4         
+COMBINED                           473       235       7         4         
+21/36 yolov8n_mixed5 c10 ukf None HOTA 37.87
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0]
+  r66v2smoke-yolov8n_mixed5-c10-pf500-s0 sherbrooke       128 frame ->   1,510 bbox   22 track  predict 3.65 ms/frame  assoc 5.16  (1.2s, 110 fps)
+  r66v2smoke-yolov8n_mixed5-c10-pf500-s0   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c10-pf500-s0
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c10-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         28.073    19.739    39.987    45.286    22.74     44.804    57.71     69.643    42.544    54.621    53.003    28.951    
+COMBINED                           28.073    19.739    39.987    45.286    22.74     44.804    57.71     69.643    42.544    54.621    53.003    28.951    
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c10-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -112.34   68.297    -112.34   43.404    21.795    0         75        25        -126.1    102       133       366       0         0         3         1         3         
+COMBINED                           -112.34   68.297    -112.34   43.404    21.795    0         75        25        -126.1    102       133       366       0         0         3         1         3         
+
+Identity: r66v2smoke-yolov8n_mixed5-c10-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         29.018    43.404    21.795    102       133       366       
+COMBINED                           29.018    43.404    21.795    102       133       366       
+
+Count: r66v2smoke-yolov8n_mixed5-c10-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         468       235       9         4         
+COMBINED                           468       235       9         4         
+22/36 yolov8n_mixed5 c10 pf500 0 HOTA 28.07
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[1]
+  r66v2smoke-yolov8n_mixed5-c10-pf500-s1 sherbrooke       128 frame ->   1,512 bbox   20 track  predict 3.78 ms/frame  assoc 5.62  (1.3s, 102 fps)
+  r66v2smoke-yolov8n_mixed5-c10-pf500-s1   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c10-pf500-s1
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c10-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         29.166    18.541    47.556    43.225    21.475    51.208    70.329    70.555    44.839    55.99     50.609    28.336    
+COMBINED                           29.166    18.541    47.556    43.225    21.475    51.208    70.329    70.555    44.839    55.99     50.609    28.336    
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c10-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -135.74   72.821    -135.74   32.766    16.279    0         50        50        -144.65   77        158       396       0         0         2         2         3         
+COMBINED                           -135.74   72.821    -135.74   32.766    16.279    0         50        50        -144.65   77        158       396       0         0         2         2         3         
+
+Identity: r66v2smoke-yolov8n_mixed5-c10-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         21.751    32.766    16.279    77        158       396       
+COMBINED                           21.751    32.766    16.279    77        158       396       
+
+Count: r66v2smoke-yolov8n_mixed5-c10-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         473       235       8         4         
+COMBINED                           473       235       8         4         
+23/36 yolov8n_mixed5 c10 pf500 1 HOTA 29.17
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[2]
+  r66v2smoke-yolov8n_mixed5-c10-pf500-s2 sherbrooke       128 frame ->   1,511 bbox   21 track  predict 4.29 ms/frame  assoc 6.11  (1.4s, 93 fps)
+  r66v2smoke-yolov8n_mixed5-c10-pf500-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolov8n_mixed5-c10-pf500-s2
+
+
+HOTA: r66v2smoke-yolov8n_mixed5-c10-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         29.428    20.974    43.781    48.667    24.078    46.346    72.335    72.121    45.276    47.811    55.426    26.5      
+COMBINED                           29.428    20.974    43.781    48.667    24.078    46.346    72.335    72.121    45.276    47.811    55.426    26.5      
+
+CLEAR: r66v2smoke-yolov8n_mixed5-c10-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -120      74.802    -119.57   41.277    20.421    0         50        50        -130.4    97        138       378       1         0         2         2         3         
+COMBINED                           -120      74.802    -119.57   41.277    20.421    0         50        50        -130.4    97        138       378       1         0         2         2         3         
+
+Identity: r66v2smoke-yolov8n_mixed5-c10-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         26.761    40.426    20        95        140       380       
+COMBINED                           26.761    40.426    20        95        140       380       
+
+Count: r66v2smoke-yolov8n_mixed5-c10-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         475       235       9         4         
+COMBINED                           475       235       9         4         
+24/36 yolov8n_mixed5 c10 pf500 2 HOTA 29.43
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolo11n_mixed5-c25-cv sherbrooke       128 frame ->   1,484 bbox   18 track  predict 0.17 ms/frame  assoc 1.64  (0.3s, 460 fps)
+  r66v2smoke-yolo11n_mixed5-c25-cv   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c25-cv
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.397    29.503    58.103    61.433    33.81     64.697    73.436    79.969    59.7      62.161    70.192    43.632    
+COMBINED                           41.397    29.503    58.103    61.433    33.81     64.697    73.436    79.969    59.7      62.161    70.192    43.632    
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -57.447   81.364    -57.447   62.128    34.192    0         100       0         -69.025   146       89        281       0         0         4         0         3         
+COMBINED                           -57.447   81.364    -57.447   62.128    34.192    0         100       0         -69.025   146       89        281       0         0         4         0         3         
+
+Identity: r66v2smoke-yolo11n_mixed5-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         44.109    62.128    34.192    146       89        281       
+COMBINED                           44.109    62.128    34.192    146       89        281       
+
+Count: r66v2smoke-yolo11n_mixed5-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         427       235       6         4         
+COMBINED                           427       235       6         4         
+25/36 yolo11n_mixed5 c25 cv None HOTA 41.40
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolo11n_mixed5-c25-ekf sherbrooke       128 frame ->   1,474 bbox   19 track  predict 0.70 ms/frame  assoc 2.23  (0.4s, 300 fps)
+  r66v2smoke-yolo11n_mixed5-c25-ekf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c25-ekf
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.349    29.472    58.025    61.366    33.773    64.602    73.339    79.95     59.628    62.161    70.176    43.622    
+COMBINED                           41.349    29.472    58.025    61.366    33.773    64.602    73.339    79.95     59.628    62.161    70.176    43.622    
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -57.447   81.327    -57.447   62.128    34.192    0         100       0         -69.048   146       89        281       0         0         4         0         3         
+COMBINED                           -57.447   81.327    -57.447   62.128    34.192    0         100       0         -69.048   146       89        281       0         0         4         0         3         
+
+Identity: r66v2smoke-yolo11n_mixed5-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         44.109    62.128    34.192    146       89        281       
+COMBINED                           44.109    62.128    34.192    146       89        281       
+
+Count: r66v2smoke-yolo11n_mixed5-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         427       235       6         4         
+COMBINED                           427       235       6         4         
+26/36 yolo11n_mixed5 c25 ekf None HOTA 41.35
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolo11n_mixed5-c25-ukf sherbrooke       128 frame ->   1,473 bbox   19 track  predict 7.46 ms/frame  assoc 5.24  (1.7s, 75 fps)
+  r66v2smoke-yolo11n_mixed5-c25-ukf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c25-ukf
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.317    29.457    57.966    61.344    33.761    64.558    73.286    79.991    59.586    62.161    70.187    43.629    
+COMBINED                           41.317    29.457    57.966    61.344    33.761    64.558    73.286    79.991    59.586    62.161    70.187    43.629    
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -57.447   81.352    -57.447   62.128    34.192    0         100       0         -69.033   146       89        281       0         0         4         0         3         
+COMBINED                           -57.447   81.352    -57.447   62.128    34.192    0         100       0         -69.033   146       89        281       0         0         4         0         3         
+
+Identity: r66v2smoke-yolo11n_mixed5-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         44.109    62.128    34.192    146       89        281       
+COMBINED                           44.109    62.128    34.192    146       89        281       
+
+Count: r66v2smoke-yolo11n_mixed5-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         427       235       6         4         
+COMBINED                           427       235       6         4         
+27/36 yolo11n_mixed5 c25 ukf None HOTA 41.32
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0]
+  r66v2smoke-yolo11n_mixed5-c25-pf500-s0 sherbrooke       128 frame ->   1,470 bbox   21 track  predict 4.96 ms/frame  assoc 6.68  (1.5s, 83 fps)
+  r66v2smoke-yolo11n_mixed5-c25-pf500-s0   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c25-pf500-s0
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         35.602    25.303    51.271    53.886    29.656    53.412    81.02     77.229    52.251    53.523    62.163    33.272    
+COMBINED                           35.602    25.303    51.271    53.886    29.656    53.412    81.02     77.229    52.251    53.523    62.163    33.272    
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -85.532   81.746    -85.532   48.085    26.464    0         75        25        -94.309   113       122       314       0         0         3         1         2         
+COMBINED                           -85.532   81.746    -85.532   48.085    26.464    0         75        25        -94.309   113       122       314       0         0         3         1         2         
+
+Identity: r66v2smoke-yolo11n_mixed5-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         34.139    48.085    26.464    113       122       314       
+COMBINED                           34.139    48.085    26.464    113       122       314       
+
+Count: r66v2smoke-yolo11n_mixed5-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         427       235       8         4         
+COMBINED                           427       235       8         4         
+28/36 yolo11n_mixed5 c25 pf500 0 HOTA 35.60
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[1]
+  r66v2smoke-yolo11n_mixed5-c25-pf500-s1 sherbrooke       128 frame ->   1,469 bbox   21 track  predict 4.25 ms/frame  assoc 5.49  (1.3s, 99 fps)
+  r66v2smoke-yolo11n_mixed5-c25-pf500-s1   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c25-pf500-s1
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         25.75     18.008    37.092    37.716    21.153    42.806    49.9      66.494    37.299    60.112    45.523    27.364    
+COMBINED                           25.75     18.008    37.092    37.716    21.153    42.806    49.9      66.494    37.299    60.112    45.523    27.364    
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -122.98   64.316    -122.98   27.66     15.513    0         50        50        -132.85   65        170       354       0         0         2         2         1         
+COMBINED                           -122.98   64.316    -122.98   27.66     15.513    0         50        50        -132.85   65        170       354       0         0         2         2         1         
+
+Identity: r66v2smoke-yolo11n_mixed5-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         19.878    27.66     15.513    65        170       354       
+COMBINED                           19.878    27.66     15.513    65        170       354       
+
+Count: r66v2smoke-yolo11n_mixed5-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         419       235       6         4         
+COMBINED                           419       235       6         4         
+29/36 yolo11n_mixed5 c25 pf500 1 HOTA 25.75
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[2]
+  r66v2smoke-yolo11n_mixed5-c25-pf500-s2 sherbrooke       128 frame ->   1,484 bbox   19 track  predict 3.49 ms/frame  assoc 4.74  (1.1s, 117 fps)
+  r66v2smoke-yolo11n_mixed5-c25-pf500-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c25-pf500-s2
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         29.582    20.864    43.073    44.255    24.413    46.925    69.614    70.601    43.34     57.615    51.382    29.604    
+COMBINED                           29.582    20.864    43.073    44.255    24.413    46.925    69.614    70.601    43.34     57.615    51.382    29.604    
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -113.19   72.957    -113.19   34.043    18.779    0         50        50        -122.4    80        155       346       0         0         2         2         2         
+COMBINED                           -113.19   72.957    -113.19   34.043    18.779    0         50        50        -122.4    80        155       346       0         0         2         2         2         
+
+Identity: r66v2smoke-yolo11n_mixed5-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         24.206    34.043    18.779    80        155       346       
+COMBINED                           24.206    34.043    18.779    80        155       346       
+
+Count: r66v2smoke-yolo11n_mixed5-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         426       235       7         4         
+COMBINED                           426       235       7         4         
+30/36 yolo11n_mixed5 c25 pf500 2 HOTA 29.58
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack yaml=bytetrack.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolo11n_mixed5-c10-cv sherbrooke       128 frame ->   1,649 bbox   19 track  predict 0.15 ms/frame  assoc 1.77  (0.3s, 432 fps)
+  r66v2smoke-yolo11n_mixed5-c10-cv   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c10-cv
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.355    29.443    58.103    61.433    33.731    64.697    73.436    79.969    59.7      62.093    70.192    43.585    
+COMBINED                           41.355    29.443    58.103    61.433    33.731    64.697    73.436    79.969    59.7      62.093    70.192    43.585    
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -57.872   81.364    -57.872   62.128    34.112    0         100       0         -69.451   146       89        282       0         0         4         0         3         
+COMBINED                           -57.872   81.364    -57.872   62.128    34.112    0         100       0         -69.451   146       89        282       0         0         4         0         3         
+
+Identity: r66v2smoke-yolo11n_mixed5-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         44.042    62.128    34.112    146       89        282       
+COMBINED                           44.042    62.128    34.112    146       89        282       
+
+Count: r66v2smoke-yolo11n_mixed5-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         428       235       7         4         
+COMBINED                           428       235       7         4         
+31/36 yolo11n_mixed5 c10 cv None HOTA 41.35
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolo11n_mixed5-c10-ekf sherbrooke       128 frame ->   1,678 bbox   20 track  predict 0.64 ms/frame  assoc 2.64  (0.5s, 262 fps)
+  r66v2smoke-yolo11n_mixed5-c10-ekf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c10-ekf
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.306    29.412    58.025    61.366    33.694    64.602    73.339    79.95     59.628    62.093    70.176    43.575    
+COMBINED                           41.306    29.412    58.025    61.366    33.694    64.602    73.339    79.95     59.628    62.093    70.176    43.575    
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -57.872   81.327    -57.872   62.128    34.112    0         100       0         -69.473   146       89        282       0         0         4         0         3         
+COMBINED                           -57.872   81.327    -57.872   62.128    34.112    0         100       0         -69.473   146       89        282       0         0         4         0         3         
+
+Identity: r66v2smoke-yolo11n_mixed5-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         44.042    62.128    34.112    146       89        282       
+COMBINED                           44.042    62.128    34.112    146       89        282       
+
+Count: r66v2smoke-yolo11n_mixed5-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         428       235       7         4         
+COMBINED                           428       235       7         4         
+32/36 yolo11n_mixed5 c10 ekf None HOTA 41.31
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r66v2smoke-yolo11n_mixed5-c10-ukf sherbrooke       128 frame ->   1,697 bbox   19 track  predict 5.01 ms/frame  assoc 4.52  (1.3s, 101 fps)
+  r66v2smoke-yolo11n_mixed5-c10-ukf   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c10-ukf
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         41.023    29.04     57.966    61.344    33.216    64.558    73.286    79.991    59.586    61.692    70.187    43.3      
+COMBINED                           41.023    29.04     57.966    61.344    33.216    64.558    73.286    79.991    59.586    61.692    70.187    43.3      
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -60.426   81.352    -60.426   62.128    33.641    0         100       0         -72.011   146       89        288       0         0         4         0         3         
+COMBINED                           -60.426   81.352    -60.426   62.128    33.641    0         100       0         -72.011   146       89        288       0         0         4         0         3         
+
+Identity: r66v2smoke-yolo11n_mixed5-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         43.647    62.128    33.641    146       89        288       
+COMBINED                           43.647    62.128    33.641    146       89        288       
+
+Count: r66v2smoke-yolo11n_mixed5-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         434       235       6         4         
+COMBINED                           434       235       6         4         
+33/36 yolo11n_mixed5 c10 ukf None HOTA 41.02
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0]
+  r66v2smoke-yolo11n_mixed5-c10-pf500-s0 sherbrooke       128 frame ->   1,699 bbox   21 track  predict 4.05 ms/frame  assoc 6.13  (1.3s, 95 fps)
+  r66v2smoke-yolo11n_mixed5-c10-pf500-s0   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c10-pf500-s0
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c10-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         35.233    24.361    52.858    52.609    28.421    55.313    81.332    75.591    52.158    53.822    60.493    32.558    
+COMBINED                           35.233    24.361    52.858    52.609    28.421    55.313    81.332    75.591    52.158    53.822    60.493    32.558    
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c10-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -89.787   79.412    -89.787   47.66     25.747    0         50        50        -99.6     112       123       323       0         0         2         2         1         
+COMBINED                           -89.787   79.412    -89.787   47.66     25.747    0         50        50        -99.6     112       123       323       0         0         2         2         1         
+
+Identity: r66v2smoke-yolo11n_mixed5-c10-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         33.433    47.66     25.747    112       123       323       
+COMBINED                           33.433    47.66     25.747    112       123       323       
+
+Count: r66v2smoke-yolo11n_mixed5-c10-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         435       235       8         4         
+COMBINED                           435       235       8         4         
+34/36 yolo11n_mixed5 c10 pf500 0 HOTA 35.23
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[1]
+  r66v2smoke-yolo11n_mixed5-c10-pf500-s1 sherbrooke       128 frame ->   1,665 bbox   20 track  predict 3.85 ms/frame  assoc 5.76  (1.3s, 100 fps)
+  r66v2smoke-yolo11n_mixed5-c10-pf500-s1   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c10-pf500-s1
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c10-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         24.048    17.097    33.861    35.946    19.83     37.436    44.489    65.604    34.806    59.659    43.697    26.069    
+COMBINED                           24.048    17.097    33.861    35.946    19.83     37.436    44.489    65.604    34.806    59.659    43.697    26.069    
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c10-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -125.96   58.075    -125.96   27.66     15.258    0         75        25        -137.55   65        170       361       0         0         3         1         5         
+COMBINED                           -125.96   58.075    -125.96   27.66     15.258    0         75        25        -137.55   65        170       361       0         0         3         1         5         
+
+Identity: r66v2smoke-yolo11n_mixed5-c10-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         19.667    27.66     15.258    65        170       361       
+COMBINED                           19.667    27.66     15.258    65        170       361       
+
+Count: r66v2smoke-yolo11n_mixed5-c10-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         426       235       6         4         
+COMBINED                           426       235       6         4         
+35/36 yolo11n_mixed5 c10 pf500 1 HOTA 24.05
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolo11n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[2]
+  r66v2smoke-yolo11n_mixed5-c10-pf500-s2 sherbrooke       128 frame ->   1,701 bbox   21 track  predict 4.15 ms/frame  assoc 6.30  (1.4s, 92 fps)
+  r66v2smoke-yolo11n_mixed5-c10-pf500-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-yolo11n_mixed5-c10-pf500-s2
+
+
+HOTA: r66v2smoke-yolo11n_mixed5-c10-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         31.681    23.012    45.265    49.944    27.106    47.234    80.976    75.576    47.063    50.673    57.354    29.063    
+COMBINED                           31.681    23.012    45.265    49.944    27.106    47.234    80.976    75.576    47.063    50.673    57.354    29.063    
+
+CLEAR: r66v2smoke-yolo11n_mixed5-c10-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -102.55   80.926    -102.55   40.851    22.171    0         75        25        -110.34   96        139       337       0         0         3         1         2         
+COMBINED                           -102.55   80.926    -102.55   40.851    22.171    0         75        25        -110.34   96        139       337       0         0         3         1         2         
+
+Identity: r66v2smoke-yolo11n_mixed5-c10-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         28.743    40.851    22.171    96        139       337       
+COMBINED                           28.743    40.851    22.171    96        139       337       
+
+Count: r66v2smoke-yolo11n_mixed5-c10-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         433       235       8         4         
+COMBINED                           433       235       8         4         
+36/36 yolo11n_mixed5 c10 pf500 2 HOTA 31.68
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0]
+  r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s0 sherbrooke       128 frame ->   1,339 bbox   23 track  predict 4.86 ms/frame  assoc 5.78  (1.4s, 90 fps)
+  r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s0   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s0
+
+
+HOTA: r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         28.142    20.467    38.791    40.806    24.034    43.864    52.594    67.315    39.777    61.859    47.854    29.602    
+COMBINED                           28.142    20.467    38.791    40.806    24.034    43.864    52.594    67.315    39.777    61.859    47.854    29.602    
+
+CLEAR: r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -104.26   66.134    -104.26   32.766    19.298    0         50        50        -115.35   77        158       322       0         0         2         2         3         
+COMBINED                           -104.26   66.134    -104.26   32.766    19.298    0         50        50        -115.35   77        158       322       0         0         2         2         3         
+
+Identity: r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         24.29     32.766    19.298    77        158       322       
+COMBINED                           24.29     32.766    19.298    77        158       322       
+
+Count: r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         399       235       9         4         
+COMBINED                           399       235       9         4         
+[run_tracking] cache=r66v2smoke_sherbrooke_20f0d1eb6671adf8_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[1]
+  r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s1 sherbrooke       128 frame ->   1,339 bbox   25 track  predict 5.71 ms/frame  assoc 6.54  (1.6s, 79 fps)
+  r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s1   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s1
+
+
+HOTA: r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         25.674    21.454    31.289    43.83     25.622    33.626    69.517    70.93     36.859    51.652    50.777    26.227    
+COMBINED                           25.674    21.454    31.289    43.83     25.622    33.626    69.517    70.93     36.859    51.652    50.777    26.227    
+
+CLEAR: r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -100.43   74.031    -99.574   35.745    20.896    0         50        50        -109.71   84        151       318       2         0         2         2         4         
+COMBINED                           -100.43   74.031    -99.574   35.745    20.896    0         50        50        -109.71   84        151       318       2         0         2         2         4         
+
+Identity: r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         18.838    25.532    14.925    60        175       342       
+COMBINED                           18.838    25.532    14.925    60        175       342       
+
+Count: r66v2smoke-rep-yolov8n_mixed5-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         402       235       11        4         
+COMBINED                           402       235       11        4         
+verified 36/36

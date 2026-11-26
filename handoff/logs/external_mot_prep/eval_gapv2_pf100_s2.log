@@ -1,0 +1,46 @@
+[trackeval] split=UTUAV-pilot  tracker=utuav_gapv2_pf100-s2  dataset_class=mot
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating utuav_gapv2_pf100-s2
+
+
+HOTA: utuav_gapv2_pf100-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_straight_26401_26520             56.447    64.473    49.83     67.244    87.15     50.842    89.844    87.553    57.803    64.054    85.305    54.641    
+C_turn_20901_21020                 69.16     71.24     67.221    73.004    91.025    68.417    92.062    89.921    70.05     76.648    88.972    68.195    
+COMBINED                           67.021    69.986    64.306    71.975    90.354    65.478    91.716    89.517    68.026    74.554    88.338    65.86     
+
+CLEAR: utuav_gapv2_pf100-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_straight_26401_26520             71.631    86.244    73.78     75.469    97.81     26.531    73.469    0         61.25     3618      1176      81        103       13        36        0         616       
+C_turn_20901_21020                 79.227    89.119    79.721    79.962    99.7      47.525    52.475    0         70.526    17626     4417      53        109       96        106       0         2770      
+COMBINED                           77.87     88.629    78.66     79.159    99.373    43.426    56.574    0         68.869    21244     5593      134       212       109       142       0         3386      
+
+Identity: utuav_gapv2_pf100-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_straight_26401_26520             62.522    55.382    71.776    2655      2139      1044      
+C_turn_20901_21020                 82.06     73.937    92.188    16298     5745      1381      
+COMBINED                           78.619    70.623    88.657    18953     7884      2425      
+
+Count: utuav_gapv2_pf100-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_straight_26401_26520             3699      4794      150       49        
+C_turn_20901_21020                 17679     22043     306       202       
+COMBINED                           21378     26837     456       251       
+
+==============================================================================
+KET QUA THEO TUNG VIDEO - utuav_gapv2_pf100-s2
+==============================================================================
+                 video   HOTA   DetA   AssA   MOTA   IDF1    IDP    IDR  FP   FN  IDSW
+B_straight_26401_26520 0.5645 0.6447 0.4983 0.7163 0.6252 0.7178 0.5538  81 1176   103
+    C_turn_20901_21020 0.6916 0.7124 0.6722 0.7923 0.8206 0.9219 0.7394  53 4417   109
+
+==============================================================================
+KET QUA TONG HOP (COMBINED_SEQ) - utuav_gapv2_pf100-s2
+==============================================================================
+  HOTA  = 0.6702   (DetA = 0.6999, AssA = 0.6431)
+  MOTA  = 0.7787   (FP = 134, FN = 5,593, IDSW = 212)
+  IDF1  = 0.7862   (IDP = 0.8866, IDR = 0.7062)
+  MOTP  = 0.8863
+
+  Da luu:
+    D:\LABOTARY\bytetrack\results\trackeval\UTUAV-pilot\utuav_gapv2_pf100-s2\per_video_metrics.csv
+    D:\LABOTARY\bytetrack\results\trackeval\UTUAV-pilot\utuav_gapv2_pf100-s2\combined_metrics.csv

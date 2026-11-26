@@ -1,0 +1,44 @@
+{
+  "source_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+  "pt_sha256": "9f7a0084e51f3801c00a02ffd8664c69b7aef251094f971b2025b2542e8c5c2e",
+  "onnx_sha256": "2503573f6c993ef52440f386f614f1c25a738160bfe19da9e9af4270dbefcba4",
+  "source_params": 3157200,
+  "candidate_params": 3054416,
+  "trained_after_pruning": false,
+  "opset": 12,
+  "changes": [
+    {
+      "layer": 4,
+      "bottlenecks": [
+        2,
+        1
+      ],
+      "last_conv_in_channels": [
+        128,
+        96
+      ]
+    },
+    {
+      "layer": 6,
+      "bottlenecks": [
+        2,
+        1
+      ],
+      "last_conv_in_channels": [
+        256,
+        192
+      ]
+    }
+  ],
+  "onnx_input": [
+    1,
+    3,
+    384,
+    640
+  ],
+  "onnx_output": [
+    1,
+    84,
+    5040
+  ]
+}

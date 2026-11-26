@@ -1,0 +1,618 @@
+deadline=2026-11-02T17:00:46+07:00
+[2026-11-02T15:33:49.5618060+07:00] track yolov8n_coco c25 cv
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c25-cv
+
+
+HOTA: r66-yolov8n_coco-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         32.394    21.65     48.514    51.308    26.016    63.637    66.517    80.504    49.852    44.653    72.024    32.161    
+COMBINED                           32.394    21.65     48.514    51.308    26.016    63.637    66.517    80.504    49.852    44.653    72.024    32.161    
+
+CLEAR: r66-yolov8n_coco-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -77.336   78.878    -77.137   60.04     30.444    26.667    60        13.333    -90.018   1208      804       2760      4         4         9         2         16        
+COMBINED                           -77.336   78.878    -77.137   60.04     30.444    26.667    60        13.333    -90.018   1208      804       2760      4         4         9         2         16        
+
+Identity: r66-yolov8n_coco-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         38.796    57.654    29.234    1160      852       2808      
+COMBINED                           38.796    57.654    29.234    1160      852       2808      
+
+Count: r66-yolov8n_coco-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3968      2012      26        15        
+COMBINED                           3968      2012      26        15        
+[track] r66-yolov8n_coco-c25-cv: HOTA 32.39 IDF1 38.80 IDSW 4
+[2026-11-02T15:34:25.3928015+07:00] track yolov8n_coco c25 ekf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c25-ekf
+
+
+HOTA: r66-yolov8n_coco-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         32.364    21.63     48.471    51.253    25.995    63.6      66.535    80.466    49.803    44.61     72        32.119    
+COMBINED                           32.364    21.63     48.471    51.253    25.995    63.6      66.535    80.466    49.803    44.61     72        32.119    
+
+CLEAR: r66-yolov8n_coco-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -77.286   78.819    -77.087   60.04     30.451    26.667    60        13.333    -90.003   1208      804       2759      4         4         9         2         16        
+COMBINED                           -77.286   78.819    -77.087   60.04     30.451    26.667    60        13.333    -90.003   1208      804       2759      4         4         9         2         16        
+
+Identity: r66-yolov8n_coco-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         38.802    57.654    29.241    1160      852       2807      
+COMBINED                           38.802    57.654    29.241    1160      852       2807      
+
+Count: r66-yolov8n_coco-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3967      2012      26        15        
+COMBINED                           3967      2012      26        15        
+[track] r66-yolov8n_coco-c25-ekf: HOTA 32.36 IDF1 38.80 IDSW 4
+[2026-11-02T15:34:54.9188877+07:00] track yolov8n_coco c25 ukf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c25-ukf
+
+
+HOTA: r66-yolov8n_coco-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         32.364    21.638    48.45     51.237    26.006    63.586    66.458    80.443    49.784    44.631    71.952    32.113    
+COMBINED                           32.364    21.638    48.45     51.237    26.006    63.586    66.458    80.443    49.784    44.631    71.952    32.113    
+
+CLEAR: r66-yolov8n_coco-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -77.137   78.815    -76.938   60.04     30.474    26.667    60        13.333    -89.856   1208      804       2756      4         4         9         2         16        
+COMBINED                           -77.137   78.815    -76.938   60.04     30.474    26.667    60        13.333    -89.856   1208      804       2756      4         4         9         2         16        
+
+Identity: r66-yolov8n_coco-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         38.822    57.654    29.263    1160      852       2804      
+COMBINED                           38.822    57.654    29.263    1160      852       2804      
+
+Count: r66-yolov8n_coco-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3964      2012      27        15        
+COMBINED                           3964      2012      27        15        
+[track] r66-yolov8n_coco-c25-ukf: HOTA 32.36 IDF1 38.82 IDSW 4
+[2026-11-02T15:35:17.9221070+07:00] track yolov8n_coco c25 pf500
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c25-pf500-s0
+
+
+HOTA: r66-yolov8n_coco-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         25.074    18.041    35.097    43.329    22.059    42.447    66.033    75.038    38.934    38.498    61.591    23.711    
+COMBINED                           25.074    18.041    35.097    43.329    22.059    42.447    66.033    75.038    38.934    38.498    61.591    23.711    
+
+CLEAR: r66-yolov8n_coco-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -99.901   73.357    -99.205   48.608    24.747    13.333    73.333    13.333    -112.85   978       1034      2974      14        2         11        2         26        
+COMBINED                           -99.901   73.357    -99.205   48.608    24.747    13.333    73.333    13.333    -112.85   978       1034      2974      14        2         11        2         26        
+
+Identity: r66-yolov8n_coco-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         27.733    41.103    20.926    827       1185      3125      
+COMBINED                           27.733    41.103    20.926    827       1185      3125      
+
+Count: r66-yolov8n_coco-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3952      2012      38        15        
+COMBINED                           3952      2012      38        15        
+[track] r66-yolov8n_coco-c25-pf500-s0: HOTA 25.07 IDF1 27.73 IDSW 14
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c25-pf500-s1
+
+
+HOTA: r66-yolov8n_coco-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         26.438    18.903    37.123    45.208    22.94     50.724    61.711    75.697    40.935    39.91     63.654    25.404    
+COMBINED                           26.438    18.903    37.123    45.208    22.94     50.724    61.711    75.697    40.935    39.91     63.654    25.404    
+
+CLEAR: r66-yolov8n_coco-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -91.998   73.339    -91.302   52.883    26.835    13.333    73.333    13.333    -106.1    1064      948       2901      14        2         11        2         30        
+COMBINED                           -91.998   73.339    -91.302   52.883    26.835    13.333    73.333    13.333    -106.1    1064      948       2901      14        2         11        2         30        
+
+Identity: r66-yolov8n_coco-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         31.052    46.123    23.405    928       1084      3037      
+COMBINED                           31.052    46.123    23.405    928       1084      3037      
+
+Count: r66-yolov8n_coco-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3965      2012      37        15        
+COMBINED                           3965      2012      37        15        
+[track] r66-yolov8n_coco-c25-pf500-s1: HOTA 26.44 IDF1 31.05 IDSW 14
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c25-pf500-s2
+
+
+HOTA: r66-yolov8n_coco-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         27.125    19.027    38.813    45.493    23.132    51.682    64.601    76.004    41.993    40.087    64.205    25.738    
+COMBINED                           27.125    19.027    38.813    45.493    23.132    51.682    64.601    76.004    41.993    40.087    64.205    25.738    
+
+CLEAR: r66-yolov8n_coco-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -88.767   73.581    -88.32    54.175    27.546    20        66.667    13.333    -103.08   1090      922       2867      9         3         10        2         23        
+COMBINED                           -88.767   73.581    -88.32    54.175    27.546    20        66.667    13.333    -103.08   1090      922       2867      9         3         10        2         23        
+
+Identity: r66-yolov8n_coco-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         33.305    49.404    25.12     994       1018      2963      
+COMBINED                           33.305    49.404    25.12     994       1018      2963      
+
+Count: r66-yolov8n_coco-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3957      2012      35        15        
+COMBINED                           3957      2012      35        15        
+[track] r66-yolov8n_coco-c25-pf500-s2: HOTA 27.13 IDF1 33.31 IDSW 9
+[2026-11-02T15:36:19.4116190+07:00] track yolov8n_coco c10 cv
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c10-cv
+
+
+HOTA: r66-yolov8n_coco-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         31.741    21.108    47.777    52.247    25.005    62.979    66.246    80.349    49.924    43.969    70.872    31.162    
+COMBINED                           31.741    21.108    47.777    52.247    25.005    62.979    66.246    80.349    49.924    43.969    70.872    31.162    
+
+CLEAR: r66-yolov8n_coco-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -87.177   78.836    -86.978   60.984    29.186    26.667    60        13.333    -100.08   1227      785       2977      4         4         9         2         13        
+COMBINED                           -87.177   78.836    -86.978   60.984    29.186    26.667    60        13.333    -100.08   1227      785       2977      4         4         9         2         13        
+
+Identity: r66-yolov8n_coco-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         37.838    58.449    27.973    1176      836       3028      
+COMBINED                           37.838    58.449    27.973    1176      836       3028      
+
+Count: r66-yolov8n_coco-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         4204      2012      26        15        
+COMBINED                           4204      2012      26        15        
+[track] r66-yolov8n_coco-c10-cv: HOTA 31.74 IDF1 37.84 IDSW 4
+[2026-11-02T15:36:41.3082795+07:00] track yolov8n_coco c10 ekf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c10-ekf
+
+
+HOTA: r66-yolov8n_coco-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         31.714    21.082    47.756    52.171    24.981    62.965    66.262    80.325    49.876    43.927    70.873    31.132    
+COMBINED                           31.714    21.082    47.756    52.171    24.981    62.965    66.262    80.325    49.876    43.927    70.873    31.132    
+
+CLEAR: r66-yolov8n_coco-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -87.078   78.781    -86.879   60.984    29.2      26.667    60        13.333    -100.02   1227      785       2975      4         4         9         2         13        
+COMBINED                           -87.078   78.781    -86.879   60.984    29.2      26.667    60        13.333    -100.02   1227      785       2975      4         4         9         2         13        
+
+Identity: r66-yolov8n_coco-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         37.85     58.449    27.987    1176      836       3026      
+COMBINED                           37.85     58.449    27.987    1176      836       3026      
+
+Count: r66-yolov8n_coco-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         4202      2012      26        15        
+COMBINED                           4202      2012      26        15        
+[track] r66-yolov8n_coco-c10-ekf: HOTA 31.71 IDF1 37.85 IDSW 4
+[2026-11-02T15:37:02.4546324+07:00] track yolov8n_coco c10 ukf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c10-ukf
+
+
+HOTA: r66-yolov8n_coco-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         31.708    21.079    47.747    52.161    24.976    62.97     66.2      80.308    49.867    43.933    70.833    31.119    
+COMBINED                           31.708    21.079    47.747    52.161    24.976    62.97     66.2      80.308    49.867    43.933    70.833    31.119    
+
+CLEAR: r66-yolov8n_coco-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -87.078   78.783    -86.879   60.984    29.2      26.667    60        13.333    -100.02   1227      785       2975      4         4         9         2         13        
+COMBINED                           -87.078   78.783    -86.879   60.984    29.2      26.667    60        13.333    -100.02   1227      785       2975      4         4         9         2         13        
+
+Identity: r66-yolov8n_coco-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         37.85     58.449    27.987    1176      836       3026      
+COMBINED                           37.85     58.449    27.987    1176      836       3026      
+
+Count: r66-yolov8n_coco-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         4202      2012      26        15        
+COMBINED                           4202      2012      26        15        
+[track] r66-yolov8n_coco-c10-ukf: HOTA 31.71 IDF1 37.85 IDSW 4
+[2026-11-02T15:37:24.5551884+07:00] track yolov8n_coco c10 pf500
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c10-pf500-s0
+
+
+HOTA: r66-yolov8n_coco-c10-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         24.483    17.139    35.136    42.908    20.609    48.072    61.296    73.454    38.79     40.117    58.816    23.595    
+COMBINED                           24.483    17.139    35.136    42.908    20.609    48.072    61.296    73.454    38.79     40.117    58.816    23.595    
+
+CLEAR: r66-yolov8n_coco-c10-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -113.47   71.462    -112.87   47.664    22.893    13.333    66.667    20        -127.07   959       1053      3230      12        2         10        3         25        
+COMBINED                           -113.47   71.462    -112.87   47.664    22.893    13.333    66.667    20        -127.07   959       1053      3230      12        2         10        3         25        
+
+Identity: r66-yolov8n_coco-c10-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         28.254    43.539    20.912    876       1136      3313      
+COMBINED                           28.254    43.539    20.912    876       1136      3313      
+
+Count: r66-yolov8n_coco-c10-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         4189      2012      35        15        
+COMBINED                           4189      2012      35        15        
+[track] r66-yolov8n_coco-c10-pf500-s0: HOTA 24.48 IDF1 28.25 IDSW 12
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c10-pf500-s1
+
+
+HOTA: r66-yolov8n_coco-c10-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         25.109    18.572    34.121    46.322    22.169    50.743    59.063    75.573    39.713    37.052    63.197    23.415    
+COMBINED                           25.109    18.572    34.121    46.322    22.169    50.743    59.063    75.573    39.713    37.052    63.197    23.415    
+
+CLEAR: r66-yolov8n_coco-c10-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -97.515   72.513    -96.918   56.014    26.808    20        66.667    13.333    -112.91   1127      885       3077      12        3         10        2         26        
+COMBINED                           -97.515   72.513    -96.918   56.014    26.808    20        66.667    13.333    -112.91   1127      885       3077      12        3         10        2         26        
+
+Identity: r66-yolov8n_coco-c10-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         30.663    47.366    22.669    953       1059      3251      
+COMBINED                           30.663    47.366    22.669    953       1059      3251      
+
+Count: r66-yolov8n_coco-c10-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         4204      2012      36        15        
+COMBINED                           4204      2012      36        15        
+[track] r66-yolov8n_coco-c10-pf500-s1: HOTA 25.11 IDF1 30.66 IDSW 12
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_coco-c10-pf500-s2
+
+
+HOTA: r66-yolov8n_coco-c10-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         26.036    18.275    37.472    45.642    21.854    44.363    66.593    75.168    41.227    38.89     62.2      24.19     
+COMBINED                           26.036    18.275    37.472    45.642    21.854    44.363    66.593    75.168    41.227    38.89     62.2      24.19     
+
+CLEAR: r66-yolov8n_coco-c10-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -101.24   72.66     -100.7    54.076    25.892    20        66.667    13.333    -116.03   1088      924       3114      11        3         10        2         20        
+COMBINED                           -101.24   72.66     -100.7    54.076    25.892    20        66.667    13.333    -116.03   1088      924       3114      11        3         10        2         20        
+
+Identity: r66-yolov8n_coco-c10-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         29.224    45.129    21.609    908       1104      3294      
+COMBINED                           29.224    45.129    21.609    908       1104      3294      
+
+Count: r66-yolov8n_coco-c10-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         4202      2012      37        15        
+COMBINED                           4202      2012      37        15        
+[track] r66-yolov8n_coco-c10-pf500-s2: HOTA 26.04 IDF1 29.22 IDSW 11
+[2026-11-02T15:38:05.9202027+07:00] track yolov8n_mixed5 c25 cv
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c25-cv
+
+
+HOTA: r66-yolov8n_mixed5-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         33.923    25.228    45.681    52.135    30.952    58.986    65.904    80.183    48.732    48.284    72.628    35.068    
+COMBINED                           33.923    25.228    45.681    52.135    30.952    58.986    65.904    80.183    48.732    48.284    72.628    35.068    
+
+CLEAR: r66-yolov8n_mixed5-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -47.863   78.728    -47.763   60.338    35.822    13.333    86.667    0         -60.698   1214      798       2175      2         2         13        0         22        
+COMBINED                           -47.863   78.728    -47.763   60.338    35.822    13.333    86.667    0         -60.698   1214      798       2175      2         2         13        0         22        
+
+Identity: r66-yolov8n_mixed5-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         44.695    59.99     35.615    1207      805       2182      
+COMBINED                           44.695    59.99     35.615    1207      805       2182      
+
+Count: r66-yolov8n_mixed5-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3389      2012      27        15        
+COMBINED                           3389      2012      27        15        
+[track] r66-yolov8n_mixed5-c25-cv: HOTA 33.92 IDF1 44.70 IDSW 2
+[2026-11-02T15:38:32.9420273+07:00] track yolov8n_mixed5 c25 ekf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c25-ekf
+
+
+HOTA: r66-yolov8n_mixed5-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         33.834    25.175    45.539    52.001    30.9      58.925    65.549    80.062    48.59     48.363    72.492    35.06     
+COMBINED                           33.834    25.175    45.539    52.001    30.9      58.925    65.549    80.062    48.59     48.363    72.492    35.06     
+
+CLEAR: r66-yolov8n_mixed5-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -47.515   78.455    -47.416   60.437    35.913    13.333    86.667    0         -60.536   1216      796       2170      2         2         13        0         22        
+COMBINED                           -47.515   78.455    -47.416   60.437    35.913    13.333    86.667    0         -60.536   1216      796       2170      2         2         13        0         22        
+
+Identity: r66-yolov8n_mixed5-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         44.794    60.089    35.706    1209      803       2177      
+COMBINED                           44.794    60.089    35.706    1209      803       2177      
+
+Count: r66-yolov8n_mixed5-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3386      2012      27        15        
+COMBINED                           3386      2012      27        15        
+[track] r66-yolov8n_mixed5-c25-ekf: HOTA 33.83 IDF1 44.79 IDSW 2
+[2026-11-02T15:39:06.9352200+07:00] track yolov8n_mixed5 c25 ukf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c25-ukf
+
+
+HOTA: r66-yolov8n_mixed5-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         33.786    25.127    45.517    51.938    30.844    58.897    65.667    79.747    48.54     48.305    72.422    34.984    
+COMBINED                           33.786    25.127    45.517    51.938    30.844    58.897    65.667    79.747    48.54     48.305    72.422    34.984    
+
+CLEAR: r66-yolov8n_mixed5-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -47.714   78.381    -47.614   60.388    35.862    13.333    86.667    0         -60.769   1215      797       2173      2         2         13        0         22        
+COMBINED                           -47.714   78.381    -47.614   60.388    35.862    13.333    86.667    0         -60.769   1215      797       2173      2         2         13        0         22        
+
+Identity: r66-yolov8n_mixed5-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         44.741    60.04     35.655    1208      804       2180      
+COMBINED                           44.741    60.04     35.655    1208      804       2180      
+
+Count: r66-yolov8n_mixed5-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3388      2012      27        15        
+COMBINED                           3388      2012      27        15        
+[track] r66-yolov8n_mixed5-c25-ukf: HOTA 33.79 IDF1 44.74 IDSW 2
+[2026-11-02T15:39:37.8337373+07:00] track yolov8n_mixed5 c25 pf500
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c25-pf500-s0
+
+
+HOTA: r66-yolov8n_mixed5-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         25.467    20.418    32.186    42.95     25.711    40.877    64.762    74.429    37.054    39.926    61.475    24.545    
+COMBINED                           25.467    20.418    32.186    42.95     25.711    40.877    64.762    74.429    37.054    39.926    61.475    24.545    
+
+CLEAR: r66-yolov8n_mixed5-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -69.93    72.345    -69.533   48.757    29.188    6.6667    86.667    6.6667    -83.414   981       1031      2380      8         1         13        1         23        
+COMBINED                           -69.93    72.345    -69.533   48.757    29.188    6.6667    86.667    6.6667    -83.414   981       1031      2380      8         1         13        1         23        
+
+Identity: r66-yolov8n_mixed5-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         33.166    44.284    26.51     891       1121      2470      
+COMBINED                           33.166    44.284    26.51     891       1121      2470      
+
+Count: r66-yolov8n_mixed5-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3361      2012      39        15        
+COMBINED                           3361      2012      39        15        
+[track] r66-yolov8n_mixed5-c25-pf500-s0: HOTA 25.47 IDF1 33.17 IDSW 8
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c25-pf500-s1
+
+
+HOTA: r66-yolov8n_mixed5-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         26.127    20.998    33.087    44.154    26.4      42.854    65.448    75.401    37.997    39.911    63.035    25.158    
+COMBINED                           26.127    20.998    33.087    44.154    26.4      42.854    65.448    75.401    37.997    39.911    63.035    25.158    
+
+CLEAR: r66-yolov8n_mixed5-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -68.887   73.766    -68.439   49.404    29.539    6.6667    86.667    6.6667    -81.847   994       1018      2371      9         1         13        1         29        
+COMBINED                           -68.887   73.766    -68.439   49.404    29.539    6.6667    86.667    6.6667    -81.847   994       1018      2371      9         1         13        1         29        
+
+Identity: r66-yolov8n_mixed5-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         33.402    44.632    26.686    898       1114      2467      
+COMBINED                           33.402    44.632    26.686    898       1114      2467      
+
+Count: r66-yolov8n_mixed5-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3365      2012      41        15        
+COMBINED                           3365      2012      41        15        
+[track] r66-yolov8n_mixed5-c25-pf500-s1: HOTA 26.13 IDF1 33.40 IDSW 9
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c25-pf500-s2
+
+
+HOTA: r66-yolov8n_mixed5-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         27.198    21.182    35.237    44.321    26.556    47.785    63.669    74.978    39.437    41.996    63.355    26.606    
+COMBINED                           27.198    21.182    35.237    44.321    26.556    47.785    63.669    74.978    39.437    41.996    63.355    26.606    
+
+CLEAR: r66-yolov8n_mixed5-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -66.75    72.954    -66.402   50.249    30.107    6.6667    86.667    6.6667    -80.34    1011      1001      2347      7         1         13        1         27        
+COMBINED                           -66.75    72.954    -66.402   50.249    30.107    6.6667    86.667    6.6667    -80.34    1011      1001      2347      7         1         13        1         27        
+
+Identity: r66-yolov8n_mixed5-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         35.047    46.769    28.023    941       1071      2417      
+COMBINED                           35.047    46.769    28.023    941       1071      2417      
+
+Count: r66-yolov8n_mixed5-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3358      2012      39        15        
+COMBINED                           3358      2012      39        15        
+[track] r66-yolov8n_mixed5-c25-pf500-s2: HOTA 27.20 IDF1 35.05 IDSW 7
+[2026-11-02T15:40:37.5499018+07:00] track yolov8n_mixed5 c10 cv
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c10-cv
+
+
+HOTA: r66-yolov8n_mixed5-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         33.206    24.192    45.645    52.71     29.224    59.126    65.731    80.102    48.983    47.418    71.192    33.757    
+COMBINED                           33.206    24.192    45.645    52.71     29.224    59.126    65.731    80.102    48.983    47.418    71.192    33.757    
+
+CLEAR: r66-yolov8n_mixed5-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -58.698   78.749    -58.598   60.885    33.756    13.333    86.667    0         -71.637   1225      787       2404      2         2         13        0         19        
+COMBINED                           -58.698   78.749    -58.598   60.885    33.756    13.333    86.667    0         -71.637   1225      787       2404      2         2         13        0         19        
+
+Identity: r66-yolov8n_mixed5-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         43.184    60.537    33.563    1218      794       2411      
+COMBINED                           43.184    60.537    33.563    1218      794       2411      
+
+Count: r66-yolov8n_mixed5-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3629      2012      26        15        
+COMBINED                           3629      2012      26        15        
+[track] r66-yolov8n_mixed5-c10-cv: HOTA 33.21 IDF1 43.18 IDSW 2
+[2026-11-02T15:40:58.6323169+07:00] track yolov8n_mixed5 c10 ekf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c10-ekf
+
+
+HOTA: r66-yolov8n_mixed5-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         33.113    24.138    45.496    52.579    29.167    59.057    65.37     79.979    48.838    47.488    71.059    33.745    
+COMBINED                           33.113    24.138    45.496    52.579    29.167    59.057    65.37     79.979    48.838    47.488    71.059    33.745    
+
+CLEAR: r66-yolov8n_mixed5-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -58.4     78.478    -58.3     60.984    33.83     13.333    86.667    0         -71.525   1227      785       2400      2         2         13        0         19        
+COMBINED                           -58.4     78.478    -58.3     60.984    33.83     13.333    86.667    0         -71.525   1227      785       2400      2         2         13        0         19        
+
+Identity: r66-yolov8n_mixed5-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         43.27     60.636    33.637    1220      792       2407      
+COMBINED                           43.27     60.636    33.637    1220      792       2407      
+
+Count: r66-yolov8n_mixed5-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3627      2012      26        15        
+COMBINED                           3627      2012      26        15        
+[track] r66-yolov8n_mixed5-c10-ekf: HOTA 33.11 IDF1 43.27 IDSW 2
+[2026-11-02T15:41:19.4249869+07:00] track yolov8n_mixed5 c10 ukf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c10-ukf
+
+
+HOTA: r66-yolov8n_mixed5-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         33.099    24.116    45.516    52.556    29.138    59.051    65.486    79.669    48.83     47.477    71        33.709    
+COMBINED                           33.099    24.116    45.516    52.556    29.138    59.051    65.486    79.669    48.83     47.477    71        33.709    
+
+CLEAR: r66-yolov8n_mixed5-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -58.499   78.41     -58.4     60.984    33.811    13.333    86.667    0         -71.665   1227      785       2402      2         2         13        0         19        
+COMBINED                           -58.499   78.41     -58.4     60.984    33.811    13.333    86.667    0         -71.665   1227      785       2402      2         2         13        0         19        
+
+Identity: r66-yolov8n_mixed5-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         43.255    60.636    33.618    1220      792       2409      
+COMBINED                           43.255    60.636    33.618    1220      792       2409      
+
+Count: r66-yolov8n_mixed5-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3629      2012      26        15        
+COMBINED                           3629      2012      26        15        
+[track] r66-yolov8n_mixed5-c10-ukf: HOTA 33.10 IDF1 43.25 IDSW 2
+[2026-11-02T15:41:44.8231318+07:00] track yolov8n_mixed5 c10 pf500
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c10-pf500-s0
+
+
+HOTA: r66-yolov8n_mixed5-c10-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         25.577    20.093    32.847    44.405    24.824    41.612    64.401    75.005    38.106    40.425    61.596    24.9      
+COMBINED                           25.577    20.093    32.847    44.405    24.824    41.612    64.401    75.005    38.106    40.425    61.596    24.9      
+
+CLEAR: r66-yolov8n_mixed5-c10-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -77.684   72.894    -77.286   50.795    28.397    13.333    86.667    0         -91.452   1022      990       2577      8         2         13        0         27        
+COMBINED                           -77.684   72.894    -77.286   50.795    28.397    13.333    86.667    0         -91.452   1022      990       2577      8         2         13        0         27        
+
+Identity: r66-yolov8n_mixed5-c10-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         31.331    43.688    24.423    879       1133      2720      
+COMBINED                           31.331    43.688    24.423    879       1133      2720      
+
+Count: r66-yolov8n_mixed5-c10-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3599      2012      38        15        
+COMBINED                           3599      2012      38        15        
+[track] r66-yolov8n_mixed5-c10-pf500-s0: HOTA 25.58 IDF1 31.33 IDSW 8
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c10-pf500-s1
+
+
+HOTA: r66-yolov8n_mixed5-c10-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         25.544    19.89     33.308    43.939    24.557    42.597    64.984    74.296    38.091    39.453    60.913    24.032    
+COMBINED                           25.544    19.89     33.308    43.939    24.557    42.597    64.984    74.296    38.091    39.453    60.913    24.032    
+
+CLEAR: r66-yolov8n_mixed5-c10-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -80.915   72.452    -80.417   49.254    27.528    6.6667    93.333    0         -94.483   991       1021      2609      10        1         14        0         32        
+COMBINED                           -80.915   72.452    -80.417   49.254    27.528    6.6667    93.333    0         -94.483   991       1021      2609      10        1         14        0         32        
+
+Identity: r66-yolov8n_mixed5-c10-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         30.934    43.141    24.111    868       1144      2732      
+COMBINED                           30.934    43.141    24.111    868       1144      2732      
+
+Count: r66-yolov8n_mixed5-c10-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3600      2012      40        15        
+COMBINED                           3600      2012      40        15        
+[track] r66-yolov8n_mixed5-c10-pf500-s1: HOTA 25.54 IDF1 30.93 IDSW 10
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolov8n_mixed5-c10-pf500-s2
+
+
+HOTA: r66-yolov8n_mixed5-c10-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         25.258    20.203    31.964    44.535    24.767    40.231    64.521    73.921    37.613    39.496    61.01     24.096    
+COMBINED                           25.258    20.203    31.964    44.535    24.767    40.231    64.521    73.921    37.613    39.496    61.01     24.096    
+
+CLEAR: r66-yolov8n_mixed5-c10-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -74.851   70.793    -74.254   52.783    29.353    13.333    86.667    0         -90.268   1062      950       2556      12        2         13        0         33        
+COMBINED                           -74.851   70.793    -74.254   52.783    29.353    13.333    86.667    0         -90.268   1062      950       2556      12        2         13        0         33        
+
+Identity: r66-yolov8n_mixed5-c10-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         32.078    44.881    24.959    903       1109      2715      
+COMBINED                           32.078    44.881    24.959    903       1109      2715      
+
+Count: r66-yolov8n_mixed5-c10-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3618      2012      40        15        
+COMBINED                           3618      2012      40        15        
+[track] r66-yolov8n_mixed5-c10-pf500-s2: HOTA 25.26 IDF1 32.08 IDSW 12
+[2026-11-02T15:42:58.8289545+07:00] track yolo11n_mixed5 c25 cv
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolo11n_mixed5-c25-cv
+
+
+HOTA: r66-yolo11n_mixed5-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         33.923    25.156    45.772    54.243    30.198    59.799    65.014    80.023    49.793    48.199    70.85     34.149    
+COMBINED                           33.923    25.156    45.772    54.243    30.198    59.799    65.014    80.023    49.793    48.199    70.85     34.149    
+
+CLEAR: r66-yolo11n_mixed5-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -54.374   78.754    -54.274   62.674    34.892    13.333    86.667    0         -67.689   1261      751       2353      2         2         13        0         37        
+COMBINED                           -54.374   78.754    -54.274   62.674    34.892    13.333    86.667    0         -67.689   1261      751       2353      2         2         13        0         37        
+
+Identity: r66-yolo11n_mixed5-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         43.903    61.382    34.173    1235      777       2379      
+COMBINED                           43.903    61.382    34.173    1235      777       2379      
+
+Count: r66-yolo11n_mixed5-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3614      2012      27        15        
+COMBINED                           3614      2012      27        15        
+[track] r66-yolo11n_mixed5-c25-cv: HOTA 33.92 IDF1 43.90 IDSW 2
+[2026-11-02T15:43:23.0479327+07:00] track yolo11n_mixed5 c25 ekf
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r66-yolo11n_mixed5-c25-ekf
+
+
+HOTA: r66-yolo11n_mixed5-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+sherbrooke                         33.918    25.131    45.806    54.12     30.197    59.881    64.942    80.023    49.753    48.208    70.834    34.148    
+COMBINED                           33.918    25.131    45.806    54.12     30.197    59.881    64.942    80.023    49.753    48.208    70.834    34.148    
+
+CLEAR: r66-yolo11n_mixed5-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+sherbrooke                         -54.274   78.756    -54.175   62.525    34.886    13.333    80        6.6667    -67.557   1258      754       2348      2         2         12        1         35        
+COMBINED                           -54.274   78.756    -54.175   62.525    34.886    13.333    80        6.6667    -67.557   1258      754       2348      2         2         12        1         35        
+
+Identity: r66-yolo11n_mixed5-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+sherbrooke                         43.966    61.382    34.248    1235      777       2371      
+COMBINED                           43.966    61.382    34.248    1235      777       2371      
+
+Count: r66-yolo11n_mixed5-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+sherbrooke                         3606      2012      30        15        
+COMBINED                           3606      2012      30        15        
+[track] r66-yolo11n_mixed5-c25-ekf: HOTA 33.92 IDF1 43.97 IDSW 2
+[2026-11-02T15:43:57.9570973+07:00] track yolo11n_mixed5 c25 ukf

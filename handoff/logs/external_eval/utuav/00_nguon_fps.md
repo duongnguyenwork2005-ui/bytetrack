@@ -1,4 +1,22 @@
-# UTUAV — xác minh FPS nguồn (Q3, 02/11/2026): CHƯA XÁC MINH ĐƯỢC ⇒ giữ pilot
+# UTUAV — FPS nguồn Q3: đã xác minh 03/11/2026
+
+## Cập nhật 03/11/2026 — thư trực tiếp của tác giả
+
+Nguồn: thư trả lời của Jorge Ernesto Espinosa Oviedo do người dùng chuyển nguyên văn trong chat ngày 03/11/2026. Đây là bản chép nội dung trong chat, **không phải file .eml gốc**; không có timestamp gửi thư hoặc hash của email gốc. Thư trả lời trực tiếp câu hỏi về phiên bản 2 và hai đoạn validation B 26341–27078, C 20271–21021.
+
+> The original videos for sequences B and C were recorded at 29.97 fps (30000/1001).
+>
+> We converted the videos to individual images by extracting every consecutive frame, with no sub-sampling (stride = 1). The time step between consecutive released images is therefore Δt = 1/29.97 s ≈ 33.4 ms.
+>
+> In the Sequential_Gap300 partitions, the 300-image gaps between the training, validation and evaluation blocks correspond to about 10 s of video (300/29.97 s). Within each block the frames are consecutive.
+
+Tác giả dẫn mục 4.1 và 5.2 bài *Drones* 2026, 10(1), 15 để giải thích cách phân vùng; chính tác giả nêu FPS và stride **không ghi tường minh trong bài**. Trang bài báo của nhà xuất bản xác nhận dạng trích dẫn **2026, 10(1), 15** dù ngày công bố trực tuyến là **27/12/2025**: https://www.mdpi.com/2504-446X/10/1/15. Thư tác giả là nguồn của FPS/stride; bài báo không được dùng thay thư để chứng minh hai thông số này.
+
+**Quyết định Q3:** nguồn trực tiếp của tác giả đáp ứng cả FPS và stride. FPS hiệu dụng là `30000/1001`, bước thời gian chính xác `1001/30000 s`, buffer `round(1.2 × 30000/1001) = 36` frame. B/C validation nằm trong từng block liên tiếp; reset tracker ở ranh giới B/C. Pilot 30 fps trước đây giữ nguyên như hồ sơ lịch sử, không hồi tố sửa số liệu. Mở adapter → smoke 128 frame đầu mỗi chuỗi → review kỹ thuật → ma trận 36 run × B/C theo `D:/LABOTARY/automation/runs_local/hoi_codex_R64_viec_tiep_20261102/answer.json` Q3.
+
+Không dùng trường `occluded` (toàn 0) để lập tầng che khuất.
+
+## Hồ sơ tìm nguồn trước thư xác nhận (02/11/2026; đã lỗi thời)
 
 Quyết định áp dụng: GPT 02/11 `D:/LABOTARY/automation/runs_local/hoi_codex_R64_viec_tiep_20261102/answer.json` Q3
 ("tối đa 30 phút tìm bằng chứng FPS…; nếu chưa xác minh được: giữ UTUAV ở pilot, ghi FPS chưa biết; không tạo benchmark

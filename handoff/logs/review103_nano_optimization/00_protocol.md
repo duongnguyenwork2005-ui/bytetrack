@@ -1,0 +1,9 @@
+# R103 — ba hướng tăng tốc trên Nano
+
+- Đối chứng là YOLO11n mixed5 50/50 R102, TensorRT FP16 384×640 và KF. Các nhánh chạy trong bản sao thí nghiệm. So trên các đoạn BDD/UA của R102, cùng ảnh JPEG trên tmpfs, cutoff 0,25, vùng bỏ qua và lớp. Đo FPS, p90, HOTA, IDSW, FN/FP. Nếu có kết quả cho mỗi hướng, kết thúc vòng thử. Không chọn cấu hình từ FPS đơn lẻ.
+- Giảm tần suất chạy YOLO xuống 1/2. Cả hai nhánh đọc đầy đủ khung. Khung xen giữa tăng thời gian tracker và dự đoán track đang hoạt động, không chạy vòng ghép hoặc tạo ID. Tách rõ khung cố ý bỏ suy luận khỏi khung đã chạy YOLO mà không tìm thấy xe. Kiểm số lần suy luận và thời gian khớp GT lần đầu.
+- Camera cố định UA: cắt một dải ảnh toàn chiều ngang theo cấu hình mỗi camera từ ảnh mẫu đầu, trước khi xem kết quả detector. TensorRT 256×640 với cùng checkpoint. Cắt sau khi đọc ảnh đầy đủ và trả hộp về tọa độ gốc. Chấm trên GT toàn ảnh của từng đoạn, kể cả xe ngoài vùng cắt. BDD gắn xe không dùng crop cố định.
+- Dải ROI có chiều cao 384 px trên ảnh UA 960×540. Chọn y đầu chỉ từ ảnh mẫu: MVI_39031 = 86, MVI_40701 = 0, MVI_40772 = 156, MVI_40855 = 30. Một số góc quay có mặt đường phủ gần hết ảnh; đo tổn thất ngoài dải cùng lợi ích tốc độ.
+- Phép phụ đối chiếu hậu xử lý: với pipeline cố định c25, chuyển cutoff 0,25 sang trước NMS, giữ cùng lớp và max-det, chạy hai clip đầu mỗi tập. Yêu cầu tệp MOT/lớp khớp trước khi coi là tương đương.
+- Detector nhẹ: từ YOLO11n 50/50 bỏ attention trong C2PSA và nhánh bottleneck của C3k2 cuối backbone. Giữ đầu vào 384×640 và năm lớp. Fine-tune ba epoch trên 1.200 ảnh mixed5 train và 200 ảnh RideSafe train đã xác minh của R101, sau đó chấm mixed5 dev 7.190 ảnh và hai clip RideSafe test R102. Export/build FP16 và đo trên Nano. Ghi rõ kích thước mẫu và mức hồi phục chất lượng.
+- Chỉ chạy một tác vụ benchmark hoặc build TensorRT tại một thời điểm trên Nano. Giữ cổng lỗi thẻ, nhiệt và giám sát hoạt động swap tương tự R102.

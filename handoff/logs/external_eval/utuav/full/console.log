@@ -1,0 +1,978 @@
+cache yolov8n_coco/B_validation: 738 frames, 16695 boxes, 105.3s
+cache yolov8n_coco/C_validation: 751 frames, 10217 boxes, 113.8s
+cache yolov8n_mixed5/B_validation: 738 frames, 8940 boxes, 91.6s
+cache yolov8n_mixed5/C_validation: 751 frames, 575 boxes, 103.6s
+cache yolo11n_mixed5/B_validation: 738 frames, 9416 boxes, 91.1s
+cache yolo11n_mixed5/C_validation: 751 frames, 6338 boxes, 105.4s
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c25-cv
+
+
+HOTA: r67utuav-yolov8n_coco-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.39382   0.074796  2.118     0.074996  16.654    2.1204    42.342    71.457    0.39436   1.0289    35.834    0.36868   
+C_validation                       0.13467   0.022859  0.90216   0.022862  43.301    0.90261   69.535    68.088    0.13468   0.24676   44.416    0.1096    
+COMBINED                           0.22616   0.032865  1.6569    0.032886  25.447    1.6579    68.986    66.091    0.22624   0.50307   40.158    0.20202   
+
+CLEAR: r67utuav-yolov8n_coco-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -0.45033  0         -0.45033  0         0         0         0         100       -0.45033  0         29756     134       0         0         0         82        0         
+C_validation                       -0.022399 62.52     -0.020799 0.015999  30.303    0         0         100       -0.028396 20        124985    46        2         0         0         244       6         
+COMBINED                           -0.10468  62.52     -0.10339  0.012923  10        0         0         100       -0.10952  20        154741    180       2         0         0         326       6         
+
+Identity: r67utuav-yolov8n_coco-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     134       
+C_validation                       0.028784  0.014399  27.273    18        124987    48        
+COMBINED                           0.023232  0.011631  9         18        154743    182       
+
+Count: r67utuav-yolov8n_coco-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       134       29756     7         82        
+C_validation                       66        125005    11        244       
+COMBINED                           200       154761    18        326       
+r67utuav-yolov8n_coco-c25-cv: HOTA 0.226, IDF1 0.023
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c25-ekf
+
+
+HOTA: r67utuav-yolov8n_coco-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.39385   0.074808  2.118     0.074996  17.299    2.1204    42.342    71.454    0.39436   1.029     35.829    0.36867   
+C_validation                       0.13682   0.023617  0.90375   0.02362   43.421    0.90419   69.533    68.067    0.13683   0.25085   44.575    0.11181   
+COMBINED                           0.22717   0.033478  1.6437    0.033498  26.316    1.6446    68.998    66.105    0.22725   0.50471   40.302    0.20341   
+
+CLEAR: r67utuav-yolov8n_coco-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -0.43353  0         -0.43353  0         0         0         0         100       -0.43353  0         29756     129       0         0         0         82        0         
+C_validation                       -0.023999 62.513    -0.022399 0.015999  29.412    0         0         100       -0.029997 20        124985    48        2         0         0         244       6         
+COMBINED                           -0.10274  62.513    -0.10145  0.012923  10.152    0         0         100       -0.10758  20        154741    177       2         0         0         326       6         
+
+Identity: r67utuav-yolov8n_coco-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     129       
+C_validation                       0.028783  0.014399  26.471    18        124987    50        
+COMBINED                           0.023232  0.011631  9.1371    18        154743    179       
+
+Count: r67utuav-yolov8n_coco-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       129       29756     7         82        
+C_validation                       68        125005    11        244       
+COMBINED                           197       154761    18        326       
+r67utuav-yolov8n_coco-c25-ekf: HOTA 0.227, IDF1 0.023
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c25-ukf
+
+
+HOTA: r67utuav-yolov8n_coco-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.39383   0.074801  2.118     0.074996  16.906    2.1204    42.342    71.454    0.39436   1.0289    35.829    0.36865   
+C_validation                       0.13682   0.023617  0.90375   0.02362   43.421    0.90419   69.533    68.076    0.13683   0.25085   44.588    0.11185   
+COMBINED                           0.22717   0.033478  1.6437    0.033498  25.921    1.6446    68.998    66.111    0.22725   0.5047    40.309    0.20344   
+
+CLEAR: r67utuav-yolov8n_coco-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -0.44361  0         -0.44361  0         0         0         0         100       -0.44361  0         29756     132       0         0         0         82        0         
+C_validation                       -0.023999 62.532    -0.022399 0.015999  29.412    0         0         100       -0.029994 20        124985    48        2         0         0         244       6         
+COMBINED                           -0.10468  62.532    -0.10339  0.012923  10        0         0         100       -0.10952  20        154741    180       2         0         0         326       6         
+
+Identity: r67utuav-yolov8n_coco-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     132       
+C_validation                       0.028783  0.014399  26.471    18        124987    50        
+COMBINED                           0.023232  0.011631  9         18        154743    182       
+
+Count: r67utuav-yolov8n_coco-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       132       29756     7         82        
+C_validation                       68        125005    11        244       
+COMBINED                           200       154761    18        326       
+r67utuav-yolov8n_coco-c25-ukf: HOTA 0.227, IDF1 0.023
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c25-pf500-s0
+
+
+HOTA: r67utuav-yolov8n_coco-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.39305   0.074831  2.103     0.074996  18.596    2.1054    41.972    71.497    0.39349   1.0291    35.858    0.36902   
+C_validation                       0.15832   0.025468  1.0761    0.025473  39.311    1.0771    69.129    67.343    0.15833   0.37494   40.491    0.15181   
+COMBINED                           0.23708   0.034974  1.7062    0.034995  26.944    1.7075    68.686    65.769    0.23715   0.56342   38.432    0.21653   
+
+CLEAR: r67utuav-yolov8n_coco-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -0.40328  0         -0.40328  0         0         0         0         100       -0.40328  0         29756     120       0         0         0         82        0         
+C_validation                       -0.029599 61.105    -0.027999 0.018399  28.395    0         0         100       -0.036755 23        124982    58        2         0         0         244       7         
+COMBINED                           -0.10145  61.105    -0.10015  0.014862  11.443    0         0         100       -0.10723  23        154738    178       2         0         0         326       7         
+
+Identity: r67utuav-yolov8n_coco-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     120       
+C_validation                       0.033577  0.016799  25.926    21        124984    60        
+COMBINED                           0.027103  0.013569  10.448    21        154740    180       
+
+Count: r67utuav-yolov8n_coco-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       120       29756     8         82        
+C_validation                       81        125005    10        244       
+COMBINED                           201       154761    18        326       
+r67utuav-yolov8n_coco-c25-pf500-s0: HOTA 0.237, IDF1 0.027
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c25-pf500-s1
+
+
+HOTA: r67utuav-yolov8n_coco-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.39258   0.074624  2.1091    0.074819  16.866    2.112     42.187    71.492    0.3931    1.0289    35.873    0.3691    
+C_validation                       0.13228   0.022312  0.89114   0.022315  42.265    0.89156   69.193    68.234    0.13229   0.24252   44.85     0.10877   
+COMBINED                           0.22442   0.03239   1.6536    0.03241   25.332    1.6547    68.746    66.177    0.2245    0.5014    40.326    0.2022    
+
+CLEAR: r67utuav-yolov8n_coco-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -0.44361  0         -0.44361  0         0         0         0         100       -0.44361  0         29756     132       0         0         0         82        0         
+C_validation                       -0.023999 63.057    -0.022399 0.015199  28.788    0         0         100       -0.029614 19        124986    47        2         0         0         244       5         
+COMBINED                           -0.10468  63.057    -0.10339  0.012277  9.596     0         0         100       -0.10921  19        154742    179       2         0         0         326       5         
+
+Identity: r67utuav-yolov8n_coco-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     132       
+C_validation                       0.027185  0.013599  25.758    17        124988    49        
+COMBINED                           0.021941  0.010985  8.5859    17        154744    181       
+
+Count: r67utuav-yolov8n_coco-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       132       29756     7         82        
+C_validation                       66        125005    11        244       
+COMBINED                           198       154761    18        326       
+r67utuav-yolov8n_coco-c25-pf500-s1: HOTA 0.224, IDF1 0.022
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c25-pf500-s2
+
+
+HOTA: r67utuav-yolov8n_coco-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.3989    0.075359  2.1549    0.075527  18.573    2.1577    42.433    71.449    0.39936   1.0562    35.623    0.37626   
+C_validation                       0.1372    0.022354  0.93537   0.022357  42.344    0.9359    68.771    68.268    0.13721   0.26558   45.001    0.11951   
+COMBINED                           0.22887   0.032562  1.6995    0.03258   26.963    1.7006    68.47     66.114    0.22893   0.52132   40.239    0.20977   
+
+CLEAR: r67utuav-yolov8n_coco-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -0.40664  0         -0.40664  0         0         0         0         100       -0.40664  0         29756     121       0         0         0         82        0         
+C_validation                       -0.021599 62.642    -0.020799 0.015999  30.303    0         0         100       -0.027576 20        124985    46        1         0         0         244       5         
+COMBINED                           -0.095631 62.642    -0.094985 0.012923  10.695    0         0         100       -0.10046  20        154741    167       1         0         0         326       5         
+
+Identity: r67utuav-yolov8n_coco-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     121       
+C_validation                       0.030383  0.015199  28.788    19        124986    47        
+COMBINED                           0.024524  0.012277  10.16     19        154742    168       
+
+Count: r67utuav-yolov8n_coco-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       121       29756     8         82        
+C_validation                       66        125005    10        244       
+COMBINED                           187       154761    18        326       
+r67utuav-yolov8n_coco-c25-pf500-s2: HOTA 0.229, IDF1 0.025
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c10-cv
+
+
+HOTA: r67utuav-yolov8n_coco-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.72992   0.13745   3.9174    0.13885   10.176    3.9612    40.113    71.156    0.73366   2.0906    35.017    0.73209   
+C_validation                       0.32625   0.055765  2.1227    0.055787  38.529    2.1261    67.528    67.059    0.32633   0.74449   40.278    0.29987   
+COMBINED                           0.45993   0.071592  3.1707    0.071758  18.919    3.1891    66.762    65.584    0.46049   1.1374    38.142    0.43383   
+
+CLEAR: r67utuav-yolov8n_coco-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -1.3644   0         -1.3644   0         0         0         0         100       -1.3644   0         29756     406       0         0         0         82        0         
+C_validation                       -0.072797 61.543    -0.069597 0.037598  25.967    0         0         100       -0.087256 47        124958    134       4         0         0         244       9         
+COMBINED                           -0.32114  61.543    -0.31856  0.030369  8.0068    0         0         100       -0.33282  47        154714    540       4         0         0         326       9         
+
+Identity: r67utuav-yolov8n_coco-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     406       
+C_validation                       0.062307  0.031199  21.547    39        124966    142       
+COMBINED                           0.05021   0.0252    6.644     39        154722    548       
+
+Count: r67utuav-yolov8n_coco-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       406       29756     7         82        
+C_validation                       181       125005    11        244       
+COMBINED                           587       154761    18        326       
+r67utuav-yolov8n_coco-c10-cv: HOTA 0.460, IDF1 0.050
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c10-ekf
+
+
+HOTA: r67utuav-yolov8n_coco-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.72992   0.13745   3.9174    0.13885   10.176    3.9612    40.113    71.15     0.73366   2.0906    35.007    0.73187   
+C_validation                       0.32662   0.055933  2.1204    0.055956  38.645    2.1239    67.548    67.068    0.3267    0.74449   40.367    0.30053   
+COMBINED                           0.4602    0.071728  3.1673    0.071894  18.955    3.1857    66.788    65.581    0.46075   1.1374    38.19     0.43438   
+
+CLEAR: r67utuav-yolov8n_coco-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -1.3644   0         -1.3644   0         0         0         0         100       -1.3644   0         29756     406       0         0         0         82        0         
+C_validation                       -0.069597 61.164    -0.066397 0.039198  27.072    0         0         100       -0.08482  49        124956    132       4         0         0         244       9         
+COMBINED                           -0.31856  61.164    -0.31597  0.031662  8.3475    0         0         100       -0.33085  49        154712    538       4         0         0         326       9         
+
+Identity: r67utuav-yolov8n_coco-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     406       
+C_validation                       0.063905  0.031999  22.099    40        124965    141       
+COMBINED                           0.051497  0.025846  6.8143    40        154721    547       
+
+Count: r67utuav-yolov8n_coco-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       406       29756     7         82        
+C_validation                       181       125005    11        244       
+COMBINED                           587       154761    18        326       
+r67utuav-yolov8n_coco-c10-ekf: HOTA 0.460, IDF1 0.051
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c10-ukf
+
+
+HOTA: r67utuav-yolov8n_coco-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.72992   0.13745   3.9174    0.13885   10.176    3.9612    40.113    71.152    0.73366   2.0906    35.011    0.73195   
+C_validation                       0.32682   0.055933  2.1226    0.055956  38.645    2.126     67.614    67.073    0.3269    0.74449   40.372    0.30057   
+COMBINED                           0.4604    0.071728  3.1699    0.071894  18.955    3.1883    66.849    65.582    0.46096   1.1374    38.195    0.43444   
+
+CLEAR: r67utuav-yolov8n_coco-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -1.3644   0         -1.3644   0         0         0         0         100       -1.3644   0         29756     406       0         0         0         82        0         
+C_validation                       -0.069597 61.171    -0.066397 0.039198  27.072    0         0         100       -0.084818 49        124956    132       4         0         0         244       9         
+COMBINED                           -0.31856  61.171    -0.31597  0.031662  8.3475    0         0         100       -0.33085  49        154712    538       4         0         0         326       9         
+
+Identity: r67utuav-yolov8n_coco-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     406       
+C_validation                       0.063905  0.031999  22.099    40        124965    141       
+COMBINED                           0.051497  0.025846  6.8143    40        154721    547       
+
+Count: r67utuav-yolov8n_coco-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       406       29756     7         82        
+C_validation                       181       125005    11        244       
+COMBINED                           587       154761    18        326       
+r67utuav-yolov8n_coco-c10-ukf: HOTA 0.460, IDF1 0.051
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c10-pf500-s0
+
+
+HOTA: r67utuav-yolov8n_coco-c10-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.70864   0.13256   3.8224    0.13337   14.224    3.8576    40.355    71.203    0.71081   1.9957    35.283    0.70415   
+C_validation                       0.33332   0.058248  2.1138    0.058271  38.953    2.1172    66.892    67.044    0.33341   0.75641   40.695    0.30783   
+COMBINED                           0.45657   0.072599  3.0793    0.07271   24.147    3.0953    66.331    65.612    0.45693   1.1094    38.607    0.42832   
+
+CLEAR: r67utuav-yolov8n_coco-c10-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -0.93763  0         -0.93763  0         0         0         0         100       -0.93763  0         29756     279       0         0         0         82        0         
+C_validation                       -0.066397 60.28     -0.063197 0.043198  28.877    0         0         100       -0.083556 54        124951    133       4         0         0         244       11        
+COMBINED                           -0.23391  60.28     -0.23132  0.034893  11.588    0         0         100       -0.24777  54        154707    412       4         0         0         326       11        
+
+Identity: r67utuav-yolov8n_coco-c10-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     279       
+C_validation                       0.067097  0.033599  22.46     42        124963    145       
+COMBINED                           0.054114  0.027139  9.0129    42        154719    424       
+
+Count: r67utuav-yolov8n_coco-c10-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       279       29756     7         82        
+C_validation                       187       125005    11        244       
+COMBINED                           466       154761    18        326       
+r67utuav-yolov8n_coco-c10-pf500-s0: HOTA 0.457, IDF1 0.054
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c10-pf500-s1
+
+
+HOTA: r67utuav-yolov8n_coco-c10-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.72529   0.13606   3.9002    0.1369    14.244    3.9377    40.179    71.188    0.72756   2.0948    34.764    0.72825   
+C_validation                       0.32634   0.055934  2.1176    0.055956  38.645    2.1211    67.39     66.976    0.32642   0.74449   40.367    0.30053   
+COMBINED                           0.45847   0.07141   3.1576    0.071519  23.701    3.1748    66.799    65.547    0.45884   1.1379    38.092    0.43343   
+
+CLEAR: r67utuav-yolov8n_coco-c10-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -0.96115  0         -0.96115  0         0         0         0         100       -0.96115  0         29756     286       0         0         0         82        0         
+C_validation                       -0.074397 61.607    -0.071197 0.036799  25.414    0         0         100       -0.088525 46        124959    135       4         0         0         244       8         
+COMBINED                           -0.24489  61.607    -0.24231  0.029723  9.8501    0         0         100       -0.25631  46        154715    421       4         0         0         326       8         
+
+Identity: r67utuav-yolov8n_coco-c10-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     286       
+C_validation                       0.062307  0.031199  21.547    39        124966    142       
+COMBINED                           0.050249  0.0252    8.3512    39        154722    428       
+
+Count: r67utuav-yolov8n_coco-c10-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       286       29756     7         82        
+C_validation                       181       125005    11        244       
+COMBINED                           467       154761    18        326       
+r67utuav-yolov8n_coco-c10-pf500-s1: HOTA 0.458, IDF1 0.050
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_coco-c10-pf500-s2
+
+
+HOTA: r67utuav-yolov8n_coco-c10-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.714     0.13414   3.8375    0.13496   14.24     3.8739    40.344    71.232    0.7162    2.0218    35.203    0.71175   
+C_validation                       0.33399   0.058122  2.1262    0.058145  38.869    2.1297    67.13     67.027    0.33407   0.75641   40.618    0.30724   
+COMBINED                           0.45897   0.072802  3.1032    0.072914  24.06     3.1197    66.584    65.613    0.45934   1.1185    38.506    0.43071   
+
+CLEAR: r67utuav-yolov8n_coco-c10-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -0.94771  0         -0.94771  0         0         0         0         100       -0.94771  0         29756     282       0         0         0         82        0         
+C_validation                       -0.072797 61.085    -0.069597 0.039998  26.738    0         0         100       -0.088362 50        124955    137       4         0         0         244       9         
+COMBINED                           -0.24102  61.085    -0.23843  0.032308  10.661    0         0         100       -0.25359  50        154711    419       4         0         0         326       9         
+
+Identity: r67utuav-yolov8n_coco-c10-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     282       
+C_validation                       0.062304  0.031199  20.856    39        124966    148       
+COMBINED                           0.050248  0.0252    8.3156    39        154722    430       
+
+Count: r67utuav-yolov8n_coco-c10-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       282       29756     7         82        
+C_validation                       187       125005    11        244       
+COMBINED                           469       154761    18        326       
+r67utuav-yolov8n_coco-c10-pf500-s2: HOTA 0.459, IDF1 0.050
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c25-cv
+
+
+HOTA: r67utuav-yolov8n_mixed5-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.19928   0.024731  1.6144    0.026001  0.50305   1.6158    79.873    77.405    0.20433   0.26716   69.3      0.18514   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.089157  0.0049503 1.6144    0.0049992 0.50305   1.6158    79.873    77.405    0.089596  0.11953   69.3      0.082831  
+
+CLEAR: r67utuav-yolov8n_mixed5-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -5.1149   78.148    -5.1149   0.026885  0.52016   0         0         100       -5.1208   8         29748     1530      0         0         0         82        1         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -0.98345  78.148    -0.98345  0.0051693 0.52016   0         0         100       -0.98458  8         154753    1530      0         0         0         326       1         
+
+Identity: r67utuav-yolov8n_mixed5-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.051128  0.026885  0.52016   8         29748     1530      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.010237  0.0051693 0.52016   8         154753    1530      
+
+Count: r67utuav-yolov8n_mixed5-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1538      29756     24        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1538      154761    24        326       
+r67utuav-yolov8n_mixed5-c25-cv: HOTA 0.089, IDF1 0.010
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c25-ekf
+
+
+HOTA: r67utuav-yolov8n_mixed5-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.20112   0.025063  1.623     0.026355  0.50824   1.6244    80.263    77.366    0.20624   0.26714   69.645    0.18605   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.089989  0.0050175 1.623     0.0050672 0.50824   1.6244    80.263    77.366    0.090434  0.11952   69.645    0.083242  
+
+CLEAR: r67utuav-yolov8n_mixed5-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -5.1317   78.369    -5.1317   0.026885  0.51847   0         0         100       -5.1376   8         29748     1535      0         0         0         82        1         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -0.98668  78.369    -0.98668  0.0051693 0.51847   0         0         100       -0.9878   8         154753    1535      0         0         0         326       1         
+
+Identity: r67utuav-yolov8n_mixed5-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.05112   0.026885  0.51847   8         29748     1535      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.010236  0.0051693 0.51847   8         154753    1535      
+
+Count: r67utuav-yolov8n_mixed5-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1543      29756     23        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1543      154761    23        326       
+r67utuav-yolov8n_mixed5-c25-ekf: HOTA 0.090, IDF1 0.010
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c25-ukf
+
+
+HOTA: r67utuav-yolov8n_mixed5-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.20112   0.025062  1.623     0.026355  0.50791   1.6244    80.263    77.356    0.20624   0.26713   69.635    0.18602   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.089989  0.0050175 1.623     0.0050672 0.50791   1.6244    80.263    77.356    0.090434  0.11952   69.635    0.083229  
+
+CLEAR: r67utuav-yolov8n_mixed5-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -5.1351   78.36     -5.1351   0.026885  0.51813   0         0         100       -5.1409   8         29748     1536      0         0         0         82        1         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -0.98733  78.36     -0.98733  0.0051693 0.51813   0         0         100       -0.98845  8         154753    1536      0         0         0         326       1         
+
+Identity: r67utuav-yolov8n_mixed5-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.051118  0.026885  0.51813   8         29748     1536      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.010236  0.0051693 0.51813   8         154753    1536      
+
+Count: r67utuav-yolov8n_mixed5-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1544      29756     21        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1544      154761    21        326       
+r67utuav-yolov8n_mixed5-c25-ukf: HOTA 0.090, IDF1 0.010
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c25-pf500-s0
+
+
+HOTA: r67utuav-yolov8n_mixed5-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.20117   0.025074  1.623     0.026355  0.51289   1.6244    80.263    77.182    0.20624   0.2672    69.464    0.18561   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.089993  0.005018  1.623     0.0050672 0.51289   1.6244    80.263    77.182    0.090434  0.11953   69.464    0.08303   
+
+CLEAR: r67utuav-yolov8n_mixed5-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -5.0847   78.059    -5.0847   0.026885  0.52322   0         0         100       -5.0906   8         29748     1521      0         0         0         82        1         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -0.97764  78.059    -0.97764  0.0051693 0.52322   0         0         100       -0.97877  8         154753    1521      0         0         0         326       1         
+
+Identity: r67utuav-yolov8n_mixed5-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.051143  0.026885  0.52322   8         29748     1521      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.010237  0.0051693 0.52322   8         154753    1521      
+
+Count: r67utuav-yolov8n_mixed5-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1529      29756     26        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1529      154761    26        326       
+r67utuav-yolov8n_mixed5-c25-pf500-s0: HOTA 0.090, IDF1 0.010
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c25-pf500-s1
+
+
+HOTA: r67utuav-yolov8n_mixed5-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.1645    0.020364  1.3354    0.021402  0.4176    1.336     82.895    77.893    0.16864   0.22101   69.293    0.15314   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.073587  0.0040751 1.3354    0.004115  0.4176    1.336     82.895    77.893    0.073947  0.098865  69.293    0.068506  
+
+CLEAR: r67utuav-yolov8n_mixed5-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -5.0847   80.933    -5.0847   0.020164  0.39344   0         0         100       -5.0885   6         29750     1519      0         0         0         82        0         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -0.97764  80.933    -0.97764  0.0038769 0.39344   0         0         100       -0.97838  6         154755    1519      0         0         0         326       0         
+
+Identity: r67utuav-yolov8n_mixed5-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.038362  0.020164  0.39344   6         29750     1519      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.0076782 0.0038769 0.39344   6         154755    1519      
+
+Count: r67utuav-yolov8n_mixed5-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1525      29756     24        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1525      154761    24        326       
+r67utuav-yolov8n_mixed5-c25-pf500-s1: HOTA 0.074, IDF1 0.008
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c25-pf500-s2
+
+
+HOTA: r67utuav-yolov8n_mixed5-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.20263   0.025235  1.6362    0.026532  0.51331   1.6376    80.921    77.861    0.20777   0.26716   70.198    0.18754   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.090659  0.0050514 1.6362    0.0051012 0.51331   1.6376    80.921    77.861    0.091106  0.11953   70.198    0.083904  
+
+CLEAR: r67utuav-yolov8n_mixed5-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -5.1149   79.037    -5.1149   0.026885  0.52016   0         0         100       -5.1206   8         29748     1530      0         0         0         82        1         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -0.98345  79.037    -0.98345  0.0051693 0.52016   0         0         100       -0.98454  8         154753    1530      0         0         0         326       1         
+
+Identity: r67utuav-yolov8n_mixed5-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.051128  0.026885  0.52016   8         29748     1530      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.010237  0.0051693 0.52016   8         154753    1530      
+
+Count: r67utuav-yolov8n_mixed5-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1538      29756     22        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1538      154761    22        326       
+r67utuav-yolov8n_mixed5-c25-pf500-s2: HOTA 0.091, IDF1 0.010
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c10-cv
+
+
+HOTA: r67utuav-yolov8n_mixed5-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.22618   0.027894  1.8431    0.029715  0.45251   1.8451    78.553    76.031    0.23344   0.31493   66.956    0.21086   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.10173   0.0056426 1.8431    0.0057134 0.45251   1.8451    78.553    76.031    0.10236   0.14164   66.956    0.094836  
+
+CLEAR: r67utuav-yolov8n_mixed5-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -6.5063   76.58     -6.5063   0.030246  0.46059   0         0         100       -6.5133   9         29747     1945      0         0         0         82        0         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -1.251    76.58     -1.251    0.0058154 0.46059   0         0         100       -1.2523   9         154752    1945      0         0         0         326       0         
+
+Identity: r67utuav-yolov8n_mixed5-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.056764  0.030246  0.46059   9         29747     1945      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.011486  0.0058154 0.46059   9         154752    1945      
+
+Count: r67utuav-yolov8n_mixed5-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1954      29756     25        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1954      154761    25        326       
+r67utuav-yolov8n_mixed5-c10-cv: HOTA 0.102, IDF1 0.011
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c10-ekf
+
+
+HOTA: r67utuav-yolov8n_mixed5-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.22783   0.028223  1.8487    0.030069  0.45696   1.8508    78.618    76.02     0.23516   0.31491   67.304    0.21195   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.10247   0.0057096 1.8487    0.0057814 0.45696   1.8508    78.618    76.02     0.10312   0.14164   67.304    0.095329  
+
+CLEAR: r67utuav-yolov8n_mixed5-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -6.5197   76.777    -6.5197   0.030246  0.45965   0         0         100       -6.5267   9         29747     1949      0         0         0         82        0         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -1.2535   76.777    -1.2535   0.0058154 0.45965   0         0         100       -1.2549   9         154752    1949      0         0         0         326       0         
+
+Identity: r67utuav-yolov8n_mixed5-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.056757  0.030246  0.45965   9         29747     1949      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.011486  0.0058154 0.45965   9         154752    1949      
+
+Count: r67utuav-yolov8n_mixed5-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1958      29756     24        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1958      154761    24        326       
+r67utuav-yolov8n_mixed5-c10-ekf: HOTA 0.102, IDF1 0.011
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c10-ukf
+
+
+HOTA: r67utuav-yolov8n_mixed5-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.22788   0.028235  1.8487    0.030069  0.46026   1.8508    78.618    76.011    0.23516   0.31498   67.295    0.21197   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.10248   0.0057101 1.8487    0.0057814 0.46026   1.8508    78.618    76.011    0.10312   0.14164   67.295    0.09532   
+
+CLEAR: r67utuav-yolov8n_mixed5-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -6.4726   76.768    -6.4726   0.030246  0.46296   0         0         100       -6.4797   9         29747     1935      0         0         0         82        0         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -1.2445   76.768    -1.2445   0.0058154 0.46296   0         0         100       -1.2459   9         154752    1935      0         0         0         326       0         
+
+Identity: r67utuav-yolov8n_mixed5-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.056782  0.030246  0.46296   9         29747     1935      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.011487  0.0058154 0.46296   9         154752    1935      
+
+Count: r67utuav-yolov8n_mixed5-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1944      29756     24        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1944      154761    24        326       
+r67utuav-yolov8n_mixed5-c10-ukf: HOTA 0.102, IDF1 0.011
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c10-pf500-s0
+
+
+HOTA: r67utuav-yolov8n_mixed5-c10-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.19226   0.02357   1.5745    0.025117  0.38092   1.5758    80.056    76.064    0.19846   0.27153   66.596    0.18083   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.08648   0.004769  1.5745    0.0048292 0.38092   1.5758    80.056    76.064    0.087023  0.12214   66.596    0.081337  
+
+CLEAR: r67utuav-yolov8n_mixed5-c10-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -6.5466   78.417    -6.5466   0.023525  0.35678   0         0         100       -6.5517   7         29749     1955      0         0         0         82        1         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -1.2587   78.417    -1.2587   0.0045231 0.35678   0         0         100       -1.2597   7         154754    1955      0         0         0         326       1         
+
+Identity: r67utuav-yolov8n_mixed5-c10-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.044139  0.023525  0.35678   7         29749     1955      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.008933  0.0045231 0.35678   7         154754    1955      
+
+Count: r67utuav-yolov8n_mixed5-c10-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1962      29756     25        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1962      154761    25        326       
+r67utuav-yolov8n_mixed5-c10-pf500-s0: HOTA 0.086, IDF1 0.009
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c10-pf500-s1
+
+
+HOTA: r67utuav-yolov8n_mixed5-c10-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.22531   0.027891  1.8292    0.029715  0.45182   1.8317    77.884    75.824    0.23256   0.31492   66.848    0.21051   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.10134   0.0056425 1.8292    0.0057134 0.45182   1.8317    77.884    75.824    0.10197   0.14164   66.848    0.094682  
+
+CLEAR: r67utuav-yolov8n_mixed5-c10-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -6.5163   76.246    -6.5163   0.030246  0.45989   0         0         100       -6.5235   9         29747     1948      0         0         0         82        0         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -1.2529   76.246    -1.2529   0.0058154 0.45989   0         0         100       -1.2543   9         154752    1948      0         0         0         326       0         
+
+Identity: r67utuav-yolov8n_mixed5-c10-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.056759  0.030246  0.45989   9         29747     1948      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.011486  0.0058154 0.45989   9         154752    1948      
+
+Count: r67utuav-yolov8n_mixed5-c10-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1957      29756     24        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1957      154761    24        326       
+r67utuav-yolov8n_mixed5-c10-pf500-s1: HOTA 0.101, IDF1 0.011
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolov8n_mixed5-c10-pf500-s2
+
+
+HOTA: r67utuav-yolov8n_mixed5-c10-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.2265    0.028098  1.8351    0.029892  0.46545   1.8376    78.034    75.733    0.23361   0.31514   66.903    0.21084   
+C_validation                       0         0         0         0         0         0         0         100       0         0         100       0         
+COMBINED                           0.10181   0.0056777 1.8351    0.0057474 0.46545   1.8376    78.034    75.733    0.10244   0.14166   66.903    0.094775  
+
+CLEAR: r67utuav-yolov8n_mixed5-c10-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -6.3617   76.271    -6.3617   0.030246  0.47096   0         0         100       -6.3689   9         29747     1902      0         0         0         82        0         
+C_validation                       0         0         0         0         0         0         0         100       0         0         125005    0         0         0         0         244       0         
+COMBINED                           -1.2232   76.271    -1.2232   0.0058154 0.47096   0         0         100       -1.2246   9         154752    1902      0         0         0         326       0         
+
+Identity: r67utuav-yolov8n_mixed5-c10-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0.056842  0.030246  0.47096   9         29747     1902      
+C_validation                       0         0         0         0         125005    0         
+COMBINED                           0.011489  0.0058154 0.47096   9         154752    1902      
+
+Count: r67utuav-yolov8n_mixed5-c10-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1911      29756     25        82        
+C_validation                       0         125005    0         244       
+COMBINED                           1911      154761    25        326       
+r67utuav-yolov8n_mixed5-c10-pf500-s2: HOTA 0.102, IDF1 0.011
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c25-cv
+
+
+HOTA: r67utuav-yolo11n_mixed5-c25-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.18989   0.010243  3.5212    0.010613  0.28918   3.5482    16.62     82.963    0.19328   1.147     18.395    0.211     
+C_validation                       0.022167  0.0018875 0.26418   0.0018947 0.48833   0.26418   47.368    71.088    0.022209  0.095402  21.713    0.020714  
+COMBINED                           0.0909    0.0035354 2.3754    0.0035709 0.35043   2.3916    44.709    69.92     0.091354  0.51653   19.612    0.1013    
+
+CLEAR: r67utuav-yolo11n_mixed5-c25-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -3.6698   0         -3.6698   0         0         0         0         100       -3.6698   0         29756     1092      0         0         0         82        0         
+C_validation                       -0.38798  0         -0.38798  0         0         0         0         100       -0.38798  0         125005    485       0         0         0         244       0         
+COMBINED                           -1.019    0         -1.019    0         0         0         0         100       -1.019    0         154761    1577      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c25-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1092      
+C_validation                       0         0         0         0         125005    485       
+COMBINED                           0         0         0         0         154761    1577      
+
+Count: r67utuav-yolo11n_mixed5-c25-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1092      29756     20        82        
+C_validation                       485       125005    30        244       
+COMBINED                           1577      154761    50        326       
+r67utuav-yolo11n_mixed5-c25-cv: HOTA 0.091, IDF1 0.000
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c25-ekf
+
+
+HOTA: r67utuav-yolo11n_mixed5-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.18989   0.010243  3.5212    0.010613  0.28918   3.5482    16.62     82.971    0.19328   1.147     18.421    0.2113    
+C_validation                       0.022166  0.0018874 0.26418   0.0018947 0.48533   0.26418   47.368    71.087    0.022209  0.095401  21.712    0.020714  
+COMBINED                           0.090899  0.0035354 2.3754    0.0035709 0.34977   2.3916    44.709    69.924    0.091354  0.51653   19.628    0.10138   
+
+CLEAR: r67utuav-yolo11n_mixed5-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -3.6698   0         -3.6698   0         0         0         0         100       -3.6698   0         29756     1092      0         0         0         82        0         
+C_validation                       -0.39038  0         -0.39038  0         0         0         0         100       -0.39038  0         125005    488       0         0         0         244       0         
+COMBINED                           -1.0209   0         -1.0209   0         0         0         0         100       -1.0209   0         154761    1580      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1092      
+C_validation                       0         0         0         0         125005    488       
+COMBINED                           0         0         0         0         154761    1580      
+
+Count: r67utuav-yolo11n_mixed5-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1092      29756     20        82        
+C_validation                       488       125005    30        244       
+COMBINED                           1580      154761    50        326       
+r67utuav-yolo11n_mixed5-c25-ekf: HOTA 0.091, IDF1 0.000
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c25-ukf
+
+
+HOTA: r67utuav-yolo11n_mixed5-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.18989   0.010243  3.5212    0.010613  0.28918   3.5482    16.62     82.962    0.19328   1.147     18.397    0.21102   
+C_validation                       0.022167  0.0018875 0.26418   0.0018947 0.49036   0.26418   47.368    71.088    0.022209  0.095403  21.712    0.020714  
+COMBINED                           0.090901  0.0035355 2.3754    0.0035709 0.35088   2.3916    44.709    69.919    0.091354  0.51654   19.613    0.10131   
+
+CLEAR: r67utuav-yolo11n_mixed5-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -3.6698   0         -3.6698   0         0         0         0         100       -3.6698   0         29756     1092      0         0         0         82        0         
+C_validation                       -0.38638  0         -0.38638  0         0         0         0         100       -0.38638  0         125005    483       0         0         0         244       0         
+COMBINED                           -1.0177   0         -1.0177   0         0         0         0         100       -1.0177   0         154761    1575      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1092      
+C_validation                       0         0         0         0         125005    483       
+COMBINED                           0         0         0         0         154761    1575      
+
+Count: r67utuav-yolo11n_mixed5-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1092      29756     20        82        
+C_validation                       483       125005    30        244       
+COMBINED                           1575      154761    50        326       
+r67utuav-yolo11n_mixed5-c25-ukf: HOTA 0.091, IDF1 0.000
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c25-pf500-s0
+
+
+HOTA: r67utuav-yolo11n_mixed5-c25-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.18992   0.010246  3.5212    0.010613  0.29186   3.5482    16.62     82.973    0.19328   1.1472    18.42     0.21132   
+C_validation                       0.022168  0.0018877 0.26418   0.0018947 0.50178   0.26418   47.368    71.159    0.022209  0.095407  21.929    0.020922  
+COMBINED                           0.090907  0.003536  2.3754    0.0035709 0.35562   2.3916    44.709    69.972    0.091354  0.51657   19.707    0.1018    
+
+CLEAR: r67utuav-yolo11n_mixed5-c25-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -3.6362   0         -3.6362   0         0         0         0         100       -3.6362   0         29756     1082      0         0         0         82        0         
+C_validation                       -0.37758  0         -0.37758  0         0         0         0         100       -0.37758  0         125005    472       0         0         0         244       0         
+COMBINED                           -1.0041   0         -1.0041   0         0         0         0         100       -1.0041   0         154761    1554      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c25-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1082      
+C_validation                       0         0         0         0         125005    472       
+COMBINED                           0         0         0         0         154761    1554      
+
+Count: r67utuav-yolo11n_mixed5-c25-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1082      29756     21        82        
+C_validation                       472       125005    30        244       
+COMBINED                           1554      154761    51        326       
+r67utuav-yolo11n_mixed5-c25-pf500-s0: HOTA 0.091, IDF1 0.000
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c25-pf500-s1
+
+
+HOTA: r67utuav-yolo11n_mixed5-c25-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.14299   0.0076837 2.6611    0.0079595 0.21869   2.6611    15.789    87.02     0.14554   0.90563   17.794    0.16114   
+C_validation                       0.022167  0.0018876 0.26418   0.0018947 0.49549   0.26418   47.368    71.129    0.022209  0.095405  21.799    0.020797  
+COMBINED                           0.071285  0.0030306 1.7049    0.0030607 0.30345   1.7049    47.368    70.765    0.071638  0.41117   19.488    0.080128  
+
+CLEAR: r67utuav-yolo11n_mixed5-c25-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -3.6396   0         -3.6396   0         0         0         0         100       -3.6396   0         29756     1083      0         0         0         82        0         
+C_validation                       -0.38238  0         -0.38238  0         0         0         0         100       -0.38238  0         125005    478       0         0         0         244       0         
+COMBINED                           -1.0087   0         -1.0087   0         0         0         0         100       -1.0087   0         154761    1561      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c25-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1083      
+C_validation                       0         0         0         0         125005    478       
+COMBINED                           0         0         0         0         154761    1561      
+
+Count: r67utuav-yolo11n_mixed5-c25-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1083      29756     20        82        
+C_validation                       478       125005    29        244       
+COMBINED                           1561      154761    49        326       
+r67utuav-yolo11n_mixed5-c25-pf500-s1: HOTA 0.071, IDF1 0.000
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c25-pf500-s2
+
+
+HOTA: r67utuav-yolo11n_mixed5-c25-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.18989   0.010243  3.5212    0.010613  0.28918   3.5482    16.62     82.979    0.19328   1.147     18.485    0.21203   
+C_validation                       0.022169  0.0018879 0.26418   0.0018947 0.52168   0.26418   47.368    71.04     0.022209  0.095414  21.618    0.020627  
+COMBINED                           0.090909  0.0035361 2.3754    0.0035709 0.35746   2.3916    44.709    69.895    0.091354  0.51658   19.634    0.10143   
+
+CLEAR: r67utuav-yolo11n_mixed5-c25-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -3.6698   0         -3.6698   0         0         0         0         100       -3.6698   0         29756     1092      0         0         0         82        0         
+C_validation                       -0.36319  0         -0.36319  0         0         0         0         100       -0.36319  0         125005    454       0         0         0         244       0         
+COMBINED                           -0.99896  0         -0.99896  0         0         0         0         100       -0.99896  0         154761    1546      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c25-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1092      
+C_validation                       0         0         0         0         125005    454       
+COMBINED                           0         0         0         0         154761    1546      
+
+Count: r67utuav-yolo11n_mixed5-c25-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1092      29756     20        82        
+C_validation                       454       125005    35        244       
+COMBINED                           1546      154761    55        326       
+r67utuav-yolo11n_mixed5-c25-pf500-s2: HOTA 0.091, IDF1 0.000
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c10-cv
+
+
+HOTA: r67utuav-yolo11n_mixed5-c10-cv-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.26955   0.014535  5.0017    0.015211  0.32056   5.0857    16.165    82.888    0.27575   1.6819    17.794    0.29929   
+C_validation                       0.045515  0.0039319 0.54354   0.0039577 0.59179   0.5436    48.246    69.427    0.045664  0.14976   26.151    0.039162  
+COMBINED                           0.13932   0.0060353 3.3014    0.0061215 0.42143   3.3411    46.224    68.084    0.14031   0.76105   21.173    0.16113   
+
+CLEAR: r67utuav-yolo11n_mixed5-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -4.7453   0         -4.7453   0         0         0         0         100       -4.7453   0         29756     1412      0         0         0         82        0         
+C_validation                       -0.66717  50.005    -0.66717  0.000799970.11962   0         0         100       -0.66757  1         125004    835       0         0         0         244       0         
+COMBINED                           -1.4513   50.005    -1.4513   0.000646160.044484  0         0         100       -1.4516   1         154760    2247      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1412      
+C_validation                       0.0015893 0.000799970.11962   1         125004    835       
+COMBINED                           0.0012738 0.000646160.044484  1         154760    2247      
+
+Count: r67utuav-yolo11n_mixed5-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1412      29756     20        82        
+C_validation                       836       125005    28        244       
+COMBINED                           2248      154761    48        326       
+r67utuav-yolo11n_mixed5-c10-cv: HOTA 0.139, IDF1 0.001
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c10-ekf
+
+
+HOTA: r67utuav-yolo11n_mixed5-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.27678   0.014873  5.1538    0.015565  0.32802   5.204     16.541    82.891    0.28315   1.6819    17.876    0.30065   
+C_validation                       0.045511  0.0039313 0.54354   0.0039577 0.57932   0.5436    48.246    69.445    0.045664  0.14974   26.164    0.039178  
+COMBINED                           0.14248   0.0061017 3.4177    0.0061895 0.42272   3.4378    46.441    68.093    0.1435    0.76101   21.226    0.16153   
+
+CLEAR: r67utuav-yolo11n_mixed5-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -4.7453   0         -4.7453   0         0         0         0         100       -4.7453   0         29756     1412      0         0         0         82        0         
+C_validation                       -0.68157  50.07     -0.68157  0.000799970.1171    0         0         100       -0.68197  1         125004    853       0         0         0         244       0         
+COMBINED                           -1.4629   50.07     -1.4629   0.000646160.044131  0         0         100       -1.4632   1         154760    2265      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1412      
+C_validation                       0.0015891 0.000799970.1171    1         125004    853       
+COMBINED                           0.0012737 0.000646160.044131  1         154760    2265      
+
+Count: r67utuav-yolo11n_mixed5-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1412      29756     20        82        
+C_validation                       854       125005    28        244       
+COMBINED                           2266      154761    48        326       
+r67utuav-yolo11n_mixed5-c10-ekf: HOTA 0.142, IDF1 0.001
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c10-ukf
+
+
+HOTA: r67utuav-yolo11n_mixed5-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.27678   0.014873  5.1538    0.015565  0.32802   5.204     16.541    82.882    0.28315   1.6819    17.848    0.30019   
+C_validation                       0.045511  0.0039312 0.54354   0.0039577 0.57662   0.5436    48.246    69.446    0.045664  0.14974   26.164    0.039178  
+COMBINED                           0.14248   0.0061015 3.4177    0.0061895 0.42198   3.4378    46.441    68.089    0.1435    0.761     21.21     0.1614    
+
+CLEAR: r67utuav-yolo11n_mixed5-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -4.7453   0         -4.7453   0         0         0         0         100       -4.7453   0         29756     1412      0         0         0         82        0         
+C_validation                       -0.68477  50.071    -0.68477  0.000799970.11655   0         0         100       -0.68517  1         125004    857       0         0         0         244       0         
+COMBINED                           -1.4655   50.071    -1.4655   0.000646160.044053  0         0         100       -1.4658   1         154760    2269      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1412      
+C_validation                       0.001589  0.000799970.11655   1         125004    857       
+COMBINED                           0.0012736 0.000646160.044053  1         154760    2269      
+
+Count: r67utuav-yolo11n_mixed5-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1412      29756     20        82        
+C_validation                       858       125005    26        244       
+COMBINED                           2270      154761    46        326       
+r67utuav-yolo11n_mixed5-c10-ukf: HOTA 0.142, IDF1 0.001
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c10-pf500-s0
+
+
+HOTA: r67utuav-yolo11n_mixed5-c10-pf500-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.26478   0.014365  4.8839    0.015035  0.31706   5.0266    15.977    82.89     0.27087   1.6819    17.718    0.298     
+C_validation                       0.044928  0.0038905 0.53525   0.0039156 0.59474   0.53525   47.368    72.083    0.045074  0.14976   26.205    0.039246  
+COMBINED                           0.13649   0.0059687 3.1946    0.0060535 0.41936   3.2694    44.786    70.604    0.13746   0.76108   21.149    0.16096   
+
+CLEAR: r67utuav-yolo11n_mixed5-c10-pf500-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -4.7419   0         -4.7419   0         0         0         0         100       -4.7419   0         29756     1411      0         0         0         82        0         
+C_validation                       -0.65837  0         -0.65837  0         0         0         0         100       -0.65837  0         125005    823       0         0         0         244       0         
+COMBINED                           -1.4435   0         -1.4435   0         0         0         0         100       -1.4435   0         154761    2234      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c10-pf500-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1411      
+C_validation                       0         0         0         0         125005    823       
+COMBINED                           0         0         0         0         154761    2234      
+
+Count: r67utuav-yolo11n_mixed5-c10-pf500-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1411      29756     20        82        
+C_validation                       823       125005    30        244       
+COMBINED                           2234      154761    50        326       
+r67utuav-yolo11n_mixed5-c10-pf500-s0: HOTA 0.136, IDF1 0.000
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c10-pf500-s1
+
+
+HOTA: r67utuav-yolo11n_mixed5-c10-pf500-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.26966   0.014546  5.0017    0.015211  0.32634   5.0857    16.165    82.906    0.27575   1.6826    17.835    0.30009   
+C_validation                       0.044929  0.0038907 0.53525   0.0039156 0.59985   0.53525   47.368    71.872    0.045074  0.14977   26.045    0.039007  
+COMBINED                           0.13882   0.0060035 3.2932    0.0060875 0.42765   3.3328    45.347    70.558    0.13978   0.76116   21.154    0.16101   
+
+CLEAR: r67utuav-yolo11n_mixed5-c10-pf500-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -4.6612   0         -4.6612   0         0         0         0         100       -4.6612   0         29756     1387      0         0         0         82        0         
+C_validation                       -0.65277  0         -0.65277  0         0         0         0         100       -0.65277  0         125005    816       0         0         0         244       0         
+COMBINED                           -1.4235   0         -1.4235   0         0         0         0         100       -1.4235   0         154761    2203      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c10-pf500-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1387      
+C_validation                       0         0         0         0         125005    816       
+COMBINED                           0         0         0         0         154761    2203      
+
+Count: r67utuav-yolo11n_mixed5-c10-pf500-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1387      29756     19        82        
+C_validation                       816       125005    27        244       
+COMBINED                           2203      154761    46        326       
+r67utuav-yolo11n_mixed5-c10-pf500-s1: HOTA 0.139, IDF1 0.000
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r67utuav-yolo11n_mixed5-c10-pf500-s2
+
+
+HOTA: r67utuav-yolo11n_mixed5-c10-pf500-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_validation                       0.25916   0.014044  4.7858    0.014681  0.3177    4.9083    15.602    82.855    0.26498   1.6829    17.444    0.29356   
+C_validation                       0.044931  0.0038909 0.53525   0.0039156 0.60653   0.53525   47.368    71.968    0.045074  0.14977   26.077    0.039057  
+COMBINED                           0.13423   0.0059036 3.1319    0.0059855 0.42453   3.1916    45.049    70.631    0.13516   0.76121   20.934    0.15935   
+
+CLEAR: r67utuav-yolo11n_mixed5-c10-pf500-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_validation                       -4.6209   0         -4.6209   0         0         0         0         100       -4.6209   0         29756     1375      0         0         0         82        0         
+C_validation                       -0.64557  0         -0.64557  0         0         0         0         100       -0.64557  0         125005    807       0         0         0         244       0         
+COMBINED                           -1.4099   0         -1.4099   0         0         0         0         100       -1.4099   0         154761    2182      0         0         0         326       0         
+
+Identity: r67utuav-yolo11n_mixed5-c10-pf500-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_validation                       0         0         0         0         29756     1375      
+C_validation                       0         0         0         0         125005    807       
+COMBINED                           0         0         0         0         154761    2182      
+
+Count: r67utuav-yolo11n_mixed5-c10-pf500-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+B_validation                       1375      29756     20        82        
+C_validation                       807       125005    30        244       
+COMBINED                           2182      154761    50        326       
+r67utuav-yolo11n_mixed5-c10-pf500-s2: HOTA 0.134, IDF1 0.000

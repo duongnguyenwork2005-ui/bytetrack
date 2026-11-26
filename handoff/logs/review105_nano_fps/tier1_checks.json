@@ -1,0 +1,43 @@
+{
+  "checks": [
+    {
+      "check": "cpu_tests",
+      "command": [
+        "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+        "-B",
+        "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review105_nano_fps\\test_r105.py"
+      ],
+      "exit_code": 0,
+      "evidence": "handoff/logs/review105_nano_fps/cpu_tests.log"
+    },
+    {
+      "check": "bundle_build",
+      "command": [
+        "C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe",
+        "-B",
+        "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review105_nano_fps\\make_bundle.py"
+      ],
+      "exit_code": 0,
+      "evidence": "handoff/logs/review105_nano_fps/bundle_build.log"
+    },
+    {
+      "check": "syntax",
+      "command": "compile every R105 Python source; ast.parse(feature_version=(3,6)) cadence/prepare/runner",
+      "exit_code": 0,
+      "files": 9
+    }
+  ],
+  "source_sha256": {
+    "bench_nano.py": "ddaf102574f3ae392ee6458f13c24688d42f94f06a13bdc3e8b2ed477cd3aac1",
+    "cadence.py": "d24e9a5d4455dab3e06b219469207fe5c6475aa7e37cd60c8e4d7a72229e69f7",
+    "eval_benchmark.py": "7413a19ee84a68016d4ad5ce1fcf01947cb6e3a349d49b8d5c1ba151e0f0960c",
+    "make_bundle.py": "7ae43f80efcfcc90a7de0bcb7dd50ac81307309eaf33b94b4d1cdb2e8a79070b",
+    "prepare_nano.py": "0d31d0435220472f8fb4bd5d1205ac575671a5fd630406f97ffcb901e78de077",
+    "test_r105.py": "d6755df07e09e15554c0fe54d5c0cd543bdb928da5abbe91aae28a3fcf95766a",
+    "drivers/r101_driver.py": "2467551a15dbf41133b6037be7cfdfb626409c318c6adddf84c7b7af1c235abb",
+    "drivers/r102_driver.py": "3cfacfbc2b184fe9c553c1bf0f0a8ad5b8ddc61c8b32fe73a7852bf83fa8be3c",
+    "drivers/r86_driver.py": "ade7b135876e5f090e19c26ad6e2109cb388b668bc7997c77799ce10b319cf17"
+  },
+  "nano_runs": 0,
+  "scope": "CPU-only synthetic tests and offline bundle; no Nano benchmark"
+}

@@ -1,0 +1,46 @@
+[trackeval] split=UTUAV-pilot-gap-moto  tracker=utuav_gap_ukf  dataset_class=mot
+
+Evaluating 1 tracker(s) on 2 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating utuav_gap_ukf
+
+
+HOTA: utuav_gap_ukf-pedestrian     HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+B_straight_26401_26520             73.866    74.657    73.102    75.924    92.663    74.315    93.101    90.997    74.486    80.772    90.464    73.07     
+C_turn_20901_21020                 74.485    74.782    74.193    75.99     92.501    75.367    92.704    90.859    75.061    81.719    90.344    73.828    
+COMBINED                           74.394    74.763    74.033    75.98     92.526    75.214    92.77     90.88     74.978    81.577    90.362    73.715    
+
+CLEAR: utuav_gap_ukf-pedestrian    MOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+B_straight_26401_26520             81.54     90.464    81.935    81.935    100       46.154    53.846    0         73.727    830       183       0         4         6         7         0         117       
+C_turn_20901_21020                 82.063    90.344    82.15     82.15     100       57.407    42.593    0         74.13     4699      1021      0         5         31        23        0         705       
+COMBINED                           81.984    90.362    82.118    82.118    100       55.224    44.776    0         74.07     5529      1204      0         9         37        30        0         822       
+
+Identity: utuav_gap_ukf-pedestrian IDF1      IDR       IDP       IDTP      IDFN      IDFP      
+B_straight_26401_26520             87.466    79.566    97.108    806       207       24        
+C_turn_20901_21020                 89.01     81.066    98.681    4637      1083      62        
+COMBINED                           88.778    80.841    98.445    5443      1290      86        
+
+Count: utuav_gap_ukf-pedestrian    Dets      GT_Dets   IDs       GT_IDs    
+B_straight_26401_26520             830       1013      17        13        
+C_turn_20901_21020                 4699      5720      59        54        
+COMBINED                           5529      6733      76        67        
+
+==============================================================================
+KET QUA THEO TUNG VIDEO - utuav_gap_ukf
+==============================================================================
+                 video   HOTA   DetA   AssA   MOTA   IDF1    IDP    IDR  FP   FN  IDSW
+B_straight_26401_26520 0.7387 0.7466 0.7310 0.8154 0.8747 0.9711 0.7957   0  183     4
+    C_turn_20901_21020 0.7448 0.7478 0.7419 0.8206 0.8901 0.9868 0.8107   0 1021     5
+
+==============================================================================
+KET QUA TONG HOP (COMBINED_SEQ) - utuav_gap_ukf
+==============================================================================
+  HOTA  = 0.7439   (DetA = 0.7476, AssA = 0.7403)
+  MOTA  = 0.8198   (FP = 0, FN = 1,204, IDSW = 9)
+  IDF1  = 0.8878   (IDP = 0.9844, IDR = 0.8084)
+  MOTP  = 0.9036
+
+  Da luu:
+    D:\LABOTARY\bytetrack\results\trackeval\UTUAV-pilot-gap-moto\utuav_gap_ukf\per_video_metrics.csv
+    D:\LABOTARY\bytetrack\results\trackeval\UTUAV-pilot-gap-moto\utuav_gap_ukf\combined_metrics.csv

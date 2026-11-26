@@ -1,0 +1,8 @@
+{
+  "status": "fixed before block-gap tracker runs",
+  "purpose": "controlled occlusion-like diagnostic, not a claim about UTUAV occlusion labels",
+  "base_detection": "GT-synthetic: 3% box jitter, 15% independent dropout, seed 0",
+  "block_gap": "For each moving GT track with at least 20 annotated frames, select 1/2 tracks by sha256(sequence:track_id) parity. For selected tracks remove 8 consecutive detections centered at the median observed frame. Keep GT intact.",
+  "tracker_policy": "same four pre-existing ByteTrack KF/EKF/UKF/PF100 configs, same cache per filter, PF seeds 0/1/2",
+  "score_policy": "TrackEval HOTA/IDF1/IDSW on both selected 120-frame validation windows; repeat motorcycle-only stratification"
+}
