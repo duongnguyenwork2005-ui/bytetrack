@@ -1,0 +1,70 @@
+{
+  "status": "PASS",
+  "meaning": "Four bounded fresh-process diagnostic runs; not a proven long-training fix",
+  "steps": 256,
+  "models": {
+    "control_cudnn": {
+      "status": "PASS",
+      "steps_completed": 64,
+      "BN_grad_fn_counts_first_step": {
+        "CudnnBatchNormBackward0": 81
+      },
+      "final_loss": [
+        3.88818621635437,
+        3.129606246948242,
+        3.706118583679199
+      ],
+      "elapsed_seconds": 68.95299999997951
+    },
+    "control_nativeBN": {
+      "status": "PASS",
+      "steps_completed": 64,
+      "BN_grad_fn_counts_first_step": {
+        "NativeBatchNormBackward0": 81
+      },
+      "final_loss": [
+        3.8881826400756836,
+        3.1296067237854004,
+        3.706117630004883
+      ],
+      "elapsed_seconds": 61.59399999998277
+    },
+    "joint50_cudnn": {
+      "status": "PASS",
+      "steps_completed": 64,
+      "BN_grad_fn_counts_first_step": {
+        "CudnnBatchNormBackward0": 81
+      },
+      "final_loss": [
+        4.143282413482666,
+        3.7862815856933594,
+        3.818239212036133
+      ],
+      "elapsed_seconds": 63.21899999998277
+    },
+    "joint50_nativeBN": {
+      "status": "PASS",
+      "steps_completed": 64,
+      "BN_grad_fn_counts_first_step": {
+        "NativeBatchNormBackward0": 81
+      },
+      "final_loss": [
+        4.143283843994141,
+        3.786283493041992,
+        3.8182406425476074
+      ],
+      "elapsed_seconds": 83.96899999998277
+    }
+  },
+  "root_cause_identified": false,
+  "new_training_performed": false,
+  "sha256": {
+    "handoff\\logs\\review171_cuda_batch_diagnosis\\00_protocol.md": "016a96a2bd11e7dab5b1508ef43e6afc3b7154a1b27108e08d7c0eb20d784e10",
+    "handoff\\logs\\review171_cuda_batch_diagnosis\\probe.py": "4dafe38a492777efa1f8065722fbaf069b70f3747b89cb5e1c19f31666620508",
+    "handoff\\logs\\review171_cuda_batch_diagnosis\\run.ps1": "5d83335c865ab3c1bcd5f539578f4c4b9d1ad7e4be972c4a42ef5f550f88da22",
+    "handoff\\logs\\review171_cuda_batch_diagnosis\\control_cudnn.json": "62409cf8a0f1de89f84e6555e1257799a74575068664dd774a94403ed806c707",
+    "handoff\\logs\\review171_cuda_batch_diagnosis\\control_nativeBN.json": "84baf731f9f417f34fe9f6352114eafb2752aae07efe12491136caddb080b789",
+    "handoff\\logs\\review171_cuda_batch_diagnosis\\joint50_cudnn.json": "a95c256a819c36d65747cbfaa6be2348a6f2dbfa7ef61dbc9aa38be9b81de1fd",
+    "handoff\\logs\\review171_cuda_batch_diagnosis\\joint50_nativeBN.json": "5e1ccb51814e71ea07d277147955b7ca3d4004a31a8edc06c10684b78d3db66b"
+  }
+}
