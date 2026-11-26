@@ -1,0 +1,52 @@
+{
+  "control": {
+    "returncode": 0,
+    "seconds": 326.75200128300094,
+    "log_sha256": "2e94847e81c29c5df0abf0f6bdef70532a466d0e9149839c2568cd3f0ca36aed",
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--onnx=/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/model.onnx",
+      "--saveEngine=/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/control/model.engine",
+      "--fp16",
+      "--workspace=512",
+      "--buildOnly",
+      "--profilingVerbosity=detailed"
+    ],
+    "after": {
+      "boot": "f52d349d-e4ce-4413-abee-d9f0f02dac2e",
+      "swap_MiB": 98.64453125,
+      "available_MiB": 2842.35546875,
+      "thermal_C": {
+        "CPU-therm": 29.0,
+        "GPU-therm": 27.0
+      },
+      "SD_errors": "0"
+    },
+    "engine_sha256": "f4369da0c6e0296b7cb6a0f2d00e857a33a2bc351f7668182c4bdc3df7a71dd8"
+  },
+  "joint50": {
+    "returncode": 0,
+    "seconds": 339.0370085399991,
+    "log_sha256": "277906d3b1334f5a6545883ccd14a911fbaef47a622085f80671eb305fcf19f5",
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--onnx=/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/model.onnx",
+      "--saveEngine=/home/jetson/nano_run/r172_common7_pruning_20261121/recovered/joint50/model.engine",
+      "--fp16",
+      "--workspace=512",
+      "--buildOnly",
+      "--profilingVerbosity=detailed"
+    ],
+    "after": {
+      "boot": "f52d349d-e4ce-4413-abee-d9f0f02dac2e",
+      "swap_MiB": 100.55078125,
+      "available_MiB": 2841.8984375,
+      "thermal_C": {
+        "CPU-therm": 29.0,
+        "GPU-therm": 27.0
+      },
+      "SD_errors": "0"
+    },
+    "engine_sha256": "61d4211fc6b66620615673a81be6ad95b95d5e20d7481b7dfef5e5618690561b"
+  }
+}

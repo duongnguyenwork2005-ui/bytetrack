@@ -1,0 +1,48 @@
+{
+  "round": "R72",
+  "date": "2026-11-03",
+  "authorization": "User: 'thế cải thiện tiếp đi' after R71 negative result.",
+  "purpose": "Measure true resampling ancestry and test independent motion-state K2 roughening scale.",
+  "dataset": "Same UA-DETRAC dev12 train, YOLOv8n COCO conf .25, classes 2/3/5/7, 25 fps, elapsed skip as R70/R71",
+  "design": {
+    "particles": 500,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "K1": true,
+    "K2": 1,
+    "box_scale": 1,
+    "motion_scales": [
+      0.5,
+      1,
+      2
+    ],
+    "R": "observation",
+    "n_runs": 9,
+    "n_units": 108,
+    "association": "unchanged"
+  },
+  "analysis": {
+    "primary": "HOTA difference vs motion1; paired video bootstrap 5000 fixed seed0",
+    "secondary": [
+      "DetA",
+      "AssA",
+      "IDF1",
+      "MOTA",
+      "IDSW",
+      "true ancestor count",
+      "conditional prediction center error and coverage",
+      "serial tracker.update time"
+    ],
+    "caveat": "Same previously used dev12, exploratory selection only."
+  },
+  "gates": [
+    "tests",
+    "18/18 smoke",
+    "motion1 byte parity with R71/R70",
+    "108/108 full",
+    "raw-field recomposition"
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "dataset": "UAVDT official Benchmark-M train; 8 sequence preselection",
+  "selection": [
+    "M1306",
+    "M1005",
+    "M1202",
+    "M0206",
+    "M0204",
+    "M0501",
+    "M0301",
+    "M1008"
+  ],
+  "sample_rule": "10 evenly spaced frames per sequence",
+  "imgsz": 640,
+  "conf": 0.05,
+  "iou_match": 0.5,
+  "vehicle_coco_classes": [
+    2,
+    5,
+    7
+  ],
+  "detectors": {
+    "yolov8n_coco": {
+      "checkpoint": "D:\\LABOTARY\\bytetrack\\models\\yolov8n.pt",
+      "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+      "gt": 979,
+      "matched": 510,
+      "recall": 0.5209397344228804,
+      "scenes_at_least_15pct": 7,
+      "scenes": {
+        "M1306": {
+          "gt": 177,
+          "matched": 140,
+          "recall": 0.7909604519774012,
+          "frames_at_detection_cap": 0
+        },
+        "M1005": {
+          "gt": 204,
+          "matched": 112,
+          "recall": 0.5490196078431373,
+          "frames_at_detection_cap": 0
+        },
+        "M1202": {
+          "gt": 164,
+          "matched": 75,
+          "recall": 0.4573170731707317,
+          "frames_at_detection_cap": 0
+        },
+        "M0206": {
+          "gt": 90,
+          "matched": 70,
+          "recall": 0.7777777777777778,
+          "frames_at_detection_cap": 0
+        },
+        "M0204": {
+          "gt": 95,
+          "matched": 71,
+          "recall": 0.7473684210526316,
+          "frames_at_detection_cap": 0
+        },
+        "M0501": {
+          "gt": 130,
+          "matched": 3,
+          "recall": 0.023076923076923078,
+          "frames_at_detection_cap": 0
+        },
+        "M0301": {
+          "gt": 51,
+          "matched": 10,
+          "recall": 0.19607843137254902,
+          "frames_at_detection_cap": 0
+        },
+        "M1008": {
+          "gt": 68,
+          "matched": 29,
+          "recall": 0.4264705882352941,
+          "frames_at_detection_cap": 0
+        }
+      }
+    },
+    "yolov8n_mixed5": {
+      "checkpoint": "D:\\LABOTARY\\bytetrack\\models\\finetune_mixed5\\train_mixed5_v1_yolov8n_day_du\\weights\\best.pt",
+      "sha256": "542b1381c33a673531bccdbca769f26408a16e9ba6ed89e49238a0f16b9b0694",
+      "gt": 979,
+      "matched": 250,
+      "recall": 0.2553626149131767,
+      "scenes_at_least_15pct": 4,
+      "scenes": {
+        "M1306": {
+          "gt": 177,
+          "matched": 124,
+          "recall": 0.7005649717514124,
+          "frames_at_detection_cap": 0
+        },
+        "M1005": {
+          "gt": 204,
+          "matched": 31,
+          "recall": 0.15196078431372548,
+          "frames_at_detection_cap": 0
+        },
+        "M1202": {
+          "gt": 164,
+          "matched": 14,
+          "recall": 0.08536585365853659,
+          "frames_at_detection_cap": 0
+        },
+        "M0206": {
+          "gt": 90,
+          "matched": 24,
+          "recall": 0.26666666666666666,
+          "frames_at_detection_cap": 0
+        },
+        "M0204": {
+          "gt": 95,
+          "matched": 51,
+          "recall": 0.5368421052631579,
+          "frames_at_detection_cap": 0
+        },
+        "M0501": {
+          "gt": 130,
+          "matched": 0,
+          "recall": 0.0,
+          "frames_at_detection_cap": 0
+        },
+        "M0301": {
+          "gt": 51,
+          "matched": 4,
+          "recall": 0.0784313725490196,
+          "frames_at_detection_cap": 0
+        },
+        "M1008": {
+          "gt": 68,
+          "matched": 2,
+          "recall": 0.029411764705882353,
+          "frames_at_detection_cap": 0
+        }
+      }
+    },
+    "yolo11n_mixed5": {
+      "checkpoint": "D:\\LABOTARY\\bytetrack\\models\\finetune_mixed5\\train_mixed5_v1_yolo11n_day_du\\weights\\best.pt",
+      "sha256": "9a5e34a12c1d97cd1b0e49325d2eadbd443a965633b464461980df91fea386fb",
+      "gt": 979,
+      "matched": 315,
+      "recall": 0.32175689479060265,
+      "scenes_at_least_15pct": 4,
+      "scenes": {
+        "M1306": {
+          "gt": 177,
+          "matched": 145,
+          "recall": 0.8192090395480226,
+          "frames_at_detection_cap": 0
+        },
+        "M1005": {
+          "gt": 204,
+          "matched": 56,
+          "recall": 0.27450980392156865,
+          "frames_at_detection_cap": 0
+        },
+        "M1202": {
+          "gt": 164,
+          "matched": 24,
+          "recall": 0.14634146341463414,
+          "frames_at_detection_cap": 0
+        },
+        "M0206": {
+          "gt": 90,
+          "matched": 31,
+          "recall": 0.34444444444444444,
+          "frames_at_detection_cap": 0
+        },
+        "M0204": {
+          "gt": 95,
+          "matched": 55,
+          "recall": 0.5789473684210527,
+          "frames_at_detection_cap": 0
+        },
+        "M0501": {
+          "gt": 130,
+          "matched": 0,
+          "recall": 0.0,
+          "frames_at_detection_cap": 0
+        },
+        "M0301": {
+          "gt": 51,
+          "matched": 2,
+          "recall": 0.0392156862745098,
+          "frames_at_detection_cap": 0
+        },
+        "M1008": {
+          "gt": 68,
+          "matched": 2,
+          "recall": 0.029411764705882353,
+          "frames_at_detection_cap": 0
+        }
+      }
+    }
+  }
+}

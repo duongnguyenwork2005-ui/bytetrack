@@ -1,0 +1,895 @@
+START rene/c25/cv 2026-11-06T07:25:40.313472
+[run_tracking] cache=r88_urbantracker_rene_roi_yolov8n_coco_c005 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[2] max_det=300 fps=29.97002997002997 track_buffer=36 elapsed=steps seeds=[None]
+  r88roi-rene-c25-cv           rene           [TAI SU DUNG] bang chung hoan tat + dau van tay khop
+  r88roi-rene-c25-cv             0 video moi,   1 tai su dung
+EVAL r88roi-rene-c25-cv {'HOTA': 0.1546686903662679, 'IDF1': 0.1969031178070726, 'MOTA': -0.0845454545454545, 'IDSW': 28.0}
+DONE rene/c25/cv
+START rene/c25/ekf 2026-11-06T07:25:46.137764
+[run_tracking] cache=r88_urbantracker_rene_roi_yolov8n_coco_c005 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[2] max_det=300 fps=29.97002997002997 track_buffer=36 elapsed=steps seeds=[None]
+  r88roi-rene-c25-ekf          rene            1000 frame ->   3,120 bbox   73 track  predict 0.25 ms/frame  assoc 0.87  (1.3s, 790 fps)
+  r88roi-rene-c25-ekf            1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c25-ekf
+
+
+HOTA: r88roi-rene-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               15.763    12.606    19.974    15.962    35.399    20.359    84.728    81.729    17.759    19.16     76.022    14.566    
+COMBINED                           15.763    12.606    19.974    15.962    35.399    20.359    84.728    81.729    17.759    19.16     76.022    14.566    
+
+CLEAR: r88roi-rene-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -8.197    80.619    -7.8485   18.621    41.297    0         47.826    52.174    -11.806   1229      5371      1747      23        0         11        12        139       
+COMBINED                           -8.197    80.619    -7.8485   18.621    41.297    0         47.826    52.174    -11.806   1229      5371      1747      23        0         11        12        139       
+
+Identity: r88roi-rene-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               19.779    14.348    31.821    947       5653      2029      
+COMBINED                           19.779    14.348    31.821    947       5653      2029      
+
+Count: r88roi-rene-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               2976      6600      68        23        
+COMBINED                           2976      6600      68        23        
+EVAL r88roi-rene-c25-ekf {'HOTA': 0.15763135078617072, 'IDF1': 0.19778613199665832, 'IDSW': 23, 'MOTA': -0.08196969696969697}
+DONE rene/c25/ekf
+START rene/c25/ukf 2026-11-06T07:25:54.074972
+[run_tracking] cache=r88_urbantracker_rene_roi_yolov8n_coco_c005 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.25 classes=[2] max_det=300 fps=29.97002997002997 track_buffer=36 elapsed=steps seeds=[None]
+  r88roi-rene-c25-ukf          rene            1000 frame ->   3,097 bbox   79 track  predict 1.76 ms/frame  assoc 1.22  (3.1s, 318 fps)
+  r88roi-rene-c25-ukf            1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c25-ukf
+
+
+HOTA: r88roi-rene-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               15.43     12.37     19.515    15.663    35.008    19.835    85.895    81.687    17.384    18.802    75.943    14.278    
+COMBINED                           15.43     12.37     19.515    15.663    35.008    19.835    85.895    81.687    17.384    18.802    75.943    14.278    
+
+CLEAR: r88roi-rene-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -8.697    80.612    -8.2576   18.242    40.772    0         43.478    56.522    -12.234   1204      5396      1749      29        0         10        13        131       
+COMBINED                           -8.697    80.612    -8.2576   18.242    40.772    0         43.478    56.522    -12.234   1204      5396      1749      29        0         10        13        131       
+
+Identity: r88roi-rene-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               19.261    13.939    31.155    920       5680      2033      
+COMBINED                           19.261    13.939    31.155    920       5680      2033      
+
+Count: r88roi-rene-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               2953      6600      74        23        
+COMBINED                           2953      6600      74        23        
+EVAL r88roi-rene-c25-ukf {'HOTA': 0.15430405541315814, 'IDF1': 0.19260965141840258, 'IDSW': 29, 'MOTA': -0.08696969696969697}
+DONE rene/c25/ukf
+START rene/c25/pf_default 2026-11-06T07:26:03.478531
+[run_tracking] cache=r88_urbantracker_rene_roi_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=29.97002997002997 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r88roi-rene-c25-pf_default-s0 rene            1000 frame ->   2,989 bbox   91 track  predict 1.87 ms/frame  assoc 2.00  (4.0s, 248 fps)
+  r88roi-rene-c25-pf_default-s0   1 video moi,   0 tai su dung
+  r88roi-rene-c25-pf_default-s1 rene            1000 frame ->   2,999 bbox   93 track  predict 2.26 ms/frame  assoc 2.26  (4.7s, 213 fps)
+  r88roi-rene-c25-pf_default-s1   1 video moi,   0 tai su dung
+  r88roi-rene-c25-pf_default-s2 rene            1000 frame ->   3,014 bbox   94 track  predict 2.17 ms/frame  assoc 2.09  (4.4s, 226 fps)
+  r88roi-rene-c25-pf_default-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c25-pf_default-s0
+
+
+HOTA: r88roi-rene-c25-pf_default-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               14.03     11.878    16.743    14.957    34.637    16.975    86.683    81.867    15.76     17.008    76.301    12.977    
+COMBINED                           14.03     11.878    16.743    14.957    34.637    16.975    86.683    81.867    15.76     17.008    76.301    12.977    
+
+CLEAR: r88roi-rene-c25-pf_default-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -8.8333   80.741    -8.2424   17.47     40.456    0         43.478    56.522    -12.198   1153      5447      1697      39        0         10        13        114       
+COMBINED                           -8.8333   80.741    -8.2424   17.47     40.456    0         43.478    56.522    -12.198   1153      5447      1697      39        0         10        13        114       
+
+Identity: r88roi-rene-c25-pf_default-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               16.995    12.167    28.175    803       5797      2047      
+COMBINED                           16.995    12.167    28.175    803       5797      2047      
+
+Count: r88roi-rene-c25-pf_default-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               2850      6600      86        23        
+COMBINED                           2850      6600      86        23        
+EVAL r88roi-rene-c25-pf_default-s0 {'HOTA': 0.14030039720650897, 'IDF1': 0.16994708994708996, 'IDSW': 39, 'MOTA': -0.08833333333333333}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c25-pf_default-s1
+
+
+HOTA: r88roi-rene-c25-pf_default-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               13.337    11.811    15.339    14.89     34.398    15.685    84.934    81.649    14.993    16.299    75.635    12.328    
+COMBINED                           13.337    11.811    15.339    14.89     34.398    15.685    84.934    81.649    14.993    16.299    75.635    12.328    
+
+CLEAR: r88roi-rene-c25-pf_default-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -9.2121   80.596    -8.5909   17.348    40.077    0         43.478    56.522    -12.578   1145      5455      1712      41        0         10        13        116       
+COMBINED                           -9.2121   80.596    -8.5909   17.348    40.077    0         43.478    56.522    -12.578   1145      5455      1712      41        0         10        13        116       
+
+Identity: r88roi-rene-c25-pf_default-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               15.607    11.182    25.831    738       5862      2119      
+COMBINED                           15.607    11.182    25.831    738       5862      2119      
+
+Count: r88roi-rene-c25-pf_default-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               2857      6600      87        23        
+COMBINED                           2857      6600      87        23        
+EVAL r88roi-rene-c25-pf_default-s1 {'HOTA': 0.13336960777723092, 'IDF1': 0.1560748651792323, 'IDSW': 41, 'MOTA': -0.09212121212121212}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c25-pf_default-s2
+
+
+HOTA: r88roi-rene-c25-pf_default-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               13.684    11.861    15.975    14.964    34.412    16.238    85.252    81.536    15.389    16.707    75.492    12.612    
+COMBINED                           13.684    11.861    15.975    14.964    34.412    16.238    85.252    81.536    15.389    16.707    75.492    12.612    
+
+CLEAR: r88roi-rene-c25-pf_default-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -9.1515   80.361    -8.5152   17.485    40.209    0         43.478    56.522    -12.585   1154      5446      1716      42        0         10        13        116       
+COMBINED                           -9.1515   80.361    -8.5152   17.485    40.209    0         43.478    56.522    -12.585   1154      5446      1716      42        0         10        13        116       
+
+Identity: r88roi-rene-c25-pf_default-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               15.945    11.439    26.307    755       5845      2115      
+COMBINED                           15.945    11.439    26.307    755       5845      2115      
+
+Count: r88roi-rene-c25-pf_default-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               2870      6600      89        23        
+COMBINED                           2870      6600      89        23        
+EVAL r88roi-rene-c25-pf_default-s2 {'HOTA': 0.13684300851645065, 'IDF1': 0.15945089757127773, 'IDSW': 42, 'MOTA': -0.09151515151515152}
+DONE rene/c25/pf_default
+START rene/c25/pf_motion100 2026-11-06T07:26:24.698992
+[run_tracking] cache=r88_urbantracker_rene_roi_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.25 classes=[2] max_det=300 fps=29.97002997002997 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r88roi-rene-c25-pf_motion100-s0 rene            1000 frame ->   3,055 bbox   90 track  predict 1.91 ms/frame  assoc 2.50  (4.6s, 218 fps)
+  r88roi-rene-c25-pf_motion100-s0   1 video moi,   0 tai su dung
+  r88roi-rene-c25-pf_motion100-s1 rene            1000 frame ->   3,053 bbox   89 track  predict 2.17 ms/frame  assoc 2.64  (5.0s, 201 fps)
+  r88roi-rene-c25-pf_motion100-s1   1 video moi,   0 tai su dung
+  r88roi-rene-c25-pf_motion100-s2 rene            1000 frame ->   3,075 bbox   89 track  predict 2.33 ms/frame  assoc 2.75  (5.3s, 189 fps)
+  r88roi-rene-c25-pf_motion100-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c25-pf_motion100-s0
+
+
+HOTA: r88roi-rene-c25-pf_motion100-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               14.1      12.017    16.748    15.209    34.4      17.032    85.999    81.542    15.88     17.307    75.611    13.086    
+COMBINED                           14.1      12.017    16.748    15.209    34.4      17.032    85.999    81.542    15.88     17.307    75.611    13.086    
+
+CLEAR: r88roi-rene-c25-pf_motion100-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -9.4091   80.539    -8.8182   17.697    40.027    0         43.478    56.522    -12.853   1168      5432      1750      39        0         10        13        118       
+COMBINED                           -9.4091   80.539    -8.8182   17.697    40.027    0         43.478    56.522    -12.853   1168      5432      1750      39        0         10        13        118       
+
+Identity: r88roi-rene-c25-pf_motion100-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               16.789    12.106    27.382    799       5801      2119      
+COMBINED                           16.789    12.106    27.382    799       5801      2119      
+
+Count: r88roi-rene-c25-pf_motion100-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               2918      6600      85        23        
+COMBINED                           2918      6600      85        23        
+EVAL r88roi-rene-c25-pf_motion100-s0 {'HOTA': 0.14099586506954023, 'IDF1': 0.1678924143727674, 'IDSW': 39, 'MOTA': -0.09409090909090909}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c25-pf_motion100-s1
+
+
+HOTA: r88roi-rene-c25-pf_motion100-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               14.174    11.996    17.043    15.184    34.391    17.359    86.372    81.571    15.968    17.306    75.633    13.089    
+COMBINED                           14.174    11.996    17.043    15.184    34.391    17.359    86.372    81.571    15.968    17.306    75.633    13.089    
+
+CLEAR: r88roi-rene-c25-pf_motion100-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -9.4545   80.61     -8.8788   17.636    39.945    0         43.478    56.522    -12.874   1164      5436      1750      38        0         10        13        116       
+COMBINED                           -9.4545   80.61     -8.8788   17.636    39.945    0         43.478    56.522    -12.874   1164      5436      1750      38        0         10        13        116       
+
+Identity: r88roi-rene-c25-pf_motion100-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               16.901    12.182    27.591    804       5796      2110      
+COMBINED                           16.901    12.182    27.591    804       5796      2110      
+
+Count: r88roi-rene-c25-pf_motion100-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               2914      6600      84        23        
+COMBINED                           2914      6600      84        23        
+EVAL r88roi-rene-c25-pf_motion100-s1 {'HOTA': 0.1417390122914995, 'IDF1': 0.16901408450704225, 'IDSW': 38, 'MOTA': -0.09454545454545454}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c25-pf_motion100-s2
+
+
+HOTA: r88roi-rene-c25-pf_motion100-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               14.372    12.212    17.101    15.451    34.791    17.39     85.846    81.663    16.184    17.596    75.813    13.34     
+COMBINED                           14.372    12.212    17.101    15.451    34.791    17.39     85.846    81.663    16.184    17.596    75.813    13.34     
+
+CLEAR: r88roi-rene-c25-pf_motion100-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -9.0303   80.634    -8.4697   17.97     40.464    0         43.478    56.522    -12.51    1186      5414      1745      37        0         10        13        122       
+COMBINED                           -9.0303   80.634    -8.4697   17.97     40.464    0         43.478    56.522    -12.51    1186      5414      1745      37        0         10        13        122       
+
+Identity: r88roi-rene-c25-pf_motion100-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               16.976    12.258    27.602    809       5791      2122      
+COMBINED                           16.976    12.258    27.602    809       5791      2122      
+
+Count: r88roi-rene-c25-pf_motion100-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               2931      6600      84        23        
+COMBINED                           2931      6600      84        23        
+EVAL r88roi-rene-c25-pf_motion100-s2 {'HOTA': 0.1437204632173834, 'IDF1': 0.16976182981848703, 'IDSW': 37, 'MOTA': -0.0903030303030303}
+DONE rene/c25/pf_motion100
+START rene/c10/cv 2026-11-06T07:26:48.465758
+[run_tracking] cache=r88_urbantracker_rene_roi_yolov8n_coco_c005 tracker=bytetrack yaml=bytetrack.yaml conf>0.1 classes=[2] max_det=300 fps=29.97002997002997 track_buffer=36 elapsed=steps seeds=[None]
+  r88roi-rene-c10-cv           rene           [TAI SU DUNG] bang chung hoan tat + dau van tay khop
+  r88roi-rene-c10-cv             0 video moi,   1 tai su dung
+EVAL r88roi-rene-c10-cv {'HOTA': 0.1930740608085784, 'IDF1': 0.2188696943641053, 'MOTA': -0.4001515151515151, 'IDSW': 16.0}
+DONE rene/c10/cv
+START rene/c10/ekf 2026-11-06T07:26:54.944408
+[run_tracking] cache=r88_urbantracker_rene_roi_yolov8n_coco_c005 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.1 classes=[2] max_det=300 fps=29.97002997002997 track_buffer=36 elapsed=steps seeds=[None]
+  r88roi-rene-c10-ekf          rene            1000 frame ->   6,403 bbox   61 track  predict 0.33 ms/frame  assoc 1.47  (2.0s, 498 fps)
+  r88roi-rene-c10-ekf            1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c10-ekf
+
+
+HOTA: r88roi-rene-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               19.107    13.929    26.571    23.211    24.797    27.226    84.565    81.256    24.699    23.67     74.454    17.623    
+COMBINED                           19.107    13.929    26.571    23.211    24.797    27.226    84.565    81.256    24.699    23.67     74.454    17.623    
+
+CLEAR: r88roi-rene-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -40.121   80.43     -39.879   26.864    28.699    4.3478    56.522    39.13     -45.378   1773      4827      4405      16        1         13        9         43        
+COMBINED                           -40.121   80.43     -39.879   26.864    28.699    4.3478    56.522    39.13     -45.378   1773      4827      4405      16        1         13        9         43        
+
+Identity: r88roi-rene-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               21.474    20.788    22.208    1372      5228      4806      
+COMBINED                           21.474    20.788    22.208    1372      5228      4806      
+
+Count: r88roi-rene-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               6178      6600      56        23        
+COMBINED                           6178      6600      56        23        
+EVAL r88roi-rene-c10-ekf {'HOTA': 0.19106990035224217, 'IDF1': 0.21474409140710596, 'IDSW': 16, 'MOTA': -0.4012121212121212}
+DONE rene/c10/ekf
+START rene/c10/ukf 2026-11-06T07:27:03.165512
+[run_tracking] cache=r88_urbantracker_rene_roi_yolov8n_coco_c005 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.1 classes=[2] max_det=300 fps=29.97002997002997 track_buffer=36 elapsed=steps seeds=[None]
+  r88roi-rene-c10-ukf          rene            1000 frame ->   6,450 bbox   61 track  predict 2.23 ms/frame  assoc 2.04  (4.5s, 223 fps)
+  r88roi-rene-c10-ukf            1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c10-ukf
+
+
+HOTA: r88roi-rene-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               18.729    13.915    25.564    23.191    24.779    26.311    83.4      81.304    24.212    23.11     74.542    17.227    
+COMBINED                           18.729    13.915    25.564    23.191    24.779    26.311    83.4      81.304    24.212    23.11     74.542    17.227    
+
+CLEAR: r88roi-rene-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -40.182   80.467    -39.894   26.848    28.687    4.3478    56.522    39.13     -45.426   1772      4828      4405      19        1         13        9         44        
+COMBINED                           -40.182   80.467    -39.894   26.848    28.687    4.3478    56.522    39.13     -45.426   1772      4828      4405      19        1         13        9         44        
+
+Identity: r88roi-rene-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               20.725    20.061    21.434    1324      5276      4853      
+COMBINED                           20.725    20.061    21.434    1324      5276      4853      
+
+Count: r88roi-rene-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               6177      6600      56        23        
+COMBINED                           6177      6600      56        23        
+EVAL r88roi-rene-c10-ukf {'HOTA': 0.1872908739658597, 'IDF1': 0.20724739766768413, 'IDSW': 19, 'MOTA': -0.4018181818181818}
+DONE rene/c10/ukf
+START rene/c10/pf_default 2026-11-06T07:27:14.169011
+[run_tracking] cache=r88_urbantracker_rene_roi_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=29.97002997002997 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r88roi-rene-c10-pf_default-s0 rene            1000 frame ->   6,286 bbox   71 track  predict 2.33 ms/frame  assoc 3.28  (5.8s, 172 fps)
+  r88roi-rene-c10-pf_default-s0   1 video moi,   0 tai su dung
+  r88roi-rene-c10-pf_default-s1 rene            1000 frame ->   6,300 bbox   73 track  predict 2.35 ms/frame  assoc 3.16  (5.7s, 175 fps)
+  r88roi-rene-c10-pf_default-s1   1 video moi,   0 tai su dung
+  r88roi-rene-c10-pf_default-s2 rene            1000 frame ->   6,332 bbox   71 track  predict 2.46 ms/frame  assoc 3.34  (6.0s, 167 fps)
+  r88roi-rene-c10-pf_default-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c10-pf_default-s0
+
+
+HOTA: r88roi-rene-c10-pf_default-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               17.1      13.464    22.038    22.351    24.302    22.514    84.162    81.252    22.065    21.11     74.297    15.684    
+COMBINED                           17.1      13.464    22.038    22.351    24.302    22.514    84.162    81.252    22.065    21.11     74.297    15.684    
+
+CLEAR: r88roi-rene-c10-pf_default-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -40.348   80.285    -39.939   26.015    28.287    4.3478    52.174    43.478    -45.477   1717      4883      4353      27        1         12        10        48        
+COMBINED                           -40.348   80.285    -39.939   26.015    28.287    4.3478    52.174    43.478    -45.477   1717      4883      4353      27        1         12        10        48        
+
+Identity: r88roi-rene-c10-pf_default-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               18.2      17.47     18.995    1153      5447      4917      
+COMBINED                           18.2      17.47     18.995    1153      5447      4917      
+
+Count: r88roi-rene-c10-pf_default-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               6070      6600      65        23        
+COMBINED                           6070      6600      65        23        
+EVAL r88roi-rene-c10-pf_default-s0 {'HOTA': 0.17099634520349283, 'IDF1': 0.1820047355958958, 'IDSW': 27, 'MOTA': -0.4034848484848485}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c10-pf_default-s1
+
+
+HOTA: r88roi-rene-c10-pf_default-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               16.973    13.29     22.104    22.136    23.967    22.68     84.516    80.94     21.94     21.012    73.877    15.523    
+COMBINED                           16.973    13.29     22.104    22.136    23.967    22.68     84.516    80.94     21.94     21.012    73.877    15.523    
+
+CLEAR: r88roi-rene-c10-pf_default-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -41.182   79.929    -40.788   25.788    27.92     4.3478    52.174    43.478    -46.358   1702      4898      4394      26        1         12        10        49        
+COMBINED                           -41.182   79.929    -40.788   25.788    27.92     4.3478    52.174    43.478    -46.358   1702      4898      4394      26        1         12        10        49        
+
+Identity: r88roi-rene-c10-pf_default-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               17.911    17.227    18.652    1137      5463      4959      
+COMBINED                           17.911    17.227    18.652    1137      5463      4959      
+
+Count: r88roi-rene-c10-pf_default-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               6096      6600      66        23        
+COMBINED                           6096      6600      66        23        
+EVAL r88roi-rene-c10-pf_default-s1 {'HOTA': 0.16972925174614698, 'IDF1': 0.17911153119092627, 'IDSW': 26, 'MOTA': -0.4118181818181818}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c10-pf_default-s2
+
+
+HOTA: r88roi-rene-c10-pf_default-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               16.553    13.487    20.632    22.455    24.268    21.072    84.494    81.276    21.391    20.438    74.408    15.207    
+COMBINED                           16.553    13.487    20.632    22.455    24.268    21.072    84.494    81.276    21.391    20.438    74.408    15.207    
+
+CLEAR: r88roi-rene-c10-pf_default-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -40.848   80.413    -40.439   26.045    28.148    4.3478    52.174    43.478    -45.95    1719      4881      4388      27        1         12        10        47        
+COMBINED                           -40.848   80.413    -40.439   26.045    28.148    4.3478    52.174    43.478    -45.95    1719      4881      4388      27        1         12        10        47        
+
+Identity: r88roi-rene-c10-pf_default-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               17.612    16.955    18.323    1119      5481      4988      
+COMBINED                           17.612    16.955    18.323    1119      5481      4988      
+
+Count: r88roi-rene-c10-pf_default-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               6107      6600      65        23        
+COMBINED                           6107      6600      65        23        
+EVAL r88roi-rene-c10-pf_default-s2 {'HOTA': 0.1655328923206218, 'IDF1': 0.17612339655308099, 'IDSW': 27, 'MOTA': -0.4084848484848485}
+DONE rene/c10/pf_default
+START rene/c10/pf_motion100 2026-11-06T07:27:40.213739
+[run_tracking] cache=r88_urbantracker_rene_roi_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.1 classes=[2] max_det=300 fps=29.97002997002997 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r88roi-rene-c10-pf_motion100-s0 rene            1000 frame ->   6,368 bbox   66 track  predict 2.29 ms/frame  assoc 4.09  (6.6s, 152 fps)
+  r88roi-rene-c10-pf_motion100-s0   1 video moi,   0 tai su dung
+  r88roi-rene-c10-pf_motion100-s1 rene            1000 frame ->   6,366 bbox   62 track  predict 2.38 ms/frame  assoc 4.24  (6.8s, 147 fps)
+  r88roi-rene-c10-pf_motion100-s1   1 video moi,   0 tai su dung
+  r88roi-rene-c10-pf_motion100-s2 rene            1000 frame ->   6,374 bbox   67 track  predict 3.11 ms/frame  assoc 5.35  (8.7s, 115 fps)
+  r88roi-rene-c10-pf_motion100-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c10-pf_motion100-s0
+
+
+HOTA: r88roi-rene-c10-pf_motion100-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               17.637    13.685    23.075    22.801    24.501    23.62     84.274    81.39     22.799    21.664    74.643    16.171    
+COMBINED                           17.637    13.685    23.075    22.801    24.501    23.62     84.274    81.39     22.799    21.664    74.643    16.171    
+
+CLEAR: r88roi-rene-c10-pf_motion100-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -40.576   80.555    -40.242   26.409    28.378    4.3478    56.522    39.13     -45.711   1743      4857      4399      22        1         13        9         46        
+COMBINED                           -40.576   80.555    -40.242   26.409    28.378    4.3478    56.522    39.13     -45.711   1743      4857      4399      22        1         13        9         46        
+
+Identity: r88roi-rene-c10-pf_motion100-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               19.526    18.848    20.254    1244      5356      4898      
+COMBINED                           19.526    18.848    20.254    1244      5356      4898      
+
+Count: r88roi-rene-c10-pf_motion100-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               6142      6600      61        23        
+COMBINED                           6142      6600      61        23        
+EVAL r88roi-rene-c10-pf_motion100-s0 {'HOTA': 0.17637271969946777, 'IDF1': 0.19525977083660337, 'IDSW': 22, 'MOTA': -0.40575757575757576}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c10-pf_motion100-s1
+
+
+HOTA: r88roi-rene-c10-pf_motion100-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               17.989    13.701    23.962    22.822    24.512    24.512    84.464    81.268    23.249    22.385    74.521    16.682    
+COMBINED                           17.989    13.701    23.962    22.822    24.512    24.512    84.464    81.268    23.249    22.385    74.521    16.682    
+
+CLEAR: r88roi-rene-c10-pf_motion100-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -40.455   80.383    -40.167   26.47     28.43     4.3478    56.522    39.13     -45.647   1747      4853      4398      19        1         13        9         43        
+COMBINED                           -40.455   80.383    -40.167   26.47     28.43     4.3478    56.522    39.13     -45.647   1747      4853      4398      19        1         13        9         43        
+
+Identity: r88roi-rene-c10-pf_motion100-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               20.024    19.333    20.765    1276      5324      4869      
+COMBINED                           20.024    19.333    20.765    1276      5324      4869      
+
+Count: r88roi-rene-c10-pf_motion100-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               6145      6600      57        23        
+COMBINED                           6145      6600      57        23        
+EVAL r88roi-rene-c10-pf_motion100-s1 {'HOTA': 0.17988530704186165, 'IDF1': 0.20023538642604943, 'IDSW': 19, 'MOTA': -0.40454545454545454}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88roi-rene-c10-pf_motion100-s2
+
+
+HOTA: r88roi-rene-c10-pf_motion100-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+rene                               17.692    13.699    23.126    22.825    24.519    23.798    83.288    81.39     22.866    21.838    74.6      16.291    
+COMBINED                           17.692    13.699    23.126    22.825    24.519    23.798    83.288    81.39     22.866    21.838    74.6      16.291    
+
+CLEAR: r88roi-rene-c10-pf_motion100-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+rene                               -40.667   80.643    -40.303   26.394    28.353    4.3478    56.522    39.13     -45.776   1742      4858      4402      24        1         13        9         47        
+COMBINED                           -40.667   80.643    -40.303   26.394    28.353    4.3478    56.522    39.13     -45.776   1742      4858      4402      24        1         13        9         47        
+
+Identity: r88roi-rene-c10-pf_motion100-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+rene                               19.413    18.742    20.133    1237      5363      4907      
+COMBINED                           19.413    18.742    20.133    1237      5363      4907      
+
+Count: r88roi-rene-c10-pf_motion100-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+rene                               6144      6600      62        23        
+COMBINED                           6144      6600      62        23        
+EVAL r88roi-rene-c10-pf_motion100-s2 {'HOTA': 0.17691940975369727, 'IDF1': 0.19413057124921532, 'IDSW': 24, 'MOTA': -0.4066666666666667}
+DONE rene/c10/pf_motion100
+START stmarc/c25/cv 2026-11-06T07:28:11.280442
+[run_tracking] cache=r88_urbantracker_yolov8n_coco_c005 tracker=bytetrack yaml=bytetrack.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r88-stmarc-c25-cv            stmarc         [TAI SU DUNG] bang chung hoan tat + dau van tay khop
+  r88-stmarc-c25-cv              0 video moi,   1 tai su dung
+EVAL r88-stmarc-c25-cv {'HOTA': 0.363189327935604, 'IDF1': 0.3081285444234404, 'MOTA': -2.1546052631578947, 'IDSW': 7.0}
+DONE stmarc/c25/cv
+START stmarc/c25/ekf 2026-11-06T07:28:16.241557
+[run_tracking] cache=r88_urbantracker_yolov8n_coco_c005 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r88-stmarc-c25-ekf           stmarc          1000 frame ->   3,348 bbox   38 track  predict 0.20 ms/frame  assoc 0.84  (1.2s, 832 fps)
+  r88-stmarc-c25-ekf             1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c25-ekf
+
+
+HOTA: r88-stmarc-c25-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             36.051    17.461    74.509    68.496    18.821    77.929    89.104    89.77     71.42     39.645    87.117    34.537    
+COMBINED                           36.051    17.461    74.509    68.496    18.821    77.929    89.104    89.77     71.42     39.645    87.117    34.537    
+
+CLEAR: r88-stmarc-c25-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -216.23   88.816    -214.8    74.561    20.488    42.857    42.857    14.286    -224.57   680       232       2639      13        3         3         1         12        
+COMBINED                           -216.23   88.816    -214.8    74.561    20.488    42.857    42.857    14.286    -224.57   680       232       2639      13        3         3         1         12        
+
+Identity: r88-stmarc-c25-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             31.246    72.478    19.916    661       251       2658      
+COMBINED                           31.246    72.478    19.916    661       251       2658      
+
+Count: r88-stmarc-c25-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             3319      912       35        7         
+COMBINED                           3319      912       35        7         
+EVAL r88-stmarc-c25-ekf {'HOTA': 0.3605086916777143, 'IDF1': 0.3124556842354053, 'IDSW': 13, 'MOTA': -2.162280701754386}
+DONE stmarc/c25/ekf
+START stmarc/c25/ukf 2026-11-06T07:28:23.197561
+[run_tracking] cache=r88_urbantracker_yolov8n_coco_c005 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r88-stmarc-c25-ukf           stmarc          1000 frame ->   3,348 bbox   38 track  predict 1.43 ms/frame  assoc 1.27  (2.9s, 346 fps)
+  r88-stmarc-c25-ukf             1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c25-ukf
+
+
+HOTA: r88-stmarc-c25-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             36.014    17.485    74.238    68.565    18.84     76.879    89.883    89.808    71.331    39.657    87.217    34.588    
+COMBINED                           36.014    17.485    74.238    68.565    18.84     76.879    89.883    89.808    71.331    39.657    87.217    34.588    
+
+CLEAR: r88-stmarc-c25-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -216.23   88.918    -214.8    74.561    20.488    42.857    42.857    14.286    -224.49   680       232       2639      13        3         3         1         12        
+COMBINED                           -216.23   88.918    -214.8    74.561    20.488    42.857    42.857    14.286    -224.49   680       232       2639      13        3         3         1         12        
+
+Identity: r88-stmarc-c25-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             30.537    70.833    19.464    646       266       2673      
+COMBINED                           30.537    70.833    19.464    646       266       2673      
+
+Count: r88-stmarc-c25-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             3319      912       35        7         
+COMBINED                           3319      912       35        7         
+EVAL r88-stmarc-c25-ukf {'HOTA': 0.36014111464530413, 'IDF1': 0.30536516190026, 'IDSW': 13, 'MOTA': -2.162280701754386}
+DONE stmarc/c25/ukf
+START stmarc/c25/pf_default 2026-11-06T07:28:33.692617
+[run_tracking] cache=r88_urbantracker_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r88-stmarc-c25-pf_default-s0 stmarc          1000 frame ->   3,307 bbox   37 track  predict 1.45 ms/frame  assoc 2.14  (3.8s, 264 fps)
+  r88-stmarc-c25-pf_default-s0   1 video moi,   0 tai su dung
+  r88-stmarc-c25-pf_default-s1 stmarc          1000 frame ->   3,324 bbox   38 track  predict 1.31 ms/frame  assoc 1.79  (3.3s, 307 fps)
+  r88-stmarc-c25-pf_default-s1   1 video moi,   0 tai su dung
+  r88-stmarc-c25-pf_default-s2 stmarc          1000 frame ->   3,305 bbox   39 track  predict 1.56 ms/frame  assoc 2.08  (3.8s, 262 fps)
+  r88-stmarc-c25-pf_default-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c25-pf_default-s0
+
+
+HOTA: r88-stmarc-c25-pf_default-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             34.289    16.781    70.321    65.351    18.182    73.599    86.541    87.15     67.707    39.152    83.653    32.752    
+COMBINED                           34.289    16.781    70.321    65.351    18.182    73.599    86.541    87.15     67.707    39.152    83.653    32.752    
+
+CLEAR: r88-stmarc-c25-pf_default-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -213.82   85.536    -212.94   73.246    20.378    42.857    42.857    14.286    -224.41   668       244       2610      8         3         3         1         9         
+COMBINED                           -213.82   85.536    -212.94   73.246    20.378    42.857    42.857    14.286    -224.41   668       244       2610      8         3         3         1         9         
+
+Identity: r88-stmarc-c25-pf_default-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             30.215    69.408    19.311    633       279       2645      
+COMBINED                           30.215    69.408    19.311    633       279       2645      
+
+Count: r88-stmarc-c25-pf_default-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             3278      912       33        7         
+COMBINED                           3278      912       33        7         
+EVAL r88-stmarc-c25-pf_default-s0 {'HOTA': 0.3428863235985434, 'IDF1': 0.30214797136038185, 'IDSW': 8, 'MOTA': -2.138157894736842}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c25-pf_default-s1
+
+
+HOTA: r88-stmarc-c25-pf_default-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             34.847    16.993    71.564    66.384    18.374    74.19     87.574    88.091    68.895    39.514    84.739    33.484    
+COMBINED                           34.847    16.993    71.564    66.384    18.374    74.19     87.574    88.091    68.895    39.514    84.739    33.484    
+
+CLEAR: r88-stmarc-c25-pf_default-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -214.36   86.54     -213.05   74.123    20.516    42.857    42.857    14.286    -224.34   676       236       2619      12        3         3         1         12        
+COMBINED                           -214.36   86.54     -213.05   74.123    20.516    42.857    42.857    14.286    -224.34   676       236       2619      12        3         3         1         12        
+
+Identity: r88-stmarc-c25-pf_default-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             30.473    70.285    19.454    641       271       2654      
+COMBINED                           30.473    70.285    19.454    641       271       2654      
+
+Count: r88-stmarc-c25-pf_default-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             3295      912       34        7         
+COMBINED                           3295      912       34        7         
+EVAL r88-stmarc-c25-pf_default-s1 {'HOTA': 0.34846620602457995, 'IDF1': 0.30473021155217495, 'IDSW': 12, 'MOTA': -2.143640350877193}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c25-pf_default-s2
+
+
+HOTA: r88-stmarc-c25-pf_default-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             34.899    16.757    72.886    65.253    18.166    75.675    87.794    87.395    68.903    39.882    84.046    33.519    
+COMBINED                           34.899    16.757    72.886    65.253    18.166    75.675    87.794    87.395    68.903    39.882    84.046    33.519    
+
+CLEAR: r88-stmarc-c25-pf_default-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -212.83   85.668    -212.06   73.575    20.482    42.857    42.857    14.286    -223.37   671       241       2605      7         3         3         1         12        
+COMBINED                           -212.83   85.668    -212.06   73.575    20.482    42.857    42.857    14.286    -223.37   671       241       2605      7         3         3         1         12        
+
+Identity: r88-stmarc-c25-pf_default-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             30.707    70.504    19.628    643       269       2633      
+COMBINED                           30.707    70.504    19.628    643       269       2633      
+
+Count: r88-stmarc-c25-pf_default-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             3276      912       35        7         
+COMBINED                           3276      912       35        7         
+EVAL r88-stmarc-c25-pf_default-s2 {'HOTA': 0.34898523021420985, 'IDF1': 0.30706781279847184, 'IDSW': 7, 'MOTA': -2.1282894736842106}
+DONE stmarc/c25/pf_default
+START stmarc/c25/pf_motion100 2026-11-06T07:28:52.806854
+[run_tracking] cache=r88_urbantracker_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.25 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r88-stmarc-c25-pf_motion100-s0 stmarc          1000 frame ->   3,336 bbox   38 track  predict 1.51 ms/frame  assoc 2.69  (4.4s, 228 fps)
+  r88-stmarc-c25-pf_motion100-s0   1 video moi,   0 tai su dung
+  r88-stmarc-c25-pf_motion100-s1 stmarc          1000 frame ->   3,292 bbox   38 track  predict 1.69 ms/frame  assoc 3.01  (4.9s, 204 fps)
+  r88-stmarc-c25-pf_motion100-s1   1 video moi,   0 tai su dung
+  r88-stmarc-c25-pf_motion100-s2 stmarc          1000 frame ->   3,311 bbox   38 track  predict 1.71 ms/frame  assoc 2.78  (4.7s, 214 fps)
+  r88-stmarc-c25-pf_motion100-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c25-pf_motion100-s0
+
+
+HOTA: r88-stmarc-c25-pf_motion100-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             35.957    17.481    73.991    68.375    18.856    76.732    89.111    89.94     71.118    39.689    87.558    34.751    
+COMBINED                           35.957    17.481    73.991    68.375    18.856    76.732    89.111    89.94     71.118    39.689    87.558    34.751    
+
+CLEAR: r88-stmarc-c25-pf_motion100-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -214.69   88.884    -213.71   74.452    20.532    42.857    42.857    14.286    -222.97   679       233       2628      9         3         3         1         10        
+COMBINED                           -214.69   88.884    -213.71   74.452    20.532    42.857    42.857    14.286    -222.97   679       233       2628      9         3         3         1         10        
+
+Identity: r88-stmarc-c25-pf_motion100-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             30.718    71.053    19.595    648       264       2659      
+COMBINED                           30.718    71.053    19.595    648       264       2659      
+
+Count: r88-stmarc-c25-pf_motion100-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             3307      912       35        7         
+COMBINED                           3307      912       35        7         
+EVAL r88-stmarc-c25-pf_motion100-s0 {'HOTA': 0.3595665079316379, 'IDF1': 0.30718179663427353, 'IDSW': 9, 'MOTA': -2.1469298245614037}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c25-pf_motion100-s1
+
+
+HOTA: r88-stmarc-c25-pf_motion100-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             36.039    17.657    73.587    68.15     19.048    76.098    88.758    89.494    70.805    40.052    87.096    34.884    
+COMBINED                           36.039    17.657    73.587    68.15     19.048    76.098    88.758    89.494    70.805    40.052    87.096    34.884    
+
+CLEAR: r88-stmarc-c25-pf_motion100-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -209.98   88.781    -209.32   74.232    20.748    42.857    42.857    14.286    -218.31   677       235       2586      6         3         3         1         11        
+COMBINED                           -209.98   88.781    -209.32   74.232    20.748    42.857    42.857    14.286    -218.31   677       235       2586      6         3         3         1         11        
+
+Identity: r88-stmarc-c25-pf_motion100-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             31.042    71.053    19.859    648       264       2615      
+COMBINED                           31.042    71.053    19.859    648       264       2615      
+
+Count: r88-stmarc-c25-pf_motion100-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             3263      912       34        7         
+COMBINED                           3263      912       34        7         
+EVAL r88-stmarc-c25-pf_motion100-s1 {'HOTA': 0.36038761654788337, 'IDF1': 0.3104191616766467, 'IDSW': 6, 'MOTA': -2.099780701754386}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c25-pf_motion100-s2
+
+
+HOTA: r88-stmarc-c25-pf_motion100-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             35.789    17.503    73.216    67.982    18.897    75.962    88.599    89.661    70.539    39.711    87.165    34.615    
+COMBINED                           35.789    17.503    73.216    67.982    18.897    75.962    88.599    89.661    70.539    39.711    87.165    34.615    
+
+CLEAR: r88-stmarc-c25-pf_motion100-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -211.84   88.429    -210.64   74.561    20.725    42.857    42.857    14.286    -220.47   680       232       2601      11        3         3         1         10        
+COMBINED                           -211.84   88.429    -210.64   74.561    20.725    42.857    42.857    14.286    -220.47   680       232       2601      11        3         3         1         10        
+
+Identity: r88-stmarc-c25-pf_motion100-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             30.813    70.833    19.689    646       266       2635      
+COMBINED                           30.813    70.833    19.689    646       266       2635      
+
+Count: r88-stmarc-c25-pf_motion100-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             3281      912       34        7         
+COMBINED                           3281      912       34        7         
+EVAL r88-stmarc-c25-pf_motion100-s2 {'HOTA': 0.3578894163384037, 'IDF1': 0.30813260195564035, 'IDSW': 11, 'MOTA': -2.1184210526315788}
+DONE stmarc/c25/pf_motion100
+START stmarc/c10/cv 2026-11-06T07:29:14.573030
+[run_tracking] cache=r88_urbantracker_yolov8n_coco_c005 tracker=bytetrack yaml=bytetrack.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r88-stmarc-c10-cv            stmarc          1000 frame ->   4,984 bbox   33 track  predict 0.11 ms/frame  assoc 1.16  (1.4s, 691 fps)
+  r88-stmarc-c10-cv              1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c10-cv
+
+
+HOTA: r88-stmarc-c10-cv-pedestrian HOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             31.41     13.028    75.756    73.69     13.577    78.506    89.83     89.662    74.709    34.769    87.107    30.286    
+COMBINED                           31.41     13.028    75.756    73.69     13.577    78.506    89.83     89.662    74.709    34.769    87.107    30.286    
+
+CLEAR: r88-stmarc-c10-cv-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -382.79   88.873    -382.02   80.373    14.808    42.857    42.857    14.286    -391.73   733       179       4217      7         3         3         1         9         
+COMBINED                           -382.79   88.873    -382.02   80.373    14.808    42.857    42.857    14.286    -391.73   733       179       4217      7         3         3         1         9         
+
+Identity: r88-stmarc-c10-cv-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             24.019    77.193    14.222    704       208       4246      
+COMBINED                           24.019    77.193    14.222    704       208       4246      
+
+Count: r88-stmarc-c10-cv-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             4950      912       30        7         
+COMBINED                           4950      912       30        7         
+EVAL r88-stmarc-c10-cv {'HOTA': 0.3140965454096973, 'IDF1': 0.24019106107130672, 'IDSW': 7, 'MOTA': -3.8278508771929824}
+DONE stmarc/c10/cv
+START stmarc/c10/ekf 2026-11-06T07:29:24.102070
+[run_tracking] cache=r88_urbantracker_yolov8n_coco_c005 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r88-stmarc-c10-ekf           stmarc          1000 frame ->   4,881 bbox   34 track  predict 0.21 ms/frame  assoc 1.03  (1.4s, 709 fps)
+  r88-stmarc-c10-ekf             1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c10-ekf
+
+
+HOTA: r88-stmarc-c10-ekf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             31.563    13.274    75.096    73.592    13.847    77.779    89.865    89.657    74.329    34.873    87.049    30.357    
+COMBINED                           31.563    13.274    75.096    73.592    13.847    77.779    89.865    89.657    74.329    34.873    87.049    30.357    
+
+CLEAR: r88-stmarc-c10-ekf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -372.59   88.882    -371.16   80.154    15.081    42.857    42.857    14.286    -381.5    731       181       4116      13        3         3         1         8         
+COMBINED                           -372.59   88.882    -371.16   80.154    15.081    42.857    42.857    14.286    -381.5    731       181       4116      13        3         3         1         8         
+
+Identity: r88-stmarc-c10-ekf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             24.206    76.425    14.38     697       215       4150      
+COMBINED                           24.206    76.425    14.38     697       215       4150      
+
+Count: r88-stmarc-c10-ekf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             4847      912       31        7         
+COMBINED                           4847      912       31        7         
+EVAL r88-stmarc-c10-ekf {'HOTA': 0.3156336447670199, 'IDF1': 0.2420559124848064, 'IDSW': 13, 'MOTA': -3.7258771929824563}
+DONE stmarc/c10/ekf
+START stmarc/c10/ukf 2026-11-06T07:29:32.201761
+[run_tracking] cache=r88_urbantracker_yolov8n_coco_c005 tracker=bytetrack_ukf_ctrv yaml=configs/bytetrack_ukf_ctrv.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r88-stmarc-c10-ukf           stmarc          1000 frame ->   4,881 bbox   34 track  predict 1.48 ms/frame  assoc 1.51  (3.2s, 312 fps)
+  r88-stmarc-c10-ukf             1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c10-ukf
+
+
+HOTA: r88-stmarc-c10-ukf-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             31.516    13.259    74.953    73.505    13.831    77.643    89.726    89.55     74.215    34.873    86.944    30.32     
+COMBINED                           31.516    13.259    74.953    73.505    13.831    77.643    89.726    89.55     74.215    34.873    86.944    30.32     
+
+CLEAR: r88-stmarc-c10-ukf-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -372.59   88.773    -371.16   80.154    15.081    42.857    42.857    14.286    -381.59   731       181       4116      13        3         3         1         8         
+COMBINED                           -372.59   88.773    -371.16   80.154    15.081    42.857    42.857    14.286    -381.59   731       181       4116      13        3         3         1         8         
+
+Identity: r88-stmarc-c10-ukf-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             24.206    76.425    14.38     697       215       4150      
+COMBINED                           24.206    76.425    14.38     697       215       4150      
+
+Count: r88-stmarc-c10-ukf-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             4847      912       31        7         
+COMBINED                           4847      912       31        7         
+EVAL r88-stmarc-c10-ukf {'HOTA': 0.315155713645419, 'IDF1': 0.2420559124848064, 'IDSW': 13, 'MOTA': -3.7258771929824563}
+DONE stmarc/c10/ukf
+START stmarc/c10/pf_default 2026-11-06T07:29:42.348809
+[run_tracking] cache=r88_urbantracker_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/bytetrack_pf_ctrv_n500.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r88-stmarc-c10-pf_default-s0 stmarc          1000 frame ->   4,874 bbox   36 track  predict 1.62 ms/frame  assoc 2.66  (4.5s, 223 fps)
+  r88-stmarc-c10-pf_default-s0   1 video moi,   0 tai su dung
+  r88-stmarc-c10-pf_default-s1 stmarc          1000 frame ->   4,860 bbox   34 track  predict 1.69 ms/frame  assoc 2.67  (4.6s, 219 fps)
+  r88-stmarc-c10-pf_default-s1   1 video moi,   0 tai su dung
+  r88-stmarc-c10-pf_default-s2 stmarc          1000 frame ->   4,897 bbox   33 track  predict 1.75 ms/frame  assoc 2.73  (4.7s, 214 fps)
+  r88-stmarc-c10-pf_default-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c10-pf_default-s0
+
+
+HOTA: r88-stmarc-c10-pf_default-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             29.888    12.412    72.237    69.073    13.015    74.828    87.903    86.818    70.541    34.095    83.433    28.446    
+COMBINED                           29.888    12.412    72.237    69.073    13.015    74.828    87.903    86.818    70.541    34.095    83.433    28.446    
+
+CLEAR: r88-stmarc-c10-pf_default-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -374.78   84.938    -373.9    78.399    14.773    42.857    42.857    14.286    -386.59   715       197       4125      8         3         3         1         9         
+COMBINED                           -374.78   84.938    -373.9    78.399    14.773    42.857    42.857    14.286    -386.59   715       197       4125      8         3         3         1         9         
+
+Identity: r88-stmarc-c10-pf_default-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             23.435    73.904    13.926    674       238       4166      
+COMBINED                           23.435    73.904    13.926    674       238       4166      
+
+Count: r88-stmarc-c10-pf_default-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             4840      912       33        7         
+COMBINED                           4840      912       33        7         
+EVAL r88-stmarc-c10-pf_default-s0 {'HOTA': 0.29887882061771726, 'IDF1': 0.23435326842837273, 'IDSW': 8, 'MOTA': -3.7478070175438596}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c10-pf_default-s1
+
+
+HOTA: r88-stmarc-c10-pf_default-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             30.169    12.636    72.229    69.997    13.228    75.557    86.53     86.858    71.035    34.706    83.399    28.944    
+COMBINED                           30.169    12.636    72.229    69.997    13.228    75.557    86.53     86.858    71.035    34.706    83.399    28.944    
+
+CLEAR: r88-stmarc-c10-pf_default-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -370.72   84.932    -369.96   79.605    15.044    42.857    42.857    14.286    -382.72   726       186       4100      7         3         3         1         10        
+COMBINED                           -370.72   84.932    -369.96   79.605    15.044    42.857    42.857    14.286    -382.72   726       186       4100      7         3         3         1         10        
+
+Identity: r88-stmarc-c10-pf_default-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             24.434    76.864    14.525    701       211       4125      
+COMBINED                           24.434    76.864    14.525    701       211       4125      
+
+Count: r88-stmarc-c10-pf_default-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             4826      912       31        7         
+COMBINED                           4826      912       31        7         
+EVAL r88-stmarc-c10-pf_default-s1 {'HOTA': 0.30169448104105134, 'IDF1': 0.24433600557685606, 'IDSW': 7, 'MOTA': -3.7072368421052633}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c10-pf_default-s2
+
+
+HOTA: r88-stmarc-c10-pf_default-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             30.114    12.727    71.385    70.955    13.307    74.673    86.838    87.51     71.126    34.228    84.389    28.885    
+COMBINED                           30.114    12.727    71.385    70.955    13.307    74.673    86.838    87.51     71.126    34.228    84.389    28.885    
+
+CLEAR: r88-stmarc-c10-pf_default-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -373.79   85.991    -373.14   80.044    15.011    42.857    42.857    14.286    -385.01   730       182       4133      6         3         3         1         8         
+COMBINED                           -373.79   85.991    -373.14   80.044    15.011    42.857    42.857    14.286    -385.01   730       182       4133      6         3         3         1         8         
+
+Identity: r88-stmarc-c10-pf_default-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             24.173    76.535    14.353    698       214       4165      
+COMBINED                           24.173    76.535    14.353    698       214       4165      
+
+Count: r88-stmarc-c10-pf_default-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             4863      912       29        7         
+COMBINED                           4863      912       29        7         
+EVAL r88-stmarc-c10-pf_default-s2 {'HOTA': 0.3011366836027296, 'IDF1': 0.24173160173160174, 'IDSW': 6, 'MOTA': -3.737938596491228}
+DONE stmarc/c10/pf_default
+START stmarc/c10/pf_motion100 2026-11-06T07:30:04.832589
+[run_tracking] cache=r88_urbantracker_yolov8n_coco_c005 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.1 classes=[2] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r88-stmarc-c10-pf_motion100-s0 stmarc          1000 frame ->   4,889 bbox   34 track  predict 1.91 ms/frame  assoc 3.95  (6.1s, 165 fps)
+  r88-stmarc-c10-pf_motion100-s0   1 video moi,   0 tai su dung
+  r88-stmarc-c10-pf_motion100-s1 stmarc          1000 frame ->   4,948 bbox   33 track  predict 1.88 ms/frame  assoc 3.71  (5.8s, 173 fps)
+  r88-stmarc-c10-pf_motion100-s1   1 video moi,   0 tai su dung
+  r88-stmarc-c10-pf_motion100-s2 stmarc          1000 frame ->   4,952 bbox   33 track  predict 1.86 ms/frame  assoc 3.66  (5.7s, 175 fps)
+  r88-stmarc-c10-pf_motion100-s2   1 video moi,   0 tai su dung
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c10-pf_motion100-s0
+
+
+HOTA: r88-stmarc-c10-pf_motion100-s0-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             30.94     13.14     72.901    72.974    13.711    76.162    87.947    89.28     72.923    34.338    86.98     29.867    
+COMBINED                           30.94     13.14     72.901    72.974    13.711    76.162    87.947    89.28     72.923    34.338    86.98     29.867    
+
+CLEAR: r88-stmarc-c10-pf_motion100-s0-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -372.92   88.357    -372.15   80.044    15.039    42.857    42.857    14.286    -382.24   730       182       4124      7         3         3         1         6         
+COMBINED                           -372.92   88.357    -372.15   80.044    15.039    42.857    42.857    14.286    -382.24   730       182       4124      7         3         3         1         6         
+
+Identity: r88-stmarc-c10-pf_motion100-s0-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             24.211    76.535    14.38     698       214       4156      
+COMBINED                           24.211    76.535    14.38     698       214       4156      
+
+Count: r88-stmarc-c10-pf_motion100-s0-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             4854      912       30        7         
+COMBINED                           4854      912       30        7         
+EVAL r88-stmarc-c10-pf_motion100-s0 {'HOTA': 0.30940458555701356, 'IDF1': 0.24210891432535553, 'IDSW': 7, 'MOTA': -3.7291666666666665}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c10-pf_motion100-s1
+
+
+HOTA: r88-stmarc-c10-pf_motion100-s1-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             31.216    13.056    74.655    73.309    13.608    77.471    88.494    89.284    73.975    34.991    86.808    30.375    
+COMBINED                           31.216    13.056    74.655    73.309    13.608    77.471    88.494    89.284    73.975    34.991    86.808    30.375    
+
+CLEAR: r88-stmarc-c10-pf_motion100-s1-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -378.51   88.35     -377.74   80.482    14.94     42.857    42.857    14.286    -387.89   734       178       4179      7         3         3         1         9         
+COMBINED                           -378.51   88.35     -377.74   80.482    14.94     42.857    42.857    14.286    -387.89   734       178       4179      7         3         3         1         9         
+
+Identity: r88-stmarc-c10-pf_motion100-s1-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             24.103    76.974    14.289    702       210       4211      
+COMBINED                           24.103    76.974    14.289    702       210       4211      
+
+Count: r88-stmarc-c10-pf_motion100-s1-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             4913      912       29        7         
+COMBINED                           4913      912       29        7         
+EVAL r88-stmarc-c10-pf_motion100-s1 {'HOTA': 0.3121630423939435, 'IDF1': 0.24103004291845492, 'IDSW': 7, 'MOTA': -3.7850877192982457}
+
+Evaluating 1 tracker(s) on 1 sequence(s) for 1 class(es) on MotChallenge2DBox dataset using the following metrics: HOTA, CLEAR, Identity, Count
+
+
+Evaluating r88-stmarc-c10-pf_motion100-s2
+
+
+HOTA: r88-stmarc-c10-pf_motion100-s2-pedestrianHOTA      DetA      AssA      DetRe     DetPr     AssRe     AssPr     LocA      OWTA      HOTA(0)   LocA(0)   HOTALocA(0)
+stmarc                             30.742    12.891    73.355    72.559    13.453    75.846    88.931    89.183    72.941    34.169    86.597    29.589    
+COMBINED                           30.742    12.891    73.355    72.559    13.453    75.846    88.931    89.183    72.941    34.169    86.597    29.589    
+
+CLEAR: r88-stmarc-c10-pf_motion100-s2-pedestrianMOTA      MOTP      MODA      CLR_Re    CLR_Pr    MTR       PTR       MLR       sMOTA     CLR_TP    CLR_FN    CLR_FP    IDSW      MT        PT        ML        Frag      
+stmarc                             -381.25   88.368    -380.15   79.605    14.759    42.857    42.857    14.286    -390.51   726       186       4193      10        3         3         1         8         
+COMBINED                           -381.25   88.368    -380.15   79.605    14.759    42.857    42.857    14.286    -390.51   726       186       4193      10        3         3         1         8         
+
+Identity: r88-stmarc-c10-pf_motion100-s2-pedestrianIDF1      IDR       IDP       IDTP      IDFN      IDFP      
+stmarc                             23.598    75.439    13.987    688       224       4231      
+COMBINED                           23.598    75.439    13.987    688       224       4231      
+
+Count: r88-stmarc-c10-pf_motion100-s2-pedestrianDets      GT_Dets   IDs       GT_IDs    
+stmarc                             4919      912       30        7         
+COMBINED                           4919      912       30        7         
+EVAL r88-stmarc-c10-pf_motion100-s2 {'HOTA': 0.30741747949339865, 'IDF1': 0.2359801063282456, 'IDSW': 10, 'MOTA': -3.8125}
+DONE stmarc/c10/pf_motion100
+ALL DONE 20

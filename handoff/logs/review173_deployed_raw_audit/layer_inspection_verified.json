@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "meaning": "Static metadata and source/engine consistency only; no timing attribution or new engine",
+  "summary": {
+    "original": {
+      "layers": 348,
+      "detailed_metadata": false,
+      "types": {},
+      "activation_sigmoid_layers": 77,
+      "activation_sigmoid_all_inputs_outputs_FP16": null,
+      "activation_count_source": "Layer name strings only; no detailed precision metadata"
+    },
+    "control": {
+      "layers": 348,
+      "detailed_metadata": true,
+      "types": {
+        "CaskConvolution": 75,
+        "Reformat": 62,
+        "PointWise": 78,
+        "ElementWise": 94,
+        "TiledPooling": 3,
+        "NoOp": 12,
+        "Scale": 1,
+        "MatrixMultiply": 2,
+        "CudaSoftMax": 2,
+        "Shuffle": 3,
+        "CudnnConvolution": 10,
+        "Resize": 2,
+        "Constant": 4
+      },
+      "activation_sigmoid_layers": 77,
+      "activation_sigmoid_all_inputs_outputs_FP16": true
+    },
+    "precise": {
+      "layers": 280,
+      "detailed_metadata": true,
+      "types": {
+        "Reformat": 68,
+        "CaskConvolution": 79,
+        "PluginV2": 77,
+        "ElementWise": 17,
+        "TiledPooling": 3,
+        "NoOp": 12,
+        "Scale": 1,
+        "MatrixMultiply": 2,
+        "CudaSoftMax": 2,
+        "Shuffle": 3,
+        "CudnnConvolution": 6,
+        "Resize": 2,
+        "CudaDepthwiseConvolution": 3,
+        "Constant": 4,
+        "PointWise": 1
+      },
+      "activation_sigmoid_layers": 0,
+      "activation_sigmoid_all_inputs_outputs_FP16": null
+    },
+    "fast": {
+      "layers": 280,
+      "detailed_metadata": true,
+      "types": {
+        "CaskConvolution": 79,
+        "PluginV2": 77,
+        "Reformat": 68,
+        "ElementWise": 17,
+        "TiledPooling": 3,
+        "NoOp": 12,
+        "Scale": 1,
+        "MatrixMultiply": 2,
+        "CudaSoftMax": 2,
+        "Shuffle": 3,
+        "CudnnConvolution": 5,
+        "Resize": 2,
+        "CudaDepthwiseConvolution": 4,
+        "Constant": 4,
+        "PointWise": 1
+      },
+      "activation_sigmoid_layers": 0,
+      "activation_sigmoid_all_inputs_outputs_FP16": null
+    }
+  },
+  "sha256": {
+    "handoff\\logs\\review173_deployed_raw_audit\\inspect_layers.py": "b709b656b98705ebaf414a8d22303cf4d668e6f08793845a50ae66943790dee8",
+    "handoff\\logs\\review173_deployed_raw_audit\\layer_inspection.json": "cf13944c04286d004563ebfe421f4fa1e573c61a3dad018f4e83ab33e0fefd48",
+    "handoff\\logs\\review173_deployed_raw_audit\\original_layers.json": "bd6ed87e5cdb2e946a618fce7c3c2622e09b31d84b72fdcbe45ea48dff01e84b",
+    "handoff\\logs\\review173_deployed_raw_audit\\control_layers.json": "afc64c26bbb728222d585b3a355b29c29eede8f59612a37c055e5810e85d184b",
+    "handoff\\logs\\review173_deployed_raw_audit\\precise_layers.json": "efb73aa60f19a87203c1979218e10371cb976484402ee2ddc958f8f06f8e6b81",
+    "handoff\\logs\\review173_deployed_raw_audit\\fast_layers.json": "4813d4f0e51cd789947e31dc09be6f1e572c9193a4dac63334bbe283fcb6c81f"
+  }
+}

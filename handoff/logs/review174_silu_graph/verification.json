@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "meaning": "All twelve logs and guards verified, not an FPS/accuracy result.",
+  "runs": 12,
+  "statistics": {
+    "original": {
+      "mean_of_GPU_medians_ms": 41.6374,
+      "individual_GPU_medians_ms": [
+        41.5918,
+        41.6436,
+        41.6768
+      ],
+      "repeat_spread_pct": 0.20436720699752442,
+      "mean_of_enqueue_medians_ms": 15.816966666666668,
+      "mean_of_host_medians_ms": 41.95523333333333
+    },
+    "original_graph": {
+      "mean_of_GPU_medians_ms": 41.33893333333334,
+      "individual_GPU_medians_ms": [
+        41.3484,
+        41.3646,
+        41.3038
+      ],
+      "repeat_spread_pct": 0.14720195236272993,
+      "mean_of_enqueue_medians_ms": 1.26703,
+      "mean_of_host_medians_ms": 41.6634
+    },
+    "precise": {
+      "mean_of_GPU_medians_ms": 30.280033333333332,
+      "individual_GPU_medians_ms": [
+        30.2659,
+        30.2848,
+        30.2894
+      ],
+      "repeat_spread_pct": 0.07764513858832256,
+      "mean_of_enqueue_medians_ms": 11.0981,
+      "mean_of_host_medians_ms": 30.5965
+    },
+    "precise_graph": {
+      "mean_of_GPU_medians_ms": 30.1498,
+      "individual_GPU_medians_ms": [
+        30.1429,
+        30.1398,
+        30.1667
+      ],
+      "repeat_spread_pct": 0.08925075813375205,
+      "mean_of_enqueue_medians_ms": 1.5013433333333333,
+      "mean_of_host_medians_ms": 30.470466666666667
+    }
+  },
+  "gates": {
+    "original": {
+      "GPU_time_reduction_pct": 0.7168234968241594,
+      "enqueue_time_reduction_pct": 91.9894248581165,
+      "stable_within_2pct": true,
+      "at_least_5pct_GPU_reduction": false,
+      "eligible_for_pipeline_implementation": false
+    },
+    "precise": {
+      "GPU_time_reduction_pct": 0.4300964001580754,
+      "enqueue_time_reduction_pct": 86.47206879255609,
+      "stable_within_2pct": true,
+      "at_least_5pct_GPU_reduction": false,
+      "eligible_for_pipeline_implementation": false
+    }
+  },
+  "boot": "dccc433e-ae31-4ca5-9e13-0d89f0f00195",
+  "max_temperature_C": 50.0,
+  "max_swap_MiB": 0.0,
+  "graph_evidence": "Enabled logs, no fallback/errors, packaged source path, and reduced enqueue time; no Nsight trace.",
+  "full_pipeline_FPS_or_detection_quality_measured": false,
+  "default_or_launcher_changed": false,
+  "collection_v1_failed_v2_preserves_same_twelve_runs": true,
+  "sha256": {
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\00_protocol.md": "75fbcd52f55e4c7966176a4e0bf6260f895e754770178f3c750cafa2e726856c",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\screen.py": "aeb29c456a5df67daa0afd9b9a86afadcaaad50b33c1d9a837c4f331daa9c113",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\bindings.json": "134fda08acdc84267421ea87291fc0dcb833c50b9269426b53f4dbbbda7127f7",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\verify.py": "31e315df124b3dd62fa2d6bf27777104d9210ed12ea97162b2b1c8305b00961e",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\inputs.json": "2ffe77c3e3c80b9370ceb0432300e3b7bf18b9b7124fad101b8580279e776783",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\complete.json": "c11cdf7174ce4137bed3ce76ee55b1ff1455f8e65c433fc9a2ae1f22b005283c",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\rows.json": "5a4ef34d4d125bfce67a413449fd00994ac1141a3f5c76b56412a874e4c081aa",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\bindings.json": "134fda08acdc84267421ea87291fc0dcb833c50b9269426b53f4dbbbda7127f7",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\sampleInference.cpp": "519ab04ce679fb866a5c574101e0d6fb4ec11a965cedab88267ca745506fd5a8",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\sampleDevice.h": "b4609258199ec81d4791c669e450ddfa93c6a73cfe47e574bd1a9f976d53d1c6",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\00_original.log": "68b752f5903f9c50a89d26e77c1396d99829aeef5f17ed2ecc04ff2cd9f671f4",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\00_original_graph.log": "81df00d911cf5057799d57d06fdd0fbe72c9416ebcf4f687f7da7bf83479bc59",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\00_precise.log": "c519e8e39277f9044a056196cbf3341e84e426ccba9d11f2f3f8871cb54d04f9",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\00_precise_graph.log": "741ebc583163df219b4bdf091c16483116f4514e7faa8c74825cece132a2a97f",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\01_precise_graph.log": "18f9727330a2bf541b1d82b20af0ef50a146e796f38e040149b9ebb925498e25",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\01_precise.log": "4ae3a3c9fd720cbee8ade3212a3529a629c9477da044fbfc0c464a3ebd207606",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\01_original_graph.log": "7d698f1f1afece76d84dde4ff37b278e817e1a2fd08257d5849a1d10df9a5356",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\01_original.log": "f5365f6c7ff52f56069e104a0946f476548db3482bb3a2a21344e08ad2520970",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\02_precise_graph.log": "3c3343e4f1f2b0c8c86d491206c013c48e890193d0e1fb6d8fb939707bc692a9",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\02_precise.log": "3d038072d7bbe911232cf04dee6e34d8deaced9a3c71f97d4525d72123078c40",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\02_original_graph.log": "f2c5a0c0e22413c129f294b824f6a52e4ce9b3b0659af96a7c7fd134d6048fee",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review174_silu_graph\\evidence\\02_original.log": "b60bd8b01b6d76e3f8f34559a27a67fecbaf2d995799bec9d10ac2d043490429"
+  }
+}

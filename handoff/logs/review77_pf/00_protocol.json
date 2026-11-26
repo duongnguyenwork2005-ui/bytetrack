@@ -1,0 +1,19 @@
+{
+  "round": "R77",
+  "date": "2026-11-04",
+  "scope": "Last opt-in high-motion roughening probe for PF IDSW on UA dev12; BDD only if predefined gate passes",
+  "motivation": "R72/R76 show monotonically decreasing point-estimate UA IDSW from motion scales 1 to 4, but scale 4 remains 36.5 percent above EKF and its interval touches zero.",
+  "baseline": "R72 PF500-K1K2 motion scale 2.0, seed 0/1/2",
+  "candidates": [6.0, 8.0],
+  "implementation": "Opt-in high-motion bound extends from 4 to 8; default and historical <=2 validation remain unchanged; all other tracker parameters fixed.",
+  "development": "UA-DETRAC train dev12 with R72 detector/GT and TrackEval mot",
+  "confirmation": "BDDCOCOVID-val 200 videos with R74 detector/GT and mot_crowd, only for one gate-eligible candidate",
+  "gates": [
+    "synthetic/config tests and UA smoke two predetermined videos for both levels x three seeds",
+    "UA full dev12 for both levels x three seeds",
+    "BDD smoke/full only if mean UA IDSW falls >=10 percent vs motion2 and UA HOTA falls <=0.5 percentage points",
+    "among eligible levels choose lower IDSW; if within 10 switches choose higher HOTA"
+  ],
+  "stop_rule": "After levels 6 and 8, stop scalar roughening search even if no candidate reaches EKF; report limitations and separate any future association/hybrid study.",
+  "warning": "Repeated tuning on previously observed dev data is exploratory and cannot establish a final general improvement."
+}

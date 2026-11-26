@@ -1,0 +1,121 @@
+&&&& RUNNING TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/nano_run/r167_fused_silu_20261121/precise.engine --warmUp=500 --duration=6 --iterations=100 --plugins=/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so --useCudaGraph
+[11/26/2026-14:54:23] [I] === Model Options ===
+[11/26/2026-14:54:23] [I] Format: *
+[11/26/2026-14:54:23] [I] Model: 
+[11/26/2026-14:54:23] [I] Output:
+[11/26/2026-14:54:23] [I] === Build Options ===
+[11/26/2026-14:54:23] [I] Max batch: 1
+[11/26/2026-14:54:23] [I] Workspace: 16 MiB
+[11/26/2026-14:54:23] [I] minTiming: 1
+[11/26/2026-14:54:23] [I] avgTiming: 8
+[11/26/2026-14:54:23] [I] Precision: FP32
+[11/26/2026-14:54:23] [I] Calibration: 
+[11/26/2026-14:54:23] [I] Refit: Disabled
+[11/26/2026-14:54:23] [I] Sparsity: Disabled
+[11/26/2026-14:54:23] [I] Safe mode: Disabled
+[11/26/2026-14:54:23] [I] DirectIO mode: Disabled
+[11/26/2026-14:54:23] [I] Restricted mode: Disabled
+[11/26/2026-14:54:23] [I] Save engine: 
+[11/26/2026-14:54:23] [I] Load engine: /home/jetson/nano_run/r167_fused_silu_20261121/precise.engine
+[11/26/2026-14:54:23] [I] Profiling verbosity: 0
+[11/26/2026-14:54:23] [I] Tactic sources: Using default tactic sources
+[11/26/2026-14:54:23] [I] timingCacheMode: local
+[11/26/2026-14:54:23] [I] timingCacheFile: 
+[11/26/2026-14:54:23] [I] Input(s)s format: fp32:CHW
+[11/26/2026-14:54:23] [I] Output(s)s format: fp32:CHW
+[11/26/2026-14:54:23] [I] Input build shapes: model
+[11/26/2026-14:54:23] [I] Input calibration shapes: model
+[11/26/2026-14:54:23] [I] === System Options ===
+[11/26/2026-14:54:23] [I] Device: 0
+[11/26/2026-14:54:23] [I] DLACore: 
+[11/26/2026-14:54:23] [I] Plugins: /home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so
+[11/26/2026-14:54:23] [I] === Inference Options ===
+[11/26/2026-14:54:23] [I] Batch: 1
+[11/26/2026-14:54:23] [I] Input inference shapes: model
+[11/26/2026-14:54:23] [I] Iterations: 100
+[11/26/2026-14:54:23] [I] Duration: 6s (+ 500ms warm up)
+[11/26/2026-14:54:23] [I] Sleep time: 0ms
+[11/26/2026-14:54:23] [I] Idle time: 0ms
+[11/26/2026-14:54:23] [I] Streams: 1
+[11/26/2026-14:54:23] [I] ExposeDMA: Disabled
+[11/26/2026-14:54:23] [I] Data transfers: Enabled
+[11/26/2026-14:54:23] [I] Spin-wait: Disabled
+[11/26/2026-14:54:23] [I] Multithreading: Disabled
+[11/26/2026-14:54:23] [I] CUDA Graph: Enabled
+[11/26/2026-14:54:23] [I] Separate profiling: Disabled
+[11/26/2026-14:54:23] [I] Time Deserialize: Disabled
+[11/26/2026-14:54:23] [I] Time Refit: Disabled
+[11/26/2026-14:54:23] [I] Skip inference: Disabled
+[11/26/2026-14:54:23] [I] Inputs:
+[11/26/2026-14:54:23] [I] === Reporting Options ===
+[11/26/2026-14:54:23] [I] Verbose: Disabled
+[11/26/2026-14:54:23] [I] Averages: 10 inferences
+[11/26/2026-14:54:23] [I] Percentile: 99
+[11/26/2026-14:54:23] [I] Dump refittable layers:Disabled
+[11/26/2026-14:54:23] [I] Dump output: Disabled
+[11/26/2026-14:54:23] [I] Profile: Disabled
+[11/26/2026-14:54:23] [I] Export timing to JSON file: 
+[11/26/2026-14:54:23] [I] Export output to JSON file: 
+[11/26/2026-14:54:23] [I] Export profile to JSON file: 
+[11/26/2026-14:54:23] [I] 
+[11/26/2026-14:54:23] [I] === Device Information ===
+[11/26/2026-14:54:23] [I] Selected Device: NVIDIA Tegra X1
+[11/26/2026-14:54:23] [I] Compute Capability: 5.3
+[11/26/2026-14:54:23] [I] SMs: 1
+[11/26/2026-14:54:23] [I] Compute Clock Rate: 0.9216 GHz
+[11/26/2026-14:54:23] [I] Device Global Memory: 3963 MiB
+[11/26/2026-14:54:23] [I] Shared Memory per SM: 64 KiB
+[11/26/2026-14:54:23] [I] Memory Bus Width: 64 bits (ECC disabled)
+[11/26/2026-14:54:23] [I] Memory Clock Rate: 0.01275 GHz
+[11/26/2026-14:54:23] [I] 
+[11/26/2026-14:54:23] [I] TensorRT version: 8.2.1
+[11/26/2026-14:54:23] [I] Loading supplied plugin library: /home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so
+[11/26/2026-14:54:25] [I] [TRT] [MemUsageChange] Init CUDA: CPU +230, GPU +0, now: CPU 256, GPU 2730 (MiB)
+[11/26/2026-14:54:25] [I] [TRT] Loaded engine size: 7 MiB
+[11/26/2026-14:54:26] [I] [TRT] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +158, GPU +160, now: CPU 414, GPU 2890 (MiB)
+[11/26/2026-14:54:27] [I] [TRT] [MemUsageChange] Init cuDNN: CPU +241, GPU +241, now: CPU 655, GPU 3131 (MiB)
+[11/26/2026-14:54:27] [I] [TRT] [MemUsageChange] TensorRT-managed allocation in engine deserialization: CPU +0, GPU +7, now: CPU 0, GPU 7 (MiB)
+[11/26/2026-14:54:27] [I] Engine loaded in 3.94177 sec.
+[11/26/2026-14:54:27] [I] [TRT] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +0, now: CPU 647, GPU 3123 (MiB)
+[11/26/2026-14:54:27] [I] [TRT] [MemUsageChange] Init cuDNN: CPU +0, GPU +0, now: CPU 647, GPU 3123 (MiB)
+[11/26/2026-14:54:27] [I] [TRT] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +13, now: CPU 0, GPU 20 (MiB)
+[11/26/2026-14:54:27] [I] Using random values for input images
+[11/26/2026-14:54:27] [I] Created input binding for images with dimensions 1x3x384x640
+[11/26/2026-14:54:27] [I] Using random values for output output0
+[11/26/2026-14:54:27] [I] Created output binding for output0 with dimensions 1x9x5040
+[11/26/2026-14:54:27] [I] Starting inference
+[11/26/2026-14:54:34] [I] Warmup completed 0 queries over 500 ms
+[11/26/2026-14:54:34] [I] Timing trace has 163 queries over 5.08845 s
+[11/26/2026-14:54:34] [I] 
+[11/26/2026-14:54:34] [I] === Trace details ===
+[11/26/2026-14:54:34] [I] Trace averages of 10 runs:
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 41.9137 ms - Host latency: 42.3099 ms (end to end 42.3223 ms, enqueue 1.61552 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1529 ms - Host latency: 30.4647 ms (end to end 30.4755 ms, enqueue 1.46876 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1607 ms - Host latency: 30.4723 ms (end to end 30.4833 ms, enqueue 1.47891 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1477 ms - Host latency: 30.4587 ms (end to end 30.4696 ms, enqueue 1.55261 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1891 ms - Host latency: 30.5028 ms (end to end 30.5132 ms, enqueue 1.47832 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1552 ms - Host latency: 30.4659 ms (end to end 30.4771 ms, enqueue 1.41194 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1886 ms - Host latency: 30.5008 ms (end to end 30.5114 ms, enqueue 1.45291 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.174 ms - Host latency: 30.4864 ms (end to end 30.4969 ms, enqueue 1.50632 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1758 ms - Host latency: 30.4881 ms (end to end 30.4988 ms, enqueue 1.48931 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1695 ms - Host latency: 30.4812 ms (end to end 30.4923 ms, enqueue 1.47568 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.173 ms - Host latency: 30.4851 ms (end to end 30.4957 ms, enqueue 1.50234 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1932 ms - Host latency: 30.506 ms (end to end 30.5167 ms, enqueue 1.54595 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1634 ms - Host latency: 30.4758 ms (end to end 30.4866 ms, enqueue 1.5292 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.183 ms - Host latency: 30.4955 ms (end to end 30.5062 ms, enqueue 1.52773 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1555 ms - Host latency: 30.4666 ms (end to end 30.4772 ms, enqueue 1.44272 ms)
+[11/26/2026-14:54:34] [I] Average on 10 runs - GPU latency: 30.1602 ms - Host latency: 30.4716 ms (end to end 30.4827 ms, enqueue 1.47407 ms)
+[11/26/2026-14:54:34] [I] 
+[11/26/2026-14:54:34] [I] === Performance summary ===
+[11/26/2026-14:54:34] [I] Throughput: 32.0333 qps
+[11/26/2026-14:54:34] [I] Latency: min = 30.2676 ms, max = 66.8561 ms, mean = 31.206 ms, median = 30.4766 ms, percentile(99%) = 56.1458 ms
+[11/26/2026-14:54:34] [I] End-to-End Host Latency: min = 30.2744 ms, max = 66.8698 ms, mean = 31.2169 ms, median = 30.4871 ms, percentile(99%) = 56.1605 ms
+[11/26/2026-14:54:34] [I] Enqueue Time: min = 1.31055 ms, max = 2.15881 ms, mean = 1.49722 ms, median = 1.45679 ms, percentile(99%) = 1.95752 ms
+[11/26/2026-14:54:34] [I] H2D Latency: min = 0.285645 ms, max = 0.554932 ms, mean = 0.296466 ms, median = 0.291504 ms, percentile(99%) = 0.458496 ms
+[11/26/2026-14:54:34] [I] GPU Compute Time: min = 29.958 ms, max = 66.2578 ms, mean = 30.8889 ms, median = 30.1667 ms, percentile(99%) = 55.6547 ms
+[11/26/2026-14:54:34] [I] D2H Latency: min = 0.0185547 ms, max = 0.043335 ms, mean = 0.0206441 ms, median = 0.0205078 ms, percentile(99%) = 0.0333252 ms
+[11/26/2026-14:54:34] [I] Total Host Walltime: 5.08845 s
+[11/26/2026-14:54:34] [I] Total GPU Compute Time: 5.0349 s
+[11/26/2026-14:54:34] [I] Explanations of the performance metrics are printed in the verbose logs.
+[11/26/2026-14:54:34] [I] 
+&&&& PASSED TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/nano_run/r167_fused_silu_20261121/precise.engine --warmUp=500 --duration=6 --iterations=100 --plugins=/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so --useCudaGraph

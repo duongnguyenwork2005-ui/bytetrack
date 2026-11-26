@@ -1,0 +1,22 @@
+{
+  "seed": 9106,
+  "source_manifest": "data/yolo_mixed5_v1/manifest/anh.csv",
+  "train_images": 5000,
+  "train_txt_sha256": "bd8aed845ad81426644f0b4c5649ad98e75287cb7a9a19455897597033870a7d",
+  "class_images": {
+    "car": 4913,
+    "truck": 2132,
+    "bus": 1805,
+    "motorcycle": 1822,
+    "bicycle": 1436
+  },
+  "class_boxes": {
+    "car": 39383,
+    "truck": 3382,
+    "bus": 2366,
+    "motorcycle": 2235,
+    "bicycle": 1969
+  },
+  "checkpoint": "models/finetune_mixed5/train_mixed5_v1_yolo11n_day_du/weights/best.pt",
+  "purpose": "isolated low-cost class-balanced training pilot; no final detector selection"
+}

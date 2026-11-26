@@ -1,0 +1,127 @@
+{
+  "checked_date": "2026-11-03",
+  "source_page": "https://www.jpjodoin.com/urbantracker/dataset.html",
+  "sha256_note": "Local digests for reproducibility, not publisher checksums.",
+  "files": {
+    "rene_annotations.zip": {
+      "path": "F:\\LABOTARY_data\\goc_tai_ve\\UrbanTracker-R69\\rene_annotations.zip",
+      "url": "https://www.jpjodoin.com/urbantracker/dataset/rene/rene_annotations.zip",
+      "bytes": 299207,
+      "local_sha256": "77cb07acbaf301fbc1fbacab1eef291e544dd05a8629f2a416ba257fe1d0a2db",
+      "zip_crc": "pass",
+      "databases": {
+        "rene_annotations/rene_gt.sqlite": {
+          "first_gt_frame": 7200,
+          "last_gt_frame": 8199,
+          "annotated_frames": 1000,
+          "ids": 29,
+          "boxes": 9418
+        },
+        "rene_annotations/rene_gt_bike.sqlite": {
+          "first_gt_frame": 7200,
+          "last_gt_frame": 8199,
+          "annotated_frames": 1000,
+          "ids": 2,
+          "boxes": 1331
+        },
+        "rene_annotations/rene_gt_cars.sqlite": {
+          "first_gt_frame": 7200,
+          "last_gt_frame": 8199,
+          "annotated_frames": 1000,
+          "ids": 27,
+          "boxes": 8087
+        }
+      }
+    },
+    "rene_frames.zip": {
+      "path": "F:\\LABOTARY_data\\goc_tai_ve\\UrbanTracker-R69\\rene_frames.zip",
+      "url": "https://www.jpjodoin.com/urbantracker/dataset/rene/rene_frames.zip",
+      "bytes": 1569006177,
+      "local_sha256": "ebb6ea652fa2e30422613d3a203e0a3fa27dac9dc29b41b04153020d1a4a2747",
+      "zip_crc": "pass",
+      "frames": {
+        "count": 8501,
+        "first": "rene_frames/00000001.jpg",
+        "last": "rene_frames/00008501.jpg"
+      }
+    },
+    "rene_mask.png": {
+      "path": "F:\\LABOTARY_data\\goc_tai_ve\\UrbanTracker-R69\\rene_mask.png",
+      "url": "https://www.jpjodoin.com/urbantracker/dataset/rene/rene_mask.png",
+      "bytes": 8423,
+      "local_sha256": "ba10a00045bcf18a3a05b8d0f772eea7dbbb5120c1d6024d2fc8fc9dfc397289",
+      "png_decode": "pass"
+    },
+    "rene_video.mov": {
+      "path": "F:\\LABOTARY_data\\goc_tai_ve\\UrbanTracker-R69\\rene_video.mov",
+      "url": "https://www.jpjodoin.com/urbantracker/dataset/rene/rene_video.mov",
+      "bytes": 199595856,
+      "local_sha256": "cde5eca7ae6aa8c77fec82280148e67e79ad47cbf53ab0cc3396930b353140a9",
+      "video": {
+        "metadata_frames": 8501,
+        "fps": 29.97002997002997,
+        "width": 1280.0,
+        "height": 720.0,
+        "decoded_frames": 8501
+      }
+    },
+    "stmarc_annotations.zip": {
+      "path": "F:\\LABOTARY_data\\goc_tai_ve\\UrbanTracker-R69\\stmarc_annotations.zip",
+      "url": "https://www.jpjodoin.com/urbantracker/dataset/stmarc/stmarc_annotations.zip",
+      "bytes": 284598,
+      "local_sha256": "6fd4f47e520e0cffcb240cc3bf21a3a64769b67c1cd15f0826ee71199e338f72",
+      "zip_crc": "pass",
+      "databases": {
+        "stmarc_annotations/stmarc_gt.sqlite": {
+          "first_gt_frame": 1000,
+          "last_gt_frame": 1999,
+          "annotated_frames": 1000,
+          "ids": 28,
+          "boxes": 8375
+        },
+        "stmarc_annotations/stmarc_gt_bike.sqlite": {
+          "first_gt_frame": 1410,
+          "last_gt_frame": 1895,
+          "annotated_frames": 477,
+          "ids": 2,
+          "boxes": 477
+        },
+        "stmarc_annotations/stmarc_gt_cars.sqlite": {
+          "first_gt_frame": 1000,
+          "last_gt_frame": 1999,
+          "annotated_frames": 802,
+          "ids": 8,
+          "boxes": 1024
+        },
+        "stmarc_annotations/stmarc_gt_pedestrians.sqlite": {
+          "first_gt_frame": 1000,
+          "last_gt_frame": 1999,
+          "annotated_frames": 1000,
+          "ids": 18,
+          "boxes": 6874
+        }
+      }
+    },
+    "stmarc_frames.zip": {
+      "path": "F:\\LABOTARY_data\\goc_tai_ve\\UrbanTracker-R69\\stmarc_frames.zip",
+      "url": "https://www.jpjodoin.com/urbantracker/dataset/stmarc/stmarc_frames.zip",
+      "bytes": 225012984,
+      "local_sha256": "544a66bf00a42dc88449875c0426b7b1bdd27437eefe143177845c313ac732ed",
+      "zip_crc": "pass",
+      "frames": {
+        "count": 2000,
+        "first": "stmarc_frames/00000001.jpg",
+        "last": "stmarc_frames/00002000.jpg"
+      }
+    }
+  },
+  "partial_files": [],
+  "notes": [
+    "Download and file validation only. No detector or tracker executed.",
+    "Rene source MOV reports 30000/1001 fps. Web description rounds to 30 fps.",
+    "St-Marc page reports 30 fps; ZIP has no temporal metadata. Verify against source video before benchmarking.",
+    "Ground-truth frame indexing versus image/video indexing requires an alignment audit before conversion.",
+    "Database object counts differ from webpage prose; see per-database counts.",
+    "Rene GT covers frames 7200 through 8199 inclusive, despite README mentioning 8200."
+  ]
+}

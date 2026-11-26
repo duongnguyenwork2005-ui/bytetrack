@@ -1,0 +1,47 @@
+{
+  "round": "R74",
+  "date": "2026-11-03",
+  "user_scope": "Only BDD and UA-DETRAC; no further dataset testing",
+  "question": "Does PF500-K1K2 motion roughening scale 2.0 improve over 1.0 on BDD val, and how does that compare with the completed UA-DETRAC dev12 R72 result?",
+  "datasets": [
+    {
+      "dataset": "BDD100K COCO-video val",
+      "split": "BDDCOCOVID-val",
+      "videos": 200,
+      "frames": 39973,
+      "cache": "R61 yolov8n_coco c0.05; postfilter c>0.25",
+      "detector": "YOLOv8n COCO",
+      "fps": 5,
+      "evaluator": "mot_crowd",
+      "reference": "R61 CV and EKF, yolov8n_coco c25"
+    },
+    {
+      "dataset": "UA-DETRAC train dev12",
+      "split": "DETRAC-all",
+      "videos": 12,
+      "source": "R72 completed result; no new tracking",
+      "evaluator": "mot"
+    }
+  ],
+  "tracking": {
+    "PF": "PF500-K1K2",
+    "motion_scales": [1.0, 2.0],
+    "box_scale": 1.0,
+    "seeds": [0, 1, 2],
+    "BDD_classes": [1, 2, 3, 5, 7],
+    "BDD_max_det": 300,
+    "BDD_buffer_seconds": 1.2,
+    "BDD_elapsed_mode": "steps",
+    "association": "unchanged ByteTrack"
+  },
+  "gates": [
+    "R61 cache, GT and seqinfo SHA256 preflight over 200 videos",
+    "three-video smoke for six PF runs",
+    "full 200-video tracking for six PF runs",
+    "mot_crowd evaluation and raw-field COMBINED recomposition",
+    "paired video bootstrap with shared 5000 resamples, descriptive because BDD val was previously observed"
+  ],
+  "primary": "TrackEval COMBINED HOTA averaged over three PF seeds within each dataset",
+  "secondary": ["DetA", "AssA", "IDF1", "MOTA", "IDSW"],
+  "interpretation": "Report paired changes within each dataset; do not pool HOTA across datasets or call either a blind final test. Keep current thesis tracker config unchanged without a separate decision."
+}

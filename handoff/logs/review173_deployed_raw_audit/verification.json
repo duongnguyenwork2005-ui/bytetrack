@@ -1,0 +1,229 @@
+{
+  "status": "PASS",
+  "meaning": "Posthoc raw-reference diagnostic integrity only",
+  "fixtures": 10,
+  "summary": {
+    "original": {
+      "ORT_FP32": {
+        "all": {
+          "max_box_error_network_pixels": 24.252105712890625,
+          "max_score_error": 0.016283124685287476,
+          "anchors": 50400,
+          "argmax_class_changes": 4105,
+          "fixtures_passing_6px_02": 4
+        },
+        "c001": {
+          "max_box_error_network_pixels": 3.6225128173828125,
+          "max_score_error": 0.016283124685287476,
+          "anchors": 1942,
+          "argmax_class_changes": 1,
+          "fixtures_passing_6px_02": 10
+        },
+        "c25": {
+          "max_box_error_network_pixels": 0.58050537109375,
+          "max_score_error": 0.016283124685287476,
+          "anchors": 454,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 10
+        }
+      },
+      "deployed_FP16": {
+        "all": {
+          "max_box_error_network_pixels": 0.0,
+          "max_score_error": 0.0,
+          "anchors": 50400,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 10
+        },
+        "c001": {
+          "max_box_error_network_pixels": 0.0,
+          "max_score_error": 0.0,
+          "anchors": 1941,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 10
+        },
+        "c25": {
+          "max_box_error_network_pixels": 0.0,
+          "max_score_error": 0.0,
+          "anchors": 453,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 10
+        }
+      }
+    },
+    "control": {
+      "ORT_FP32": {
+        "all": {
+          "max_box_error_network_pixels": 17.033973693847656,
+          "max_score_error": 0.013045847415924072,
+          "anchors": 50400,
+          "argmax_class_changes": 4088,
+          "fixtures_passing_6px_02": 4
+        },
+        "c001": {
+          "max_box_error_network_pixels": 2.4975128173828125,
+          "max_score_error": 0.013045847415924072,
+          "anchors": 1945,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 10
+        },
+        "c25": {
+          "max_box_error_network_pixels": 0.989959716796875,
+          "max_score_error": 0.013045847415924072,
+          "anchors": 454,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 10
+        }
+      },
+      "deployed_FP16": {
+        "all": {
+          "max_box_error_network_pixels": 20.5,
+          "max_score_error": 0.017578125,
+          "anchors": 50400,
+          "argmax_class_changes": 582,
+          "fixtures_passing_6px_02": 4
+        },
+        "c001": {
+          "max_box_error_network_pixels": 1.125,
+          "max_score_error": 0.017578125,
+          "anchors": 1946,
+          "argmax_class_changes": 1,
+          "fixtures_passing_6px_02": 10
+        },
+        "c25": {
+          "max_box_error_network_pixels": 0.5,
+          "max_score_error": 0.017578125,
+          "anchors": 454,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 10
+        }
+      }
+    },
+    "precise": {
+      "ORT_FP32": {
+        "all": {
+          "max_box_error_network_pixels": 13.783973693847656,
+          "max_score_error": 0.021776974201202393,
+          "anchors": 50400,
+          "argmax_class_changes": 4113,
+          "fixtures_passing_6px_02": 3
+        },
+        "c001": {
+          "max_box_error_network_pixels": 4.3725128173828125,
+          "max_score_error": 0.021776974201202393,
+          "anchors": 1942,
+          "argmax_class_changes": 1,
+          "fixtures_passing_6px_02": 9
+        },
+        "c25": {
+          "max_box_error_network_pixels": 0.989959716796875,
+          "max_score_error": 0.021776974201202393,
+          "anchors": 454,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 9
+        }
+      },
+      "deployed_FP16": {
+        "all": {
+          "max_box_error_network_pixels": 11.75,
+          "max_score_error": 0.0244140625,
+          "anchors": 50400,
+          "argmax_class_changes": 393,
+          "fixtures_passing_6px_02": 8
+        },
+        "c001": {
+          "max_box_error_network_pixels": 1.0,
+          "max_score_error": 0.0244140625,
+          "anchors": 1943,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 9
+        },
+        "c25": {
+          "max_box_error_network_pixels": 0.5,
+          "max_score_error": 0.0244140625,
+          "anchors": 454,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 9
+        }
+      }
+    },
+    "fast": {
+      "ORT_FP32": {
+        "all": {
+          "max_box_error_network_pixels": 17.04010009765625,
+          "max_score_error": 0.013953089714050293,
+          "anchors": 50400,
+          "argmax_class_changes": 4101,
+          "fixtures_passing_6px_02": 5
+        },
+        "c001": {
+          "max_box_error_network_pixels": 1.38592529296875,
+          "max_score_error": 0.013953089714050293,
+          "anchors": 1943,
+          "argmax_class_changes": 1,
+          "fixtures_passing_6px_02": 10
+        },
+        "c25": {
+          "max_box_error_network_pixels": 0.9459991455078125,
+          "max_score_error": 0.013953089714050293,
+          "anchors": 454,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 10
+        }
+      },
+      "deployed_FP16": {
+        "all": {
+          "max_box_error_network_pixels": 21.5,
+          "max_score_error": 0.0234375,
+          "anchors": 50400,
+          "argmax_class_changes": 597,
+          "fixtures_passing_6px_02": 4
+        },
+        "c001": {
+          "max_box_error_network_pixels": 4.625,
+          "max_score_error": 0.0234375,
+          "anchors": 1944,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 9
+        },
+        "c25": {
+          "max_box_error_network_pixels": 0.625,
+          "max_score_error": 0.0234375,
+          "anchors": 453,
+          "argmax_class_changes": 0,
+          "fixtures_passing_6px_02": 9
+        }
+      }
+    }
+  },
+  "R167_raw_FAIL_unchanged": true,
+  "not_bit_exact_or_a_quality_gate_override": true,
+  "Nano_FPS_measured": false,
+  "sha256": {
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\verify.py": "43332d652502188f641852859bb6a70b2b50312e6e50f9f1656af008aae65b11",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\complete.json": "851bd04bcb8c33474dcf41c13a2de978580de780a1b2f722681e2105e86b7c28",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\inputs.json": "fc08d7cf2a54472f73eb980323a29b179ca2a6d76b6f120e52264fcf04a0dd33",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\native.py": "9345f129060adc6b8274ac730319d250a8f96d3a72fc3fb90431835d2dabcf7f",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\final_summary.json": "8edc20321dce8cc16cf90bda5270d381135b5cccfca0e25cd1b2a6350b620237",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\arrays\\00.npz": "67718f7b16751e21ba5308dc50d958a741977f4779c665d6c08999dfbc1f5f1e",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\00.npz": "75ec4482dd232e912930adb3215376705d34b6ab8269cb2e1b9bfa58ff2f9df2",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\arrays\\01.npz": "41be04a51f88a21728b4dd0cb9f300684332937f931590e02467b4e3c57f7256",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\01.npz": "6a2de58c14000a2f51321fb8cfe1efa4dd2a7a519bbac2a16a21d5ea1e47ccac",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\arrays\\02.npz": "1285facc7bb211be4ccf7200d1afc2665e9aec9a8804df07667e2d11d802f06c",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\02.npz": "3c330ff6936c1cf628c3a00049d549bcb8f91e3c452ace08d48fbfda8eb28922",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\arrays\\03.npz": "59b3e6e30d4105ca4d0864266ba06924e85eded6fd909b2ecc49ef27c430f56b",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\03.npz": "18cca4d196f572fce4e4e1124e4899bd655585bc09d17185baa17b68d4cf9189",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\arrays\\04.npz": "6496a89d286677d7d1939831657fa4d3bffac8cbcc30c8ab4f769402b90cd7b6",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\04.npz": "bbec50b257ed7ddd29b8580dcba7840529522dbb1c3f264d79f16ea2476a0c3a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\arrays\\05.npz": "6bd85877a890cca4b20b418ed3e03ea35c98fa027e24842fdfa5dcebc98b4f10",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\05.npz": "1aaab1353231d56925076931c9dbc291db0fdf5e1440ab63a88e09beb659224a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\arrays\\06.npz": "9de1f74a90db7622360c88a73aa1f4c3f3807ef55c157c2e3f971a36276e78ac",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\06.npz": "a0e082fe3d3fa34bd2c14b924fa6dbdef701e17e6f4e86621f5127d63b446cbc",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\arrays\\07.npz": "a01cc3efa78ac98dadbafa06fb9549b0624e339f06364bd4f97bd26f464d2519",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\07.npz": "4c769f7efde84368b9c1fcef424d6ed1c64830cc34a877435781ad39dc58b77e",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\arrays\\08.npz": "6f95324bf0d8684dd5746d3d1028b489053a275924b0bfec2d967008f928e865",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\08.npz": "45b1b579ea328c2fe9329f0732c446e9679211355668ad512337a138a917659c",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review173_deployed_raw_audit\\evidence\\arrays\\09.npz": "ab0c8826c35dbd97234fba5b736968d45c110b97af216598b92e86b7bf96182a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\parity\\09.npz": "02762bf2e816d37beab4f9b29681f5b534320b3274cc746fecb23509a3f4e8d0"
+  }
+}

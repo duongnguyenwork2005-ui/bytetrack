@@ -1,0 +1,9 @@
+# R89 — tập bổ sung cho che khuất: MOT17
+
+> **HỒ SƠ LỊCH SỬ, KHÔNG CÒN PHÙ HỢP PHẠM VI.** Người dùng xác nhận 06/11/2026 rằng dự án chỉ theo dõi xe cộ. Quy trình bên dưới đã chạy trước khi nhận sửa phạm vi; kết quả không dùng cho kết luận hoặc lựa chọn bộ lọc của khóa luận.
+
+Nguồn chính thức: `https://motchallenge.net/data/MOT17/`, ảnh `https://motchallenge.net/data/MOT17.zip` (HEAD 5.860.214.001 byte), nhãn `https://motchallenge.net/data/MOT17Labels.zip`. Đây là **người đi bộ**, dùng để thử che khuất và chuyển động đổi hướng; không thay thế kết quả phương tiện BDD/UA. Chỉ dùng 7 chuỗi train khác nhau (một biến thể tên `-FRCNN` mỗi scene) với **detector tự chạy chung** cho các bộ lọc, không dùng public detection FRCNN hay chấm trên test GT ẩn. Không tính 3 biến thể DPM/FRCNN/SDP của cùng video là 3 mẫu độc lập.
+
+Tải vào F: (vùng lưu thứ có thể tải lại), kiểm độ dài, ZIP CRC, ghi SHA256 cục bộ và manifest. Sau đó kiểm GT/seqinfo/ảnh, khung rỗng, ignored classes, FPS, occlusion flags. Chạy detector smoke trước full; nếu recall không đủ thì ghi giới hạn, không xếp hạng bộ lọc. Nếu đủ, khóa detector/cache và so CV/EKF/UKF/PF500 3 seed cùng c25/c10; cấu hình cải tiến PF chỉ là nhánh opt-in. Tính HOTA/IDF1/MOTA/IDSW theo GT train. Ghi rõ giao thức TrackEval nội bộ và không so số với leaderboard chính thức (dùng detector khác). Không sửa kết quả luận văn đã khóa.
+
+Cổng detector trước full: mẫu 10 frame rải đều/chuỗi, YOLOv8n COCO conf>0,05, class person, IoU≥0,5. Nếu recall gộp ≥30% và ít nhất 4/7 chuỗi ≥20%, chạy full; ngược lại dừng ở smoke. Chỉ dùng một bản `-FRCNN` cho mỗi video để tránh đếm trùng; tên FRCNN ở đây là tên thư mục ảnh/GT, detector thực tế vẫn YOLOv8n COCO. Báo recall riêng cho visibility <0,5 và ≥0,5; nhãn `visibility` không đồng nhất hoàn toàn với che khuất, không gọi đó là cờ occlusion chính thức.

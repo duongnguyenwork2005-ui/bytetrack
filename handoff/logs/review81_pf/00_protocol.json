@@ -1,0 +1,14 @@
+{
+  "round": "R81",
+  "authorization": "User resumed PF IDSW improvement after pausing; earlier authorized PF algorithm experiments on UA-DETRAC and BDD.",
+  "hypothesis": "Correlated antithetic Gaussian process-noise draws reduce Monte Carlo drift of the predicted PF center while preserving each particle's marginal process-noise law and K1 likelihood.",
+  "candidate": "PF500-K1K2 motion2 with pf_antithetic_process_noise=true; default remains false",
+  "baseline": "PF500-K1K2 motion2 R72 UA and R74 BDD, seeds 0/1/2",
+  "ua": "UA-DETRAC train dev12, YOLOv8n COCO c25, 25 fps, DETRAC-all, elapsed skip",
+  "bdd": "BDD COCO-video val200, YOLOv8n COCO c25, 5 fps, BDDCOCOVID-val, elapsed steps",
+  "unit_gate": "Antithetic pairs sum to zero for equal per-particle Q; each marginal remains Gaussian; PF individual and multi_predict agree; default false reproduces R72 smoke MOT byte for byte.",
+  "ua_gate": "Run candidate on UA dev12. Advance to BDD only if mean IDSW <=627.3 (at least 10% below 697), HOTA >=56.506% and IDF1 >=67.861%, with all 3 seeds and raw-field audit.",
+  "bdd_gate": "If UA passes, select only if BDD mean IDSW <=6102.8 (within 10% of EKF 5548), HOTA >=32.451% and IDF1 >=36.586%, with all 3 seeds and raw-field audit.",
+  "limits": "UA dev and BDD val have already been viewed repeatedly; these are exploratory development comparisons, not an independent final test. Stop this single candidate if a gate fails.",
+  "amendment_before_full": "R72 smoke MOT text files are no longer retained in data/processed, so the preregistered byte-for-byte MOT comparison cannot be performed. Substitute exact equality of all TrackEval raw fields for both smoke videos and all three seeds; this was observed for R81 baseline versus R72. Do not claim MOT byte equality."
+}

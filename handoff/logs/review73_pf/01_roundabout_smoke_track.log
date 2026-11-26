@@ -1,0 +1,16 @@
+RUN r73-roundabout-yolov8n_mixed5-c25-motion100-smoke
+[run_tracking] cache=r64smoke_roundabout_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[0, 1, 2]
+  r73-roundabout-yolov8n_mixed5-c25-motion100-smoke-s0 imagesc001       128 frame ->     167 bbox    2 track  predict 0.57 ms/frame  assoc 1.31  (0.3s, 443 fps)
+  r73-roundabout-yolov8n_mixed5-c25-motion100-smoke-s0   1 video moi,   0 tai su dung
+  r73-roundabout-yolov8n_mixed5-c25-motion100-smoke-s1 imagesc001       128 frame ->     162 bbox    2 track  predict 0.67 ms/frame  assoc 1.70  (0.3s, 383 fps)
+  r73-roundabout-yolov8n_mixed5-c25-motion100-smoke-s1   1 video moi,   0 tai su dung
+  r73-roundabout-yolov8n_mixed5-c25-motion100-smoke-s2 imagesc001       128 frame ->     162 bbox    2 track  predict 0.67 ms/frame  assoc 1.60  (0.3s, 395 fps)
+  r73-roundabout-yolov8n_mixed5-c25-motion100-smoke-s2   1 video moi,   0 tai su dung
+RUN r73-roundabout-yolov8n_mixed5-c25-motion200-smoke
+[run_tracking] cache=r64smoke_roundabout_yolov8n_mixed5_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion200.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=15.0 track_buffer=18 elapsed=steps seeds=[0, 1, 2]
+  r73-roundabout-yolov8n_mixed5-c25-motion200-smoke-s0 imagesc001       128 frame ->     167 bbox    2 track  predict 0.66 ms/frame  assoc 1.58  (0.3s, 376 fps)
+  r73-roundabout-yolov8n_mixed5-c25-motion200-smoke-s0   1 video moi,   0 tai su dung
+  r73-roundabout-yolov8n_mixed5-c25-motion200-smoke-s1 imagesc001       128 frame ->     167 bbox    2 track  predict 0.53 ms/frame  assoc 1.30  (0.3s, 494 fps)
+  r73-roundabout-yolov8n_mixed5-c25-motion200-smoke-s1   1 video moi,   0 tai su dung
+  r73-roundabout-yolov8n_mixed5-c25-motion200-smoke-s2 imagesc001       128 frame ->     167 bbox    2 track  predict 0.84 ms/frame  assoc 1.74  (0.4s, 347 fps)
+  r73-roundabout-yolov8n_mixed5-c25-motion200-smoke-s2   1 video moi,   0 tai su dung

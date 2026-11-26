@@ -1,0 +1,28 @@
+{
+  "dataset": "svmot",
+  "smoke": true,
+  "split": "SVMOTSYS-test-smoke128",
+  "cache": "r64smoke_svmot_yolov8n_coco_c0.05",
+  "videos": [
+    "seq_22_morning"
+  ],
+  "cache_checks": {
+    "seq_22_morning": {
+      "n_frames": 128,
+      "n_boxes": 5323,
+      "max_n_per_frame": 55
+    }
+  },
+  "gt_sha256": {
+    "seq_22_morning": "c71186df812c91b7f5bca948eeda357cff65b7b2f1a0e828501629ed537702c6"
+  },
+  "yaml_sha256": {
+    "base": "3ac2894c48324728d6d5db126684331744d4e8c191fa1a9fb0bf8acc214d5b4c",
+    "rb": "eeecafee14fe5da4dcdfeca4b4870e09426db7300589e284b3ddc8936db86b90"
+  },
+  "code_sha256": {
+    "src/pf_ctrv.py": "94d2cd7f50f00104eadae3e4852083aa13ca9332559a0c84e2286bf4b83da2a2",
+    "src/tracker_ctrv.py": "b982313a47079dda68fb756f4e32994c4fc4113fc5bd3e04f1f5c7b7e50d6faf",
+    "src/run_tracking.py": "5bd131fe958bdf04ed59f704c85919aec43049df1922cb552dced98324910629"
+  }
+}

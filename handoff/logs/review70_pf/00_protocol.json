@@ -1,0 +1,70 @@
+{
+  "round": "R70",
+  "date": "2026-11-03",
+  "authorization": "User accepted the proposed PF500 -> PF500-K1 -> PF500-K1K2 ablation followed by a separate measurement-noise R comparison, saying 'lam di'.",
+  "purpose": "Determine whether existing PF techniques and the source of measurement-height scaling improve tracking on the existing development split.",
+  "dataset": {
+    "name": "UA-DETRAC",
+    "split_name": "DETRAC-all",
+    "part": "train",
+    "manifest": "results/phase2/manifests/detrac_dev.json",
+    "n_videos": 12,
+    "historical_protocol": "handoff/logs/review48/04_giao_thuc_kiem_chung_pf.md",
+    "selection": "Reuse historical dev12. This development set has been observed and tuned on before.",
+    "cache_id": "yolov8n-coco_conf0.05_all",
+    "condition": "A",
+    "conf_min": 0.25,
+    "classes": [2, 3, 5, 7],
+    "max_det": 300,
+    "fps": 25,
+    "elapsed_mode": "skip"
+  },
+  "design": {
+    "particles": 500,
+    "seeds": [0, 1, 2],
+    "recipes": [
+      {"name": "bootstrap", "optimal_proposal": false, "roughening": 0.0},
+      {"name": "K1", "optimal_proposal": true, "roughening": 0.0},
+      {"name": "K1K2", "optimal_proposal": true, "roughening": 1.0}
+    ],
+    "measurement_height": ["observation", "prediction"],
+    "measurement_height_prediction_definition": "Weighted mean height of particles immediately before update_particles assimilates the measurement, lower-bounded by the existing positive-height epsilon. The same resulting R is used for Gaussian likelihood, degeneracy criterion and K1 proposal/weight.",
+    "references": ["CV", "EKF", "UKF"],
+    "n_runs": 21,
+    "n_run_video_units": 252,
+    "fixed_parameters": "Existing PF500, EKF and UKF tracker YAML values. K2=1.0 comes from the prior R48 development selection. No new hyperparameter sweep.",
+    "association": "Existing ByteTrack association for every filter.",
+    "instrumentation": {"assoc_log": true, "pf_diag": true}
+  },
+  "preconditions": [
+    "Read-only GT/cache preflight with hashes and video counts.",
+    "Unknown measurement-height modes rejected.",
+    "Default observation mode preserves original outputs and RNG state in meaningful fixtures.",
+    "Prediction mode checked against Gaussian reference including K1 and weighted priors.",
+    "Normal YAML-to-tracker path exercised.",
+    "Smoke on MVI_20052 and MVI_20062 completes all 21 runs before full dev12.",
+    "Repeated PF seed output matches MOT bytes on smoke.",
+    "Record source/config/protocol hashes before tracking and verify before analysis."
+  ],
+  "analysis": {
+    "metrics": ["HOTA", "DetA", "AssA", "IDF1", "MOTA", "IDSW"],
+    "aggregation": "TrackEval COMBINED separately for each seed, then arithmetic mean across seeds. Also report seed range.",
+    "uncertainty": "Paired bootstrap by video, 5000 samples, RNG seed 0. Confidence intervals descriptive across the predeclared comparisons.",
+    "primary_comparisons": [
+      "K1 observation minus bootstrap observation",
+      "K1K2 observation minus K1 observation",
+      "prediction minus observation within each of the three PF recipes"
+    ],
+    "references": "Report all six PF variants against CV and EKF, with UKF as an additional descriptive reference.",
+    "prediction_error": "Descriptive preassociation center error divided by GT height, linked to prior output with one-to-one IoU>=0.5 matching. Missing-observation bins 0, 1-2, 3-8, >=9. Include coverage and survivor-selection limitations.",
+    "time": "Concurrent tracking wall times describe resource use only. A separate fixed replay run sequentially is needed for comparative runtime.",
+    "interpretation": "Development evidence only. Dataset-specific results do not establish general superiority or constitute a locked final benchmark."
+  },
+  "outputs": {
+    "experiment": "kc48_r70_pf_dev",
+    "smoke_experiment": "kc48_r70_pf_smoke",
+    "reports": "handoff/logs/review70_pf",
+    "tracking": "results/phase2/kc48_r70_pf_dev/_processed",
+    "metrics": "results/trackeval/DETRAC-all/p2-kc48_r70_pf_dev-*"
+  }
+}

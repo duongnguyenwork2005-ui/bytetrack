@@ -1,0 +1,16 @@
+RUN r73-svmot-yolov8n_coco-c25-motion100-smoke
+[run_tracking] cache=r64smoke_svmot_yolov8n_coco_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion100.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r73-svmot-yolov8n_coco-c25-motion100-smoke-s0 seq_22_morning   128 frame ->   1,681 bbox   23 track  predict 6.04 ms/frame  assoc 12.37  (2.4s, 53 fps)
+  r73-svmot-yolov8n_coco-c25-motion100-smoke-s0   1 video moi,   0 tai su dung
+  r73-svmot-yolov8n_coco-c25-motion100-smoke-s1 seq_22_morning   128 frame ->   1,681 bbox   21 track  predict 5.02 ms/frame  assoc 9.63  (1.9s, 66 fps)
+  r73-svmot-yolov8n_coco-c25-motion100-smoke-s1   1 video moi,   0 tai su dung
+  r73-svmot-yolov8n_coco-c25-motion100-smoke-s2 seq_22_morning   128 frame ->   1,683 bbox   22 track  predict 4.97 ms/frame  assoc 9.31  (1.9s, 68 fps)
+  r73-svmot-yolov8n_coco-c25-motion100-smoke-s2   1 video moi,   0 tai su dung
+RUN r73-svmot-yolov8n_coco-c25-motion200-smoke
+[run_tracking] cache=r64smoke_svmot_yolov8n_coco_c0.05 tracker=bytetrack_pf_ctrv yaml=configs/phase2/trackers/r72/motion200.yaml conf>0.25 classes=[1, 2, 3, 5, 7] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[0, 1, 2]
+  r73-svmot-yolov8n_coco-c25-motion200-smoke-s0 seq_22_morning   128 frame ->   1,686 bbox   21 track  predict 4.07 ms/frame  assoc 8.57  (1.7s, 77 fps)
+  r73-svmot-yolov8n_coco-c25-motion200-smoke-s0   1 video moi,   0 tai su dung
+  r73-svmot-yolov8n_coco-c25-motion200-smoke-s1 seq_22_morning   128 frame ->   1,684 bbox   21 track  predict 3.67 ms/frame  assoc 7.26  (1.4s, 89 fps)
+  r73-svmot-yolov8n_coco-c25-motion200-smoke-s1   1 video moi,   0 tai su dung
+  r73-svmot-yolov8n_coco-c25-motion200-smoke-s2 seq_22_morning   128 frame ->   1,676 bbox   23 track  predict 3.86 ms/frame  assoc 7.41  (1.5s, 86 fps)
+  r73-svmot-yolov8n_coco-c25-motion200-smoke-s2   1 video moi,   0 tai su dung

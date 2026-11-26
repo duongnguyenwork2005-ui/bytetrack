@@ -1,0 +1,49 @@
+{
+  "dataset": "roundabout",
+  "smoke": false,
+  "split": "RoundaboutHD-prefix3000",
+  "cache": "r64_roundabout_yolov8n_mixed5_c0.05",
+  "videos": [
+    "imagesc001",
+    "imagesc002",
+    "imagesc003",
+    "imagesc004"
+  ],
+  "cache_checks": {
+    "imagesc001": {
+      "n_frames": 3000,
+      "n_boxes": 29594,
+      "max_n_per_frame": 27
+    },
+    "imagesc002": {
+      "n_frames": 3000,
+      "n_boxes": 52647,
+      "max_n_per_frame": 43
+    },
+    "imagesc003": {
+      "n_frames": 3000,
+      "n_boxes": 42944,
+      "max_n_per_frame": 35
+    },
+    "imagesc004": {
+      "n_frames": 3000,
+      "n_boxes": 53432,
+      "max_n_per_frame": 37
+    }
+  },
+  "gt_sha256": {
+    "imagesc001": "6e4da252306719d2ee6fc9351f862d42cb658b7dab4fed11a958310fc83b08b4",
+    "imagesc002": "9e907ff5887e20e30c16ca5dbee2f7e4364ec2658234ef496f6d8bbfbca8baad",
+    "imagesc003": "e4742c168070a5d403954e8a45a2d40d558f5ae5d018ba9cb752dde77be9d8bb",
+    "imagesc004": "39a9a5c41c38c77a149de38f5944308e19203eb6dfce55002e4994c8a0ccc190"
+  },
+  "yaml_sha256": {
+    "motion100": "3ac2894c48324728d6d5db126684331744d4e8c191fa1a9fb0bf8acc214d5b4c",
+    "motion200": "9b41f5d2befae4d435769495defe365fe0db40479d60cc1a0926eb4869e47c80"
+  },
+  "code_sha256": {
+    "src/pf_ctrv.py": "5b6db25a6ff0161e725414cb286746e86d23e261ca97875a16118161448d717c",
+    "src/tracker_ctrv.py": "e806d8dd4777f87954844db710078c32e1be01146327b67ad46c77b61c534c5f",
+    "src/run_tracking.py": "5bd131fe958bdf04ed59f704c85919aec43049df1922cb552dced98324910629"
+  }
+}

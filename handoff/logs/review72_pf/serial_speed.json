@@ -1,0 +1,130 @@
+{
+  "video": "MVI_20052",
+  "cache": "yolov8n-coco_conf0.05_all",
+  "seed_pf": 0,
+  "backend": "ultralytics",
+  "python": "3.11.9",
+  "cpu": "Intel64 Family 6 Model 165 Stepping 2, GenuineIntel",
+  "opencv_threads": 1,
+  "thread_env": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "BLIS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "torch_threads": 1,
+  "torch_interop_threads": 1,
+  "warmup_readable_frames": 32,
+  "measured_readable_frames": 128,
+  "first_measured_frame": 33,
+  "last_measured_frame": 160,
+  "repeats": 4,
+  "statistic": "Median of four replay means of tracker.update ms per frame",
+  "scope": "One CPU process, one thread per numerical library, no PF/association diagnostic logs. Time around tracker.update includes predict/association/update. Detector, detection conversion, cache reads, MOT serialization and file I/O are excluded.",
+  "summary": {
+    "motion050": {
+      "median_ms_per_frame": 11.2476738308942,
+      "min_ms_per_frame": 10.993331247846072,
+      "max_ms_per_frame": 12.044103912558057
+    },
+    "motion100": {
+      "median_ms_per_frame": 11.281550005605823,
+      "min_ms_per_frame": 10.726035931838851,
+      "max_ms_per_frame": 11.486109374345688
+    },
+    "motion200": {
+      "median_ms_per_frame": 11.074875781559967,
+      "min_ms_per_frame": 10.89346484241105,
+      "max_ms_per_frame": 11.293971094346489
+    }
+  },
+  "runs": [
+    {
+      "recipe": "motion050",
+      "repeat": 1,
+      "order": 1,
+      "ms_per_frame": 12.044103912558057,
+      "detections": 1876
+    },
+    {
+      "recipe": "motion100",
+      "repeat": 1,
+      "order": 2,
+      "ms_per_frame": 10.726035931838851,
+      "detections": 1876
+    },
+    {
+      "recipe": "motion200",
+      "repeat": 1,
+      "order": 3,
+      "ms_per_frame": 10.89346484241105,
+      "detections": 1876
+    },
+    {
+      "recipe": "motion200",
+      "repeat": 2,
+      "order": 1,
+      "ms_per_frame": 11.293971094346489,
+      "detections": 1876
+    },
+    {
+      "recipe": "motion100",
+      "repeat": 2,
+      "order": 2,
+      "ms_per_frame": 11.306284374768438,
+      "detections": 1876
+    },
+    {
+      "recipe": "motion050",
+      "repeat": 2,
+      "order": 3,
+      "ms_per_frame": 10.993331247846072,
+      "detections": 1876
+    },
+    {
+      "recipe": "motion100",
+      "repeat": 3,
+      "order": 1,
+      "ms_per_frame": 11.256815636443207,
+      "detections": 1876
+    },
+    {
+      "recipe": "motion200",
+      "repeat": 3,
+      "order": 2,
+      "ms_per_frame": 11.081105468292662,
+      "detections": 1876
+    },
+    {
+      "recipe": "motion050",
+      "repeat": 3,
+      "order": 3,
+      "ms_per_frame": 11.269092972725048,
+      "detections": 1876
+    },
+    {
+      "recipe": "motion050",
+      "repeat": 4,
+      "order": 1,
+      "ms_per_frame": 11.226254689063353,
+      "detections": 1876
+    },
+    {
+      "recipe": "motion200",
+      "repeat": 4,
+      "order": 2,
+      "ms_per_frame": 11.068646094827272,
+      "detections": 1876
+    },
+    {
+      "recipe": "motion100",
+      "repeat": 4,
+      "order": 3,
+      "ms_per_frame": 11.486109374345688,
+      "detections": 1876
+    }
+  ],
+  "experiment_sha256": "ab8c04b7ceaa3afd82a4323883cd698351f90b836fe946f864c288492cd5837b"
+}

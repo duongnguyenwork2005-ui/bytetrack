@@ -1,0 +1,11 @@
+argv: ["C:\\Users\\Mikuno\\anaconda3\\envs\\khoaluan-mot\\python.exe", "-B", "D:\\LABOTARY\\bytetrack\\src\\run_tracking.py", "--cache-id", "r90_uavdt_yolov8n_coco_c005", "--split-name", "UAVDT-R90train8", "--tracker-yaml", "configs/bytetrack_ekf_ctrv.yaml", "--tracker-name", "r90-c10-ekf", "--videos", "M1306", "M1005", "M1202", "M0206", "M0204", "M0501", "M0301", "M1008", "--conf-min", "0.10", "--classes", "2", "5", "7", "--max-det", "300", "--fps", "30", "--track-buffer-sec", "1.2", "--elapsed-mode", "steps", "--skip-existing"]
+[run_tracking] cache=r90_uavdt_yolov8n_coco_c005 tracker=bytetrack_ekf_ctrv yaml=configs/bytetrack_ekf_ctrv.yaml conf>0.1 classes=[2, 5, 7] max_det=300 fps=30.0 track_buffer=36 elapsed=steps seeds=[None]
+  r90-c10-ekf                  M1306           1200 frame ->  14,188 bbox  241 track  predict 0.64 ms/frame  assoc 2.18  (3.7s, 322 fps)
+  r90-c10-ekf                  M1005            537 frame ->   2,999 bbox   46 track  predict 0.34 ms/frame  assoc 1.32  (1.0s, 544 fps)
+  r90-c10-ekf                  M1202            472 frame ->   3,290 bbox   58 track  predict 0.40 ms/frame  assoc 1.35  (0.9s, 514 fps)
+  r90-c10-ekf                  M0206            562 frame ->   2,666 bbox   56 track  predict 0.31 ms/frame  assoc 1.21  (1.0s, 584 fps)
+  r90-c10-ekf                  M0204            350 frame ->   2,346 bbox   48 track  predict 0.52 ms/frame  assoc 1.67  (0.8s, 413 fps)
+  r90-c10-ekf                  M0501            352 frame ->       0 bbox    0 track  predict 0.00 ms/frame  assoc 0.10  (0.1s, 5587 fps)
+  r90-c10-ekf                  M0301            325 frame ->      89 bbox    4 track  predict 0.03 ms/frame  assoc 0.21  (0.1s, 3038 fps)
+  r90-c10-ekf                  M1008            569 frame ->   1,186 bbox   14 track  predict 0.14 ms/frame  assoc 0.66  (0.5s, 1070 fps)
+  r90-c10-ekf                    8 video moi,   0 tai su dung

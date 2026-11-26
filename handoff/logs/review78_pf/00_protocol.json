@@ -1,0 +1,16 @@
+{
+  "round": "R78",
+  "authorized_by": "User: có, miễn làm sao cho PF có IDSW ngang tầm với các bộ lọc khác là được",
+  "question": "Can optional Lost-track association reduce PF ID switches toward EKF without losing meaningful tracking quality?",
+  "baseline": "PF500-K1K2 motion2 R72/R74, three seeds 0/1/2",
+  "candidate_order": [
+    {"name": "nofuse", "overrides": {"lost_no_fuse": true}},
+    {"name": "iou3", "overrides": {"lost_recover": "iou", "lost_recover_iou": 0.05, "lost_recover_max_lost": 3}},
+    {"name": "maha3", "overrides": {"lost_recover": "maha", "lost_recover_maha2": 5.991, "lost_recover_max_lost": 3}}
+  ],
+  "primary_dataset": "UA-DETRAC train dev12, 25 fps, YOLOv8n COCO c25, DETRAC-all, elapsed skip",
+  "secondary_dataset": "BDD COCO-video val 200, 5 fps, YOLOv8n COCO c25, BDDCOCOVID-val, elapsed steps",
+  "decision_rule": "Run all candidates on UA dev12. Only advance candidates with mean IDSW at least 10% below 697, HOTA no more than 0.5 percentage point below 57.006%, and IDF1 no more than 0.5 percentage point below R72. Run the best passing candidate on BDD; compare with PF R74 and EKF R61. Near EKF means IDSW <= 1.10x EKF on both datasets, with HOTA and IDF1 quality gates satisfied. If none passes, report failure and do not select a candidate.",
+  "evidence": "Three seeds, paired video bootstrap 5000 replicates, raw TrackEval fields and cache/GT fingerprint checks; do not change detector, baseline tracker, evaluator, or default settings",
+  "interpretation": "PF-specific association is an algorithm-level variant, not a motion-filter-only comparison. Reductions in IDSW accompanied by lower HOTA/IDF1 are not a success."
+}

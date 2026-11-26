@@ -1,0 +1,19 @@
+{
+  "round": "R76",
+  "date": "2026-11-04",
+  "question": "Can stronger PF motion roughening materially reduce IDSW toward EKF without degrading HOTA?",
+  "context": "R72 0.5/1.0/2.0 showed decreasing UA IDSW as motion roughening rose; R75 recentering did not transfer to BDD.",
+  "baseline": "PF500-K1K2 motion roughening 2.0, no recentering, seed 0/1/2",
+  "candidates": [3.0, 4.0],
+  "implementation": "New opt-in pf_allow_high_motion_roughening permits values up to 4.0; old validation and default remain unchanged.",
+  "development": "UA-DETRAC train dev12, R72 YOLOv8n COCO c25 cache/GT, 25 fps, elapsed skip",
+  "confirmation": "BDDCOCOVID-val 200 videos, R61 YOLOv8n COCO c25 cache/GT, 5 fps, elapsed steps, mot_crowd",
+  "stages": [
+    "unit validation and historical default regression",
+    "UA smoke 2 videos for both candidates x 3 seeds",
+    "UA full dev12 for both candidates x 3 seeds",
+    "BDD three-video smoke and full 200-video x 3 seeds for one candidate only if UA IDSW improves at least 10 percent vs motion2 and HOTA falls no more than 0.5 percentage points"
+  ],
+  "selection": "Among UA-gate-eligible candidates, choose lower mean IDSW; tie within 10 switches chooses higher HOTA. If neither passes, stop without BDD full.",
+  "interpretation": "This is parameter search on observed development data; report all attempted levels, paired seed/video statistics, HOTA/DetA/IDF1 and do not change thesis defaults or claim blind generalization."
+}
