@@ -1,0 +1,5 @@
+# R97 — PF trên Nano: parity trước, tốc độ nhiều video sau
+
+Ngày 10/11/2026. Người dùng yêu cầu triển khai hai bước đã đề xuất. Parity dùng fixture detection xe xác định 90 frame, ba xe, xe rẽ và hai khoảng mất detection; cùng PF500 seed97, buffer30, c25. Chạy trên mã PC với backend Ultralytics và NumPy, rồi trên mã gói Nano với NumPy. Cổng: cùng số frame, cùng ID/lớp/thứ tự hàng; sai số bbox tối đa 0,001 pixel và score tối đa 1e-6. Nếu PC hai backend không khớp thì dừng; nếu bản Nano không khớp thì chưa dùng để kết luận chất lượng. Ghi rõ hash mã/config vì gói Nano là bản đóng trước R95.
+
+Sau parity, nếu đạt, dùng ảnh mẫu R86 đã xác minh, chọn có hệ thống 8/40 video BDD và 8/40 UA (chỉ số 0,5,...,35), 150 JPEG/video. Mỗi video CV/PF500 cùng engine C1 384×640, c25, FPS và lớp theo R86; đảo thứ tự hai tracker theo chỉ số video. Warmup25, tắt hiển thị. Giữ cùng boot, kiểm `errors_count`, swap tăng ≤100MB, nhiệt <75°C và đủ 150 frame. Kết luận theo cặp video: median thời gian update tracker, infer/decode, FPS ổn định và toàn luồng; không gộp hai tập. Đây là phép đo tốc độ mẫu frame, không là chấm HOTA/IDSW hay FPS camera thực.
