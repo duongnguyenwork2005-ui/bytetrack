@@ -1,0 +1,468 @@
+&&&& RUNNING TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine --warmUp=500 --duration=6 --iterations=100 --separateProfileRun --dumpProfile --exportProfile=/home/jetson/nano_run/r164_latency_pruning_20261121/profile.json
+[11/21/2026-02:55:39] [I] === Model Options ===
+[11/21/2026-02:55:39] [I] Format: *
+[11/21/2026-02:55:39] [I] Model: 
+[11/21/2026-02:55:39] [I] Output:
+[11/21/2026-02:55:39] [I] === Build Options ===
+[11/21/2026-02:55:39] [I] Max batch: 1
+[11/21/2026-02:55:39] [I] Workspace: 16 MiB
+[11/21/2026-02:55:39] [I] minTiming: 1
+[11/21/2026-02:55:39] [I] avgTiming: 8
+[11/21/2026-02:55:39] [I] Precision: FP32
+[11/21/2026-02:55:39] [I] Calibration: 
+[11/21/2026-02:55:39] [I] Refit: Disabled
+[11/21/2026-02:55:39] [I] Sparsity: Disabled
+[11/21/2026-02:55:39] [I] Safe mode: Disabled
+[11/21/2026-02:55:39] [I] DirectIO mode: Disabled
+[11/21/2026-02:55:39] [I] Restricted mode: Disabled
+[11/21/2026-02:55:39] [I] Save engine: 
+[11/21/2026-02:55:39] [I] Load engine: /home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine
+[11/21/2026-02:55:39] [I] Profiling verbosity: 0
+[11/21/2026-02:55:39] [I] Tactic sources: Using default tactic sources
+[11/21/2026-02:55:39] [I] timingCacheMode: local
+[11/21/2026-02:55:39] [I] timingCacheFile: 
+[11/21/2026-02:55:39] [I] Input(s)s format: fp32:CHW
+[11/21/2026-02:55:39] [I] Output(s)s format: fp32:CHW
+[11/21/2026-02:55:39] [I] Input build shapes: model
+[11/21/2026-02:55:39] [I] Input calibration shapes: model
+[11/21/2026-02:55:39] [I] === System Options ===
+[11/21/2026-02:55:39] [I] Device: 0
+[11/21/2026-02:55:39] [I] DLACore: 
+[11/21/2026-02:55:39] [I] Plugins:
+[11/21/2026-02:55:39] [I] === Inference Options ===
+[11/21/2026-02:55:39] [I] Batch: 1
+[11/21/2026-02:55:39] [I] Input inference shapes: model
+[11/21/2026-02:55:39] [I] Iterations: 100
+[11/21/2026-02:55:39] [I] Duration: 6s (+ 500ms warm up)
+[11/21/2026-02:55:39] [I] Sleep time: 0ms
+[11/21/2026-02:55:39] [I] Idle time: 0ms
+[11/21/2026-02:55:39] [I] Streams: 1
+[11/21/2026-02:55:39] [I] ExposeDMA: Disabled
+[11/21/2026-02:55:39] [I] Data transfers: Enabled
+[11/21/2026-02:55:39] [I] Spin-wait: Disabled
+[11/21/2026-02:55:39] [I] Multithreading: Disabled
+[11/21/2026-02:55:39] [I] CUDA Graph: Disabled
+[11/21/2026-02:55:39] [I] Separate profiling: Enabled
+[11/21/2026-02:55:39] [I] Time Deserialize: Disabled
+[11/21/2026-02:55:39] [I] Time Refit: Disabled
+[11/21/2026-02:55:39] [I] Skip inference: Disabled
+[11/21/2026-02:55:39] [I] Inputs:
+[11/21/2026-02:55:39] [I] === Reporting Options ===
+[11/21/2026-02:55:39] [I] Verbose: Disabled
+[11/21/2026-02:55:39] [I] Averages: 10 inferences
+[11/21/2026-02:55:39] [I] Percentile: 99
+[11/21/2026-02:55:39] [I] Dump refittable layers:Disabled
+[11/21/2026-02:55:39] [I] Dump output: Disabled
+[11/21/2026-02:55:39] [I] Profile: Enabled
+[11/21/2026-02:55:39] [I] Export timing to JSON file: 
+[11/21/2026-02:55:39] [I] Export output to JSON file: 
+[11/21/2026-02:55:39] [I] Export profile to JSON file: /home/jetson/nano_run/r164_latency_pruning_20261121/profile.json
+[11/21/2026-02:55:39] [I] 
+[11/21/2026-02:55:39] [I] === Device Information ===
+[11/21/2026-02:55:39] [I] Selected Device: NVIDIA Tegra X1
+[11/21/2026-02:55:39] [I] Compute Capability: 5.3
+[11/21/2026-02:55:39] [I] SMs: 1
+[11/21/2026-02:55:39] [I] Compute Clock Rate: 0.9216 GHz
+[11/21/2026-02:55:39] [I] Device Global Memory: 3963 MiB
+[11/21/2026-02:55:39] [I] Shared Memory per SM: 64 KiB
+[11/21/2026-02:55:39] [I] Memory Bus Width: 64 bits (ECC disabled)
+[11/21/2026-02:55:39] [I] Memory Clock Rate: 0.01275 GHz
+[11/21/2026-02:55:39] [I] 
+[11/21/2026-02:55:39] [I] TensorRT version: 8.2.1
+[11/21/2026-02:55:41] [I] [TRT] [MemUsageChange] Init CUDA: CPU +229, GPU +0, now: CPU 255, GPU 2843 (MiB)
+[11/21/2026-02:55:41] [I] [TRT] Loaded engine size: 7 MiB
+[11/21/2026-02:55:43] [I] [TRT] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +158, GPU +159, now: CPU 414, GPU 3003 (MiB)
+[11/21/2026-02:55:45] [I] [TRT] [MemUsageChange] Init cuDNN: CPU +241, GPU +243, now: CPU 655, GPU 3246 (MiB)
+[11/21/2026-02:55:45] [I] [TRT] [MemUsageChange] TensorRT-managed allocation in engine deserialization: CPU +0, GPU +7, now: CPU 0, GPU 7 (MiB)
+[11/21/2026-02:55:45] [I] Engine loaded in 5.36119 sec.
+[11/21/2026-02:55:45] [I] [TRT] [MemUsageChange] Init cuBLAS/cuBLASLt: CPU +0, GPU +0, now: CPU 647, GPU 3239 (MiB)
+[11/21/2026-02:55:45] [I] [TRT] [MemUsageChange] Init cuDNN: CPU +0, GPU +0, now: CPU 647, GPU 3239 (MiB)
+[11/21/2026-02:55:45] [I] [TRT] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +14, now: CPU 0, GPU 21 (MiB)
+[11/21/2026-02:55:45] [I] Using random values for input images
+[11/21/2026-02:55:45] [I] Created input binding for images with dimensions 1x3x384x640
+[11/21/2026-02:55:45] [I] Using random values for output output0
+[11/21/2026-02:55:45] [I] Created output binding for output0 with dimensions 1x9x5040
+[11/21/2026-02:55:45] [I] Starting inference
+[11/21/2026-02:55:51] [I] Warmup completed 1 queries over 500 ms
+[11/21/2026-02:55:51] [I] Timing trace has 115 queries over 4.86597 s
+[11/21/2026-02:55:51] [I] 
+[11/21/2026-02:55:51] [I] === Trace details ===
+[11/21/2026-02:55:51] [I] Trace averages of 10 runs:
+[11/21/2026-02:55:51] [I] Average on 10 runs - GPU latency: 46.7812 ms - Host latency: 47.1229 ms (end to end 47.1359 ms, enqueue 17.8135 ms)
+[11/21/2026-02:55:51] [I] Average on 10 runs - GPU latency: 41.5326 ms - Host latency: 41.8357 ms (end to end 41.848 ms, enqueue 15.1642 ms)
+[11/21/2026-02:55:51] [I] Average on 10 runs - GPU latency: 41.5402 ms - Host latency: 41.8427 ms (end to end 41.855 ms, enqueue 15.6402 ms)
+[11/21/2026-02:55:51] [I] Average on 10 runs - GPU latency: 41.5629 ms - Host latency: 41.8653 ms (end to end 41.8777 ms, enqueue 15.7934 ms)
+[11/21/2026-02:55:51] [I] Average on 10 runs - GPU latency: 41.5197 ms - Host latency: 41.8221 ms (end to end 41.8345 ms, enqueue 15.8052 ms)
+[11/21/2026-02:55:51] [I] Average on 10 runs - GPU latency: 41.5459 ms - Host latency: 41.8486 ms (end to end 41.861 ms, enqueue 15.794 ms)
+[11/21/2026-02:55:51] [I] Average on 10 runs - GPU latency: 41.5426 ms - Host latency: 41.8456 ms (end to end 41.8579 ms, enqueue 14.7792 ms)
+[11/21/2026-02:55:51] [I] Average on 10 runs - GPU latency: 41.5273 ms - Host latency: 41.8305 ms (end to end 41.8428 ms, enqueue 15.7831 ms)
+[11/21/2026-02:55:51] [I] Average on 10 runs - GPU latency: 41.5536 ms - Host latency: 41.8573 ms (end to end 41.8696 ms, enqueue 15.791 ms)
+[11/21/2026-02:55:51] [I] Average on 10 runs - GPU latency: 41.5146 ms - Host latency: 41.8178 ms (end to end 41.8301 ms, enqueue 16.1199 ms)
+[11/21/2026-02:55:51] [I] Average on 10 runs - GPU latency: 41.5333 ms - Host latency: 41.8363 ms (end to end 41.8486 ms, enqueue 15.8112 ms)
+[11/21/2026-02:55:51] [I] 
+[11/21/2026-02:55:51] [I] === Performance summary ===
+[11/21/2026-02:55:51] [I] Throughput: 23.6335 qps
+[11/21/2026-02:55:51] [I] Latency: min = 41.7383 ms, max = 75.4847 ms, mean = 42.2999 ms, median = 41.8359 ms, percentile(99%) = 54.2576 ms
+[11/21/2026-02:55:51] [I] End-to-End Host Latency: min = 41.751 ms, max = 75.5018 ms, mean = 42.3122 ms, median = 41.8486 ms, percentile(99%) = 54.2723 ms
+[11/21/2026-02:55:51] [I] Enqueue Time: min = 12.0713 ms, max = 28.8695 ms, mean = 15.8152 ms, median = 15.7991 ms, percentile(99%) = 23.9462 ms
+[11/21/2026-02:55:51] [I] H2D Latency: min = 0.280029 ms, max = 0.458862 ms, mean = 0.285876 ms, median = 0.282715 ms, percentile(99%) = 0.45874 ms
+[11/21/2026-02:55:51] [I] GPU Compute Time: min = 41.4346 ms, max = 74.9928 ms, mean = 41.9936 ms, median = 41.5347 ms, percentile(99%) = 53.7775 ms
+[11/21/2026-02:55:51] [I] D2H Latency: min = 0.019043 ms, max = 0.0330811 ms, mean = 0.0204133 ms, median = 0.0202637 ms, percentile(99%) = 0.0224609 ms
+[11/21/2026-02:55:51] [I] Total Host Walltime: 4.86597 s
+[11/21/2026-02:55:51] [I] Total GPU Compute Time: 4.82926 s
+[11/21/2026-02:55:51] [I] Explanations of the performance metrics are printed in the verbose logs.
+[11/21/2026-02:55:51] [I] 
+[11/21/2026-02:55:58] [I] 
+[11/21/2026-02:55:58] [I] === Profile (156 iterations ) ===
+[11/21/2026-02:55:58] [I]                                                                                                  Layer   Time (ms)   Avg. Time (ms)   Time %
+[11/21/2026-02:55:58] [I]                                         Reformatting CopyNode for Input Tensor 0 to /model.0/conv/Conv      124.22           0.7963      1.9
+[11/21/2026-02:55:58] [I]                                                                                     /model.0/conv/Conv      188.42           1.2078      2.9
+[11/21/2026-02:55:58] [I]                                                                              PWN(/model.0/act/Sigmoid)      195.53           1.2534      3.0
+[11/21/2026-02:55:58] [I]                                                                                       /model.0/act/Mul       72.78           0.4666      1.1
+[11/21/2026-02:55:58] [I]                                                                                     /model.1/conv/Conv       92.23           0.5912      1.4
+[11/21/2026-02:55:58] [I]                                                                              PWN(/model.1/act/Sigmoid)       97.91           0.6277      1.5
+[11/21/2026-02:55:58] [I]                                                                                       /model.1/act/Mul       36.19           0.2320      0.6
+[11/21/2026-02:55:58] [I]                                                                                 /model.2/cv1/conv/Conv       43.99           0.2820      0.7
+[11/21/2026-02:55:58] [I]                                                                          PWN(/model.2/cv1/act/Sigmoid)       97.79           0.6269      1.5
+[11/21/2026-02:55:58] [I]                                                                                   /model.2/cv1/act/Mul       36.19           0.2320      0.6
+[11/21/2026-02:55:58] [I]                                                                                         /model.2/Split        9.99           0.0640      0.2
+[11/21/2026-02:55:58] [I]                                                                                       /model.2/Split_0       10.05           0.0645      0.2
+[11/21/2026-02:55:58] [I]                                                                             /model.2/m.0/cv1/conv/Conv       85.67           0.5492      1.3
+[11/21/2026-02:55:58] [I]                                                                      PWN(/model.2/m.0/cv1/act/Sigmoid)       25.23           0.1617      0.4
+[11/21/2026-02:55:58] [I]                                                                               /model.2/m.0/cv1/act/Mul        9.86           0.0632      0.2
+[11/21/2026-02:55:58] [I]                                                                             /model.2/m.0/cv2/conv/Conv       63.82           0.4091      1.0
+[11/21/2026-02:55:58] [I]                                                                      PWN(/model.2/m.0/cv2/act/Sigmoid)       49.85           0.3196      0.8
+[11/21/2026-02:55:58] [I]                                                                               /model.2/m.0/cv2/act/Mul       18.72           0.1200      0.3
+[11/21/2026-02:55:58] [I]                                                                                       /model.2/m.0/Add       18.45           0.1182      0.3
+[11/21/2026-02:55:58] [I]                                                                           /model.2/Split_output_1 copy        9.86           0.0632      0.2
+[11/21/2026-02:55:58] [I]                                                                                 /model.2/cv2/conv/Conv       75.04           0.4810      1.2
+[11/21/2026-02:55:58] [I]                                                                          PWN(/model.2/cv2/act/Sigmoid)      194.68           1.2479      3.0
+[11/21/2026-02:55:58] [I]                                                                                   /model.2/cv2/act/Mul       71.64           0.4592      1.1
+[11/21/2026-02:55:58] [I]                                                                                     /model.3/conv/Conv      120.92           0.7751      1.9
+[11/21/2026-02:55:58] [I]                                                                              PWN(/model.3/act/Sigmoid)       49.58           0.3178      0.8
+[11/21/2026-02:55:58] [I]                                                                                       /model.3/act/Mul       18.55           0.1189      0.3
+[11/21/2026-02:55:58] [I]                                                                                 /model.4/cv1/conv/Conv       24.23           0.1553      0.4
+[11/21/2026-02:55:58] [I]                                                                          PWN(/model.4/cv1/act/Sigmoid)       49.57           0.3177      0.8
+[11/21/2026-02:55:58] [I]                                                                                   /model.4/cv1/act/Mul       18.58           0.1191      0.3
+[11/21/2026-02:55:58] [I]                                                                             /model.4/m.0/cv1/conv/Conv       30.20           0.1936      0.5
+[11/21/2026-02:55:58] [I]                                                                      PWN(/model.4/m.0/cv1/act/Sigmoid)       13.16           0.0844      0.2
+[11/21/2026-02:55:58] [I]                                                                               /model.4/m.0/cv1/act/Mul        4.71           0.0302      0.1
+[11/21/2026-02:55:58] [I]                                                                             /model.4/m.0/cv2/conv/Conv       21.16           0.1357      0.3
+[11/21/2026-02:55:58] [I]                                                                      PWN(/model.4/m.0/cv2/act/Sigmoid)       25.23           0.1617      0.4
+[11/21/2026-02:55:58] [I]                                                                               /model.4/m.0/cv2/act/Mul        9.88           0.0633      0.2
+[11/21/2026-02:55:58] [I]                                                                                       /model.4/m.0/Add        9.62           0.0617      0.1
+[11/21/2026-02:55:58] [I]                                                                           /model.4/Split_output_0 copy        5.14           0.0330      0.1
+[11/21/2026-02:55:58] [I]                                                                           /model.4/Split_output_1 copy        5.27           0.0338      0.1
+[11/21/2026-02:55:58] [I]                                                                                 /model.4/cv2/conv/Conv       55.90           0.3584      0.9
+[11/21/2026-02:55:58] [I]                                                                          PWN(/model.4/cv2/act/Sigmoid)       97.96           0.6280      1.5
+[11/21/2026-02:55:58] [I]                                                                                   /model.4/cv2/act/Mul       36.51           0.2341      0.6
+[11/21/2026-02:55:58] [I]                                                                                     /model.5/conv/Conv      119.74           0.7676      1.8
+[11/21/2026-02:55:58] [I]                                                                              PWN(/model.5/act/Sigmoid)       25.22           0.1617      0.4
+[11/21/2026-02:55:58] [I]                                                                                       /model.5/act/Mul        9.91           0.0636      0.2
+[11/21/2026-02:55:58] [I]                                                                                 /model.6/cv1/conv/Conv       20.11           0.1289      0.3
+[11/21/2026-02:55:58] [I]                                                                          PWN(/model.6/cv1/act/Sigmoid)       25.21           0.1616      0.4
+[11/21/2026-02:55:58] [I]                                                                                   /model.6/cv1/act/Mul        9.86           0.0632      0.2
+[11/21/2026-02:55:58] [I]                                               /model.6/m.0/cv1/conv/Conv || /model.6/m.0/cv2/conv/Conv        8.61           0.0552      0.1
+[11/21/2026-02:55:58] [I]                                                                      PWN(/model.6/m.0/cv1/act/Sigmoid)        8.13           0.0521      0.1
+[11/21/2026-02:55:58] [I]                                                                      PWN(/model.6/m.0/cv2/act/Sigmoid)        7.41           0.0475      0.1
+[11/21/2026-02:55:58] [I]                                                                               /model.6/m.0/cv1/act/Mul        2.53           0.0162      0.0
+[11/21/2026-02:55:58] [I]                                                                               /model.6/m.0/cv2/act/Mul        2.89           0.0185      0.0
+[11/21/2026-02:55:58] [I]                                                                       /model.6/m.0/m/m.0/cv1/conv/Conv       11.34           0.0727      0.2
+[11/21/2026-02:55:58] [I]                                                                PWN(/model.6/m.0/m/m.0/cv1/act/Sigmoid)        6.99           0.0448      0.1
+[11/21/2026-02:55:58] [I]                                                                         /model.6/m.0/m/m.0/cv1/act/Mul        1.88           0.0121      0.0
+[11/21/2026-02:55:58] [I]                                                                       /model.6/m.0/m/m.0/cv2/conv/Conv        9.37           0.0600      0.1
+[11/21/2026-02:55:58] [I]                                                                PWN(/model.6/m.0/m/m.0/cv2/act/Sigmoid)        6.70           0.0430      0.1
+[11/21/2026-02:55:58] [I]                                                                         /model.6/m.0/m/m.0/cv2/act/Mul        1.84           0.0118      0.0
+[11/21/2026-02:55:58] [I]                                                                                 /model.6/m.0/m/m.0/Add        2.22           0.0142      0.0
+[11/21/2026-02:55:58] [I]                                                                       /model.6/m.0/m/m.1/cv1/conv/Conv        9.51           0.0610      0.1
+[11/21/2026-02:55:58] [I]                                                                PWN(/model.6/m.0/m/m.1/cv1/act/Sigmoid)        6.99           0.0448      0.1
+[11/21/2026-02:55:58] [I]                                                                         /model.6/m.0/m/m.1/cv1/act/Mul        1.91           0.0122      0.0
+[11/21/2026-02:55:58] [I]                                                                       /model.6/m.0/m/m.1/cv2/conv/Conv        9.35           0.0599      0.1
+[11/21/2026-02:55:58] [I]                                                                PWN(/model.6/m.0/m/m.1/cv2/act/Sigmoid)        6.73           0.0432      0.1
+[11/21/2026-02:55:58] [I]                                                                         /model.6/m.0/m/m.1/cv2/act/Mul        1.79           0.0115      0.0
+[11/21/2026-02:55:58] [I]                                                                                 /model.6/m.0/m/m.1/Add        2.40           0.0154      0.0
+[11/21/2026-02:55:58] [I]                                                                             /model.6/m.0/cv3/conv/Conv        8.61           0.0552      0.1
+[11/21/2026-02:55:58] [I]                                                                      PWN(/model.6/m.0/cv3/act/Sigmoid)       13.28           0.0852      0.2
+[11/21/2026-02:55:58] [I]                                                                               /model.6/m.0/cv3/act/Mul        4.73           0.0303      0.1
+[11/21/2026-02:55:58] [I]                                                                           /model.6/Split_output_0 copy        2.86           0.0183      0.0
+[11/21/2026-02:55:58] [I]                                                                           /model.6/Split_output_1 copy        2.87           0.0184      0.0
+[11/21/2026-02:55:58] [I]                                                                                 /model.6/cv2/conv/Conv       26.44           0.1695      0.4
+[11/21/2026-02:55:58] [I]                                                                          PWN(/model.6/cv2/act/Sigmoid)       25.24           0.1618      0.4
+[11/21/2026-02:55:58] [I]                                                                                   /model.6/cv2/act/Mul        9.77           0.0627      0.2
+[11/21/2026-02:55:58] [I]                                                                                     /model.7/conv/Conv       61.01           0.3911      0.9
+[11/21/2026-02:55:58] [I]                                                                              PWN(/model.7/act/Sigmoid)       13.12           0.0841      0.2
+[11/21/2026-02:55:58] [I]                                                                                       /model.7/act/Mul        4.93           0.0316      0.1
+[11/21/2026-02:55:58] [I]                                                                                 /model.8/cv1/conv/Conv       17.29           0.1108      0.3
+[11/21/2026-02:55:58] [I]                                                                          PWN(/model.8/cv1/act/Sigmoid)       13.17           0.0845      0.2
+[11/21/2026-02:55:58] [I]                                                                                   /model.8/cv1/act/Mul        4.96           0.0318      0.1
+[11/21/2026-02:55:58] [I]                                               /model.8/m.0/cv1/conv/Conv || /model.8/m.0/cv2/conv/Conv        5.61           0.0359      0.1
+[11/21/2026-02:55:58] [I]                                                                      PWN(/model.8/m.0/cv1/act/Sigmoid)        5.54           0.0355      0.1
+[11/21/2026-02:55:58] [I]                                                                      PWN(/model.8/m.0/cv2/act/Sigmoid)        4.15           0.0266      0.1
+[11/21/2026-02:55:58] [I]                                                                               /model.8/m.0/cv1/act/Mul        1.35           0.0087      0.0
+[11/21/2026-02:55:58] [I]                                                                               /model.8/m.0/cv2/act/Mul        1.17           0.0075      0.0
+[11/21/2026-02:55:58] [I]                                                                       /model.8/m.0/m/m.0/cv1/conv/Conv       12.56           0.0805      0.2
+[11/21/2026-02:55:58] [I]                                                                PWN(/model.8/m.0/m/m.0/cv1/act/Sigmoid)        4.24           0.0272      0.1
+[11/21/2026-02:55:58] [I]                                                                         /model.8/m.0/m/m.0/cv1/act/Mul        1.22           0.0078      0.0
+[11/21/2026-02:55:58] [I]                                                                       /model.8/m.0/m/m.0/cv2/conv/Conv       11.16           0.0716      0.2
+[11/21/2026-02:55:58] [I]                                                                PWN(/model.8/m.0/m/m.0/cv2/act/Sigmoid)        3.92           0.0251      0.1
+[11/21/2026-02:55:58] [I]                                                                         /model.8/m.0/m/m.0/cv2/act/Mul        1.20           0.0077      0.0
+[11/21/2026-02:55:58] [I]                                                                                 /model.8/m.0/m/m.0/Add        1.41           0.0090      0.0
+[11/21/2026-02:55:58] [I]                                                                       /model.8/m.0/m/m.1/cv1/conv/Conv       11.03           0.0707      0.2
+[11/21/2026-02:55:58] [I]                                                                PWN(/model.8/m.0/m/m.1/cv1/act/Sigmoid)        4.03           0.0258      0.1
+[11/21/2026-02:55:58] [I]                                                                         /model.8/m.0/m/m.1/cv1/act/Mul        1.15           0.0073      0.0
+[11/21/2026-02:55:58] [I]                                                                       /model.8/m.0/m/m.1/cv2/conv/Conv       11.07           0.0709      0.2
+[11/21/2026-02:55:58] [I]                                                                PWN(/model.8/m.0/m/m.1/cv2/act/Sigmoid)        3.92           0.0251      0.1
+[11/21/2026-02:55:58] [I]                                                                         /model.8/m.0/m/m.1/cv2/act/Mul        1.15           0.0074      0.0
+[11/21/2026-02:55:58] [I]                                                                                 /model.8/m.0/m/m.1/Add        1.36           0.0087      0.0
+[11/21/2026-02:55:58] [I]                                                                             /model.8/m.0/cv3/conv/Conv        6.82           0.0437      0.1
+[11/21/2026-02:55:58] [I]                                                                      PWN(/model.8/m.0/cv3/act/Sigmoid)        8.31           0.0533      0.1
+[11/21/2026-02:55:58] [I]                                                                               /model.8/m.0/cv3/act/Mul        2.13           0.0137      0.0
+[11/21/2026-02:55:58] [I]                                                                           /model.8/Split_output_0 copy        1.79           0.0115      0.0
+[11/21/2026-02:55:58] [I]                                                                           /model.8/Split_output_1 copy        1.79           0.0115      0.0
+[11/21/2026-02:55:58] [I]                                                                                 /model.8/cv2/conv/Conv       23.02           0.1475      0.4
+[11/21/2026-02:55:58] [I]                                                                          PWN(/model.8/cv2/act/Sigmoid)       13.28           0.0851      0.2
+[11/21/2026-02:55:58] [I]                                                                                   /model.8/cv2/act/Mul        4.94           0.0317      0.1
+[11/21/2026-02:55:58] [I]                                                                                 /model.9/cv1/conv/Conv        8.98           0.0575      0.1
+[11/21/2026-02:55:58] [I]                                                                          PWN(/model.9/cv1/act/Sigmoid)        7.19           0.0461      0.1
+[11/21/2026-02:55:58] [I]                                                                                   /model.9/cv1/act/Mul        2.12           0.0136      0.0
+[11/21/2026-02:55:58] [I]                                                                                     /model.9/m/MaxPool        9.27           0.0594      0.1
+[11/21/2026-02:55:58] [I]                                                                                   /model.9/m_1/MaxPool        9.06           0.0581      0.1
+[11/21/2026-02:55:58] [I]                                                                                   /model.9/m_2/MaxPool        9.03           0.0579      0.1
+[11/21/2026-02:55:58] [I]                                                                     /model.9/cv1/act/Mul_output_0 copy        1.99           0.0128      0.0
+[11/21/2026-02:55:58] [I]                                                                       /model.9/m/MaxPool_output_0 copy        1.65           0.0106      0.0
+[11/21/2026-02:55:58] [I]                                                                     /model.9/m_1/MaxPool_output_0 copy        1.80           0.0115      0.0
+[11/21/2026-02:55:58] [I]                                                                     /model.9/m_2/MaxPool_output_0 copy        1.72           0.0111      0.0
+[11/21/2026-02:55:58] [I]                                                                                 /model.9/cv2/conv/Conv       31.28           0.2005      0.5
+[11/21/2026-02:55:58] [I]                                                                          PWN(/model.9/cv2/act/Sigmoid)       13.88           0.0890      0.2
+[11/21/2026-02:55:58] [I]                                                                                   /model.9/cv2/act/Mul        5.08           0.0326      0.1
+[11/21/2026-02:55:58] [I]                                                                                /model.10/cv1/conv/Conv       17.55           0.1125      0.3
+[11/21/2026-02:55:58] [I]                                                                         PWN(/model.10/cv1/act/Sigmoid)       13.38           0.0858      0.2
+[11/21/2026-02:55:58] [I]                                                                                  /model.10/cv1/act/Mul        5.06           0.0324      0.1
+[11/21/2026-02:55:58] [I]                                                                                      /model.10/Split_4        1.15           0.0074      0.0
+[11/21/2026-02:55:58] [I]                                                                     /model.10/m/m.0/attn/qkv/conv/Conv       10.30           0.0660      0.2
+[11/21/2026-02:55:58] [I]                               Reformatting CopyNode for Input Tensor 0 to /model.10/m/m.0/attn/Reshape        7.36           0.0472      0.1
+[11/21/2026-02:55:58] [I]                                                                           /model.10/m/m.0/attn/Reshape        0.11           0.0007      0.0
+[11/21/2026-02:55:58] [I]                                                                             /model.10/m/m.0/attn/Split        3.56           0.0228      0.1
+[11/21/2026-02:55:58] [I]                                                                           /model.10/m/m.0/attn/Split_5        3.00           0.0192      0.0
+[11/21/2026-02:55:58] [I]                                                                           /model.10/m/m.0/attn/Split_6        5.22           0.0335      0.1
+[11/21/2026-02:55:58] [I]   /model.10/m/m.0/attn/Constant_1_output_0 + (Unnamed Layer* 134) [Shuffle] + /model.10/m/m.0/attn/Mul        2.39           0.0153      0.0
+[11/21/2026-02:55:58] [I]                                                                         /model.10/m/m.0/attn/Reshape_2        0.08           0.0005      0.0
+[11/21/2026-02:55:58] [I]                                                                            /model.10/m/m.0/attn/MatMul        9.20           0.0589      0.1
+[11/21/2026-02:55:58] [I]                                                                         (Unnamed Layer* 138) [Shuffle]        0.27           0.0017      0.0
+[11/21/2026-02:55:58] [I]                                                                           /model.10/m/m.0/attn/Softmax       38.88           0.2492      0.6
+[11/21/2026-02:55:58] [I]                                      (Unnamed Layer* 140) [Shuffle] + /model.10/m/m.0/attn/Transpose_1       25.99           0.1666      0.4
+[11/21/2026-02:55:58] [I]                                                                          /model.10/m/m.0/attn/MatMul_1       11.98           0.0768      0.2
+[11/21/2026-02:55:58] [I]                                                                         /model.10/m/m.0/attn/Reshape_1        0.18           0.0012      0.0
+[11/21/2026-02:55:58] [I]                                           /model.10/m/m.0/attn/pe/conv/Conv + /model.10/m/m.0/attn/Add       14.92           0.0956      0.2
+[11/21/2026-02:55:58] [I]  Reformatting CopyNode for Input Tensor 0 to /model.10/m/m.0/attn/proj/conv/Conv + /model.10/m/m.0/Add        4.41           0.0283      0.1
+[11/21/2026-02:55:58] [I]                                              /model.10/m/m.0/attn/proj/conv/Conv + /model.10/m/m.0/Add        6.86           0.0440      0.1
+[11/21/2026-02:55:58] [I]                                                                    /model.10/m/m.0/ffn/ffn.0/conv/Conv        9.81           0.0629      0.2
+[11/21/2026-02:55:58] [I]                                                             PWN(/model.10/m/m.0/ffn/ffn.0/act/Sigmoid)       14.28           0.0915      0.2
+[11/21/2026-02:55:58] [I]                                                                      /model.10/m/m.0/ffn/ffn.0/act/Mul        5.06           0.0325      0.1
+[11/21/2026-02:55:58] [I]                                            /model.10/m/m.0/ffn/ffn.1/conv/Conv + /model.10/m/m.0/Add_1        9.28           0.0595      0.1
+[11/21/2026-02:55:58] [I]                                                                          /model.10/Split_output_0 copy        1.85           0.0119      0.0
+[11/21/2026-02:55:58] [I]                                                                    /model.10/m/m.0/Add_1_output_0 copy        1.32           0.0085      0.0
+[11/21/2026-02:55:58] [I]                                                                                /model.10/cv2/conv/Conv       16.17           0.1037      0.2
+[11/21/2026-02:55:58] [I]                                                                         PWN(/model.10/cv2/act/Sigmoid)       13.39           0.0858      0.2
+[11/21/2026-02:55:58] [I]                                                                                  /model.10/cv2/act/Mul        5.12           0.0328      0.1
+[11/21/2026-02:55:58] [I]                                           Reformatting CopyNode for Input Tensor 0 to /model.11/Resize        7.44           0.0477      0.1
+[11/21/2026-02:55:58] [I]                                                                                       /model.11/Resize       32.63           0.2091      0.5
+[11/21/2026-02:55:58] [I]                                                                         /model.11/Resize_output_0 copy       31.53           0.2021      0.5
+[11/21/2026-02:55:58] [I]                                                                                /model.13/cv1/conv/Conv       44.84           0.2875      0.7
+[11/21/2026-02:55:58] [I]                                                                         PWN(/model.13/cv1/act/Sigmoid)       26.04           0.1670      0.4
+[11/21/2026-02:55:58] [I]                                                                                  /model.13/cv1/act/Mul       10.26           0.0658      0.2
+[11/21/2026-02:55:58] [I]                                                                            /model.13/m.0/cv1/conv/Conv       15.65           0.1003      0.2
+[11/21/2026-02:55:58] [I]                                                                     PWN(/model.13/m.0/cv1/act/Sigmoid)        7.33           0.0470      0.1
+[11/21/2026-02:55:58] [I]                                                                              /model.13/m.0/cv1/act/Mul        2.10           0.0135      0.0
+[11/21/2026-02:55:58] [I]                                                                            /model.13/m.0/cv2/conv/Conv       17.67           0.1133      0.3
+[11/21/2026-02:55:58] [I]                                                                     PWN(/model.13/m.0/cv2/act/Sigmoid)       13.39           0.0858      0.2
+[11/21/2026-02:55:58] [I]                                                                              /model.13/m.0/cv2/act/Mul        5.15           0.0330      0.1
+[11/21/2026-02:55:58] [I]                                                                                      /model.13/m.0/Add        5.47           0.0350      0.1
+[11/21/2026-02:55:58] [I]                                                                          /model.13/Split_output_0 copy        2.92           0.0187      0.0
+[11/21/2026-02:55:58] [I]                                                                          /model.13/Split_output_1 copy        2.84           0.0182      0.0
+[11/21/2026-02:55:58] [I]                                                                                /model.13/cv2/conv/Conv       26.48           0.1698      0.4
+[11/21/2026-02:55:58] [I]                                                                         PWN(/model.13/cv2/act/Sigmoid)       25.69           0.1647      0.4
+[11/21/2026-02:55:58] [I]                                                                                  /model.13/cv2/act/Mul       10.20           0.0654      0.2
+[11/21/2026-02:55:58] [I]                                           Reformatting CopyNode for Input Tensor 0 to /model.14/Resize       14.20           0.0910      0.2
+[11/21/2026-02:55:58] [I]                                                                                       /model.14/Resize       64.23           0.4118      1.0
+[11/21/2026-02:55:58] [I]                                                                         /model.14/Resize_output_0 copy       62.26           0.3991      1.0
+[11/21/2026-02:55:58] [I]                                                                                /model.16/cv1/conv/Conv       59.22           0.3796      0.9
+[11/21/2026-02:55:58] [I]                                                                         PWN(/model.16/cv1/act/Sigmoid)       50.30           0.3224      0.8
+[11/21/2026-02:55:58] [I]                                                                                  /model.16/cv1/act/Mul       18.82           0.1206      0.3
+[11/21/2026-02:55:58] [I]                                                                            /model.16/m.0/cv1/conv/Conv       30.52           0.1957      0.5
+[11/21/2026-02:55:58] [I]                                                                     PWN(/model.16/m.0/cv1/act/Sigmoid)       13.50           0.0866      0.2
+[11/21/2026-02:55:58] [I]                                                                              /model.16/m.0/cv1/act/Mul        4.89           0.0313      0.1
+[11/21/2026-02:55:58] [I]                                                                            /model.16/m.0/cv2/conv/Conv       21.25           0.1362      0.3
+[11/21/2026-02:55:58] [I]                                                                     PWN(/model.16/m.0/cv2/act/Sigmoid)       25.54           0.1637      0.4
+[11/21/2026-02:55:58] [I]                                                                              /model.16/m.0/cv2/act/Mul       10.27           0.0659      0.2
+[11/21/2026-02:55:58] [I]                                                                                      /model.16/m.0/Add       10.08           0.0646      0.2
+[11/21/2026-02:55:58] [I]                                                                          /model.16/Split_output_0 copy        5.31           0.0341      0.1
+[11/21/2026-02:55:58] [I]                                                                          /model.16/Split_output_1 copy        5.42           0.0348      0.1
+[11/21/2026-02:55:58] [I]                                                                                /model.16/cv2/conv/Conv       30.53           0.1957      0.5
+[11/21/2026-02:55:58] [I]                                                                         PWN(/model.16/cv2/act/Sigmoid)       50.06           0.3209      0.8
+[11/21/2026-02:55:58] [I]                                                                                  /model.16/cv2/act/Mul       18.92           0.1213      0.3
+[11/21/2026-02:55:58] [I]                                                                                    /model.17/conv/Conv       34.38           0.2204      0.5
+[11/21/2026-02:55:58] [I]                                                                      /model.23/cv2.0/cv2.0.0/conv/Conv       87.60           0.5615      1.3
+[11/21/2026-02:55:58] [I]                Reformatting CopyNode for Input Tensor 0 to /model.23/cv3.0/cv3.0.0/cv3.0.0.0/conv/Conv       26.80           0.1718      0.4
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.0/cv3.0.0/cv3.0.0.0/conv/Conv       35.42           0.2271      0.5
+[11/21/2026-02:55:58] [I]                                                                             PWN(/model.17/act/Sigmoid)       14.46           0.0927      0.2
+[11/21/2026-02:55:58] [I]                                                               PWN(/model.23/cv2.0/cv2.0.0/act/Sigmoid)       49.46           0.3170      0.8
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.0/cv3.0.0/cv3.0.0.0/act/Sigmoid)       49.45           0.3170      0.8
+[11/21/2026-02:55:58] [I]                                                                                      /model.17/act/Mul        5.68           0.0364      0.1
+[11/21/2026-02:55:58] [I]                                                                        /model.23/cv2.0/cv2.0.0/act/Mul       18.44           0.1182      0.3
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.0/cv3.0.0/cv3.0.0.0/act/Mul       18.73           0.1201      0.3
+[11/21/2026-02:55:58] [I]                                                                    /model.13/cv2/act/Mul_output_0 copy        5.39           0.0346      0.1
+[11/21/2026-02:55:58] [I]                                                                      /model.23/cv2.0/cv2.0.1/conv/Conv       89.01           0.5706      1.4
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.0/cv3.0.0/cv3.0.0.1/conv/Conv       76.27           0.4889      1.2
+[11/21/2026-02:55:58] [I]                                                                                /model.19/cv1/conv/Conv       26.43           0.1694      0.4
+[11/21/2026-02:55:58] [I]                                                               PWN(/model.23/cv2.0/cv2.0.1/act/Sigmoid)       50.77           0.3255      0.8
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.0/cv3.0.0/cv3.0.0.1/act/Sigmoid)       49.40           0.3167      0.8
+[11/21/2026-02:55:58] [I]                                                                         PWN(/model.19/cv1/act/Sigmoid)       25.29           0.1621      0.4
+[11/21/2026-02:55:58] [I]                                                                        /model.23/cv2.0/cv2.0.1/act/Mul       18.93           0.1214      0.3
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.0/cv3.0.0/cv3.0.0.1/act/Mul       18.67           0.1197      0.3
+[11/21/2026-02:55:58] [I]                                                                                  /model.19/cv1/act/Mul        9.72           0.0623      0.1
+[11/21/2026-02:55:58] [I]                                                                           /model.23/cv2.0/cv2.0.2/Conv       24.53           0.1572      0.4
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.0/cv3.0.1/cv3.0.1.0/conv/Conv       35.97           0.2306      0.6
+[11/21/2026-02:55:58] [I]                                          Reformatting CopyNode for Input Tensor 0 to /model.23/Reshape       27.07           0.1735      0.4
+[11/21/2026-02:55:58] [I]                                                                                      /model.23/Reshape        0.23           0.0014      0.0
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.0/cv3.0.1/cv3.0.1.0/act/Sigmoid)       50.60           0.3244      0.8
+[11/21/2026-02:55:58] [I]                                                                            /model.19/m.0/cv1/conv/Conv       16.09           0.1032      0.2
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.0/cv3.0.1/cv3.0.1.0/act/Mul       18.77           0.1203      0.3
+[11/21/2026-02:55:58] [I]                                                                     PWN(/model.19/m.0/cv1/act/Sigmoid)        7.34           0.0470      0.1
+[11/21/2026-02:55:58] [I]                Reformatting CopyNode for Input Tensor 0 to /model.23/cv3.0/cv3.0.1/cv3.0.1.1/conv/Conv       31.17           0.1998      0.5
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.0/cv3.0.1/cv3.0.1.1/conv/Conv       24.11           0.1546      0.4
+[11/21/2026-02:55:58] [I]                                                                              /model.19/m.0/cv1/act/Mul        3.45           0.0221      0.1
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.0/cv3.0.1/cv3.0.1.1/act/Sigmoid)       49.94           0.3201      0.8
+[11/21/2026-02:55:58] [I]                                                                            /model.19/m.0/cv2/conv/Conv       19.52           0.1251      0.3
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.0/cv3.0.1/cv3.0.1.1/act/Mul       18.59           0.1191      0.3
+[11/21/2026-02:55:58] [I]                                                                     PWN(/model.19/m.0/cv2/act/Sigmoid)       13.45           0.0862      0.2
+[11/21/2026-02:55:58] [I]                                                                           /model.23/cv3.0/cv3.0.2/Conv       17.89           0.1147      0.3
+[11/21/2026-02:55:58] [I]                                                                              /model.19/m.0/cv2/act/Mul        5.09           0.0326      0.1
+[11/21/2026-02:55:58] [I]                                        Reformatting CopyNode for Input Tensor 0 to /model.23/Reshape_3        2.77           0.0177      0.0
+[11/21/2026-02:55:58] [I]                                                                                    /model.23/Reshape_3        0.10           0.0006      0.0
+[11/21/2026-02:55:58] [I]                                                                                      /model.19/m.0/Add        5.38           0.0345      0.1
+[11/21/2026-02:55:58] [I]                                                                          /model.19/Split_output_0 copy        2.84           0.0182      0.0
+[11/21/2026-02:55:58] [I]                                                                          /model.19/Split_output_1 copy        2.90           0.0186      0.0
+[11/21/2026-02:55:58] [I]                                                                                /model.19/cv2/conv/Conv       26.61           0.1705      0.4
+[11/21/2026-02:55:58] [I]                                                                         PWN(/model.19/cv2/act/Sigmoid)       26.61           0.1706      0.4
+[11/21/2026-02:55:58] [I]                                                                                  /model.19/cv2/act/Mul       10.19           0.0654      0.2
+[11/21/2026-02:55:58] [I]                                                                                    /model.20/conv/Conv       32.06           0.2055      0.5
+[11/21/2026-02:55:58] [I]                                                                      /model.23/cv2.1/cv2.1.0/conv/Conv       48.65           0.3119      0.7
+[11/21/2026-02:55:58] [I]                Reformatting CopyNode for Input Tensor 0 to /model.23/cv3.1/cv3.1.0/cv3.1.0.0/conv/Conv       13.82           0.0886      0.2
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.1/cv3.1.0/cv3.1.0.0/conv/Conv       22.85           0.1465      0.4
+[11/21/2026-02:55:58] [I]                                                                             PWN(/model.20/act/Sigmoid)        8.35           0.0535      0.1
+[11/21/2026-02:55:58] [I]                                                               PWN(/model.23/cv2.1/cv2.1.0/act/Sigmoid)       13.12           0.0841      0.2
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.1/cv3.1.0/cv3.1.0.0/act/Sigmoid)       25.29           0.1621      0.4
+[11/21/2026-02:55:58] [I]                                                                                      /model.20/act/Mul        3.43           0.0220      0.1
+[11/21/2026-02:55:58] [I]                                                                        /model.23/cv2.1/cv2.1.0/act/Mul        5.27           0.0338      0.1
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.1/cv3.1.0/cv3.1.0.0/act/Mul        9.70           0.0622      0.1
+[11/21/2026-02:55:58] [I]                                                                    /model.10/cv2/act/Mul_output_0 copy        3.06           0.0196      0.0
+[11/21/2026-02:55:58] [I]                                                                      /model.23/cv2.1/cv2.1.1/conv/Conv       28.84           0.1849      0.4
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.1/cv3.1.0/cv3.1.0.1/conv/Conv       35.08           0.2249      0.5
+[11/21/2026-02:55:58] [I]                                                                                /model.22/cv1/conv/Conv       23.96           0.1536      0.4
+[11/21/2026-02:55:58] [I]                                                               PWN(/model.23/cv2.1/cv2.1.1/act/Sigmoid)       14.39           0.0922      0.2
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.1/cv3.1.0/cv3.1.0.1/act/Sigmoid)       13.20           0.0846      0.2
+[11/21/2026-02:55:58] [I]                                                                         PWN(/model.22/cv1/act/Sigmoid)       13.19           0.0845      0.2
+[11/21/2026-02:55:58] [I]                                                                        /model.23/cv2.1/cv2.1.1/act/Mul        5.67           0.0364      0.1
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.1/cv3.1.0/cv3.1.0.1/act/Mul        5.11           0.0328      0.1
+[11/21/2026-02:55:58] [I]                                                                                  /model.22/cv1/act/Mul        5.09           0.0327      0.1
+[11/21/2026-02:55:58] [I]                                                                           /model.23/cv2.1/cv2.1.2/Conv        8.97           0.0575      0.1
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.1/cv3.1.1/cv3.1.1.0/conv/Conv       11.77           0.0755      0.2
+[11/21/2026-02:55:58] [I]                                        Reformatting CopyNode for Input Tensor 0 to /model.23/Reshape_1        7.29           0.0467      0.1
+[11/21/2026-02:55:58] [I]                                                                                    /model.23/Reshape_1        0.10           0.0006      0.0
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.1/cv3.1.1/cv3.1.1.0/act/Sigmoid)       14.20           0.0910      0.2
+[11/21/2026-02:55:58] [I]                                             /model.22/m.0/cv1/conv/Conv || /model.22/m.0/cv2/conv/Conv        7.15           0.0459      0.1
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.1/cv3.1.1/cv3.1.1.0/act/Mul        5.37           0.0344      0.1
+[11/21/2026-02:55:58] [I]                                                                     PWN(/model.22/m.0/cv1/act/Sigmoid)        5.76           0.0369      0.1
+[11/21/2026-02:55:58] [I]                                                                     PWN(/model.22/m.0/cv2/act/Sigmoid)        4.24           0.0272      0.1
+[11/21/2026-02:55:58] [I]                Reformatting CopyNode for Input Tensor 0 to /model.23/cv3.1/cv3.1.1/cv3.1.1.1/conv/Conv        8.38           0.0537      0.1
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.1/cv3.1.1/cv3.1.1.1/conv/Conv        8.75           0.0561      0.1
+[11/21/2026-02:55:58] [I]                                                                              /model.22/m.0/cv1/act/Mul        2.19           0.0141      0.0
+[11/21/2026-02:55:58] [I]                                                                              /model.22/m.0/cv2/act/Mul        1.89           0.0121      0.0
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.1/cv3.1.1/cv3.1.1.1/act/Sigmoid)       14.40           0.0923      0.2
+[11/21/2026-02:55:58] [I]                                                                      /model.22/m.0/m/m.0/cv1/conv/Conv       13.11           0.0840      0.2
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.1/cv3.1.1/cv3.1.1.1/act/Mul        5.24           0.0336      0.1
+[11/21/2026-02:55:58] [I]                                                               PWN(/model.22/m.0/m/m.0/cv1/act/Sigmoid)        5.14           0.0329      0.1
+[11/21/2026-02:55:58] [I]                                                                           /model.23/cv3.1/cv3.1.2/Conv        7.98           0.0511      0.1
+[11/21/2026-02:55:58] [I]                                                                        /model.22/m.0/m/m.0/cv1/act/Mul        1.49           0.0095      0.0
+[11/21/2026-02:55:58] [I]                                        Reformatting CopyNode for Input Tensor 0 to /model.23/Reshape_4        1.08           0.0069      0.0
+[11/21/2026-02:55:58] [I]                                                                                    /model.23/Reshape_4        0.10           0.0006      0.0
+[11/21/2026-02:55:58] [I]                                                                      /model.22/m.0/m/m.0/cv2/conv/Conv       12.51           0.0802      0.2
+[11/21/2026-02:55:58] [I]                                                               PWN(/model.22/m.0/m/m.0/cv2/act/Sigmoid)        5.08           0.0326      0.1
+[11/21/2026-02:55:58] [I]                                                                        /model.22/m.0/m/m.0/cv2/act/Mul        1.24           0.0080      0.0
+[11/21/2026-02:55:58] [I]                                                                                /model.22/m.0/m/m.0/Add        1.55           0.0100      0.0
+[11/21/2026-02:55:58] [I]                                                                      /model.22/m.0/m/m.1/cv1/conv/Conv       10.97           0.0703      0.2
+[11/21/2026-02:55:58] [I]                                                               PWN(/model.22/m.0/m/m.1/cv1/act/Sigmoid)        3.97           0.0255      0.1
+[11/21/2026-02:55:58] [I]                                                                        /model.22/m.0/m/m.1/cv1/act/Mul        1.15           0.0073      0.0
+[11/21/2026-02:55:58] [I]                                                                      /model.22/m.0/m/m.1/cv2/conv/Conv       10.84           0.0695      0.2
+[11/21/2026-02:55:58] [I]                                                               PWN(/model.22/m.0/m/m.1/cv2/act/Sigmoid)        3.97           0.0254      0.1
+[11/21/2026-02:55:58] [I]                                                                        /model.22/m.0/m/m.1/cv2/act/Mul        1.15           0.0074      0.0
+[11/21/2026-02:55:58] [I]                                                                                /model.22/m.0/m/m.1/Add        1.37           0.0088      0.0
+[11/21/2026-02:55:58] [I]                                                                            /model.22/m.0/cv3/conv/Conv        6.83           0.0438      0.1
+[11/21/2026-02:55:58] [I]                                                                     PWN(/model.22/m.0/cv3/act/Sigmoid)        8.35           0.0535      0.1
+[11/21/2026-02:55:58] [I]                                                                              /model.22/m.0/cv3/act/Mul        2.03           0.0130      0.0
+[11/21/2026-02:55:58] [I]                                                                          /model.22/Split_output_0 copy        1.76           0.0113      0.0
+[11/21/2026-02:55:58] [I]                                                                          /model.22/Split_output_1 copy        1.85           0.0118      0.0
+[11/21/2026-02:55:58] [I]                                                                                /model.22/cv2/conv/Conv       23.06           0.1478      0.4
+[11/21/2026-02:55:58] [I]                                                                         PWN(/model.22/cv2/act/Sigmoid)       13.39           0.0858      0.2
+[11/21/2026-02:55:58] [I]                                                                                  /model.22/cv2/act/Mul        4.90           0.0314      0.1
+[11/21/2026-02:55:58] [I]                                                                      /model.23/cv2.2/cv2.2.0/conv/Conv       37.94           0.2432      0.6
+[11/21/2026-02:55:58] [I]                Reformatting CopyNode for Input Tensor 0 to /model.23/cv3.2/cv3.2.0/cv3.2.0.0/conv/Conv        7.28           0.0466      0.1
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.2/cv3.2.0/cv3.2.0.0/conv/Conv       16.93           0.1085      0.3
+[11/21/2026-02:55:58] [I]               Reformatting CopyNode for Output Tensor 0 to /model.23/cv3.2/cv3.2.0/cv3.2.0.0/conv/Conv        8.47           0.0543      0.1
+[11/21/2026-02:55:58] [I]                                                               PWN(/model.23/cv2.2/cv2.2.0/act/Sigmoid)        5.24           0.0336      0.1
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.2/cv3.2.0/cv3.2.0.0/act/Sigmoid)       14.52           0.0931      0.2
+[11/21/2026-02:55:58] [I]                                                                        /model.23/cv2.2/cv2.2.0/act/Mul        2.17           0.0139      0.0
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.2/cv3.2.0/cv3.2.0.0/act/Mul        5.15           0.0330      0.1
+[11/21/2026-02:55:58] [I]                                                                      /model.23/cv2.2/cv2.2.1/conv/Conv       12.75           0.0818      0.2
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.2/cv3.2.0/cv3.2.0.1/conv/Conv        8.06           0.0517      0.1
+[11/21/2026-02:55:58] [I]                                                               PWN(/model.23/cv2.2/cv2.2.1/act/Sigmoid)        5.12           0.0328      0.1
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.2/cv3.2.0/cv3.2.0.1/act/Sigmoid)        3.87           0.0248      0.1
+[11/21/2026-02:55:58] [I]                                                                        /model.23/cv2.2/cv2.2.1/act/Mul        1.41           0.0090      0.0
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.2/cv3.2.0/cv3.2.0.1/act/Mul        1.23           0.0079      0.0
+[11/21/2026-02:55:58] [I]                                                                           /model.23/cv2.2/cv2.2.2/Conv        5.05           0.0324      0.1
+[11/21/2026-02:55:58] [I]                Reformatting CopyNode for Input Tensor 0 to /model.23/cv3.2/cv3.2.1/cv3.2.1.0/conv/Conv        2.28           0.0146      0.0
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.2/cv3.2.1/cv3.2.1.0/conv/Conv        5.93           0.0380      0.1
+[11/21/2026-02:55:58] [I]               Reformatting CopyNode for Output Tensor 0 to /model.23/cv3.2/cv3.2.1/cv3.2.1.0/conv/Conv        2.59           0.0166      0.0
+[11/21/2026-02:55:58] [I]                                        Reformatting CopyNode for Input Tensor 0 to /model.23/Reshape_2        2.24           0.0144      0.0
+[11/21/2026-02:55:58] [I]                                                                                    /model.23/Reshape_2        0.08           0.0005      0.0
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.2/cv3.2.1/cv3.2.1.0/act/Sigmoid)        4.47           0.0286      0.1
+[11/21/2026-02:55:58] [I]                                                                        /model.23/Reshape_output_0 copy       23.60           0.1513      0.4
+[11/21/2026-02:55:58] [I]                                                                      /model.23/Reshape_1_output_0 copy        7.89           0.0506      0.1
+[11/21/2026-02:55:58] [I]                                                                      /model.23/Reshape_2_output_0 copy        3.23           0.0207      0.0
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.2/cv3.2.1/cv3.2.1.0/act/Mul        2.04           0.0131      0.0
+[11/21/2026-02:55:58] [I]                                                        /model.23/dfl/Reshape + /model.23/dfl/Transpose       69.98           0.4486      1.1
+[11/21/2026-02:55:58] [I]                                                            /model.23/cv3.2/cv3.2.1/cv3.2.1.1/conv/Conv        5.42           0.0348      0.1
+[11/21/2026-02:55:58] [I]                                                     PWN(/model.23/cv3.2/cv3.2.1/cv3.2.1.1/act/Sigmoid)        5.05           0.0323      0.1
+[11/21/2026-02:55:58] [I]                                                                         (Unnamed Layer* 321) [Shuffle]        0.16           0.0010      0.0
+[11/21/2026-02:55:58] [I]                                                              /model.23/cv3.2/cv3.2.1/cv3.2.1.1/act/Mul        1.47           0.0094      0.0
+[11/21/2026-02:55:58] [I]                                                                                  /model.23/dfl/Softmax      190.59           1.2218      2.9
+[11/21/2026-02:55:58] [I]                                                                           /model.23/cv3.2/cv3.2.2/Conv        5.83           0.0374      0.1
+[11/21/2026-02:55:58] [I]                                             (Unnamed Layer* 323) [Shuffle] + /model.23/dfl/Transpose_1      171.70           1.1007      2.6
+[11/21/2026-02:55:58] [I]                                        Reformatting CopyNode for Input Tensor 0 to /model.23/Reshape_5        1.10           0.0070      0.0
+[11/21/2026-02:55:58] [I]                                                                                    /model.23/Reshape_5        0.08           0.0005      0.0
+[11/21/2026-02:55:58] [I]                                                                      /model.23/Reshape_3_output_0 copy        3.10           0.0199      0.0
+[11/21/2026-02:55:58] [I]                                                                      /model.23/Reshape_4_output_0 copy        1.38           0.0088      0.0
+[11/21/2026-02:55:58] [I]                                                                      /model.23/Reshape_5_output_0 copy        1.09           0.0070      0.0
+[11/21/2026-02:55:58] [I]                                                                                /model.23/dfl/conv/Conv       39.93           0.2560      0.6
+[11/21/2026-02:55:58] [I]                                                                                /model.23/dfl/Reshape_1        0.24           0.0015      0.0
+[11/21/2026-02:55:58] [I]                                                                                        /model.23/Slice        2.46           0.0158      0.0
+[11/21/2026-02:55:58] [I]                                                                                      /model.23/Slice_1        2.27           0.0146      0.0
+[11/21/2026-02:55:58] [I]                                                                         /model.23/Constant_12_output_0        0.08           0.0005      0.0
+[11/21/2026-02:55:58] [I]                                                                                          /model.23/Sub        1.23           0.0079      0.0
+[11/21/2026-02:55:58] [I]                                                                         /model.23/Constant_13_output_0        0.08           0.0005      0.0
+[11/21/2026-02:55:58] [I]                                                                                        /model.23/Add_1        1.08           0.0069      0.0
+[11/21/2026-02:55:58] [I]                                                                                        /model.23/Add_2        0.93           0.0059      0.0
+[11/21/2026-02:55:58] [I]                                        /model.23/Constant_14_output_0 + (Unnamed Layer* 385) [Shuffle]        0.08           0.0005      0.0
+[11/21/2026-02:55:58] [I]                                                                                        /model.23/Div_1        1.50           0.0096      0.0
+[11/21/2026-02:55:58] [I]                                                                                        /model.23/Sub_1        1.00           0.0064      0.0
+[11/21/2026-02:55:58] [I]                                                                          /model.23/Div_1_output_0 copy        2.15           0.0138      0.0
+[11/21/2026-02:55:58] [I]                                                                          /model.23/Sub_1_output_0 copy        2.36           0.0151      0.0
+[11/21/2026-02:55:58] [I]                                        /model.23/Constant_15_output_0 + (Unnamed Layer* 390) [Shuffle]        0.12           0.0007      0.0
+[11/21/2026-02:55:58] [I]                                                                                        /model.23/Mul_2        2.01           0.0129      0.0
+[11/21/2026-02:55:58] [I]                                                                                 PWN(/model.23/Sigmoid)        7.15           0.0459      0.1
+[11/21/2026-02:55:58] [I]                                                                          /model.23/Mul_2_output_0 copy        5.75           0.0368      0.1
+[11/21/2026-02:55:58] [I]                                                                        /model.23/Sigmoid_output_0 copy        5.83           0.0374      0.1
+[11/21/2026-02:55:58] [I]                                                                                                  Total     6499.62          41.6642    100.0
+[11/21/2026-02:55:58] [I] 
+&&&& PASSED TensorRT.trtexec [TensorRT v8201] # /usr/src/tensorrt/bin/trtexec --loadEngine=/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine --warmUp=500 --duration=6 --iterations=100 --separateProfileRun --dumpProfile --exportProfile=/home/jetson/nano_run/r164_latency_pruning_20261121/profile.json

@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "D:\LABOTARY\bytetrack\handoff\logs\review164_latency_pruning\training_preflight.py", line 44, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review164_latency_pruning\training_preflight.py", line 32, in main
+    probe=Probe();train_with_distillation(probe,{})
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\LABOTARY\bytetrack\handoff\logs\review104_yolo_compression\fit_channels.py", line 58, in train_with_distillation
+    model.train(**train_args)
+  File "D:\LABOTARY\bytetrack\handoff\logs\review164_latency_pruning\training_preflight.py", line 28, in train
+    loss,_=model.loss(batch);assert torch.isfinite(loss).all();loss.sum().backward()
+                                                               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\torch\_tensor.py", line 626, in backward
+    torch.autograd.backward(
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\torch\autograd\__init__.py", line 347, in backward
+    _engine_run_backward(
+  File "C:\Users\Mikuno\anaconda3\envs\khoaluan-mot\Lib\site-packages\torch\autograd\graph.py", line 823, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: element 0 of tensors does not require grad and does not have a grad_fn

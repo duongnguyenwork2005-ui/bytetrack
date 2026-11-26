@@ -1,0 +1,127 @@
+{
+  "head50": {
+    "returncode": 0,
+    "seconds": 345.8087857120008,
+    "log_sha256": "f7f37b0825f6553b1ba5d8967413171cb69d3e5b6be731f2c9794b540a400984",
+    "state_after": {
+      "boot": "51280481-0986-4322-a37c-824de9e072af",
+      "swap_MiB": 11.46484375,
+      "available_MiB": 2859.796875,
+      "thermal_C": {
+        "CPU-therm": 28.5,
+        "GPU-therm": 25.5
+      },
+      "SD_errors": "0"
+    },
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--onnx=/home/jetson/nano_run/r164_latency_pruning_20261121/head50/model.onnx",
+      "--saveEngine=/home/jetson/nano_run/r164_latency_pruning_20261121/head50/model.engine",
+      "--fp16",
+      "--workspace=512",
+      "--buildOnly",
+      "--profilingVerbosity=detailed"
+    ],
+    "engine_sha256": "b4d17aa844246a2a7ac5a33b772607fe2398c47fd76eaf712482c70da733d137"
+  },
+  "body50": {
+    "returncode": 0,
+    "seconds": 316.14474450299895,
+    "log_sha256": "3e31f5a1c5cc1d82d7c14ba74df766047997b05894e4bb115ccd4feab86acc43",
+    "state_after": {
+      "boot": "51280481-0986-4322-a37c-824de9e072af",
+      "swap_MiB": 11.46484375,
+      "available_MiB": 2858.31640625,
+      "thermal_C": {
+        "CPU-therm": 29.0,
+        "GPU-therm": 26.0
+      },
+      "SD_errors": "0"
+    },
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--onnx=/home/jetson/nano_run/r164_latency_pruning_20261121/body50/model.onnx",
+      "--saveEngine=/home/jetson/nano_run/r164_latency_pruning_20261121/body50/model.engine",
+      "--fp16",
+      "--workspace=512",
+      "--buildOnly",
+      "--profilingVerbosity=detailed"
+    ],
+    "engine_sha256": "7f527a51b8bf2d20d781ffa0681afec10b4f06cd3d2a21c45d35cf235261b1d3"
+  },
+  "joint50": {
+    "returncode": 0,
+    "seconds": 339.17400951799937,
+    "log_sha256": "515c95032df6df8ecef3ca2166a044c8e074ecc76b32af0c9053bc9604a1898a",
+    "state_after": {
+      "boot": "51280481-0986-4322-a37c-824de9e072af",
+      "swap_MiB": 11.46484375,
+      "available_MiB": 2857.265625,
+      "thermal_C": {
+        "CPU-therm": 29.0,
+        "GPU-therm": 26.5
+      },
+      "SD_errors": "0"
+    },
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--onnx=/home/jetson/nano_run/r164_latency_pruning_20261121/joint50/model.onnx",
+      "--saveEngine=/home/jetson/nano_run/r164_latency_pruning_20261121/joint50/model.engine",
+      "--fp16",
+      "--workspace=512",
+      "--buildOnly",
+      "--profilingVerbosity=detailed"
+    ],
+    "engine_sha256": "38253514bf5f4c87f924729a0b6b885849587e73da1543632c02f40cb25cf451"
+  },
+  "depth2": {
+    "returncode": 0,
+    "seconds": 301.1854044640022,
+    "log_sha256": "fd1d5ba214680c9745ecea8121be464f7f489b8a48b4db5232769511664054bd",
+    "state_after": {
+      "boot": "51280481-0986-4322-a37c-824de9e072af",
+      "swap_MiB": 11.46484375,
+      "available_MiB": 2858.59765625,
+      "thermal_C": {
+        "CPU-therm": 28.5,
+        "GPU-therm": 26.5
+      },
+      "SD_errors": "0"
+    },
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--onnx=/home/jetson/nano_run/r164_latency_pruning_20261121/depth2/model.onnx",
+      "--saveEngine=/home/jetson/nano_run/r164_latency_pruning_20261121/depth2/model.engine",
+      "--fp16",
+      "--workspace=512",
+      "--buildOnly",
+      "--profilingVerbosity=detailed"
+    ],
+    "engine_sha256": "4bebf319ca6f163ed6a16ed7536966356125ae5739476a16d8f0fb36ed2c35ba"
+  },
+  "hswish": {
+    "returncode": 0,
+    "seconds": 328.72604909099755,
+    "log_sha256": "1f9a77e122311bb224e8ab12d137b4623d97087efbb994a9107a8d90b64844eb",
+    "state_after": {
+      "boot": "51280481-0986-4322-a37c-824de9e072af",
+      "swap_MiB": 11.4609375,
+      "available_MiB": 2856.48046875,
+      "thermal_C": {
+        "CPU-therm": 29.5,
+        "GPU-therm": 26.5
+      },
+      "SD_errors": "0"
+    },
+    "command": [
+      "/usr/src/tensorrt/bin/trtexec",
+      "--onnx=/home/jetson/nano_run/r164_latency_pruning_20261121/hswish/model.onnx",
+      "--saveEngine=/home/jetson/nano_run/r164_latency_pruning_20261121/hswish/model.engine",
+      "--fp16",
+      "--workspace=512",
+      "--buildOnly",
+      "--profilingVerbosity=detailed"
+    ],
+    "engine_sha256": "0182977e9b10d518eff01de1e69e0244757b19249de2f1ad08f85a3f9b16f9ae"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "GPU_only": true,
+  "Nano_pipeline_FPS_measured": false,
+  "models": {
+    "original": {
+      "GPU_ms": 41.645300000000006,
+      "repeat_difference_pct": 0.13014673924789008
+    },
+    "head50": {
+      "GPU_ms": 38.3943,
+      "repeat_difference_pct": 0.24795347226020112,
+      "GPU_time_reduction_pct": 7.806403123521754
+    },
+    "body50": {
+      "GPU_ms": 40.9552,
+      "repeat_difference_pct": 0.04590381685353464,
+      "GPU_time_reduction_pct": 1.6570897556267061
+    },
+    "joint50": {
+      "GPU_ms": 37.889799999999994,
+      "repeat_difference_pct": 0.0015835396333541,
+      "GPU_time_reduction_pct": 9.017824340321745
+    },
+    "depth2": {
+      "GPU_ms": 38.959,
+      "repeat_difference_pct": 0.48615210862701586,
+      "GPU_time_reduction_pct": 6.450427779365264
+    },
+    "hswish": {
+      "GPU_ms": 54.7608,
+      "repeat_difference_pct": 0.004382697111805364,
+      "GPU_time_reduction_pct": -31.493349789772186
+    }
+  },
+  "selected_for_training": [
+    "joint50"
+  ],
+  "raw_parity_status": {
+    "head50": "FAIL",
+    "body50": "PASS",
+    "joint50": "PASS",
+    "depth2": "PASS",
+    "hswish": "FAIL"
+  },
+  "sha256": {
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\body50_build.log": "3e31f5a1c5cc1d82d7c14ba74df766047997b05894e4bb115ccd4feab86acc43",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\body50_raw_parity.json": "017eccc0caa805d645e0f2bd08c1063298239c9054cf23f55fcfe2a4c011f122",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\build_results.json": "1f8e33961749d7583781e088a40a5115c7a9a8f73ca3349105ecbbe46b4c73f3",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\build_screen.log": "f96be548e12078f5abe060a963f8606e3fd64b8d60773569929d14d20cb998b5",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\capabilities.json": "b9a028b7fd594bc3d6c522bbe58767f8154f45d25889ad89bbd270f341b42f4c",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\depth2_build.log": "fd1d5ba214680c9745ecea8121be464f7f489b8a48b4db5232769511664054bd",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\depth2_raw_parity.json": "0978250a863722f922ac122bb289778549bd2b6077d64118762e4eebb48749e9",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_rows.json": "1e8d5d13b06c97bc1a0223deddfd2040c0adf7e0cfe5f4a9071f4b2543a8288a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\head50_build.log": "f7f37b0825f6553b1ba5d8967413171cb69d3e5b6be731f2c9794b540a400984",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\head50_raw_parity.json": "45977041a455d3dd0c2e102a2494faf731ee212c60972bd22f84522bb61de436",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\hswish_build.log": "1f9a77e122311bb224e8ab12d137b4623d97087efbb994a9107a8d90b64844eb",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\hswish_raw_parity.json": "930bb456817afb089541dc3b1c0500cc64e550fa63650e864d2fb78aa5b982fc",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\joint50_build.log": "515c95032df6df8ecef3ca2166a044c8e074ecc76b32af0c9053bc9604a1898a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\joint50_raw_parity.json": "0a127950bebb01a5dcf16c403ff0ac1b4b1861bc08544beb55cb8816467ef94b",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\runtime_models.json": "21985883813a58ec8ca5ddfefabebc61f2d92d5d356bf96aa7a6daf5d3dc98e0",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\screen_before.json": "cf697128a301b1d7e9ce997c60af7a6081088d263b033818d4805927d58a0239",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\screen_config.json": "6d9e01823a2fbb54a66195c927032a074cf36145f9d63a188549f23fdbd897a4",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\selection.json": "5bdafb744a8b34974c892e845669b0f258cda13a7d55afe965715608445ea891",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\00_original.log": "4346d5c4ce54255e5ab7961001cfde46ada9541e4009f677518c6d187fa958ba",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\01_head50.log": "565838a1820b459f424ae8bb2df8a5d8e9e51f3d43215071fd50a76af4d05a70",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\02_body50.log": "9c88d75a1959e6dd1e1d8028d59689d4dfe20da15e16a5444b404b1872ac23ae",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\03_joint50.log": "dd584a584479e347a96e3c439fd73055c5a9841bae017050c7f5ff4f4b50220d",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\04_depth2.log": "5e3e8f59139e80c64fa9a880cb987c15065fa29401accd84c8fee3e1164c97f5",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\05_hswish.log": "dc3a1b27605a879def507c8a3d0cc47efa2f8a43410697a5b23b58124df0c212",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\06_hswish.log": "a8a00014f0e633da9e6d0ada51905e04b5f084f0872cf30ba5b097a9c85b7a70",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\07_depth2.log": "cf3c79a1427d94a7130fc2c765f5679e159d67bc98a32bd8afddf8e5a0d6dc6b",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\08_joint50.log": "3048912020ff53d6489c1e646bbb3becba11cbefa60c7d9f413e0a7b9f3114de",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\09_body50.log": "9c4111b9339a3578b5bd93e746b2e0cf6d9ca084d59a549b30b126d74327b488",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\10_head50.log": "4d20603e8fcbea3cd2f4c463143e428766d478d5d1823eb45687f513dc5d1af3",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\screen_evidence\\gpu_screen\\11_original.log": "95c368e7a79f8884e6243e59aaecc158cc51918a7f64d644aa0941b2173a4141",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review164_latency_pruning\\verify_screen.py": "af8987f4fc530c80432d821456cfb81db0215a8fccdb1a54d2e844865ab870dc"
+  },
+  "boot": "51280481-0986-4322-a37c-824de9e072af"
+}
