@@ -1,0 +1,48 @@
+{
+  "models": {
+    "original": {
+      "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+      "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+      "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity",
+      "runtime_quality": "/home/jetson/nano_run/r160_height352_20261120/quality/original.json",
+      "runtime_quality_sha256": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+      "quality_recommended": true,
+      "historical_raw_parity": "PASS"
+    },
+    "r352x640": {
+      "onnx": "/home/jetson/nano_run/r160_height352_20261120/model.onnx",
+      "onnx_sha256": "d8e186035026dc605e6102c9af0b0e9c71e654b238967f5485a2ed819d30d24a",
+      "engine": "/home/jetson/nano_run/r160_height352_20261120/model.engine",
+      "hw": [
+        352,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r160_height352_20261120/parity",
+      "engine_sha256": "ad2601a2800c840e68e60219269aba7797c02f3c9e5aa5bae1bf571ffeb6b801",
+      "runtime_quality": "/home/jetson/nano_run/r160_height352_20261120/quality/r352x640.json",
+      "runtime_quality_sha256": "7ff842766708fc4277cfd9784fba417f611da53db7f0895687123a9b9a5356e7",
+      "quality_recommended": false,
+      "historical_raw_parity": "FAIL"
+    }
+  },
+  "package": "/home/jetson/nano_run/r108_15fps_20261117/overlap_package",
+  "baseline_quality": "/home/jetson/nano_run/r160_height352_20261120/quality/original.json",
+  "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+  "allow_diagnostic_quality_failure": true,
+  "batch": "height",
+  "source_sha256": {
+    "/home/jetson/nano_run/r160_height352_20261120/timing_v2.py": "c427cc911e15e3e9b7526a4dd0dca2a448e9fe8ce96eca8c87182a9e19caffbe",
+    "/home/jetson/nano_run/r160_height352_20261120/run_models_v2.py": "39b622bdb1e5b06deba68d6f8a51ed3d0219e53abb7f40ac6c51bdfe89c42ca9",
+    "/home/jetson/nano_run/r160_height352_20261120/select_full.py": "c6af0efbff7bc6dd7fb2063007fe655d7165959b52f9933772d83b78cf67ba01",
+    "/home/jetson/nano_run/r160_height352_20261120/scope.md": "98d74c1f443476f2838cabc2bc636736308acb70812b8f3d698636daedfac85d",
+    "/home/jetson/nano_run/r160_height352_20261120/quality/original.json": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+    "/home/jetson/nano_run/r160_height352_20261120/quality/r352x640.json": "7ff842766708fc4277cfd9784fba417f611da53db7f0895687123a9b9a5356e7",
+    "/home/jetson/nano_run/r160_height352_20261120/selection.json": "9b80bb609c4da6443d401ac8c5de174a882f42c19e4792e56668c2080fe28cbf"
+  }
+}

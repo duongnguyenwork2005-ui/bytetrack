@@ -1,0 +1,26 @@
+{
+  "models": {
+    "original": {
+      "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+      "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+      "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity"
+    },
+    "r352x640": {
+      "onnx": "/home/jetson/nano_run/r160_height352_20261120/model.onnx",
+      "onnx_sha256": "d8e186035026dc605e6102c9af0b0e9c71e654b238967f5485a2ed819d30d24a",
+      "engine": "/home/jetson/nano_run/r160_height352_20261120/model.engine",
+      "hw": [
+        352,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r160_height352_20261120/parity"
+    }
+  },
+  "package": "/home/jetson/nano_run/r108_15fps_20261117/overlap_package"
+}

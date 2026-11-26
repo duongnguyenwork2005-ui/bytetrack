@@ -1,0 +1,121 @@
+{
+  "models": {
+    "original": {
+      "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+      "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+      "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+      "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity",
+      "runtime_quality": "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/original.json",
+      "runtime_quality_sha256": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+      "quality_recommended": true,
+      "historical_raw_parity": "PASS"
+    },
+    "anchor_rebuilt": {
+      "engine": "/home/jetson/nano_run/r151_resolution_20261120/models/baseline.engine",
+      "engine_sha256": "bcf4a5a82379ecc736f54b41817239ff74d52399ac20815b34f3cf3eaf8fe739",
+      "onnx": "/home/jetson/nano_run/r151_resolution_20261120/models/baseline.onnx",
+      "onnx_sha256": "ad4c71c84b44d9afa2e69eed55ad7013ad88773b5f861c4ab7fc9f321236301c",
+      "hw": [
+        384,
+        640
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity",
+      "runtime_quality": "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/anchor_rebuilt.json",
+      "runtime_quality_sha256": "957603cb3d1cb0402fc00faa59dca80105d7e6143fbb676c61968d5066fbd265",
+      "quality_recommended": true,
+      "historical_raw_parity": "PASS"
+    },
+    "r352x608": {
+      "engine": "/home/jetson/nano_run/r151_resolution_20261120/models/r352x608.engine",
+      "engine_sha256": "0a64d4a803be6f8b1eed65e0f5c749f9b5f98313ab798b9b7325f3f145650bd3",
+      "onnx": "/home/jetson/nano_run/r151_resolution_20261120/models/r352x608.onnx",
+      "onnx_sha256": "932af38dda2ae5f2ac50e7f4949a341bf32c063a6c9a95db7c47fed958d15f32",
+      "hw": [
+        352,
+        608
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/r352x608/parity",
+      "runtime_quality": "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r352x608.json",
+      "runtime_quality_sha256": "7925f24775b86b7f125b2bff8891df430bc51dd6adccff8c4c133aab18dc8a87",
+      "quality_recommended": false,
+      "historical_raw_parity": "FAIL"
+    },
+    "r320x576": {
+      "engine": "/home/jetson/nano_run/r151_resolution_20261120/models/r320x576.engine",
+      "engine_sha256": "d54f584ba6b0311f7f82dc465856207c0197d6939be54de1ae54baa1af3ef08c",
+      "onnx": "/home/jetson/nano_run/r151_resolution_20261120/models/r320x576.onnx",
+      "onnx_sha256": "502a401529c10b28c40fa5401fdb824175f0d1a90dfcb29f5f0065447564ae7c",
+      "hw": [
+        320,
+        576
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/r320x576/parity",
+      "runtime_quality": "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r320x576.json",
+      "runtime_quality_sha256": "d017b83231babbaa42f31a13b1f841c1beef620a315d3926fd5edc7f90914d05",
+      "quality_recommended": false,
+      "historical_raw_parity": "FAIL"
+    },
+    "r352x608_psa32": {
+      "engine": "/home/jetson/nano_run/r151_resolution_20261120/models/r352x608_psa32.engine",
+      "engine_sha256": "bfca0124fec13f9ac09828ebc10839231a890b73fd04baf7ac7977c0955ee6dc",
+      "onnx": "/home/jetson/nano_run/r151_resolution_20261120/models/r352x608.onnx",
+      "onnx_sha256": "932af38dda2ae5f2ac50e7f4949a341bf32c063a6c9a95db7c47fed958d15f32",
+      "hw": [
+        352,
+        608
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/r352x608/parity",
+      "precision": "FP32 C2PSA /model.10; FP16 allowed outside",
+      "build_inputs_sha256": "4d695fbb5c45870e6f7d1d945e2b12e04ac69e8dbcbdffb22257bfd5e29abedd",
+      "runtime_quality": "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r352x608_psa32.json",
+      "runtime_quality_sha256": "3c2642df772f60a2964ac9e67fc53abf93196e731736b083a0696c1f3805290b",
+      "quality_recommended": false,
+      "historical_raw_parity": "FAIL"
+    },
+    "r320x576_psa32": {
+      "engine": "/home/jetson/nano_run/r151_resolution_20261120/models/r320x576_psa32.engine",
+      "engine_sha256": "e78a4c79db07a81deee589fa2b56addfb5f0d2756d13b97cf49df4b5f1e0aa58",
+      "onnx": "/home/jetson/nano_run/r151_resolution_20261120/models/r320x576.onnx",
+      "onnx_sha256": "502a401529c10b28c40fa5401fdb824175f0d1a90dfcb29f5f0065447564ae7c",
+      "hw": [
+        320,
+        576
+      ],
+      "parity": "/home/jetson/nano_run/r151_resolution_20261120/r320x576/parity",
+      "precision": "FP32 C2PSA /model.10; FP16 allowed outside",
+      "build_inputs_sha256": "4ee23550ba0d2f3d6339eb5522e71fc7c23300eba2b876da14a40525c6c2dc4e",
+      "runtime_quality": "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r320x576_psa32.json",
+      "runtime_quality_sha256": "3681ccc29c1bccbb07a8cc992e396d0549d9299f344f50626be3f32f960ecab3",
+      "quality_recommended": false,
+      "historical_raw_parity": "FAIL"
+    }
+  },
+  "package": "/home/jetson/nano_run/r108_15fps_20261117/overlap_package",
+  "purpose": "Actual TensorRT dev AP audit; historical R151 raw-parity failures retained",
+  "historical_raw_parity": {
+    "r352x608": "FAIL",
+    "r352x608_psa32": "FAIL",
+    "original": "PASS",
+    "r320x576": "FAIL",
+    "anchor_rebuilt": "PASS",
+    "r320x576_psa32": "FAIL"
+  },
+  "baseline_quality": "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/original.json",
+  "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+  "allow_diagnostic_quality_failure": true,
+  "source_sha256": {
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/original.json": "7af6f58f0e49d99bfa29c2bdb13463c5b8fab2f61a53bad83aded21f8b7a9abe",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/anchor_rebuilt.json": "957603cb3d1cb0402fc00faa59dca80105d7e6143fbb676c61968d5066fbd265",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r352x608.json": "7925f24775b86b7f125b2bff8891df430bc51dd6adccff8c4c133aab18dc8a87",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r320x576.json": "d017b83231babbaa42f31a13b1f841c1beef620a315d3926fd5edc7f90914d05",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r352x608_psa32.json": "3c2642df772f60a2964ac9e67fc53abf93196e731736b083a0696c1f3805290b",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/quality/r320x576_psa32.json": "3681ccc29c1bccbb07a8cc992e396d0549d9299f344f50626be3f32f960ecab3",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/timing_v2.py": "c427cc911e15e3e9b7526a4dd0dca2a448e9fe8ce96eca8c87182a9e19caffbe",
+    "/home/jetson/nano_run/r155_runtime_accuracy_20261120/run_models_v2.py": "39b622bdb1e5b06deba68d6f8a51ed3d0219e53abb7f40ac6c51bdfe89c42ca9"
+  }
+}
