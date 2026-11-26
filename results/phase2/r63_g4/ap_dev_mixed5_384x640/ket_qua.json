@@ -1,0 +1,215 @@
+{
+ "tao_luc": "2026-10-31T15:27:11",
+ "quy_tac": {
+  "du_doan": {
+   "imgsz": [
+    384,
+    640
+   ],
+   "conf": 0.001,
+   "iou_nms": 0.7,
+   "max_det": 300,
+   "agnostic_nms": false,
+   "half": false,
+   "loc_lop": "chi lop anh xa duoc sang 5 lop theo ten, loc truoc NMS",
+   "rect": false,
+   "hinh_dang": "R63: tensor co dinh 1x3x384x640 (letterbox auto=False)"
+  },
+  "ghep": "COCO (pycocotools evaluateImg): conf giam dan (mergesort) trong (anh, lop); GT chua ghep co IoU cao nhat >= nguong, HOA IoU -> GT SAU trong thu tu duyet; IoU tinh nhu bbIou cua pycocotools (tu xywh)",
+  "bo_qua": "detection khong ghep ma IoA voi vung to xam >= nguong -> bo qua (nhu crowd cua COCO)",
+  "ap": "10 nguong IoU 0.50:0.05:0.95, noi suy 101 diem recall (COCO); lop khong co GT -> null",
+  "van_hanh": {
+   "conf": 0.25,
+   "iou": 0.5
+  },
+  "gop_lop": "KHONG -- moi so lieu theo lop; macro = trung binh cac lop co GT"
+ },
+ "dataset": {
+  "data": "data/yolo_mixed5_v1/data.yaml",
+  "split": "val",
+  "n_anh": 7190,
+  "gioi_han_anh": 0,
+  "dataset_da_xac_minh": {
+   "hop_dong": "bdd5-dataset-v2",
+   "phien_ban_manifest": 2,
+   "loi": 0,
+   "ten": "mixed5_v1",
+   "loai": "day_du",
+   "tap_con": null,
+   "data_yaml": "D:\\LABOTARY\\bytetrack\\data\\yolo_mixed5_v1\\data.yaml",
+   "sha256_data_yaml": "d7828268b4691d10e1a334bfb6aa05c82d0a533e53e9fd022cbfcb7412f16285",
+   "sha256_tom_tat": "005390d6faace8b6debb7c3117c813ae225ace156863f82287a86fd51c140420",
+   "manifest_sha256": "f2df97dafd4c451776f8c832cfd244096a2934d20ff20d1ae19a53826fbd7c13",
+   "sha256_video_json": "1eac1db1805d4a34e6e8bfd137a763be932c8a69cf33954f753179aa29ca6a41",
+   "split_da_khoa": {
+    "sha256": "0acc018ba0fc5506b52d20dbffb1b68df5cabd1971dfb26815dcbe642c8f664b",
+    "sha256_danh_sach": "c1b38e648f40ca2e90b7c675a50ea2bcaaf5a9bc24ceab4554416a8d6ebb0597",
+    "ban_goc": "khop"
+   },
+   "duong_dan_resolve": {
+    "train": "D:\\LABOTARY\\bytetrack\\data\\yolo_mixed5_v1\\images\\train",
+    "val": "D:\\LABOTARY\\bytetrack\\data\\yolo_mixed5_v1\\images\\dev"
+   },
+   "so_anh": {
+    "train": 57043,
+    "dev": 7190
+   },
+   "so_video": {
+    "train": 1309,
+    "dev": 151
+   },
+   "so_nhan_rong_hop_le": {
+    "train": 686,
+    "dev": 95
+   },
+   "so_anh_co_file_ignore": {
+    "train": 22853,
+    "dev": 3014
+   },
+   "cache_anh": {
+    "chinh_sach": "khong dung cache anh (.npy); pixel nap = JPEG da khoa sha256",
+    "so_npy_canh_anh": {
+     "train": 0,
+     "dev": 0
+    }
+   },
+   "noi_dung_da_xac_minh": {
+    "train": false,
+    "dev": true
+   },
+   "so_file_da_bam": {
+    "anh": 7190,
+    "nhan": 7190,
+    "ignore": 3014
+   },
+   "xac_minh_luc": "2026-10-31T15:27:03",
+   "thoi_gian_s": 942.57
+  }
+ },
+ "mo_hinh": {
+  "yolov8n_coco": {
+   "checkpoint": "models/yolov8n.pt",
+   "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+   "anh_xa_lop": {
+    "loai_checkpoint": "coco80",
+    "so_lop_model": 80,
+    "model_id_sang_lop5": {
+     "1": 4,
+     "2": 0,
+     "3": 3,
+     "5": 2,
+     "7": 1
+    },
+    "ten": {
+     "1": "bicycle",
+     "2": "car",
+     "3": "motorcycle",
+     "5": "bus",
+     "7": "truck"
+    },
+    "lop5": [
+     "car",
+     "truck",
+     "bus",
+     "motorcycle",
+     "bicycle"
+    ]
+   },
+   "theo_lop": {
+    "car": {
+     "n_gt": 53204,
+     "n_anh_co_lop": 7038,
+     "n_det_conf_thap": 719137,
+     "AP50": 0.6648223625383025,
+     "AP75": 0.4571986047316336,
+     "AP50_95": 0.4256768387821001,
+     "van_hanh": {
+      "TP": 29833,
+      "FP": 7610,
+      "FN": 23371,
+      "precision": 0.7967577384290788,
+      "recall": 0.5607285166528833,
+      "f1": 0.6582236588083444
+     }
+    },
+    "truck": {
+     "n_gt": 3054,
+     "n_anh_co_lop": 2036,
+     "n_det_conf_thap": 53735,
+     "AP50": 0.221980237486949,
+     "AP75": 0.18164450180515612,
+     "AP50_95": 0.16113402800488053,
+     "van_hanh": {
+      "TP": 763,
+      "FP": 1092,
+      "FN": 2291,
+      "precision": 0.41132075471698115,
+      "recall": 0.2498362802881467,
+      "f1": 0.310857608474231
+     }
+    },
+    "bus": {
+     "n_gt": 1469,
+     "n_anh_co_lop": 1257,
+     "n_det_conf_thap": 30383,
+     "AP50": 0.3150301301883826,
+     "AP75": 0.28845910531688146,
+     "AP50_95": 0.24344230585350735,
+     "van_hanh": {
+      "TP": 540,
+      "FP": 483,
+      "FN": 929,
+      "precision": 0.5278592375366569,
+      "recall": 0.36759700476514634,
+      "f1": 0.4333868378812199
+     }
+    },
+    "motorcycle": {
+     "n_gt": 226,
+     "n_anh_co_lop": 205,
+     "n_det_conf_thap": 4541,
+     "AP50": 0.1390398380004788,
+     "AP75": 0.04990502754050004,
+     "AP50_95": 0.06432783476191967,
+     "van_hanh": {
+      "TP": 45,
+      "FP": 69,
+      "FN": 181,
+      "precision": 0.39473684210526316,
+      "recall": 0.19911504424778761,
+      "f1": 0.2647058823529412
+     }
+    },
+    "bicycle": {
+     "n_gt": 407,
+     "n_anh_co_lop": 334,
+     "n_det_conf_thap": 6334,
+     "AP50": 0.14644705617800824,
+     "AP75": 0.06037374352270439,
+     "AP50_95": 0.07372824823956067,
+     "van_hanh": {
+      "TP": 56,
+      "FP": 47,
+      "FN": 351,
+      "precision": 0.5436893203883495,
+      "recall": 0.1375921375921376,
+      "f1": 0.21960784313725487
+     }
+    }
+   },
+   "macro": {
+    "so_lop_co_gt": 5,
+    "lop_khong_co_gt": [],
+    "mAP50": 0.29746392487842427,
+    "mAP50_95": 0.19366185112839368,
+    "precision_vh": 0.5348727786352659,
+    "recall_vh": 0.3029737967092203
+   },
+   "n_anh": 7190,
+   "van_hanh": {
+    "conf": 0.25,
+    "iou": 0.5
+   }
+  }
+ }
+}
