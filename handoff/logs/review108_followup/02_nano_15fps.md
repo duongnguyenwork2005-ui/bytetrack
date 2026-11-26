@@ -1,0 +1,9 @@
+# Giao thức đo mốc 15 FPS trên Jetson Nano
+
+R86 đo v21combo ở chế độ YOLO đủ khung trên 40 đoạn BDD100K và 40 đoạn UA-DETRAC. Trung vị KF lần lượt **12,96** và **13,52 FPS**. Đây là FPS cửa sổ xử lý JPEG, tắt HDMI. R105 dùng bốn đoạn mỗi tập trên tmpfs, trung vị YOLO11n 50/50 đủ khung **14,48** và **14,49 FPS**. Hai phép đo khác tập mẫu và cách đọc ảnh. [R86](../review86_nano_multivideo/10_ket_qua.md) · [R105](../review105_nano_fps/10_ket_qua.md)
+
+1. Sau khi Nano kết nối được, chạy A/B luân phiên trên cùng ảnh, cùng boot và cùng KF. A là v21combo, B là YOLO11n 50/50 FP16 384×640 c25, C giữ B và sàng confidence trước NMS. Smoke bốn đoạn để đối chiếu pointwise lớp và MOT của B/C. Sau đó mở rộng trên mẫu R86 nếu có ít nhất một ứng viên chạy đủ khung tiến gần 15 FPS.
+2. Báo trung vị FPS và số clip đạt 15 FPS theo từng tập, kèm p90, thời gian TensorRT và giải mã. Bổ sung một video liên tục có hiển thị để tách hiệu quả benchmark JPEG khỏi demo. So HOTA, IDSW, FN.
+3. Đối chiếu AP50 và AP50–95 theo năm lớp trên cùng tập và recall xe máy nhỏ ở ngưỡng vận hành. Nếu kiến trúc detector đổi, đánh giá chất lượng trước khi chuyển launcher. R103 đã thử student nhanh hơn 1–2% FPS nhưng giảm khoảng 4,5 điểm mAP50 dev, R104 cắt kênh 25% sau fine-tune đạt 46,01% so với 49,56%. TensorRT trên Nano báo fast FP16 và không có fast INT8. Tiếp tục pruning theo kênh hoặc distillation khi profile engine cho thấy khả năng giảm latency đáng kể. [R103](../review103_nano_optimization/10_ket_qua.md) · [R104](../review104_yolo_compression/10_ket_qua.md)
+
+Mốc 15 FPS đã đạt trên 16/16 đoạn JPEG, tắt hiển thị. Gồm 12 lượt smoke, 64 lượt mở rộng và 32 lượt tách riêng chi phí giải mã JPEG. Cùng TensorRT FP16, ByteTrack KF c25 và đủ YOLO mọi frame. NMS ma trận R85 ở ngưỡng 0,25 tăng tốc nhẹ, sau đó giải mã gối đầu tăng thêm hơn 16% trên cả hai tập. [Kết quả và đánh đổi](10_ket_qua.md) · [Số liệu tính lại](nano_evidence/performance_verified.json)

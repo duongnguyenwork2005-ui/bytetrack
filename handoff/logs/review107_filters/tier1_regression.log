@@ -1,0 +1,33 @@
+  [PASS] bookkeeping (id, state, is_activated, frame_id, start_frame, tracklet_len, score, cls, idx) PF == EKF qua activate -> update -> lost (2 frame) -> re_activate
+         pf=(9, 1, 1, True, 9, 1, 3, 0.8999999761581421, 2, 0)
+         ekf=(9, 1, 1, True, 9, 1, 3, 0.8999999761581421, 2, 0)
+  [PASS] track PF co particles (N,9), logw (N,), rng rieng, kalman_filter la PFTrackView
+  [PASS] track da qua re_activate va tracklet_len dung
+  [PASS] f_batch == f tung particle (re + thang, 50 mau), sai so < 1e-12
+         max |d| = 0.00e+00
+  [PASS] omega = 0 va 1e-6: khong NaN, dich chuyen = v*cos/sin(theta)
+  [PASS] trung binh vong: 4 goc sat +-pi -> mean ~ +-pi (khong phai ~0)
+         theta=3.1416
+  [PASS] phuong sai theta nho (residual da wrap)
+         P[theta]=0.00145
+  [PASS] 30 buoc predict khong measurement: mean/cov huu han, h > 0
+  [PASS] do bat dinh vi tri tang theo thoi gian (trace tang tong the)
+         trace: 59.5 -> 20191.8
+  [PASS] z cach 1e4 px: bo dem suy bien tang, khong NaN, particle da doi ve quanh z
+         mean=[     8998.9      8999.8]
+  [PASS] update binh thuong sau do: khong suy bien them
+  [PASS] systematic_resample hop le voi trong so deu
+  [PASS] cung seed + video -> bit-identical (40 frame)
+  [PASS] seed khac -> khac
+  [PASS] video khac (salt) -> khac
+  [PASS] co 3 track de kiem tra
+  [PASS] multi_predict: dao thu tu pool -> particle/mean tung track khong doi
+  [PASS] multi_predict == predict() tung track (cung rng)
+  [PASS] ratio 0.5: co resample
+         {'n_update': 87, 'n_resample': 86, 'n_degenerate': 0, 'num_particles': 100, 'seed': 0}
+  [PASS] ratio 0: khong bao gio resample
+         {'n_update': 87, 'n_resample': 0, 'n_degenerate': 0, 'num_particles': 100, 'seed': 0}
+  [PASS] N=3000 (duong thang, nhieu Gaussian): RMSE PF trong 1.3x EKF, v ~ 5, theta ~ 30 deg
+         EKF 0.97 px | PF 0.96 px, v=4.92, theta=30.9
+         [thong tin] N=100: RMSE PF 26.50 px (EKF 0.97), v=3.58, theta=-49.3 -> N=100 suy bien (sample impoverishment), khong phai loi cai dat
+REGRESSION 10 functions 21 assertions

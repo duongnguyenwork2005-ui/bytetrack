@@ -1,0 +1,38 @@
+DIAGNOSED seq_01_evening 900
+DIAGNOSED seq_02_evening 900
+DIAGNOSED seq_03_evening 900
+DIAGNOSED seq_04_morning 900
+DIAGNOSED seq_05_morning 900
+DIAGNOSED seq_06_morning 900
+DIAGNOSED seq_07_morning 900
+DIAGNOSED seq_08_morning 900
+DIAGNOSED seq_09_morning 900
+DIAGNOSED seq_10_morning 900
+DIAGNOSED seq_11_morning 900
+DIAGNOSED seq_12_morning 900
+DIAGNOSED seq_13_evening 900
+DIAGNOSED seq_14_evening 900
+DIAGNOSED seq_15_evening 900
+DIAGNOSED seq_16_evening 900
+DIAGNOSED seq_17_evening 750
+DIAGNOSED seq_18_evening 750
+DIAGNOSED seq_19_evening 1000
+DIAGNOSED seq_20_evening 750
+DIAGNOSED seq_21_evening 1000
+DIAGNOSED seq_22_morning 1200
+DIAGNOSED seq_23_morning 900
+DIAGNOSED seq_24_morning 900
+DIAGNOSED seq_25_morning 900
+DIAGNOSED seq_26_evening 870
+DIAGNOSED seq_27_evening 870
+DIAGNOSED seq_28_evening 870
+DIAGNOSED seq_29_evening 870
+DIAGNOSED seq_30_evening 870
+                                  IDSW     FN  low_gt  low_FN  low_FN_no_candidate  low_FN_with_candidate  current_low  current_other  after_gap  continuous  current_or_recent_low  current_high_previous_low  low_after_gap  low_continuous
+split                     filter                                                                                                                                                                                                             
+official_test             cv       435  14665   12051    6515                 6116                    399          125            310        195         240                    192                         38             74              51
+                          ekf      407  14668   12051    6517                 6117                    400          115            292        187         220                    183                         36             69              46
+                          ukf      418  14672   12051    6497                 6114                    383          125            293        195         223                    192                         37             73              52
+release_train_descriptive cv      1189  50856   22221   12637                11863                    774          149           1040        674         515                    474                        135             94              55
+                          ekf     1162  50918   22221   12630                11863                    767          152           1010        667         495                    454                        126             98              54
+                          ukf     1162  50883   22221   12626                11861                    765          156           1006        655         507                    455                        115            100              56

@@ -1,0 +1,228 @@
+[
+  {
+    "stage": "unit",
+    "command": [
+      "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe",
+      "-B",
+      "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\test_postgap.py"
+    ],
+    "cwd": "D:\\LABOTARY\\bytetrack",
+    "exit": 1,
+    "started_utc": "2026-11-11T23:08:58.378193+00:00",
+    "seconds": 7.15583062171936,
+    "log": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\tier1_unit.log",
+    "child_waited": true,
+    "environment_overrides": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "YOLO_CONFIG_DIR": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\ultralytics_settings",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  {
+    "stage": "unit",
+    "command": [
+      "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe",
+      "-B",
+      "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\test_postgap.py"
+    ],
+    "cwd": "D:\\LABOTARY\\bytetrack",
+    "exit": 1,
+    "started_utc": "2026-11-11T23:09:28.405392+00:00",
+    "seconds": 4.584848403930664,
+    "log": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\tier1_unit_fixed.log",
+    "child_waited": true,
+    "environment_overrides": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "YOLO_CONFIG_DIR": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\ultralytics_settings",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  {
+    "stage": "unit",
+    "command": [
+      "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe",
+      "-B",
+      "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\test_postgap.py"
+    ],
+    "cwd": "D:\\LABOTARY\\bytetrack",
+    "exit": 0,
+    "started_utc": "2026-11-11T23:09:40.726491+00:00",
+    "seconds": 4.900904893875122,
+    "log": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\tier1_unit_fixed2.log",
+    "child_waited": true,
+    "environment_overrides": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "YOLO_CONFIG_DIR": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\ultralytics_settings",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  {
+    "stage": "regression",
+    "command": [
+      "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe",
+      "-B",
+      "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\test_postgap.py",
+      "--regression"
+    ],
+    "cwd": "D:\\LABOTARY\\bytetrack",
+    "exit": 0,
+    "started_utc": "2026-11-11T23:09:50.714533+00:00",
+    "seconds": 4.656441688537598,
+    "log": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\tier1_regression.log",
+    "child_waited": true,
+    "environment_overrides": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "YOLO_CONFIG_DIR": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\ultralytics_settings",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  {
+    "stage": "preflight",
+    "command": [
+      "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe",
+      "-B",
+      "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\run_r107.py",
+      "preflight"
+    ],
+    "cwd": "D:\\LABOTARY\\bytetrack",
+    "exit": 0,
+    "started_utc": "2026-11-11T23:09:59.490649+00:00",
+    "seconds": 5.752569198608398,
+    "log": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\tier1_preflight.log",
+    "child_waited": true,
+    "environment_overrides": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "YOLO_CONFIG_DIR": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\ultralytics_settings",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  {
+    "stage": "smoke",
+    "command": [
+      "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe",
+      "-B",
+      "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\run_r107.py",
+      "smoke"
+    ],
+    "cwd": "D:\\LABOTARY\\bytetrack",
+    "exit": 0,
+    "started_utc": "2026-11-11T23:10:10.772925+00:00",
+    "seconds": 21.47656273841858,
+    "log": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\tier1_smoke.log",
+    "child_waited": true,
+    "environment_overrides": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "YOLO_CONFIG_DIR": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\ultralytics_settings",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  {
+    "stage": "dev",
+    "command": [
+      "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe",
+      "-B",
+      "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\run_r107.py",
+      "dev"
+    ],
+    "cwd": "D:\\LABOTARY\\bytetrack",
+    "exit": 0,
+    "started_utc": "2026-11-11T23:10:37.297800+00:00",
+    "seconds": 366.3074562549591,
+    "log": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\tier1_dev.log",
+    "child_waited": true,
+    "environment_overrides": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "YOLO_CONFIG_DIR": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\ultralytics_settings",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  {
+    "stage": "eval",
+    "command": [
+      "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe",
+      "-B",
+      "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\run_r107.py",
+      "eval"
+    ],
+    "cwd": "D:\\LABOTARY\\bytetrack",
+    "exit": 0,
+    "started_utc": "2026-11-11T23:16:44.861487+00:00",
+    "seconds": 40.20239329338074,
+    "log": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\tier1_eval.log",
+    "child_waited": true,
+    "environment_overrides": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "YOLO_CONFIG_DIR": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\ultralytics_settings",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  {
+    "stage": "integrity",
+    "command": [
+      "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe",
+      "-B",
+      "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\run_r107.py",
+      "integrity"
+    ],
+    "cwd": "D:\\LABOTARY\\bytetrack",
+    "exit": 0,
+    "started_utc": "2026-11-11T23:17:38.044848+00:00",
+    "seconds": 4.728434324264526,
+    "log": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\tier1_integrity.log",
+    "child_waited": true,
+    "environment_overrides": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "YOLO_CONFIG_DIR": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\ultralytics_settings",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  {
+    "stage": "verify",
+    "command": [
+      "C:/Users/Mikuno/anaconda3/envs/khoaluan-mot/python.exe",
+      "-B",
+      "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\verify_results.py"
+    ],
+    "cwd": "D:\\LABOTARY\\bytetrack",
+    "exit": 0,
+    "started_utc": "2026-11-11T23:17:47.175591+00:00",
+    "seconds": 2.7114784717559814,
+    "log": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\tier1_verify.log",
+    "child_waited": true,
+    "environment_overrides": {
+      "CUDA_VISIBLE_DEVICES": "-1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "YOLO_CONFIG_DIR": "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review107_filters\\ultralytics_settings",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  }
+]

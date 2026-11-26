@@ -1,0 +1,5 @@
+# RoundaboutHD, khung 3.001–9.000
+
+- Chạy đủ 24.000 khung còn lại trên bốn camera cố định ở cùng vòng xuyến. Dùng YOLOv8n COCO FP32, imgsz 640, `rect`, cache ở ngưỡng 0,05 và tracker ở c25, NMS IoU 0,7, tương ứng R64. Kiểm batch 4 bằng 16 khung đầu của từng camera so cache R64. Hộp sai khác tối đa 0,02 pixel, điểm 0,0001, lớp và số hộp khớp. Nếu batch 4 trượt, dùng batch 1 sau đối chiếu.
+- Phát cache liên tục từ 1–9.000, dùng cache R64 cho đoạn 1–3.000 để giữ trạng thái tracker ở ranh giới. Các filter nhận cùng detection. KF, EKF, UKF và PF500 K1/K2 motion2 chạy trên NumPy, buffer 18 khung ở 15 fps, không dò tham số. PF dùng seed 0, 1, 2. Đối chiếu ba tracker tất định trên phần đầu với đầu ra R64.
+- Phân tầng theo nhãn GT trên toàn timeline theo [quy tắc R99](../review99_roundabout_turns/10_ket_qua.md), sau đó đo nhóm đổi hướng ≥25°, kiểm độ nhạy ≥35°, đối chứng gần thẳng ≤8° trong khung 3.001–9.000. Số đếm IDSW và FN trong nhóm lấy từ phép ghép CLEAR phát lại liền mạch. Điểm HOTA/IDF1/IDSW gộp của đoạn mới chấm trên cửa sổ 3.001–9.000. Sự kiện đổi ID ngay ranh giới có thể có cách tính khác vì TrackEval của cửa sổ khởi tạo lịch sử ghép tại khung 3.001.

@@ -1,0 +1,6 @@
+# Đo FPS trên 80 video BDD100K và UA-DETRAC
+
+- Mẫu giống R86, gồm 40 video BDD100K val và 40 video UA-DETRAC test. Dùng đúng 150 JPEG liên tiếp và vùng bỏ qua của từng video. Manifest đọc từ Nano có toàn bộ 80 dòng trùng manifest lịch sử. Bản sao JPEG của mỗi đoạn vào tmpfs được dùng chung cho hai cấu hình và ghi mã SHA256 từng ảnh.
+- Đối chứng v21combo, thử nghiệm YOLO11n 50/50 với lọc trước NMS 0,25, NMS ma trận và giải mã trước một JPEG. Cả hai dùng TensorRT FP16 384×640, ByteTrack KF c25, cùng cấu hình ngưỡng tracker, cùng video và tắt hiển thị. Chạy YOLO ở đủ 150 khung. Đảo thứ tự chạy sau mỗi video. Lưu SHA256 engine, ONNX và mã nguồn quan trọng. Chạy trong thư mục riêng để giữ launcher đang dùng.
+- FPS ổn định được tính từ timestamp đầu ra sau 25 khung khởi động. Báo trung bình cộng theo video, FPS tổng từ tổng khung chia tổng thời gian, trung vị, khoảng thấp–cao, số đoạn ≥15 FPS, p90 trễ và mức tăng ghép cặp. Chấm HOTA, IDF1, IDSW, FN, FP theo đúng cửa sổ 150 khung. Hai cấu hình có checkpoint khác nhau, vì vậy chất lượng tracking được so sánh với GT.
+- Runner `../review108_followup/bench_nano_15.py` với `--compare-v21combo --clips-per-dataset 40`. Chấm lại bằng `../review108_followup/score_nano_15.py`. Thư mục Nano `/home/jetson/nano_run/r109_full80_20261117`.

@@ -1,0 +1,151 @@
+{
+  "coverage": {
+    "official_test": {
+      "sequences": 9,
+      "frames": 8250,
+      "gt_boxes": 70220,
+      "ids": 168
+    },
+    "release_train_descriptive": {
+      "sequences": 21,
+      "frames": 18650,
+      "gt_boxes": 173242,
+      "ids": 849
+    }
+  },
+  "trackers": {
+    "cv": {
+      "HOTA": 0.5128607696035044,
+      "IDF1": 0.5650966897170122,
+      "IDSW": 1189.0,
+      "FN": 50856.0,
+      "FP": 41171.0,
+      "visibility": {
+        "visibility_le50": {
+          "gt_boxes": 22221,
+          "IDSW": 149,
+          "FN": 12637
+        },
+        "visibility_gt50": {
+          "gt_boxes": 151021,
+          "IDSW": 1040,
+          "FN": 38219
+        }
+      }
+    },
+    "ekf": {
+      "HOTA": 0.5232407513706335,
+      "IDF1": 0.578585371216015,
+      "IDSW": 1162.0,
+      "FN": 50918.0,
+      "FP": 41017.0,
+      "visibility": {
+        "visibility_le50": {
+          "gt_boxes": 22221,
+          "IDSW": 152,
+          "FN": 12630
+        },
+        "visibility_gt50": {
+          "gt_boxes": 151021,
+          "IDSW": 1010,
+          "FN": 38288
+        }
+      }
+    },
+    "ukf": {
+      "HOTA": 0.5237293871643313,
+      "IDF1": 0.5826740318365408,
+      "IDSW": 1162.0,
+      "FN": 50883.0,
+      "FP": 41119.0,
+      "visibility": {
+        "visibility_le50": {
+          "gt_boxes": 22221,
+          "IDSW": 156,
+          "FN": 12626
+        },
+        "visibility_gt50": {
+          "gt_boxes": 151021,
+          "IDSW": 1006,
+          "FN": 38257
+        }
+      }
+    },
+    "pf500-s0": {
+      "HOTA": 0.5073360612216395,
+      "IDF1": 0.5460685228036127,
+      "IDSW": 1671.0,
+      "FN": 54410.0,
+      "FP": 42851.0,
+      "visibility": {
+        "visibility_le50": {
+          "gt_boxes": 22221,
+          "IDSW": 169,
+          "FN": 12828
+        },
+        "visibility_gt50": {
+          "gt_boxes": 151021,
+          "IDSW": 1502,
+          "FN": 41582
+        }
+      }
+    },
+    "pf500-s1": {
+      "HOTA": 0.5125490395970982,
+      "IDF1": 0.5571473330846699,
+      "IDSW": 1667.0,
+      "FN": 54197.0,
+      "FP": 42838.0,
+      "visibility": {
+        "visibility_le50": {
+          "gt_boxes": 22221,
+          "IDSW": 167,
+          "FN": 12802
+        },
+        "visibility_gt50": {
+          "gt_boxes": 151021,
+          "IDSW": 1500,
+          "FN": 41395
+        }
+      }
+    },
+    "pf500-s2": {
+      "HOTA": 0.5130802137772887,
+      "IDF1": 0.559629302314472,
+      "IDSW": 1681.0,
+      "FN": 54262.0,
+      "FP": 42714.0,
+      "visibility": {
+        "visibility_le50": {
+          "gt_boxes": 22221,
+          "IDSW": 178,
+          "FN": 12831
+        },
+        "visibility_gt50": {
+          "gt_boxes": 151021,
+          "IDSW": 1503,
+          "FN": 41431
+        }
+      }
+    },
+    "pf_mean": {
+      "HOTA": 0.5109884381986755,
+      "IDF1": 0.5542817194009182,
+      "IDSW": 1673.0,
+      "FN": 54289.666666666664,
+      "FP": 42801.0,
+      "visibility": {
+        "visibility_le50": {
+          "gt_boxes": 22221,
+          "IDSW": 171.33333333333334,
+          "FN": 12820.333333333334
+        },
+        "visibility_gt50": {
+          "gt_boxes": 151021,
+          "IDSW": 1501.6666666666667,
+          "FN": 41469.333333333336
+        }
+      }
+    }
+  }
+}
