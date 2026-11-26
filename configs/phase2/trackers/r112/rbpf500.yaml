@@ -1,0 +1,17 @@
+# R112 research backend, not a globally selected replacement.
+# UA train dev12 improved, SVMOT test9 IDSW increased from 434 to 440.
+# Angular particles + seven-dimensional conditional Gaussian, no K1/K2.
+tracker_type: bytetrack_rbpf_ctrv
+track_high_thresh: 0.25
+track_low_thresh: 0.1
+new_track_thresh: 0.25
+track_buffer: 30
+match_thresh: 0.8
+fuse_score: true
+pf_num_particles: 500
+pf_seed: 0
+pf_resample_ess_ratio: 0.5
+pf_estimate: mean
+pf_roughening: 0.0
+pf_optimal_proposal: false
+pf_measurement_height: observation

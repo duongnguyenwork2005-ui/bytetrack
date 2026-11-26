@@ -1,0 +1,23 @@
+\chapter{Hồ sơ tái lập và bảng chi tiết}\label{app:ho-so}
+\section{Đối chiếu nguồn theo câu hỏi}
+Các mã R trong khóa luận chỉ các vòng thực nghiệm của dự án. Đường dẫn dưới đây tính từ gốc kho mã. Các tệp này cho phép đối chiếu số liệu mà không phải suy luận lại trên ảnh. Trọng số, video và cache có dung lượng lớn được quản lý riêng. Gói nguồn của quyển chỉ chứa tài liệu cần để biên dịch.
+
+\begin{description}
+\item[Dữ liệu và detector.] Thành phần mixed5, các lớp và ví dụ ảnh được kiểm kê ở \path{handoff/logs/review52/01_dataset_mixed5.md}. Bảng AP và precision/recall từng lớp nằm ở \path{handoff/logs/review53/04_ket_qua_danh_gia_day_du.md}.
+\item[Phân tầng trên tập phát triển.] Định nghĩa sự kiện, số mẫu trước và sau lọc cùng đối chứng PF100 nằm ở \path{handoff/logs/review51/03_tong_hop_va_slide.md}.
+\item[UA-DETRAC test40.] Giao thức nằm ở \path{configs/phase2/r54_tracking/giao_thuc_test40.json}. Báo cáo 36 lượt là \path{handoff/logs/review56/03_thuc_thi_tracking_test40.md}. Khoảng tin cậy và đối chứng SORT lần lượt nằm ở \path{handoff/logs/review57/01_bien_thien_test40.md} và \path{handoff/logs/review59/03_ket_qua_sort_test40.md}.
+\item[BDD100K val.] Phạm vi và kết quả ở \path{handoff/logs/review61/06_ket_qua_thuc_thi_cong_b.md}. Hai bảng \path{bang_chinh.csv} và \path{ci_108.csv} nằm trong \path{results/phase2/r61_bdd/thuc_thi/cong_b_20261027_01/tong_hop/}.
+\item[Tập ngoài.] Báo cáo \path{SVMOT.md}, \path{RoundaboutHD.md} và \path{UTUAV.md} trong \path{handoff/logs/external_eval/} ghi phạm vi nhãn và tập con. Bảng chẩn đoán PF lấy từ \path{handoff/logs/review65_pf_roundabout/10_ket_luan.md}, sử dụng lượt thứ hai đã sửa quy tắc ghép và cách đo thời gian.
+\item[Tập mở rộng và đối chứng PF công khai.] Kết quả HELMET toàn test, SVMOT train, detector 50/50 và PF công khai ở \path{handoff/logs/review108_followup/10_ket_qua.md}. Đối chứng ghép Lost ở \path{handoff/logs/review78_pf/}. Giao thức, kết quả nhóm và các lát quỹ đạo nằm trong \path{handoff/logs/review111_roundabout/}, gồm \path{10_ket_qua.md} và \path{turn_episodes.json}.
+\item[Che khuất và đổi hướng.] Hồ sơ R113 ở \path{handoff/logs/review113_vehicle_scenarios/}. Các tệp \path{ua_occlusion.json} và \path{bdd_turns.json} lưu kết quả theo lớp hoặc theo nhóm. Tệp \path{meteor_scores/scores.json} lưu điểm của hai clip METEOR. Điểm chất lượng RBPF dùng detection Nano nằm trong \path{nano80/scores.json}.
+\item[Jetson Nano.] Phép đo đầu vào engine ở \path{handoff/logs/review63/g3/}, hai báo cáo 02 và 04. Giao thức, kết quả 80 đoạn và số liệu gốc nằm trong \path{handoff/logs/review109_nano80/}. Phép đối chứng bốn bộ lọc từ cùng detection đã lưu nằm trong \path{handoff/logs/review110_nano_filters/}. Các thử nghiệm cắt và nén mạng ở \path{handoff/logs/review103_nano_optimization/} và \path{handoff/logs/review104_yolo_compression/}.
+\item[Đo từng bộ lọc trên Nano.] Hồ sơ R114 nằm ở \path{handoff/logs/review114_scenario_nano/}. Tệp \path{measure/verified_summary.json} lưu kết quả tổng hợp và đối chiếu theo đoạn. Tệp \path{measure_evidence.tar.gz} chứa timestamp, MOT, class và cache dùng để kiểm tra lại phép đo.
+\end{description}
+
+\section{Cách đọc một hàng kết quả}
+Để đối chiếu hàng YOLOv8n mixed5 c10 trên BDD val, chọn đúng detector và điều kiện trong bảng chính R61. Bốn dòng ứng với CV, EKF, UKF và PF500. Trường HOTA gốc dùng thang 0--1. Nhân với 100 trước khi làm tròn cho bảng trong quyển. Lấy hiệu từ hai giá trị gốc trước khi làm tròn cho phép so EKF với CV. CI phải đọc từ dòng ghép cặp của cùng nhóm, vì hai điểm cùng phụ thuộc vào một tập video. Với PF, trường HOTA là trung bình ba điểm COMBINED, còn các cột theo seed lưu điểm từng lượt. IDSW trung bình của PF có thể là số thập phân dù từng lượt chỉ đếm số nguyên.
+
+Trên UA-DETRAC, nhãn lớp tổng hợp trong bộ chấm MOT dùng giao diện một lớp. Một số tên tệp do TrackEval tạo vẫn mang tên lớp mặc định của giao diện. Trong giao thức dự án, lớp đó đại diện cho phương tiện gộp. Muốn tái tạo phép đo phải giữ cả danh sách khung, quy tắc vùng bỏ qua và ánh xạ lớp theo từng tập. Chỉ dùng cùng checkpoint chưa đủ bảo đảm cùng điểm.
+\section{Ma trận kết quả ban đầu trên hai tập ngoài}
+\input{chuong/bang-svmot}
+\input{chuong/bang-round}

@@ -1,4 +1,6 @@
-# R64 — UTUAV: CHƯA ĐÁNH GIÁ ĐỦ MA TRẬN (02/11/2026)
+# R64 — UTUAV: trạng thái lịch sử trước khi tác giả xác nhận FPS (02/11/2026)
+
+**Trạng thái hiện hành (03/11/2026):** tác giả đã xác nhận B/C `30000/1001 fps`, stride 1; ma trận B/C validation đã chạy đủ 36/36 ở R67. Xem `utuav/00_nguon_fps.md`, `utuav/10_ket_qua.md` và mục 0 của `handoff/PLAN_DA_CHOT.md`. Phần dưới giữ nguyên để ghi nhận quyết định tại thời điểm R64.
 
 **Trạng thái:** không chạy benchmark hệ thống đêm 01–02/11 theo quyết định GPT (Q3,
 `D:/LABOTARY/automation/runs_local/hoi_codex_R64_dataset_moi_20261101/answer.json`): chỉ trích dẫn pilot. Lý do là

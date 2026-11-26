@@ -1,0 +1,61 @@
+% !TeX program = xelatex
+\documentclass[12pt,a4paper,oneside]{report}
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{\setmainfont{TeX Gyre Termes}}
+\setmonofont{Latin Modern Mono}
+\usepackage{graphicx,amsmath,amssymb,booktabs,tabularx,tikz,url}
+\usepackage{xurl}
+\usetikzlibrary{calc}
+\usepackage[left=30mm,right=20mm,top=25mm,bottom=25mm,footskip=13mm]{geometry}
+\usepackage{titlesec,tocloft}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[hidelinks,unicode]{hyperref}
+\linespread{1.17}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\arraystretch}{1.14}
+\setlength{\parindent}{1.65em}
+\setlength{\parskip}{.25em}
+\renewcommand{\chaptername}{Chương}
+\renewcommand{\appendixname}{Phụ lục}
+\renewcommand{\contentsname}{Mục lục}
+\renewcommand{\listfigurename}{Danh sách hình vẽ}
+\renewcommand{\listtablename}{Danh sách bảng}
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
+\renewcommand{\bibname}{Tài liệu tham khảo}
+\makeatletter
+\newcommand{\ChapterCaption}{\@chapapp}
+\makeatother
+\titleformat{\chapter}[hang]{\normalfont\LARGE\bfseries}{\ChapterCaption\ \thechapter.}{.45em}{}
+\titleformat{name=\chapter,numberless}[hang]{\normalfont\LARGE\bfseries}{}{0pt}{}
+\titlespacing*{\chapter}{0pt}{0pt}{32pt}
+\titlespacing*{\section}{0pt}{15pt}{5pt}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+\renewcommand{\cftchappresnum}{Chương\ }
+\renewcommand{\cftchapaftersnum}{.}
+\setlength{\cftchapnumwidth}{5.1em}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftsecdotsep}}
+\input{thong-tin}
+\input{bia}
+\hypersetup{pdftitle={\TenDeTai},pdfauthor={\SinhVien}}
+\begin{document}
+\hypersetup{pageanchor=false}
+\pagestyle{empty}
+\trangbia{0}
+\trangbia{1}
+\input{dau-quyen}
+\clearpage\pagenumbering{arabic}\pagestyle{plain}\hypersetup{pageanchor=true}
+\input{chuong/01-tong-quan}
+\input{chuong/02-ly-thuyet}
+\input{chuong/03-he-thong}
+\input{chuong/04-thuc-nghiem}
+\input{chuong/05-jetson-nano}
+\input{chuong/06-ket-luan}
+\appendix
+\addtocontents{toc}{\protect\renewcommand{\protect\cftchappresnum}{Phụ lục\ }}
+\input{chuong/phu-luc}
+\clearpage\addcontentsline{toc}{chapter}{Tài liệu tham khảo}
+\bibliographystyle{unsrt}
+\bibliography{tai-lieu}
+\end{document}
+

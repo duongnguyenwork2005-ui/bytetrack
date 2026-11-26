@@ -1,0 +1,54 @@
+\newcommand{\tieudephandau}[1]{\begin{center}\Large\bfseries #1\end{center}\vspace{.75em}}
+\tieudephandau{TÓM TẮT}
+Theo dõi phương tiện qua video cần duy trì mã định danh khi xe đổi hướng, xuất hiện trở lại sau che khuất hoặc chỉ chiếm một vùng nhỏ trên ảnh. Khóa luận xây dựng hệ thống theo dõi dựa trên phát hiện, kết hợp YOLO với ByteTrack. Nghiên cứu so sánh bộ lọc Kalman tuyến tính với mô hình vận tốc không đổi cùng ba cấu hình EKF, UKF và PF sử dụng mô hình tốc độ và tốc độ quay không đổi. Mỗi phép so bộ lọc dùng chung đầu ra detector và quy tắc ghép. Chất lượng phát hiện, theo dõi và tốc độ được đo theo các giao thức riêng.
+
+Trên RoundaboutHD, EKF và UKF cùng giảm số lần đổi ID từ 34 xuống 28 trong nhóm xe đổi hướng từ $25^\circ$. Ở nhóm khả kiến thấp của 40 đoạn UA-DETRAC, KF, EKF và UKF lần lượt có 53, 50 và 48 lần đổi ID, với số bỏ sót gần như bằng nhau. KF có số lần đổi ID thấp nhất khi tính toàn cửa sổ trên hai phép so này. Trên toàn bộ 182 clip test HELMET, số lần đổi ID tương ứng là 717, 444 và 452. Hiệu quả của mô hình chuyển động phụ thuộc vào kịch bản và chất lượng phát hiện.
+
+Trên Jetson Nano, cấu hình YOLO11n 50/50 FP16, lọc trước NMS, NMS ma trận và giải mã JPEG gối đầu nâng tốc độ trung bình từ 13,12 lên 18,63 FPS trên 80 đoạn BDD100K và UA-DETRAC với KF. Cả 80 đoạn đạt mốc 15 FPS khi suy luận đủ khung, dùng chuỗi JPEG và tắt hiển thị. Trung vị độ trễ p90 theo đoạn tăng từ 90,08 lên 123,88 ms. Trong phép đối chiếu bốn bộ lọc trên 16 đoạn, KF và EKF đạt mốc 15 FPS ở cả 16 đoạn, UKF đạt 14 đoạn và RBPF500 đạt sáu đoạn.
+\par\medskip\noindent\textbf{Từ khóa:} theo dõi đa đối tượng, ByteTrack, Kalman, bộ lọc hạt, phương tiện giao thông, Jetson Nano.
+
+\clearpage\tieudephandau{LỜI CAM ĐOAN}
+Tôi cam đoan các số liệu và kết quả trong đồ án được trình bày theo hồ sơ thực nghiệm được dẫn chiếu. Các phương pháp, bộ dữ liệu và công trình có sử dụng đều được ghi nguồn tại nội dung liên quan và danh mục tài liệu tham khảo. Tôi chịu trách nhiệm về nội dung của bản đồ án đã kiểm tra và nộp.
+\begin{flushright}
+Hà Nội, ngày \rule{9mm}{.35pt} tháng \rule{9mm}{.35pt} năm 2026\\[5pt]
+Tác giả\\[28mm]
+\textbf{\SinhVien}\\
+Mã sinh viên\enspace \MaSinhVien
+\end{flushright}
+
+\clearpage\tieudephandau{LỜI CẢM ƠN}
+Em xin chân thành cảm ơn các thầy, cô của Trường Đại học Công nghệ, Đại học Quốc gia Hà Nội đã trang bị cho em kiến thức và phương pháp học tập trong suốt thời gian đào tạo.
+
+Em xin cảm ơn cán bộ hướng dẫn đã góp ý về cách thiết kế phép so sánh, cách kiểm chứng kết quả và phạm vi triển khai hệ thống. Những góp ý này giúp em làm rõ mối quan hệ giữa chất lượng phát hiện, độ ổn định định danh và chi phí xử lý trên thiết bị nhúng.
+
+Em cũng xin cảm ơn những người đã hỗ trợ em trong quá trình học tập và hoàn thành đồ án.
+\begin{flushright}\textbf{\SinhVien}\end{flushright}
+
+\clearpage\pagenumbering{roman}\pagestyle{plain}\tableofcontents
+\clearpage\listoffigures
+\clearpage\listoftables
+\clearpage\tieudephandau{DANH MỤC TỪ VIẾT TẮT}
+\noindent\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule\textbf{Từ viết tắt} & \textbf{Diễn giải}\\\midrule
+AP & Average Precision, độ chính xác trung bình\\
+COCO & Common Objects in Context, tập dữ liệu vật thể trong ngữ cảnh\\
+CTRV & Constant Turn Rate and Velocity, mô hình tốc độ và tốc độ quay không đổi\\
+CV & Constant Velocity, mô hình vận tốc không đổi\\
+EKF & Extended Kalman Filter, bộ lọc Kalman mở rộng\\
+ESS & Effective Sample Size, số hạt hiệu dụng\\
+FN & False Negative, lượt đối tượng bị bỏ sót\\
+FP & False Positive, lượt dự đoán không khớp nhãn\\
+FPS & Frames Per Second, số khung xử lý mỗi giây\\
+GT & Ground Truth, nhãn chuẩn dùng để đánh giá\\
+HOTA & Higher Order Tracking Accuracy, chỉ số chất lượng theo dõi\\
+IDF1 & Điểm F1 theo danh tính\\
+IDSW & Identity Switches, số lần đổi mã định danh\\
+IoU & Intersection over Union, tỷ lệ diện tích giao trên diện tích hợp\\
+KF & Kalman Filter, bộ lọc Kalman\\
+mAP & Mean Average Precision, trung bình AP theo lớp\\
+MOT & Multiple Object Tracking, theo dõi đa đối tượng\\
+NMS & Non-Maximum Suppression, loại bỏ hộp dự đoán chồng lấp\\
+PF & Particle Filter, bộ lọc hạt\\
+UKF & Unscented Kalman Filter, bộ lọc Kalman dùng biến đổi unscented\\
+YOLO & You Only Look Once, họ bộ phát hiện đối tượng\\\bottomrule
+\end{tabularx}

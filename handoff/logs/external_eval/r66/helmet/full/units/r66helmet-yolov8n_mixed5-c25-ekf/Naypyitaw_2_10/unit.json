@@ -1,0 +1,70 @@
+{
+ "protocol_hash": "6336582ee9b25f3d8c0a91a01e71177469e341033a2660f496c8715248bcdce5",
+ "fingerprint": "87a34e5fb261b1003ef0bdc24e8d5a65ba390a097e5861706176b3be8aba402b",
+ "video": "Naypyitaw_2_10",
+ "seed": null,
+ "settings": {
+  "protocol_hash": "6336582ee9b25f3d8c0a91a01e71177469e341033a2660f496c8715248bcdce5",
+  "tracker_cfg": {
+   "tracker_type": "bytetrack_ekf_ctrv",
+   "track_high_thresh": 0.25,
+   "track_low_thresh": 0.1,
+   "new_track_thresh": 0.25,
+   "track_buffer": 12,
+   "match_thresh": 0.8,
+   "fuse_score": true
+  },
+  "yaml_sha256": "2c35f2da40c56d1d85125db927dd8f0c7296d3cd4408fba3b24d945c6504ab69",
+  "backend": {
+   "git_commit": "8f3b63d",
+   "modules": {
+    "run_tracking.py": "5bd131fe958bdf04",
+    "run_experiment.py": "9952441194b7e70f",
+    "tracker_ctrv.py": "b22b4688f50058e8",
+    "sort_tracker.py": "a4ab4b26867989eb",
+    "ekf_ctrv.py": "b516781efa01f473",
+    "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+    "ukf_ctrv.py": "2d59daf4794d8039",
+    "pf_ctrv.py": "de141de5aa698735",
+    "lost_recovery.py": "38f30192b492fa80",
+    "lost_association.py": "469c2782cba41e01",
+    "time_units.py": "c13b6e20fe003f6d",
+    "det_cache.py": "17024ddc6afec534",
+    "occlusion_eval.py": "1b892596be674b9e",
+    "boot_stats.py": "e9245f6729659f8f",
+    "run_trackeval.py": "519d3f9165803fde",
+    "trackeval_ext.py": "3dcf6582548adcfa",
+    "assoc_log.py": "0915453e70f75eb2",
+    "ul_backend.py": "7381910281d8a273",
+    "bytetrack_np.py": "8d37ec565230603b",
+    "run_state.py": "2bc38e3a86fbf50b"
+   },
+   "backend": {
+    "backend": "ultralytics",
+    "ultralytics": "8.4.141",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13"
+   }
+  },
+  "detector": "yolov8n_mixed5",
+  "threshold": 0.25,
+  "classes": [
+   3
+  ],
+  "max_det": 300,
+  "seed": null,
+  "elapsed_mode": "steps",
+  "fps": 10,
+  "max_time_lost_thuc": 12,
+  "track_buffer_frames": 12,
+  "dt_nominal_s": 0.1
+ },
+ "cache_marker_sha256": "eb74dbe2652bb88a555a30e2314a000650af00dd0ad40e7cd53465e9c2f05db0",
+ "sha256": {
+  "data/Naypyitaw_2_10.txt": "ac180360abfecb924955daead6b525e5b091cdc1681b379372f7443982747bc4",
+  "data_cls/Naypyitaw_2_10.csv": "eac74c5edfb440758448286019aeecffad15fafdce298bf77cb4c370350f50d2",
+  "timing/Naypyitaw_2_10.csv": "db8bb6ba62e90806a87a2ad975da52a6da1afe476ac16d8549d043cc5c37dccf"
+ },
+ "seconds": 0.0940000000409782
+}

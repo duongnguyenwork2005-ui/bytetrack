@@ -1,0 +1,63 @@
+\chapter{Cơ sở lý thuyết}
+\section{Quan sát và danh tính}
+Tại khung hình $t$, detector trả về tập $D_t$ gồm vị trí, lớp và điểm tin cậy của từng hộp. Một hộp có tâm $(c_x,c_y)$, chiều rộng $w$ và chiều cao $h$. Phép đo dùng cho bộ lọc là $z=(c_x,c_y,a,h)^\top$, với $a=w/h$. Một quỹ đạo mang ID, trạng thái ước lượng và thời điểm cập nhật gần nhất. Hai ô tô có thể cùng lớp và có hộp gần như trùng nhau. Vì vậy, nhãn lớp riêng lẻ không xác định được danh tính.
+
+Mỗi bước gồm dự đoán, liên kết và cập nhật. Phép đo chỉ được đưa vào bộ lọc sau khi quỹ đạo đã ghép được với một phát hiện. Một hộp dự đoán lệch khỏi xe thật có thể làm mất chính phép đo cần để hiệu chỉnh sai số. Sai số dự đoán và lỗi liên kết vì thế có quan hệ hai chiều qua các khung hình kế tiếp.
+
+\section{Ghép quỹ đạo trong ByteTrack}
+Độ chồng lấp giữa hai hộp $B_1,B_2$ được đo bằng $\mathrm{IoU}=|B_1\cap B_2|/|B_1\cup B_2|$. Với hai hộp bằng nhau chỉ dịch ngang một đoạn $d$ nhỏ hơn chiều rộng $w$, IoU bằng $(w-d)/(w+d)$. Cùng một độ lệch mười pixel, hộp rộng 30 pixel có IoU bằng 0,50, trong khi hộp rộng 100 pixel còn khoảng 0,82. Sai số tâm theo pixel do đó có ý nghĩa khác nhau đối với xe xa và xe gần.
+
+ByteTrack dự đoán hộp của các quỹ đạo hiện có và ghép trước với nhóm phát hiện có điểm cao. Phép gán một-một xét các ứng viên đồng thời. Từng quỹ đạo không được tự chọn cùng một phát hiện. Ở lượt thứ hai, các quỹ đạo đang theo dõi còn đủ điều kiện có thể ghép với hộp có điểm thấp \cite{zhang2022bytetrack}. Bước này hữu ích khi bộ phát hiện còn nhìn thấy một phần xe. Khi detector bỏ sót hoàn toàn, quỹ đạo chỉ có thể chờ một phép đo về sau trong khoảng thời gian cho phép. Một quỹ đạo đã mất và một quỹ đạo đang hoạt động vì thế có thể có các cơ hội ghép khác nhau.
+
+\section{Kalman với vận tốc không đổi}
+Đặt $u=(c_x,c_y,a,h)^\top$. Cấu hình đối chứng dùng trạng thái $x=(u^\top,\dot u^\top)^\top$. Tại bước $\Delta t$, mô hình tuyến tính có dạng
+\[
+ x_{t|t-1}=F x_{t-1|t-1},\quad
+ F=\begin{pmatrix}I&\Delta t I\\0&I\end{pmatrix},\qquad H=(I\quad 0).
+\]
+Các ma trận $Q$ và $R$ lần lượt mô tả nhiễu quá trình và nhiễu đo. Phương sai dự đoán $P^- = FPF^\top+Q$ tăng theo độ bất định của mô hình. Khi ghép được $z_t$, phép hiệu chỉnh Kalman \cite{kalman} dùng
+\[
+ S=HP^-H^\top+R,\qquad K=P^-H^\top S^{-1},\qquad
+ x^+=x^-+K(z_t-Hx^-).
+\]
+Nếu bất định phép đo lớn so với bất định dự đoán, hệ số hiệu chỉnh theo hướng đó nhỏ. Trong thời gian thiếu quan sát, bước cập nhật không diễn ra. Ở đây $\Delta t$ được đo bằng bước khung hình. Cần tách đại lượng này khỏi thời gian vật lý, đặc biệt khi đối chiếu video 5 và 30 khung hình mỗi giây.
+
+\section{Mô hình quay trên mặt phẳng ảnh}
+Trạng thái CTRV của hệ thống có chín thành phần
+\[
+ x=(c_x,c_y,v,\theta,\omega,a,h,\dot a,\dot h)^\top .
+\]
+Tốc độ $v$ đo bằng pixel trên bước, hướng $\theta$ đo bằng radian và tốc độ quay $\omega$ đo bằng radian trên bước. Trong một bước, coi $v$ và $\omega$ không đổi, đặt $\theta'=\theta+\omega\Delta t$. Khi tốc độ quay khác không, tích phân hai thành phần vận tốc theo trục ảnh cho
+\begin{align}
+ c'_x &=c_x+\frac{v}{\omega}(\sin\theta'-\sin\theta),\\
+ c'_y &=c_y+\frac{v}{\omega}(\cos\theta-\cos\theta').
+\end{align}
+Khi $|\omega|$ gần 0, phép tính dùng giới hạn đi thẳng với gia số $v\Delta t(\cos\theta,\sin\theta)$. Cách viết này tránh phép chia cho số rất nhỏ. Tỷ lệ $a$ và chiều cao $h$ tiếp tục tiến triển tuyến tính theo $\dot a,\dot h$. Bốn thành phần có thể quan sát trực tiếp vẫn là $c_x,c_y,a,h$.
+
+Ví dụ, ở bước đầu hai quỹ đạo có cùng tâm và cùng vận tốc tiếp tuyến sẽ có dự đoán gần nhau. Sau nhiều bước không có phép đo, CV tiếp tục theo tiếp tuyến, còn CTRV tích lũy góc quay. Nếu tốc độ quay được ước lượng đúng, dự đoán CTRV còn gần xe đang rẽ. Nếu tốc độ quay chủ yếu phản ánh dao động hộp phát hiện, cùng cơ chế tích lũy góc có thể khiến hộp dự đoán trôi nhanh hơn. Đây là lý do phải kiểm tra sai số theo số khung hình thiếu quan sát.
+
+\section{EKF và UKF trên cùng hàm chuyển}
+EKF tính $x^-=f(x)$ và lấy Jacobian $J_f$ tại trạng thái hiện thời để truyền hiệp phương sai $P^-=J_fPJ_f^\top+Q$. Hướng và tốc độ quay tác động đến hai tọa độ tâm qua các hàm lượng giác. Khi độ bất định nhỏ, đạo hàm cục bộ cho cách tính gọn. Khi trạng thái phân tán trên nhiều hướng, một tiếp tuyến tại tâm có thể đại diện kém cho phân bố sau biến đổi.
+
+UKF dùng biến đổi unscented \cite{julier}. Với trạng thái chín chiều, thuật toán tạo 19 điểm sigma từ trung bình và hiệp phương sai hiện tại. Mỗi điểm đi qua cùng hàm $f$, sau đó các trọng số khôi phục trung bình và hiệp phương sai dự đoán. Riêng với hướng, trung bình của hai góc $179^\circ$ và $-179^\circ$ phải ở gần $180^\circ$. Hệ thống tính trung bình vòng bằng tổng có trọng số của sin và cos, rồi đưa hiệu góc về cùng một chu kỳ khi tính phương sai. Vì phép đo chỉ chọn tọa độ, nó là phép biến đổi tuyến tính ngay cả khi bước dự đoán phi tuyến. So EKF với UKF vì thế trực tiếp khảo sát cách truyền bất định qua bước chuyển động.
+
+\section{Bộ lọc hạt}
+Bộ lọc hạt biểu diễn trạng thái bằng tập $\{(x_i,w_i)\}_{i=1}^{N}$ với $\sum_i w_i=1$. Trong bộ lọc bootstrap \cite{gordon}, mỗi hạt được truyền qua mô hình rồi cộng nhiễu quá trình. Khi có phép đo, hạt có hộp phù hợp được tăng trọng số tương đối. Với phép đo Gaussian, bước cập nhật trọng số có dạng
+\[
+ \log\widetilde w_i=\log w_i-\tfrac12(z-Hx_i)^\top R^{-1}(z-Hx_i)+C.
+\]
+Hằng số chung $C$ mất đi khi chuẩn hóa. Triển khai tính trong miền log để tránh làm tròn các xác suất nhỏ về 0. Phép ghép của ByteTrack vẫn cần một hộp duy nhất. Cấu hình PF500 lấy trung bình có trọng số, vì vậy việc duy trì nhiều hạt chưa đồng nghĩa với việc bộ ghép xét nhiều hộp cho cùng một xe.
+
+Số hạt hiệu dụng $N_{\mathrm{eff}}=1/\sum_i w_i^2$ bằng $N$ khi các trọng số đều và tiến gần 1 khi một hạt chiếm gần hết trọng số. Hệ thống lấy mẫu lại có hệ thống khi $N_{\mathrm{eff}}<0{,}5N$. Các hạt mới trở về trọng số đều, nhưng nhiều hạt có thể cùng xuất phát từ một trạng thái. Do đó, số hạt hiệu dụng, độ trải theo vị trí và sai số tâm cần được xem cùng nhau. Chỉ quan sát tần suất lấy mẫu lại chưa cho biết nguyên nhân một quỹ đạo bị đứt.
+
+\section{Đo chất lượng ở hai tầng}
+Ở tầng phát hiện, precision là tỷ lệ phát hiện đúng trong các hộp dự đoán và recall là tỷ lệ đối tượng có nhãn được tìm thấy. AP tổng hợp đường precision--recall khi thay ngưỡng điểm. mAP50 lấy trung bình AP theo lớp ở IoU 0,50. mAP50--95 còn lấy trung bình qua các ngưỡng IoU từ 0,50 đến 0,95, cách nhau 0,05. Do đó một detector tìm thấy nhiều xe nhưng dự đoán mép hộp chưa sát có thể tăng mAP50 nhiều hơn mAP50--95.
+
+Ở tầng quỹ đạo, HOTA kết hợp độ chính xác phát hiện và độ chính xác liên kết \cite{hota}. Tại một ngưỡng khớp $\alpha$,
+\[
+ \mathrm{DetA}_\alpha=\frac{\mathrm{TP}_\alpha}{\mathrm{TP}_\alpha+\mathrm{FP}_\alpha+\mathrm{FN}_\alpha},
+ \qquad \mathrm{HOTA}_\alpha=\sqrt{\mathrm{DetA}_\alpha\,\mathrm{AssA}_\alpha}.
+\]
+AssA đánh giá một cặp danh tính khớp nhau nhất quán tới đâu trong suốt quỹ đạo. HOTA cuối lấy trung bình theo các ngưỡng. Điểm COMBINED được tổ hợp từ các thành phần do bộ chấm trả về, nên video dài có nhiều đối tượng không mặc nhiên có cùng trọng số với một video ngắn có ít xe.
+
+IDF1 đo mức khớp danh tính qua $2\,\mathrm{IDTP}/(2\,\mathrm{IDTP}+\mathrm{IDFP}+\mathrm{IDFN})$ \cite{ristani}. IDSW đếm lần đổi ID theo quy tắc của bộ chấm. MOTA dùng $1-(\mathrm{FN}+\mathrm{FP}+\mathrm{IDSW})/\mathrm{GT}$ và có thể âm khi số lỗi lớn hơn số hộp chú thích qua các khung hình. IDSW thấp cũng có thể do hệ thống chỉ theo dõi được rất ít xe. Khóa luận vì vậy đọc số lần đổi ID cùng IDF1, số hộp bỏ sót và độ phủ của mẫu.

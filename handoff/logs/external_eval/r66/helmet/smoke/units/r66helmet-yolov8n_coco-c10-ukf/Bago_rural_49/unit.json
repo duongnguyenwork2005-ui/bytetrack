@@ -1,0 +1,70 @@
+{
+ "protocol_hash": "05e3f9592c86e4c162f6860504c9843791209c252944d0104fe80e0112e40f08",
+ "fingerprint": "e23ad2d3c7ad5586f8a486f61d12b773e5147a647159bc574eb9a5e3418923ab",
+ "video": "Bago_rural_49",
+ "seed": null,
+ "settings": {
+  "protocol_hash": "05e3f9592c86e4c162f6860504c9843791209c252944d0104fe80e0112e40f08",
+  "tracker_cfg": {
+   "tracker_type": "bytetrack_ukf_ctrv",
+   "track_high_thresh": 0.25,
+   "track_low_thresh": 0.1,
+   "new_track_thresh": 0.25,
+   "track_buffer": 12,
+   "match_thresh": 0.8,
+   "fuse_score": true
+  },
+  "yaml_sha256": "5d1286e41ebe8f76f94045ea36ba57571efcf73633e7039bb29ab96366b45661",
+  "backend": {
+   "git_commit": "8f3b63d",
+   "modules": {
+    "run_tracking.py": "5bd131fe958bdf04",
+    "run_experiment.py": "9952441194b7e70f",
+    "tracker_ctrv.py": "b22b4688f50058e8",
+    "sort_tracker.py": "a4ab4b26867989eb",
+    "ekf_ctrv.py": "b516781efa01f473",
+    "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+    "ukf_ctrv.py": "2d59daf4794d8039",
+    "pf_ctrv.py": "de141de5aa698735",
+    "lost_recovery.py": "38f30192b492fa80",
+    "lost_association.py": "469c2782cba41e01",
+    "time_units.py": "c13b6e20fe003f6d",
+    "det_cache.py": "17024ddc6afec534",
+    "occlusion_eval.py": "1b892596be674b9e",
+    "boot_stats.py": "e9245f6729659f8f",
+    "run_trackeval.py": "519d3f9165803fde",
+    "trackeval_ext.py": "3dcf6582548adcfa",
+    "assoc_log.py": "0915453e70f75eb2",
+    "ul_backend.py": "7381910281d8a273",
+    "bytetrack_np.py": "8d37ec565230603b",
+    "run_state.py": "2bc38e3a86fbf50b"
+   },
+   "backend": {
+    "backend": "ultralytics",
+    "ultralytics": "8.4.141",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13"
+   }
+  },
+  "detector": "yolov8n_coco",
+  "threshold": 0.1,
+  "classes": [
+   3
+  ],
+  "max_det": 300,
+  "seed": null,
+  "elapsed_mode": "steps",
+  "fps": 10,
+  "max_time_lost_thuc": 12,
+  "track_buffer_frames": 12,
+  "dt_nominal_s": 0.1
+ },
+ "cache_marker_sha256": "b169c73dc8de1ad0d096b1b250b96cac6821870add6ce1f10dbe8f44b0eab14c",
+ "sha256": {
+  "data/Bago_rural_49.txt": "0c83f56993157580bfc55b50d32119ab368961f588c2a4c4fc940535746245d1",
+  "data_cls/Bago_rural_49.csv": "27a1d1a40f5ca03f9843110833dcd9068087c47f1f1e98fa3a859c7f6b8a8f6f",
+  "timing/Bago_rural_49.csv": "caf27c7355232c31bdbe59be6b95322c844441b5a2b5bece36b5ac8b4f13a350"
+ },
+ "seconds": 0.40600000007543713
+}

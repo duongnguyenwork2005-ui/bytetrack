@@ -1,0 +1,19 @@
+# R92 opt-in PF transition mixture while Lost; not a thesis or Nano default.
+tracker_type: bytetrack_pf_ctrv
+track_high_thresh: 0.25
+track_low_thresh: 0.1
+new_track_thresh: 0.25
+track_buffer: 30
+match_thresh: 0.8
+fuse_score: true
+pf_num_particles: 500
+pf_seed: 0
+pf_resample_ess_ratio: 0.5
+pf_estimate: mean
+pf_roughening: 1.0
+pf_roughening_box_scale: 1.0
+pf_degenerate_maha2: 10000.0
+pf_optimal_proposal: true
+pf_measurement_height: observation
+pf_roughening_motion_scale: 2
+pf_lost_cv_fraction: 0.5

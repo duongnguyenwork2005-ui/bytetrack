@@ -1,0 +1,76 @@
+{
+ "protocol_hash": "6336582ee9b25f3d8c0a91a01e71177469e341033a2660f496c8715248bcdce5",
+ "fingerprint": "3905fd4caea7430293126967a4add54ca8fe35bbd6e34b24ef2dfbee1440b1f8",
+ "video": "Yangon_II_29",
+ "seed": 1,
+ "settings": {
+  "protocol_hash": "6336582ee9b25f3d8c0a91a01e71177469e341033a2660f496c8715248bcdce5",
+  "tracker_cfg": {
+   "tracker_type": "bytetrack_pf_ctrv",
+   "track_high_thresh": 0.25,
+   "track_low_thresh": 0.1,
+   "new_track_thresh": 0.25,
+   "track_buffer": 12,
+   "match_thresh": 0.8,
+   "fuse_score": true,
+   "pf_num_particles": 500,
+   "pf_seed": 0,
+   "pf_resample_ess_ratio": 0.5,
+   "pf_estimate": "mean",
+   "pf_roughening": 0.0,
+   "pf_degenerate_maha2": 10000.0
+  },
+  "yaml_sha256": "ff43d4934d6ec72744ada9bb2a87dea7b10b3d0ac8764e8c1ec5a20ef8fa880b",
+  "backend": {
+   "git_commit": "8f3b63d",
+   "modules": {
+    "run_tracking.py": "5bd131fe958bdf04",
+    "run_experiment.py": "9952441194b7e70f",
+    "tracker_ctrv.py": "b22b4688f50058e8",
+    "sort_tracker.py": "a4ab4b26867989eb",
+    "ekf_ctrv.py": "b516781efa01f473",
+    "ekf_ctrv_clamped.py": "cf5213f02fbe9745",
+    "ukf_ctrv.py": "2d59daf4794d8039",
+    "pf_ctrv.py": "de141de5aa698735",
+    "lost_recovery.py": "38f30192b492fa80",
+    "lost_association.py": "469c2782cba41e01",
+    "time_units.py": "c13b6e20fe003f6d",
+    "det_cache.py": "17024ddc6afec534",
+    "occlusion_eval.py": "1b892596be674b9e",
+    "boot_stats.py": "e9245f6729659f8f",
+    "run_trackeval.py": "519d3f9165803fde",
+    "trackeval_ext.py": "3dcf6582548adcfa",
+    "assoc_log.py": "0915453e70f75eb2",
+    "ul_backend.py": "7381910281d8a273",
+    "bytetrack_np.py": "8d37ec565230603b",
+    "run_state.py": "2bc38e3a86fbf50b"
+   },
+   "backend": {
+    "backend": "ultralytics",
+    "ultralytics": "8.4.141",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "lap": "0.5.13"
+   }
+  },
+  "detector": "yolov8n_mixed5",
+  "threshold": 0.25,
+  "classes": [
+   3
+  ],
+  "max_det": 300,
+  "seed": 1,
+  "elapsed_mode": "steps",
+  "fps": 10,
+  "max_time_lost_thuc": 12,
+  "track_buffer_frames": 12,
+  "dt_nominal_s": 0.1
+ },
+ "cache_marker_sha256": "04da247b45ad6529ed4dcbe366c4ba668bc06ee9fde8a7c332945bdfd54bce39",
+ "sha256": {
+  "data/Yangon_II_29.txt": "97e8482b6b177df3224451f224d83940c541b09417277f36de2eaa46f6a758be",
+  "data_cls/Yangon_II_29.csv": "f85cac731d9a42bea6d75f89414b57b7a482f291eab3a0410f97506cbff18213",
+  "timing/Yangon_II_29.csv": "613bc07b0b4abed379d8ba84bc489b46a274530129e2c86a4fd7b5aa98807e5f"
+ },
+ "seconds": 0.045999999972991645
+}

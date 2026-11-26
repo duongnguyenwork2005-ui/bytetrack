@@ -51,7 +51,7 @@ import config  # noqa: E402
 
 #: Module anh huong truc tiep ket qua tracking/danh gia (doi -> phai danh gia lai)
 CODE_FILES = ("run_tracking.py", "run_experiment.py", "tracker_ctrv.py", "sort_tracker.py", "ekf_ctrv.py",
-              "ekf_ctrv_clamped.py", "ukf_ctrv.py", "pf_ctrv.py", "lost_recovery.py", "lost_association.py",
+              "ekf_ctrv_clamped.py", "ukf_ctrv.py", "pf_ctrv.py", "rbpf_ctrv.py", "lost_recovery.py", "lost_association.py",
               "time_units.py", "det_cache.py", "occlusion_eval.py", "boot_stats.py", "run_trackeval.py",
               "trackeval_ext.py", "assoc_log.py",
               # backend ByteTrack (ultralytics da cai / ban vendor khong phu thuoc torch)
