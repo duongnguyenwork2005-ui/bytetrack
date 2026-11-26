@@ -1,0 +1,3939 @@
+{
+  "status": "PASS",
+  "meaning": "Final provenance/comparison verified; raw FAIL remains FAIL.",
+  "clips": 80,
+  "runs": 320,
+  "inference_frames": 48000,
+  "comparisons": {
+    "precise": {
+      "AP_gates": {
+        "original": {
+          "AP50": true,
+          "AP50_95": true,
+          "class_AP50": true
+        },
+        "control": {
+          "AP50": true,
+          "AP50_95": true,
+          "class_AP50": true
+        }
+      },
+      "AP_deltas": {
+        "original": {
+          "mAP50_delta_pp": -0.09833528440751915,
+          "mAP50_95_delta_pp": -0.027842657557403117,
+          "class_AP50_delta_pp": {
+            "car": 0.0028427117455875894,
+            "truck": -0.017301802363023366,
+            "bus": 0.008272306658474449,
+            "motorcycle": -0.4373089939735897,
+            "bicycle": -0.048180644105044745
+          }
+        },
+        "control": {
+          "mAP50_delta_pp": 0.015804393741591927,
+          "mAP50_95_delta_pp": -0.004097474314829208,
+          "class_AP50_delta_pp": {
+            "car": 0.02697142117619178,
+            "truck": 0.05815177261174198,
+            "bus": 0.013886347653202513,
+            "motorcycle": 0.02307407515760862,
+            "bicycle": -0.04306164789077693
+          }
+        }
+      },
+      "tracking": {
+        "bdd": {
+          "original": {
+            "hota": 0.4371883772445088,
+            "deta": 0.37773102974893114,
+            "assa": 0.5207659961358551,
+            "idf1": 0.5296834008001045,
+            "idsw": 1534,
+            "fn": 28539,
+            "fp": 2194
+          },
+          "candidate": {
+            "hota": 0.4380857532472204,
+            "deta": 0.37798155535434697,
+            "assa": 0.5224852615096021,
+            "idf1": 0.5307072218066983,
+            "idsw": 1541,
+            "fn": 28528,
+            "fp": 2175
+          },
+          "IDSW_delta": 7,
+          "FN_delta": -11,
+          "FP_delta": -19,
+          "HOTA_delta_pp": 0.08973760027115585
+        },
+        "ua": {
+          "original": {
+            "hota": 0.6657319586581798,
+            "deta": 0.5758456146049444,
+            "assa": 0.7819217892015725,
+            "idf1": 0.7837332991116625,
+            "idsw": 245,
+            "fn": 17590,
+            "fp": 9144
+          },
+          "candidate": {
+            "hota": 0.6654155602360422,
+            "deta": 0.5759280697039506,
+            "assa": 0.7811400698845021,
+            "idf1": 0.7830650106235829,
+            "idsw": 245,
+            "fn": 17597,
+            "fp": 9143
+          },
+          "IDSW_delta": 0,
+          "FN_delta": 7,
+          "FP_delta": -1,
+          "HOTA_delta_pp": -0.03163984221375982
+        }
+      },
+      "raw_parity_status": "FAIL",
+      "raw_max_box_error": 13.783973693847656,
+      "raw_max_score_error": 0.021776974201202393,
+      "speed": {
+        "bdd": {
+          "mean_FPS_gain_pct": 32.19311763170789,
+          "median_paired_FPS_gain_pct": 32.230606938925604,
+          "CI95_median_paired_gain_pct": [
+            31.94901497570615,
+            32.36741763253582
+          ],
+          "videos_faster": 40,
+          "videos_total": 40
+        },
+        "ua": {
+          "mean_FPS_gain_pct": 30.67672762570133,
+          "median_paired_FPS_gain_pct": 30.727363667418004,
+          "CI95_median_paired_gain_pct": [
+            30.219743399377663,
+            31.350895434463244
+          ],
+          "videos_faster": 40,
+          "videos_total": 40
+        },
+        "all": {
+          "mean_FPS_gain_pct": 31.449971920759868,
+          "median_paired_FPS_gain_pct": 31.811248926155944,
+          "CI95_median_paired_gain_pct": [
+            31.605286517832354,
+            31.915752949823982
+          ],
+          "videos_faster": 80,
+          "videos_total": 80
+        }
+      }
+    },
+    "fast": {
+      "AP_gates": {
+        "original": {
+          "AP50": true,
+          "AP50_95": true,
+          "class_AP50": true
+        },
+        "control": {
+          "AP50": true,
+          "AP50_95": true,
+          "class_AP50": true
+        }
+      },
+      "AP_deltas": {
+        "original": {
+          "mAP50_delta_pp": -0.007390794793632471,
+          "mAP50_95_delta_pp": -0.035593593726884754,
+          "class_AP50_delta_pp": {
+            "car": -0.007933482677568993,
+            "truck": -0.012469551114657751,
+            "bus": -0.023777084251463965,
+            "motorcycle": 0.07335914106536556,
+            "bicycle": -0.06613299698981501
+          }
+        },
+        "control": {
+          "mAP50_delta_pp": 0.10674888335547861,
+          "mAP50_95_delta_pp": -0.011848410484310845,
+          "class_AP50_delta_pp": {
+            "car": 0.016195226753035197,
+            "truck": 0.0629840238601076,
+            "bus": -0.0181630432567359,
+            "motorcycle": 0.5337422101965639,
+            "bicycle": -0.061014000775547195
+          }
+        }
+      },
+      "tracking": {
+        "bdd": {
+          "original": {
+            "hota": 0.4371883772445088,
+            "deta": 0.37773102974893114,
+            "assa": 0.5207659961358551,
+            "idf1": 0.5296834008001045,
+            "idsw": 1534,
+            "fn": 28539,
+            "fp": 2194
+          },
+          "candidate": {
+            "hota": 0.43703957704017615,
+            "deta": 0.3776649540975189,
+            "assa": 0.5204893249719794,
+            "idf1": 0.5292358094152838,
+            "idsw": 1539,
+            "fn": 28542,
+            "fp": 2204
+          },
+          "IDSW_delta": 5,
+          "FN_delta": 3,
+          "FP_delta": 10,
+          "HOTA_delta_pp": -0.014880020433266639
+        },
+        "ua": {
+          "original": {
+            "hota": 0.6657319586581798,
+            "deta": 0.5758456146049444,
+            "assa": 0.7819217892015725,
+            "idf1": 0.7837332991116625,
+            "idsw": 245,
+            "fn": 17590,
+            "fp": 9144
+          },
+          "candidate": {
+            "hota": 0.6659263265447418,
+            "deta": 0.5756324786774791,
+            "assa": 0.7826620089790711,
+            "idf1": 0.7838600692811016,
+            "idsw": 248,
+            "fn": 17609,
+            "fp": 9199
+          },
+          "IDSW_delta": 3,
+          "FN_delta": 19,
+          "FP_delta": 55,
+          "HOTA_delta_pp": 0.01943678865620191
+        }
+      },
+      "raw_parity_status": "FAIL",
+      "raw_max_box_error": 17.04010009765625,
+      "raw_max_score_error": 0.013953089714050293,
+      "speed": {
+        "bdd": {
+          "mean_FPS_gain_pct": 31.8284009352255,
+          "median_paired_FPS_gain_pct": 31.927533147190147,
+          "CI95_median_paired_gain_pct": [
+            31.71505561446688,
+            32.03399380994073
+          ],
+          "videos_faster": 40,
+          "videos_total": 40
+        },
+        "ua": {
+          "mean_FPS_gain_pct": 30.134807331758616,
+          "median_paired_FPS_gain_pct": 30.24557605166125,
+          "CI95_median_paired_gain_pct": [
+            29.83675540507347,
+            30.68772023321852
+          ],
+          "videos_faster": 40,
+          "videos_total": 40
+        },
+        "all": {
+          "mean_FPS_gain_pct": 30.998412068561887,
+          "median_paired_FPS_gain_pct": 31.138259505572652,
+          "CI95_median_paired_gain_pct": [
+            31.065090574715448,
+            31.452765015394355
+          ],
+          "videos_faster": 80,
+          "videos_total": 80
+        }
+      }
+    }
+  },
+  "speed": {
+    "bdd": {
+      "modes": {
+        "original": {
+          "clips": 40,
+          "mean_FPS": 20.87493666615859,
+          "median_FPS": 20.86020244176693,
+          "aggregate_FPS": 20.87404034822972,
+          "min_FPS": 20.636817856070465,
+          "max_FPS": 21.297445174986944,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 110.74789250028516
+        },
+        "control": {
+          "clips": 40,
+          "mean_FPS": 20.675034323697123,
+          "median_FPS": 20.66278640395712,
+          "aggregate_FPS": 20.67403403996672,
+          "min_FPS": 20.440882119288396,
+          "max_FPS": 21.137700833567404,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 111.21161850041972
+        },
+        "precise": {
+          "clips": 40,
+          "mean_FPS": 27.595229582639547,
+          "median_FPS": 27.606062834765943,
+          "aggregate_FPS": 27.593146067814303,
+          "min_FPS": 27.17712428066717,
+          "max_FPS": 28.373182479983623,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 87.04695000005813
+        },
+        "fast": {
+          "clips": 40,
+          "mean_FPS": 27.519095203237942,
+          "median_FPS": 27.544297659015157,
+          "aggregate_FPS": 27.516883699653054,
+          "min_FPS": 27.10456195602723,
+          "max_FPS": 28.251092066643245,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 87.25390300037361
+        }
+      },
+      "paired_vs_original": {
+        "control": {
+          "mean_FPS_gain_pct": -0.9576189171655591,
+          "median_paired_FPS_gain_pct": -0.9124400813960487,
+          "CI95_median_paired_gain_pct": [
+            -1.0704471148115347,
+            -0.8351519086033266
+          ],
+          "videos_faster": 0,
+          "videos_total": 40
+        },
+        "precise": {
+          "mean_FPS_gain_pct": 32.19311763170789,
+          "median_paired_FPS_gain_pct": 32.230606938925604,
+          "CI95_median_paired_gain_pct": [
+            31.94901497570615,
+            32.36741763253582
+          ],
+          "videos_faster": 40,
+          "videos_total": 40
+        },
+        "fast": {
+          "mean_FPS_gain_pct": 31.8284009352255,
+          "median_paired_FPS_gain_pct": 31.927533147190147,
+          "CI95_median_paired_gain_pct": [
+            31.71505561446688,
+            32.03399380994073
+          ],
+          "videos_faster": 40,
+          "videos_total": 40
+        }
+      }
+    },
+    "ua": {
+      "modes": {
+        "original": {
+          "clips": 40,
+          "mean_FPS": 20.06237840861507,
+          "median_FPS": 20.173641216790017,
+          "aggregate_FPS": 20.043680821202233,
+          "min_FPS": 18.683809048116228,
+          "max_FPS": 21.060966954544643,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 113.25671050008168
+        },
+        "control": {
+          "clips": 40,
+          "mean_FPS": 19.884720476939325,
+          "median_FPS": 20.01881744987658,
+          "aggregate_FPS": 19.866798007545416,
+          "min_FPS": 18.490517314595753,
+          "max_FPS": 20.835732404707812,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 113.73321700011729
+        },
+        "precise": {
+          "clips": 40,
+          "mean_FPS": 26.21685958826344,
+          "median_FPS": 26.359678196151904,
+          "aggregate_FPS": 26.17781776011484,
+          "min_FPS": 24.096077758031996,
+          "max_FPS": 27.699335843941842,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 89.59624949966383
+        },
+        "fast": {
+          "clips": 40,
+          "mean_FPS": 26.10813748821957,
+          "median_FPS": 26.227558626456812,
+          "aggregate_FPS": 26.071450362544688,
+          "min_FPS": 24.051427908389478,
+          "max_FPS": 27.84667643302481,
+          "clips_at_least_15": 40,
+          "median_clip_p90_latency_ms": 89.94451599937747
+        }
+      },
+      "paired_vs_original": {
+        "control": {
+          "mean_FPS_gain_pct": -0.8855277677319529,
+          "median_paired_FPS_gain_pct": -0.9246217503977527,
+          "CI95_median_paired_gain_pct": [
+            -1.0299817072650042,
+            -0.7821400683180602
+          ],
+          "videos_faster": 0,
+          "videos_total": 40
+        },
+        "precise": {
+          "mean_FPS_gain_pct": 30.67672762570133,
+          "median_paired_FPS_gain_pct": 30.727363667418004,
+          "CI95_median_paired_gain_pct": [
+            30.219743399377663,
+            31.350895434463244
+          ],
+          "videos_faster": 40,
+          "videos_total": 40
+        },
+        "fast": {
+          "mean_FPS_gain_pct": 30.134807331758616,
+          "median_paired_FPS_gain_pct": 30.24557605166125,
+          "CI95_median_paired_gain_pct": [
+            29.83675540507347,
+            30.68772023321852
+          ],
+          "videos_faster": 40,
+          "videos_total": 40
+        }
+      }
+    },
+    "all": {
+      "modes": {
+        "original": {
+          "clips": 80,
+          "mean_FPS": 20.468657537386832,
+          "median_FPS": 20.711453019050587,
+          "aggregate_FPS": 20.45043517728346,
+          "min_FPS": 18.683809048116228,
+          "max_FPS": 21.297445174986944,
+          "clips_at_least_15": 80,
+          "median_clip_p90_latency_ms": 111.53939550001724
+        },
+        "control": {
+          "clips": 80,
+          "mean_FPS": 20.279877400318224,
+          "median_FPS": 20.493671480581256,
+          "aggregate_FPS": 20.26237931139561,
+          "min_FPS": 18.490517314595753,
+          "max_FPS": 21.137700833567404,
+          "clips_at_least_15": 80,
+          "median_clip_p90_latency_ms": 112.40739100003339
+        },
+        "precise": {
+          "clips": 80,
+          "mean_FPS": 26.906044585451493,
+          "median_FPS": 27.31459123722623,
+          "aggregate_FPS": 26.866855186117686,
+          "min_FPS": 24.096077758031996,
+          "max_FPS": 28.373182479983623,
+          "clips_at_least_15": 80,
+          "median_clip_p90_latency_ms": 87.99804950001544
+        },
+        "fast": {
+          "clips": 80,
+          "mean_FPS": 26.813616345728754,
+          "median_FPS": 27.179672792818067,
+          "aggregate_FPS": 26.77467325909992,
+          "min_FPS": 24.051427908389478,
+          "max_FPS": 28.251092066643245,
+          "clips_at_least_15": 80,
+          "median_clip_p90_latency_ms": 88.64073900031144
+        }
+      },
+      "paired_vs_original": {
+        "control": {
+          "mean_FPS_gain_pct": -0.922288805329774,
+          "median_paired_FPS_gain_pct": -0.9184622960871969,
+          "CI95_median_paired_gain_pct": [
+            -1.0163761172545471,
+            -0.8501651507375474
+          ],
+          "videos_faster": 0,
+          "videos_total": 80
+        },
+        "precise": {
+          "mean_FPS_gain_pct": 31.449971920759868,
+          "median_paired_FPS_gain_pct": 31.811248926155944,
+          "CI95_median_paired_gain_pct": [
+            31.605286517832354,
+            31.915752949823982
+          ],
+          "videos_faster": 80,
+          "videos_total": 80
+        },
+        "fast": {
+          "mean_FPS_gain_pct": 30.998412068561887,
+          "median_paired_FPS_gain_pct": 31.138259505572652,
+          "CI95_median_paired_gain_pct": [
+            31.065090574715448,
+            31.452765015394355
+          ],
+          "videos_faster": 80,
+          "videos_total": 80
+        }
+      }
+    }
+  },
+  "detection": {
+    "original": {
+      "images": 7190,
+      "mAP50": 0.47146726996306293,
+      "mAP50_95": 0.31984831508791156,
+      "classes": {
+        "car": {
+          "AP50": 0.8445772932098297,
+          "AP50_95": 0.5871142885959562,
+          "GT_boxes": 53204,
+          "detections_c25": 51100,
+          "TP_c25_IoU50": 41910,
+          "precision_c25": 0.8201565557729942,
+          "recall_c25": 0.787722727614465
+        },
+        "truck": {
+          "AP50": 0.44042237004268936,
+          "AP50_95": 0.3288746997145493,
+          "GT_boxes": 3054,
+          "detections_c25": 1732,
+          "TP_c25_IoU50": 1208,
+          "precision_c25": 0.6974595842956121,
+          "recall_c25": 0.39554682383759004
+        },
+        "bus": {
+          "AP50": 0.5140628132579861,
+          "AP50_95": 0.4083830116147594,
+          "GT_boxes": 1469,
+          "detections_c25": 1178,
+          "TP_c25_IoU50": 759,
+          "precision_c25": 0.6443123938879457,
+          "recall_c25": 0.5166780122532335
+        },
+        "motorcycle": {
+          "AP50": 0.34417362878117774,
+          "AP50_95": 0.17953535438880208,
+          "GT_boxes": 226,
+          "detections_c25": 223,
+          "TP_c25_IoU50": 92,
+          "precision_c25": 0.4125560538116592,
+          "recall_c25": 0.40707964601769914
+        },
+        "bicycle": {
+          "AP50": 0.2141002445236318,
+          "AP50_95": 0.09533422112549125,
+          "GT_boxes": 407,
+          "detections_c25": 221,
+          "TP_c25_IoU50": 90,
+          "precision_c25": 0.4072398190045249,
+          "recall_c25": 0.22113022113022113
+        }
+      },
+      "engine": {
+        "engine": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50_fp16.engine",
+        "engine_sha256": "13f8cd0f9777840052fc671a621dc0473a103eeecce71ce655b54c74a4ba9823",
+        "onnx": "/home/jetson/nano_run/r102_interp50_20261111/yolo11n_interp50.onnx",
+        "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+        "hw": [
+          384,
+          640
+        ],
+        "parity": "/home/jetson/nano_run/r151_resolution_20261120/baseline/parity"
+      },
+      "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+      "runtime": "actual Nano TensorRT",
+      "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+      "precision_recall_at_fixed_confidence": 0.25,
+      "Nano_pipeline_FPS_measured": false
+    },
+    "control": {
+      "images": 7190,
+      "mAP50": 0.4703258731815718,
+      "mAP50_95": 0.3196108632554858,
+      "classes": {
+        "car": {
+          "AP50": 0.8443360061155236,
+          "AP50_95": 0.5870812107751212,
+          "GT_boxes": 53204,
+          "detections_c25": 51126,
+          "TP_c25_IoU50": 41905,
+          "precision_c25": 0.8196416696005946,
+          "recall_c25": 0.7876287497180663
+        },
+        "truck": {
+          "AP50": 0.4396678342929417,
+          "AP50_95": 0.3287523635301316,
+          "GT_boxes": 3054,
+          "detections_c25": 1730,
+          "TP_c25_IoU50": 1207,
+          "precision_c25": 0.6976878612716763,
+          "recall_c25": 0.39521938441388343
+        },
+        "bus": {
+          "AP50": 0.5140066728480388,
+          "AP50_95": 0.4081045364212247,
+          "GT_boxes": 1469,
+          "detections_c25": 1181,
+          "TP_c25_IoU50": 759,
+          "precision_c25": 0.642675698560542,
+          "recall_c25": 0.5166780122532335
+        },
+        "motorcycle": {
+          "AP50": 0.33956979808986576,
+          "AP50_95": 0.178880951884355,
+          "GT_boxes": 226,
+          "detections_c25": 223,
+          "TP_c25_IoU50": 91,
+          "precision_c25": 0.4080717488789238,
+          "recall_c25": 0.4026548672566372
+        },
+        "bicycle": {
+          "AP50": 0.21404905456148912,
+          "AP50_95": 0.09523525366659649,
+          "GT_boxes": 407,
+          "detections_c25": 219,
+          "TP_c25_IoU50": 90,
+          "precision_c25": 0.410958904109589,
+          "recall_c25": 0.22113022113022113
+        }
+      },
+      "engine": {
+        "onnx": "/home/jetson/nano_run/r167_fused_silu_20261121/control.onnx",
+        "onnx_sha256": "a0ae9b42a0965876004eda1e56d4a4ccd801bb1a9cecd35051f47d5c8a794e48",
+        "engine": "/home/jetson/nano_run/r167_fused_silu_20261121/control.engine",
+        "hw": [
+          384,
+          640
+        ],
+        "parity": [
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/00.npz",
+            "sha256": "75ec4482dd232e912930adb3215376705d34b6ab8269cb2e1b9bfa58ff2f9df2"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/01.npz",
+            "sha256": "6a2de58c14000a2f51321fb8cfe1efa4dd2a7a519bbac2a16a21d5ea1e47ccac"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/02.npz",
+            "sha256": "3c330ff6936c1cf628c3a00049d549bcb8f91e3c452ace08d48fbfda8eb28922"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/03.npz",
+            "sha256": "18cca4d196f572fce4e4e1124e4899bd655585bc09d17185baa17b68d4cf9189"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/04.npz",
+            "sha256": "bbec50b257ed7ddd29b8580dcba7840529522dbb1c3f264d79f16ea2476a0c3a"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/05.npz",
+            "sha256": "1aaab1353231d56925076931c9dbc291db0fdf5e1440ab63a88e09beb659224a"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/06.npz",
+            "sha256": "a0e082fe3d3fa34bd2c14b924fa6dbdef701e17e6f4e86621f5127d63b446cbc"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/07.npz",
+            "sha256": "4c769f7efde84368b9c1fcef424d6ed1c64830cc34a877435781ad39dc58b77e"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/08.npz",
+            "sha256": "45b1b579ea328c2fe9329f0732c446e9679211355668ad512337a138a917659c"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/09.npz",
+            "sha256": "02762bf2e816d37beab4f9b29681f5b534320b3274cc746fecb23509a3f4e8d0"
+          }
+        ],
+        "parameters": 2590815,
+        "ConvMAC": 1894456320,
+        "engine_sha256": "fffdd6a49402070f59a1449cf20f5b364b7852870f17cb3de0a5481c43a3bc19"
+      },
+      "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+      "runtime": "actual Nano TensorRT",
+      "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+      "precision_recall_at_fixed_confidence": 0.25,
+      "Nano_pipeline_FPS_measured": false
+    },
+    "precise": {
+      "images": 7190,
+      "mAP50": 0.47048391711898774,
+      "mAP50_95": 0.31956988851233753,
+      "classes": {
+        "car": {
+          "AP50": 0.8446057203272855,
+          "AP50_95": 0.5871373130295007,
+          "GT_boxes": 53204,
+          "detections_c25": 51105,
+          "TP_c25_IoU50": 41909,
+          "precision_c25": 0.8200567459152724,
+          "recall_c25": 0.7877039320351853
+        },
+        "truck": {
+          "AP50": 0.4402493520190591,
+          "AP50_95": 0.328910650628104,
+          "GT_boxes": 3054,
+          "detections_c25": 1730,
+          "TP_c25_IoU50": 1206,
+          "precision_c25": 0.6971098265895954,
+          "recall_c25": 0.3948919449901768
+        },
+        "bus": {
+          "AP50": 0.5141455363245708,
+          "AP50_95": 0.4080124360266121,
+          "GT_boxes": 1469,
+          "detections_c25": 1179,
+          "TP_c25_IoU50": 758,
+          "precision_c25": 0.6429177268871925,
+          "recall_c25": 0.5159972770592239
+        },
+        "motorcycle": {
+          "AP50": 0.33980053884144185,
+          "AP50_95": 0.17905316335726057,
+          "GT_boxes": 226,
+          "detections_c25": 220,
+          "TP_c25_IoU50": 91,
+          "precision_c25": 0.41363636363636364,
+          "recall_c25": 0.4026548672566372
+        },
+        "bicycle": {
+          "AP50": 0.21361843808258135,
+          "AP50_95": 0.09473587952021031,
+          "GT_boxes": 407,
+          "detections_c25": 221,
+          "TP_c25_IoU50": 90,
+          "precision_c25": 0.4072398190045249,
+          "recall_c25": 0.22113022113022113
+        }
+      },
+      "engine": {
+        "onnx": "/home/jetson/nano_run/r167_fused_silu_20261121/precise.onnx",
+        "onnx_sha256": "1f610365c8a7e917c8c4fe01fb360d0dc934cafde55b428a1c67456f43376c6d",
+        "engine": "/home/jetson/nano_run/r167_fused_silu_20261121/precise.engine",
+        "hw": [
+          384,
+          640
+        ],
+        "parity": [
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/00.npz",
+            "sha256": "75ec4482dd232e912930adb3215376705d34b6ab8269cb2e1b9bfa58ff2f9df2"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/01.npz",
+            "sha256": "6a2de58c14000a2f51321fb8cfe1efa4dd2a7a519bbac2a16a21d5ea1e47ccac"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/02.npz",
+            "sha256": "3c330ff6936c1cf628c3a00049d549bcb8f91e3c452ace08d48fbfda8eb28922"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/03.npz",
+            "sha256": "18cca4d196f572fce4e4e1124e4899bd655585bc09d17185baa17b68d4cf9189"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/04.npz",
+            "sha256": "bbec50b257ed7ddd29b8580dcba7840529522dbb1c3f264d79f16ea2476a0c3a"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/05.npz",
+            "sha256": "1aaab1353231d56925076931c9dbc291db0fdf5e1440ab63a88e09beb659224a"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/06.npz",
+            "sha256": "a0e082fe3d3fa34bd2c14b924fa6dbdef701e17e6f4e86621f5127d63b446cbc"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/07.npz",
+            "sha256": "4c769f7efde84368b9c1fcef424d6ed1c64830cc34a877435781ad39dc58b77e"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/08.npz",
+            "sha256": "45b1b579ea328c2fe9329f0732c446e9679211355668ad512337a138a917659c"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/09.npz",
+            "sha256": "02762bf2e816d37beab4f9b29681f5b534320b3274cc746fecb23509a3f4e8d0"
+          }
+        ],
+        "parameters": 2590815,
+        "ConvMAC": 1894456320,
+        "plugin": "/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_precise.so",
+        "engine_sha256": "6516484590ef56e82d60e1d4fe49f8a5b8b1a9d51c36de60ffbc6e5e772a2ca9"
+      },
+      "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+      "runtime": "actual Nano TensorRT",
+      "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+      "precision_recall_at_fixed_confidence": 0.25,
+      "Nano_pipeline_FPS_measured": false
+    },
+    "fast": {
+      "images": 7190,
+      "mAP50": 0.4713933620151266,
+      "mAP50_95": 0.3194923791506427,
+      "classes": {
+        "car": {
+          "AP50": 0.844497958383054,
+          "AP50_95": 0.5871404420689,
+          "GT_boxes": 53204,
+          "detections_c25": 51131,
+          "TP_c25_IoU50": 41910,
+          "precision_c25": 0.8196593064872583,
+          "recall_c25": 0.787722727614465
+        },
+        "truck": {
+          "AP50": 0.4402976745315428,
+          "AP50_95": 0.3291159128365315,
+          "GT_boxes": 3054,
+          "detections_c25": 1731,
+          "TP_c25_IoU50": 1207,
+          "precision_c25": 0.6972848064702484,
+          "recall_c25": 0.39521938441388343
+        },
+        "bus": {
+          "AP50": 0.5138250424154714,
+          "AP50_95": 0.40821763089723095,
+          "GT_boxes": 1469,
+          "detections_c25": 1180,
+          "TP_c25_IoU50": 758,
+          "precision_c25": 0.6423728813559322,
+          "recall_c25": 0.5159972770592239
+        },
+        "motorcycle": {
+          "AP50": 0.3449072201918314,
+          "AP50_95": 0.1783848747599983,
+          "GT_boxes": 226,
+          "detections_c25": 223,
+          "TP_c25_IoU50": 92,
+          "precision_c25": 0.4125560538116592,
+          "recall_c25": 0.40707964601769914
+        },
+        "bicycle": {
+          "AP50": 0.21343891455373365,
+          "AP50_95": 0.09460303519055288,
+          "GT_boxes": 407,
+          "detections_c25": 222,
+          "TP_c25_IoU50": 90,
+          "precision_c25": 0.40540540540540543,
+          "recall_c25": 0.22113022113022113
+        }
+      },
+      "engine": {
+        "onnx": "/home/jetson/nano_run/r167_fused_silu_20261121/fast.onnx",
+        "onnx_sha256": "675f1183d179d6cb0e4798c1f08e948ed76844e91026f0ea882ff2f682b8ab05",
+        "engine": "/home/jetson/nano_run/r167_fused_silu_20261121/fast.engine",
+        "hw": [
+          384,
+          640
+        ],
+        "parity": [
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/00.npz",
+            "sha256": "75ec4482dd232e912930adb3215376705d34b6ab8269cb2e1b9bfa58ff2f9df2"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/01.npz",
+            "sha256": "6a2de58c14000a2f51321fb8cfe1efa4dd2a7a519bbac2a16a21d5ea1e47ccac"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/02.npz",
+            "sha256": "3c330ff6936c1cf628c3a00049d549bcb8f91e3c452ace08d48fbfda8eb28922"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/03.npz",
+            "sha256": "18cca4d196f572fce4e4e1124e4899bd655585bc09d17185baa17b68d4cf9189"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/04.npz",
+            "sha256": "bbec50b257ed7ddd29b8580dcba7840529522dbb1c3f264d79f16ea2476a0c3a"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/05.npz",
+            "sha256": "1aaab1353231d56925076931c9dbc291db0fdf5e1440ab63a88e09beb659224a"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/06.npz",
+            "sha256": "a0e082fe3d3fa34bd2c14b924fa6dbdef701e17e6f4e86621f5127d63b446cbc"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/07.npz",
+            "sha256": "4c769f7efde84368b9c1fcef424d6ed1c64830cc34a877435781ad39dc58b77e"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/08.npz",
+            "sha256": "45b1b579ea328c2fe9329f0732c446e9679211355668ad512337a138a917659c"
+          },
+          {
+            "path": "/home/jetson/nano_run/r167_fused_silu_20261121/parity/09.npz",
+            "sha256": "02762bf2e816d37beab4f9b29681f5b534320b3274cc746fecb23509a3f4e8d0"
+          }
+        ],
+        "parameters": 2590815,
+        "ConvMAC": 1894456320,
+        "plugin": "/home/jetson/nano_run/r167_fused_silu_20261121/fused_silu_fast.so",
+        "engine_sha256": "bc987f14b91037d1cfdca5eab809bd343670822182b4c01e7531a26815accc16"
+      },
+      "dataset_sha256": "5729d4e93d9a67caac4cf9c51ef501de3d9e974bc5586d5ec63d43d81ca76bab",
+      "runtime": "actual Nano TensorRT",
+      "AP_definition": "R109 argmax/greedy NMS c001/iou.7/maxdet300 + existing Ultralytics AP/matching",
+      "precision_recall_at_fixed_confidence": 0.25,
+      "Nano_pipeline_FPS_measured": false
+    }
+  },
+  "quality": {
+    "bdd": {
+      "original": {
+        "combined": {
+          "hota": 0.4371883772445088,
+          "deta": 0.37773102974893114,
+          "assa": 0.5207659961358551,
+          "idf1": 0.5296834008001045,
+          "idsw": 1534,
+          "fn": 28539,
+          "fp": 2194
+        },
+        "videos": {
+          "b1c81faa-c80764c5": {
+            "hota": 0.6052780137959218,
+            "deta": 0.511229333810227,
+            "assa": 0.7181187799337414,
+            "idf1": 0.7636700648748842,
+            "idsw": 3,
+            "fn": 238,
+            "fp": 11
+          },
+          "b1ceb32e-3f481b43": {
+            "hota": 0.28392565372728956,
+            "deta": 0.3043674826714471,
+            "assa": 0.2662017789788926,
+            "idf1": 0.4,
+            "idsw": 25,
+            "fn": 212,
+            "fp": 10
+          },
+          "b1d0a191-03dcecc2": {
+            "hota": 0.41273179654362246,
+            "deta": 0.45047057624907383,
+            "assa": 0.3835840237677527,
+            "idf1": 0.4816484224082421,
+            "idsw": 53,
+            "fn": 804,
+            "fp": 90
+          },
+          "b1d0a191-65deaeef": {
+            "hota": 0.5163613135350396,
+            "deta": 0.4351638225099782,
+            "assa": 0.6235105374778908,
+            "idf1": 0.6729356450191007,
+            "idsw": 11,
+            "fn": 964,
+            "fp": 75
+          },
+          "b1d10d08-da110fcb": {
+            "hota": 0.42356194379252143,
+            "deta": 0.39653906813225426,
+            "assa": 0.47224836355743005,
+            "idf1": 0.5331702843167228,
+            "idsw": 104,
+            "fn": 1029,
+            "fp": 78
+          },
+          "b1d3907b-2278601b": {
+            "hota": 0.42697159636594995,
+            "deta": 0.38862457335204176,
+            "assa": 0.47532902876584954,
+            "idf1": 0.5043478260869565,
+            "idsw": 13,
+            "fn": 297,
+            "fp": 41
+          },
+          "b1d7b3ac-5744370e": {
+            "hota": 0.33922510718462806,
+            "deta": 0.20268746412753566,
+            "assa": 0.5754414054037832,
+            "idf1": 0.3564356435643564,
+            "idsw": 5,
+            "fn": 424,
+            "fp": 9
+          },
+          "b1d968b9-ce42734f": {
+            "hota": 0.47502640124399587,
+            "deta": 0.46013831972768504,
+            "assa": 0.4991719008416096,
+            "idf1": 0.5994538006372326,
+            "idsw": 107,
+            "fn": 989,
+            "fp": 149
+          },
+          "b1db7e22-cfa74dc3": {
+            "hota": 0.426469153333919,
+            "deta": 0.3666098649702996,
+            "assa": 0.5152325054843407,
+            "idf1": 0.5287356321839081,
+            "idsw": 33,
+            "fn": 596,
+            "fp": 56
+          },
+          "b1e0c01d-dd9e6e2f": {
+            "hota": 0.41205635381439976,
+            "deta": 0.38026125442381103,
+            "assa": 0.45484627397817906,
+            "idf1": 0.5421020282728949,
+            "idsw": 9,
+            "fn": 554,
+            "fp": 37
+          },
+          "b1e2346e-c5f98707": {
+            "hota": 0.21860396592844425,
+            "deta": 0.1720191019513165,
+            "assa": 0.2780937692146472,
+            "idf1": 0.2914285714285714,
+            "idsw": 6,
+            "fn": 216,
+            "fp": 4
+          },
+          "b1e8ad72-c3c79240": {
+            "hota": 0.607607917397506,
+            "deta": 0.5371102279456236,
+            "assa": 0.6977299717359626,
+            "idf1": 0.6930193439865433,
+            "idsw": 3,
+            "fn": 249,
+            "fp": 72
+          },
+          "b1ebfc3c-cc9c2bb8": {
+            "hota": 0.5563485076559909,
+            "deta": 0.4775445497874888,
+            "assa": 0.676511620505383,
+            "idf1": 0.6885245901639344,
+            "idsw": 6,
+            "fn": 363,
+            "fp": 36
+          },
+          "b1f0efd9-e900c6e5": {
+            "hota": 0.3702227621173037,
+            "deta": 0.36410428698604524,
+            "assa": 0.38459758609965405,
+            "idf1": 0.529168580615526,
+            "idsw": 77,
+            "fn": 699,
+            "fp": 54
+          },
+          "b1f4491b-07b32e8c": {
+            "hota": 0.3093008433143645,
+            "deta": 0.2795982706104297,
+            "assa": 0.37100897753718476,
+            "idf1": 0.39575289575289574,
+            "idsw": 60,
+            "fn": 949,
+            "fp": 51
+          },
+          "b1f4491b-97465266": {
+            "hota": 0.5913566082284856,
+            "deta": 0.5014604889655051,
+            "assa": 0.7059756624135506,
+            "idf1": 0.6598569969356486,
+            "idsw": 10,
+            "fn": 427,
+            "fp": 115
+          },
+          "b1f4491b-dd8dfed5": {
+            "hota": 0.360212685473288,
+            "deta": 0.27601868402232854,
+            "assa": 0.4729916128002749,
+            "idf1": 0.4118457300275482,
+            "idsw": 18,
+            "fn": 1429,
+            "fp": 41
+          },
+          "b1fbaab8-68db7df7": {
+            "hota": 0.5888741167156079,
+            "deta": 0.5660563421746032,
+            "assa": 0.6151619779519736,
+            "idf1": 0.672106824925816,
+            "idsw": 15,
+            "fn": 243,
+            "fp": 19
+          },
+          "b1ff4656-94ee8536": {
+            "hota": 0.7002855174290442,
+            "deta": 0.6354854610018805,
+            "assa": 0.78798076484615,
+            "idf1": 0.7956600361663653,
+            "idsw": 10,
+            "fn": 211,
+            "fp": 78
+          },
+          "b202cae2-672e61c5": {
+            "hota": 0.45033548478759206,
+            "deta": 0.46733663258687363,
+            "assa": 0.45497912556740255,
+            "idf1": 0.4892593780057711,
+            "idsw": 145,
+            "fn": 787,
+            "fp": 68
+          },
+          "b204a5c1-fa3d5b88": {
+            "hota": 0.43346530355904295,
+            "deta": 0.431990668053061,
+            "assa": 0.44455982481575296,
+            "idf1": 0.6169772256728778,
+            "idsw": 26,
+            "fn": 767,
+            "fp": 71
+          },
+          "b20841f9-cef732d5": {
+            "hota": 0.4449335802778693,
+            "deta": 0.37481813668959585,
+            "assa": 0.5541224034197821,
+            "idf1": 0.5692152239811384,
+            "idsw": 50,
+            "fn": 964,
+            "fp": 77
+          },
+          "b20b69d2-bd242bf0": {
+            "hota": 0.22172064568340746,
+            "deta": 0.21746926421298887,
+            "assa": 0.2370952861431681,
+            "idf1": 0.2747688243064729,
+            "idsw": 110,
+            "fn": 803,
+            "fp": 37
+          },
+          "b20d494a-cdebe83e": {
+            "hota": 0.39738018386202517,
+            "deta": 0.3084663524577031,
+            "assa": 0.5168765146160306,
+            "idf1": 0.4711191335740072,
+            "idsw": 16,
+            "fn": 495,
+            "fp": 5
+          },
+          "b20eae11-6817ba7a": {
+            "hota": 0.4017842265290831,
+            "deta": 0.2664571624563989,
+            "assa": 0.6183034135156347,
+            "idf1": 0.43444730077120824,
+            "idsw": 8,
+            "fn": 726,
+            "fp": 86
+          },
+          "b213e4eb-09c01a17": {
+            "hota": 0.5348603216372062,
+            "deta": 0.4879523534349026,
+            "assa": 0.5954321460737958,
+            "idf1": 0.6795959595959596,
+            "idsw": 13,
+            "fn": 534,
+            "fp": 77
+          },
+          "b215943a-10e44587": {
+            "hota": 0.262626059510592,
+            "deta": 0.2727426217308498,
+            "assa": 0.2553690718278132,
+            "idf1": 0.3638676844783715,
+            "idsw": 15,
+            "fn": 367,
+            "fp": 7
+          },
+          "b21742c2-18d3463a": {
+            "hota": 0.40465289046103475,
+            "deta": 0.3154929270041019,
+            "assa": 0.5251614424621215,
+            "idf1": 0.4333050127442651,
+            "idsw": 20,
+            "fn": 982,
+            "fp": 104
+          },
+          "b21c86ac-2eb7ba16": {
+            "hota": 0.4288586450517857,
+            "deta": 0.42797123072352367,
+            "assa": 0.44209059396587375,
+            "idf1": 0.5570750767513257,
+            "idsw": 103,
+            "fn": 926,
+            "fp": 105
+          },
+          "b22a4d9f-48b2e986": {
+            "hota": 0.4871397682322975,
+            "deta": 0.4384730528780689,
+            "assa": 0.5466208918059074,
+            "idf1": 0.6276595744680851,
+            "idsw": 14,
+            "fn": 449,
+            "fp": 49
+          },
+          "b230a7b2-c881c382": {
+            "hota": 0.4242250282358427,
+            "deta": 0.35675754660329234,
+            "assa": 0.5157753774368329,
+            "idf1": 0.5490519373454246,
+            "idsw": 10,
+            "fn": 448,
+            "fp": 7
+          },
+          "b23493b1-3200de1c": {
+            "hota": 0.43273577254479356,
+            "deta": 0.32755219364601856,
+            "assa": 0.5754823327540215,
+            "idf1": 0.5133425034387895,
+            "idsw": 50,
+            "fn": 1528,
+            "fp": 37
+          },
+          "b23adb0d-8a7aaced": {
+            "hota": 0.3444426175660661,
+            "deta": 0.40677133018379974,
+            "assa": 0.301420677930601,
+            "idf1": 0.47948511665325827,
+            "idsw": 160,
+            "fn": 680,
+            "fp": 56
+          },
+          "b23c9e00-b425de1b": {
+            "hota": 0.39204301918930395,
+            "deta": 0.286403736348337,
+            "assa": 0.5419501079207447,
+            "idf1": 0.45541472092506113,
+            "idsw": 58,
+            "fn": 2112,
+            "fp": 79
+          },
+          "b2408e45-984ba5aa": {
+            "hota": 0.3734790924809909,
+            "deta": 0.315296115304043,
+            "assa": 0.44740236819312795,
+            "idf1": 0.43313131313131314,
+            "idsw": 61,
+            "fn": 1037,
+            "fp": 90
+          },
+          "b242f6b2-f5da110f": {
+            "hota": 0.3595357101503625,
+            "deta": 0.3273293761662669,
+            "assa": 0.4031723065595034,
+            "idf1": 0.45738485971413445,
+            "idsw": 38,
+            "fn": 709,
+            "fp": 48
+          },
+          "b24d283f-33783d1b": {
+            "hota": 0.4379139972608902,
+            "deta": 0.3530284436156989,
+            "assa": 0.5539591134082096,
+            "idf1": 0.5333333333333333,
+            "idsw": 27,
+            "fn": 1658,
+            "fp": 108
+          },
+          "b2505382-2905b23c": {
+            "hota": 0.5131427254604568,
+            "deta": 0.5033865830240125,
+            "assa": 0.5387264386818917,
+            "idf1": 0.6881188118811881,
+            "idsw": 18,
+            "fn": 230,
+            "fp": 40
+          },
+          "b251064f-4696b75e": {
+            "hota": 0.1702346162527217,
+            "deta": 0.11570306884917998,
+            "assa": 0.250990160186117,
+            "idf1": 0.1609375,
+            "idsw": 11,
+            "fn": 958,
+            "fp": 2
+          },
+          "b255cd6c-0bdf0ac7": {
+            "hota": 0.3931131151684757,
+            "deta": 0.3541285162909495,
+            "assa": 0.4371684813778879,
+            "idf1": 0.4238856181665265,
+            "idsw": 13,
+            "fn": 486,
+            "fp": 15
+          }
+        }
+      },
+      "control": {
+        "combined": {
+          "hota": 0.437032803248173,
+          "deta": 0.37768142643493624,
+          "assa": 0.5203607837722042,
+          "idf1": 0.5300094966761634,
+          "idsw": 1543,
+          "fn": 28530,
+          "fp": 2186
+        },
+        "videos": {
+          "b1c81faa-c80764c5": {
+            "hota": 0.6056592568726902,
+            "deta": 0.5113592447248896,
+            "assa": 0.7189276695758814,
+            "idf1": 0.7636700648748842,
+            "idsw": 3,
+            "fn": 238,
+            "fp": 11
+          },
+          "b1ceb32e-3f481b43": {
+            "hota": 0.28430311917074524,
+            "deta": 0.3035736480397796,
+            "assa": 0.26735055411325487,
+            "idf1": 0.4,
+            "idsw": 25,
+            "fn": 212,
+            "fp": 10
+          },
+          "b1d0a191-03dcecc2": {
+            "hota": 0.412890190794833,
+            "deta": 0.45139198870932257,
+            "assa": 0.3830696502346015,
+            "idf1": 0.4809800128949065,
+            "idsw": 54,
+            "fn": 804,
+            "fp": 86
+          },
+          "b1d0a191-65deaeef": {
+            "hota": 0.5169822111977449,
+            "deta": 0.43577328690094125,
+            "assa": 0.6244634023057634,
+            "idf1": 0.6733254994124559,
+            "idsw": 11,
+            "fn": 963,
+            "fp": 75
+          },
+          "b1d10d08-da110fcb": {
+            "hota": 0.4249197135539381,
+            "deta": 0.39676462178177985,
+            "assa": 0.4748467523524097,
+            "idf1": 0.5343931519413023,
+            "idsw": 105,
+            "fn": 1025,
+            "fp": 74
+          },
+          "b1d3907b-2278601b": {
+            "hota": 0.4268229478341014,
+            "deta": 0.38845360915873767,
+            "assa": 0.4753576771213912,
+            "idf1": 0.5065217391304347,
+            "idsw": 13,
+            "fn": 296,
+            "fp": 40
+          },
+          "b1d7b3ac-5744370e": {
+            "hota": 0.3385127632501696,
+            "deta": 0.20125841037323303,
+            "assa": 0.5764754104436282,
+            "idf1": 0.35694050991501414,
+            "idsw": 4,
+            "fn": 425,
+            "fp": 9
+          },
+          "b1d968b9-ce42734f": {
+            "hota": 0.4751258583169158,
+            "deta": 0.4608257965001911,
+            "assa": 0.49854834746958276,
+            "idf1": 0.5990888382687927,
+            "idsw": 105,
+            "fn": 990,
+            "fp": 146
+          },
+          "b1db7e22-cfa74dc3": {
+            "hota": 0.42551594374175,
+            "deta": 0.36736366366442286,
+            "assa": 0.5119277910797827,
+            "idf1": 0.529276693455798,
+            "idsw": 33,
+            "fn": 595,
+            "fp": 57
+          },
+          "b1e0c01d-dd9e6e2f": {
+            "hota": 0.42040359835335545,
+            "deta": 0.3776663426424781,
+            "assa": 0.4758058693464803,
+            "idf1": 0.5645756457564576,
+            "idsw": 8,
+            "fn": 555,
+            "fp": 37
+          },
+          "b1e2346e-c5f98707": {
+            "hota": 0.21856943456463357,
+            "deta": 0.1716987654231362,
+            "assa": 0.27856514537185917,
+            "idf1": 0.2914285714285714,
+            "idsw": 6,
+            "fn": 216,
+            "fp": 4
+          },
+          "b1e8ad72-c3c79240": {
+            "hota": 0.6079505733538398,
+            "deta": 0.5376676563896038,
+            "assa": 0.6978015403574442,
+            "idf1": 0.6930193439865433,
+            "idsw": 3,
+            "fn": 249,
+            "fp": 72
+          },
+          "b1ebfc3c-cc9c2bb8": {
+            "hota": 0.5569555888025205,
+            "deta": 0.47844836687850245,
+            "assa": 0.6768201436336808,
+            "idf1": 0.6880733944954128,
+            "idsw": 6,
+            "fn": 363,
+            "fp": 37
+          },
+          "b1f0efd9-e900c6e5": {
+            "hota": 0.37286293346851973,
+            "deta": 0.36512975618490634,
+            "assa": 0.38860925498559046,
+            "idf1": 0.5344352617079889,
+            "idsw": 73,
+            "fn": 698,
+            "fp": 54
+          },
+          "b1f4491b-07b32e8c": {
+            "hota": 0.30941380652500294,
+            "deta": 0.28107627901115656,
+            "assa": 0.3695089119357707,
+            "idf1": 0.396144578313253,
+            "idsw": 61,
+            "fn": 946,
+            "fp": 51
+          },
+          "b1f4491b-97465266": {
+            "hota": 0.5896766136742305,
+            "deta": 0.5006927274245702,
+            "assa": 0.7030604759990403,
+            "idf1": 0.6564573762123532,
+            "idsw": 12,
+            "fn": 429,
+            "fp": 118
+          },
+          "b1f4491b-dd8dfed5": {
+            "hota": 0.3570843709303454,
+            "deta": 0.2751417907284778,
+            "assa": 0.46636742341427045,
+            "idf1": 0.40771349862258954,
+            "idsw": 22,
+            "fn": 1431,
+            "fp": 43
+          },
+          "b1fbaab8-68db7df7": {
+            "hota": 0.5884410783306403,
+            "deta": 0.5649280520817167,
+            "assa": 0.6153732690785189,
+            "idf1": 0.672106824925816,
+            "idsw": 14,
+            "fn": 244,
+            "fp": 20
+          },
+          "b1ff4656-94ee8536": {
+            "hota": 0.6999636904655869,
+            "deta": 0.6345408297781754,
+            "assa": 0.7882406390397011,
+            "idf1": 0.7966305655836342,
+            "idsw": 12,
+            "fn": 211,
+            "fp": 81
+          },
+          "b202cae2-672e61c5": {
+            "hota": 0.4502598097139673,
+            "deta": 0.46652648061940544,
+            "assa": 0.45560516616110686,
+            "idf1": 0.4894162924951892,
+            "idsw": 145,
+            "fn": 788,
+            "fp": 68
+          },
+          "b204a5c1-fa3d5b88": {
+            "hota": 0.4252637283529261,
+            "deta": 0.4311693575534586,
+            "assa": 0.42870115315982144,
+            "idf1": 0.6050362193859952,
+            "idsw": 26,
+            "fn": 765,
+            "fp": 70
+          },
+          "b20841f9-cef732d5": {
+            "hota": 0.44370164903971454,
+            "deta": 0.37654301277153257,
+            "assa": 0.5480349259305155,
+            "idf1": 0.564119824974756,
+            "idsw": 54,
+            "fn": 961,
+            "fp": 76
+          },
+          "b20b69d2-bd242bf0": {
+            "hota": 0.2216779093267763,
+            "deta": 0.2179045339841076,
+            "assa": 0.23639803171320797,
+            "idf1": 0.2779973649538867,
+            "idsw": 112,
+            "fn": 800,
+            "fp": 38
+          },
+          "b20d494a-cdebe83e": {
+            "hota": 0.3975546562229651,
+            "deta": 0.3087451980560112,
+            "assa": 0.5166880538016518,
+            "idf1": 0.4711191335740072,
+            "idsw": 16,
+            "fn": 495,
+            "fp": 5
+          },
+          "b20eae11-6817ba7a": {
+            "hota": 0.40162466043328626,
+            "deta": 0.26669364189081257,
+            "assa": 0.6174266160050229,
+            "idf1": 0.43517329910141206,
+            "idsw": 8,
+            "fn": 724,
+            "fp": 86
+          },
+          "b213e4eb-09c01a17": {
+            "hota": 0.528146003021095,
+            "deta": 0.4861824881878111,
+            "assa": 0.5833829796911728,
+            "idf1": 0.6685506661283811,
+            "idsw": 14,
+            "fn": 535,
+            "fp": 80
+          },
+          "b215943a-10e44587": {
+            "hota": 0.26226412126482984,
+            "deta": 0.27100025823312957,
+            "assa": 0.2560666495315673,
+            "idf1": 0.3643312101910828,
+            "idsw": 14,
+            "fn": 368,
+            "fp": 7
+          },
+          "b21742c2-18d3463a": {
+            "hota": 0.40458073995947247,
+            "deta": 0.31542136700434104,
+            "assa": 0.525084990990566,
+            "idf1": 0.4324553950722175,
+            "idsw": 20,
+            "fn": 983,
+            "fp": 105
+          },
+          "b21c86ac-2eb7ba16": {
+            "hota": 0.4303444779127075,
+            "deta": 0.4281147542449986,
+            "assa": 0.4450214560527771,
+            "idf1": 0.5612957274504329,
+            "idsw": 101,
+            "fn": 928,
+            "fp": 105
+          },
+          "b22a4d9f-48b2e986": {
+            "hota": 0.48764867230826575,
+            "deta": 0.43955895101795667,
+            "assa": 0.5461584859330524,
+            "idf1": 0.6280307510348906,
+            "idsw": 13,
+            "fn": 450,
+            "fp": 49
+          },
+          "b230a7b2-c881c382": {
+            "hota": 0.42452877045315063,
+            "deta": 0.3569335607639421,
+            "assa": 0.5163880694600183,
+            "idf1": 0.5490519373454246,
+            "idsw": 10,
+            "fn": 448,
+            "fp": 7
+          },
+          "b23493b1-3200de1c": {
+            "hota": 0.434092815438086,
+            "deta": 0.328995367994203,
+            "assa": 0.5765823621731165,
+            "idf1": 0.5147099257629915,
+            "idsw": 51,
+            "fn": 1523,
+            "fp": 34
+          },
+          "b23adb0d-8a7aaced": {
+            "hota": 0.34371005110892067,
+            "deta": 0.4071691600042932,
+            "assa": 0.29931257746568796,
+            "idf1": 0.4786462530217567,
+            "idsw": 166,
+            "fn": 680,
+            "fp": 52
+          },
+          "b23c9e00-b425de1b": {
+            "hota": 0.39013749887187343,
+            "deta": 0.28502279613375964,
+            "assa": 0.5381961428633529,
+            "idf1": 0.4568505338078292,
+            "idsw": 58,
+            "fn": 2112,
+            "fp": 78
+          },
+          "b2408e45-984ba5aa": {
+            "hota": 0.3726720103850328,
+            "deta": 0.3157689825169738,
+            "assa": 0.4448805600307115,
+            "idf1": 0.43134087237479807,
+            "idsw": 62,
+            "fn": 1036,
+            "fp": 90
+          },
+          "b242f6b2-f5da110f": {
+            "hota": 0.36972563171259215,
+            "deta": 0.32228565013867183,
+            "assa": 0.43150343462222907,
+            "idf1": 0.47796070100902815,
+            "idsw": 34,
+            "fn": 715,
+            "fp": 48
+          },
+          "b24d283f-33783d1b": {
+            "hota": 0.4380902585809769,
+            "deta": 0.35360276891143216,
+            "assa": 0.5533455752923293,
+            "idf1": 0.5336681123031272,
+            "idsw": 27,
+            "fn": 1656,
+            "fp": 107
+          },
+          "b2505382-2905b23c": {
+            "hota": 0.5133886466523623,
+            "deta": 0.5040341459350005,
+            "assa": 0.5386262458389911,
+            "idf1": 0.6886870355078447,
+            "idsw": 18,
+            "fn": 230,
+            "fp": 39
+          },
+          "b251064f-4696b75e": {
+            "hota": 0.17016765206439738,
+            "deta": 0.11566010877766982,
+            "assa": 0.2509036979954975,
+            "idf1": 0.1625,
+            "idsw": 11,
+            "fn": 957,
+            "fp": 1
+          },
+          "b255cd6c-0bdf0ac7": {
+            "hota": 0.3930450972390007,
+            "deta": 0.35316255922067646,
+            "assa": 0.43831850234205677,
+            "idf1": 0.4235294117647059,
+            "idsw": 13,
+            "fn": 486,
+            "fp": 16
+          }
+        }
+      },
+      "precise": {
+        "combined": {
+          "hota": 0.4380857532472204,
+          "deta": 0.37798155535434697,
+          "assa": 0.5224852615096021,
+          "idf1": 0.5307072218066983,
+          "idsw": 1541,
+          "fn": 28528,
+          "fp": 2175
+        },
+        "videos": {
+          "b1c81faa-c80764c5": {
+            "hota": 0.6054061531891199,
+            "deta": 0.5106208163104785,
+            "assa": 0.7192979772670668,
+            "idf1": 0.7625231910946196,
+            "idsw": 3,
+            "fn": 239,
+            "fp": 11
+          },
+          "b1ceb32e-3f481b43": {
+            "hota": 0.2835386957050923,
+            "deta": 0.304075822481413,
+            "assa": 0.2657227391171408,
+            "idf1": 0.4,
+            "idsw": 25,
+            "fn": 212,
+            "fp": 10
+          },
+          "b1d0a191-03dcecc2": {
+            "hota": 0.4367041359873585,
+            "deta": 0.4523316361288431,
+            "assa": 0.42618959711450993,
+            "idf1": 0.5096525096525096,
+            "idsw": 49,
+            "fn": 801,
+            "fp": 89
+          },
+          "b1d0a191-65deaeef": {
+            "hota": 0.5173830077738109,
+            "deta": 0.43598732419700736,
+            "assa": 0.6248709912559494,
+            "idf1": 0.6737151248164464,
+            "idsw": 11,
+            "fn": 962,
+            "fp": 75
+          },
+          "b1d10d08-da110fcb": {
+            "hota": 0.42641333398281245,
+            "deta": 0.3960842307037151,
+            "assa": 0.4783701966312617,
+            "idf1": 0.5373317013463892,
+            "idsw": 101,
+            "fn": 1030,
+            "fp": 76
+          },
+          "b1d3907b-2278601b": {
+            "hota": 0.42633613663667963,
+            "deta": 0.3884821001661343,
+            "assa": 0.4742808645347124,
+            "idf1": 0.5065217391304347,
+            "idsw": 13,
+            "fn": 296,
+            "fp": 40
+          },
+          "b1d7b3ac-5744370e": {
+            "hota": 0.3393677198356128,
+            "deta": 0.20142580347668645,
+            "assa": 0.5792601018999389,
+            "idf1": 0.35694050991501414,
+            "idsw": 4,
+            "fn": 425,
+            "fp": 9
+          },
+          "b1d968b9-ce42734f": {
+            "hota": 0.47643469635382213,
+            "deta": 0.46165051657887773,
+            "assa": 0.5004218491414799,
+            "idf1": 0.5999089667728721,
+            "idsw": 107,
+            "fn": 986,
+            "fp": 146
+          },
+          "b1db7e22-cfa74dc3": {
+            "hota": 0.42639217748450203,
+            "deta": 0.36600063704992003,
+            "assa": 0.5156523958688956,
+            "idf1": 0.5290396779758482,
+            "idsw": 32,
+            "fn": 597,
+            "fp": 56
+          },
+          "b1e0c01d-dd9e6e2f": {
+            "hota": 0.4217162683920317,
+            "deta": 0.3795059674873335,
+            "assa": 0.4765548563481092,
+            "idf1": 0.5624615384615385,
+            "idsw": 10,
+            "fn": 556,
+            "fp": 37
+          },
+          "b1e2346e-c5f98707": {
+            "hota": 0.21908588463645437,
+            "deta": 0.17219955897161016,
+            "assa": 0.2790552227806553,
+            "idf1": 0.2914285714285714,
+            "idsw": 6,
+            "fn": 216,
+            "fp": 4
+          },
+          "b1e8ad72-c3c79240": {
+            "hota": 0.6078793731913146,
+            "deta": 0.537476160143158,
+            "assa": 0.6977944991779608,
+            "idf1": 0.6930193439865433,
+            "idsw": 3,
+            "fn": 249,
+            "fp": 72
+          },
+          "b1ebfc3c-cc9c2bb8": {
+            "hota": 0.5569422549755062,
+            "deta": 0.47804440968858725,
+            "assa": 0.6772137804510013,
+            "idf1": 0.6885245901639344,
+            "idsw": 6,
+            "fn": 364,
+            "fp": 37
+          },
+          "b1f0efd9-e900c6e5": {
+            "hota": 0.3702508541288752,
+            "deta": 0.3636957392119387,
+            "assa": 0.3850848476198893,
+            "idf1": 0.5303308823529411,
+            "idsw": 71,
+            "fn": 698,
+            "fp": 52
+          },
+          "b1f4491b-07b32e8c": {
+            "hota": 0.3086535421438073,
+            "deta": 0.2794289849359797,
+            "assa": 0.369754934822745,
+            "idf1": 0.3947876447876448,
+            "idsw": 61,
+            "fn": 949,
+            "fp": 51
+          },
+          "b1f4491b-97465266": {
+            "hota": 0.590701337136401,
+            "deta": 0.5018090413486547,
+            "assa": 0.7039371768122412,
+            "idf1": 0.6591722023505365,
+            "idsw": 12,
+            "fn": 427,
+            "fp": 114
+          },
+          "b1f4491b-dd8dfed5": {
+            "hota": 0.35870839694503104,
+            "deta": 0.27731623892908996,
+            "assa": 0.4669463529594159,
+            "idf1": 0.40852819807427787,
+            "idsw": 23,
+            "fn": 1425,
+            "fp": 41
+          },
+          "b1fbaab8-68db7df7": {
+            "hota": 0.5887711218091107,
+            "deta": 0.5655223014672062,
+            "assa": 0.6155236247786062,
+            "idf1": 0.6726057906458798,
+            "idsw": 15,
+            "fn": 244,
+            "fp": 19
+          },
+          "b1ff4656-94ee8536": {
+            "hota": 0.6996970743900096,
+            "deta": 0.6350455691671492,
+            "assa": 0.7869848448042693,
+            "idf1": 0.7961399276236429,
+            "idsw": 10,
+            "fn": 211,
+            "fp": 77
+          },
+          "b202cae2-672e61c5": {
+            "hota": 0.44983593053548343,
+            "deta": 0.46741383055500774,
+            "assa": 0.4537918995402935,
+            "idf1": 0.4873356845142674,
+            "idsw": 147,
+            "fn": 785,
+            "fp": 66
+          },
+          "b204a5c1-fa3d5b88": {
+            "hota": 0.4326782745922527,
+            "deta": 0.43189524212652053,
+            "assa": 0.4432619432770328,
+            "idf1": 0.6155440414507772,
+            "idsw": 25,
+            "fn": 770,
+            "fp": 71
+          },
+          "b20841f9-cef732d5": {
+            "hota": 0.4451588005080919,
+            "deta": 0.3757362266873768,
+            "assa": 0.5530889477176969,
+            "idf1": 0.5698888514651398,
+            "idsw": 51,
+            "fn": 963,
+            "fp": 76
+          },
+          "b20b69d2-bd242bf0": {
+            "hota": 0.22140100551501127,
+            "deta": 0.2179656481018425,
+            "assa": 0.23479859167660444,
+            "idf1": 0.2753143613500993,
+            "idsw": 110,
+            "fn": 801,
+            "fp": 32
+          },
+          "b20d494a-cdebe83e": {
+            "hota": 0.39724484245016817,
+            "deta": 0.3081746921160294,
+            "assa": 0.5171065045233868,
+            "idf1": 0.4711191335740072,
+            "idsw": 16,
+            "fn": 495,
+            "fp": 5
+          },
+          "b20eae11-6817ba7a": {
+            "hota": 0.395310453439762,
+            "deta": 0.26735826672967916,
+            "assa": 0.6011488745834301,
+            "idf1": 0.42591404746632455,
+            "idsw": 11,
+            "fn": 723,
+            "fp": 86
+          },
+          "b213e4eb-09c01a17": {
+            "hota": 0.5346854588318793,
+            "deta": 0.48744640107117737,
+            "assa": 0.5956822493588927,
+            "idf1": 0.6825717751718561,
+            "idsw": 13,
+            "fn": 535,
+            "fp": 76
+          },
+          "b215943a-10e44587": {
+            "hota": 0.25873011251631767,
+            "deta": 0.26866268796415554,
+            "assa": 0.2513574583110887,
+            "idf1": 0.3499361430395913,
+            "idsw": 16,
+            "fn": 370,
+            "fp": 7
+          },
+          "b21742c2-18d3463a": {
+            "hota": 0.4047645582960127,
+            "deta": 0.3148333410022819,
+            "assa": 0.5264398698203432,
+            "idf1": 0.4328231292517007,
+            "idsw": 19,
+            "fn": 984,
+            "fp": 104
+          },
+          "b21c86ac-2eb7ba16": {
+            "hota": 0.4299250006063625,
+            "deta": 0.42876264736806224,
+            "assa": 0.4430734009917046,
+            "idf1": 0.5581914596706671,
+            "idsw": 104,
+            "fn": 925,
+            "fp": 104
+          },
+          "b22a4d9f-48b2e986": {
+            "hota": 0.48685800330969475,
+            "deta": 0.438172207170762,
+            "assa": 0.5463740603284937,
+            "idf1": 0.6276595744680851,
+            "idsw": 14,
+            "fn": 449,
+            "fp": 49
+          },
+          "b230a7b2-c881c382": {
+            "hota": 0.42410603116405754,
+            "deta": 0.35671073640905343,
+            "assa": 0.5155436189808287,
+            "idf1": 0.5490519373454246,
+            "idsw": 10,
+            "fn": 448,
+            "fp": 7
+          },
+          "b23493b1-3200de1c": {
+            "hota": 0.43302251450639623,
+            "deta": 0.32760439094643345,
+            "assa": 0.5764085394536723,
+            "idf1": 0.5133425034387895,
+            "idsw": 50,
+            "fn": 1528,
+            "fp": 37
+          },
+          "b23adb0d-8a7aaced": {
+            "hota": 0.3415272374616211,
+            "deta": 0.4105322950458223,
+            "assa": 0.2938325993394196,
+            "idf1": 0.4734726688102894,
+            "idsw": 168,
+            "fn": 675,
+            "fp": 53
+          },
+          "b23c9e00-b425de1b": {
+            "hota": 0.39175566838364967,
+            "deta": 0.2864444431459898,
+            "assa": 0.5409946327890146,
+            "idf1": 0.4547677261613692,
+            "idsw": 59,
+            "fn": 2112,
+            "fp": 81
+          },
+          "b2408e45-984ba5aa": {
+            "hota": 0.37301576677234566,
+            "deta": 0.3151675113268354,
+            "assa": 0.44638479469615716,
+            "idf1": 0.4315151515151515,
+            "idsw": 61,
+            "fn": 1038,
+            "fp": 91
+          },
+          "b242f6b2-f5da110f": {
+            "hota": 0.3596549441488769,
+            "deta": 0.3274581788883768,
+            "assa": 0.40298198708134997,
+            "idf1": 0.4563260984647962,
+            "idsw": 37,
+            "fn": 710,
+            "fp": 49
+          },
+          "b24d283f-33783d1b": {
+            "hota": 0.43785553836927515,
+            "deta": 0.3531370669541496,
+            "assa": 0.5536315206826087,
+            "idf1": 0.5336681123031272,
+            "idsw": 26,
+            "fn": 1656,
+            "fp": 107
+          },
+          "b2505382-2905b23c": {
+            "hota": 0.5129888112148429,
+            "deta": 0.5030227604560563,
+            "assa": 0.5389323910837628,
+            "idf1": 0.6881188118811881,
+            "idsw": 18,
+            "fn": 230,
+            "fp": 40
+          },
+          "b251064f-4696b75e": {
+            "hota": 0.1701322277921442,
+            "deta": 0.11566060101690401,
+            "assa": 0.2507625532246429,
+            "idf1": 0.1609375,
+            "idsw": 11,
+            "fn": 958,
+            "fp": 2
+          },
+          "b255cd6c-0bdf0ac7": {
+            "hota": 0.39297476608352444,
+            "deta": 0.35328354812202756,
+            "assa": 0.4379970221039508,
+            "idf1": 0.4235294117647059,
+            "idsw": 13,
+            "fn": 486,
+            "fp": 16
+          }
+        }
+      },
+      "fast": {
+        "combined": {
+          "hota": 0.43703957704017615,
+          "deta": 0.3776649540975189,
+          "assa": 0.5204893249719794,
+          "idf1": 0.5292358094152838,
+          "idsw": 1539,
+          "fn": 28542,
+          "fp": 2204
+        },
+        "videos": {
+          "b1c81faa-c80764c5": {
+            "hota": 0.6049849824262644,
+            "deta": 0.5111956842608185,
+            "assa": 0.717451861193702,
+            "idf1": 0.7636700648748842,
+            "idsw": 3,
+            "fn": 238,
+            "fp": 11
+          },
+          "b1ceb32e-3f481b43": {
+            "hota": 0.2831189502848119,
+            "deta": 0.3038167933995251,
+            "assa": 0.264992412095774,
+            "idf1": 0.4,
+            "idsw": 25,
+            "fn": 212,
+            "fp": 10
+          },
+          "b1d0a191-03dcecc2": {
+            "hota": 0.41283780073183873,
+            "deta": 0.4512602547278109,
+            "assa": 0.38314534279222884,
+            "idf1": 0.4808250080567193,
+            "idsw": 54,
+            "fn": 803,
+            "fp": 86
+          },
+          "b1d0a191-65deaeef": {
+            "hota": 0.5145072140434007,
+            "deta": 0.43535656531346545,
+            "assa": 0.6193504821556394,
+            "idf1": 0.6613849765258216,
+            "idsw": 12,
+            "fn": 964,
+            "fp": 80
+          },
+          "b1d10d08-da110fcb": {
+            "hota": 0.42697620460622454,
+            "deta": 0.3956320059864538,
+            "assa": 0.48010986470782757,
+            "idf1": 0.5400611620795107,
+            "idsw": 98,
+            "fn": 1031,
+            "fp": 79
+          },
+          "b1d3907b-2278601b": {
+            "hota": 0.4265784021385655,
+            "deta": 0.3882263384311193,
+            "assa": 0.47510586266607835,
+            "idf1": 0.5065217391304347,
+            "idsw": 13,
+            "fn": 296,
+            "fp": 40
+          },
+          "b1d7b3ac-5744370e": {
+            "hota": 0.3390473438754416,
+            "deta": 0.20268097945252322,
+            "assa": 0.5744966994892869,
+            "idf1": 0.3564356435643564,
+            "idsw": 5,
+            "fn": 424,
+            "fp": 9
+          },
+          "b1d968b9-ce42734f": {
+            "hota": 0.4763093547339128,
+            "deta": 0.4607902142269729,
+            "assa": 0.5010206430476507,
+            "idf1": 0.5989986345015931,
+            "idsw": 106,
+            "fn": 988,
+            "fp": 148
+          },
+          "b1db7e22-cfa74dc3": {
+            "hota": 0.426301188600002,
+            "deta": 0.3665169599383762,
+            "assa": 0.5146330741886999,
+            "idf1": 0.5298850574712644,
+            "idsw": 32,
+            "fn": 596,
+            "fp": 56
+          },
+          "b1e0c01d-dd9e6e2f": {
+            "hota": 0.4089529737590973,
+            "deta": 0.3778429094080038,
+            "assa": 0.45177456461347415,
+            "idf1": 0.5378461538461539,
+            "idsw": 11,
+            "fn": 557,
+            "fp": 38
+          },
+          "b1e2346e-c5f98707": {
+            "hota": 0.2195250226645229,
+            "deta": 0.17240164450084206,
+            "assa": 0.2798264718305211,
+            "idf1": 0.2914285714285714,
+            "idsw": 6,
+            "fn": 216,
+            "fp": 4
+          },
+          "b1e8ad72-c3c79240": {
+            "hota": 0.6079114220647109,
+            "deta": 0.5375779656338864,
+            "assa": 0.6979646214934107,
+            "idf1": 0.6930193439865433,
+            "idsw": 3,
+            "fn": 249,
+            "fp": 72
+          },
+          "b1ebfc3c-cc9c2bb8": {
+            "hota": 0.5566817399546027,
+            "deta": 0.4783062689304216,
+            "assa": 0.6761591023076811,
+            "idf1": 0.6880733944954128,
+            "idsw": 6,
+            "fn": 363,
+            "fp": 37
+          },
+          "b1f0efd9-e900c6e5": {
+            "hota": 0.3731775736628844,
+            "deta": 0.3657165724708074,
+            "assa": 0.3885105872042847,
+            "idf1": 0.5351078476365305,
+            "idsw": 68,
+            "fn": 696,
+            "fp": 53
+          },
+          "b1f4491b-07b32e8c": {
+            "hota": 0.30903342432441644,
+            "deta": 0.28029037455304645,
+            "assa": 0.36905629201628243,
+            "idf1": 0.3967181467181467,
+            "idsw": 61,
+            "fn": 948,
+            "fp": 50
+          },
+          "b1f4491b-97465266": {
+            "hota": 0.5915451462184427,
+            "deta": 0.5016616492925469,
+            "assa": 0.7061436288175671,
+            "idf1": 0.6598569969356486,
+            "idsw": 10,
+            "fn": 427,
+            "fp": 115
+          },
+          "b1f4491b-dd8dfed5": {
+            "hota": 0.35781565453799374,
+            "deta": 0.2751960488791602,
+            "assa": 0.4681504288936587,
+            "idf1": 0.4084022038567493,
+            "idsw": 23,
+            "fn": 1430,
+            "fp": 42
+          },
+          "b1fbaab8-68db7df7": {
+            "hota": 0.5888658898399942,
+            "deta": 0.5655842886062658,
+            "assa": 0.6154873056758459,
+            "idf1": 0.672106824925816,
+            "idsw": 14,
+            "fn": 244,
+            "fp": 20
+          },
+          "b1ff4656-94ee8536": {
+            "hota": 0.6997824170984374,
+            "deta": 0.6349964647834542,
+            "assa": 0.7874922924518833,
+            "idf1": 0.7942238267148014,
+            "idsw": 12,
+            "fn": 213,
+            "fp": 83
+          },
+          "b202cae2-672e61c5": {
+            "hota": 0.4503357810556217,
+            "deta": 0.4672364782542115,
+            "assa": 0.4551383535492881,
+            "idf1": 0.4897435897435897,
+            "idsw": 145,
+            "fn": 786,
+            "fp": 68
+          },
+          "b204a5c1-fa3d5b88": {
+            "hota": 0.4312162343399919,
+            "deta": 0.43128544141501546,
+            "assa": 0.440674792388016,
+            "idf1": 0.6150656530753282,
+            "idsw": 27,
+            "fn": 769,
+            "fp": 69
+          },
+          "b20841f9-cef732d5": {
+            "hota": 0.4434156361333382,
+            "deta": 0.37566769073101247,
+            "assa": 0.5492587904507655,
+            "idf1": 0.5646900269541779,
+            "idsw": 54,
+            "fn": 962,
+            "fp": 74
+          },
+          "b20b69d2-bd242bf0": {
+            "hota": 0.22179097452163302,
+            "deta": 0.2155784815127473,
+            "assa": 0.23896391457867608,
+            "idf1": 0.2760898282694848,
+            "idsw": 106,
+            "fn": 806,
+            "fp": 40
+          },
+          "b20d494a-cdebe83e": {
+            "hota": 0.39744337040632916,
+            "deta": 0.30777877062175973,
+            "assa": 0.5181273459823857,
+            "idf1": 0.4715447154471545,
+            "idsw": 16,
+            "fn": 496,
+            "fp": 5
+          },
+          "b20eae11-6817ba7a": {
+            "hota": 0.4017564018987078,
+            "deta": 0.2663330175498579,
+            "assa": 0.6187021899898443,
+            "idf1": 0.43444730077120824,
+            "idsw": 8,
+            "fn": 726,
+            "fp": 86
+          },
+          "b213e4eb-09c01a17": {
+            "hota": 0.5282425928696597,
+            "deta": 0.4863799961352394,
+            "assa": 0.5832942497958183,
+            "idf1": 0.6677432377876463,
+            "idsw": 14,
+            "fn": 536,
+            "fp": 81
+          },
+          "b215943a-10e44587": {
+            "hota": 0.2686602227119925,
+            "deta": 0.26992723497274385,
+            "assa": 0.26998058690581955,
+            "idf1": 0.37755102040816324,
+            "idsw": 12,
+            "fn": 369,
+            "fp": 7
+          },
+          "b21742c2-18d3463a": {
+            "hota": 0.4046073476812655,
+            "deta": 0.31556072142646113,
+            "assa": 0.5248485003859635,
+            "idf1": 0.4324553950722175,
+            "idsw": 20,
+            "fn": 983,
+            "fp": 105
+          },
+          "b21c86ac-2eb7ba16": {
+            "hota": 0.4306376336400457,
+            "deta": 0.42879232360352787,
+            "assa": 0.4446002687787918,
+            "idf1": 0.5591517857142857,
+            "idsw": 102,
+            "fn": 925,
+            "fp": 105
+          },
+          "b22a4d9f-48b2e986": {
+            "hota": 0.4872437044780533,
+            "deta": 0.43913770874369473,
+            "assa": 0.5456335694890315,
+            "idf1": 0.6276595744680851,
+            "idsw": 14,
+            "fn": 449,
+            "fp": 49
+          },
+          "b230a7b2-c881c382": {
+            "hota": 0.4240514225735527,
+            "deta": 0.3567214579739646,
+            "assa": 0.515303757226263,
+            "idf1": 0.5490519373454246,
+            "idsw": 10,
+            "fn": 448,
+            "fp": 7
+          },
+          "b23493b1-3200de1c": {
+            "hota": 0.43311383193539726,
+            "deta": 0.32814316523172277,
+            "assa": 0.5758624956261711,
+            "idf1": 0.5130602144624691,
+            "idsw": 51,
+            "fn": 1526,
+            "fp": 37
+          },
+          "b23adb0d-8a7aaced": {
+            "hota": 0.34279083877569577,
+            "deta": 0.4073110817137472,
+            "assa": 0.29770739427901194,
+            "idf1": 0.47665056360708535,
+            "idsw": 173,
+            "fn": 678,
+            "fp": 52
+          },
+          "b23c9e00-b425de1b": {
+            "hota": 0.3918809338744805,
+            "deta": 0.28657760185376613,
+            "assa": 0.5411468301052234,
+            "idf1": 0.45466666666666666,
+            "idsw": 59,
+            "fn": 2111,
+            "fp": 81
+          },
+          "b2408e45-984ba5aa": {
+            "hota": 0.3733554625990476,
+            "deta": 0.3147718666053137,
+            "assa": 0.44777856219292467,
+            "idf1": 0.43411479385610346,
+            "idsw": 59,
+            "fn": 1038,
+            "fp": 90
+          },
+          "b242f6b2-f5da110f": {
+            "hota": 0.3624203080253208,
+            "deta": 0.3244221843448151,
+            "assa": 0.41289642612835226,
+            "idf1": 0.4647961884595024,
+            "idsw": 38,
+            "fn": 711,
+            "fp": 50
+          },
+          "b24d283f-33783d1b": {
+            "hota": 0.43804408621433555,
+            "deta": 0.35354957864683717,
+            "assa": 0.5538754557056444,
+            "idf1": 0.5325119780971937,
+            "idsw": 28,
+            "fn": 1655,
+            "fp": 108
+          },
+          "b2505382-2905b23c": {
+            "hota": 0.5141932676723056,
+            "deta": 0.50321149181157,
+            "assa": 0.5410409676567925,
+            "idf1": 0.6947194719471947,
+            "idsw": 17,
+            "fn": 230,
+            "fp": 40
+          },
+          "b251064f-4696b75e": {
+            "hota": 0.17011275445949783,
+            "deta": 0.11566874000756515,
+            "assa": 0.2507302442200337,
+            "idf1": 0.1625,
+            "idsw": 11,
+            "fn": 957,
+            "fp": 1
+          },
+          "b255cd6c-0bdf0ac7": {
+            "hota": 0.3930925562323945,
+            "deta": 0.35347621045978794,
+            "assa": 0.4379911360106665,
+            "idf1": 0.4235294117647059,
+            "idsw": 13,
+            "fn": 486,
+            "fp": 16
+          }
+        }
+      }
+    },
+    "ua": {
+      "original": {
+        "combined": {
+          "hota": 0.6657319586581798,
+          "deta": 0.5758456146049444,
+          "assa": 0.7819217892015725,
+          "idf1": 0.7837332991116625,
+          "idsw": 245,
+          "fn": 17590,
+          "fp": 9144
+        },
+        "videos": {
+          "MVI_39031": {
+            "hota": 0.36872638551770764,
+            "deta": 0.27897711096939964,
+            "assa": 0.4979667870431026,
+            "idf1": 0.5136986301369864,
+            "idsw": 0,
+            "fn": 282,
+            "fp": 2
+          },
+          "MVI_39051": {
+            "hota": 0.6961743307058079,
+            "deta": 0.6445199710604049,
+            "assa": 0.75240083750112,
+            "idf1": 0.8665955176093917,
+            "idsw": 0,
+            "fn": 29,
+            "fp": 96
+          },
+          "MVI_39211": {
+            "hota": 0.6529520532795757,
+            "deta": 0.559802939401073,
+            "assa": 0.7861255949324178,
+            "idf1": 0.6735751295336787,
+            "idsw": 2,
+            "fn": 113,
+            "fp": 113
+          },
+          "MVI_39271": {
+            "hota": 0.6454156725229161,
+            "deta": 0.5540735150493719,
+            "assa": 0.7590979976012185,
+            "idf1": 0.7280248190279214,
+            "idsw": 3,
+            "fn": 262,
+            "fp": 238
+          },
+          "MVI_39311": {
+            "hota": 0.6503395583686343,
+            "deta": 0.5994906188770912,
+            "assa": 0.7085698951127982,
+            "idf1": 0.8408969567538708,
+            "idsw": 6,
+            "fn": 372,
+            "fp": 126
+          },
+          "MVI_39361": {
+            "hota": 0.7362801968856669,
+            "deta": 0.668946367051109,
+            "assa": 0.8136975649339043,
+            "idf1": 0.8838323353293414,
+            "idsw": 0,
+            "fn": 47,
+            "fp": 50
+          },
+          "MVI_39371": {
+            "hota": 0.7539288382567563,
+            "deta": 0.7356703166961475,
+            "assa": 0.7738791925829706,
+            "idf1": 0.8989976869699307,
+            "idsw": 2,
+            "fn": 67,
+            "fp": 50
+          },
+          "MVI_39401": {
+            "hota": 0.6558943588545408,
+            "deta": 0.6202680136104952,
+            "assa": 0.6980582606140071,
+            "idf1": 0.8065463701216954,
+            "idsw": 5,
+            "fn": 159,
+            "fp": 218
+          },
+          "MVI_39501": {
+            "hota": 0.5503817763651139,
+            "deta": 0.41987625585725896,
+            "assa": 0.7322178529263051,
+            "idf1": 0.6563354603463992,
+            "idsw": 7,
+            "fn": 781,
+            "fp": 238
+          },
+          "MVI_39511": {
+            "hota": 0.5998871128336556,
+            "deta": 0.6161511606067279,
+            "assa": 0.5866385799032706,
+            "idf1": 0.803030303030303,
+            "idsw": 7,
+            "fn": 74,
+            "fp": 120
+          },
+          "MVI_40701": {
+            "hota": 0.6469652527397826,
+            "deta": 0.5726945307696841,
+            "assa": 0.739208198022867,
+            "idf1": 0.7234398527689476,
+            "idsw": 15,
+            "fn": 632,
+            "fp": 703
+          },
+          "MVI_40711": {
+            "hota": 0.7013047986498357,
+            "deta": 0.6232260781162747,
+            "assa": 0.7921916616501188,
+            "idf1": 0.826461259628455,
+            "idsw": 0,
+            "fn": 198,
+            "fp": 185
+          },
+          "MVI_40712": {
+            "hota": 0.8982631406547932,
+            "deta": 0.8858538370191632,
+            "assa": 0.9145613949287124,
+            "idf1": 0.9861475102957694,
+            "idsw": 0,
+            "fn": 14,
+            "fp": 23
+          },
+          "MVI_40714": {
+            "hota": 0.6688663689385663,
+            "deta": 0.5525733239842213,
+            "assa": 0.8218594929910705,
+            "idf1": 0.785617509119333,
+            "idsw": 23,
+            "fn": 1013,
+            "fp": 914
+          },
+          "MVI_40742": {
+            "hota": 0.7823475847965206,
+            "deta": 0.6871880712125201,
+            "assa": 0.9593463280033727,
+            "idf1": 0.947741782927406,
+            "idsw": 2,
+            "fn": 61,
+            "fp": 244
+          },
+          "MVI_40743": {
+            "hota": 0.8193167983353187,
+            "deta": 0.7832487709103484,
+            "assa": 0.8583935282736167,
+            "idf1": 0.9275862068965517,
+            "idsw": 0,
+            "fn": 110,
+            "fp": 58
+          },
+          "MVI_40761": {
+            "hota": 0.3187515440126288,
+            "deta": 0.22957407284585193,
+            "assa": 0.446504237639655,
+            "idf1": 0.4228571428571429,
+            "idsw": 8,
+            "fn": 1123,
+            "fp": 67
+          },
+          "MVI_40762": {
+            "hota": 0.6617855139643721,
+            "deta": 0.6547326547404402,
+            "assa": 0.6738498020929171,
+            "idf1": 0.8270440251572327,
+            "idsw": 5,
+            "fn": 196,
+            "fp": 100
+          },
+          "MVI_40763": {
+            "hota": 0.5773536641773371,
+            "deta": 0.5720415878641484,
+            "assa": 0.5841494836476621,
+            "idf1": 0.6896551724137931,
+            "idsw": 5,
+            "fn": 197,
+            "fp": 43
+          },
+          "MVI_40771": {
+            "hota": 0.6559400759151089,
+            "deta": 0.5994377427803151,
+            "assa": 0.732273670938534,
+            "idf1": 0.8257016248153619,
+            "idsw": 2,
+            "fn": 101,
+            "fp": 117
+          },
+          "MVI_40772": {
+            "hota": 0.8539120132437567,
+            "deta": 0.8363717163941802,
+            "assa": 0.8742398779248208,
+            "idf1": 0.9175097276264591,
+            "idsw": 3,
+            "fn": 69,
+            "fp": 27
+          },
+          "MVI_40773": {
+            "hota": 0.7351576173091248,
+            "deta": 0.6627202543238261,
+            "assa": 0.8311019621352965,
+            "idf1": 0.858274647887324,
+            "idsw": 4,
+            "fn": 36,
+            "fp": 198
+          },
+          "MVI_40774": {
+            "hota": 0.7276595903926545,
+            "deta": 0.6516772294521954,
+            "assa": 0.8141138943749929,
+            "idf1": 0.8669487541137753,
+            "idsw": 0,
+            "fn": 168,
+            "fp": 115
+          },
+          "MVI_40775": {
+            "hota": 0.6749306038292904,
+            "deta": 0.6051931236966144,
+            "assa": 0.7720167120783483,
+            "idf1": 0.8552397868561279,
+            "idsw": 3,
+            "fn": 222,
+            "fp": 80
+          },
+          "MVI_40792": {
+            "hota": 0.5402584945203596,
+            "deta": 0.39026413660744097,
+            "assa": 0.7506130574305094,
+            "idf1": 0.6014350945857795,
+            "idsw": 0,
+            "fn": 555,
+            "fp": 56
+          },
+          "MVI_40793": {
+            "hota": 0.5643246515353955,
+            "deta": 0.5526591328752797,
+            "assa": 0.5860212768212009,
+            "idf1": 0.6279503105590062,
+            "idsw": 13,
+            "fn": 378,
+            "fp": 404
+          },
+          "MVI_40851": {
+            "hota": 0.6013856732216645,
+            "deta": 0.5160696560688505,
+            "assa": 0.7047828270445782,
+            "idf1": 0.7284768211920529,
+            "idsw": 12,
+            "fn": 565,
+            "fp": 440
+          },
+          "MVI_40852": {
+            "hota": 0.617456591906418,
+            "deta": 0.5381119704496918,
+            "assa": 0.7132496185905117,
+            "idf1": 0.7403860541672901,
+            "idsw": 15,
+            "fn": 866,
+            "fp": 611
+          },
+          "MVI_40853": {
+            "hota": 0.6822394788079155,
+            "deta": 0.6155192314088049,
+            "assa": 0.759948802637675,
+            "idf1": 0.7775756573507524,
+            "idsw": 5,
+            "fn": 808,
+            "fp": 233
+          },
+          "MVI_40854": {
+            "hota": 0.7250837092375062,
+            "deta": 0.6827967580477324,
+            "assa": 0.7762520014696663,
+            "idf1": 0.8878803160194991,
+            "idsw": 3,
+            "fn": 404,
+            "fp": 215
+          },
+          "MVI_40855": {
+            "hota": 0.683906057356891,
+            "deta": 0.6278240567040948,
+            "assa": 0.7505162466589117,
+            "idf1": 0.8065462753950339,
+            "idsw": 31,
+            "fn": 827,
+            "fp": 511
+          },
+          "MVI_40863": {
+            "hota": 0.7023452641428979,
+            "deta": 0.5505312387190705,
+            "assa": 0.9306646461837109,
+            "idf1": 0.8040632936120335,
+            "idsw": 1,
+            "fn": 792,
+            "fp": 211
+          },
+          "MVI_40864": {
+            "hota": 0.6712997307494242,
+            "deta": 0.5297837297127848,
+            "assa": 0.861053781932133,
+            "idf1": 0.7569748674198755,
+            "idsw": 7,
+            "fn": 1662,
+            "fp": 396
+          },
+          "MVI_40891": {
+            "hota": 0.6699345353791815,
+            "deta": 0.6063754941720828,
+            "assa": 0.7562245016179424,
+            "idf1": 0.821257815373299,
+            "idsw": 6,
+            "fn": 587,
+            "fp": 239
+          },
+          "MVI_40892": {
+            "hota": 0.44713365870712174,
+            "deta": 0.290555367989553,
+            "assa": 0.6960672019502354,
+            "idf1": 0.5152758777929777,
+            "idsw": 1,
+            "fn": 2072,
+            "fp": 54
+          },
+          "MVI_40901": {
+            "hota": 0.6648178730794315,
+            "deta": 0.5780737833643329,
+            "assa": 0.7721284450839259,
+            "idf1": 0.7959807776321538,
+            "idsw": 6,
+            "fn": 239,
+            "fp": 214
+          },
+          "MVI_40902": {
+            "hota": 0.6120249720015473,
+            "deta": 0.5301411287340487,
+            "assa": 0.7106176056087954,
+            "idf1": 0.7343465045592705,
+            "idsw": 14,
+            "fn": 405,
+            "fp": 417
+          },
+          "MVI_40903": {
+            "hota": 0.6390935798399983,
+            "deta": 0.5512871498003324,
+            "assa": 0.7452575029795967,
+            "idf1": 0.7706317586795675,
+            "idsw": 19,
+            "fn": 805,
+            "fp": 731
+          },
+          "MVI_40904": {
+            "hota": 0.675702467811249,
+            "deta": 0.629910045274422,
+            "assa": 0.7263379997295233,
+            "idf1": 0.7944514501891551,
+            "idsw": 6,
+            "fn": 194,
+            "fp": 181
+          },
+          "MVI_40905": {
+            "hota": 0.817052638746999,
+            "deta": 0.7700370522344553,
+            "assa": 0.8835671518161786,
+            "idf1": 0.9370055669498975,
+            "idsw": 4,
+            "fn": 105,
+            "fp": 106
+          }
+        }
+      },
+      "control": {
+        "combined": {
+          "hota": 0.6663796973096093,
+          "deta": 0.575711987292226,
+          "assa": 0.783595187810889,
+          "idf1": 0.7846067199452481,
+          "idsw": 246,
+          "fn": 17612,
+          "fp": 9173
+        },
+        "videos": {
+          "MVI_39031": {
+            "hota": 0.36898363172284104,
+            "deta": 0.2791523822649026,
+            "assa": 0.49852637050339194,
+            "idf1": 0.5136986301369864,
+            "idsw": 0,
+            "fn": 282,
+            "fp": 2
+          },
+          "MVI_39051": {
+            "hota": 0.6967609745113862,
+            "deta": 0.6450454548044745,
+            "assa": 0.7530484014057053,
+            "idf1": 0.8644610458911419,
+            "idsw": 0,
+            "fn": 30,
+            "fp": 97
+          },
+          "MVI_39211": {
+            "hota": 0.6532660116132222,
+            "deta": 0.560657563209158,
+            "assa": 0.785462986768847,
+            "idf1": 0.6735751295336787,
+            "idsw": 2,
+            "fn": 113,
+            "fp": 113
+          },
+          "MVI_39271": {
+            "hota": 0.6483423110149159,
+            "deta": 0.55358553362121,
+            "assa": 0.7660506137995307,
+            "idf1": 0.722567287784679,
+            "idsw": 7,
+            "fn": 259,
+            "fp": 233
+          },
+          "MVI_39311": {
+            "hota": 0.6495491972184428,
+            "deta": 0.5973276856454257,
+            "assa": 0.7093823316706555,
+            "idf1": 0.8418803418803419,
+            "idsw": 5,
+            "fn": 376,
+            "fp": 128
+          },
+          "MVI_39361": {
+            "hota": 0.7357317633105486,
+            "deta": 0.6684860862179142,
+            "assa": 0.8130046461501556,
+            "idf1": 0.8838323353293414,
+            "idsw": 0,
+            "fn": 47,
+            "fp": 50
+          },
+          "MVI_39371": {
+            "hota": 0.7539948595432585,
+            "deta": 0.7356311102251741,
+            "assa": 0.7741410699362227,
+            "idf1": 0.8989976869699307,
+            "idsw": 2,
+            "fn": 67,
+            "fp": 50
+          },
+          "MVI_39401": {
+            "hota": 0.6555506997617352,
+            "deta": 0.6198740890076874,
+            "assa": 0.6977570226409265,
+            "idf1": 0.804867813680235,
+            "idsw": 5,
+            "fn": 161,
+            "fp": 220
+          },
+          "MVI_39501": {
+            "hota": 0.550058751454036,
+            "deta": 0.4199440859358461,
+            "assa": 0.7309482715295444,
+            "idf1": 0.6553191489361702,
+            "idsw": 9,
+            "fn": 782,
+            "fp": 238
+          },
+          "MVI_39511": {
+            "hota": 0.5999960204543197,
+            "deta": 0.616201043635569,
+            "assa": 0.5869689912172134,
+            "idf1": 0.8021390374331551,
+            "idsw": 7,
+            "fn": 74,
+            "fp": 120
+          },
+          "MVI_40701": {
+            "hota": 0.645850723332656,
+            "deta": 0.5719176551587434,
+            "assa": 0.7378932549449793,
+            "idf1": 0.7210702341137124,
+            "idsw": 17,
+            "fn": 634,
+            "fp": 708
+          },
+          "MVI_40711": {
+            "hota": 0.7023477156227418,
+            "deta": 0.6238172665233622,
+            "assa": 0.7940540724467953,
+            "idf1": 0.8273674671499773,
+            "idsw": 0,
+            "fn": 197,
+            "fp": 184
+          },
+          "MVI_40712": {
+            "hota": 0.8979405679217799,
+            "deta": 0.8851752115173817,
+            "assa": 0.9148749401538985,
+            "idf1": 0.9857784431137725,
+            "idsw": 0,
+            "fn": 14,
+            "fp": 24
+          },
+          "MVI_40714": {
+            "hota": 0.6694016349750779,
+            "deta": 0.5525189883385179,
+            "assa": 0.8230207546307092,
+            "idf1": 0.7907461442267611,
+            "idsw": 18,
+            "fn": 1011,
+            "fp": 913
+          },
+          "MVI_40742": {
+            "hota": 0.7813687125229042,
+            "deta": 0.6859146825063003,
+            "assa": 0.9583710611125328,
+            "idf1": 0.9468210824864098,
+            "idsw": 2,
+            "fn": 62,
+            "fp": 247
+          },
+          "MVI_40743": {
+            "hota": 0.8197660368295715,
+            "deta": 0.7839343358829938,
+            "assa": 0.8585870025334547,
+            "idf1": 0.9271237602414834,
+            "idsw": 0,
+            "fn": 111,
+            "fp": 58
+          },
+          "MVI_40761": {
+            "hota": 0.31763169660099266,
+            "deta": 0.22983009886843653,
+            "assa": 0.443014111296463,
+            "idf1": 0.42115292996665077,
+            "idsw": 11,
+            "fn": 1123,
+            "fp": 66
+          },
+          "MVI_40762": {
+            "hota": 0.6614920875516583,
+            "deta": 0.654406644236261,
+            "assa": 0.6736128331326084,
+            "idf1": 0.8270440251572327,
+            "idsw": 5,
+            "fn": 196,
+            "fp": 100
+          },
+          "MVI_40763": {
+            "hota": 0.5838638900646955,
+            "deta": 0.5647762794452024,
+            "assa": 0.6050062200793315,
+            "idf1": 0.6761406133133882,
+            "idsw": 5,
+            "fn": 207,
+            "fp": 56
+          },
+          "MVI_40771": {
+            "hota": 0.6562143240176148,
+            "deta": 0.5995700566731533,
+            "assa": 0.7327777706936813,
+            "idf1": 0.8242245199409158,
+            "idsw": 2,
+            "fn": 102,
+            "fp": 118
+          },
+          "MVI_40772": {
+            "hota": 0.8539037023574776,
+            "deta": 0.8360887351533841,
+            "assa": 0.8745115660766659,
+            "idf1": 0.9182879377431906,
+            "idsw": 1,
+            "fn": 69,
+            "fp": 27
+          },
+          "MVI_40773": {
+            "hota": 0.748614725353502,
+            "deta": 0.6671887678505537,
+            "assa": 0.8547815802372624,
+            "idf1": 0.876156897311591,
+            "idsw": 5,
+            "fn": 38,
+            "fp": 197
+          },
+          "MVI_40774": {
+            "hota": 0.72805542200032,
+            "deta": 0.6521734965362809,
+            "assa": 0.8142713595562984,
+            "idf1": 0.8664158043273753,
+            "idsw": 0,
+            "fn": 169,
+            "fp": 115
+          },
+          "MVI_40775": {
+            "hota": 0.6755144246338239,
+            "deta": 0.6049667589469303,
+            "assa": 0.7736973498092828,
+            "idf1": 0.8561278863232682,
+            "idsw": 2,
+            "fn": 224,
+            "fp": 82
+          },
+          "MVI_40792": {
+            "hota": 0.5398526251176906,
+            "deta": 0.38949745022874105,
+            "assa": 0.7509572242429989,
+            "idf1": 0.6006514657980456,
+            "idsw": 0,
+            "fn": 555,
+            "fp": 58
+          },
+          "MVI_40793": {
+            "hota": 0.5662134706581088,
+            "deta": 0.5532121512997629,
+            "assa": 0.5891236683831401,
+            "idf1": 0.6209476309226932,
+            "idsw": 13,
+            "fn": 394,
+            "fp": 408
+          },
+          "MVI_40851": {
+            "hota": 0.5987469612682292,
+            "deta": 0.5168622534498853,
+            "assa": 0.6980488090406185,
+            "idf1": 0.7188141391106043,
+            "idsw": 13,
+            "fn": 564,
+            "fp": 445
+          },
+          "MVI_40852": {
+            "hota": 0.6186560329439326,
+            "deta": 0.5370410993577858,
+            "assa": 0.717219709789531,
+            "idf1": 0.7493640580577585,
+            "idsw": 12,
+            "fn": 858,
+            "fp": 603
+          },
+          "MVI_40853": {
+            "hota": 0.6824164555674691,
+            "deta": 0.6158434911534724,
+            "assa": 0.7599337177372766,
+            "idf1": 0.7780350645054581,
+            "idsw": 5,
+            "fn": 807,
+            "fp": 231
+          },
+          "MVI_40854": {
+            "hota": 0.7251423330095562,
+            "deta": 0.6831612661337311,
+            "assa": 0.7760117856544023,
+            "idf1": 0.8880295897780767,
+            "idsw": 3,
+            "fn": 404,
+            "fp": 214
+          },
+          "MVI_40855": {
+            "hota": 0.6825219384725697,
+            "deta": 0.6263003811388069,
+            "assa": 0.7494291052326626,
+            "idf1": 0.8046936703147918,
+            "idsw": 31,
+            "fn": 832,
+            "fp": 519
+          },
+          "MVI_40863": {
+            "hota": 0.7021071694198193,
+            "deta": 0.5504134641219094,
+            "assa": 0.93021210991485,
+            "idf1": 0.8036725923031842,
+            "idsw": 1,
+            "fn": 793,
+            "fp": 212
+          },
+          "MVI_40864": {
+            "hota": 0.6736221279493884,
+            "deta": 0.5304343025953219,
+            "assa": 0.8657367584956681,
+            "idf1": 0.7634520106002995,
+            "idsw": 6,
+            "fn": 1654,
+            "fp": 393
+          },
+          "MVI_40891": {
+            "hota": 0.677177607394829,
+            "deta": 0.6065123307072816,
+            "assa": 0.7716558283762355,
+            "idf1": 0.8310972247748576,
+            "idsw": 7,
+            "fn": 586,
+            "fp": 241
+          },
+          "MVI_40892": {
+            "hota": 0.4466835913891101,
+            "deta": 0.2906007294956701,
+            "assa": 0.6943600987039801,
+            "idf1": 0.5153933865450399,
+            "idsw": 0,
+            "fn": 2072,
+            "fp": 53
+          },
+          "MVI_40901": {
+            "hota": 0.6657155781803433,
+            "deta": 0.5791610606931542,
+            "assa": 0.7729702744586744,
+            "idf1": 0.7952859013531209,
+            "idsw": 8,
+            "fn": 237,
+            "fp": 214
+          },
+          "MVI_40902": {
+            "hota": 0.612518800538216,
+            "deta": 0.530359080884365,
+            "assa": 0.7116328554927671,
+            "idf1": 0.7347310847766636,
+            "idsw": 14,
+            "fn": 404,
+            "fp": 417
+          },
+          "MVI_40903": {
+            "hota": 0.6390336070225802,
+            "deta": 0.5516293069520729,
+            "assa": 0.7447057399560739,
+            "idf1": 0.7704125177809389,
+            "idsw": 19,
+            "fn": 805,
+            "fp": 733
+          },
+          "MVI_40904": {
+            "hota": 0.6761294560704849,
+            "deta": 0.6301138211803758,
+            "assa": 0.7270505153876073,
+            "idf1": 0.7944514501891551,
+            "idsw": 6,
+            "fn": 194,
+            "fp": 181
+          },
+          "MVI_40905": {
+            "hota": 0.816533900496763,
+            "deta": 0.7696070256359475,
+            "assa": 0.8824661386142625,
+            "idf1": 0.9372801875732708,
+            "idsw": 3,
+            "fn": 105,
+            "fp": 105
+          }
+        }
+      },
+      "precise": {
+        "combined": {
+          "hota": 0.6654155602360422,
+          "deta": 0.5759280697039506,
+          "assa": 0.7811400698845021,
+          "idf1": 0.7830650106235829,
+          "idsw": 245,
+          "fn": 17597,
+          "fp": 9143
+        },
+        "videos": {
+          "MVI_39031": {
+            "hota": 0.36895977029711224,
+            "deta": 0.27925157966355146,
+            "assa": 0.4980600408572726,
+            "idf1": 0.5136986301369864,
+            "idsw": 0,
+            "fn": 282,
+            "fp": 2
+          },
+          "MVI_39051": {
+            "hota": 0.6968090465057435,
+            "deta": 0.6451245559121285,
+            "assa": 0.7530598524271549,
+            "idf1": 0.8665955176093917,
+            "idsw": 0,
+            "fn": 29,
+            "fp": 96
+          },
+          "MVI_39211": {
+            "hota": 0.6530432433526618,
+            "deta": 0.5603519486529049,
+            "assa": 0.7856151451681052,
+            "idf1": 0.6718346253229974,
+            "idsw": 2,
+            "fn": 113,
+            "fp": 115
+          },
+          "MVI_39271": {
+            "hota": 0.6445502569444387,
+            "deta": 0.5556971230478062,
+            "assa": 0.7552216032380109,
+            "idf1": 0.7298136645962733,
+            "idsw": 2,
+            "fn": 264,
+            "fp": 238
+          },
+          "MVI_39311": {
+            "hota": 0.6496972516775329,
+            "deta": 0.5986789209629503,
+            "assa": 0.7080973404067498,
+            "idf1": 0.8396905841557749,
+            "idsw": 6,
+            "fn": 373,
+            "fp": 130
+          },
+          "MVI_39361": {
+            "hota": 0.7356908168914761,
+            "deta": 0.6686554361691466,
+            "assa": 0.8126942685219519,
+            "idf1": 0.8838323353293414,
+            "idsw": 0,
+            "fn": 47,
+            "fp": 50
+          },
+          "MVI_39371": {
+            "hota": 0.7541152772049312,
+            "deta": 0.735813904668413,
+            "assa": 0.7741921165940302,
+            "idf1": 0.8989976869699307,
+            "idsw": 2,
+            "fn": 67,
+            "fp": 50
+          },
+          "MVI_39401": {
+            "hota": 0.6557887098348716,
+            "deta": 0.6202387488507983,
+            "assa": 0.6978342183101114,
+            "idf1": 0.8057070919009651,
+            "idsw": 5,
+            "fn": 160,
+            "fp": 219
+          },
+          "MVI_39501": {
+            "hota": 0.5496303710847683,
+            "deta": 0.41937438937558713,
+            "assa": 0.7310818379853096,
+            "idf1": 0.6539162112932605,
+            "idsw": 11,
+            "fn": 781,
+            "fp": 241
+          },
+          "MVI_39511": {
+            "hota": 0.6004823437308849,
+            "deta": 0.6168393561041106,
+            "assa": 0.5873699585229504,
+            "idf1": 0.8033883192153366,
+            "idsw": 7,
+            "fn": 74,
+            "fp": 119
+          },
+          "MVI_40701": {
+            "hota": 0.6461733177057409,
+            "deta": 0.572532931224864,
+            "assa": 0.737992658278063,
+            "idf1": 0.7211908345877237,
+            "idsw": 17,
+            "fn": 633,
+            "fp": 706
+          },
+          "MVI_40711": {
+            "hota": 0.701176975263278,
+            "deta": 0.6231349109382771,
+            "assa": 0.7920919001626965,
+            "idf1": 0.8255550521069325,
+            "idsw": 0,
+            "fn": 199,
+            "fp": 186
+          },
+          "MVI_40712": {
+            "hota": 0.89839303847342,
+            "deta": 0.8856968614989058,
+            "assa": 0.9154861514168767,
+            "idf1": 0.9861475102957694,
+            "idsw": 0,
+            "fn": 14,
+            "fp": 23
+          },
+          "MVI_40714": {
+            "hota": 0.6687884199233267,
+            "deta": 0.552763904686129,
+            "assa": 0.8214593537591207,
+            "idf1": 0.7853272196748645,
+            "idsw": 23,
+            "fn": 1012,
+            "fp": 914
+          },
+          "MVI_40742": {
+            "hota": 0.7813832315246039,
+            "deta": 0.6858976635205836,
+            "assa": 0.958439852771655,
+            "idf1": 0.9468210824864098,
+            "idsw": 2,
+            "fn": 62,
+            "fp": 247
+          },
+          "MVI_40743": {
+            "hota": 0.818937892688797,
+            "deta": 0.7828379787824142,
+            "assa": 0.8580522847389045,
+            "idf1": 0.9267241379310345,
+            "idsw": 0,
+            "fn": 111,
+            "fp": 59
+          },
+          "MVI_40761": {
+            "hota": 0.3192838829807611,
+            "deta": 0.22967645983954887,
+            "assa": 0.44797927871008336,
+            "idf1": 0.4240114340161982,
+            "idsw": 6,
+            "fn": 1123,
+            "fp": 66
+          },
+          "MVI_40762": {
+            "hota": 0.661643738446056,
+            "deta": 0.6542997817374602,
+            "assa": 0.6741196777579483,
+            "idf1": 0.8262578616352201,
+            "idsw": 5,
+            "fn": 197,
+            "fp": 101
+          },
+          "MVI_40763": {
+            "hota": 0.5772427551656921,
+            "deta": 0.571442730117742,
+            "assa": 0.5845308526678131,
+            "idf1": 0.6891385767790262,
+            "idsw": 5,
+            "fn": 197,
+            "fp": 44
+          },
+          "MVI_40771": {
+            "hota": 0.6556987942721236,
+            "deta": 0.5995748119694374,
+            "assa": 0.7316869709947746,
+            "idf1": 0.8242245199409158,
+            "idsw": 2,
+            "fn": 101,
+            "fp": 117
+          },
+          "MVI_40772": {
+            "hota": 0.8538390636467161,
+            "deta": 0.8360993079491981,
+            "assa": 0.874377501057639,
+            "idf1": 0.9175097276264591,
+            "idsw": 3,
+            "fn": 69,
+            "fp": 27
+          },
+          "MVI_40773": {
+            "hota": 0.7354314037706169,
+            "deta": 0.662980004781085,
+            "assa": 0.8316839748365688,
+            "idf1": 0.8577719066490532,
+            "idsw": 4,
+            "fn": 37,
+            "fp": 198
+          },
+          "MVI_40774": {
+            "hota": 0.7290208787752203,
+            "deta": 0.6541345888383114,
+            "assa": 0.8141540443139658,
+            "idf1": 0.8685821950070655,
+            "idsw": 0,
+            "fn": 168,
+            "fp": 111
+          },
+          "MVI_40775": {
+            "hota": 0.6751267716276292,
+            "deta": 0.6053666364706933,
+            "assa": 0.7723911531742056,
+            "idf1": 0.8561278863232682,
+            "idsw": 3,
+            "fn": 221,
+            "fp": 79
+          },
+          "MVI_40792": {
+            "hota": 0.5405297748693354,
+            "deta": 0.3903496404343681,
+            "assa": 0.7512089040659773,
+            "idf1": 0.6014350945857795,
+            "idsw": 0,
+            "fn": 555,
+            "fp": 56
+          },
+          "MVI_40793": {
+            "hota": 0.5651733091864805,
+            "deta": 0.5545465113159277,
+            "assa": 0.5858652982614294,
+            "idf1": 0.6279142057817843,
+            "idsw": 11,
+            "fn": 380,
+            "fp": 403
+          },
+          "MVI_40851": {
+            "hota": 0.6060632794237485,
+            "deta": 0.5160930169559951,
+            "assa": 0.7155552465545207,
+            "idf1": 0.7366978762274492,
+            "idsw": 14,
+            "fn": 563,
+            "fp": 438
+          },
+          "MVI_40852": {
+            "hota": 0.6189398408048408,
+            "deta": 0.5369926025502916,
+            "assa": 0.7179463787898352,
+            "idf1": 0.7470023980815348,
+            "idsw": 14,
+            "fn": 871,
+            "fp": 605
+          },
+          "MVI_40853": {
+            "hota": 0.6822120394012676,
+            "deta": 0.6154073402101906,
+            "assa": 0.7600271393605397,
+            "idf1": 0.7773734700628515,
+            "idsw": 5,
+            "fn": 809,
+            "fp": 233
+          },
+          "MVI_40854": {
+            "hota": 0.7246436379226918,
+            "deta": 0.6820867130292779,
+            "assa": 0.7761334797673806,
+            "idf1": 0.8869097630650311,
+            "idsw": 3,
+            "fn": 406,
+            "fp": 219
+          },
+          "MVI_40855": {
+            "hota": 0.683972746469143,
+            "deta": 0.628049890226865,
+            "assa": 0.7504519595062296,
+            "idf1": 0.8069541657258975,
+            "idsw": 31,
+            "fn": 827,
+            "fp": 509
+          },
+          "MVI_40863": {
+            "hota": 0.7024183508869158,
+            "deta": 0.5506754230153865,
+            "assa": 0.9300758510024939,
+            "idf1": 0.8035923467395548,
+            "idsw": 0,
+            "fn": 792,
+            "fp": 214
+          },
+          "MVI_40864": {
+            "hota": 0.6717626170290234,
+            "deta": 0.5302205678756375,
+            "assa": 0.8614809698556725,
+            "idf1": 0.757753949037242,
+            "idsw": 7,
+            "fn": 1659,
+            "fp": 392
+          },
+          "MVI_40891": {
+            "hota": 0.6766446027726449,
+            "deta": 0.606204602853567,
+            "assa": 0.7708748642805285,
+            "idf1": 0.8306674020959736,
+            "idsw": 7,
+            "fn": 587,
+            "fp": 240
+          },
+          "MVI_40892": {
+            "hota": 0.4473336309193977,
+            "deta": 0.2908309270285841,
+            "assa": 0.6959568578609879,
+            "idf1": 0.5161878704970361,
+            "idsw": 1,
+            "fn": 2070,
+            "fp": 52
+          },
+          "MVI_40901": {
+            "hota": 0.6661712913116585,
+            "deta": 0.5802006875169831,
+            "assa": 0.7726813307238857,
+            "idf1": 0.7965065502183406,
+            "idsw": 6,
+            "fn": 237,
+            "fp": 213
+          },
+          "MVI_40902": {
+            "hota": 0.6118641141345972,
+            "deta": 0.5300159077651698,
+            "assa": 0.7104095924461161,
+            "idf1": 0.7341233667578244,
+            "idsw": 14,
+            "fn": 405,
+            "fp": 418
+          },
+          "MVI_40903": {
+            "hota": 0.6319294470076205,
+            "deta": 0.5514418913011925,
+            "assa": 0.7286715475637328,
+            "idf1": 0.7583558526525388,
+            "idsw": 20,
+            "fn": 804,
+            "fp": 733
+          },
+          "MVI_40904": {
+            "hota": 0.6472762955833121,
+            "deta": 0.6286893874515883,
+            "assa": 0.6677988382391943,
+            "idf1": 0.7445378151260504,
+            "idsw": 5,
+            "fn": 193,
+            "fp": 181
+          },
+          "MVI_40905": {
+            "hota": 0.8188351537427676,
+            "deta": 0.7729298039467369,
+            "assa": 0.8842768760124213,
+            "idf1": 0.9395184967704052,
+            "idsw": 2,
+            "fn": 105,
+            "fp": 99
+          }
+        }
+      },
+      "fast": {
+        "combined": {
+          "hota": 0.6659263265447418,
+          "deta": 0.5756324786774791,
+          "assa": 0.7826620089790711,
+          "idf1": 0.7838600692811016,
+          "idsw": 248,
+          "fn": 17609,
+          "fp": 9199
+        },
+        "videos": {
+          "MVI_39031": {
+            "hota": 0.36874162073338124,
+            "deta": 0.27886989023421466,
+            "assa": 0.4982320724827664,
+            "idf1": 0.5136986301369864,
+            "idsw": 0,
+            "fn": 282,
+            "fp": 2
+          },
+          "MVI_39051": {
+            "hota": 0.6893814736861009,
+            "deta": 0.6386389710324124,
+            "assa": 0.7446010464581189,
+            "idf1": 0.858359957401491,
+            "idsw": 0,
+            "fn": 32,
+            "fp": 101
+          },
+          "MVI_39211": {
+            "hota": 0.6540559333932654,
+            "deta": 0.5615405148152233,
+            "assa": 0.7860660161731479,
+            "idf1": 0.6753246753246753,
+            "idsw": 2,
+            "fn": 113,
+            "fp": 111
+          },
+          "MVI_39271": {
+            "hota": 0.6446537680746199,
+            "deta": 0.5557880801533959,
+            "assa": 0.7556192015419537,
+            "idf1": 0.7269906928645294,
+            "idsw": 3,
+            "fn": 265,
+            "fp": 241
+          },
+          "MVI_39311": {
+            "hota": 0.6502179965213486,
+            "deta": 0.5989424489719875,
+            "assa": 0.7089185808964921,
+            "idf1": 0.8415154749199573,
+            "idsw": 4,
+            "fn": 371,
+            "fp": 127
+          },
+          "MVI_39361": {
+            "hota": 0.7360738714876306,
+            "deta": 0.668830719562705,
+            "assa": 0.8133201725130079,
+            "idf1": 0.8838323353293414,
+            "idsw": 0,
+            "fn": 47,
+            "fp": 50
+          },
+          "MVI_39371": {
+            "hota": 0.754715724567054,
+            "deta": 0.7363920265885849,
+            "assa": 0.7748531249470829,
+            "idf1": 0.9005397070161912,
+            "idsw": 2,
+            "fn": 66,
+            "fp": 49
+          },
+          "MVI_39401": {
+            "hota": 0.6567901831137312,
+            "deta": 0.6202238932879977,
+            "assa": 0.7000934966249074,
+            "idf1": 0.8065463701216954,
+            "idsw": 5,
+            "fn": 160,
+            "fp": 219
+          },
+          "MVI_39501": {
+            "hota": 0.5512935718455406,
+            "deta": 0.42058570787448785,
+            "assa": 0.7331925687292767,
+            "idf1": 0.6565349544072948,
+            "idsw": 9,
+            "fn": 780,
+            "fp": 236
+          },
+          "MVI_39511": {
+            "hota": 0.6010380554556144,
+            "deta": 0.6171822272559457,
+            "assa": 0.5881627509763527,
+            "idf1": 0.8051716451181453,
+            "idsw": 7,
+            "fn": 73,
+            "fp": 118
+          },
+          "MVI_40701": {
+            "hota": 0.6467262462423927,
+            "deta": 0.5722880078611974,
+            "assa": 0.7393584548426354,
+            "idf1": 0.7221943468807492,
+            "idsw": 17,
+            "fn": 634,
+            "fp": 707
+          },
+          "MVI_40711": {
+            "hota": 0.7024178513957109,
+            "deta": 0.6243548841838994,
+            "assa": 0.7934611648174084,
+            "idf1": 0.8268359020852222,
+            "idsw": 0,
+            "fn": 198,
+            "fp": 184
+          },
+          "MVI_40712": {
+            "hota": 0.8979673914515495,
+            "deta": 0.8855517786796027,
+            "assa": 0.9144587007339289,
+            "idf1": 0.9861475102957694,
+            "idsw": 0,
+            "fn": 14,
+            "fp": 23
+          },
+          "MVI_40714": {
+            "hota": 0.6686400008161147,
+            "deta": 0.552993281794683,
+            "assa": 0.8206922789509979,
+            "idf1": 0.7854537876419715,
+            "idsw": 24,
+            "fn": 1011,
+            "fp": 914
+          },
+          "MVI_40742": {
+            "hota": 0.7814955321768015,
+            "deta": 0.6860786966284407,
+            "assa": 0.9587052334340612,
+            "idf1": 0.9468210824864098,
+            "idsw": 2,
+            "fn": 62,
+            "fp": 247
+          },
+          "MVI_40743": {
+            "hota": 0.8190463259362497,
+            "deta": 0.7830303774027018,
+            "assa": 0.8580710062584462,
+            "idf1": 0.9267241379310345,
+            "idsw": 0,
+            "fn": 111,
+            "fp": 59
+          },
+          "MVI_40761": {
+            "hota": 0.31797454594461066,
+            "deta": 0.2298657891644187,
+            "assa": 0.4441059931026295,
+            "idf1": 0.42115292996665077,
+            "idsw": 9,
+            "fn": 1123,
+            "fp": 66
+          },
+          "MVI_40762": {
+            "hota": 0.6619069507797559,
+            "deta": 0.6551326505239451,
+            "assa": 0.6736500250895947,
+            "idf1": 0.8273692489186001,
+            "idsw": 5,
+            "fn": 196,
+            "fp": 99
+          },
+          "MVI_40763": {
+            "hota": 0.5766454040139082,
+            "deta": 0.5685670813979417,
+            "assa": 0.5862664715420858,
+            "idf1": 0.6766467065868264,
+            "idsw": 4,
+            "fn": 207,
+            "fp": 55
+          },
+          "MVI_40771": {
+            "hota": 0.6547123821491025,
+            "deta": 0.5983520125187797,
+            "assa": 0.7309787253955623,
+            "idf1": 0.822140221402214,
+            "idsw": 2,
+            "fn": 102,
+            "fp": 119
+          },
+          "MVI_40772": {
+            "hota": 0.8536193963343229,
+            "deta": 0.8358173397826006,
+            "assa": 0.8742226961668921,
+            "idf1": 0.9182879377431906,
+            "idsw": 1,
+            "fn": 69,
+            "fp": 27
+          },
+          "MVI_40773": {
+            "hota": 0.7324839140926546,
+            "deta": 0.6626319614740374,
+            "assa": 0.8253560811890192,
+            "idf1": 0.8449339207048459,
+            "idsw": 4,
+            "fn": 36,
+            "fp": 196
+          },
+          "MVI_40774": {
+            "hota": 0.7272885592059991,
+            "deta": 0.6508484431064637,
+            "assa": 0.8143036189747617,
+            "idf1": 0.8657276995305164,
+            "idsw": 0,
+            "fn": 168,
+            "fp": 118
+          },
+          "MVI_40775": {
+            "hota": 0.674949488243045,
+            "deta": 0.6053464729146762,
+            "assa": 0.7717855525543914,
+            "idf1": 0.8552397868561279,
+            "idsw": 3,
+            "fn": 222,
+            "fp": 80
+          },
+          "MVI_40792": {
+            "hota": 0.5401801167971912,
+            "deta": 0.3897943039202025,
+            "assa": 0.7512092389720298,
+            "idf1": 0.6006514657980456,
+            "idsw": 0,
+            "fn": 555,
+            "fp": 58
+          },
+          "MVI_40793": {
+            "hota": 0.5659190936611641,
+            "deta": 0.5537119474919208,
+            "assa": 0.5879487321783226,
+            "idf1": 0.6215288611544462,
+            "idsw": 13,
+            "fn": 392,
+            "fp": 403
+          },
+          "MVI_40851": {
+            "hota": 0.6010084630357158,
+            "deta": 0.5161861118264399,
+            "assa": 0.7038410148844049,
+            "idf1": 0.7274384685505926,
+            "idsw": 12,
+            "fn": 564,
+            "fp": 448
+          },
+          "MVI_40852": {
+            "hota": 0.6182754618530907,
+            "deta": 0.5358224497295787,
+            "assa": 0.7180597934176367,
+            "idf1": 0.74607212329792,
+            "idsw": 12,
+            "fn": 870,
+            "fp": 615
+          },
+          "MVI_40853": {
+            "hota": 0.6822585722131026,
+            "deta": 0.6154681346629872,
+            "assa": 0.7600454736309834,
+            "idf1": 0.7777042672841548,
+            "idsw": 5,
+            "fn": 808,
+            "fp": 232
+          },
+          "MVI_40854": {
+            "hota": 0.7253938929307883,
+            "deta": 0.6830575288817533,
+            "assa": 0.7766026860496745,
+            "idf1": 0.8879179969752983,
+            "idsw": 3,
+            "fn": 403,
+            "fp": 216
+          },
+          "MVI_40855": {
+            "hota": 0.6819422246337377,
+            "deta": 0.6260036306020549,
+            "assa": 0.7485488973268254,
+            "idf1": 0.8024343514031331,
+            "idsw": 35,
+            "fn": 828,
+            "fp": 525
+          },
+          "MVI_40863": {
+            "hota": 0.7022954225043663,
+            "deta": 0.5504148410016199,
+            "assa": 0.9306081051494552,
+            "idf1": 0.804296875,
+            "idsw": 1,
+            "fn": 791,
+            "fp": 211
+          },
+          "MVI_40864": {
+            "hota": 0.6733401478378688,
+            "deta": 0.5301419502013168,
+            "assa": 0.8655981548224566,
+            "idf1": 0.7632761202626426,
+            "idsw": 6,
+            "fn": 1653,
+            "fp": 394
+          },
+          "MVI_40891": {
+            "hota": 0.6761934919861596,
+            "deta": 0.6062118940431533,
+            "assa": 0.7696685325558582,
+            "idf1": 0.8309445056964352,
+            "idsw": 7,
+            "fn": 587,
+            "fp": 243
+          },
+          "MVI_40892": {
+            "hota": 0.44681122977478427,
+            "deta": 0.2904463093754406,
+            "assa": 0.6948790780062943,
+            "idf1": 0.5155109489051095,
+            "idsw": 1,
+            "fn": 2072,
+            "fp": 52
+          },
+          "MVI_40901": {
+            "hota": 0.6647053809571407,
+            "deta": 0.578239161901652,
+            "assa": 0.7718614303684573,
+            "idf1": 0.7945922372437855,
+            "idsw": 8,
+            "fn": 237,
+            "fp": 216
+          },
+          "MVI_40902": {
+            "hota": 0.6117849983754464,
+            "deta": 0.5297482101894296,
+            "assa": 0.7105928640291935,
+            "idf1": 0.7342848466443972,
+            "idsw": 14,
+            "fn": 404,
+            "fp": 419
+          },
+          "MVI_40903": {
+            "hota": 0.6392510773135158,
+            "deta": 0.5517470586880046,
+            "assa": 0.7449376726897169,
+            "idf1": 0.7709163346613546,
+            "idsw": 19,
+            "fn": 804,
+            "fp": 730
+          },
+          "MVI_40904": {
+            "hota": 0.6756592322735747,
+            "deta": 0.6294977789615538,
+            "assa": 0.7267225452342383,
+            "idf1": 0.7941176470588235,
+            "idsw": 6,
+            "fn": 194,
+            "fp": 182
+          },
+          "MVI_40905": {
+            "hota": 0.8161338719829212,
+            "deta": 0.7684964182669376,
+            "assa": 0.8835729218266655,
+            "idf1": 0.9367311072056239,
+            "idsw": 3,
+            "fn": 105,
+            "fp": 107
+          }
+        }
+      }
+    }
+  },
+  "environment": {
+    "before": {
+      "boot": "f52d349d-e4ce-4413-abee-d9f0f02dac2e",
+      "kernel": "4.9.337-tegra",
+      "CPU": {
+        "scaling_governor": "schedutil",
+        "scaling_min_freq": "1200000",
+        "scaling_max_freq": "1479000",
+        "scaling_cur_freq": "1224000"
+      },
+      "GPU": {
+        "governor": "nvhost_podgov",
+        "min_freq": "76800000",
+        "max_freq": "921600000",
+        "cur_freq": "76800000"
+      },
+      "nvpmodel_returncode": 0,
+      "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap\n",
+      "meminfo": "MemTotal:        4058964 kB\nMemFree:         1954712 kB\nMemAvailable:    2850684 kB\nBuffers:          116208 kB\nCached:           903244 kB\nSwapCached:            0 kB\nActive:          1251484 kB\nInactive:         536172 kB\nActive(anon):     769540 kB\nInactive(anon):    28016 kB\nActive(file):     481944 kB\nInactive(file):   508156 kB\nUnevictable:          32 kB\nMlocked:              32 kB\nSwapTotal:       6223772 kB\nSwapFree:        6223772 kB\nDirty:               192 kB\nWriteback:             0 kB\nAnonPages:        728732 kB\nMapped:           295220 kB\nShmem:             29360 kB\nSlab:             137636 kB\nSReclaimable:      72512 kB\nSUnreclaim:        65124 kB\nKernelStack:        8272 kB\nPageTables:        12404 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     8253252 kB\nCommitted_AS:    4054852 kB\nVmallocTotal:   263061440 kB\nVmallocUsed:           0 kB\nVmallocChunk:          0 kB\nAnonHugePages:    139264 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nNvMapMemFree:       1344 kB\nNvMapMemUsed:      65228 kB\nCmaTotal:         475136 kB\nCmaFree:          441280 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB",
+      "SD_errors": "0",
+      "clock_policy_changed_by_this_script": false
+    },
+    "after": {
+      "boot": "f52d349d-e4ce-4413-abee-d9f0f02dac2e",
+      "kernel": "4.9.337-tegra",
+      "CPU": {
+        "scaling_governor": "schedutil",
+        "scaling_min_freq": "1200000",
+        "scaling_max_freq": "1479000",
+        "scaling_cur_freq": "1479000"
+      },
+      "GPU": {
+        "governor": "nvhost_podgov",
+        "min_freq": "76800000",
+        "max_freq": "921600000",
+        "cur_freq": "76800000"
+      },
+      "nvpmodel_returncode": 0,
+      "nvpmodel": "NVPM WARN: fan mode is not set!\nNV Power Mode: MAXN\n0\nNVPM ERROR: Error opening /sys/kernel/nvpmodel_emc_cap/emc_iso_cap: 13\nNVPM ERROR: failed to read PARAM EMC: ARG MAX_FREQ: PATH /sys/kernel/nvpmodel_emc_cap/emc_iso_cap\n",
+      "meminfo": "MemTotal:        4058964 kB\nMemFree:         1536292 kB\nMemAvailable:    2918604 kB\nBuffers:           70000 kB\nCached:          1014452 kB\nSwapCached:         1248 kB\nActive:           948344 kB\nInactive:         800280 kB\nActive(anon):     248320 kB\nInactive(anon):   452172 kB\nActive(file):     700024 kB\nInactive(file):   348108 kB\nUnevictable:       15292 kB\nMlocked:              32 kB\nSwapTotal:       6223772 kB\nSwapFree:        6131080 kB\nDirty:               628 kB\nWriteback:             0 kB\nAnonPages:        643120 kB\nMapped:           269580 kB\nShmem:             21160 kB\nSlab:             120500 kB\nSReclaimable:      54484 kB\nSUnreclaim:        66016 kB\nKernelStack:        8288 kB\nPageTables:        12340 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     8253252 kB\nCommitted_AS:    4031488 kB\nVmallocTotal:   263061440 kB\nVmallocUsed:           0 kB\nVmallocChunk:          0 kB\nAnonHugePages:    280576 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nNvMapMemFree:     438664 kB\nNvMapMemUsed:      65228 kB\nCmaTotal:         475136 kB\nCmaFree:          439672 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB",
+      "SD_errors": "0",
+      "clock_policy_changed_by_this_script": false
+    }
+  },
+  "launcher_or_defaults_changed": false,
+  "limitations": [
+    "150 JPEG per source video, display off, KF, warm25; not full-video/camera/HDMI FPS.",
+    "AP uses repeatedly seen mixed5 dev7190; motorcycle226 and bicycle407 GT boxes.",
+    "Same mathematical activation and weights, but different FP16 arithmetic/tactics; no bit-exact claim."
+  ],
+  "sha256": {
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\summarize.py": "fefcae25ee9159411601c7dd07eee197f87aa33073250f0a7408ffdae70279c7",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\full80_evidence\\runs_absolute\\full\\score_verified.json": "af8624cab0b46b57358c856dab4322a3509cab12bbb5c57b4ec834181003469a",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\full80_evidence\\environment.json": "84b399d658b4b9ec1e262455758c1fa5f0fc3d15281e87a9dc9ff7605505da47",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\full80_evidence\\environment_after.json": "9a32f312615e9361f7f9ec1a7685c744e891ac9adb91c89b9d4233407eee9d77",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\speed_preflight.json": "1e61ae3391570a45b2f3769ac3b2ee0aaa1c5dadfbb4bc9b1690e44e2b834118",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\timing_bound_preflight.json": "34ec34cfeb07fe5e9c77ab4e8fc62aa1164fe2fbe027ad837bc86cf01583d6e9",
+    "D:\\LABOTARY\\bytetrack\\handoff\\logs\\review167_fused_silu\\screen_verification.json": "06847b014b2b12de3ffd80656373e6417bfd901218d122050106a4c6332eb27f"
+  }
+}

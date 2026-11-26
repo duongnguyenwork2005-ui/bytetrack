@@ -1,0 +1,124 @@
+fused_silu.cu(61): warning: function "nvinfer1::IPluginV2::getOutputDimensions(int32_t, const nvinfer1::Dims *, int32_t)" is hidden by "<unnamed>::FusedSiluRounded::getOutputDimensions" -- virtual function override intended?
+
+fused_silu.cu(68): warning: function "nvinfer1::IPluginV2Ext::configurePlugin(const nvinfer1::Dims *, int32_t, const nvinfer1::Dims *, int32_t, const nvinfer1::DataType *, const nvinfer1::DataType *, const __nv_bool *, const __nv_bool *, nvinfer1::PluginFormat, int32_t)" is hidden by "<unnamed>::FusedSiluRounded::configurePlugin" -- virtual function override intended?
+
+fused_silu.cu(69): warning: function "nvinfer1::IPluginV2::getWorkspaceSize(int32_t) const" is hidden by "<unnamed>::FusedSiluRounded::getWorkspaceSize" -- virtual function override intended?
+
+fused_silu.cu(70): warning: function "nvinfer1::IPluginV2::enqueue(int32_t, const void *const *, void *const *, void *, cudaStream_t)" is hidden by "<unnamed>::FusedSiluRounded::enqueue" -- virtual function override intended?
+
+fused_silu.cu(61): warning: function "nvinfer1::IPluginV2::getOutputDimensions(int32_t, const nvinfer1::Dims *, int32_t)" is hidden by "<unnamed>::FusedSiluRounded::getOutputDimensions" -- virtual function override intended?
+
+fused_silu.cu(68): warning: function "nvinfer1::IPluginV2Ext::configurePlugin(const nvinfer1::Dims *, int32_t, const nvinfer1::Dims *, int32_t, const nvinfer1::DataType *, const nvinfer1::DataType *, const bool *, const bool *, nvinfer1::PluginFormat, int32_t)" is hidden by "<unnamed>::FusedSiluRounded::configurePlugin" -- virtual function override intended?
+
+fused_silu.cu(69): warning: function "nvinfer1::IPluginV2::getWorkspaceSize(int32_t) const" is hidden by "<unnamed>::FusedSiluRounded::getWorkspaceSize" -- virtual function override intended?
+
+fused_silu.cu(70): warning: function "nvinfer1::IPluginV2::enqueue(int32_t, const void *const *, void *const *, void *, cudaStream_t)" is hidden by "<unnamed>::FusedSiluRounded::enqueue" -- virtual function override intended?
+
+In file included from /tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:8:0,
+                 from tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:
+/tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c: In function ‘void __device_stub__ZN69_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca7036silu32EPKfPfm(const float*, float*, size_t)’:
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: error: reference to ‘_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703’ is ambiguous
+fused_silu.cu:10:11: note: candidates are: namespace _GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ namespace {
+           ^                                                                    
+/usr/include/aarch64-linux-gnu/NvInferRuntime.h:2599:11: note:                 namespace nvinfer1::_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ {
+           ^                                                                    
+In file included from /tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:8:0,
+                 from tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: error: reference to ‘_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703’ is ambiguous
+fused_silu.cu:10:11: note: candidates are: namespace _GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ namespace {
+           ^                                                                    
+/usr/include/aarch64-linux-gnu/NvInferRuntime.h:2599:11: note:                 namespace nvinfer1::_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ {
+           ^                                                                    
+In file included from /tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:8:0,
+                 from tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: error: reference to ‘_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703’ is ambiguous
+fused_silu.cu:10:11: note: candidates are: namespace _GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ namespace {
+           ^                                                                    
+/usr/include/aarch64-linux-gnu/NvInferRuntime.h:2599:11: note:                 namespace nvinfer1::_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ {
+           ^                                                                    
+fused_silu.cu: At global scope:
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: error: reference to ‘_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703’ is ambiguous
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: note: in definition of macro ‘_NV_ANON_NAMESPACE’
+fused_silu.cu:10:11: note: candidates are: namespace _GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ namespace {
+           ^                                                                    
+/usr/include/aarch64-linux-gnu/NvInferRuntime.h:2599:11: note:                 namespace nvinfer1::_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ {
+           ^                                                                    
+In file included from /tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:8:0,
+                 from tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:
+/tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c: In function ‘void __device_stub__ZN69_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca7036silu16EPK6__halfPS0_m(const __half*, __half*, size_t)’:
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: error: reference to ‘_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703’ is ambiguous
+/tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:403: note: in expansion of macro ‘_NV_ANON_NAMESPACE’
+ #pragma GCC diagnostic push
+                                                                                                                                                                                                                                                                                                                                                                                                                   ^                 
+fused_silu.cu:10:11: note: candidates are: namespace _GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ namespace {
+           ^                                                                    
+/usr/include/aarch64-linux-gnu/NvInferRuntime.h:2599:11: note:                 namespace nvinfer1::_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ {
+           ^                                                                    
+In file included from /tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:8:0,
+                 from tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: error: reference to ‘_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703’ is ambiguous
+/tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:403: note: in expansion of macro ‘_NV_ANON_NAMESPACE’
+ #pragma GCC diagnostic push
+                                                                                                                                                                                                                                                                                                                                                                                                                   ^                 
+fused_silu.cu:10:11: note: candidates are: namespace _GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ namespace {
+           ^                                                                    
+/usr/include/aarch64-linux-gnu/NvInferRuntime.h:2599:11: note:                 namespace nvinfer1::_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ {
+           ^                                                                    
+In file included from /tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:8:0,
+                 from tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: error: reference to ‘_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703’ is ambiguous
+/tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:403: note: in expansion of macro ‘_NV_ANON_NAMESPACE’
+ #pragma GCC diagnostic push
+                                                                                                                                                                                                                                                                                                                                                                                                                   ^                 
+fused_silu.cu:10:11: note: candidates are: namespace _GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ namespace {
+           ^                                                                    
+/usr/include/aarch64-linux-gnu/NvInferRuntime.h:2599:11: note:                 namespace nvinfer1::_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ {
+           ^                                                                    
+fused_silu.cu: At global scope:
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: error: reference to ‘_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703’ is ambiguous
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: note: in definition of macro ‘_NV_ANON_NAMESPACE’
+fused_silu.cu:10:11: note: candidates are: namespace _GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ namespace {
+           ^                                                                    
+/usr/include/aarch64-linux-gnu/NvInferRuntime.h:2599:11: note:                 namespace nvinfer1::_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ {
+           ^                                                                    
+In file included from /tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:8:0,
+                 from tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:
+/tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c: In function ‘void __nv_cudaEntityRegisterCallback(void**)’:
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: error: reference to ‘_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703’ is ambiguous
+/tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:225: note: in expansion of macro ‘_NV_ANON_NAMESPACE’
+ #pragma GCC diagnostic push
+                                                                                                                                                                                                                                 ^                 
+fused_silu.cu:10:11: note: candidates are: namespace _GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ namespace {
+           ^                                                                    
+/usr/include/aarch64-linux-gnu/NvInferRuntime.h:2599:11: note:                 namespace nvinfer1::_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ {
+           ^                                                                    
+In file included from /tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:8:0,
+                 from tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:
+tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:28: error: reference to ‘_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703’ is ambiguous
+/tmp/tmpxft_0000187c_00000000-5_fused_silu.cudafe1.stub.c:1:430: note: in expansion of macro ‘_NV_ANON_NAMESPACE’
+ #pragma GCC diagnostic push
+                                                                                                                                                                                                                                                                                                                                                                                                                                              ^                 
+fused_silu.cu:10:11: note: candidates are: namespace _GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ namespace {
+           ^                                                                    
+/usr/include/aarch64-linux-gnu/NvInferRuntime.h:2599:11: note:                 namespace nvinfer1::_GLOBAL__N__45_tmpxft_0000187c_00000000_8_fused_silu_cpp1_ii_7b5ca703 { }
+ {
+           ^                                                                    

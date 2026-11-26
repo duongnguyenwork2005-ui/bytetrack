@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "meaning": "Metadata integrity only; no dataset converter or tracking experiment validated.",
+  "compressed_archive_bytes": 46587516755,
+  "ZIP_index_downloaded_bytes": 41835824,
+  "images": 111700,
+  "JSON_files": 111656,
+  "filename_matched_pairs": 95345,
+  "images_without_same_name_JSON": 16355,
+  "JSON_without_same_name_image": 16311,
+  "first_unmatched_labels": [
+    {
+      "name": "r09_s05/labels/s040_camera_basler_north_16mm/1653232849_969000000_s040_camera_basler_north_16mm.json",
+      "archive": "train2.zip"
+    },
+    {
+      "name": "r09_s05/labels/s040_camera_basler_north_16mm/1653232850_009000000_s040_camera_basler_north_16mm.json",
+      "archive": "train2.zip"
+    },
+    {
+      "name": "r09_s05/labels/s040_camera_basler_north_16mm/1653232850_048000000_s040_camera_basler_north_16mm.json",
+      "archive": "train2.zip"
+    }
+  ],
+  "sample": {
+    "objects": 20,
+    "classes": {
+      "CAR": 16,
+      "TRUCK": 4
+    },
+    "every_object_has_bbox": true,
+    "frame_properties_reference_matches_filename": true,
+    "visibility_attribute_present_in_this_sample": false
+  },
+  "limitations": [
+    "Filename matching is provisional; unmatched JSON may contain an alternate explicit image reference.",
+    "40ms/42ms is a diagnostic relative to nominal 25Hz, not an assumption of uniform released cadence.",
+    "One label does not establish all class counts, ID continuity, occlusion semantics or annotation quality.",
+    "Website/paper release sizes differ; record this specific public archive version separately."
+  ]
+}
+GROUPS 45
